@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
-@Table(name="Event")
+@Table(name="eventlist")
 public class EventItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

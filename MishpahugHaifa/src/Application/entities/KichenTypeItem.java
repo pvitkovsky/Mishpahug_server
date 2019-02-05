@@ -3,7 +3,7 @@ package Application.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name="KichenType")
+@Table(name="kichentype")
 public class KichenTypeItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

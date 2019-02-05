@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="FreeBack")
+@Table(name="freeback")
 public class FreeBackItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

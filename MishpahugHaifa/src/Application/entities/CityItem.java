@@ -16,9 +16,6 @@ public class CityItem {
         this.name = name;
     }
 
-    public CityItem() {
-    }
-
     public Integer getId() {
         return id;
     }
@@ -50,5 +47,8 @@ public class CityItem {
                 ", country_id=" + country_id +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    public CityItem() {
     }
 }

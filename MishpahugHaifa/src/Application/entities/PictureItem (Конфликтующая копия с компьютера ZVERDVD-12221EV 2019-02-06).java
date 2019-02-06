@@ -3,10 +3,11 @@ package Application.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name="country")
-public class CountryItem {
+@Table(name="picture")
+public class PictureItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer id;
-    public String name;
+    private Integer id;
+    private Integer user_id;
+    private String data;
 }

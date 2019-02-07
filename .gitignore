@@ -18,12 +18,11 @@
 *.zip
 *.tar.gz
 *.rar
+*.iml
 
 # User defined ignore
 /MishpahugHaifa/.idea
 /MishpahugHaifa/.settings
 /MishpahugHaifa/.classpath
 /MishpahugHaifa/.project
-/MishpahugHaifa/*.iml
 /MishpahugHaifa/target
-

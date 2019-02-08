@@ -10,8 +10,7 @@ public class KichenTypeItem {
     private Integer id;
     private String name;
 
-    public KichenTypeItem(Integer id, String name) {
-        this.id = id;
+    public KichenTypeItem(String name) {
         this.name = name;
     }
 

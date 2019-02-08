@@ -17,8 +17,7 @@ public class HolyDayItem {
     public HolyDayItem() {
     }
 
-    public HolyDayItem(Integer id, LocalDate date, String name, Integer religionId, String description) {
-        this.id = id;
+    public HolyDayItem(LocalDate date, String name, Integer religionId, String description) {
         this.date = date;
         Name = name;
         this.religionId = religionId;

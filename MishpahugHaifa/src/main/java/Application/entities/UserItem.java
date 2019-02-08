@@ -24,6 +24,7 @@ public class UserItem {
     private LocalDate ban;
     private String phoneNumber;
     private String eMail;
+    private Integer addressId;
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
@@ -34,7 +35,6 @@ public class UserItem {
     
     public UserItem() {
     }
-    
 
     @Override
     public String toString() {
@@ -47,7 +47,8 @@ public class UserItem {
                 ", ban=" + ban +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", eMail='" + eMail + '\'' +
-                ", role='" + role + '\'' +
+                ", addressId=" + addressId +
+                ", role=" + role +
                 '}';
     }
 
@@ -123,8 +124,15 @@ public class UserItem {
         this.role = role;
     }
 
-    public UserItem(Integer id, String nickname, String firstName, String lastName, Integer religionId, LocalDate ban, String phoneNumber, String eMail, UserRole role) {
-        this.id = id;
+    public Integer getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Integer addressId) {
+        this.addressId = addressId;
+    }
+
+    public UserItem(String nickname, String firstName, String lastName, Integer religionId, LocalDate ban, String phoneNumber, String eMail, Integer addressId, UserRole role) {
         this.nickname = nickname;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -132,6 +140,7 @@ public class UserItem {
         this.ban = ban;
         this.phoneNumber = phoneNumber;
         this.eMail = eMail;
+        this.addressId = addressId;
         this.role = role;
     }
 }

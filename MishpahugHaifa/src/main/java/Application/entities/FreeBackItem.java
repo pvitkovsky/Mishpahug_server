@@ -18,8 +18,7 @@ public class FreeBackItem {
     public FreeBackItem() {
     }
 
-    public FreeBackItem(Integer id, Integer eventId, String comment, LocalDateTime dateTime, Integer rating, Integer userId) {
-        this.id = id;
+    public FreeBackItem(Integer eventId, String comment, LocalDateTime dateTime, Integer rating, Integer userId) {
         this.eventId = eventId;
         this.comment = comment;
         this.dateTime = dateTime;

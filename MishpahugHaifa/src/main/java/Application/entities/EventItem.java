@@ -21,6 +21,7 @@ public class EventItem {
 	private LocalTime time;
 	private String name;
 	private Integer userId;
+	private Integer addressid;
 	private Integer kichenTypeId;
 	@Enumerated(EnumType.STRING)
 	private EventStatus Status;
@@ -29,17 +30,27 @@ public class EventItem {
 		CREATED, PENDING, COMPLETE, CANCELED
 	}
 
-	public EventItem() {
+    public Integer getAddressid() {
+        return addressid;
+    }
+
+    public EventItem(LocalDate date, LocalTime time, String name, Integer userId, Integer addressid, Integer kichenTypeId, EventStatus status) {
+        this.date = date;
+        this.time = time;
+        this.name = name;
+        this.userId = userId;
+        this.addressid = addressid;
+        this.kichenTypeId = kichenTypeId;
+        Status = status;
+    }
+
+    public void setAddressid(Integer address_id) {
+        this.addressid = address_id;
+    }
+
+    public EventItem() {
 	}
 
-	public EventItem(Integer id, LocalDate date, LocalTime time, String name, Integer userId, Integer kichenTypeId) {
-		this.id = id;
-		this.date = date;
-		this.time = time;
-		this.name = name;
-		this.userId = userId;
-		this.kichenTypeId = kichenTypeId;
-	}
 
 	@Override
 	public String toString() {

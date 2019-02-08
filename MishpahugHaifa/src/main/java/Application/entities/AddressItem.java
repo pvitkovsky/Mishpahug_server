@@ -12,29 +12,33 @@ public class AddressItem {
     private Integer city;
     private Integer build;
     private Integer apartment;
-    private Integer userId = -1;
-    private Integer eventId = -1;
+    private String street;
 
-    public AddressItem(Integer id, Integer country, Integer city, Integer build, Integer apartment, Integer userId, Integer eventId) {
-        this.id = id;
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public AddressItem(Integer country, Integer city, Integer build, Integer apartment, String street) {
         this.country = country;
         this.city = city;
         this.build = build;
         this.apartment = apartment;
-        this.userId = userId;
-        this.eventId = eventId;
+        this.street = street;
     }
 
     @Override
     public String toString() {
         return "AddressItem{" +
                 "id=" + id +
-                ", country='" + country + '\'' +
-                ", city='" + city + '\'' +
+                ", country=" + country +
+                ", city=" + city +
                 ", build=" + build +
                 ", apartment=" + apartment +
-                ", userId=" + userId +
-                ", eventId=" + eventId +
+                ", street='" + street + '\'' +
                 '}';
     }
 
@@ -79,21 +83,5 @@ public class AddressItem {
 
     public void setApartment(Integer apartment) {
         this.apartment = apartment;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Integer getEventId() {
-        return eventId;
-    }
-
-    public void setEventId(Integer eventId) {
-        this.eventId = eventId;
     }
 }

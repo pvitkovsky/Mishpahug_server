@@ -10,8 +10,7 @@ public class CountryItem {
     private Integer id;
     private String name;
 
-    public CountryItem(Integer id, String name) {
-        this.id = id;
+    public CountryItem(String name) {
         this.name = name;
     }
 

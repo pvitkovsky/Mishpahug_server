@@ -17,8 +17,7 @@ public class ReligionItem {
     public ReligionItem() {
     }
 
-    public ReligionItem(Integer id, String name) {
-        this.id = id;
+    public ReligionItem(String name) {
         this.name = name;
     }
 

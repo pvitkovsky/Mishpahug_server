@@ -5,8 +5,6 @@ import Application.entities.AddressItem;
 import java.util.HashMap;
 
 public interface IAddressModel {
-    public AddressItem getByUser(Integer userId);
-    public AddressItem updateByUser(Integer userId, HashMap<String, String> data);
-    public AddressItem getByEvent(Integer eventId);
-    public AddressItem updateByEvent(Integer eventId, HashMap<String, String> data);
+    public AddressItem getById(Integer Id);
+    public AddressItem update(HashMap<String, String> data);
 }

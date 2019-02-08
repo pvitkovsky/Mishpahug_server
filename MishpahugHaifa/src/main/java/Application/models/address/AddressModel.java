@@ -12,22 +12,12 @@ public class AddressModel implements IAddressModel {
     AddressRepository addressRepository;
 
     @Override
-    public AddressItem getByUser(Integer userId) {
+    public AddressItem getById(Integer Id) {
         return null;
     }
 
     @Override
-    public AddressItem updateByUser(Integer userId, HashMap<String, String> data) {
-        return null;
-    }
-
-    @Override
-    public AddressItem getByEvent(Integer eventId) {
-        return null;
-    }
-
-    @Override
-    public AddressItem updateByEvent(Integer eventId, HashMap<String, String> data) {
+    public AddressItem update(HashMap<String, String> data) {
         return null;
     }
 }

@@ -13,7 +13,6 @@ public class AddressItem {
     private Integer build;
     private Integer apartment;
     private String street;
-
     public String getStreet() {
         return street;
     }

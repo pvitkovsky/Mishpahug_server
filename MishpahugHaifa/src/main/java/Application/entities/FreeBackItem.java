@@ -5,7 +5,8 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name="freeback")
-public class FreeBackItem {
+public class FreeBackItem{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

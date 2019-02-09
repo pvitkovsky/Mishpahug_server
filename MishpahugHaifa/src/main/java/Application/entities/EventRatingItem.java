@@ -14,6 +14,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "eventrating")
 public class EventRatingItem {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer eventId;

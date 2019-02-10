@@ -1,7 +1,10 @@
 package Application.entities;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -22,7 +25,8 @@ public class UserItem {
     private String firstName;
     private String lastName;
     private Integer religionId;
-    private LocalDate ban;
+    @ElementCollection
+    private List<LogsDataItem> logs; 
     private String phoneNumber;
     private String eMail;
     private Integer addressId;
@@ -31,7 +35,8 @@ public class UserItem {
 
     public enum UserRole {
     	ADMIN,
-    	USER,
+    	AUTHORISED,
+    	SUSPENDED,
     }
     
     public UserItem() {
@@ -45,7 +50,7 @@ public class UserItem {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", religionId=" + religionId +
-                ", ban=" + ban +
+                ", logs=" + logs +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", eMail='" + eMail + '\'' +
                 ", addressId=" + addressId +
@@ -92,17 +97,10 @@ public class UserItem {
     public void setReligionId(Integer religionId) {
         this.religionId = religionId;
     }
+    
 
-    public LocalDate getBan() {
-        return ban;
-    }
-
-    public void setBan(LocalDate ban) {
-        this.ban = ban;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public List<LogsDataItem> getLogs() {
+		return Collections.synchronizedList(logs);
     }
 
     public void setPhoneNumber(String phoneNumber) {
@@ -133,12 +131,12 @@ public class UserItem {
         this.addressId = addressId;
     }
 
-    public UserItem(String nickname, String firstName, String lastName, Integer religionId, LocalDate ban, String phoneNumber, String eMail, Integer addressId, UserRole role) {
+    public UserItem(String nickname, String firstName, String lastName, Integer religionId, String phoneNumber, String eMail, Integer addressId, UserRole role) {
         this.nickname = nickname;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.logs = new ArrayList<LogsDataItem>(); 
         this.religionId = religionId;
-        this.ban = ban;
         this.phoneNumber = phoneNumber;
         this.eMail = eMail;
         this.addressId = addressId;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -13,9 +14,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.EqualsAndHashCode;
+
+
 
 @Entity
 @Table(name="user")
+@EqualsAndHashCode
 public class UserItem {
 
     @Id
@@ -25,7 +30,9 @@ public class UserItem {
     private String firstName;
     private String lastName;
     private Integer religionId;
-    @ElementCollection
+    @EqualsAndHashCode.Exclude
+	@ElementCollection
+	@CollectionTable
     private List<LogsDataItem> logs; 
     private String phoneNumber;
     private String eMail;
@@ -42,6 +49,18 @@ public class UserItem {
     public UserItem() {
     }
 
+    public UserItem(String nickname, String firstName, String lastName, Integer religionId, String phoneNumber, String eMail, Integer addressId, UserRole role) {
+        this.nickname = nickname;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.logs = new ArrayList<LogsDataItem>(); 
+        this.religionId = religionId;
+        this.phoneNumber = phoneNumber;
+        this.eMail = eMail;
+        this.addressId = addressId;
+        this.role = role;
+    }
+    
     @Override
     public String toString() {
         return "UserItem{" +
@@ -131,15 +150,5 @@ public class UserItem {
         this.addressId = addressId;
     }
 
-    public UserItem(String nickname, String firstName, String lastName, Integer religionId, String phoneNumber, String eMail, Integer addressId, UserRole role) {
-        this.nickname = nickname;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.logs = new ArrayList<LogsDataItem>(); 
-        this.religionId = religionId;
-        this.phoneNumber = phoneNumber;
-        this.eMail = eMail;
-        this.addressId = addressId;
-        this.role = role;
-    }
+
 }

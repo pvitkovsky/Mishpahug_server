@@ -3,6 +3,8 @@ package Application.entities;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import javax.persistence.Embeddable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -10,21 +12,20 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Data
-@Getter @Setter
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+
+@Embeddable
 public class LogsDataItem {
-	
-    private Integer id;
-    private LocalDate date;
-    private LocalTime time;
-    private Integer user_id; //todo: one2one;  
-    private UserActions action;
-    private String description;
-    
-    public enum UserActions {
-    	STATUS_CHANGE,
-    	EMAIL_CHANGE,
-    	ADDRESS_CHANGE,
-    }
+
+	private LocalDate date;
+	private LocalTime time;
+	private UserActions action;
+	private String description;
+
+	public enum UserActions {
+		STATUS_CHANGE, EMAIL_CHANGE, ADDRESS_CHANGE,
+	}
 }

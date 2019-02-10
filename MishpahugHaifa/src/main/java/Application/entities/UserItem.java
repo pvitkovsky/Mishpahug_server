@@ -4,23 +4,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
-import lombok.EqualsAndHashCode;
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 
 
 @Entity
 @Table(name="user")
 @EqualsAndHashCode
+@Getter @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class UserItem {
 
     @Id
@@ -29,125 +26,47 @@ public class UserItem {
     private String nickname; //TODO: unique nickname;
     private String firstName;
     private String lastName;
-    private Integer religionId;
     @EqualsAndHashCode.Exclude
-	@ElementCollection
-	@CollectionTable
-    private List<LogsDataItem> logs; 
+    @ElementCollection
+    @CollectionTable
+    private List<LogsDataItem> logs;
     private String phoneNumber;
     private String eMail;
-    private Integer addressId;
     @Enumerated(EnumType.STRING)
     private UserRole role;
+
+    @ManyToOne                                                                      // Country of user
+    @JsonBackReference
+    private CountryItem countryItem;
+
+    @ManyToOne                                                                      // City of user
+    @JsonBackReference
+    private CityItem cityItem;
+
+    @OneToOne(mappedBy = "users_addresses")                                         // Address of user
+    @JsonManagedReference
+    private AddressItem addressItem;
+
+    @OneToMany(mappedBy = "user_event_owner", cascade = CascadeType.ALL)            // User owner of events
+    @JsonManagedReference
+    private List<EventItem> eventItemsOwner = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "users_guests_of_events")                                // User a guest in events
+    @JsonManagedReference
+    private List<EventItem> eventItemsGuest = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user_pictures", cascade = CascadeType.ALL)              // Pictures of user
+    @JsonManagedReference
+    private List<PictureItem> pictureItems = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user_feedBacks", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<FeedBackItem> feedBackItems = new ArrayList<>();
 
     public enum UserRole {
     	ADMIN,
     	AUTHORISED,
     	SUSPENDED,
-    }
-    
-    public UserItem() {
-    }
-
-    public UserItem(String nickname, String firstName, String lastName, Integer religionId, String phoneNumber, String eMail, Integer addressId, UserRole role) {
-        this.nickname = nickname;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.logs = new ArrayList<LogsDataItem>(); 
-        this.religionId = religionId;
-        this.phoneNumber = phoneNumber;
-        this.eMail = eMail;
-        this.addressId = addressId;
-        this.role = role;
-    }
-    
-    @Override
-    public String toString() {
-        return "UserItem{" +
-                "id=" + id +
-                ", nickname='" + nickname + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", religionId=" + religionId +
-                ", logs=" + logs +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", eMail='" + eMail + '\'' +
-                ", addressId=" + addressId +
-                ", role=" + role +
-                '}';
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public Integer getReligionId() {
-        return religionId;
-    }
-
-    public void setReligionId(Integer religionId) {
-        this.religionId = religionId;
-    }
-    
-
-    public List<LogsDataItem> getLogs() {
-		return Collections.synchronizedList(logs);
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String geteMail() {
-        return eMail;
-    }
-
-    public void seteMail(String eMail) {
-        this.eMail = eMail;
-    }
-
-    public UserRole getRole() {
-        return role;
-    }
-
-    public void setRole(UserRole role) {
-        this.role = role;
-    }
-
-    public Integer getAddressId() {
-        return addressId;
-    }
-
-    public void setAddressId(Integer addressId) {
-        this.addressId = addressId;
     }
 
 

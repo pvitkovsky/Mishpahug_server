@@ -1,10 +1,19 @@
 package Application.entities;
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+
+// NEED TO DELETE!!!!!!!!!!!!!!!!!!!! WRONG NAME!!!!!!!!
+
 @Entity
 @Table(name="freeback")
+@Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class FreeBackItem{
 
     @Id
@@ -16,8 +25,6 @@ public class FreeBackItem{
     private Integer rating;
     private Integer userId;
 
-    public FreeBackItem() {
-    }
 
     public FreeBackItem(Integer eventId, String comment, LocalDateTime dateTime, Integer rating, Integer userId) {
         this.eventId = eventId;
@@ -27,63 +34,5 @@ public class FreeBackItem{
         this.userId = userId;
     }
 
-    @Override
-    public String toString() {
-        return "FreeBackItem{" +
-                "id=" + id +
-                ", eventId=" + eventId +
-                ", comment='" + comment + '\'' +
-                ", dateTime=" + dateTime +
-                ", rating=" + rating +
-                ", userId=" + userId +
-                '}';
-    }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getEventId() {
-        return eventId;
-    }
-
-    public void setEventId(Integer eventId) {
-        this.eventId = eventId;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public LocalDateTime getDateTime() {
-        return dateTime;
-    }
-
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
-    }
-
-    public Integer getRating() {
-        return rating;
-    }
-
-    public void setRating(Integer rating) {
-        this.rating = rating;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
 }

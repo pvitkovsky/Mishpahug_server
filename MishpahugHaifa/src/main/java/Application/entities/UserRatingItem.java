@@ -1,5 +1,7 @@
 package Application.entities;
 
+import lombok.*;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,6 +15,10 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "userrating")
+@ToString
+@Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserRatingItem {
 
 	@Id
@@ -21,40 +27,5 @@ public class UserRatingItem {
 	@ElementCollection
 	private List<Integer> rating;
 
-	public UserRatingItem() {
-	}
-
-	public UserRatingItem(Integer userId) {
-		super();
-		this.userId = userId;
-		this.rating = new ArrayList<Integer>();
-	}
-
-	public UserRatingItem(Integer userId, List<Integer> rating) {
-		super();
-		this.userId = userId;
-		this.rating = rating;
-	}
-
-	@Override
-	public String toString() {
-		return "UserRatingItem [userId=" + userId + ", rating=" + rating + "]";
-	}
-
-	public Integer getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Integer userId) {
-		this.userId = userId;
-	}
-
-	public List<Integer> getRating() {
-		return Collections.synchronizedList(rating);
-	}
-
-	public void setRating(List<Integer> rating) {
-		this.rating = rating;
-	}
 
 }

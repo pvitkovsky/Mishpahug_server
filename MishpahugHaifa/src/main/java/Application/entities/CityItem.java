@@ -1,59 +1,38 @@
 package Application.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="cities")
+@Getter @Setter
+@ToString
+@NoArgsConstructor
+@EqualsAndHashCode(of = "userItems")
 public class CityItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer country_id;
-    private String name;
+    private String nameOfCity;
 
-    public CityItem(Integer country_id, String name) {
-        this.country_id = country_id;
-        this.name = name;
-    }
+    @ManyToOne                                  // Country of city
+    @JsonBackReference
+    private CountryItem countryItem;
 
-    public Integer getId() {
-        return id;
-    }
+    @OneToMany(mappedBy = "addresses_of_city")
+    @JsonManagedReference
+    private List<AddressItem> addressItems = new ArrayList<>();
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
-    public Integer getCountry_id() {
-        return country_id;
-    }
+    @OneToMany(mappedBy = "cities_users")       // Users in the city
+    @JsonManagedReference
+    private List<UserItem> userItems = new ArrayList<>();
 
-    public void setCountry_id(Integer country_id) {
-        this.country_id = country_id;
-    }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return "CityItem{" +
-                "id=" + id +
-                ", country_id=" + country_id +
-                ", name='" + name + '\'' +
-                '}';
-    }
-
-    public CityItem() {
-    }
 }

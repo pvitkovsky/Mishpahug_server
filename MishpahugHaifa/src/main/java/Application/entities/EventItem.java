@@ -13,9 +13,10 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "eventlist")
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
-@EqualsAndHashCode(of = {"userItemsGuestsOfEvents"})
+@EqualsAndHashCode(of = { "userItemsGuestsOfEvents" })
 @ToString
 public class EventItem {
 
@@ -26,15 +27,16 @@ public class EventItem {
 	private LocalTime time;
 	private String nameOfEvent;
 	private EventRatingValue ratings;
-	
-	@ManyToOne 
+
+	@ManyToOne
 	@JsonManagedReference
 	private KichenTypeItem kichenTypeItem;
-	
+
 	@Enumerated(EnumType.STRING)
 	private EventStatus Status;
 
 	@ManyToOne
+	@JoinColumn(nullable = false) //there must be an owner for every item; TODO: cascade operations
 	@JsonBackReference
 	private UserItem userItemOwner;
 
@@ -46,15 +48,12 @@ public class EventItem {
 	@JsonBackReference
 	private List<UserItem> userItemsGuestsOfEvents = new ArrayList<>();
 
-	@OneToMany(mappedBy = "eventItem", cascade = CascadeType.ALL)			// All feedBacks of event
+	@OneToMany(mappedBy = "eventItem", cascade = CascadeType.ALL) // All feedBacks of event
 	@JsonManagedReference
 	private List<FeedBackItem> feedBackItems = new ArrayList<>();
 
 	public enum EventStatus {
 		CREATED, PENDING, COMPLETE, CANCELED
 	}
-
-
-
 
 }

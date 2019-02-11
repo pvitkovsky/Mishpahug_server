@@ -14,7 +14,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import Application.repo.UserRepository;
+import Application.repo.EventRepository;
 
 /**
  * Testing creation and deletion of entities to ensure relations work as
@@ -25,21 +25,24 @@ import Application.repo.UserRepository;
 @DataJpaTest
 @ActiveProfiles("test")
 @Transactional
-public class UserTest {
+public class EventTest {
 
-	private static final UserItem ALYSSA = new UserItem();
+	private static final EventItem TESTING = new EventItem();
 	
 	@Autowired
-	UserRepository userRepo;
+	EventRepository eventRepo;
+
 
 	@Before
 	public void clear() {
-		userRepo.deleteAll();
+		eventRepo.deleteAll();
 	}
 	
 	@Before 
-	public void buildUser() {
-		ALYSSA.setFirstName("Alyssa");
+	public void buildEvent() {
+		
+		TESTING.setNameOfEvent("Testing of new software");
+		
 	}
 
 	
@@ -48,14 +51,15 @@ public class UserTest {
 	 * Testing add, with explicit saving
 	 */
 	@Test
-	public void addUser() {
-		UserItem createdUser = ALYSSA;
+	public void addEvent() {
 		
-		userRepo.save(createdUser);
-		userRepo.flush();
+		EventItem createdEvent = TESTING;
 
-		UserItem persistedUser = userRepo.findById(createdUser.getId()).get();
+		eventRepo.save(createdEvent);
+		eventRepo.flush();
 
-		assertTrue(persistedUser.equals(createdUser));
+		EventItem persistedEvent = eventRepo.findById(createdEvent.getId()).get();
+		System.out.println(persistedEvent);
+		assertTrue(persistedEvent.equals(createdEvent));
 	}
 }

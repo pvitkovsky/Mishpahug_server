@@ -1,86 +1,37 @@
 package Application.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="address")
+@Getter @Setter
+@ToString
+@AllArgsConstructor //do construction without userItem
+@NoArgsConstructor
+@EqualsAndHashCode(of = "userItem")
 public class AddressItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer country;
-    private Integer city;
     private Integer build;
     private Integer apartment;
     private String street;
-    public String getStreet() {
-        return street;
-    }
 
-    public void setStreet(String street) {
-        this.street = street;
-    }
+    @ManyToOne
+    @JsonBackReference
+    private CityItem cityItem;
 
-    public AddressItem(Integer country, Integer city, Integer build, Integer apartment, String street) {
-        this.country = country;
-        this.city = city;
-        this.build = build;
-        this.apartment = apartment;
-        this.street = street;
-    }
+    @OneToOne
+    @JsonBackReference
+    private UserItem userItem;
 
-    @Override
-    public String toString() {
-        return "AddressItem{" +
-                "id=" + id +
-                ", country=" + country +
-                ", city=" + city +
-                ", build=" + build +
-                ", apartment=" + apartment +
-                ", street='" + street + '\'' +
-                '}';
-    }
-
-    public AddressItem() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getCountry() {
-        return country;
-    }
-
-    public void setCountry(Integer country) {
-        this.country = country;
-    }
-
-    public Integer getCity() {
-        return city;
-    }
-
-    public void setCity(Integer city) {
-        this.city = city;
-    }
-
-    public Integer getBuild() {
-        return build;
-    }
-
-    public void setBuild(Integer build) {
-        this.build = build;
-    }
-
-    public Integer getApartment() {
-        return apartment;
-    }
-
-    public void setApartment(Integer apartment) {
-        this.apartment = apartment;
-    }
+    @OneToMany(mappedBy = "address_of_events")
+    @JsonManagedReference
+    private List<EventItem> eventItems = new ArrayList<>();
 }

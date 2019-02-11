@@ -1,9 +1,18 @@
 package Application.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="country")
+@Getter @Setter
+@NoArgsConstructor
+@EqualsAndHashCode(of = {"cityItems" , "userItems"})
+@ToString
 public class CountryItem {
 
     @Id
@@ -11,35 +20,14 @@ public class CountryItem {
     private Integer id;
     private String name;
 
-    public CountryItem(String name) {
-        this.name = name;
-    }
+    @OneToMany(mappedBy = "countries_cities")
+    @JsonManagedReference
+    private List<CityItem> cityItems = new ArrayList<>();
 
-    public CountryItem() {
-    }
+    @OneToMany(mappedBy = "countries_users")
+    @JsonManagedReference
+    private List<UserItem> userItems = new ArrayList<>();
 
-    @Override
-    public String toString() {
-        return "CountryItem{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
-    }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }
 

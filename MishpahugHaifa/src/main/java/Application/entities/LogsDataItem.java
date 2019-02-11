@@ -1,18 +1,31 @@
 package Application.entities;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-@Entity
-@Table(name="logsdata")
+import javax.persistence.Embeddable;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+
+@Embeddable
 public class LogsDataItem {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private LocalDate date;
-    private LocalTime time;
-    private Integer user_id;
-    private String action;
-    private String data;
+
+	private LocalDate date;
+	private LocalTime time;
+	private UserActions action;
+	private String description;
+
+	public enum UserActions {
+		STATUS_CHANGE, EMAIL_CHANGE, ADDRESS_CHANGE,
+	}
 }

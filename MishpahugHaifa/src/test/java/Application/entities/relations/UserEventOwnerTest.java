@@ -1,5 +1,6 @@
 package Application.entities.relations;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
@@ -28,6 +29,7 @@ import Application.repo.UserRepository;
 public class UserEventOwnerTest {
 
 	private static final UserItem ALYSSA = new UserItem();
+	private static final UserItem BEN = new UserItem();
 	private static final EventItem TESTING = new EventItem();
 
 	@Autowired
@@ -45,6 +47,7 @@ public class UserEventOwnerTest {
 	@Before
 	public void buildEntities() {
 		ALYSSA.setFirstName("Alyssa");
+		BEN.setFirstName("Ben");
 		TESTING.setUserItemOwner(ALYSSA);
 		ALYSSA.getEventItemsOwner().add(TESTING); // TODO: next version with read
 
@@ -57,12 +60,10 @@ public class UserEventOwnerTest {
 
 	@Test
 	public void onUserSaveReadEvent() {
-
+		
 		userRepo.save(ALYSSA);
-		eventRepo.save(TESTING);
 		userRepo.flush();
-		eventRepo.flush();
-
+		
 		UserItem persistedUser = userRepo.findById(ALYSSA.getId()).get();
 		EventItem persistedEvent = eventRepo.findAll().get(0);
 
@@ -72,5 +73,29 @@ public class UserEventOwnerTest {
 		assertTrue(persistedEventFirstInUserList.equals(TESTING));
 
 	}
+	
+//	/**
+//	 * If event side is write-only, then user lists must be updated with changes of event owner; 
+//	 */
+//	@Test
+//	public void onUserSaveChangeEvent() {
+//
+//		userRepo.save(ALYSSA);
+//		userRepo.flush();
+//
+//		EventItem persistedEventFirstInUserList = userRepo.findById(ALYSSA.getId()).get().getEventItemsOwner().get(0);
+//		persistedEventFirstInUserList.setUserItemOwner(BEN);
+//		BEN.getEventItemsOwner().add(persistedEventFirstInUserList);
+//		
+//		userRepo.save(BEN);
+//		userRepo.flush();
+//
+//		eventRepo.save(persistedEventFirstInUserList);
+//		eventRepo.flush();
+//		
+//		UserItem persistedUser = userRepo.findById(ALYSSA.getId()).get();
+//		assertFalse(persistedUser.getEventItemsOwner().contains(TESTING));
+//
+//	}
 
 }

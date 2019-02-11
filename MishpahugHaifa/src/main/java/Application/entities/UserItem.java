@@ -47,7 +47,7 @@ public class UserItem {
 	@JsonManagedReference
 	private AddressItem addressItem;
 	
-	@OneToMany  // User owner of events 
+	@OneToMany(cascade = CascadeType.PERSIST)  // User owner of events 
 	@JoinColumn(unique = true) //One event can't have many owners; TODO: cascade operations
 	@JsonManagedReference
 	@EqualsAndHashCode.Exclude

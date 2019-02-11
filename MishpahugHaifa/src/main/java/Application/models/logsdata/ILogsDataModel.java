@@ -1,8 +1,8 @@
 package Application.models.logsdata;
 
-import Application.entities.LogsDataItem;
+import Application.entities.LogsDataValue;
 
 public interface ILogsDataModel {
-    public LogsDataItem add(LogsDataItem data);
+    public LogsDataValue add(LogsDataValue data);
     public void clear();
 }

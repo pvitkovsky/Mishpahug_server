@@ -25,12 +25,12 @@ public class CityItem {
     @JsonBackReference
     private CountryItem countryItem;
 
-    @OneToMany(mappedBy = "addresses_of_city")
+    @OneToMany(mappedBy = "cityItem")
     @JsonManagedReference
     private List<AddressItem> addressItems = new ArrayList<>();
 
 
-    @OneToMany(mappedBy = "cities_users")       // Users in the city
+    @OneToMany(mappedBy = "cityItem")       // Users in the city
     @JsonManagedReference
     private List<UserItem> userItems = new ArrayList<>();
 

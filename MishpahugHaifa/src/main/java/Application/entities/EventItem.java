@@ -25,7 +25,12 @@ public class EventItem {
 	private LocalDate date;
 	private LocalTime time;
 	private String nameOfEvent;
+	private EventRatingValue ratings;
+	
+	@ManyToOne 
+	@JsonManagedReference
 	private KichenTypeItem kichenTypeItem;
+	
 	@Enumerated(EnumType.STRING)
 	private EventStatus Status;
 
@@ -41,7 +46,7 @@ public class EventItem {
 	@JsonBackReference
 	private List<UserItem> userItemsGuestsOfEvents = new ArrayList<>();
 
-	@OneToMany(mappedBy = "feedBack_of_event", cascade = CascadeType.ALL)			// All feedBacks of event
+	@OneToMany(mappedBy = "eventItem", cascade = CascadeType.ALL)			// All feedBacks of event
 	@JsonManagedReference
 	private List<FeedBackItem> feedBackItems = new ArrayList<>();
 

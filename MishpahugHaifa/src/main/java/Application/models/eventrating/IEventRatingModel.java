@@ -1,10 +1,10 @@
 package Application.models.eventrating;
 
-import Application.entities.EventRatingItem;
+import Application.entities.EventRatingValue;
 
 import java.util.HashMap;
 
 public interface IEventRatingModel {
-    public EventRatingItem getByEvent(Integer eventId);
-    public EventRatingItem updateEventRating(Integer eventId, HashMap<String, String> data);
+    public EventRatingValue getByEvent(Integer eventId);
+    public EventRatingValue updateEventRating(Integer eventId, HashMap<String, String> data);
 }

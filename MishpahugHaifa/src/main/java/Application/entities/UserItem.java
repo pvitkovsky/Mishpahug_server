@@ -29,7 +29,7 @@ public class UserItem {
     @EqualsAndHashCode.Exclude
     @ElementCollection
     @CollectionTable
-    private List<LogsDataItem> logs;
+    private List<LogsDataValue> logs;
     private String phoneNumber;
     private String eMail;
     @Enumerated(EnumType.STRING)
@@ -43,23 +43,23 @@ public class UserItem {
     @JsonBackReference
     private CityItem cityItem;
 
-    @OneToOne(mappedBy = "users_addresses")                                         // Address of user
+    @OneToOne(mappedBy = "userItem")                                         // Address of user
     @JsonManagedReference
     private AddressItem addressItem;
 
-    @OneToMany(mappedBy = "user_event_owner", cascade = CascadeType.ALL)            // User owner of events
+    @OneToMany(mappedBy = "userItemOwner", cascade = CascadeType.ALL)            // User owner of events
     @JsonManagedReference
     private List<EventItem> eventItemsOwner = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "users_guests_of_events")                                // User a guest in events
+    @ManyToMany(mappedBy = "userItemsGuestsOfEvents")                                // User a guest in events
     @JsonManagedReference
     private List<EventItem> eventItemsGuest = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user_pictures", cascade = CascadeType.ALL)              // Pictures of user
+    @OneToMany(mappedBy = "userItemOwner", cascade = CascadeType.ALL)              // Pictures of user
     @JsonManagedReference
     private List<PictureItem> pictureItems = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user_feedBacks", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "userItem", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<FeedBackItem> feedBackItems = new ArrayList<>();
 

@@ -1,0 +1,3 @@
+1) AddressItem has one user. What if two or more users share the same address?
+2) Changed value types to *Value, entity are still *Item
+3) Corrected mapping errors;

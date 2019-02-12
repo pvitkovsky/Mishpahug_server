@@ -1,8 +1,8 @@
 package Application.models.eventrating;
 
-import Application.entities.EventRatingValue;
-
 import java.util.HashMap;
+
+import Application.entities.values.EventRatingValue;
 
 public interface IEventRatingModel {
     public EventRatingValue getByEvent(Integer eventId);

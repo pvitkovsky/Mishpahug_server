@@ -24,6 +24,8 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import Application.entities.values.LogsDataValue;
+import Application.entities.values.PictureValue;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -76,9 +78,9 @@ public class UserItem {
 	@JsonManagedReference
 	private Set<EventItem> eventItemsGuest = new HashSet<>();
 
-	@OneToMany(mappedBy = "userItemOwner", cascade = CascadeType.ALL) // Pictures of user
-	@JsonManagedReference
-	private Set<PictureItem> pictureItems = new HashSet<>();
+	@ElementCollection
+	@CollectionTable
+	private Set<PictureValue> pictureItems = new HashSet<>();
 
 	@OneToMany(mappedBy = "userItem", cascade = CascadeType.ALL)
 	@JsonManagedReference

@@ -1,6 +1,6 @@
 package Application.models.logsdata;
 
-import Application.entities.LogsDataValue;
+import Application.entities.values.LogsDataValue;
 
 public class LogsDataModel implements ILogsDataModel {
     @Override

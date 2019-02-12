@@ -1,10 +1,12 @@
-package Application.entities;
+package Application.entities.values;
 
-import java.util.List;
+import java.util.Map;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
 
+import Application.entities.EventItem;
+import Application.entities.UserItem;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,11 +20,12 @@ import lombok.Setter;
 @Embeddable
 public class EventRatingValue {
 	
+	private EventItem eventItemOwner;
 	@ElementCollection
-	private List<Integer> rating;
+	private Map<UserItem, Integer> ratings;
 
-	public EventRatingValue(List<Integer> rating) {
+	public EventRatingValue(Map<UserItem, Integer> rating) {
 		super();
-		this.rating = rating;
+		this.ratings = rating;
 	}
 }

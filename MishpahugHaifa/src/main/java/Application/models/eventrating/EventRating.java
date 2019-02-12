@@ -2,7 +2,7 @@ package Application.models.eventrating;
 
 import java.util.HashMap;
 
-import Application.entities.EventRatingValue;
+import Application.entities.values.EventRatingValue;
 
 public class EventRating implements IEventRatingModel {
     

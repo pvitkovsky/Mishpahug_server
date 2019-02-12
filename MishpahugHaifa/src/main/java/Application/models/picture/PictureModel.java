@@ -1,12 +1,12 @@
 package Application.models.picture;
 
-import Application.entities.PictureItem;
-
 import java.sql.Blob;
+
+import Application.entities.values.PictureValue;
 
 public class PictureModel implements  IPictureModel{
     @Override
-    public void add(PictureItem data) {
+    public void add(PictureValue data) {
 
     }
 

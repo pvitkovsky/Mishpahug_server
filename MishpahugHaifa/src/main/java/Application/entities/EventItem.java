@@ -21,6 +21,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import Application.entities.values.EventRatingValue;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,7 +43,7 @@ public class EventItem {
 	private LocalDate date;
 	private LocalTime time;
 	private String nameOfEvent;
-	private EventRatingValue ratings;
+	private EventRatingValue rating;
 
 	@ManyToOne
 	@JsonManagedReference

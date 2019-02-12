@@ -1,11 +1,11 @@
 package Application.models.userrating;
 
-import Application.entities.UserRatingItem;
-
 import java.util.HashMap;
 
+import Application.entities.values.UserRatingValue;
+
 public interface IUserRatingModel {
-    public UserRatingItem getByUser(Integer userId);
-    public UserRatingItem update(Integer userId, HashMap<String, String> data);
-    public UserRatingItem removeByUser(Integer userId);
+    public UserRatingValue getByUser(Integer userId);
+    public UserRatingValue update(Integer userId, HashMap<String, String> data);
+    public UserRatingValue removeByUser(Integer userId);
 }

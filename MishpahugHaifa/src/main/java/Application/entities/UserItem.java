@@ -1,8 +1,7 @@
 package Application.entities;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
@@ -14,6 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -66,21 +66,22 @@ public class UserItem {
 	@JsonManagedReference
 	private AddressItem addressItem;
 
-	@OneToMany(mappedBy = "userItemOwner", cascade = CascadeType.ALL, fetch = FetchType.LAZY) // User owner of events
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY) // User owner of events
+	@JoinColumn(unique = true)
 	@JsonManagedReference
-	private Set<EventItem> eventItemsOwner = new HashSet<>();
+	private List<EventItem> eventItemsOwner = new ArrayList<>();
 
 	@ManyToMany(mappedBy = "userItemsGuestsOfEvents") // User a guest in events
 	@JsonManagedReference
-	private Set<EventItem> eventItemsGuest = new HashSet<>();
+	private List<EventItem> eventItemsGuest = new ArrayList<>();
 
 	@OneToMany(mappedBy = "userItemOwner", cascade = CascadeType.ALL) // Pictures of user
 	@JsonManagedReference
-	private Set<PictureItem> pictureItems = new HashSet<>();
+	private List<PictureItem> pictureItems = new ArrayList<>();
 
 	@OneToMany(mappedBy = "userItem", cascade = CascadeType.ALL)
 	@JsonManagedReference
-	private Set<FeedBackItem> feedBackItems = new HashSet<>();
+	private List<FeedBackItem> feedBackItems = new ArrayList<>();
 
 	public enum UserRole {
 		ADMIN, AUTHORISED, SUSPENDED,

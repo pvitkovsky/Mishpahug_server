@@ -2,8 +2,8 @@ package Application.entities;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -62,11 +62,11 @@ public class EventItem {
 
 	@ManyToMany
 	@JsonBackReference
-	private Set<UserItem> userItemsGuestsOfEvents = new HashSet<>();
+	private List<UserItem> userItemsGuestsOfEvents = new ArrayList<>();
 
 	@OneToMany(mappedBy = "eventItem", cascade = CascadeType.ALL) // All feedBacks of event
 	@JsonManagedReference
-	private Set<FeedBackItem> feedBackItems = new HashSet<>();
+	private List<FeedBackItem> feedBackItems = new ArrayList<>();
 
 	public enum EventStatus {
 		CREATED, PENDING, COMPLETE, CANCELED

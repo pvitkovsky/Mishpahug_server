@@ -3,6 +3,9 @@ package Application.entities.relations;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,10 +30,13 @@ import Application.repo.UserRepository;
 @ActiveProfiles("test")
 @Transactional
 public class UserEventOwnerTest {
-
-	private static final UserItem ALYSSA = new UserItem();
-	private static final UserItem BEN = new UserItem();
-	private static final EventItem TESTING = new EventItem();
+	
+	private final UserItem ALYSSA = new UserItem();
+	private final UserItem BEN = new UserItem();
+	private final EventItem TESTING = new EventItem();
+	
+	@PersistenceContext // https://www.javabullets.com/access-entitymanager-spring-data-jpa/
+	private EntityManager em;
 
 	@Autowired
 	UserRepository userRepo;
@@ -47,10 +53,18 @@ public class UserEventOwnerTest {
 	@Before
 	public void buildEntities() {
 		ALYSSA.setFirstName("Alyssa");
-		BEN.setFirstName("Ben");
 		TESTING.setUserItemOwner(ALYSSA);
-		ALYSSA.getEventItemsOwner().add(TESTING); // TODO: next version with read
 
+	}
+
+	@Before
+	public void buildEntities2() {
+		BEN.setFirstName("Ben");
+	}
+
+	@Before
+	public void buildManualItem() {
+		ALYSSA.getEventItemsOwner().add(TESTING); // TODO: next version with read
 	}
 
 	@Test
@@ -62,40 +76,37 @@ public class UserEventOwnerTest {
 	public void onUserSaveReadEvent() {
 		
 		userRepo.save(ALYSSA);
-		userRepo.flush();
+		assertTrue(em.find(UserItem.class, ALYSSA.getId()) != null);
 		
 		UserItem persistedUser = userRepo.findById(ALYSSA.getId()).get();
 		EventItem persistedEvent = eventRepo.findAll().get(0);
 
 		UserItem persistedUserOwner = persistedEvent.getUserItemOwner();
 		assertTrue(persistedUserOwner.equals(ALYSSA));
-		EventItem persistedEventFirstInUserList = persistedUser.getEventItemsOwner().get(0);
+		EventItem persistedEventFirstInUserList = persistedUser.getEventItemsOwner().iterator().next();
 		assertTrue(persistedEventFirstInUserList.equals(TESTING));
 
 	}
-	
-//	/**
-//	 * If event side is write-only, then user lists must be updated with changes of event owner; 
-//	 */
-//	@Test
-//	public void onUserSaveChangeEvent() {
-//
-//		userRepo.save(ALYSSA);
-//		userRepo.flush();
-//
-//		EventItem persistedEventFirstInUserList = userRepo.findById(ALYSSA.getId()).get().getEventItemsOwner().get(0);
-//		persistedEventFirstInUserList.setUserItemOwner(BEN);
-//		BEN.getEventItemsOwner().add(persistedEventFirstInUserList);
-//		
-//		userRepo.save(BEN);
-//		userRepo.flush();
-//
-//		eventRepo.save(persistedEventFirstInUserList);
-//		eventRepo.flush();
-//		
-//		UserItem persistedUser = userRepo.findById(ALYSSA.getId()).get();
-//		assertFalse(persistedUser.getEventItemsOwner().contains(TESTING));
-//
-//	}
+
+	/**
+	 * If event side is write-only, then user lists must be updated with changes of event owner; 
+	 */
+	@Test
+	public void onUserSaveChangeEvent() {
+
+		userRepo.save(ALYSSA);
+
+		EventItem persistedEventFirstInUserList = userRepo.findById(ALYSSA.getId()).get().getEventItemsOwner().iterator().next();
+		persistedEventFirstInUserList.setUserItemOwner(BEN);
+		BEN.getEventItemsOwner().add(persistedEventFirstInUserList);
+		
+		userRepo.save(BEN);
+		
+		eventRepo.save(persistedEventFirstInUserList);
+		
+		UserItem persistedUser = userRepo.findById(ALYSSA.getId()).get();
+		assertFalse(persistedUser.getEventItemsOwner().contains(TESTING));
+
+	}
 
 }

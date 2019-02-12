@@ -1,14 +1,34 @@
 package Application.entities;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.*;
+
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "user")
@@ -52,22 +72,21 @@ public class UserItem {
 	@JsonManagedReference
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
-	private List<EventItem> eventItemsOwner = new ArrayList<>();
+	private Set<EventItem> eventItemsOwner = new HashSet<>();
 
 	@ManyToMany(mappedBy = "userItemsGuestsOfEvents") // User a guest in events
 	@JsonManagedReference
-	private List<EventItem> eventItemsGuest = new ArrayList<>();
+	private Set<EventItem> eventItemsGuest = new HashSet<>();
 
 	@OneToMany(mappedBy = "userItemOwner", cascade = CascadeType.ALL) // Pictures of user
 	@JsonManagedReference
-	private List<PictureItem> pictureItems = new ArrayList<>();
+	private Set<PictureItem> pictureItems = new HashSet<>();
 
 	@OneToMany(mappedBy = "userItem", cascade = CascadeType.ALL)
 	@JsonManagedReference
-	private List<FeedBackItem> feedBackItems = new ArrayList<>();
+	private Set<FeedBackItem> feedBackItems = new HashSet<>();
 
 	public enum UserRole {
 		ADMIN, AUTHORISED, SUSPENDED,
 	}
-
 }

@@ -1,6 +1,7 @@
 package Application.models.event;
 
 import Application.entities.EventItem;
+import Application.entities.UserItem;
 import Application.repo.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -34,6 +35,16 @@ public class EventModel implements IEventModel{
 
     @Override
     public EventItem updateEvent(Integer eventId, HashMap<String, String> data) {
+        return null;
+    }
+
+    @Override
+    public List<UserItem> getAllSubscribed(Integer eventId) {
+        return null;
+    }
+
+    @Override
+    public EventItem removeEvent(Integer eventId) {
         return null;
     }
 }

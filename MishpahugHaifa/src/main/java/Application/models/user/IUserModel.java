@@ -10,4 +10,5 @@ public interface IUserModel {
     public List<UserItem> getByFilter(HashMap<String, String> filter);
     public UserItem add(UserItem data);
     public UserItem updateUser(Integer userId, HashMap<String, String> data);
+    public UserItem remomeUser(Integer userId);
 }

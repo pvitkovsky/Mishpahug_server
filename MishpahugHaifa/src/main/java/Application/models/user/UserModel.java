@@ -31,4 +31,10 @@ public class UserModel implements IUserModel {
     public UserItem updateUser(Integer userId, HashMap<String, String> data) {
         return null;
     }
+
+    @Override
+    public UserItem remomeUser(Integer userId) {
+        return null;
+    }
+
 }

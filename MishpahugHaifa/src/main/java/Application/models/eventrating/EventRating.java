@@ -1,23 +1,18 @@
 package Application.models.eventrating;
 
-import Application.entities.EventRatingItem;
-import Application.repo.EventRatingRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.HashMap;
 
+import Application.entities.EventRatingValue;
+
 public class EventRating implements IEventRatingModel {
-
-    @Autowired
-    EventRatingRepository eventRatingRepository;
-
-    @Override
-    public EventRatingItem getByEvent(Integer eventId) {
+    
+	@Override
+    public EventRatingValue getByEvent(Integer eventId) {
         return null;
     }
 
     @Override
-    public EventRatingItem updateEventRating(Integer eventId, HashMap<String, String> data) {
+    public EventRatingValue updateEventRating(Integer eventId, HashMap<String, String> data) {
         return null;
     }
 }

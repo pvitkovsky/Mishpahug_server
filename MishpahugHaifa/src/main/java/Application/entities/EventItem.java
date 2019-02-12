@@ -1,22 +1,39 @@
 package Application.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.*;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "eventlist")
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
-@EqualsAndHashCode(of = {"userItemsGuestsOfEvents"})
-@ToString
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = { "userItemsGuestsOfEvents", "feedBackItems" })
 public class EventItem {
 
 	@Id
@@ -25,11 +42,17 @@ public class EventItem {
 	private LocalDate date;
 	private LocalTime time;
 	private String nameOfEvent;
+	private EventRatingValue ratings;
+
+	@ManyToOne
+	@JsonManagedReference
 	private KichenTypeItem kichenTypeItem;
+
 	@Enumerated(EnumType.STRING)
 	private EventStatus Status;
 
-	@ManyToOne
+	@ManyToOne 
+	@JoinColumn(nullable = false) //there must be an owner for every item; 
 	@JsonBackReference
 	private UserItem userItemOwner;
 
@@ -41,15 +64,12 @@ public class EventItem {
 	@JsonBackReference
 	private List<UserItem> userItemsGuestsOfEvents = new ArrayList<>();
 
-	@OneToMany(mappedBy = "feedBack_of_event", cascade = CascadeType.ALL)			// All feedBacks of event
+	@OneToMany(mappedBy = "eventItem", cascade = CascadeType.ALL) // All feedBacks of event
 	@JsonManagedReference
 	private List<FeedBackItem> feedBackItems = new ArrayList<>();
 
 	public enum EventStatus {
 		CREATED, PENDING, COMPLETE, CANCELED
 	}
-
-
-
 
 }

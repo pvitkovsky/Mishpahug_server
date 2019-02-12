@@ -12,7 +12,7 @@ import java.util.List;
 @Table(name="address")
 @Getter @Setter
 @ToString
-@AllArgsConstructor //do construction without userItem
+@AllArgsConstructor //do construction without userItem 
 @NoArgsConstructor
 @EqualsAndHashCode(of = "userItem")
 public class AddressItem {
@@ -31,7 +31,7 @@ public class AddressItem {
     @JsonBackReference
     private UserItem userItem;
 
-    @OneToMany(mappedBy = "address_of_events")
+    @OneToMany(mappedBy = "addressItem")
     @JsonManagedReference
     private List<EventItem> eventItems = new ArrayList<>();
 }

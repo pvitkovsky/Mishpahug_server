@@ -18,7 +18,7 @@ import lombok.Setter;
 @NoArgsConstructor
 
 @Embeddable
-public class LogsDataItem {
+public class LogsDataValue {
 
 	private LocalDate date;
 	private LocalTime time;

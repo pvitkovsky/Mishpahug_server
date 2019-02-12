@@ -20,11 +20,11 @@ public class CountryItem {
     private Integer id;
     private String name;
 
-    @OneToMany(mappedBy = "countries_cities")
+    @OneToMany(mappedBy = "countryItem")
     @JsonManagedReference
     private List<CityItem> cityItems = new ArrayList<>();
 
-    @OneToMany(mappedBy = "countries_users")
+    @OneToMany(mappedBy = "countryItem")
     @JsonManagedReference
     private List<UserItem> userItems = new ArrayList<>();
 

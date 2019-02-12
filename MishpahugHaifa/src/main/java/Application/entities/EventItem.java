@@ -32,8 +32,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @NoArgsConstructor
-@EqualsAndHashCode(of = { "userItemsGuestsOfEvents" })
-@ToString
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = { "userItemsGuestsOfEvents", "feedBackItems" })
 public class EventItem {
 
 	@Id
@@ -51,8 +51,8 @@ public class EventItem {
 	@Enumerated(EnumType.STRING)
 	private EventStatus Status;
 
-	@ManyToOne
-	@JoinColumn(nullable = false) //there must be an owner for every item;
+	@ManyToOne 
+	@JoinColumn(nullable = false) //there must be an owner for every item; 
 	@JsonBackReference
 	private UserItem userItemOwner;
 

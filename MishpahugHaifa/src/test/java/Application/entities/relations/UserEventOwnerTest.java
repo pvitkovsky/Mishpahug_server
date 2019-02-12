@@ -1,5 +1,6 @@
 package Application.entities.relations;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -45,34 +46,24 @@ public class UserEventOwnerTest {
 	EventRepository eventRepo;
 
 	@Before
-	public void clear() {
-		userRepo.deleteAll();
-		eventRepo.deleteAll();
-	}
-
-	@Before
 	public void buildEntities() {
 		ALYSSA.setFirstName("Alyssa");
+		BEN.setFirstName("Ben");
 		TESTING.setUserItemOwner(ALYSSA);
 
 	}
-
+	/**
+	 * We need to update a set on the owner's side with bidirectional relations; 
+	 */
 	@Before
-	public void buildManualItem() {  // TODO: next version without explicit add
+	public void buildManualItem() {  
 		ALYSSA.getEventItemsOwner().add(TESTING);
 	}
 
-
-	@Before
-	public void buildEntities2() {
-		BEN.setFirstName("Ben");
-	}
-
-	@Test
-	public void givenEntitiesReadRelations() {
-		assertTrue(TESTING.getUserItemOwner().equals(ALYSSA));
-	}
-
+	/**
+	 * Checking that the UserItem persists his events automatically; 
+	 * Checking that toString works in the bidirectional relation; 
+	 */
 	@Test
 	public void onUserSaveReadEvent() {
 		
@@ -90,9 +81,24 @@ public class UserEventOwnerTest {
 		assertTrue(savedE.equals(TESTING));
 		System.out.println(savedE);
 	}
-
+	
 	/**
-	 * If event side is write-only, then user lists must be updated with changes of event owner; 
+	 *  Checking that the events are deleted after the UserItem
+	 */
+	@Test
+	public void onUserAndEventSaveDeleteUser() {
+
+		userRepo.save(ALYSSA);
+		assertTrue(eventRepo.existsById(TESTING.getId()));
+
+		userRepo.delete(ALYSSA);		
+		assertFalse(eventRepo.existsById(TESTING.getId()));
+
+	}
+	
+	/**
+	 * Changind the owner of the event and testing the results; 
+	 * Testing UserItems.equals(); 
 	 */
 	@Test
 	public void onUserSaveChangeEvent() {
@@ -105,12 +111,13 @@ public class UserEventOwnerTest {
 		BEN.getEventItemsOwner().add(savedE);
 		
 		userRepo.save(BEN);
-		eventRepo.save(savedE);
-		
+				
 		UserItem savedA = userRepo.findById(ALYSSA.getId()).get();
 		UserItem savedB = userRepo.findById(BEN.getId()).get();
 		assertFalse(savedA.getEventItemsOwner().contains(TESTING));
 		assertTrue(savedB.getEventItemsOwner().contains(TESTING));
+		assertTrue(eventRepo.existsById(TESTING.getId()));
+		assertEquals(eventRepo.findById(TESTING.getId()).get().getUserItemOwner(), BEN);
 
 	}
 

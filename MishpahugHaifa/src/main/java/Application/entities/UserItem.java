@@ -32,12 +32,12 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "user")
-@EqualsAndHashCode
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = "eventItemsOwner") 
+@EqualsAndHashCode(of = "id")
+@ToString (exclude = { "eventItemsOwner", "eventItemsGuest", "pictureItems", "feedBackItems" })
 public class UserItem {
 
 	@Id
@@ -46,7 +46,6 @@ public class UserItem {
 	private String nickname; // TODO: unique nickname;
 	private String firstName;
 	private String lastName;
-	@EqualsAndHashCode.Exclude
 	@ElementCollection
 	@CollectionTable
 	private List<LogsDataValue> logs;
@@ -63,11 +62,11 @@ public class UserItem {
 	@JsonBackReference
 	private CityItem cityItem;
 
-	@OneToOne(mappedBy = "userItem") // Address of user 
+	@OneToOne(mappedBy = "userItem") // Address of user
 	@JsonManagedReference
 	private AddressItem addressItem;
-	
-	@OneToMany(mappedBy="userItemOwner", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)  // User owner of events 
+
+	@OneToMany(mappedBy = "userItemOwner", cascade = CascadeType.ALL, fetch = FetchType.LAZY) // User owner of events
 	@JsonManagedReference
 	private Set<EventItem> eventItemsOwner = new HashSet<>();
 

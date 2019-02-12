@@ -1,7 +1,8 @@
 package Application.entities;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
@@ -69,19 +70,19 @@ public class UserItem {
 	@OneToMany(mappedBy = "userItemOwner", cascade = CascadeType.ALL, fetch = FetchType.LAZY) // User owner of events
 	@Column(unique = true)
 	@JsonManagedReference
-	private List<EventItem> eventItemsOwner = new ArrayList<>();
+	private Set<EventItem> eventItemsOwner = new HashSet<>();
 
 	@ManyToMany(mappedBy = "userItemsGuestsOfEvents") // User a guest in events
 	@JsonManagedReference
-	private List<EventItem> eventItemsGuest = new ArrayList<>();
+	private Set<EventItem> eventItemsGuest = new HashSet<>();
 
 	@OneToMany(mappedBy = "userItemOwner", cascade = CascadeType.ALL) // Pictures of user
 	@JsonManagedReference
-	private List<PictureItem> pictureItems = new ArrayList<>();
+	private Set<PictureItem> pictureItems = new HashSet<>();
 
 	@OneToMany(mappedBy = "userItem", cascade = CascadeType.ALL)
 	@JsonManagedReference
-	private List<FeedBackItem> feedBackItems = new ArrayList<>();
+	private Set<FeedBackItem> feedBackItems = new HashSet<>();
 
 	public enum UserRole {
 		ADMIN, AUTHORISED, SUSPENDED,

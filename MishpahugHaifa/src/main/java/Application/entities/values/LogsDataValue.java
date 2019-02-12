@@ -21,7 +21,8 @@ import lombok.Setter;
 @Embeddable
 public class LogsDataValue {
 
-	private UserItem userItemOwner; 
+	//TODO: Bidirectional private UserItem userItemOwner; 
+	
 	private LocalDate date;
 	private LocalTime time;
 	private UserActions action;

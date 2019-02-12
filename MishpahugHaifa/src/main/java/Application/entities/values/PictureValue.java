@@ -1,15 +1,21 @@
 package Application.entities.values;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import javax.persistence.Embeddable;
 
-import Application.entities.UserItem;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.*;
-
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter @Setter
 @Embeddable
 public class PictureValue {
 
-	private UserItem userItemOwner;
+	//TODO: Bidirectional  
+	//private UserItem userItemOwner;
+	
 	private String data;
     
 

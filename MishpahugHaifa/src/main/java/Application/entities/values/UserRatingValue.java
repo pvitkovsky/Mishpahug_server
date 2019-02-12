@@ -21,7 +21,8 @@ import lombok.ToString;
 @Embeddable
 public class UserRatingValue {
 
-	private UserItem userItemOwner;
+	//TODO: Bidirectional 
+	//private EventItem eventItemOwner;
 	@ElementCollection
 	private Map<UserItem, Integer> rating;
 

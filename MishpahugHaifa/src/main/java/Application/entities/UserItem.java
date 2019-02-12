@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -13,7 +14,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -37,7 +37,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-@ToString (exclude = { "eventItemsOwner", "eventItemsGuest", "pictureItems", "feedBackItems" })
+@ToString(exclude = { "eventItemsOwner", "eventItemsGuest", "pictureItems", "feedBackItems" })
 public class UserItem {
 
 	@Id
@@ -66,8 +66,8 @@ public class UserItem {
 	@JsonManagedReference
 	private AddressItem addressItem;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY) // User owner of events
-	@JoinColumn(unique = true)
+	@OneToMany(mappedBy = "userItemOwner", cascade = CascadeType.ALL, fetch = FetchType.LAZY) // User owner of events
+	@Column(unique = true)
 	@JsonManagedReference
 	private List<EventItem> eventItemsOwner = new ArrayList<>();
 

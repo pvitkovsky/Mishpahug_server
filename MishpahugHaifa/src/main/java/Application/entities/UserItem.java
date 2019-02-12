@@ -10,10 +10,10 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -37,7 +37,7 @@ import lombok.ToString;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@ToString(exclude = "eventItemsOwner") 
 public class UserItem {
 
 	@Id
@@ -67,11 +67,8 @@ public class UserItem {
 	@JsonManagedReference
 	private AddressItem addressItem;
 	
-	@OneToMany(cascade = CascadeType.PERSIST)  // User owner of events 
-	@JoinColumn(unique = true) //One event can't have many owners; TODO: cascade operations
+	@OneToMany(mappedBy="userItemOwner", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)  // User owner of events 
 	@JsonManagedReference
-	@EqualsAndHashCode.Exclude
-	@ToString.Exclude
 	private Set<EventItem> eventItemsOwner = new HashSet<>();
 
 	@ManyToMany(mappedBy = "userItemsGuestsOfEvents") // User a guest in events

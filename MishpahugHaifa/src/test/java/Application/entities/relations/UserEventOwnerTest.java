@@ -58,13 +58,14 @@ public class UserEventOwnerTest {
 	}
 
 	@Before
-	public void buildEntities2() {
-		BEN.setFirstName("Ben");
+	public void buildManualItem() {  // TODO: next version without explicit add
+		ALYSSA.getEventItemsOwner().add(TESTING);
 	}
 
+
 	@Before
-	public void buildManualItem() {
-		ALYSSA.getEventItemsOwner().add(TESTING); // TODO: next version with read
+	public void buildEntities2() {
+		BEN.setFirstName("Ben");
 	}
 
 	@Test
@@ -78,14 +79,16 @@ public class UserEventOwnerTest {
 		userRepo.save(ALYSSA);
 		assertTrue(em.find(UserItem.class, ALYSSA.getId()) != null);
 		
-		UserItem persistedUser = userRepo.findById(ALYSSA.getId()).get();
-		EventItem persistedEvent = eventRepo.findAll().get(0);
+		UserItem savedA = userRepo.findById(ALYSSA.getId()).get();
+		EventItem savedE = eventRepo.findAll().get(0);
 
-		UserItem persistedUserOwner = persistedEvent.getUserItemOwner();
-		assertTrue(persistedUserOwner.equals(ALYSSA));
-		EventItem persistedEventFirstInUserList = persistedUser.getEventItemsOwner().iterator().next();
-		assertTrue(persistedEventFirstInUserList.equals(TESTING));
-
+		UserItem savedAfromEvent = savedE.getUserItemOwner();
+		assertTrue(savedAfromEvent.equals(ALYSSA));
+		System.out.println(savedAfromEvent);
+		
+		savedE = savedA.getEventItemsOwner().iterator().next();
+		assertTrue(savedE.equals(TESTING));
+		System.out.println(savedE);
 	}
 
 	/**
@@ -95,17 +98,19 @@ public class UserEventOwnerTest {
 	public void onUserSaveChangeEvent() {
 
 		userRepo.save(ALYSSA);
-
-		EventItem persistedEventFirstInUserList = userRepo.findById(ALYSSA.getId()).get().getEventItemsOwner().iterator().next();
-		persistedEventFirstInUserList.setUserItemOwner(BEN);
-		BEN.getEventItemsOwner().add(persistedEventFirstInUserList);
+		
+		EventItem savedE = userRepo.findById(ALYSSA.getId()).get().getEventItemsOwner().iterator().next();
+		savedE.setUserItemOwner(BEN);
+		ALYSSA.getEventItemsOwner().remove(savedE);
+		BEN.getEventItemsOwner().add(savedE);
 		
 		userRepo.save(BEN);
+		eventRepo.save(savedE);
 		
-		eventRepo.save(persistedEventFirstInUserList);
-		
-		UserItem persistedUser = userRepo.findById(ALYSSA.getId()).get();
-		assertFalse(persistedUser.getEventItemsOwner().contains(TESTING));
+		UserItem savedA = userRepo.findById(ALYSSA.getId()).get();
+		UserItem savedB = userRepo.findById(BEN.getId()).get();
+		assertFalse(savedA.getEventItemsOwner().contains(TESTING));
+		assertTrue(savedB.getEventItemsOwner().contains(TESTING));
 
 	}
 

@@ -52,7 +52,7 @@ public class EventItem {
 	private EventStatus Status;
 
 	@ManyToOne
-	@JoinColumn(nullable = false) //there must be an owner for every item; TODO: cascade operations
+	@JoinColumn(nullable = false) //there must be an owner for every item;
 	@JsonBackReference
 	private UserItem userItemOwner;
 

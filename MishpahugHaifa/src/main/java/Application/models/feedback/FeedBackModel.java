@@ -10,22 +10,27 @@ public class FeedBackModel implements IFeedBackModel {
     FeedBackRepository freeBackRepository;
 
     @Override
-    public List<FeedBackItem> getByEvent(Integer eventId) {
+    public List<FeedBackItem> getAllByEvent(Integer eventId) {
         return null;
     }
 
     @Override
-    public List<FeedBackItem> getByUser(Integer userId) {
+    public List<FeedBackItem> getAllByUser(Integer userId) {
         return null;
     }
 
     @Override
-    public List<FeedBackItem> removeByUser(Integer userId) {
+    public List<FeedBackItem> removeAllByUser(Integer userId) {
         return null;
     }
 
     @Override
-    public List<FeedBackItem> removeByEvent(Integer eventId) {
+    public List<FeedBackItem> removeAllByEvent(Integer eventId) {
+        return null;
+    }
+
+    @Override
+    public FeedBackItem removeById(Integer feedBackId) {
         return null;
     }
 }

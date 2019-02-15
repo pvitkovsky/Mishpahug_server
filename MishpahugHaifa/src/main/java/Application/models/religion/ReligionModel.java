@@ -30,4 +30,9 @@ public class ReligionModel implements IReligionModel {
     public ReligionItem update(String name) {
         return null;
     }
+
+    @Override
+    public ReligionItem getByName(String name) {
+        return religionRepository.getByName(name);
+    }
 }

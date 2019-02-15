@@ -9,4 +9,5 @@ public interface IReligionModel {
     public List<ReligionItem> getAll();
     public ReligionItem add(ReligionItem data);
     public ReligionItem update(String name);
+    public ReligionItem getByName(String name);
 }

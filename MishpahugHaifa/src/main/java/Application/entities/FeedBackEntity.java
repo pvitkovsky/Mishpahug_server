@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class FeedBackItem{
+public class FeedBackEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,11 +23,11 @@ public class FeedBackItem{
 
     @ManyToOne
     @JsonBackReference
-    private UserItem userItem;
+    private UserEntity userEntity;
 
     @ManyToOne
     @JsonBackReference
-    private EventItem eventItem;
+    private EventEntity eventEntity;
 
 
 

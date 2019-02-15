@@ -1,6 +1,6 @@
 package Application.models.holyday;
 
-import Application.entities.HolyDayItem;
+import Application.entities.HoliDayEntity;
 import Application.repo.HolyDayRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,12 +12,12 @@ public class HolyDayModel implements IHolyDayModel {
     HolyDayRepository holyDayRepository;
 
     @Override
-    public List<HolyDayItem> getByReligion(Integer religionId) {
+    public List<HoliDayEntity> getByReligion(Integer religionId) {
         return null;
     }
 
     @Override
-    public List<HolyDayItem> getByYear(Integer year) {
+    public List<HoliDayEntity> getByYear(Integer year) {
         return null;
     }
 

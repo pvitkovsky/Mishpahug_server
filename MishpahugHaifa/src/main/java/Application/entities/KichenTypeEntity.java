@@ -11,13 +11,13 @@ import javax.persistence.*;
 @ToString
 @Getter
 @Setter
-public class KichenTypeItem {
+public class KichenTypeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
 
-    public KichenTypeItem(String name) {
+    public KichenTypeEntity(String name) {
         this.name = name;
     }
 

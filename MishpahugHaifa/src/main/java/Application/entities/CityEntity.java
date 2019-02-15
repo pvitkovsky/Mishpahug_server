@@ -13,8 +13,8 @@ import java.util.List;
 @Getter @Setter
 @ToString
 @NoArgsConstructor
-@EqualsAndHashCode(of = "userItems")
-public class CityItem {
+@EqualsAndHashCode(of = "userEntities")
+public class CityEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,16 +23,16 @@ public class CityItem {
 
     @ManyToOne                                  // Country of city
     @JsonBackReference
-    private CountryItem countryItem;
+    private CountryEntity countryEntity;
 
     @OneToMany(mappedBy = "cityItem")
     @JsonManagedReference
-    private List<AddressItem> addressItems = new ArrayList<>();
+    private List<AddressEntity> addressEntities = new ArrayList<>();
 
 
     @OneToMany(mappedBy = "cityItem")       // Users in the city
     @JsonManagedReference
-    private List<UserItem> userItems = new ArrayList<>();
+    private List<UserEntity> userEntities = new ArrayList<>();
 
 
 }

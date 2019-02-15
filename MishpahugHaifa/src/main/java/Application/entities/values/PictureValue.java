@@ -14,7 +14,7 @@ import lombok.Setter;
 public class PictureValue {
 
 	//TODO: Bidirectional  
-	//private UserItem userItemOwner;
+	//private UserEntity userItemOwner;
 	
 	private String data;
     

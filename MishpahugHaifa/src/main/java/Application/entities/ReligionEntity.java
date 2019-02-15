@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReligionItem {
+public class ReligionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

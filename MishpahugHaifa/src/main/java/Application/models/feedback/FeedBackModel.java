@@ -1,6 +1,6 @@
 package Application.models.feedback;
 
-import Application.entities.FeedBackItem;
+import Application.entities.FeedBackEntity;
 import Application.repo.FeedBackRepository;
 
 import java.util.List;
@@ -10,27 +10,27 @@ public class FeedBackModel implements IFeedBackModel {
     FeedBackRepository freeBackRepository;
 
     @Override
-    public List<FeedBackItem> getAllByEvent(Integer eventId) {
+    public List<FeedBackEntity> getAllByEvent(Integer eventId) {
         return null;
     }
 
     @Override
-    public List<FeedBackItem> getAllByUser(Integer userId) {
+    public List<FeedBackEntity> getAllByUser(Integer userId) {
         return null;
     }
 
     @Override
-    public List<FeedBackItem> removeAllByUser(Integer userId) {
+    public List<FeedBackEntity> removeAllByUser(Integer userId) {
         return null;
     }
 
     @Override
-    public List<FeedBackItem> removeAllByEvent(Integer eventId) {
+    public List<FeedBackEntity> removeAllByEvent(Integer eventId) {
         return null;
     }
 
     @Override
-    public FeedBackItem removeById(Integer feedBackId) {
+    public FeedBackEntity removeById(Integer feedBackId) {
         return null;
     }
 }

@@ -1,13 +1,13 @@
 package Application.models.feedback;
 
-import Application.entities.FeedBackItem;
+import Application.entities.FeedBackEntity;
 
 import java.util.List;
 
 public interface IFeedBackModel {
-    public List<FeedBackItem> getAllByEvent(Integer eventId);
-    public List<FeedBackItem> getAllByUser(Integer userId);
-    public List<FeedBackItem> removeAllByUser(Integer userId);
-    public List<FeedBackItem> removeAllByEvent(Integer eventId);
-    public FeedBackItem removeById(Integer feedBackId);
+    public List<FeedBackEntity> getAllByEvent(Integer eventId);
+    public List<FeedBackEntity> getAllByUser(Integer userId);
+    public List<FeedBackEntity> removeAllByUser(Integer userId);
+    public List<FeedBackEntity> removeAllByEvent(Integer eventId);
+    public FeedBackEntity removeById(Integer feedBackId);
 }

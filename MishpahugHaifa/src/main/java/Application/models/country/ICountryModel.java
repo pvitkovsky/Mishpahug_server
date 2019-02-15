@@ -1,11 +1,14 @@
 package Application.models.country;
 
-import Application.entities.CountryItem;
+import Application.entities.CountryEntity;
+
+import java.util.List;
 
 public interface ICountryModel {
-    public CountryItem getById(Integer id);
-    public CountryItem addCountry(CountryItem data);
-    public CountryItem removeCountry(Integer id);
-    public CountryItem updateName(Integer id, String name);
-    public CountryItem getByName(String name);
+    public CountryEntity getById(Integer id);
+    public CountryEntity addCountry(CountryEntity data);
+    public CountryEntity removeCountry(Integer id);
+    public CountryEntity updateName(Integer id, String name);
+    public CountryEntity getByName(String name);
+    public List<CountryEntity> getAll();
 }

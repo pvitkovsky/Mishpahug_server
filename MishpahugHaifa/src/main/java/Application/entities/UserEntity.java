@@ -1,5 +1,6 @@
 package Application.entities;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -40,8 +41,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-@ToString(exclude = { "eventItemsOwner", "eventItemsGuest", "pictureItems", "feedBackItems" })
-public class UserItem {
+@ToString(exclude = { "eventItemsOwner", "eventItemsGuest", "pictureItems", "feedBackEntities" })
+public class UserEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,24 +60,27 @@ public class UserItem {
 
 	@ManyToOne // Country of user
 	@JsonBackReference
-	private CountryItem countryItem;
+	private CountryEntity countryEntity;
+
+    @JsonManagedReference
+	private HashMap<Integer, FeedBackEntity> feedBacks;
 
 	@ManyToOne // City of user
 	@JsonBackReference
-	private CityItem cityItem;
+	private CityEntity cityEntity;
 
 	@OneToOne(mappedBy = "userItem") // Address of user
 	@JsonManagedReference
-	private AddressItem addressItem;
+	private AddressEntity addressEntity;
 
 	@OneToMany(mappedBy = "userItemOwner", cascade = CascadeType.ALL, fetch = FetchType.LAZY) // User owner of events
 	@Column(unique = true)
 	@JsonManagedReference
-	private Set<EventItem> eventItemsOwner = new HashSet<>();
+	private Set<EventEntity> eventItemsOwner = new HashSet<>();
 
 	@ManyToMany(mappedBy = "userItemsGuestsOfEvents") // User a guest in events
 	@JsonManagedReference
-	private Set<EventItem> eventItemsGuest = new HashSet<>();
+	private Set<EventEntity> eventItemsGuest = new HashSet<>();
 
 	@ElementCollection
 	@CollectionTable
@@ -84,7 +88,7 @@ public class UserItem {
 
 	@OneToMany(mappedBy = "userItem", cascade = CascadeType.ALL)
 	@JsonManagedReference
-	private Set<FeedBackItem> feedBackItems = new HashSet<>();
+	private Set<FeedBackEntity> feedBackEntities = new HashSet<>();
 
 	public enum UserRole {
 		ADMIN, AUTHORISED, SUSPENDED,

@@ -5,7 +5,7 @@ import java.sql.Blob;
 import Application.entities.values.PictureValue;
 
 public interface IPictureModel {
-    public void add(PictureValue data);
-    public Blob[] getbyUser(Integer user_id);
-    public void remove(Integer id);
+    public PictureValue add(PictureValue data);
+    public Blob[] getAllbyUser(Integer user_id);
+    public PictureValue remove(Integer id);
 }

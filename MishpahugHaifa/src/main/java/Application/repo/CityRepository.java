@@ -1,8 +1,8 @@
 package Application.repo;
 
-import Application.entities.CityItem;
+import Application.entities.CityEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CityRepository extends JpaRepository<CityItem, Integer> {
-        public CityItem getByName(String name);
+public interface CityRepository extends JpaRepository<CityEntity, Integer> {
+        public CityEntity getByName(String name);
 }

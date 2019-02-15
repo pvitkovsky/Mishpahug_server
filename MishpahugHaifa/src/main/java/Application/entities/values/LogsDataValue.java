@@ -5,7 +5,6 @@ import java.time.LocalTime;
 
 import javax.persistence.Embeddable;
 
-import Application.entities.UserItem;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -21,7 +20,7 @@ import lombok.Setter;
 @Embeddable
 public class LogsDataValue {
 
-	//TODO: Bidirectional private UserItem userItemOwner; 
+	//TODO: Bidirectional private UserEntity userItemOwner;
 	
 	private LocalDate date;
 	private LocalTime time;

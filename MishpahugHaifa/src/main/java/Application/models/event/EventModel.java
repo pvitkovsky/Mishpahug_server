@@ -1,7 +1,7 @@
 package Application.models.event;
 
-import Application.entities.EventItem;
-import Application.entities.UserItem;
+import Application.entities.EventEntity;
+import Application.entities.UserEntity;
 import Application.repo.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -14,37 +14,37 @@ public class EventModel implements IEventModel{
     EventRepository eventRepository;
 
     @Override
-    public List<EventItem> getAll() {
+    public List<EventEntity> getAll() {
         return null;
     }
 
     @Override
-    public List<EventItem> getAllByUser(Integer userId) {
+    public List<EventEntity> getAllByUser(Integer userId) {
         return null;
     }
 
     @Override
-    public List<EventItem> getWithFilter(HashMap<String, String> filter) {
+    public List<EventEntity> getWithFilter(HashMap<String, String> filter) {
         return null;
     }
 
     @Override
-    public EventItem addEvent(EventItem data) {
+    public EventEntity addEvent(EventEntity data) {
         return null;
     }
 
     @Override
-    public EventItem updateEvent(Integer eventId, HashMap<String, String> data) {
+    public EventEntity updateEvent(Integer eventId, HashMap<String, String> data) {
         return null;
     }
 
     @Override
-    public List<UserItem> getAllSubscribed(Integer eventId) {
+    public List<UserEntity> getAllSubscribed(Integer eventId) {
         return null;
     }
 
     @Override
-    public EventItem removeEvent(Integer eventId) {
+    public EventEntity removeEvent(Integer eventId) {
         return null;
     }
 }

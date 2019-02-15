@@ -11,7 +11,7 @@ public class PictureModel implements  IPictureModel{
     }
 
     @Override
-    public Blob[] getbyUser(Integer user_id) {
+    public Blob[] getAllbyUser(Integer user_id) {
         return new Blob[0];
     }
 

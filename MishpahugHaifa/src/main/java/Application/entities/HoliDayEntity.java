@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @ToString
 @Getter @Setter
-public class HolyDayItem {
+public class HoliDayEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -21,7 +21,7 @@ public class HolyDayItem {
     private String description;
 
 
-    public HolyDayItem(LocalDate date, String name, Integer religionId, String description) {
+    public HoliDayEntity(LocalDate date, String name, Integer religionId, String description) {
         this.date = date;
         Name = name;
         this.religionId = religionId;

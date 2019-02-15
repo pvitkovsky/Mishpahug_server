@@ -1,6 +1,6 @@
 package Application.models.user;
 
-import Application.entities.UserItem;
+import Application.entities.UserEntity;
 import Application.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,27 +13,32 @@ public class UserModel implements IUserModel {
     UserRepository userRepository;
 
     @Override
-    public List<UserItem> getAll() {
+    public List<UserEntity> getAll() {
         return userRepository.findAll();
     }
 
     @Override
-    public List<UserItem> getByFilter(HashMap<String, String> filter) {
+    public UserEntity getById(Integer userId) {
         return null;
     }
 
     @Override
-    public UserItem add(UserItem data) {
+    public List<UserEntity> getByFilter(HashMap<String, String> filter) {
         return null;
     }
 
     @Override
-    public UserItem updateUser(Integer userId, HashMap<String, String> data) {
+    public UserEntity add(UserEntity data) {
         return null;
     }
 
     @Override
-    public UserItem remomeUser(Integer userId) {
+    public UserEntity updateUser(Integer userId, HashMap<String, String> data) {
+        return null;
+    }
+
+    @Override
+    public UserEntity remomeUser(Integer userId) {
         return null;
     }
 

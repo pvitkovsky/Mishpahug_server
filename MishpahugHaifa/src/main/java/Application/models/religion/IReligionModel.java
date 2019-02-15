@@ -1,13 +1,14 @@
 package Application.models.religion;
 
-import Application.entities.ReligionItem;
+import Application.entities.ReligionEntity;
 
 import java.util.List;
 
 public interface IReligionModel {
-    public ReligionItem getById(Integer id);
-    public List<ReligionItem> getAll();
-    public ReligionItem add(ReligionItem data);
-    public ReligionItem update(String name);
-    public ReligionItem getByName(String name);
+    public ReligionEntity getById(Integer id);
+    public List<ReligionEntity> getAll();
+    public ReligionEntity add(ReligionEntity data);
+    public ReligionEntity update(String name);
+    public ReligionEntity getByName(String name);
+    public ReligionEntity remove(Integer id);
 }

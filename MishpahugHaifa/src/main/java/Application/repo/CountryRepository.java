@@ -1,8 +1,8 @@
 package Application.repo;
 
-import Application.entities.CountryItem;
+import Application.entities.CountryEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CountryRepository extends JpaRepository<CountryItem, Integer> {
-    public CountryItem getByName(String name);
+public interface CountryRepository extends JpaRepository<CountryEntity, Integer> {
+    public CountryEntity getByName(String name);
 }

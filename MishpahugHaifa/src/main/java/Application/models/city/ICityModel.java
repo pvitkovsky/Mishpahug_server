@@ -1,11 +1,14 @@
 package Application.models.city;
 
-import Application.entities.CityItem;
+import Application.entities.CityEntity;
+
+import java.util.List;
 
 public interface ICityModel {
-    public CityItem getById(Integer id);
-    public CityItem addCity(CityItem data);
-    public CityItem removeCity(Integer id);
-    public CityItem updateName(Integer id, String name);
-    public CityItem getByName(String name);
+    public CityEntity getById(Integer id);
+    public CityEntity add(CityEntity data);
+    public CityEntity remove(Integer id);
+    public CityEntity updateName(Integer id, String name);
+    public CityEntity getByName(String name);
+    public List<CityEntity> getByCountry(Integer countryId);
 }

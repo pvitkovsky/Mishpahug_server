@@ -12,10 +12,10 @@ import java.util.List;
 @Table(name="address")
 @Getter @Setter
 @ToString
-@AllArgsConstructor //do construction without userItem 
+@AllArgsConstructor //do construction without userEntity
 @NoArgsConstructor
-@EqualsAndHashCode(of = "userItem")
-public class AddressItem {
+@EqualsAndHashCode(of = "userEntity")
+public class AddressEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -25,13 +25,13 @@ public class AddressItem {
 
     @ManyToOne
     @JsonBackReference
-    private CityItem cityItem;
+    private CityEntity cityEntity;
 
     @OneToOne
     @JsonBackReference
-    private UserItem userItem;
+    private UserEntity userEntity;
 
     @OneToMany(mappedBy = "addressItem")
     @JsonManagedReference
-    private List<EventItem> eventItems = new ArrayList<>();
+    private List<EventEntity> eventEntities = new ArrayList<>();
 }

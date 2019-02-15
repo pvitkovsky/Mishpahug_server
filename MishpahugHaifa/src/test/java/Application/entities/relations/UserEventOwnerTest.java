@@ -62,7 +62,7 @@ public class UserEventOwnerTest {
 	}
 
 	/**
-	 * Checking that the UserItem persists his events automatically; Checking that
+	 * Checking that the UserEntity persists his events automatically; Checking that
 	 * toString works in the bidirectional relation;
 	 */
 	@Test
@@ -84,7 +84,7 @@ public class UserEventOwnerTest {
 	}
 
 	/**
-	 * Checking that the events are deleted after the UserItem
+	 * Checking that the events are deleted after the UserEntity
 	 */
 	@Test
 	public void onUserAndEventSaveDeleteUser() {
@@ -124,7 +124,7 @@ public class UserEventOwnerTest {
 
 	/**
 	 * This test demonstrates that UserItems allow us to add EventItems without
-	 * checking if two UserItems share the same EventItem;
+	 * checking if two UserItems share the same EventEntity;
 	 */
 	@Test
 	public void twoOwnersSameEvent() {

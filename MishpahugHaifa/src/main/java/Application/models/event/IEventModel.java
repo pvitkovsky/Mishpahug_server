@@ -1,17 +1,17 @@
 package Application.models.event;
 
-import Application.entities.EventItem;
-import Application.entities.UserItem;
+import Application.entities.EventEntity;
+import Application.entities.UserEntity;
 
 import java.util.List;
 import java.util.HashMap;
 
 public interface IEventModel {
-    public List<EventItem> getAll();
-    public List<EventItem> getAllByUser(Integer userId);
-    public List<EventItem> getWithFilter(HashMap<String, String> filter);
-    public EventItem addEvent(EventItem data);
-    public EventItem updateEvent(Integer eventId, HashMap<String, String> data);
-    public List<UserItem> getAllSubscribed(Integer eventId);
-    public EventItem removeEvent(Integer eventId);
+    public List<EventEntity> getAll();
+    public List<EventEntity> getAllByUser(Integer userId);
+    public List<EventEntity> getWithFilter(HashMap<String, String> filter);
+    public EventEntity addEvent(EventEntity data);
+    public EventEntity updateEvent(Integer eventId, HashMap<String, String> data);
+    public List<UserEntity> getAllSubscribed(Integer eventId);
+    public EventEntity removeEvent(Integer eventId);
 }

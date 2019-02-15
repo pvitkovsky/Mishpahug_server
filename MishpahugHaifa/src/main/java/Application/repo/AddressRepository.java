@@ -1,6 +1,6 @@
 package Application.repo;
 
-import Application.entities.AddressItem;
+import Application.entities.AddressEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface AddressRepository extends JpaRepository<AddressItem, Integer> {}
+public interface AddressRepository extends JpaRepository<AddressEntity, Integer> {}

@@ -11,9 +11,9 @@ import java.util.List;
 @Table(name="country")
 @Getter @Setter
 @NoArgsConstructor
-@EqualsAndHashCode(of = {"cityItems" , "userItems"})
+@EqualsAndHashCode(of = {"cityEntities" , "userEntities"})
 @ToString
-public class CountryItem {
+public class CountryEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,11 +22,11 @@ public class CountryItem {
 
     @OneToMany(mappedBy = "countryItem")
     @JsonManagedReference
-    private List<CityItem> cityItems = new ArrayList<>();
+    private List<CityEntity> cityEntities = new ArrayList<>();
 
     @OneToMany(mappedBy = "countryItem")
     @JsonManagedReference
-    private List<UserItem> userItems = new ArrayList<>();
+    private List<UserEntity> userEntities = new ArrayList<>();
 
 
 }

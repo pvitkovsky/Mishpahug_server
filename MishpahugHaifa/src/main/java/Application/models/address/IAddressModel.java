@@ -1,10 +1,12 @@
 package Application.models.address;
 
-import Application.entities.AddressItem;
+import Application.entities.AddressEntity;
 
 import java.util.HashMap;
 
 public interface IAddressModel {
-    public AddressItem getById(Integer Id);
-    public AddressItem update(HashMap<String, String> data);
+    public AddressEntity getById(Integer Id);
+    public AddressEntity update(HashMap<String, String> data);
+    public AddressEntity add(AddressEntity data);
+    public AddressEntity remove(Integer id);
 }

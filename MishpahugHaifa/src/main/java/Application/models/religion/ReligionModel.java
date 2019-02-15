@@ -1,6 +1,6 @@
 package Application.models.religion;
 
-import Application.entities.ReligionItem;
+import Application.entities.ReligionEntity;
 import Application.repo.ReligionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,27 +12,32 @@ public class ReligionModel implements IReligionModel {
     ReligionRepository religionRepository;
 
     @Override
-    public ReligionItem getById(Integer id) {
+    public ReligionEntity getById(Integer id) {
         return religionRepository.findById(id).orElse(null);
     }
 
     @Override
-    public List<ReligionItem> getAll() {
+    public List<ReligionEntity> getAll() {
         return religionRepository.findAll();
     }
 
     @Override
-    public ReligionItem add(ReligionItem data) {
+    public ReligionEntity add(ReligionEntity data) {
         return null;
     }
 
     @Override
-    public ReligionItem update(String name) {
+    public ReligionEntity update(String name) {
         return null;
     }
 
     @Override
-    public ReligionItem getByName(String name) {
+    public ReligionEntity getByName(String name) {
         return religionRepository.getByName(name);
+    }
+
+    @Override
+    public ReligionEntity remove(Integer id) {
+        return null;
     }
 }

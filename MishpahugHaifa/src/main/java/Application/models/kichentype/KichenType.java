@@ -1,6 +1,6 @@
 package Application.models.kichentype;
 
-import Application.entities.KichenTypeItem;
+import Application.entities.KichenTypeEntity;
 import Application.repo.KichenTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,22 +12,22 @@ public class KichenType implements IKichenTypeModel {
     KichenTypeRepository kichenTypeRepository;
 
     @Override
-    public KichenTypeItem getById(Integer id) {
+    public KichenTypeEntity getById(Integer id) {
         return kichenTypeRepository.getOne(id);
     }
 
     @Override
-    public List<KichenTypeItem> getAll() {
+    public List<KichenTypeEntity> getAll() {
         return kichenTypeRepository.findAll();
     }
 
     @Override
-    public KichenTypeItem add(KichenTypeItem data) {
+    public KichenTypeEntity add(KichenTypeEntity data) {
         return null;
     }
 
     @Override
-    public KichenTypeItem update(String name) {
+    public KichenTypeEntity update(String name) {
         return null;
     }
 }

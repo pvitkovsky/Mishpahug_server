@@ -1,12 +1,13 @@
 package Application.models.kichentype;
 
-import Application.entities.KichenTypeItem;
+import Application.entities.KichenTypeEntity;
 
 import java.util.List;
 
 public interface IKichenTypeModel {
-    public KichenTypeItem getById(Integer id);
-    public List<KichenTypeItem> getAll();
-    public KichenTypeItem add(KichenTypeItem data);
-    public KichenTypeItem update(String name);
+    public KichenTypeEntity getById(Integer id);
+    public List<KichenTypeEntity> getAll();
+    public KichenTypeEntity add(KichenTypeEntity data);
+    public KichenTypeEntity update(String name);
+
 }

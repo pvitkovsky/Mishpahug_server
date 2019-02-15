@@ -3,6 +3,7 @@ package Application.entities;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -21,7 +22,6 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import Application.entities.values.EventRatingValue;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,8 +34,8 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-@ToString(exclude = { "userItemsGuestsOfEvents", "feedBackItems" })
-public class EventItem {
+@ToString(exclude = { "userItemsGuestsOfEvents", "feedBackEntities" })
+public class EventEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,11 +43,13 @@ public class EventItem {
 	private LocalDate date;
 	private LocalTime time;
 	private String nameOfEvent;
-	private EventRatingValue rating;
+
+    @JsonManagedReference
+	private HashMap<Integer, FeedBackEntity> feedbacks;
 
 	@ManyToOne
 	@JsonManagedReference
-	private KichenTypeItem kichenTypeItem;
+	private KichenTypeEntity kichenTypeEntity;
 
 	@Enumerated(EnumType.STRING)
 	private EventStatus Status;
@@ -55,19 +57,19 @@ public class EventItem {
 	@ManyToOne 
 	@JoinColumn(nullable = false) //there must be an owner for every item; 
 	@JsonBackReference
-	private UserItem userItemOwner;
+	private UserEntity userEntityOwner;
 
 	@ManyToOne
 	@JsonBackReference
-	private AddressItem addressItem;
+	private AddressEntity addressEntity;
 
 	@ManyToMany
 	@JsonBackReference
-	private List<UserItem> userItemsGuestsOfEvents = new ArrayList<>();
+	private List<UserEntity> userItemsGuestsOfEvents = new ArrayList<>();
 
 	@OneToMany(mappedBy = "eventItem", cascade = CascadeType.ALL) // All feedBacks of event
 	@JsonManagedReference
-	private List<FeedBackItem> feedBackItems = new ArrayList<>();
+	private List<FeedBackEntity> feedBackEntities = new ArrayList<>();
 
 	public enum EventStatus {
 		CREATED, PENDING, COMPLETE, CANCELED

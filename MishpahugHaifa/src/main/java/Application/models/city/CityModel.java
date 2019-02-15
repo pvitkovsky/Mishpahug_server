@@ -1,8 +1,13 @@
 package Application.models.city;
 
 import Application.entities.CityItem;
+import Application.repo.CityRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class CityModel implements ICityModel {
+    @Autowired
+    CityRepository cityRepository;
+
     @Override
     public CityItem getById(Integer id) {
         return null;
@@ -21,5 +26,10 @@ public class CityModel implements ICityModel {
     @Override
     public CityItem updateName(Integer id, String name) {
         return null;
+    }
+
+    @Override
+    public CityItem getByName(String name) {
+        return cityRepository.getByName(name);
     }
 }

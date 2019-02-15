@@ -7,4 +7,5 @@ public interface ICityModel {
     public CityItem addCity(CityItem data);
     public CityItem removeCity(Integer id);
     public CityItem updateName(Integer id, String name);
+    public CityItem getByName(String name);
 }

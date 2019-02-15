@@ -4,4 +4,5 @@ import Application.entities.CountryItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CountryRepository extends JpaRepository<CountryItem, Integer> {
+    public CountryItem getByName(String name);
 }

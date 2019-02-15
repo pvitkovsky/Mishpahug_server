@@ -7,4 +7,5 @@ public interface ICountryModel {
     public CountryItem addCountry(CountryItem data);
     public CountryItem removeCountry(Integer id);
     public CountryItem updateName(Integer id, String name);
+    public CountryItem getByName(String name);
 }

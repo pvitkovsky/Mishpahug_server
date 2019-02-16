@@ -1,11 +1,14 @@
 package Application.entities.values;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.sql.Blob;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,8 +18,8 @@ public class PictureValue {
 
 	//TODO: Bidirectional  
 	//private UserEntity userItemOwner;
-	
-	private String data;
+	@Column(name = "data")
+	private Blob data;
     
 
 }

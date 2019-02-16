@@ -6,8 +6,8 @@ import Application.entities.values.PictureValue;
 
 public class PictureModel implements  IPictureModel{
     @Override
-    public void add(PictureValue data) {
-
+    public PictureValue add(PictureValue data) {
+        return null;
     }
 
     @Override
@@ -16,7 +16,7 @@ public class PictureModel implements  IPictureModel{
     }
 
     @Override
-    public void remove(Integer id) {
-
+    public PictureValue remove(Integer id) {
+        return null;
     }
 }

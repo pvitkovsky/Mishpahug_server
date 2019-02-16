@@ -40,8 +40,11 @@ public class EventEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+
 	private LocalDate date;
+
 	private LocalTime time;
+
 	private String nameOfEvent;
 
     @JsonManagedReference
@@ -54,20 +57,22 @@ public class EventEntity {
 	@Enumerated(EnumType.STRING)
 	private EventStatus Status;
 
-	@ManyToOne 
-	@JoinColumn(nullable = false) //there must be an owner for every item; 
+	@ManyToOne
+    //@JoinColumn(name="userowner", nullable=false) //there must be an owner for every item;
 	@JsonBackReference
 	private UserEntity userEntityOwner;
 
 	@ManyToOne
 	@JsonBackReference
+    //@JoinColumn(name="address", nullable=false)
 	private AddressEntity addressEntity;
 
 	@ManyToMany
 	@JsonBackReference
+    //@JoinColumn(name="guests", nullable=false)
 	private List<UserEntity> userItemsGuestsOfEvents = new ArrayList<>();
 
-	@OneToMany(mappedBy = "eventItem", cascade = CascadeType.ALL) // All feedBacks of event
+	@OneToMany(mappedBy = "eventEntity", cascade = CascadeType.ALL) // All feedBacks of event
 	@JsonManagedReference
 	private List<FeedBackEntity> feedBackEntities = new ArrayList<>();
 

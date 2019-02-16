@@ -5,22 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -47,46 +32,54 @@ public class UserEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+
+	@Column(name = "nickname")
 	private String nickname; // TODO: unique nickname;
+
+    @Column(name = "firstname")
 	private String firstName;
+
+	@Column(name = "lastname")
 	private String lastName;
+
+
 	@ElementCollection
 	@CollectionTable
 	private List<LogsDataValue> logs;
+
+	@Column(name = "phonenumber")
 	private String phoneNumber;
+
+	@Column(name = "email")
 	private String eMail;
+
 	@Enumerated(EnumType.STRING)
+    @Column(name = "role")
 	private UserRole role;
 
-	@ManyToOne // Country of user
-	@JsonBackReference
-	private CountryEntity countryEntity;
-
     @JsonManagedReference
+    @Column(name = "feedbacks")
 	private HashMap<Integer, FeedBackEntity> feedBacks;
 
-	@ManyToOne // City of user
-	@JsonBackReference
-	private CityEntity cityEntity;
-
-	@OneToOne(mappedBy = "userItem") // Address of user
+	@OneToOne(mappedBy = "userEntity") // Address of user
 	@JsonManagedReference
 	private AddressEntity addressEntity;
 
-	@OneToMany(mappedBy = "userItemOwner", cascade = CascadeType.ALL, fetch = FetchType.LAZY) // User owner of events
+	@OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY) // User owner of events
 	@Column(unique = true)
 	@JsonManagedReference
 	private Set<EventEntity> eventItemsOwner = new HashSet<>();
 
-	@ManyToMany(mappedBy = "userItemsGuestsOfEvents") // User a guest in events
+	@ManyToMany(mappedBy = "userEntity") // User a guest in events
 	@JsonManagedReference
 	private Set<EventEntity> eventItemsGuest = new HashSet<>();
 
 	@ElementCollection
 	@CollectionTable
+    @Column(name = "pictures")
 	private Set<PictureValue> pictureItems = new HashSet<>();
 
-	@OneToMany(mappedBy = "userItem", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private Set<FeedBackEntity> feedBackEntities = new HashSet<>();
 

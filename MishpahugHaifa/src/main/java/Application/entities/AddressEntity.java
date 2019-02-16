@@ -19,19 +19,26 @@ public class AddressEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(name = "build")
     private Integer build;
+
+    @Column(name = "apartment")
     private Integer apartment;
+
+    @Column(name = "street")
     private String street;
 
     @ManyToOne
     @JsonBackReference
+    //@JoinColumn(name="city", nullable=false)
     private CityEntity cityEntity;
 
-    @OneToOne
+    @OneToOne(mappedBy = "addressEntity")
     @JsonBackReference
     private UserEntity userEntity;
 
-    @OneToMany(mappedBy = "addressItem")
+    @OneToMany(mappedBy = "addressEntity")
     @JsonManagedReference
     private List<EventEntity> eventEntities = new ArrayList<>();
 }

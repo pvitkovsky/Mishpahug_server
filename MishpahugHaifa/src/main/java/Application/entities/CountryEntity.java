@@ -18,16 +18,13 @@ public class CountryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(name = "name" )
     private String name;
 
-    @OneToMany(mappedBy = "countryItem")
+    @OneToMany(mappedBy = "countryEntity")
     @JsonManagedReference
     private List<CityEntity> cityEntities = new ArrayList<>();
-
-    @OneToMany(mappedBy = "countryItem")
-    @JsonManagedReference
-    private List<UserEntity> userEntities = new ArrayList<>();
-
 
 }
 

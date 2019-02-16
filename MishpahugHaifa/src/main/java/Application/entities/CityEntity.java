@@ -19,20 +19,16 @@ public class CityEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String nameOfCity;
+
+    @Column(name = "name")
+    private String name;
 
     @ManyToOne                                  // Country of city
     @JsonBackReference
     private CountryEntity countryEntity;
 
-    @OneToMany(mappedBy = "cityItem")
+    @OneToMany(mappedBy = "cityEntity")
     @JsonManagedReference
     private List<AddressEntity> addressEntities = new ArrayList<>();
-
-
-    @OneToMany(mappedBy = "cityItem")       // Users in the city
-    @JsonManagedReference
-    private List<UserEntity> userEntities = new ArrayList<>();
-
 
 }

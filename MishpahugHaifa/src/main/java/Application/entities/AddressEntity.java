@@ -33,7 +33,7 @@ public class AddressEntity {
     @JsonBackReference
     private CityEntity cityEntity;
 
-    @OneToOne(mappedBy = "addressEntity")
+    @OneToOne//(mappedBy = "addressEntity")
     @JsonBackReference
     private UserEntity userEntity;
 

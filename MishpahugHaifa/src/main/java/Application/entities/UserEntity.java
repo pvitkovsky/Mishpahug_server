@@ -65,12 +65,12 @@ public class UserEntity {
 	@JsonManagedReference
 	private AddressEntity addressEntity;
 
-	@OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY) // User owner of events
+	@OneToMany(mappedBy = "userEntityOwner", cascade = CascadeType.ALL, fetch = FetchType.LAZY) // User owner of events
 	@Column(unique = true)
 	@JsonManagedReference
 	private Set<EventEntity> eventItemsOwner = new HashSet<>();
 
-	@ManyToMany(mappedBy = "userEntity") // User a guest in events
+	@ManyToMany(mappedBy = "userItemsGuestsOfEvents") // User a guest in events
 	@JsonManagedReference
 	private Set<EventEntity> eventItemsGuest = new HashSet<>();
 
@@ -79,7 +79,7 @@ public class UserEntity {
     @Column(name = "pictures")
 	private Set<PictureValue> pictureItems = new HashSet<>();
 
-	@OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "userItem", cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private Set<FeedBackEntity> feedBackEntities = new HashSet<>();
 

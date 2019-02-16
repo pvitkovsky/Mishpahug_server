@@ -31,7 +31,6 @@ public class AddressEntity {
 
     @ManyToOne
     @JsonBackReference
-    //@JoinColumn(name="city", nullable=false)
     private CityEntity cityEntity;
 
     @OneToOne(mappedBy = "addressEntity")

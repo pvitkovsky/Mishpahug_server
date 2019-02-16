@@ -58,18 +58,15 @@ public class EventEntity {
 	private EventStatus Status;
 
 	@ManyToOne
-    //@JoinColumn(name="userowner", nullable=false) //there must be an owner for every item;
 	@JsonBackReference
 	private UserEntity userEntityOwner;
 
 	@ManyToOne
 	@JsonBackReference
-    //@JoinColumn(name="address", nullable=false)
 	private AddressEntity addressEntity;
 
 	@ManyToMany
 	@JsonBackReference
-    //@JoinColumn(name="guests", nullable=false)
 	private List<UserEntity> userItemsGuestsOfEvents = new ArrayList<>();
 
 	@OneToMany(mappedBy = "eventEntity", cascade = CascadeType.ALL) // All feedBacks of event

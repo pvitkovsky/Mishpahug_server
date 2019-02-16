@@ -2,8 +2,10 @@ package Application.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -12,31 +14,30 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class FeedBackEntity {
+public class FeedBackEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-
+    @Column(length=255)
+    @NotNull
     private String comment;
-
 
     private LocalDateTime dateTime;
 
-
+    @Range(min = 1, max = 5)
     private Integer rating;
 
     @ManyToOne
     @JsonBackReference
-    //@JoinColumn(name="user", nullable=false)
-    private UserEntity userEntity;
+    private UserEntity userItem;
 
     @ManyToOne
     @JsonBackReference
-    //@JoinColumn(name="event", nullable=false)
-    private EventEntity eventEntity;
+    private EventEntity eventItem;
 
 
 
 }
+

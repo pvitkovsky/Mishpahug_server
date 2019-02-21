@@ -7,5 +7,5 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
-    public List<UserEntity> searchByFilter(HashMap<String, String> filter);
+    //public List<UserEntity> searchByFilter(HashMap<String, String> filter);
 }

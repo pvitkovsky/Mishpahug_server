@@ -15,7 +15,6 @@
 	</parent>
 	<build>
 		<sourceDirectory>/src/main/java</sourceDirectory>
-		<testSourceDirectory>/src/test/java</testSourceDirectory>
 
 		<plugins>
 			<plugin>
@@ -131,7 +130,6 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.4</version>
 		</dependency>
 
 		<!-- SCOPE:RUNTIME -->

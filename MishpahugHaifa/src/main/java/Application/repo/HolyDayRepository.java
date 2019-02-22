@@ -2,5 +2,13 @@ package Application.repo;
 
 import Application.entities.HoliDayEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
-public interface HolyDayRepository extends JpaRepository<HoliDayEntity, Integer>{}
+import java.util.List;
+
+public interface HolyDayRepository extends JpaRepository<HoliDayEntity, Integer>{
+    @Query("SELECT hd from HoliDayEntity hd WHERE hd.name like '%:name%'")
+    public List<HoliDayEntity> getByName(String name);
+    @Query("SELECT hd from HoliDayEntity hd WHERE hd.name = :name")
+    public List<HoliDayEntity> getByFullName(String name);
+}

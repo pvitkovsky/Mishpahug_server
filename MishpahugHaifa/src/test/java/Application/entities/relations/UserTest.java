@@ -2,8 +2,6 @@ package Application.entities;
 
 import static org.junit.Assert.assertTrue;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import org.junit.Before;
 import org.junit.Test;

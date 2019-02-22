@@ -32,12 +32,17 @@ public class ReligionModel implements IReligionModel {
     }
 
     @Override
-    public ReligionEntity getByName(String name) {
-        return religionRepository.getByName(name);
+    public ReligionEntity getByFullName(String name) {
+        return religionRepository.getByFullName(name);
     }
 
     @Override
     public ReligionEntity remove(Integer id) {
         return null;
+    }
+
+    @Override
+    public List<ReligionEntity> getByName(String name) {
+        return religionRepository.getByName(name);
     }
 }

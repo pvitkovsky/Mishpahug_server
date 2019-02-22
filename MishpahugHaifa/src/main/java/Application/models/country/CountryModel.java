@@ -31,7 +31,12 @@ public class CountryModel implements ICountryModel {
     }
 
     @Override
-    public CountryEntity getByName(String name) {
+    public CountryEntity getByFullName(String name) {
+        return countryRepository.getByFullName(name);
+    }
+
+    @Override
+    public List<CountryEntity> getByName(String name) {
         return countryRepository.getByName(name);
     }
 

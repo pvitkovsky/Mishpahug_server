@@ -9,6 +9,7 @@ public interface ICityModel {
     public CityEntity add(CityEntity data);
     public CityEntity remove(Integer id);
     public CityEntity updateName(Integer id, String name);
-    public CityEntity getByName(String name);
+    public CityEntity getByFullName(String name);
     public List<CityEntity> getByCountry(Integer countryId);
+    public List<CityEntity> getByName(String name);
 }

@@ -9,6 +9,7 @@ public interface ICountryModel {
     public CountryEntity addCountry(CountryEntity data);
     public CountryEntity removeCountry(Integer id);
     public CountryEntity updateName(Integer id, String name);
-    public CountryEntity getByName(String name);
+    public CountryEntity getByFullName(String name);
     public List<CountryEntity> getAll();
+    public List<CountryEntity> getByName(String name);
 }

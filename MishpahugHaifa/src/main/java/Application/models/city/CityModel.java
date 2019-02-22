@@ -31,12 +31,17 @@ public class CityModel implements ICityModel {
     }
 
     @Override
-    public CityEntity getByName(String name) {
-        return cityRepository.getByName(name);
+    public CityEntity getByFullName(String name) {
+        return cityRepository.getByFullName(name);
     }
 
     @Override
     public List<CityEntity> getByCountry(Integer countryId) {
         return null;
+    }
+
+    @Override
+    public List<CityEntity> getByName(String name) {
+        return cityRepository.getByName(name);
     }
 }

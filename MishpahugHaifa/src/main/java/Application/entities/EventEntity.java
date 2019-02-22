@@ -22,10 +22,6 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 @Entity
@@ -53,7 +49,7 @@ public class EventEntity {
 	private KichenTypeEntity kichenTypeEntity;
 
 	@Enumerated(EnumType.STRING)
-	private EventStatus Status;
+	private EventStatus status;
 
 	@ManyToOne
 	@JsonBackReference
@@ -124,11 +120,11 @@ public class EventEntity {
 	}
 
 	public EventStatus getStatus() {
-		return Status;
+		return status;
 	}
 
 	public void setStatus(EventStatus status) {
-		Status = status;
+		this.status = status;
 	}
 
 	public UserEntity getUserEntityOwner() {
@@ -172,7 +168,7 @@ public class EventEntity {
 		this.nameOfEvent = nameOfEvent;
 		this.feedbacks = feedbacks;
 		this.kichenTypeEntity = kichenTypeEntity;
-		Status = status;
+		this.status = status;
 		this.userEntityOwner = userEntityOwner;
 		this.addressEntity = addressEntity;
 		this.userItemsGuestsOfEvents = userItemsGuestsOfEvents;
@@ -190,7 +186,7 @@ public class EventEntity {
 				nameOfEvent.equals(that.nameOfEvent) &&
 				feedbacks.equals(that.feedbacks) &&
 				kichenTypeEntity.equals(that.kichenTypeEntity) &&
-				Status == that.Status &&
+				status == that.status &&
 				userEntityOwner.equals(that.userEntityOwner) &&
 				addressEntity.equals(that.addressEntity) &&
 				userItemsGuestsOfEvents.equals(that.userItemsGuestsOfEvents) &&
@@ -199,6 +195,6 @@ public class EventEntity {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, date, time, nameOfEvent, feedbacks, kichenTypeEntity, Status, userEntityOwner, addressEntity, userItemsGuestsOfEvents, feedBackEntities);
+		return Objects.hash(id, date, time, nameOfEvent, feedbacks, kichenTypeEntity, status, userEntityOwner, addressEntity, userItemsGuestsOfEvents, feedBackEntities);
 	}
 }

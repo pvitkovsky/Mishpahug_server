@@ -16,8 +16,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import Application.entities.EventItem;
-import Application.entities.UserItem;
+import Application.entities.EventEntity;
+import Application.entities.UserEntity;
 import Application.repo.EventRepository;
 import Application.repo.UserRepository;
 
@@ -32,9 +32,9 @@ import Application.repo.UserRepository;
 @Transactional
 public class UserEventOwnerTest {
 
-	private final UserItem ALYSSA = new UserItem();
-	private final UserItem BEN = new UserItem();
-	private final EventItem TESTING = new EventItem();
+	private final UserEntity ALYSSA = new UserEntity();
+	private final UserEntity BEN = new UserEntity();
+	private final EventEntity TESTING = new EventEntity();
 
 	@PersistenceContext // https://www.javabullets.com/access-entitymanager-spring-data-jpa/
 	private EntityManager em;
@@ -49,16 +49,6 @@ public class UserEventOwnerTest {
 	public void buildEntities() {
 		ALYSSA.setFirstName("Alyssa");
 		BEN.setFirstName("Ben");
-		TESTING.setUserItemOwner(ALYSSA);
-
-	}
-
-	/**
-	 * We need to update a set on the owner's side with bidirectional relations;
-	 */
-	@Before
-	public void buildManualItem() {
-		ALYSSA.getEventItemsOwner().add(TESTING);
 	}
 
 	/**
@@ -68,17 +58,19 @@ public class UserEventOwnerTest {
 	@Test
 	public void onUserSaveReadEvent() {
 
+		ALYSSA.addEvent(TESTING);
 		userRepo.save(ALYSSA);
-		assertTrue(em.find(UserItem.class, ALYSSA.getId()) != null);
+		eventRepo.save(TESTING);
+		assertTrue(em.find(UserEntity.class, ALYSSA.getId()) != null);
 
-		UserItem savedA = userRepo.findById(ALYSSA.getId()).get();
-		EventItem savedE = eventRepo.findAll().get(0);
+		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
+		EventEntity savedE = eventRepo.findAll().get(0);
 
-		UserItem savedAfromEvent = savedE.getUserItemOwner();
+		UserEntity savedAfromEvent = savedE.getUserEntityOwner();
 		assertTrue(savedAfromEvent.equals(ALYSSA));
 		System.out.println(savedAfromEvent);
 
-		savedE = savedA.getEventItemsOwner().iterator().next();
+		savedE = savedA.getEventEntityOwner().iterator().next();
 		assertTrue(savedE.equals(TESTING));
 		System.out.println(savedE);
 	}
@@ -89,7 +81,9 @@ public class UserEventOwnerTest {
 	@Test
 	public void onUserAndEventSaveDeleteUser() {
 
+		ALYSSA.addEvent(TESTING);
 		userRepo.save(ALYSSA);
+		eventRepo.save(TESTING);
 		assertTrue(eventRepo.existsById(TESTING.getId()));
 
 		userRepo.delete(ALYSSA);
@@ -99,44 +93,83 @@ public class UserEventOwnerTest {
 
 	/**
 	 * Changing the owner of the event and testing the results; Testing
-	 * UserItems.equals();
+	 * UserEntitys.equals();
 	 */
 	@Test
 	public void onUserSaveChangeEvent() {
 
+		ALYSSA.addEvent(TESTING);
 		userRepo.save(ALYSSA);
+		eventRepo.save(TESTING);
 
-		EventItem savedE = userRepo.findById(ALYSSA.getId()).get().getEventItemsOwner().iterator().next();
-		savedE.setUserItemOwner(BEN);
-		ALYSSA.getEventItemsOwner().remove(savedE);
-		BEN.getEventItemsOwner().add(savedE);
+		EventEntity savedE = userRepo.findById(ALYSSA.getId()).get().getEventEntityOwner().iterator().next();
+		assertTrue(TESTING.equals(savedE));
 
+		System.out.println("Transfer " + ALYSSA.transferEvent(savedE, BEN));
+		BEN.addEvent(savedE);
+
+		userRepo.save(ALYSSA);
 		userRepo.save(BEN);
+		eventRepo.save(TESTING);
 
-		UserItem savedA = userRepo.findById(ALYSSA.getId()).get();
-		UserItem savedB = userRepo.findById(BEN.getId()).get();
-		assertFalse(savedA.getEventItemsOwner().contains(TESTING));
-		assertTrue(savedB.getEventItemsOwner().contains(TESTING));
+		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
+		UserEntity savedB = userRepo.findById(BEN.getId()).get();
+		assertFalse(savedA.getEventEntityOwner().contains(TESTING));
+		assertTrue(savedB.getEventEntityOwner().contains(TESTING));
 		assertTrue(eventRepo.existsById(TESTING.getId()));
-		assertEquals(eventRepo.findById(TESTING.getId()).get().getUserItemOwner(), BEN);
+		assertEquals(eventRepo.findById(TESTING.getId()).get().getUserEntityOwner(), BEN);
 
 	}
 
 	/**
-	 * This test demonstrates that UserItems allow us to add EventItems without
-	 * checking if two UserItems share the same EventEntity;
+	 * This test demonstrates that UserEntitys allow us to add EventEntitys without
+	 * checking if two UserEntitys share the same EventEntity;
 	 */
 	@Test
 	public void twoOwnersSameEvent() {
 
+		ALYSSA.addEvent(TESTING);
 		userRepo.save(ALYSSA);
-		BEN.getEventItemsOwner().add(TESTING);
+		eventRepo.save(TESTING);
+
+		ALYSSA.transferEvent(TESTING, BEN);
+		BEN.addEvent(TESTING);
+
+		userRepo.save(ALYSSA);
 		userRepo.save(BEN);
+		eventRepo.save(TESTING);
 
-		UserItem savedA = userRepo.findById(ALYSSA.getId()).get();
-		UserItem savedB = userRepo.findById(BEN.getId()).get();
+		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
+		UserEntity savedB = userRepo.findById(BEN.getId()).get();
 
-		assertTrue(savedA.getEventItemsOwner().size() == savedB.getEventItemsOwner().size());
+		assertTrue(savedA.getEventEntityOwner().size() == 0);
+		assertTrue(savedB.getEventEntityOwner().size() == 1);
+
+	}
+
+	@Test
+	public void saveEventReadItInUserList() {
+
+		ALYSSA.addEvent(TESTING);
+		userRepo.save(ALYSSA);
+		eventRepo.save(TESTING);
+
+		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
+		assertTrue(savedA.getEventEntityOwner().size() == 1);
+
+	}
+	
+
+	@Test
+	public void saveDuplicateEvent() {
+
+		ALYSSA.addEvent(TESTING);
+		ALYSSA.addEvent(TESTING);
+		userRepo.save(ALYSSA);
+		eventRepo.save(TESTING);
+
+		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
+		assertTrue(savedA.getEventEntityOwner().size() == 1);
 
 	}
 

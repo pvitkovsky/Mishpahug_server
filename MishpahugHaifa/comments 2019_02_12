@@ -1,3 +1,0 @@
-1) UserRating has no back reference
-2) Feedback is tridirectional (?)
-3) Fails to load with 2 more value types; 

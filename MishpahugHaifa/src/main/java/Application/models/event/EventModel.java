@@ -15,7 +15,7 @@ public class EventModel implements IEventModel{
 
     @Override
     public List<EventEntity> getAll() {
-        return null;
+        return eventRepository.findAll();
     }
 
     @Override
@@ -25,12 +25,12 @@ public class EventModel implements IEventModel{
 
     @Override
     public List<EventEntity> getWithFilter(HashMap<String, String> filter) {
-        return null;
+        return eventRepository.searchByFilter(filter);
     }
 
     @Override
     public EventEntity addEvent(EventEntity data) {
-        return null;
+        return eventRepository.save(data);
     }
 
     @Override
@@ -40,11 +40,13 @@ public class EventModel implements IEventModel{
 
     @Override
     public List<UserEntity> getAllSubscribed(Integer eventId) {
-        return null;
+        return eventRepository.getOne(eventId).getUserItemsGuestsOfEvents();
     }
 
     @Override
     public EventEntity removeEvent(Integer eventId) {
-        return null;
+        EventEntity eventEntity = eventRepository.getOne(eventId);
+        eventRepository.deleteById(eventId);
+        return eventEntity;
     }
 }

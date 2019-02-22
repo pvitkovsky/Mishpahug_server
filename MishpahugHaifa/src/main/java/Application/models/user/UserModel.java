@@ -19,17 +19,17 @@ public class UserModel implements IUserModel {
 
     @Override
     public UserEntity getById(Integer userId) {
-        return null;
+        return userRepository.getOne(userId);
     }
 
     @Override
     public List<UserEntity> getByFilter(HashMap<String, String> filter) {
-        return null;
+        return userRepository.searchByFilter(filter);
     }
 
     @Override
     public UserEntity add(UserEntity data) {
-        return null;
+        return userRepository.save(data);
     }
 
     @Override
@@ -39,7 +39,9 @@ public class UserModel implements IUserModel {
 
     @Override
     public UserEntity remomeUser(Integer userId) {
-        return null;
+        UserEntity usr = userRepository.getOne(userId);
+        userRepository.deleteById(userId);
+        return usr;
     }
 
 }

@@ -27,7 +27,7 @@ import Application.repo.EventRepository;
 @Transactional
 public class EventTest {
 
-	private static final EventItem TESTING = new EventItem();
+	private static final EventEntity TESTING = new EventEntity();
 	
 	@Autowired
 	EventRepository eventRepo;
@@ -53,12 +53,12 @@ public class EventTest {
 	@Test
 	public void addEvent() {
 		
-		EventItem createdEvent = TESTING;
+		EventEntity createdEvent = TESTING;
 
 		eventRepo.save(createdEvent);
 		eventRepo.flush();
 
-		EventItem persistedEvent = eventRepo.findById(createdEvent.getId()).get();
+		EventEntity persistedEvent = eventRepo.findById(createdEvent.getId()).get();
 		System.out.println(persistedEvent);
 		assertTrue(persistedEvent.equals(createdEvent));
 	}

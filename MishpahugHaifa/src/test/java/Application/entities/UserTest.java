@@ -27,7 +27,7 @@ import Application.repo.UserRepository;
 @Transactional
 public class UserTest {
 
-	private static final UserItem ALYSSA = new UserItem();
+	private static final UserEntity ALYSSA = new UserEntity();
 	
 	@Autowired
 	UserRepository userRepo;
@@ -49,12 +49,12 @@ public class UserTest {
 	 */
 	@Test
 	public void addUser() {
-		UserItem createdUser = ALYSSA;
+		UserEntity createdUser = ALYSSA;
 		
 		userRepo.save(createdUser);
 		userRepo.flush();
 
-		UserItem persistedUser = userRepo.findById(createdUser.getId()).get();
+		UserEntity persistedUser = userRepo.findById(createdUser.getId()).get();
 
 		assertTrue(persistedUser.equals(createdUser));
 	}

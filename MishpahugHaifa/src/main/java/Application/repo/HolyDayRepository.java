@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface HolyDayRepository extends JpaRepository<HoliDayEntity, Integer>, HoliDayRepositoryCustom {
+public interface HolyDayRepository extends JpaRepository<HoliDayEntity, Integer>/*, HoliDayRepositoryCustom*/ {
     @Query("SELECT hd from HoliDayEntity hd WHERE hd.name like '%:name%'")
     public List<HoliDayEntity> getByName(String name);
     @Query("SELECT hd from HoliDayEntity hd WHERE hd.name = :name")

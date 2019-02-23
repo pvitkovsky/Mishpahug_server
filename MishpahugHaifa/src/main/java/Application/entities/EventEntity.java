@@ -5,7 +5,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -22,12 +21,13 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @Entity
 @Table(name = "eventlist")
 //@Getter @Setter @NoArgsConstructor
-//@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = {"date", "time", "nameOfEvent"}) // business key; 
 @ToString(exclude = { "userItemsGuestsOfEvents", "feedBackEntities" })
 public class EventEntity {
 
@@ -200,38 +200,16 @@ public class EventEntity {
 	public EventEntity() {
 	}
 
-
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		EventEntity that = (EventEntity) o;
-		return id.equals(that.id) &&
-				date.equals(that.date) &&
-				time.equals(that.time) &&
-				nameOfEvent.equals(that.nameOfEvent) &&
-				feedbacks.equals(that.feedbacks) &&
-				kichenTypeEntity.equals(that.kichenTypeEntity) &&
-				status == that.status &&
-				userEntityOwner.equals(that.userEntityOwner) &&
-				addressEntity.equals(that.addressEntity) &&
-				userItemsGuestsOfEvents.equals(that.userItemsGuestsOfEvents) &&
-				feedBackEntities.equals(that.feedBackEntities);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id,
-							date,
-							time,
-							nameOfEvent,
-							feedbacks,
-							kichenTypeEntity,
-							status,
-							userEntityOwner,
-							addressEntity,
-							userItemsGuestsOfEvents,
-							feedBackEntities);
-	}
+	public EventEntity(LocalDate date, LocalTime time, String nameOfEvent, HashMap<Integer, FeedBackEntity> feedbacks, KichenTypeEntity kichenTypeEntity, EventStatus status, UserEntity userEntityOwner, AddressEntity addressEntity, List<UserEntity> userItemsGuestsOfEvents, List<FeedBackEntity> feedBackEntities) {
+		this.date = date;
+		this.time = time;
+		this.nameOfEvent = nameOfEvent;
+		this.feedbacks = feedbacks;
+		this.kichenTypeEntity = kichenTypeEntity;
+		this.status = status;
+		this.userEntityOwner = userEntityOwner;
+		this.addressEntity = addressEntity;
+		this.userItemsGuestsOfEvents = userItemsGuestsOfEvents;
+		this.feedBackEntities = feedBackEntities;
+	}	
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -28,6 +29,7 @@ public class AddressEntity {
     private Integer apartment;
 
     @Column(name = "street")
+    @Size(min = 4, max = 32, message = "maximum 32 symbols")
     private String street;
 
     @ManyToOne

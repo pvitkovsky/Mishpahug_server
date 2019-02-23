@@ -48,6 +48,44 @@ public class EventEntity {
 	@JsonManagedReference
 	private KichenTypeEntity kichenTypeEntity;
 
+
+	@ManyToOne
+	@JsonManagedReference
+	private HoliDayEntity holiDayEntity;
+
+	public EventEntity(LocalDate date,
+					   LocalTime time,
+					   String nameOfEvent,
+					   HashMap<Integer,
+							   FeedBackEntity> feedbacks,
+					   KichenTypeEntity kichenTypeEntity,
+					   HoliDayEntity holiDayEntity,
+					   EventStatus status,
+					   UserEntity userEntityOwner,
+					   AddressEntity addressEntity,
+					   List<UserEntity> userItemsGuestsOfEvents,
+					   List<FeedBackEntity> feedBackEntities) {
+		this.date = date;
+		this.time = time;
+		this.nameOfEvent = nameOfEvent;
+		this.feedbacks = feedbacks;
+		this.kichenTypeEntity = kichenTypeEntity;
+		this.holiDayEntity = holiDayEntity;
+		this.status = status;
+		this.userEntityOwner = userEntityOwner;
+		this.addressEntity = addressEntity;
+		this.userItemsGuestsOfEvents = userItemsGuestsOfEvents;
+		this.feedBackEntities = feedBackEntities;
+	}
+
+	public HoliDayEntity getHoliDayEntity() {
+		return holiDayEntity;
+	}
+
+	public void setHoliDayEntity(HoliDayEntity holiDayEntity) {
+		this.holiDayEntity = holiDayEntity;
+	}
+
 	@Enumerated(EnumType.STRING)
 	private EventStatus status;
 

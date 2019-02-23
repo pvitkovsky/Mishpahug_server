@@ -23,11 +23,13 @@ public class KichenType implements IKichenTypeModel {
 
     @Override
     public KichenTypeEntity add(KichenTypeEntity data) {
-        return null;
+        return kichenTypeRepository.save(data);
     }
 
     @Override
-    public KichenTypeEntity update(String name) {
-        return null;
+    public KichenTypeEntity update(Integer id, String name) {
+        KichenTypeEntity temp = kichenTypeRepository.getOne(id);
+        temp.setName(name);
+        return kichenTypeRepository.save(temp);
     }
 }

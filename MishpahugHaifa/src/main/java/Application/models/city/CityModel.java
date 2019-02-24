@@ -3,9 +3,10 @@ package Application.models.city;
 import Application.entities.CityEntity;
 import Application.repo.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class CityModel implements ICityModel {
     @Autowired
     CityRepository cityRepository;

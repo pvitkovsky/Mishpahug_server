@@ -4,10 +4,11 @@ import Application.entities.EventEntity;
 import Application.entities.UserEntity;
 import Application.repo.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.HashMap;
-
+@Service
 public class EventModel implements IEventModel{
 
     @Autowired

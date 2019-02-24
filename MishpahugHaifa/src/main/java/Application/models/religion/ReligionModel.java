@@ -3,9 +3,10 @@ package Application.models.religion;
 import Application.entities.ReligionEntity;
 import Application.repo.ReligionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class ReligionModel implements IReligionModel {
 
     @Autowired

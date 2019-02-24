@@ -3,9 +3,10 @@ package Application.models.country;
 import Application.entities.CountryEntity;
 import Application.repo.CountryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class CountryModel implements ICountryModel {
     @Autowired
     CountryRepository countryRepository;

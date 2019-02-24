@@ -2,9 +2,10 @@ package Application.models.feedback;
 
 import Application.entities.FeedBackEntity;
 import Application.repo.FeedBackRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class FeedBackModel implements IFeedBackModel {
 
     FeedBackRepository freeBackRepository;

@@ -3,9 +3,10 @@ package Application.models.kichentype;
 import Application.entities.KichenTypeEntity;
 import Application.repo.KichenTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class KichenType implements IKichenTypeModel {
 
     @Autowired

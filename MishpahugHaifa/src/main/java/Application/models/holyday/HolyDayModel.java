@@ -3,9 +3,10 @@ package Application.models.holyday;
 import Application.entities.HoliDayEntity;
 import Application.repo.HolyDayRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class HolyDayModel implements IHolyDayModel {
 
     @Autowired

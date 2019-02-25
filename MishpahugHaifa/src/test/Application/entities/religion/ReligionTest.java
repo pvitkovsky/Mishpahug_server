@@ -64,8 +64,8 @@ public class ReligionTest {
     @Test
     public void remove(){
         Integer index = 4;
-        System.out.println(religionRepository.findAll().size());
+        System.out.println("Size of repository = " + religionRepository.findAll().size());
         religionRepository.deleteById(index);
-        System.out.println(religionRepository.findAll().size());
+        System.out.println("Size of repository = " + religionRepository.findAll().size());
     }
 }

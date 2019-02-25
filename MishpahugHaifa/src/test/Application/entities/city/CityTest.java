@@ -66,9 +66,9 @@ public class CityTest {
     @Test
     public void remove(){
         Integer index = 3;
-        System.out.println(cityRepository.findAll().size());
+        System.out.println("Size of repository = " + cityRepository.findAll().size());
         cityRepository.deleteById(index);
-        System.out.println(cityRepository.findAll().size());
+        System.out.println("Size of repository = " + cityRepository.findAll().size());
     }
 
     public void addCountry() {

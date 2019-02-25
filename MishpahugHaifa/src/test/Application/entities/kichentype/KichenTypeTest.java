@@ -63,8 +63,8 @@ public class KichenTypeTest {
     @Test
     public void remove(){
         Integer index = 4;
-        System.out.println(kichenTypeRepository.findAll().size());
+        System.out.println("Size of repository = " + kichenTypeRepository.findAll().size());
         kichenTypeRepository.deleteById(index);
-        System.out.println(kichenTypeRepository.findAll().size());
+        System.out.println("Size of repository = " + kichenTypeRepository.findAll().size());
     }
 }

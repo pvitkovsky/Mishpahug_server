@@ -12,7 +12,7 @@ import java.util.Objects;
 @Entity
 @Table(name="cities")
 //@Getter @Setter
-@ToString
+//@ToString
 //@NoArgsConstructor
 //@EqualsAndHashCode(of = "userEntities")
 public class CityEntity {
@@ -39,6 +39,15 @@ public class CityEntity {
     }
 
     public CityEntity() {
+    }
+
+    @Override
+    public String toString() {
+        return "CityEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", countryEntity=" + countryEntity +
+                '}';
     }
 
     public Integer getId() {

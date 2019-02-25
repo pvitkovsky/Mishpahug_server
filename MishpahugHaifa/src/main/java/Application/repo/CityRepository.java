@@ -10,7 +10,7 @@ import java.util.List;
 public interface CityRepository extends JpaRepository<CityEntity, Integer> {
         @Query("SELECT c from CityEntity c WHERE c.name = :name")
         public CityEntity getByFullName(String name);
-        @Query("SELECT c from CityEntity c WHERE c.name like '%:name%'")
+        @Query("SELECT c from CityEntity c WHERE c.name like %:name%")
         public List<CityEntity> getByName(String name);
 
 }

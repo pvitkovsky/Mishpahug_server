@@ -9,9 +9,10 @@ import java.util.HashMap;
 public interface IEventModel {
     public List<EventEntity> getAll();
     public List<EventEntity> getAllByUser(Integer userId);
-    public List<EventEntity> getWithFilter(HashMap<String, String> filter);
-    public EventEntity addEvent(EventEntity data);
-    public EventEntity updateEvent(Integer eventId, HashMap<String, String> data);
+    public List<EventEntity> getByFilter(HashMap<String, String> filter);
+    public EventEntity add(EventEntity data);
+    public EventEntity update(Integer eventId, HashMap<String, String> data);
     public List<UserEntity> getAllSubscribed(Integer eventId);
-    public EventEntity removeEvent(Integer eventId);
+    public EventEntity remove(Integer eventId);
+    public EventEntity getById(Integer id);
 }

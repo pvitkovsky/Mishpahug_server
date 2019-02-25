@@ -10,6 +10,6 @@ public interface IUserModel {
     public UserEntity getById(Integer userId);
     public List<UserEntity> getByFilter(HashMap<String, String> filter);
     public UserEntity add(UserEntity data);
-    public UserEntity updateUser(Integer userId, HashMap<String, String> data);
-    public UserEntity remomeUser(Integer userId);
+    public UserEntity update(Integer userId, HashMap<String, String> data);
+    public UserEntity remove(Integer userId);
 }

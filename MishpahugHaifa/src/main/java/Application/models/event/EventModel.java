@@ -25,17 +25,17 @@ public class EventModel implements IEventModel{
     }
 
     @Override
-    public List<EventEntity> getWithFilter(HashMap<String, String> filter) {
+    public List<EventEntity> getByFilter(HashMap<String, String> filter) {
         return eventRepository.searchByFilter(filter);
     }
 
     @Override
-    public EventEntity addEvent(EventEntity data) {
+    public EventEntity add(EventEntity data) {
         return eventRepository.save(data);
     }
 
     @Override
-    public EventEntity updateEvent(Integer eventId, HashMap<String, String> data) {
+    public EventEntity update(Integer eventId, HashMap<String, String> data) {
         return null;
     }
 
@@ -45,9 +45,14 @@ public class EventModel implements IEventModel{
     }
 
     @Override
-    public EventEntity removeEvent(Integer eventId) {
+    public EventEntity remove(Integer eventId) {
         EventEntity eventEntity = eventRepository.getOne(eventId);
         eventRepository.deleteById(eventId);
         return eventEntity;
+    }
+
+    @Override
+    public EventEntity getById(Integer id) {
+        return eventRepository.getOne(id);
     }
 }

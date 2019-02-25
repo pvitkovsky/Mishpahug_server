@@ -23,11 +23,11 @@ public class AdminCPUser {
     }
     @PostMapping(value = "/update")
     public UserEntity update(@RequestBody HashMap<String, String> data,@RequestParam(value = "id") Integer id){
-        return userModel.updateUser(id, data);
+        return userModel.update(id, data);
     }
     @DeleteMapping(value = "/remove")
     public UserEntity remove(@RequestParam(value = "id") Integer id){
-        return userModel.remomeUser(id);
+        return userModel.remove(id);
     }
     @GetMapping(value="/get")
     public UserEntity get(@RequestParam(value = "id") Integer id){

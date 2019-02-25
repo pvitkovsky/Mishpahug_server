@@ -34,12 +34,12 @@ public class UserModel implements IUserModel {
     }
 
     @Override
-    public UserEntity updateUser(Integer userId, HashMap<String, String> data) {
+    public UserEntity update(Integer userId, HashMap<String, String> data) {
         return null;
     }
 
     @Override
-    public UserEntity remomeUser(Integer userId) {
+    public UserEntity remove(Integer userId) {
         UserEntity usr = userRepository.getOne(userId);
         userRepository.deleteById(userId);
         return usr;

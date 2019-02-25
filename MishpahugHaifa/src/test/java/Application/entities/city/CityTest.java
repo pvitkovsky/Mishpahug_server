@@ -15,17 +15,15 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-
 import Application.entities.CityEntity;
 import Application.entities.CountryEntity;
 import Application.repo.CityRepository;
 import Application.repo.CountryRepository;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest
+@DataJpaTest(showSql = false) //
 @ActiveProfiles("test")
 @Transactional
 public class CityTest {
@@ -45,7 +43,7 @@ public class CityTest {
 		addCountry();
 		addCity();
 	}
-	
+
 	@After
 	public void unLoad() {
 		cityRepository.deleteAll();
@@ -54,27 +52,36 @@ public class CityTest {
 
 	@Test
 	public void checkSize() {
+		System.out.println("CHECKSIZE");
+		for(CityEntity ce : cityRepository.findAll()) {
+			System.out.println(ce);
+		}
 		assertTrue(cityRepository.findAll().size() == citiesCount);
 	}
 
-	@Test
-	public void findByName() {
-		for (int i = 0; i < dataForFindByNameTest.length; i++) {
-			testCity = cityRepository.getByName(dataForFindByNameTest[i]);
-			System.out.println(dataForFindByNameTest[i] + " included on " + testCity.size() + " records");
-		}
-	}
+//	@Test
+//	public void findByName() {
+//		for (int i = 0; i < dataForFindByNameTest.length; i++) {
+//			testCity = cityRepository.getByName(dataForFindByNameTest[i]);
+//			System.out.println(dataForFindByNameTest[i] + " included on " + testCity.size() + " records");
+//		}
+//	}
 
 	@Test
 	public void update() {
 
+		
 		final Integer indexToChange = 33;
 		final String changedName = "testtest";
 
 		assertTrue(cityRepository.findAll().size() == citiesCount);
+
+		System.out.println("UPDATE");
+		for(CityEntity ce : cityRepository.findAll()) {
+			System.out.println(ce);
+		}
 		
 		CityEntity cityEntity = cityRepository.getOne(indexToChange);
-		System.out.println(cityEntity.getName());
 		cityEntity.setName(changedName);
 		cityRepository.save(cityEntity);
 
@@ -83,6 +90,10 @@ public class CityTest {
 
 	@Test
 	public void remove() {
+		System.out.println("REMOVE");
+		for(CityEntity ce : cityRepository.findAll()) {
+			System.out.println(ce);
+		}
 		Integer index = 3;
 		cityRepository.deleteById(index);
 		assertTrue(cityRepository.findAll().size() == citiesCount - 1);
@@ -91,9 +102,7 @@ public class CityTest {
 	public void addCountry() {
 		countryEntity = new CountryEntity();
 		countryEntity.setName("Israel");
-		System.out.println(countryEntity);
 		countryRepository.save(countryEntity);
-		System.out.println(countryEntity);
 	}
 
 	public void addCity() {
@@ -113,7 +122,6 @@ public class CityTest {
 			empdtil.close();
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
-
 		}
 	}
 }

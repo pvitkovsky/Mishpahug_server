@@ -80,7 +80,6 @@ public class CityTest {
     }
 
     public void addCity() {
-        //FileReader fr= new FileReader("d:\\DropBox_Java\\Dropbox\\Mishpahug_server\\data.csv");
         String detail;
         try {
             BufferedReader empdtil = new BufferedReader(new FileReader("d:\\DropBox_Java\\Dropbox\\Mishpahug_server\\data.csv"));

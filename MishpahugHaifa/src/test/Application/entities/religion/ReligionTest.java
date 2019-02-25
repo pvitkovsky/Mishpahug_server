@@ -53,4 +53,19 @@ public class ReligionTest {
             System.out.println(dataForFindByNameTest[i] + " included on " + testReligion.size() + " records");
         }
     }
+    @Test
+    public void update(){
+        Integer index = 5;
+        religionEntity = religionRepository.getOne(index);
+        religionEntity.setName("testtest");
+        religionRepository.save(religionEntity);
+        System.out.println(religionRepository.findById(index));
+    }
+    @Test
+    public void remove(){
+        Integer index = 4;
+        System.out.println(religionRepository.findAll().size());
+        religionRepository.deleteById(index);
+        System.out.println(religionRepository.findAll().size());
+    }
 }

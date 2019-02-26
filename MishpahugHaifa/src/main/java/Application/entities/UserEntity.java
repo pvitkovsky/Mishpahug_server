@@ -3,7 +3,6 @@ package Application.entities;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -22,41 +21,39 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-
-import javax.persistence.*;
+import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import Application.entities.values.LogsDataValue;
 import Application.entities.values.PictureValue;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.ToString;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user", uniqueConstraints={
+	    @UniqueConstraint(columnNames = {"nickname"})
+	})
 //@Getter @Setter @AllArgsConstructor @NoArgsConstructor
 //@EqualsAndHashCode(of = "nickname") // business key; 
 @ToString(exclude = { "eventItemsOwner", "eventItemsGuest", "pictureItems", "feedBackEntities" })
+@AllArgsConstructor 
+@Builder	
 public class UserEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name = "nickname")
-	private String nickname; // TODO: unique nickname;
+	@Column(name = "nickname", nullable = false)
+	private String nickname; 
 
     @Column(name = "firstname")
 	private String firstName;
 
 	@Column(name = "lastname")
 	private String lastName;
-
-
-	@ElementCollection
-	@CollectionTable
-	private List<LogsDataValue> logs;
-
+	
 	@Column(name = "phonenumber")
 	private String phoneNumber;
 
@@ -127,14 +124,6 @@ public class UserEntity {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
-	}
-
-	public List<LogsDataValue> getLogs() {
-		return logs;
-	}
-
-	public void setLogs(List<LogsDataValue> logs) {
-		this.logs = logs;
 	}
 
 	public String getPhoneNumber() {
@@ -212,11 +201,10 @@ public class UserEntity {
 	public UserEntity() {
 	}
 
-	public UserEntity(String nickname, String firstName, String lastName, List<LogsDataValue> logs, String phoneNumber, String eMail, UserRole role, HashMap<Integer, FeedBackEntity> feedBacks, AddressEntity addressEntity, Set<EventEntity> eventItemsOwner, Set<EventEntity> eventItemsGuest, Set<PictureValue> pictureItems, Set<FeedBackEntity> feedBackEntities) {
+	public UserEntity(String nickname, String firstName, String lastName, String phoneNumber, String eMail, UserRole role, HashMap<Integer, FeedBackEntity> feedBacks, AddressEntity addressEntity, Set<EventEntity> eventItemsOwner, Set<EventEntity> eventItemsGuest, Set<PictureValue> pictureItems, Set<FeedBackEntity> feedBackEntities) {
 		this.nickname = nickname;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.logs = logs;
 		this.phoneNumber = phoneNumber;
 		this.eMail = eMail;
 		this.role = role;
@@ -237,7 +225,6 @@ public class UserEntity {
 				nickname.equals(that.nickname) &&
 				firstName.equals(that.firstName) &&
 				lastName.equals(that.lastName) &&
-				logs.equals(that.logs) &&
 				phoneNumber.equals(that.phoneNumber) &&
 				eMail.equals(that.eMail) &&
 				role == that.role &&
@@ -251,7 +238,7 @@ public class UserEntity {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, nickname, firstName, lastName, logs, phoneNumber, eMail, role, feedBacks, addressEntity, eventItemsOwner, eventItemsGuest, pictureItems, feedBackEntities);
+		return Objects.hash(id, nickname, firstName, lastName, phoneNumber, eMail, role, feedBacks, addressEntity, eventItemsOwner, eventItemsGuest, pictureItems, feedBackEntities);
 	}
 	
 

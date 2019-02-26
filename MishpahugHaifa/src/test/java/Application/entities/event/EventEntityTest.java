@@ -4,9 +4,6 @@ package Application.entities.event;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

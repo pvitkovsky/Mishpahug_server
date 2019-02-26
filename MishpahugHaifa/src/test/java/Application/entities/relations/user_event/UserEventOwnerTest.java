@@ -47,8 +47,8 @@ public class UserEventOwnerTest {
 
 	@Before
 	public void buildEntities() {
-		ALYSSA.setFirstName("Alyssa");
-		BEN.setFirstName("Ben");
+		ALYSSA.setNickname("Alyssa");
+		BEN.setNickname("Ben");
 	}
 
 	/**

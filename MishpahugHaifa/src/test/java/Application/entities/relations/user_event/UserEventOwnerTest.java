@@ -1,4 +1,4 @@
-package Application.entities.relations;
+package Application.entities.relations.user_event;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -132,8 +132,8 @@ public class UserEventOwnerTest {
 		userRepo.save(ALYSSA);
 		eventRepo.save(TESTING);
 
-		ALYSSA.transferEvent(TESTING, BEN);
-		BEN.addEvent(TESTING);
+		ALYSSA.transferEvent(TESTING, BEN); // ugly, this should be A.remove that clears owner; 
+		BEN.addEvent(TESTING); // should check  
 
 		userRepo.save(ALYSSA);
 		userRepo.save(BEN);

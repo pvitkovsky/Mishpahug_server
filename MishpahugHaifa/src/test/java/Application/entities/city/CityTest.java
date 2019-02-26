@@ -23,7 +23,7 @@ import Application.repo.CityRepository;
 import Application.repo.CountryRepository;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest(showSql = false) //
+@DataJpaTest(showSql = false) 
 @ActiveProfiles("test")
 @Transactional
 public class CityTest {
@@ -59,13 +59,13 @@ public class CityTest {
 		assertTrue(cityRepository.findAll().size() == citiesCount);
 	}
 
-//	@Test
-//	public void findByName() {
-//		for (int i = 0; i < dataForFindByNameTest.length; i++) {
-//			testCity = cityRepository.getByName(dataForFindByNameTest[i]);
-//			System.out.println(dataForFindByNameTest[i] + " included on " + testCity.size() + " records");
-//		}
-//	}
+	@Test
+	public void findByName() {
+		for (int i = 0; i < dataForFindByNameTest.length; i++) {
+			testCity = cityRepository.getByName(dataForFindByNameTest[i]);
+			System.out.println(dataForFindByNameTest[i] + " included on " + testCity.size() + " records");
+		}
+	}
 
 	@Test
 	public void update() {

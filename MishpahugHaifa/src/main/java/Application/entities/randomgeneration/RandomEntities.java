@@ -15,7 +15,7 @@ public class RandomEntities {
             {"Johnson", "Smith", "Lee", "Linn", "Fox", "Simpson", "Ford", "Piper", "Moor", "Philips"};
     
     public static String randomNickName() {
-    	return null;
+    	return FIRSTNAMES[random.nextInt(RandomEntities.FIRSTNAMES.length)];
     }
     
     public static String randomPhoneNumber() {

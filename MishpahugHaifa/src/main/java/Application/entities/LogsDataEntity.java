@@ -30,19 +30,19 @@ public class LogsDataEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id; 
 	
-	@Column(name = "usernickname")//Mandatory
+	@Column(name = "usernickname", nullable = false)
 	private String userNickName;
 	
-	@Column(name = "EventID") //Optional date-time-event_name; 
+	@Column(name = "EventID", nullable = true) 
 	private String eventDescription;
 	
-	@Column(name = "date")
+	@Column(name = "date", nullable = false)
 	private LocalDate date;
 
-	@Column(name = "time")
+	@Column(name = "time", nullable = false)
 	private LocalTime time;
 
-	@Column(name = "action")
+	@Column(name = "action", nullable = false)
 	private UserActions action;
 
 	@Column(name = "description")

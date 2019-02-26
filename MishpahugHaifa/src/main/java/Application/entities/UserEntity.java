@@ -45,8 +45,8 @@ public class UserEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name = "nickname")
-	private String nickname; // TODO: unique nickname;
+	@Column(name = "nickname", nullable = false)
+	private String nickname; 
 
     @Column(name = "firstname")
 	private String firstName;

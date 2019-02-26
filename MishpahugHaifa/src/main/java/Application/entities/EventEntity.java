@@ -215,4 +215,11 @@ public class EventEntity {
 		this.userItemsGuestsOfEvents = userItemsGuestsOfEvents;
 		this.feedBackEntities = feedBackEntities;
 	}	
+	
+	/*
+	 * TODO: consider embedded business key with its own methods; 
+	 */
+	public String toEventUniqueDescription() {
+		return this.nameOfEvent + " " + this.date.toString() + " " + this.time.toString();
+	}
 }

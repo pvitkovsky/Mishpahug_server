@@ -1,9 +1,8 @@
 
 package Application.entities.event;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -13,14 +12,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import Application.entities.EventEntity;
-import Application.entities.UserEntity;
 import Application.repo.EventRepository;
-import Application.repo.UserRepository;
 
 /**
  * Relation: OneToMany User is the primary entity. Event must have a user as its
@@ -33,21 +31,33 @@ import Application.repo.UserRepository;
 @Transactional
 public class EventEntityTest {
 
-	@PersistenceContext // https://www.javabullets.com/access-entitymanager-spring-data-jpa/
-	private EntityManager em;
+	private final EventEntity TESTING = new EventEntity();
+	private final EventEntity TESTINGDUPLICATE = new EventEntity();
+	private final LocalDate TDATE = LocalDate.of(2190, 1, 1);
+	private final LocalTime TTIME = LocalTime.of(23, 59);
+	private final String TNAME = "TESTING";
 
 	@Autowired
 	EventRepository eventRepo;
 
-
 	@Before
 	public void buildEntities() {
-	}
-	
-	@Test 
-	public void createDuplicateEvent() {
-		//TODO: can't create Event with the same business key; 
+		
+		TESTING.setDate(TDATE);
+		TESTING.setTime(TTIME);
+		TESTING.setNameOfEvent(TNAME);
+		TESTINGDUPLICATE.setDate(TDATE);
+		TESTINGDUPLICATE.setTime(TTIME);
+		TESTINGDUPLICATE.setNameOfEvent(TNAME);
+		/*
+		 * maybe builder in EventEntity for business key / clone method; 
+		 */
 	}
 
+	@Test(expected = DataIntegrityViolationException.class)
+	public void givenDuplicateEventsSaveAndGetException() {
+		eventRepo.save(TESTING);
+		eventRepo.save(TESTINGDUPLICATE);
+	}
 
 }

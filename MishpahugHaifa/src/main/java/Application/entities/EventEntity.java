@@ -17,6 +17,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -25,7 +26,9 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @Entity
-@Table(name = "eventlist")
+@Table(name = "eventlist", uniqueConstraints={
+	    @UniqueConstraint(columnNames = {"date", "time", "nameOfEvent"})
+	})	
 //@Getter @Setter @NoArgsConstructor
 @EqualsAndHashCode(of = {"date", "time", "nameOfEvent"}) // business key; 
 @ToString(exclude = { "userItemsGuestsOfEvents", "feedBackEntities" })

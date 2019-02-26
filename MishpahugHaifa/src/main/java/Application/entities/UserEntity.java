@@ -3,7 +3,6 @@ package Application.entities;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -22,6 +21,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -31,7 +31,9 @@ import lombok.Builder;
 import lombok.ToString;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user", uniqueConstraints={
+	    @UniqueConstraint(columnNames = {"nickname"})
+	})
 //@Getter @Setter @AllArgsConstructor @NoArgsConstructor
 //@EqualsAndHashCode(of = "nickname") // business key; 
 @ToString(exclude = { "eventItemsOwner", "eventItemsGuest", "pictureItems", "feedBackEntities" })

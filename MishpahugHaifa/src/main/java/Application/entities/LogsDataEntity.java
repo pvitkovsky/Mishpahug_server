@@ -33,7 +33,7 @@ public class LogsDataEntity {
 	@Column(name = "usernickname", nullable = false)
 	private String userNickName;
 	
-	@Column(name = "EventID", nullable = true) 
+	@Column(name = "eventdesc", nullable = true)
 	private String eventDescription;
 	
 	@Column(name = "date", nullable = false)

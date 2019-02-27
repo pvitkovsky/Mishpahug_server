@@ -71,7 +71,7 @@ public class CityTest {
 	public void update() {
 
 		
-		final Integer indexToChange = 33;
+		final String oldName = "";
 		final String changedName = "testtest";
 
 		assertTrue(cityRepository.findAll().size() == citiesCount);

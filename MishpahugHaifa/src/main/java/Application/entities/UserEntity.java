@@ -34,8 +34,6 @@ import lombok.ToString;
 @Table(name = "user", uniqueConstraints={
 	    @UniqueConstraint(columnNames = {"nickname"})
 	})
-//@Getter @Setter @AllArgsConstructor @NoArgsConstructor
-//@EqualsAndHashCode(of = "nickname") // business key; 
 @ToString(exclude = { "eventItemsOwner", "eventItemsGuest", "pictureItems", "feedBackEntities" })
 @AllArgsConstructor 
 @Builder	

@@ -81,11 +81,11 @@ public class CityTest {
 			System.out.println(ce);
 		}
 		
-		CityEntity cityEntity = cityRepository.getOne(indexToChange);
+		CityEntity cityEntity = cityRepository.getByFullName(oldName);
 		cityEntity.setName(changedName);
 		cityRepository.save(cityEntity);
 
-		assertTrue(cityRepository.getOne(indexToChange).getName().equals(changedName));
+		assertTrue(cityRepository.getByFullName(changedName).getName().equals(changedName));
 	}
 
 	@Test

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotEquals;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Random;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -35,10 +36,14 @@ public class LogsUserTest {
 
 	private final LogsDataEntity LOG_A = new LogsDataEntity();
 	private final LogsDataEntity LOG_B = new LogsDataEntity();
-	private final UserEntity RAN = RandomEntities.randomUserEntity();
+	private final UserEntity RANA = RandomEntities.randomUserEntity();
+	private final UserEntity RANB = RandomEntities.randomUserEntity();
 	private final EventEntity TESTING = new EventEntity();
-	private final LocalDate TDATE = LocalDate.of(2190, 1, 1);
-	private final LocalTime TTIME = LocalTime.of(23, 59);
+	private Random r = new Random();
+	private final LocalDate TDATEA = LocalDate.of(2000 + r.nextInt(1024)%30, r.nextInt(1024)%13, r.nextInt(1024)%31);
+	private final LocalTime TTIMEA = LocalTime.of(r.nextInt(1024)%24, r.nextInt(1024)%60);
+	private final LocalDate TDATEB = LocalDate.of(2000 + r.nextInt(1024)%30, r.nextInt(1024)%13, r.nextInt(1024)%31);
+	private final LocalTime TTIMEB = LocalTime.of(r.nextInt(1024)%24, r.nextInt(1024)%60);
 	private final String TNAME = "TESTING";
 
 	/*
@@ -54,23 +59,23 @@ public class LogsUserTest {
 	@Before
 	public void buildEntities() {
 
-		TESTING.setDate(TDATE);
-		TESTING.setTime(TTIME);
+		TESTING.setDate(TDATEA);
+		TESTING.setTime(TTIMEA);
 		TESTING.setNameOfEvent(TNAME);
 
-		LOG_A.setUserNickName(RAN.getNickname());
+		LOG_A.setUserNickName(RANA.getNickname());
 		LOG_A.setEventDescription(TESTING.toEventUniqueDescription());
-		LOG_A.setAction(UserActions.EVENT_STATUS_CHANGE);
-		LOG_A.setDate(TDATE);
-		LOG_A.setTime(TTIME);
-		LOG_A.setTime(TTIME);
+		LOG_A.setAction(UserActions.EVENT_EDITION);
+		LOG_A.setDate(TDATEA);
+		LOG_A.setTime(TTIMEA);
+		LOG_A.setTime(TTIMEA);
 
-		LOG_B.setUserNickName(RAN.getNickname());
+		LOG_B.setUserNickName(RANB.getNickname());
 		LOG_B.setEventDescription(TESTING.toEventUniqueDescription());
 		LOG_B.setAction(UserActions.EVENT_STATUS_CHANGE);
-		LOG_B.setDate(TDATE);
-		LOG_B.setTime(TTIME);
-		LOG_B.setTime(TTIME);
+		LOG_B.setDate(TDATEB);
+		LOG_B.setTime(TTIMEB);
+		LOG_B.setTime(TTIMEB);
 	}
 
 	@Test

@@ -1,10 +1,12 @@
 package Application.models.city;
 
 import Application.entities.CityEntity;
+import Application.entities.CountryEntity;
 import Application.repo.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 @Service
 public class CityModel implements ICityModel {
@@ -27,6 +29,11 @@ public class CityModel implements ICityModel {
     }
 
     @Override
+    public List<CityEntity> getAll() {
+        return cityRepository.findAll();
+    }
+
+    @Override
     public CityEntity updateName(Integer id, String name) {
         return null;
     }
@@ -44,5 +51,18 @@ public class CityModel implements ICityModel {
     @Override
     public List<CityEntity> getByName(String name) {
         return cityRepository.getByName(name);
+    }
+
+    @Override
+    public List<CityEntity> addFromList(List<String> data, CountryEntity countryEntity) {
+        List<CityEntity> result = new ArrayList<>();
+        for(String z:data){
+            CityEntity temp = new CityEntity();
+            temp.setName(z);
+            temp.setCountryEntity(countryEntity);
+            cityRepository.save(temp);
+            result.add(temp);
+        }
+        return result;
     }
 }

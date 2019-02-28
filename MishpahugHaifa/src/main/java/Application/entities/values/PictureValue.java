@@ -11,9 +11,9 @@ import lombok.Setter;
 import java.sql.Blob;
 import java.util.Objects;
 
-//@NoArgsConstructor
-//@AllArgsConstructor
-//@Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter @Setter
 @Embeddable
 public class PictureValue {
 
@@ -21,21 +21,6 @@ public class PictureValue {
 	//private UserEntity userItemOwner;
 	@Column(name = "data")
 	private Blob data;
-
-	public PictureValue(Blob data) {
-		this.data = data;
-	}
-
-	public PictureValue() {
-	}
-
-	public Blob getData() {
-		return data;
-	}
-
-	public void setData(Blob data) {
-		this.data = data;
-	}
 
 	@Override
 	public boolean equals(Object o) {

@@ -26,14 +26,15 @@ import javax.persistence.UniqueConstraint;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import Application.entities.values.PictureValue;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
 @Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = { "nickname" }) })
 @ToString(exclude = { "eventItemsOwner", "eventItemsGuest", "pictureItems", "feedBackEntities" })
 @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
 @Builder
 public class UserEntity {
 
@@ -89,145 +90,6 @@ public class UserEntity {
 		ADMIN, AUTHORISED, SUSPENDED,
 	}
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getNickname() {
-		return nickname;
-	}
-
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-
-	public String geteMail() {
-		return eMail;
-	}
-
-	public void seteMail(String eMail) {
-		this.eMail = eMail;
-	}
-
-	public UserRole getRole() {
-		return role;
-	}
-
-	public void setRole(UserRole role) {
-		this.role = role;
-	}
-
-	public HashMap<Integer, FeedBackEntity> getFeedBacks() {
-		return feedBacks;
-	}
-
-	public void setFeedBacks(HashMap<Integer, FeedBackEntity> feedBacks) {
-		this.feedBacks = feedBacks;
-	}
-
-	public AddressEntity getAddressEntity() {
-		return addressEntity;
-	}
-
-	public void setAddressEntity(AddressEntity addressEntity) {
-		this.addressEntity = addressEntity;
-	}
-
-	public Set<EventEntity> getEventItemsOwner() {
-		return eventItemsOwner;
-	}
-
-	public void setEventItemsOwner(Set<EventEntity> eventItemsOwner) {
-		this.eventItemsOwner = eventItemsOwner;
-	}
-
-	public Set<EventEntity> getEventItemsGuest() {
-		return eventItemsGuest;
-	}
-
-	public void setEventItemsGuest(Set<EventEntity> eventItemsGuest) {
-		this.eventItemsGuest = eventItemsGuest;
-	}
-
-	public Set<PictureValue> getPictureItems() {
-		return pictureItems;
-	}
-
-	public void setPictureItems(Set<PictureValue> pictureItems) {
-		this.pictureItems = pictureItems;
-	}
-
-	public Set<FeedBackEntity> getFeedBackEntities() {
-		return feedBackEntities;
-	}
-
-	public void setFeedBackEntities(Set<FeedBackEntity> feedBackEntities) {
-		this.feedBackEntities = feedBackEntities;
-	}
-
-	public UserEntity() {
-	}
-
-	public UserEntity(String nickname, String firstName, String lastName, String phoneNumber, String eMail,
-			UserRole role, HashMap<Integer, FeedBackEntity> feedBacks, AddressEntity addressEntity,
-			Set<EventEntity> eventItemsOwner, Set<EventEntity> eventItemsGuest, Set<PictureValue> pictureItems,
-			Set<FeedBackEntity> feedBackEntities) {
-		this.nickname = nickname;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.phoneNumber = phoneNumber;
-		this.eMail = eMail;
-		this.role = role;
-		this.feedBacks = feedBacks;
-		this.addressEntity = addressEntity;
-		this.eventItemsOwner = eventItemsOwner;
-		this.eventItemsGuest = eventItemsGuest;
-		this.pictureItems = pictureItems;
-		this.feedBackEntities = feedBackEntities;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
-		UserEntity that = (UserEntity) o;
-		return nickname.equals(that.nickname);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(this.nickname);
-	}
 
 	/**
 	 * Adds an event to the set of events owned by this user. Event must have this

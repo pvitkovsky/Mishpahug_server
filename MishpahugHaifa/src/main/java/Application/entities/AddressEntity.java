@@ -12,11 +12,11 @@ import java.util.Objects;
 
 @Entity
 @Table(name="address")
-//@Getter @Setter
+@Getter @Setter
 @ToString
-//@AllArgsConstructor //do construction without userEntity
-//@NoArgsConstructor
-//@EqualsAndHashCode(of = "userEntity")
+@AllArgsConstructor //do construction without userEntity
+@NoArgsConstructor
+@EqualsAndHashCode(of = "userEntity")
 public class AddressEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,70 +44,6 @@ public class AddressEntity {
     @JsonManagedReference
     private List<EventEntity> eventEntities = new ArrayList<>();
 
-    public AddressEntity() {
-    }
-
-    public AddressEntity(Integer build, Integer apartment, String street, CityEntity cityEntity, UserEntity userEntity, List<EventEntity> eventEntities) {
-        this.build = build;
-        this.apartment = apartment;
-        this.street = street;
-        this.cityEntity = cityEntity;
-        this.userEntity = userEntity;
-        this.eventEntities = eventEntities;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getBuild() {
-        return build;
-    }
-
-    public void setBuild(Integer build) {
-        this.build = build;
-    }
-
-    public Integer getApartment() {
-        return apartment;
-    }
-
-    public void setApartment(Integer apartment) {
-        this.apartment = apartment;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public CityEntity getCityEntity() {
-        return cityEntity;
-    }
-
-    public void setCityEntity(CityEntity cityEntity) {
-        this.cityEntity = cityEntity;
-    }
-
-    public UserEntity getUserEntity() {
-        return userEntity;
-    }
-
-    public void setUserEntity(UserEntity userEntity) {
-        this.userEntity = userEntity;
-    }
-
-    public List<EventEntity> getEventEntities() {
-        return eventEntities;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -127,8 +63,4 @@ public class AddressEntity {
         return Objects.hash(id, build, apartment, street, cityEntity, userEntity, eventEntities);
     }
 
-    public void setEventEntities(List<EventEntity> eventEntities)
-    {
-        this.eventEntities = eventEntities;
-    }
 }

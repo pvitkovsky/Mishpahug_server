@@ -11,7 +11,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name="feedback")
-//@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
 @ToString
 public class FeedBackEntity{
 
@@ -35,65 +35,6 @@ public class FeedBackEntity{
     @ManyToOne
     @JsonBackReference
     private EventEntity eventItem;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public LocalDateTime getDateTime() {
-        return dateTime;
-    }
-
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
-    }
-
-    public Integer getRating() {
-        return rating;
-    }
-
-    public void setRating(Integer rating) {
-        this.rating = rating;
-    }
-
-    public UserEntity getUserItem() {
-        return userItem;
-    }
-
-    public void setUserItem(UserEntity userItem) {
-        this.userItem = userItem;
-    }
-
-    public EventEntity getEventItem() {
-        return eventItem;
-    }
-
-    public void setEventItem(EventEntity eventItem) {
-        this.eventItem = eventItem;
-    }
-
-    public FeedBackEntity(@NotNull String comment, LocalDateTime dateTime, @Range(min = 1, max = 5) Integer rating, UserEntity userItem, EventEntity eventItem) {
-        this.comment = comment;
-        this.dateTime = dateTime;
-        this.rating = rating;
-        this.userItem = userItem;
-        this.eventItem = eventItem;
-    }
-
-    public FeedBackEntity() {
-    }
 
     @Override
     public boolean equals(Object o) {

@@ -18,7 +18,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-//@Data @Getter @Setter @AllArgsConstructor @NoArgsConstructor
+@Data @Getter @Setter @AllArgsConstructor @NoArgsConstructor
 @Entity
 @Table(name = "logs")
 public class LogsDataEntity {
@@ -64,8 +64,6 @@ public class LogsDataEntity {
 				'}';
 	}
 
-	public LogsDataEntity() {
-	}
 
 	@Override
 	public boolean equals(Object o) {
@@ -93,59 +91,4 @@ public class LogsDataEntity {
 		this.description = description;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getUserNickName() {
-		return userNickName;
-	}
-
-	public void setUserNickName(String userNickName) {
-		this.userNickName = userNickName;
-	}
-
-	public String getEventDescription() {
-		return eventDescription;
-	}
-
-	public void setEventDescription(String eventDescription) {
-		this.eventDescription = eventDescription;
-	}
-
-	public LocalDate getDate() {
-		return date;
-	}
-
-	public void setDate(LocalDate date) {
-		this.date = date;
-	}
-
-	public LocalTime getTime() {
-		return time;
-	}
-
-	public void setTime(LocalTime time) {
-		this.time = time;
-	}
-
-	public UserActions getAction() {
-		return action;
-	}
-
-	public void setAction(UserActions action) {
-		this.action = action;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
 }

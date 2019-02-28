@@ -24,14 +24,15 @@ import javax.persistence.UniqueConstraint;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
 @Table(name = "eventlist", uniqueConstraints={
 	    @UniqueConstraint(columnNames = {"user_entity_owner", "date", "time", "name_of_event"})
 	})	
-//@Getter @Setter @NoArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
 @EqualsAndHashCode(of = {"userEntityOwner", "date", "time", "nameOfEvent"}) // business key; 
 @ToString(exclude = { "userItemsGuestsOfEvents", "feedBackEntities" })
 public class EventEntity {
@@ -61,30 +62,6 @@ public class EventEntity {
 	@JsonManagedReference
 	private HoliDayEntity holiDayEntity;
 
-	public EventEntity(LocalDate date,
-					   LocalTime time,
-					   String nameOfEvent,
-					   HashMap<Integer,
-							   FeedBackEntity> feedbacks,
-					   KichenTypeEntity kichenTypeEntity,
-					   HoliDayEntity holiDayEntity,
-					   EventStatus status,
-					   UserEntity userEntityOwner,
-					   AddressEntity addressEntity,
-					   List<UserEntity> userItemsGuestsOfEvents,
-					   List<FeedBackEntity> feedBackEntities) {
-		this.date = date;
-		this.time = time;
-		this.nameOfEvent = nameOfEvent;
-		this.feedbacks = feedbacks;
-		this.kichenTypeEntity = kichenTypeEntity;
-		this.holiDayEntity = holiDayEntity;
-		this.status = status;
-		this.userEntityOwner = userEntityOwner;
-		this.addressEntity = addressEntity;
-		this.userItemsGuestsOfEvents = userItemsGuestsOfEvents;
-		this.feedBackEntities = feedBackEntities;
-	}
 
 	public HoliDayEntity getHoliDayEntity() {
 		return 	holiDayEntity;
@@ -99,6 +76,7 @@ public class EventEntity {
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "user_entity_owner")
+	@Setter(AccessLevel.NONE)
 	@JsonBackReference
 	private UserEntity userEntityOwner;
 
@@ -118,65 +96,6 @@ public class EventEntity {
 		CREATED, PENDING, COMPLETE, CANCELED
 	}
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public LocalDate getDate() {
-		return date;
-	}
-
-	public void setDate(LocalDate date) {
-		this.date = date;
-	}
-
-	public LocalTime getTime() {
-		return time;
-	}
-
-	public void setTime(LocalTime time) {
-		this.time = time;
-	}
-
-	public String getNameOfEvent() {
-		return nameOfEvent;
-	}
-
-	public void setNameOfEvent(String nameOfEvent) {
-		this.nameOfEvent = nameOfEvent;
-	}
-
-	public HashMap<Integer, FeedBackEntity> getFeedbacks() {
-		return feedbacks;
-	}
-
-	public void setFeedbacks(HashMap<Integer, FeedBackEntity> feedbacks) {
-		this.feedbacks = feedbacks;
-	}
-
-	public KichenTypeEntity getKichenTypeEntity() {
-		return kichenTypeEntity;
-	}
-
-	public void setKichenTypeEntity(KichenTypeEntity kichenTypeEntity) {
-		this.kichenTypeEntity = kichenTypeEntity;
-	}
-
-	public EventStatus getStatus() {
-		return status;
-	}
-
-	public void setStatus(EventStatus status) {
-		this.status = status;
-	}
-
-	public UserEntity getUserEntityOwner() {
-		return userEntityOwner;
-	}
 
 	/**
 	 * Bidirectional setter; owning user will have this event added to his set of events;  
@@ -188,46 +107,6 @@ public class EventEntity {
 		userEntityOwner.addEvent(this);
 	}
 
-	public AddressEntity getAddressEntity() {
-		return addressEntity;
-	}
-
-	public void setAddressEntity(AddressEntity addressEntity) {
-		this.addressEntity = addressEntity;
-	}
-
-	public List<UserEntity> getUserItemsGuestsOfEvents() {
-		return userItemsGuestsOfEvents;
-	}
-
-	public void setUserItemsGuestsOfEvents(List<UserEntity> userItemsGuestsOfEvents) {
-		this.userItemsGuestsOfEvents = userItemsGuestsOfEvents;
-	}
-
-	public List<FeedBackEntity> getFeedBackEntities() {
-		return feedBackEntities;
-	}
-
-	public void setFeedBackEntities(List<FeedBackEntity> feedBackEntities) {
-		this.feedBackEntities = feedBackEntities;
-	}
-
-	public EventEntity() {
-	}
-
-	public EventEntity(LocalDate date, LocalTime time, String nameOfEvent, HashMap<Integer, FeedBackEntity> feedbacks, KichenTypeEntity kichenTypeEntity, EventStatus status, UserEntity userEntityOwner, AddressEntity addressEntity, List<UserEntity> userItemsGuestsOfEvents, List<FeedBackEntity> feedBackEntities) {
-		this.date = date;
-		this.time = time;
-		this.nameOfEvent = nameOfEvent;
-		this.feedbacks = feedbacks;
-		this.kichenTypeEntity = kichenTypeEntity;
-		this.status = status;
-		this.userEntityOwner = userEntityOwner;
-		this.addressEntity = addressEntity;
-		this.userItemsGuestsOfEvents = userItemsGuestsOfEvents;
-		this.feedBackEntities = feedBackEntities;
-	}	
-	
 	/*
 	 * TODO: consider embedded business key with its own methods; 
 	 */

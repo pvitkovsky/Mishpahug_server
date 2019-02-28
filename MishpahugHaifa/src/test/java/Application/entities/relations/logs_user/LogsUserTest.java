@@ -40,10 +40,16 @@ public class LogsUserTest {
 	private final UserEntity RANB = RandomEntities.randomUserEntity();
 	private final EventEntity TESTING = new EventEntity();
 	private Random r = new Random();
-	private final LocalDate TDATEA = LocalDate.of(2000 + r.nextInt(1024)%30, r.nextInt(1024)%13, r.nextInt(1024)%31);
-	private final LocalTime TTIMEA = LocalTime.of(r.nextInt(1024)%24, r.nextInt(1024)%60);
-	private final LocalDate TDATEB = LocalDate.of(2000 + r.nextInt(1024)%30, r.nextInt(1024)%13, r.nextInt(1024)%31);
-	private final LocalTime TTIMEB = LocalTime.of(r.nextInt(1024)%24, r.nextInt(1024)%60);
+	private final LocalDate TDATEA = LocalDate.of(2000 + r.nextInt(1024)%30,
+												       r.nextInt(1024)%13,
+											       r.nextInt(1024)%31);
+	private final LocalTime TTIMEA = LocalTime.of(r.nextInt(1024)%24,
+												r.nextInt(1024)%60);
+	private final LocalDate TDATEB = LocalDate.of(2000 + r.nextInt(1024)%30,
+													   r.nextInt(1024)%13,
+												   r.nextInt(1024)%31);
+	private final LocalTime TTIMEB = LocalTime.of(r.nextInt(1024)%24,
+											    r.nextInt(1024)%60);
 	private final String TNAME = "TESTING";
 
 	/*

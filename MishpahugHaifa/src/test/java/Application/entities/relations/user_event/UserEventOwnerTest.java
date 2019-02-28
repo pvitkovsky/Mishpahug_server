@@ -58,7 +58,7 @@ public class UserEventOwnerTest {
 	@Test
 	public void onUserSaveReadEvent() {
 
-		ALYSSA.addEvent(TESTING);
+		TESTING.setUserEntityOwner(ALYSSA);
 		userRepo.save(ALYSSA);
 		eventRepo.save(TESTING);
 		assertTrue(em.find(UserEntity.class, ALYSSA.getId()) != null);
@@ -81,7 +81,8 @@ public class UserEventOwnerTest {
 	@Test
 	public void onUserAndEventSaveDeleteUser() {
 
-		ALYSSA.addEvent(TESTING);
+		TESTING.setUserEntityOwner(ALYSSA);
+
 		userRepo.save(ALYSSA);
 		eventRepo.save(TESTING);
 		assertTrue(eventRepo.existsById(TESTING.getId()));
@@ -98,16 +99,14 @@ public class UserEventOwnerTest {
 	@Test
 	public void onUserSaveChangeEvent() {
 
-		ALYSSA.addEvent(TESTING);
+		TESTING.setUserEntityOwner(ALYSSA);
 		userRepo.save(ALYSSA);
 		eventRepo.save(TESTING);
 
 		EventEntity savedE = userRepo.findById(ALYSSA.getId()).get().getEventEntityOwner().iterator().next();
 		assertTrue(TESTING.equals(savedE));
 
-		System.out.println("Transfer " + ALYSSA.transferEvent(savedE, BEN));
-		BEN.addEvent(savedE);
-
+		ALYSSA.transferEvent(savedE, BEN);
 		userRepo.save(ALYSSA);
 		userRepo.save(BEN);
 		eventRepo.save(TESTING);
@@ -128,13 +127,11 @@ public class UserEventOwnerTest {
 	@Test
 	public void twoOwnersSameEvent() {
 
-		ALYSSA.addEvent(TESTING);
+		TESTING.setUserEntityOwner(ALYSSA);
 		userRepo.save(ALYSSA);
 		eventRepo.save(TESTING);
 
-		ALYSSA.transferEvent(TESTING, BEN); // ugly, this should be A.remove that clears owner; 
-		BEN.addEvent(TESTING); // should check  
-
+		ALYSSA.transferEvent(TESTING, BEN);
 		userRepo.save(ALYSSA);
 		userRepo.save(BEN);
 		eventRepo.save(TESTING);
@@ -150,7 +147,7 @@ public class UserEventOwnerTest {
 	@Test
 	public void saveEventReadItInUserList() {
 
-		ALYSSA.addEvent(TESTING);
+		TESTING.setUserEntityOwner(ALYSSA);
 		userRepo.save(ALYSSA);
 		eventRepo.save(TESTING);
 
@@ -158,19 +155,33 @@ public class UserEventOwnerTest {
 		assertTrue(savedA.getEventEntityOwner().size() == 1);
 
 	}
-	
 
 	@Test
 	public void saveDuplicateEvent() {
 
+		TESTING.setUserEntityOwner(ALYSSA);
 		ALYSSA.addEvent(TESTING);
 		ALYSSA.addEvent(TESTING);
+		ALYSSA.addEvent(TESTING);
+
 		userRepo.save(ALYSSA);
 		eventRepo.save(TESTING);
 
 		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
 		assertTrue(savedA.getEventEntityOwner().size() == 1);
 
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void addEventOfAnotherOwner() {
+		TESTING.setUserEntityOwner(ALYSSA);
+		BEN.addEvent(TESTING);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void removeEventOfAnotherOwner() {
+		TESTING.setUserEntityOwner(ALYSSA);
+		BEN.transferEvent(TESTING, ALYSSA);
 	}
 
 }

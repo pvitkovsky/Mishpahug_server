@@ -31,12 +31,10 @@ import lombok.Builder;
 import lombok.ToString;
 
 @Entity
-@Table(name = "user", uniqueConstraints={
-	    @UniqueConstraint(columnNames = {"nickname"})
-	})
+@Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = { "nickname" }) })
 @ToString(exclude = { "eventItemsOwner", "eventItemsGuest", "pictureItems", "feedBackEntities" })
-@AllArgsConstructor 
-@Builder	
+@AllArgsConstructor
+@Builder
 public class UserEntity {
 
 	@Id
@@ -44,14 +42,14 @@ public class UserEntity {
 	private Integer id;
 
 	@Column(name = "nickname", nullable = false)
-	private String nickname; 
+	private String nickname;
 
-    @Column(name = "firstname")
+	@Column(name = "firstname")
 	private String firstName;
 
 	@Column(name = "lastname")
 	private String lastName;
-	
+
 	@Column(name = "phonenumber")
 	private String phoneNumber;
 
@@ -59,11 +57,11 @@ public class UserEntity {
 	private String eMail;
 
 	@Enumerated(EnumType.STRING)
-    @Column(name = "role")
+	@Column(name = "role")
 	private UserRole role;
 
-    @JsonManagedReference
-    @Column(name = "feedbacks")
+	@JsonManagedReference
+	@Column(name = "feedbacks")
 	private HashMap<Integer, FeedBackEntity> feedBacks;
 
 	@OneToOne(mappedBy = "userEntity") // Address of user
@@ -71,7 +69,6 @@ public class UserEntity {
 	private AddressEntity addressEntity;
 
 	@OneToMany(mappedBy = "userEntityOwner", cascade = CascadeType.ALL, fetch = FetchType.LAZY) // User owner of events
-	@Column(unique = true)
 	@JsonManagedReference
 	private Set<EventEntity> eventItemsOwner = new HashSet<>();
 
@@ -81,7 +78,7 @@ public class UserEntity {
 
 	@ElementCollection
 	@CollectionTable
-    @Column(name = "pictures")
+	@Column(name = "pictures")
 	private Set<PictureValue> pictureItems = new HashSet<>();
 
 	@OneToMany(mappedBy = "userItem", cascade = CascadeType.ALL)
@@ -199,7 +196,10 @@ public class UserEntity {
 	public UserEntity() {
 	}
 
-	public UserEntity(String nickname, String firstName, String lastName, String phoneNumber, String eMail, UserRole role, HashMap<Integer, FeedBackEntity> feedBacks, AddressEntity addressEntity, Set<EventEntity> eventItemsOwner, Set<EventEntity> eventItemsGuest, Set<PictureValue> pictureItems, Set<FeedBackEntity> feedBackEntities) {
+	public UserEntity(String nickname, String firstName, String lastName, String phoneNumber, String eMail,
+			UserRole role, HashMap<Integer, FeedBackEntity> feedBacks, AddressEntity addressEntity,
+			Set<EventEntity> eventItemsOwner, Set<EventEntity> eventItemsGuest, Set<PictureValue> pictureItems,
+			Set<FeedBackEntity> feedBackEntities) {
 		this.nickname = nickname;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -216,41 +216,67 @@ public class UserEntity {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
 		UserEntity that = (UserEntity) o;
-		return id.equals(that.id) &&
-				nickname.equals(that.nickname) &&
-				firstName.equals(that.firstName) &&
-				lastName.equals(that.lastName) &&
-				phoneNumber.equals(that.phoneNumber) &&
-				eMail.equals(that.eMail) &&
-				role == that.role &&
-				feedBacks.equals(that.feedBacks) &&
-				addressEntity.equals(that.addressEntity) &&
-				eventItemsOwner.equals(that.eventItemsOwner) &&
-				eventItemsGuest.equals(that.eventItemsGuest) &&
-				pictureItems.equals(that.pictureItems) &&
-				feedBackEntities.equals(that.feedBackEntities);
+		return nickname.equals(that.nickname);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, nickname, firstName, lastName, phoneNumber, eMail, role, feedBacks, addressEntity, eventItemsOwner, eventItemsGuest, pictureItems, feedBackEntities);
+		return Objects.hash(this.nickname);
 	}
-	
 
+	/**
+	 * Adds an event to the set of events owned by this user. Event must have this
+	 * user as the owner.
+	 * 
+	 * @param event
+	 *            EventEntity that has this user as the owner.
+	 * @return true if the event was added; false if the event was not added, as it
+	 *         is already in the set.
+	 */
 	public boolean addEvent(EventEntity event) {
-		event.setUserEntityOwner(this);
-        return eventItemsOwner.add(event); // TODO: thread safety argument;
+		if (!event.getUserEntityOwner().equals(this)) {
+			throw new IllegalArgumentException("Trying to add event with another owner");
+		}
+		return eventItemsOwner.add(event); // TODO: thread safety argument;
+
+	}
+
+	/**
+	 * Removes an event from the set of events owned by this user, and sets another
+	 * UserEntity as its owner.
+	 * 
+	 * @param event
+	 *            EventEntity that has this user as the owner.
+	 * @param newOwner
+	 *            new owning user;
+	 */
+	public void transferEvent(EventEntity event, UserEntity newOwner) {
+		if (!event.getUserEntityOwner().equals(this)) {
+			/*
+			 * Fail-fast: you shouldn't try to transfer Event E from user A if user A does not have event E!
+			 */
+			throw new IllegalArgumentException("Trying to remove event with another owner");
+		}
 		
+		if (!this.eventItemsOwner.contains(event)) {
+			/*
+			 * as Event.setUserEntity is bidirectional, we should never get here; 
+			 * TODO: consider deleting this validation. Too paranoid?
+			 */	
+			throw new IllegalStateException("Event not found in this user's set");
+		}
+		eventItemsOwner.remove(event);
+		event.setUserEntityOwner(newOwner);
 	}
 
-	public boolean transferEvent(EventEntity event, UserEntity newOwner) {
-		event.setUserEntityOwner(newOwner); // TODO: needs null owner because method name confuses; 
-		return eventItemsOwner.remove(event);
-	}
-
+	/**
+	 * Immutable wrapper over events owned by this user;
+	 */
 	public Set<EventEntity> getEventEntityOwner() {
 		return Collections.unmodifiableSet(eventItemsOwner);
 	}

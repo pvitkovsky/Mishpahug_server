@@ -1,6 +1,8 @@
 
 package Application.entities.event;
 
+import static org.junit.Assert.assertEquals;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -15,7 +17,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import Application.entities.EventEntity;
+import Application.entities.UserEntity;
 import Application.repo.EventRepository;
+import Application.repo.UserRepository;
 
 /**
  * Relation: OneToMany User is the primary entity. Event must have a user as its
@@ -28,6 +32,7 @@ import Application.repo.EventRepository;
 @Transactional
 public class EventEntityTest {
 
+	private final UserEntity ALYSSA = new UserEntity();
 	private final EventEntity TESTING = new EventEntity();
 	private final EventEntity TESTINGDUPLICATE = new EventEntity();
 	private final LocalDate TDATE = LocalDate.of(2190, 1, 1);
@@ -37,8 +42,13 @@ public class EventEntityTest {
 	@Autowired
 	EventRepository eventRepo;
 
+	@Autowired
+	UserRepository userRepo;
+	
 	@Before
 	public void buildEntities() {
+		
+		ALYSSA.setNickname("Alyssa");
 		
 		TESTING.setDate(TDATE);
 		TESTING.setTime(TTIME);
@@ -53,8 +63,24 @@ public class EventEntityTest {
 
 	@Test(expected = DataIntegrityViolationException.class)
 	public void givenDuplicateEventsSaveAndGetException() {
+		
+		TESTING.setUserEntityOwner(ALYSSA);
+		userRepo.save(ALYSSA);
 		eventRepo.save(TESTING);
+		
+		TESTINGDUPLICATE.setUserEntityOwner(ALYSSA);
 		eventRepo.save(TESTINGDUPLICATE);
+
+	}
+	
+	@Test()
+	public void givenEventSaveAndRead() {
+		
+		TESTING.setUserEntityOwner(ALYSSA);
+		userRepo.save(ALYSSA);
+		eventRepo.save(TESTING);
+		assertEquals(eventRepo.getOne(TESTING.getId()), TESTING);	
+	
 	}
 
 }

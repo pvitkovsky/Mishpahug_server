@@ -7,12 +7,14 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -27,7 +29,7 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "eventlist", uniqueConstraints={
-	    @UniqueConstraint(columnNames = {"date", "time", "nameOfEvent"})
+	    @UniqueConstraint(columnNames = {"user_entity_owner", "date", "time", "name_of_event"})
 	})	
 //@Getter @Setter @NoArgsConstructor
 @EqualsAndHashCode(of = {"userEntityOwner", "date", "time", "nameOfEvent"}) // business key; 
@@ -38,10 +40,13 @@ public class EventEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@Column(name="date")
 	private LocalDate date;
 
+	@Column(name="time")
 	private LocalTime time;
 
+	@Column(name="name_of_event")
 	private String nameOfEvent;
 
     @JsonManagedReference
@@ -82,7 +87,7 @@ public class EventEntity {
 	}
 
 	public HoliDayEntity getHoliDayEntity() {
-		return holiDayEntity;
+		return 	holiDayEntity;
 	}
 
 	public void setHoliDayEntity(HoliDayEntity holiDayEntity) {
@@ -92,7 +97,8 @@ public class EventEntity {
 	@Enumerated(EnumType.STRING)
 	private EventStatus status;
 
-	@ManyToOne
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "user_entity_owner")
 	@JsonBackReference
 	private UserEntity userEntityOwner;
 
@@ -172,8 +178,14 @@ public class EventEntity {
 		return userEntityOwner;
 	}
 
+	/**
+	 * Bidirectional setter; owning user will have this event added to his set of events;  
+	 * @param userEntityOwner userEntity that is the owner of this event 
+	 * 
+	 */
 	public void setUserEntityOwner(UserEntity userEntityOwner) {
 		this.userEntityOwner = userEntityOwner;
+		userEntityOwner.addEvent(this);
 	}
 
 	public AddressEntity getAddressEntity() {
@@ -220,8 +232,8 @@ public class EventEntity {
 	 * TODO: consider embedded business key with its own methods; 
 	 */
 	/**
-	 * TODO: comments pls
-	 * @return
+	 * Returns part of business key as string for logging;
+	 * @return part of business key that allows to uniquely identify event among a list of user's events; 
 	 */
 	public String toEventUniqueDescription() {
 		return this.nameOfEvent + " " + this.date.toString() + " " + this.time.toString();

@@ -41,7 +41,7 @@ public class UserEntityTest {
 
 	@Test(expected = DataIntegrityViolationException.class)
 	public void givenDuplicateUsersSaveAndGetException() {
-		userRepo.save(ALYSSA);
+		userRepo.save(ALYSSA); 
 		userRepo.save(ALYSSADUPLICATE);
 	}
 

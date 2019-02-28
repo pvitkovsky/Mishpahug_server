@@ -240,17 +240,32 @@ public class UserEntity {
 	}
 	
 
+	/**
+	 * TODO: Comments pls
+	 * @param event
+	 * @return
+	 */
 	public boolean addEvent(EventEntity event) {
 		event.setUserEntityOwner(this);
         return eventItemsOwner.add(event); // TODO: thread safety argument;
 		
 	}
 
+	/**
+	 * 
+	 * @param event
+	 * @param newOwner
+	 * @return
+	 */
 	public boolean transferEvent(EventEntity event, UserEntity newOwner) {
 		event.setUserEntityOwner(newOwner); // TODO: needs null owner because method name confuses; 
 		return eventItemsOwner.remove(event);
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Set<EventEntity> getEventEntityOwner() {
 		return Collections.unmodifiableSet(eventItemsOwner);
 	}

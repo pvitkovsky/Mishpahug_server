@@ -30,7 +30,7 @@ import lombok.ToString;
 	    @UniqueConstraint(columnNames = {"date", "time", "nameOfEvent"})
 	})	
 //@Getter @Setter @NoArgsConstructor
-@EqualsAndHashCode(of = {"date", "time", "nameOfEvent"}) // business key; 
+@EqualsAndHashCode(of = {"userEntityOwner", "date", "time", "nameOfEvent"}) // business key; 
 @ToString(exclude = { "userItemsGuestsOfEvents", "feedBackEntities" })
 public class EventEntity {
 
@@ -218,6 +218,10 @@ public class EventEntity {
 	
 	/*
 	 * TODO: consider embedded business key with its own methods; 
+	 */
+	/**
+	 * TODO: comments pls
+	 * @return
 	 */
 	public String toEventUniqueDescription() {
 		return this.nameOfEvent + " " + this.date.toString() + " " + this.time.toString();

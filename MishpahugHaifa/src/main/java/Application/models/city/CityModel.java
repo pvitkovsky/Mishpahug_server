@@ -36,7 +36,7 @@ public class CityModel implements ICityModel {
     public CityEntity remove(Integer id)  throws ExeptionMishpaha {
         try {
             CityEntity cityEntity = cityRepository.getOne(id);
-            cityRepository.deleteById(id)
+            cityRepository.deleteById(id);
             return cityEntity;
         } catch (Exception e) {
             throw new ExeptionMishpaha(this.getClass().toString(), e);

@@ -22,9 +22,9 @@ import Application.repo.EventRepository;
 import Application.repo.UserRepository;
 
 /**
- * Relation: OneToMany User is the primary entity. Event must have a user as its
- * owner.
- * 
+ * Relation: 
+ * OneToMany; User is the primary entity, that has a Set of Events.  
+ * Event has only one User as its owner. Updates are casceded from User. 
  */
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -37,9 +37,8 @@ public class UserEventOwnerTest {
 	private final EventEntity TESTING = new EventEntity();
 
 	@PersistenceContext // https://www.javabullets.com/access-entitymanager-spring-data-jpa/
-	private EntityManager em;
-
-	@Autowired
+	private EntityManager em;	@Autowired
+	
 	UserRepository userRepo;
 
 	@Autowired
@@ -52,31 +51,35 @@ public class UserEventOwnerTest {
 	}
 
 	/**
-	 * Checking that the UserEntity persists his events automatically; Checking that
-	 * toString works in the bidirectional relation;
+	 * Checking that Event.setUserEntityOwner creates bidirectional link; 
+	 * Checking cascade save; 
+	 * Checking equals in User and Event; 
 	 */
 	@Test
 	public void onUserSaveReadEvent() {
 
 		TESTING.setUserEntityOwner(ALYSSA);
 		userRepo.save(ALYSSA);
-		eventRepo.save(TESTING);
-		assertTrue(em.find(UserEntity.class, ALYSSA.getId()) != null);
-
+		assertTrue(userRepo.existsById(ALYSSA.getId()));
+		assertTrue(eventRepo.existsById(TESTING.getId()));
+		
 		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
-		EventEntity savedE = eventRepo.findAll().get(0);
-
+		EventEntity savedE = eventRepo.findById(TESTING.getId()).get();
+		EventEntity savedEfromUser = savedA.getEventEntityOwner().iterator().next();
 		UserEntity savedAfromEvent = savedE.getUserEntityOwner();
+		
+		assertTrue(savedA.equals(ALYSSA));
 		assertTrue(savedAfromEvent.equals(ALYSSA));
-		System.out.println(savedAfromEvent);
+		assertTrue(savedA.equals(savedAfromEvent));
 
-		savedE = savedA.getEventEntityOwner().iterator().next();
 		assertTrue(savedE.equals(TESTING));
-		System.out.println(savedE);
+		assertTrue(savedEfromUser.equals(TESTING));
+		assertTrue(savedE.equals(savedEfromUser));
+
 	}
 
 	/**
-	 * Checking that the events are deleted after the UserEntity
+	 * Checking that the events are automatically deleted (cascade) after the UserEntity
 	 */
 	@Test
 	public void onUserAndEventSaveDeleteUser() {
@@ -84,79 +87,34 @@ public class UserEventOwnerTest {
 		TESTING.setUserEntityOwner(ALYSSA);
 
 		userRepo.save(ALYSSA);
-		eventRepo.save(TESTING);
 		assertTrue(eventRepo.existsById(TESTING.getId()));
 
 		userRepo.delete(ALYSSA);
 		assertFalse(eventRepo.existsById(TESTING.getId()));
 
 	}
-
+	
 	/**
-	 * Changing the owner of the event and testing the results; Testing
-	 * UserEntitys.equals();
+	 * Checking that toString works in the bidirectional relation;
 	 */
 	@Test
-	public void onUserSaveChangeEvent() {
+	public void toStringBiDir() {
 
 		TESTING.setUserEntityOwner(ALYSSA);
 		userRepo.save(ALYSSA);
-		eventRepo.save(TESTING);
-
-		EventEntity savedE = userRepo.findById(ALYSSA.getId()).get().getEventEntityOwner().iterator().next();
-		assertTrue(TESTING.equals(savedE));
-
-		ALYSSA.transferEvent(savedE, BEN);
-		userRepo.save(ALYSSA);
-		userRepo.save(BEN);
-		eventRepo.save(TESTING);
 
 		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
-		UserEntity savedB = userRepo.findById(BEN.getId()).get();
-		assertFalse(savedA.getEventEntityOwner().contains(TESTING));
-		assertTrue(savedB.getEventEntityOwner().contains(TESTING));
-		assertTrue(eventRepo.existsById(TESTING.getId()));
-		assertEquals(eventRepo.findById(TESTING.getId()).get().getUserEntityOwner(), BEN);
+		EventEntity savedE = eventRepo.findById(TESTING.getId()).get();
+		
+		System.out.println(savedA); //TODO: toString w/o println pls
+		System.out.println(savedE);
 
 	}
-
+	
+	@Test
 	/**
-	 * This test demonstrates that UserEntitys allow us to add EventEntitys without
-	 * checking if two UserEntitys share the same EventEntity;
+	 * Can't add event to user more than 1 time; checks hashcode of Event; 
 	 */
-	@Test
-	public void twoOwnersSameEvent() {
-
-		TESTING.setUserEntityOwner(ALYSSA);
-		userRepo.save(ALYSSA);
-		eventRepo.save(TESTING);
-
-		ALYSSA.transferEvent(TESTING, BEN);
-		userRepo.save(ALYSSA);
-		userRepo.save(BEN);
-		eventRepo.save(TESTING);
-
-		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
-		UserEntity savedB = userRepo.findById(BEN.getId()).get();
-
-		assertTrue(savedA.getEventEntityOwner().size() == 0);
-		assertTrue(savedB.getEventEntityOwner().size() == 1);
-
-	}
-
-	@Test
-	public void saveEventReadItInUserList() {
-
-		TESTING.setUserEntityOwner(ALYSSA);
-		userRepo.save(ALYSSA);
-		eventRepo.save(TESTING);
-
-		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
-		assertTrue(savedA.getEventEntityOwner().size() == 1);
-
-	}
-
-	@Test
 	public void saveDuplicateEvent() {
 
 		TESTING.setUserEntityOwner(ALYSSA);
@@ -165,10 +123,34 @@ public class UserEventOwnerTest {
 		ALYSSA.addEvent(TESTING);
 
 		userRepo.save(ALYSSA);
-		eventRepo.save(TESTING);
-
 		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
 		assertTrue(savedA.getEventEntityOwner().size() == 1);
+
+	}
+
+	/**
+	 * This tests User.transferEvent;
+	 * Transfer Event not in the API, but useful as a tool for testing how relation works;
+	 */
+	@Test
+	public void onTransferEvent() {
+
+		TESTING.setUserEntityOwner(ALYSSA);
+		userRepo.save(ALYSSA);
+
+		ALYSSA.transferEvent(TESTING, BEN);
+		userRepo.save(ALYSSA);
+		userRepo.save(BEN);
+
+		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
+		UserEntity savedB = userRepo.findById(BEN.getId()).get();
+
+		assertTrue(savedA.getEventEntityOwner().size() == 0);
+		assertTrue(savedB.getEventEntityOwner().size() == 1);
+		assertFalse(savedA.getEventEntityOwner().contains(TESTING));
+		assertTrue(savedB.getEventEntityOwner().contains(TESTING));
+		assertTrue(eventRepo.existsById(TESTING.getId()));
+		assertEquals(eventRepo.findById(TESTING.getId()).get().getUserEntityOwner(), BEN);
 
 	}
 

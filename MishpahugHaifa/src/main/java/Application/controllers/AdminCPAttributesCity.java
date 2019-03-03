@@ -24,6 +24,11 @@ public class AdminCPAttributesCity {
     public List<CityEntity> addToCountry(@RequestBody List<String> data,
                                          @RequestParam(value = "country") String countryName){
         CountryEntity countryEntity = countryModel.getByFullName(countryName);
+        if (countryEntity == null) {
+            countryEntity = new CountryEntity();
+            countryEntity.setName(countryName);
+            countryModel.addCountry(countryEntity);
+        }
         return cityModel.addFromList(data, countryEntity);
     }
 }

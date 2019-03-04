@@ -99,7 +99,6 @@ public class CityModel implements ICityModel {
                 CityEntity temp = new CityEntity();
                 temp.setName(z);
                 temp.setCountryEntity(countryEntity);
-                CountryEntity countryEntity1 = new CountryEntity();
                 cityRepository.save(temp);
                 result.add(temp);
 

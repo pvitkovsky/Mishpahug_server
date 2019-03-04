@@ -1,5 +1,6 @@
 package Application.controllers;
 
+import Application.Exeption.ExeptionMishpaha;
 import Application.entities.CityEntity;
 import Application.entities.CountryEntity;
 import Application.models.city.ICityModel;
@@ -18,12 +19,22 @@ public class AdminCPAttributesCity {
     ICountryModel countryModel;
     @GetMapping(value="/getall")
     public List<CityEntity> getAll(){
-        return cityModel.getAll();
+        try {
+            return cityModel.getAll();
+        } catch (ExeptionMishpaha exeptionMishpaha) {
+            exeptionMishpaha.printStackTrace();
+            return null;
+        }
     }
     @GetMapping(value="/addtocountry")
     public List<CityEntity> addToCountry(@RequestBody List<String> data,
                                          @RequestParam(value = "country") String countryName){
         CountryEntity countryEntity = countryModel.getByFullName(countryName);
-        return cityModel.addFromList(data, countryEntity);
+        try {
+            return cityModel.addFromList(data, countryEntity);
+        } catch (ExeptionMishpaha exeptionMishpaha) {
+            exeptionMishpaha.printStackTrace();
+            return null;
+        }
     }
 }

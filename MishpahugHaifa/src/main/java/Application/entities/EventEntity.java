@@ -4,7 +4,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,6 +17,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -24,7 +27,11 @@ import javax.persistence.UniqueConstraint;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "eventlist", uniqueConstraints={
@@ -76,7 +83,6 @@ public class EventEntity {
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "user_entity_owner")
-	@Setter(AccessLevel.NONE)
 	@JsonBackReference
 	private UserEntity userEntityOwner;
 
@@ -84,9 +90,9 @@ public class EventEntity {
 	@JsonBackReference
 	private AddressEntity addressEntity;
 
-	@ManyToMany
+	@ManyToMany(mappedBy = "eventItemsGuest") //TODO: immutable getters on sets; 
 	@JsonBackReference
-	private List<UserEntity> userItemsGuestsOfEvents = new ArrayList<>();
+	private Set<UserEntity> userItemsGuestsOfEvents = new HashSet<>();
 
 	@OneToMany(mappedBy = "eventItem", cascade = CascadeType.ALL) // All feedBacks of event
 	@JsonManagedReference
@@ -94,17 +100,6 @@ public class EventEntity {
 
 	public enum EventStatus {
 		CREATED, PENDING, COMPLETE, CANCELED
-	}
-
-
-	/**
-	 * Bidirectional setter; owning user will have this event added to his set of events;  
-	 * @param userEntityOwner userEntity that is the owner of this event 
-	 * 
-	 */
-	public void setUserEntityOwner(UserEntity userEntityOwner) {
-		this.userEntityOwner = userEntityOwner;
-		userEntityOwner.addEvent(this);
 	}
 
 	/*
@@ -117,4 +112,12 @@ public class EventEntity {
 	public String toEventUniqueDescription() {
 		return this.nameOfEvent + " " + this.date.toString() + " " + this.time.toString();
 	}
+
+	public void subscribe(UserEntity guest) {
+		guest.subscribeTo(this);
+	}	
+	
+	public void unSubscribe(UserEntity guest) {
+		guest.unsubscribeFrom(this);
+	}	
 }

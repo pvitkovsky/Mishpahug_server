@@ -32,7 +32,14 @@ public class UserModel implements IUserModel {
     public UserEntity add(UserEntity data) {
         return userRepository.save(data);
     }
+    /*
+    nickname
+    firstname
+    lastname
+    email
 
+
+     */
     @Override
     public UserEntity update(Integer userId, HashMap<String, String> data) {
         return null;

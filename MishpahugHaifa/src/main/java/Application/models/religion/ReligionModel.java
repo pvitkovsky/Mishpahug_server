@@ -24,12 +24,21 @@ public class ReligionModel implements IReligionModel {
 
     @Override
     public ReligionEntity add(ReligionEntity data) {
-        return null;
+        return religionRepository.save(data);
     }
 
     @Override
-    public ReligionEntity update(String name) {
-        return null;
+    public ReligionEntity update(String oldName, String newName) {
+        ReligionEntity religionEntity = religionRepository.getByFullName(oldName);
+        religionEntity.setName(newName);
+        return religionRepository.save(religionEntity);
+    }
+
+    @Override
+    public ReligionEntity update(Integer religionId, String newName) {
+        ReligionEntity religionEntity = religionRepository.getOne(religionId);
+        religionEntity.setName(newName);
+        return religionRepository.save(religionEntity);
     }
 
     @Override

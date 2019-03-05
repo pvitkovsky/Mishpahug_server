@@ -33,8 +33,8 @@ public class AdminCPAttributesReligion {
         return religionModel.add(data);
     }
     @PostMapping(value = "/update")
-    public ReligionEntity update(@RequestParam(value = "name") String name){
-        return religionModel.update(name);
+    public ReligionEntity update(@RequestParam(value = "oldname") String oldName, @RequestParam(value = "name") String newName){
+        return religionModel.update(oldName, newName);
     }
     @DeleteMapping(value = "/remove")
     public ReligionEntity remove(@RequestParam(value = "id") Integer id){

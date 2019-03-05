@@ -165,9 +165,13 @@ public class UserEntity {
 	 * @return
 	 */
 	public boolean subscribeTo(EventEntity event) {
-    
-		event.getUserItemsGuestsOfEvents().add(this);
-		return eventItemsGuest.add(event); // TODO: thread safety argument;
+        if (!event.getUserEntityOwner().equals(this)){
+            event.getUserItemsGuestsOfEvents().add(this);
+            return eventItemsGuest.add(event); // TODO: thread safety argument;
+        }
+		else {
+		    return false;
+        }
 	}
 
 	/**

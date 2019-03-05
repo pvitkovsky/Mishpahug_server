@@ -47,8 +47,8 @@ public class ReligionModel implements IReligionModel {
     }
 
     @Override
-    public ReligionEntity remove(Integer id) {
-        return null;
+    public void remove(Integer id) {
+        religionRepository.deleteById(id);
     }
 
     @Override

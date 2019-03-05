@@ -13,22 +13,24 @@ public class CountryModel implements ICountryModel {
 
     @Override
     public CountryEntity getById(Integer id) {
-        return null;
+        return countryRepository.getOne(id);
     }
 
     @Override
     public CountryEntity addCountry(CountryEntity data) {
-        return null;
+        return countryRepository.save(data);
     }
 
     @Override
-    public CountryEntity removeCountry(Integer id) {
-        return null;
+    public void removeCountry(Integer id) {
+        countryRepository.deleteById(id);
     }
 
     @Override
     public CountryEntity updateName(Integer id, String name) {
-        return null;
+        CountryEntity countryEntity = countryRepository.getOne(id);
+        countryEntity.setName(name);
+        return countryRepository.save(countryEntity);
     }
 
     @Override
@@ -43,6 +45,6 @@ public class CountryModel implements ICountryModel {
 
     @Override
     public List<CountryEntity> getAll() {
-        return null;
+        return countryRepository.findAll();
     }
 }

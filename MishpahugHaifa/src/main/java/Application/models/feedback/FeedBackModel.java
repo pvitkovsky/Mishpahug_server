@@ -2,12 +2,14 @@ package Application.models.feedback;
 
 import Application.entities.FeedBackEntity;
 import Application.repo.FeedBackRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
 public class FeedBackModel implements IFeedBackModel {
 
+    @Autowired
     FeedBackRepository freeBackRepository;
 
     @Override

@@ -90,6 +90,13 @@ public class UserEntity {
 		ADMIN, AUTHORISED, SUSPENDED,
 	}
 
+	public void subscribeEvent(EventEntity eventEntity){
+		eventItemsGuest.add(eventEntity);
+	}
+
+	public void unSubscribeEvent(EventEntity eventEntity){
+		eventItemsGuest.remove(eventEntity);
+	}
 
 	/**
 	 * Adds an event to the set of events owned by this user. Event must have this
@@ -101,11 +108,29 @@ public class UserEntity {
 	 *         is already in the set.
 	 */
 	public boolean addEvent(EventEntity event) {
-		if (!event.getUserEntityOwner().equals(this)) {
+
+		if (event.getUserEntityOwner().equals(this)) {
 			throw new IllegalArgumentException("Trying to add event with another owner");
 		}
 		return eventItemsOwner.add(event); // TODO: thread safety argument;
 
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		UserEntity that = (UserEntity) o;
+		return nickname.equals(that.nickname) &&
+				firstName.equals(that.firstName) &&
+				lastName.equals(that.lastName) &&
+				phoneNumber.equals(that.phoneNumber) &&
+				eMail.equals(that.eMail);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(nickname, firstName, lastName, phoneNumber, eMail);
 	}
 
 	/**

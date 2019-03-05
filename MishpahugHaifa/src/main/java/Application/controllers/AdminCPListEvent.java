@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping(value = "/administrator/listevent")
@@ -20,7 +21,7 @@ public class AdminCPListEvent {
         return eventModel.getAll();
     }
     @GetMapping(value="/getallbyuser")
-    public List<EventEntity> getAllByUser(@RequestParam(value = "userid") Integer userId){
+    public Set<EventEntity> getAllByUser(@RequestParam(value = "userid") Integer userId){
         return eventModel.getAllByUser(userId);
     }
     @GetMapping(value="/getallsibscribed")

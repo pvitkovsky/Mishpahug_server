@@ -94,6 +94,7 @@ public class EventEntity {
 
 	public void subscribe(UserEntity userEntityGuest){
 		userItemsGuestsOfEvents.add(userEntityGuest);
+		userEntityGuest.subscribeEvent(this);
 	}
 
 	public void unsubscribe(UserEntity userEntityGuest){
@@ -115,7 +116,8 @@ public class EventEntity {
 	 */
 	public void setUserEntityOwner(UserEntity userEntityOwner) {
 		this.userEntityOwner = userEntityOwner;
-		userEntityOwner.addEvent(this);
+		// для чего это часть кода????
+		//userEntityOwner.addEvent(this);
 	}
 
 	/*

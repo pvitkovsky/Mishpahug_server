@@ -30,6 +30,7 @@ public class AdminCPAttributesCity {
     public List<CityEntity> addToCountry(@RequestBody List<String> data,
                                          @RequestParam(value = "country") String countryName){
         CountryEntity countryEntity = countryModel.getByFullName(countryName);
+
         try {
             return cityModel.addFromList(data, countryEntity);
         } catch (ExceptionMishpaha exeptionMishpaha) {

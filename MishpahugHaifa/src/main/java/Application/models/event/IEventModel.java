@@ -13,7 +13,7 @@ public interface IEventModel {
     public List<EventEntity> getByFilter(HashMap<String, String> filter);
     public EventEntity add(EventEntity data); // Should not allow duplicated events; 
     public EventEntity update(Integer eventId, HashMap<String, String> data);
-    public List<UserEntity> getAllSubscribed(Integer eventId);
+    public Set<UserEntity> getAllSubscribed(Integer eventId);
     public EventEntity remove(Integer eventId);
     public EventEntity getById(Integer id);
     public EventEntity getByFullName(String name);

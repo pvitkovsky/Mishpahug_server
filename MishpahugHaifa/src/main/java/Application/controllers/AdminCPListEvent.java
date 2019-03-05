@@ -1,8 +1,22 @@
 package Application.controllers;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import Application.entities.EventEntity;
 import Application.entities.UserEntity;
 import Application.models.event.IEventModel;
+
 import Application.models.user.IUserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+
 
 @RestController
 @RequestMapping(value = "/administrator/listevent")
@@ -25,18 +40,18 @@ public class AdminCPListEvent {
         return eventModel.getAllByUser(userId);
     }
     @GetMapping(value="/getallsibscribed")
-    public List<UserEntity> getAllSubscribed(@RequestParam(value = "id") Integer id){
+    public Set<UserEntity> getAllSubscribed(@RequestParam(value = "id") Integer id){
         return eventModel.getAllSubscribed(id);
     }
     @PostMapping(value = "/subscribetoevent")
-    public List<UserEntity> subscribeToEvent(@RequestParam(value = "eventid") Integer eventId,
+    public Set<UserEntity> subscribeToEvent(@RequestParam(value = "eventid") Integer eventId,
                                              @RequestParam(value = "userid") Integer userId){
         //
         return eventModel.getAllSubscribed(eventId);
     }
 
     @PostMapping(value = "/unsubscribetoevent")
-    public List<UserEntity> unsubscribeToEvent(@RequestParam(value = "eventid") Integer eventId,
+    public Set<UserEntity> unsubscribeToEvent(@RequestParam(value = "eventid") Integer eventId,
                                                @RequestParam(value = "userid") Integer userId){
         //
         return eventModel.getAllSubscribed(eventId);

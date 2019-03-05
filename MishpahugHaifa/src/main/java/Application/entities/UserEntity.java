@@ -37,11 +37,12 @@ import lombok.ToString;
 @Entity
 @Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = { "nickname" }) })
 @ToString(exclude = { "eventItemsOwner", "eventItemsGuest", "pictureItems", "feedBackEntities" })
+@EqualsAndHashCode(of = {"nickname"})
+@Getter @Setter
 @AllArgsConstructor
-@Getter
-@Setter
 @NoArgsConstructor
 @Builder
+
 public class UserEntity {
 
 	@Id
@@ -110,6 +111,7 @@ public class UserEntity {
 	 * @return true if the event was added; false if the event was not added, as it
 	 *         is already in the set.
 	 */
+
 	public boolean makeOwner(EventEntity event) {
 		if (event.getUserEntityOwner() == null) { // transient state; 
 			event.setUserEntityOwner(this);
@@ -138,7 +140,7 @@ public class UserEntity {
 	}
 
 	/**
-	 * 
+	 * Removing owned event
 	 * @param event
 	 */
 	public boolean removeOwnedEvent(EventEntity event) {
@@ -162,6 +164,7 @@ public class UserEntity {
 	 * @return
 	 */
 	public boolean subscribeTo(EventEntity event) {
+    
 		event.getUserItemsGuestsOfEvents().add(this);
 		return eventItemsGuest.add(event); // TODO: thread safety argument;
 	}
@@ -172,8 +175,8 @@ public class UserEntity {
 	 * @param event
 	 */
 	public boolean unsubscribeFrom(EventEntity event) {
-		if(!eventItemsGuest.contains(event)) {
-			throw new IllegalStateException("Event not found in this user's guest events set");
+		if(event.getUserEntityOwner().equals(this)) {
+			throw new IllegalArgumentException("Trying to subscribe to the owned event");
 		}
 		event.getUserItemsGuestsOfEvents().remove(this);
 		return eventItemsGuest.remove(event);

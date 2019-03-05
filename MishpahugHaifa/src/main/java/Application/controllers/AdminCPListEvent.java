@@ -17,6 +17,15 @@ import Application.entities.EventEntity;
 import Application.entities.UserEntity;
 import Application.models.event.IEventModel;
 
+import Application.models.user.IUserModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
+
+
 @RestController
 @RequestMapping(value = "/administrator/listevent")
 public class AdminCPListEvent {

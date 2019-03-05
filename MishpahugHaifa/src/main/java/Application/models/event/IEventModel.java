@@ -15,4 +15,6 @@ public interface IEventModel {
     public List<UserEntity> getAllSubscribed(Integer eventId);
     public EventEntity remove(Integer eventId);
     public EventEntity getById(Integer id);
+    public EventEntity subscribe(Integer eventId, Integer userId);
+    public EventEntity unsubscribe(Integer eventId, Integer userId);
 }

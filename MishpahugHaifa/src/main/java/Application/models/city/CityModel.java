@@ -1,6 +1,6 @@
 package Application.models.city;
 
-import Application.Exeption.ExeptionMishpaha;
+import Application.exceptions.ExceptionMishpaha;
 import Application.entities.CityEntity;
 import Application.entities.CountryEntity;
 import Application.repo.CityRepository;
@@ -15,83 +15,83 @@ public class CityModel implements ICityModel {
     CityRepository cityRepository;
 
     @Override
-    public CityEntity getById(Integer id) throws ExeptionMishpaha {
+    public CityEntity getById(Integer id) throws ExceptionMishpaha {
         try {
             return cityRepository.getOne(id);
         } catch (Exception e) {
-            throw new ExeptionMishpaha(this.getClass().toString(), e);
+            throw new ExceptionMishpaha(this.getClass().toString(), e);
         }
     }
 
     @Override
-    public CityEntity add(CityEntity data)  throws ExeptionMishpaha {
+    public CityEntity add(CityEntity data)  throws ExceptionMishpaha {
         try {
             return cityRepository.saveAndFlush(data);
         } catch (Exception e) {
-            throw new ExeptionMishpaha(this.getClass().toString(), e);
+            throw new ExceptionMishpaha(this.getClass().toString(), e);
         }
     }
 
     @Override
-    public CityEntity remove(Integer id)  throws ExeptionMishpaha {
+    public CityEntity remove(Integer id)  throws ExceptionMishpaha {
         try {
             CityEntity cityEntity = cityRepository.getOne(id);
             cityRepository.deleteById(id);
             return cityEntity;
         } catch (Exception e) {
-            throw new ExeptionMishpaha(this.getClass().toString(), e);
+            throw new ExceptionMishpaha(this.getClass().toString(), e);
         }
     }
 
     @Override
-    public List<CityEntity> getAll()  throws ExeptionMishpaha {
+    public List<CityEntity> getAll()  throws ExceptionMishpaha {
         try {
             return cityRepository.findAll();
         } catch (Exception e) {
-            throw new ExeptionMishpaha(this.getClass().toString(), e);
+            throw new ExceptionMishpaha(this.getClass().toString(), e);
         }
     }
 
     @Override
-    public CityEntity updateName(Integer id, String name) throws ExeptionMishpaha {
+    public CityEntity updateName(Integer id, String name) throws ExceptionMishpaha {
         try {
             CityEntity cityEntity = getById(id);
             cityEntity.setName(name);
             return cityRepository.saveAndFlush(cityEntity);
         } catch (Exception e) {
-            throw new ExeptionMishpaha(this.getClass().toString(), e);
+            throw new ExceptionMishpaha(this.getClass().toString(), e);
         }
     }
 
     @Override
-    public CityEntity getByFullName(String name) throws ExeptionMishpaha {
+    public CityEntity getByFullName(String name) throws ExceptionMishpaha {
        try {
             return cityRepository.getByFullName(name);
         } catch (Exception e) {
-            throw new ExeptionMishpaha(this.getClass().toString(), e);
+            throw new ExceptionMishpaha(this.getClass().toString(), e);
         }
     }
 
     @Override
-    public CountryEntity getCountryByCity(Integer id) throws ExeptionMishpaha {
+    public CountryEntity getCountryByCity(Integer id) throws ExceptionMishpaha {
         try {
             return cityRepository.getOne(id).getCountryEntity();
         } catch (Exception e) {
-            throw new ExeptionMishpaha(this.getClass().toString(), e);
+            throw new ExceptionMishpaha(this.getClass().toString(), e);
         }
     }
 
     @Override
-    public List<CityEntity> getByName(String name) throws ExeptionMishpaha {
+    public List<CityEntity> getByName(String name) throws ExceptionMishpaha {
         try {
             return cityRepository.getByName(name);
         } catch (Exception e) {
-            throw new ExeptionMishpaha(this.getClass().toString(), e);
+            throw new ExceptionMishpaha(this.getClass().toString(), e);
         }
     }
 
     @Override
-    public List<CityEntity> addFromList(List<String> data, CountryEntity countryEntity) throws ExeptionMishpaha {
+    public List<CityEntity> addFromList(List<String> data, CountryEntity countryEntity) throws ExceptionMishpaha {
         try {
             CityEntity cityEntity = new CityEntity();
             List<CityEntity> result = new ArrayList<>();
@@ -105,7 +105,7 @@ public class CityModel implements ICityModel {
             }
             return result;
         } catch (Exception e) {
-            throw new ExeptionMishpaha(this.getClass().toString(), e);
+            throw new ExceptionMishpaha(this.getClass().toString(), e);
         }
     }
 }

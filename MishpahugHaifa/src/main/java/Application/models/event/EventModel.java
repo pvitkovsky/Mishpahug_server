@@ -3,6 +3,7 @@ package Application.models.event;
 import Application.entities.EventEntity;
 import Application.entities.UserEntity;
 import Application.repo.EventRepository;
+import Application.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,8 @@ public class EventModel implements IEventModel{
 
     @Autowired
     EventRepository eventRepository;
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     public List<EventEntity> getAll() {
@@ -54,5 +57,23 @@ public class EventModel implements IEventModel{
     @Override
     public EventEntity getById(Integer id) {
         return eventRepository.getOne(id);
+    }
+
+    @Override
+    public EventEntity subscribe(Integer eventId, Integer userId) {
+        EventEntity eventEntity = eventRepository.getOne(eventId);
+        UserEntity userEntity = userRepository.getOne(userId);
+        if ((userEntity != null) && (eventEntity != null)) eventEntity.subscribe(userEntity);
+        eventRepository.save(eventEntity);
+        return eventEntity;
+    }
+
+    @Override
+    public EventEntity unsubscribe(Integer eventId, Integer userId) {
+        EventEntity eventEntity = eventRepository.getOne(eventId);
+        UserEntity userEntity = userRepository.getOne(userId);
+        if ((userEntity != null) && (eventEntity != null)) eventEntity.unsubscribe(userEntity);
+        eventRepository.save(eventEntity);
+        return eventEntity;
     }
 }

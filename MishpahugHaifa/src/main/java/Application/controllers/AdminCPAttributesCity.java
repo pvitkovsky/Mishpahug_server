@@ -1,6 +1,6 @@
 package Application.controllers;
 
-import Application.Exeption.ExeptionMishpaha;
+import Application.exceptions.ExceptionMishpaha;
 import Application.entities.CityEntity;
 import Application.entities.CountryEntity;
 import Application.models.city.ICityModel;
@@ -21,7 +21,7 @@ public class AdminCPAttributesCity {
     public List<CityEntity> getAll(){
         try {
             return cityModel.getAll();
-        } catch (ExeptionMishpaha exeptionMishpaha) {
+        } catch (ExceptionMishpaha exeptionMishpaha) {
             exeptionMishpaha.printStackTrace();
             return null;
         }
@@ -32,7 +32,7 @@ public class AdminCPAttributesCity {
         CountryEntity countryEntity = countryModel.getByFullName(countryName);
         try {
             return cityModel.addFromList(data, countryEntity);
-        } catch (ExeptionMishpaha exeptionMishpaha) {
+        } catch (ExceptionMishpaha exeptionMishpaha) {
             exeptionMishpaha.printStackTrace();
             return null;
         }

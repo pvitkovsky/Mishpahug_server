@@ -1,6 +1,7 @@
 package Application.models.feedback;
 
 import Application.entities.FeedBackEntity;
+import Application.repo.EventRepository;
 import Application.repo.FeedBackRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,9 @@ public class FeedBackModel implements IFeedBackModel {
 
     @Autowired
     FeedBackRepository freeBackRepository;
+
+    @Autowired
+    EventRepository eventRepository;
 
     @Override
     public List<FeedBackEntity> getAllByEvent(Integer eventId) {

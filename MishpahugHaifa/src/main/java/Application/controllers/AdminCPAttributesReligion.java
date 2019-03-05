@@ -37,7 +37,7 @@ public class AdminCPAttributesReligion {
         return religionModel.update(oldName, newName);
     }
     @DeleteMapping(value = "/remove")
-    public ReligionEntity remove(@RequestParam(value = "id") Integer id){
-        return religionModel.remove(id);
+    public void remove(@RequestParam(value = "id") Integer id){
+        religionModel.remove(id);
     }
 }

@@ -46,7 +46,7 @@ public class EventModel implements IEventModel{
     }
 
     @Override
-    public List<UserEntity> getAllSubscribed(Integer eventId) {
+    public Set<UserEntity> getAllSubscribed(Integer eventId) {
         return eventRepository.getOne(eventId).getUserItemsGuestsOfEvents();
     }
 

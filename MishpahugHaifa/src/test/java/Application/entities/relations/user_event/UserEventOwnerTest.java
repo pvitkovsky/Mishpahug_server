@@ -58,7 +58,7 @@ public class UserEventOwnerTest {
 	@Test
 	public void onUserSaveReadEvent() {
 
-		TESTING.setUserEntityOwner(ALYSSA);
+		ALYSSA.makeOwner(TESTING);
 		userRepo.save(ALYSSA);
 		assertTrue(userRepo.existsById(ALYSSA.getId()));
 		assertTrue(eventRepo.existsById(TESTING.getId()));
@@ -84,8 +84,7 @@ public class UserEventOwnerTest {
 	@Test
 	public void onUserAndEventSaveDeleteUser() {
 
-		TESTING.setUserEntityOwner(ALYSSA);
-
+		ALYSSA.makeOwner(TESTING);
 		userRepo.save(ALYSSA);
 		assertTrue(eventRepo.existsById(TESTING.getId()));
 
@@ -100,7 +99,7 @@ public class UserEventOwnerTest {
 	@Test
 	public void toStringBiDir() {
 
-		TESTING.setUserEntityOwner(ALYSSA);
+		ALYSSA.makeOwner(TESTING);
 		userRepo.save(ALYSSA);
 
 		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
@@ -111,16 +110,17 @@ public class UserEventOwnerTest {
 
 	}
 	
+   //TODO: protected tests
 	@Test
 	/**
 	 * Can't add event to user more than 1 time; checks hashcode of Event; 
 	 */
 	public void saveDuplicateEvent() {
 
-		TESTING.setUserEntityOwner(ALYSSA);
-		ALYSSA.addEvent(TESTING);
-		ALYSSA.addEvent(TESTING);
-		ALYSSA.addEvent(TESTING);
+		ALYSSA.makeOwner(TESTING);
+		ALYSSA.makeOwner(TESTING);
+		ALYSSA.makeOwner(TESTING);
+		ALYSSA.makeOwner(TESTING);
 
 		userRepo.save(ALYSSA);
 		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
@@ -135,10 +135,10 @@ public class UserEventOwnerTest {
 	@Test
 	public void onTransferEvent() {
 
-		TESTING.setUserEntityOwner(ALYSSA);
+		ALYSSA.makeOwner(TESTING);
 		userRepo.save(ALYSSA);
 
-		ALYSSA.transferEvent(TESTING, BEN);
+		ALYSSA.transferOwnedEvent(TESTING, BEN);
 		userRepo.save(ALYSSA);
 		userRepo.save(BEN);
 
@@ -155,15 +155,33 @@ public class UserEventOwnerTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void addEventOfAnotherOwner() {
-		TESTING.setUserEntityOwner(ALYSSA);
-		BEN.addEvent(TESTING);
+	public void addEventOfAnotherOwner() { // why transfer when we have add? make add work only on transient events? 
+		ALYSSA.makeOwner(TESTING);
+		BEN.makeOwner(TESTING);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void removeEventOfAnotherOwner() {
-		TESTING.setUserEntityOwner(ALYSSA);
-		BEN.transferEvent(TESTING, ALYSSA);
+		ALYSSA.makeOwner(TESTING);
+		BEN.transferOwnedEvent(TESTING, ALYSSA);
 	}
 
+	
+	/**
+	 * This tests User.transferEvent;
+	 * Transfer Event not in the API, but useful as a tool for testing how relation works;
+	 */
+	@Test
+	public void onDeleteEvent() {
+
+		ALYSSA.makeOwner(TESTING);
+		userRepo.save(ALYSSA);
+
+		ALYSSA.removeOwnedEvent(TESTING);
+		eventRepo.delete(TESTING);
+
+		assertFalse(eventRepo.existsById(TESTING.getId()));
+		assertTrue(userRepo.existsById(ALYSSA.getId()));
+
+	}
 }

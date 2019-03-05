@@ -34,7 +34,7 @@ public class AdminCPAttributesReligion {
     }
     @PostMapping(value = "/update")
     public ReligionEntity update(@RequestParam(value = "name") String name){
-        return religionModel.update(name);
+        return religionModel.update(name, name); //TODO: stub
     }
     @DeleteMapping(value = "/remove")
     public ReligionEntity remove(@RequestParam(value = "id") Integer id){

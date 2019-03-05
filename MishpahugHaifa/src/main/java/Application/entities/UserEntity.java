@@ -3,7 +3,6 @@ package Application.entities;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -26,7 +25,12 @@ import javax.persistence.UniqueConstraint;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import Application.entities.values.PictureValue;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = { "nickname" }) })
@@ -73,7 +77,7 @@ public class UserEntity {
 	@JsonManagedReference
 	private Set<EventEntity> eventItemsOwner = new HashSet<>();
 
-	@ManyToMany(mappedBy = "userItemsGuestsOfEvents") // User a guest in events
+	@ManyToMany(mappedBy = "userItemsGuestsOfEvents", cascade = CascadeType.ALL) // User a guest in events
 	@JsonManagedReference
 	private Set<EventEntity> eventItemsGuest = new HashSet<>();
 
@@ -90,50 +94,49 @@ public class UserEntity {
 		ADMIN, AUTHORISED, SUSPENDED,
 	}
 
-
 	/**
-	 * Adds an event to the set of events owned by this user. Event must have this
-	 * user as the owner.
+	 * Adds an event to the set of events owned by this user, transferring it from any previous users; 
 	 * 
-	 * @param event
-	 *            EventEntity that has this user as the owner.
+	 * @param event EventEntity that has this user as the owner.
 	 * @return true if the event was added; false if the event was not added, as it
 	 *         is already in the set.
 	 */
-	public boolean addEvent(EventEntity event) {
+	public boolean makeOwner(EventEntity event) {
+		if (event.getUserEntityOwner() == null) { // transient state; 
+			event.setUserEntityOwner(this);
+		}
 		if (!event.getUserEntityOwner().equals(this)) {
-			throw new IllegalArgumentException("Trying to add event with another owner");
+			throw new IllegalArgumentException("Trying to make this user owner of event that belongs to another");
 		}
 		return eventItemsOwner.add(event); // TODO: thread safety argument;
-
 	}
-
+	
 	/**
-	 * Removes an event from the set of events owned by this user, and sets another
-	 * UserEntity as its owner.
+	 * Adds an event to the set of events owned by this user, transferring it from any previous users; 
 	 * 
-	 * @param event
-	 *            EventEntity that has this user as the owner.
-	 * @param newOwner
-	 *            new owning user;
+	 * @param event EventEntity that has this user as the owner.
+	 * @return true if the event was added; false if the event was not added, as it
+	 *         is already in the set.
 	 */
-	public void transferEvent(EventEntity event, UserEntity newOwner) {
-		if (!event.getUserEntityOwner().equals(this)) {
-			/*
-			 * Fail-fast: you shouldn't try to transfer Event E from user A if user A does not have event E!
-			 */
-			throw new IllegalArgumentException("Trying to remove event with another owner");
-		}
-		
-		if (!this.eventItemsOwner.contains(event)) {
-			/*
-			 * as Event.setUserEntity is bidirectional, we should never get here; 
-			 * TODO: consider deleting this validation. Too paranoid?
-			 */	
-			throw new IllegalStateException("Event not found in this user's set");
+	public boolean transferOwnedEvent(EventEntity event, UserEntity newOwner) {
+		if (event.getUserEntityOwner() != null && !event.getUserEntityOwner().equals(this)) {
+			throw new IllegalArgumentException("Trying to transfer event with another owner\"");
 		}
 		eventItemsOwner.remove(event);
 		event.setUserEntityOwner(newOwner);
+		return newOwner.makeOwner(event);
+		
+	}
+
+	/**
+	 * 
+	 * @param event
+	 */
+	public boolean removeOwnedEvent(EventEntity event) {
+		if (!event.getUserEntityOwner().equals(this)) {
+			throw new IllegalArgumentException("Trying to remove event with another owner");
+		}
+		return eventItemsOwner.remove(event); // TODO: thread safety argument;
 	}
 
 	/**
@@ -141,6 +144,37 @@ public class UserEntity {
 	 */
 	public Set<EventEntity> getEventEntityOwner() {
 		return Collections.unmodifiableSet(eventItemsOwner);
+	}
+
+	/**
+	 * Setting this user as guest in Event;
+	 * 
+	 * @param event
+	 * @return
+	 */
+	public boolean addGuestEvent(EventEntity event) {
+		event.getUserItemsGuestsOfEvents().add(this);
+		return eventItemsGuest.add(event); // TODO: thread safety argument;
+	}
+
+	/**
+	 * Removing this user as guest in Event;
+	 * 
+	 * @param event
+	 */
+	public boolean removeGuestEventEvent(EventEntity event) {
+//		if(!eventItemsGuest.contains(event)) {
+//			throw new IllegalStateException("Event not found in this user's guest events set");
+//		}
+		event.getUserItemsGuestsOfEvents().remove(this);
+		return eventItemsGuest.remove(event);
+	}
+
+	/**
+	 * Immutable wrapper over events guested by this user;
+	 */
+	public Set<EventEntity> getEventEntityGuest() {
+		return Collections.unmodifiableSet(eventItemsGuest);
 	}
 
 }

@@ -4,7 +4,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -24,7 +26,12 @@ import javax.persistence.UniqueConstraint;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "eventlist", uniqueConstraints={
@@ -86,24 +93,11 @@ public class EventEntity {
 
 	@ManyToMany
 	@JsonBackReference
-	private List<UserEntity> userItemsGuestsOfEvents = new ArrayList<>();
+	private Set<UserEntity> userItemsGuestsOfEvents = new HashSet<>();
 
 	@OneToMany(mappedBy = "eventItem", cascade = CascadeType.ALL) // All feedBacks of event
 	@JsonManagedReference
 	private List<FeedBackEntity> feedBackEntities = new ArrayList<>();
-
-	public List<UserEntity> subscribe(UserEntity userEntityGuest){
-		userItemsGuestsOfEvents.add(userEntityGuest);
-		return userItemsGuestsOfEvents;
-	}
-
-	public List<UserEntity> unsubscribe(UserEntity userEntityGuest){
-		if (userItemsGuestsOfEvents.contains(userEntityGuest)) {
-			userItemsGuestsOfEvents.remove(userEntityGuest);
-		}
-		return userItemsGuestsOfEvents;
-	}
-
 
 	public enum EventStatus {
 		CREATED, PENDING, COMPLETE, CANCELED
@@ -115,11 +109,19 @@ public class EventEntity {
 	 * @param userEntityOwner userEntity that is the owner of this event 
 	 * 
 	 */
-	public void setUserEntityOwner(UserEntity userEntityOwner) {
+	public void setUserEntityOwner(UserEntity userEntityOwner) { //TODO:protected tests
 		this.userEntityOwner = userEntityOwner;
-		userEntityOwner.addEvent(this);
 	}
+	
 
+	/**
+	 * Execute this before removing event;  
+	 */
+	public void beforeDeletingEvent() {
+		this.userEntityOwner.removeOwnedEvent(this);
+		this.userEntityOwner.removeGuestEventEvent(this);
+	}
+	
 	/*
 	 * TODO: consider embedded business key with its own methods; 
 	 */
@@ -130,4 +132,26 @@ public class EventEntity {
 	public String toEventUniqueDescription() {
 		return this.nameOfEvent + " " + this.date.toString() + " " + this.time.toString();
 	}
+	
+	/**
+	 * Bidirectional setter; 
+	 * @param userEntityGuest
+	 */
+	public void subscribe(UserEntity userEntityGuest){
+		this.userItemsGuestsOfEvents.add(userEntityGuest);
+		userEntityGuest.addGuestEvent(this);
+	}
+	
+	/**
+	 * Bidirectional setter; 
+	 * @param userEntityGuest
+	 */
+	public void unsubscribe(UserEntity userEntityGuest){	
+		if (!userItemsGuestsOfEvents.contains(userEntityGuest)) {
+			throw new IllegalArgumentException("user not found in the subscribed list");
+		}
+		userItemsGuestsOfEvents.remove(userEntityGuest);
+		userEntityGuest.removeGuestEventEvent(this);
+	}
+
 }

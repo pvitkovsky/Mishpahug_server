@@ -1,6 +1,7 @@
 package Application.models.feedback;
 
 import Application.entities.FeedBackEntity;
+import Application.entities.UserEntity;
 import Application.repo.EventRepository;
 import Application.repo.FeedBackRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,24 +12,24 @@ import java.util.List;
 public class FeedBackModel implements IFeedBackModel {
 
     @Autowired
-    FeedBackRepository freeBackRepository;
+    FeedBackRepository feedBackRepository;
 
     @Autowired
     EventRepository eventRepository;
 
     @Override
     public List<FeedBackEntity> getAllByEvent(Integer eventId) {
-        return null;
+        return eventRepository.getOne(eventId).getFeedBackEntities();
     }
 
     @Override
-    public List<FeedBackEntity> getAllByUser(Integer userId) {
-        return null;
+    public List<FeedBackEntity> getAllByUser(UserEntity userEntity) {
+        return feedBackRepository.getByUser(userEntity);
     }
 
     @Override
-    public List<FeedBackEntity> removeAllByUser(Integer userId) {
-        return null;
+    public List<FeedBackEntity> removeAllByUser(UserEntity userEntity) {
+        return feedBackRepository.removeByUser(userEntity);
     }
 
     @Override

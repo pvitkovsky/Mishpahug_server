@@ -73,7 +73,7 @@ public class UserEntity {
 	@JsonManagedReference
 	private AddressEntity addressEntity;
 
-	@OneToMany(mappedBy = "userEntityOwner", cascade = CascadeType.ALL, fetch = FetchType.LAZY) // User owner of events
+	@OneToMany(mappedBy = "userEntityOwner", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true) // User owner of events
 	@JsonManagedReference
 	private Set<EventEntity> eventItemsOwner = new HashSet<>();
 

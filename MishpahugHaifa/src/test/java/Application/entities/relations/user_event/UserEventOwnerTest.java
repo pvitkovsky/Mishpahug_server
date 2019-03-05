@@ -110,7 +110,6 @@ public class UserEventOwnerTest {
 
 	}
 	
-   //TODO: protected tests
 	@Test
 	/**
 	 * Can't add event to user more than 1 time; checks hashcode of Event; 
@@ -155,7 +154,7 @@ public class UserEventOwnerTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void addEventOfAnotherOwner() { // why transfer when we have add? make add work only on transient events? 
+	public void addEventOfAnotherOwner() { 
 		ALYSSA.makeOwner(TESTING);
 		BEN.makeOwner(TESTING);
 	}
@@ -166,11 +165,8 @@ public class UserEventOwnerTest {
 		BEN.transferOwnedEvent(TESTING, ALYSSA);
 	}
 
+
 	
-	/**
-	 * This tests User.transferEvent;
-	 * Transfer Event not in the API, but useful as a tool for testing how relation works;
-	 */
 	@Test
 	public void onDeleteEvent() {
 
@@ -178,10 +174,22 @@ public class UserEventOwnerTest {
 		userRepo.save(ALYSSA);
 
 		ALYSSA.removeOwnedEvent(TESTING);
-		eventRepo.delete(TESTING);
 
 		assertFalse(eventRepo.existsById(TESTING.getId()));
 		assertTrue(userRepo.existsById(ALYSSA.getId()));
+
+	}
+	
+	@Test
+	public void onUserDeleteEventNotRemains() {
+
+		ALYSSA.makeOwner(TESTING);
+		userRepo.save(ALYSSA);
+		
+		userRepo.delete(ALYSSA);
+
+		assertFalse(eventRepo.existsById(TESTING.getId()));
+		assertFalse(userRepo.existsById(ALYSSA.getId()));
 
 	}
 }

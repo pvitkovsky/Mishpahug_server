@@ -103,25 +103,6 @@ public class EventEntity {
 		CREATED, PENDING, COMPLETE, CANCELED
 	}
 
-
-	/**
-	 * Bidirectional setter; owning user will have this event added to his set of events;  
-	 * @param userEntityOwner userEntity that is the owner of this event 
-	 * 
-	 */
-	public void setUserEntityOwner(UserEntity userEntityOwner) { //TODO:protected tests
-		this.userEntityOwner = userEntityOwner;
-	}
-	
-
-	/**
-	 * Execute this before removing event;  
-	 */
-	public void beforeDeletingEvent() {
-		this.userEntityOwner.removeOwnedEvent(this);
-		this.userEntityOwner.removeGuestEventEvent(this);
-	}
-	
 	/*
 	 * TODO: consider embedded business key with its own methods; 
 	 */
@@ -132,6 +113,17 @@ public class EventEntity {
 	public String toEventUniqueDescription() {
 		return this.nameOfEvent + " " + this.date.toString() + " " + this.time.toString();
 	}
+	
+
+	/**
+	 * Bidirectional setter; owning user will have this event added to his set of events;  
+	 * @param userEntityOwner userEntity that is the owner of this event 
+	 * 
+	 */
+	public void setUserEntityOwner(UserEntity userEntityOwner) { //TODO:protected tests
+		this.userEntityOwner = userEntityOwner;
+	}
+	
 	
 	/**
 	 * Bidirectional setter; 

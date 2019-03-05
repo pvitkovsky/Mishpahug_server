@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import Application.entities.EventEntity;
 import Application.entities.UserEntity;
+import Application.exceptions.ExceptionMishpaha;
 import Application.models.event.IEventModel;
 
 import Application.models.user.IUserModel;
@@ -66,11 +67,11 @@ public class AdminCPListEvent {
         return eventModel.update(id, data);
     }
     @DeleteMapping(value = "/remove")
-    public EventEntity remove(@RequestParam(value = "id") Integer id){
+    public EventEntity remove(@RequestParam(value = "id") Integer id) throws ExceptionMishpaha{ //TODO: proper exception hanling
         return eventModel.remove(id);
     }
     @GetMapping(value="/get")
-    public EventEntity get(@RequestParam(value = "id") Integer id){
+    public EventEntity get(@RequestParam(value = "id") Integer id) throws ExceptionMishpaha{ //TODO: proper exception hanling
         return eventModel.getById(id);
     }
     @GetMapping(value="/getbyfilter")

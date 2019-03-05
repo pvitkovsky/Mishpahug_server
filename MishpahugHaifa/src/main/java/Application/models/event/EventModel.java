@@ -79,6 +79,8 @@ public class EventModel implements IEventModel{
         if ((userEntity != null) && (eventEntity != null)){
             eventEntity.subscribe(userEntity);
             eventRepository.save(eventEntity);
+            userEntity.getEventItemsGuest().add(eventEntity);
+            userRepository.save(userEntity);
         }
         else new ExceptionMishpaha("Error! Not found user or event", null);
         return eventEntity;
@@ -91,6 +93,8 @@ public class EventModel implements IEventModel{
         if ((userEntity != null) && (eventEntity != null)){
             eventEntity.unsubscribe(userEntity);
             eventRepository.save(eventEntity);
+            userEntity.getEventItemsGuest().add(eventEntity);
+            userRepository.save(userEntity);
         }
         else new ExceptionMishpaha("Error! Not found user or event", null);
         return eventEntity;

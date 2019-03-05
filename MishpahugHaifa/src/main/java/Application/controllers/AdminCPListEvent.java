@@ -53,6 +53,7 @@ public class AdminCPListEvent {
         } catch (ExceptionMishpaha exceptionMishpaha) {
             exceptionMishpaha.printStackTrace();
         }
+        return null;
     }
 
     @PostMapping(value = "/unsubscribetoevent")
@@ -64,6 +65,7 @@ public class AdminCPListEvent {
         } catch (ExceptionMishpaha exceptionMishpaha) {
             exceptionMishpaha.printStackTrace();
         }
+        return null;
     }
 
     @PostMapping(value = "/add")

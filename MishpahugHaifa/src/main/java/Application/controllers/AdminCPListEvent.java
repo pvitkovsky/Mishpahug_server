@@ -45,17 +45,25 @@ public class AdminCPListEvent {
         return eventModel.getAllSubscribed(id);
     }
     @PostMapping(value = "/subscribetoevent")
-    public Set<UserEntity> subscribeToEvent(@RequestParam(value = "eventid") Integer eventId,
+    public EventEntity subscribeToEvent(@RequestParam(value = "eventid") Integer eventId,
                                              @RequestParam(value = "userid") Integer userId){
         //
-        return eventModel.getAllSubscribed(eventId);
+        try {
+            return eventModel.subscribe(eventId, userId);
+        } catch (ExceptionMishpaha exceptionMishpaha) {
+            exceptionMishpaha.printStackTrace();
+        }
     }
 
     @PostMapping(value = "/unsubscribetoevent")
-    public Set<UserEntity> unsubscribeToEvent(@RequestParam(value = "eventid") Integer eventId,
+    public EventEntity unsubscribeToEvent(@RequestParam(value = "eventid") Integer eventId,
                                                @RequestParam(value = "userid") Integer userId){
         //
-        return eventModel.getAllSubscribed(eventId);
+        try {
+            return eventModel.unsubscribe(eventId, userId);
+        } catch (ExceptionMishpaha exceptionMishpaha) {
+            exceptionMishpaha.printStackTrace();
+        }
     }
 
     @PostMapping(value = "/add")

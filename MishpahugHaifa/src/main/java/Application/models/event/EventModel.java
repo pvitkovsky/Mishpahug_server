@@ -53,14 +53,20 @@ public class EventModel implements IEventModel{
     @Override
     public EventEntity remove(Integer eventId) {
         EventEntity eventEntity = eventRepository.getOne(eventId);
-        eventRepository.deleteById(eventId);
+        UserEntity userOwner = eventEntity.getUserEntityOwner();
+        userOwner.removeOwnedEvent(eventEntity);
+        for(UserEntity guest : eventEntity.getUserItemsGuestsOfEvents()) {
+        	eventEntity.unSubscribe(guest);
+        }
+        userRepository.save(userOwner); // event is cascaded from user; 
         return eventEntity;
     }
 
     @Override
     public EventEntity getById(Integer id) {
         EventEntity eventEntity = eventRepository.getOne(id);
-        if (eventEntity != null) return eventEntity;
+        if (eventEntity != null) return eventEntity;  //getOne throws if not null; 
+        // TODO: check how getOne throws exceptions;
         else {
             new ExceptionMishpaha("Error! Not found event", null);
             return null;
@@ -75,14 +81,9 @@ public class EventModel implements IEventModel{
     @Override
     public EventEntity subscribe(Integer eventId, Integer userId) {
         EventEntity eventEntity = eventRepository.getOne(eventId);
-        UserEntity userEntity = userRepository.getOne(userId);
-        if ((userEntity != null) && (eventEntity != null)){
-            eventEntity.subscribe(userEntity);
-            eventRepository.save(eventEntity);
-            userEntity.getEventItemsGuest().add(eventEntity);
-            userRepository.save(userEntity);
-        }
-        else new ExceptionMishpaha("Error! Not found user or event", null);
+        UserEntity userEntity = userRepository.getOne(userId); //getOne throws if not null; 
+        userEntity.subscribeTo(eventEntity);
+        userRepository.save(userEntity);
         return eventEntity;
     }
 
@@ -90,13 +91,8 @@ public class EventModel implements IEventModel{
     public EventEntity unsubscribe(Integer eventId, Integer userId) {
         EventEntity eventEntity = eventRepository.getOne(eventId);
         UserEntity userEntity = userRepository.getOne(userId);
-        if ((userEntity != null) && (eventEntity != null)){
-            eventEntity.unsubscribe(userEntity);
-            eventRepository.save(eventEntity);
-            userEntity.getEventItemsGuest().add(eventEntity);
-            userRepository.save(userEntity);
-        }
-        else new ExceptionMishpaha("Error! Not found user or event", null);
+        userEntity.unsubscribeFrom(eventEntity);
+        userRepository.save(userEntity);
         return eventEntity;
     }
 }

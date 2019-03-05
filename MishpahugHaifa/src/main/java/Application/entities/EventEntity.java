@@ -17,6 +17,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -26,7 +27,6 @@ import javax.persistence.UniqueConstraint;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -83,7 +83,6 @@ public class EventEntity {
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "user_entity_owner")
-	@Setter(AccessLevel.NONE)
 	@JsonBackReference
 	private UserEntity userEntityOwner;
 
@@ -91,7 +90,7 @@ public class EventEntity {
 	@JsonBackReference
 	private AddressEntity addressEntity;
 
-	@ManyToMany
+	@ManyToMany(mappedBy = "eventItemsGuest") //TODO: immutable getters on sets; 
 	@JsonBackReference
 	private Set<UserEntity> userItemsGuestsOfEvents = new HashSet<>();
 
@@ -113,37 +112,12 @@ public class EventEntity {
 	public String toEventUniqueDescription() {
 		return this.nameOfEvent + " " + this.date.toString() + " " + this.time.toString();
 	}
-	
 
-	/**
-	 * Bidirectional setter; owning user will have this event added to his set of events;  
-	 * @param userEntityOwner userEntity that is the owner of this event 
-	 * 
-	 */
-	public void setUserEntityOwner(UserEntity userEntityOwner) { //TODO:protected tests
-		this.userEntityOwner = userEntityOwner;
-	}
+	public void subscribe(UserEntity guest) {
+		guest.subscribeTo(this);
+	}	
 	
-	
-	/**
-	 * Bidirectional setter; 
-	 * @param userEntityGuest
-	 */
-	public void subscribe(UserEntity userEntityGuest){
-		this.userItemsGuestsOfEvents.add(userEntityGuest);
-		userEntityGuest.addGuestEvent(this);
-	}
-	
-	/**
-	 * Bidirectional setter; 
-	 * @param userEntityGuest
-	 */
-	public void unsubscribe(UserEntity userEntityGuest){	
-		if (!userItemsGuestsOfEvents.contains(userEntityGuest)) {
-			throw new IllegalArgumentException("user not found in the subscribed list");
-		}
-		userItemsGuestsOfEvents.remove(userEntityGuest);
-		userEntityGuest.removeGuestEventEvent(this);
-	}
-
+	public void unSubscribe(UserEntity guest) {
+		guest.unsubscribeFrom(this);
+	}	
 }

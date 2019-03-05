@@ -16,6 +16,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -77,7 +79,14 @@ public class UserEntity {
 	@JsonManagedReference
 	private Set<EventEntity> eventItemsOwner = new HashSet<>();
 
-	@ManyToMany(mappedBy = "userItemsGuestsOfEvents", cascade = CascadeType.ALL) // User a guest in events
+	@ManyToMany(cascade = CascadeType.ALL) // User a guest in events
+	@JoinTable(name = "USER_EVENT",
+    joinColumns = {
+        @JoinColumn(name = "EVENT_ID")
+    },
+    inverseJoinColumns = {
+        @JoinColumn(name = "USER_ID")
+    })
 	@JsonManagedReference
 	private Set<EventEntity> eventItemsGuest = new HashSet<>();
 
@@ -152,7 +161,7 @@ public class UserEntity {
 	 * @param event
 	 * @return
 	 */
-	public boolean addGuestEvent(EventEntity event) {
+	public boolean subscribeTo(EventEntity event) {
 		event.getUserItemsGuestsOfEvents().add(this);
 		return eventItemsGuest.add(event); // TODO: thread safety argument;
 	}
@@ -162,10 +171,10 @@ public class UserEntity {
 	 * 
 	 * @param event
 	 */
-	public boolean removeGuestEventEvent(EventEntity event) {
-//		if(!eventItemsGuest.contains(event)) {
-//			throw new IllegalStateException("Event not found in this user's guest events set");
-//		}
+	public boolean unsubscribeFrom(EventEntity event) {
+		if(!eventItemsGuest.contains(event)) {
+			throw new IllegalStateException("Event not found in this user's guest events set");
+		}
 		event.getUserItemsGuestsOfEvents().remove(this);
 		return eventItemsGuest.remove(event);
 	}

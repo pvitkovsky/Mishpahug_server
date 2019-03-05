@@ -57,13 +57,13 @@ public class UserEventGuestTest {
 	 */
 	@Test
 	public void onUserSaveReadEvent() {
-
-
-		GUESTING.setUserEntityOwner(BEN);
-		userRepo.save(BEN);
 		
+		BEN.makeOwner(GUESTING);
+		userRepo.save(BEN);
+		userRepo.save(ALYSSA); //TODO: automatic cascade please;
+	
 		GUESTING.subscribe(ALYSSA);
-		userRepo.save(ALYSSA);
+		eventRepo.save(GUESTING);
 		
 		assertTrue(userRepo.existsById(ALYSSA.getId()));
 		assertTrue(eventRepo.existsById(GUESTING.getId()));
@@ -83,46 +83,39 @@ public class UserEventGuestTest {
 
 	}
 	
+	/**
+	 * Shows that you have to clear user of events before deleting; 
+	 */
 	@Test
 	public void onUserDeleteEventRemains() {
-
-
-		GUESTING.setUserEntityOwner(BEN);
-		userRepo.save(BEN);
+		
+		BEN.makeOwner(GUESTING);
+		userRepo.save(BEN);	
+		userRepo.save(ALYSSA);	 //TODO: automatic cascade pls; 
 		
 		GUESTING.subscribe(ALYSSA);
-		userRepo.save(ALYSSA);
-		
-		assertTrue(eventRepo.existsById(GUESTING.getId()));
-		
-		GUESTING.unsubscribe(ALYSSA); // has to do this; 
+		GUESTING.unSubscribe(ALYSSA); //TODO: automatic pls;  
 		userRepo.delete(ALYSSA);
 		
 		assertTrue(eventRepo.existsById(GUESTING.getId()));
 		assertFalse(userRepo.existsById(ALYSSA.getId()));
-
+		assertFalse(GUESTING.getUserItemsGuestsOfEvents().contains(ALYSSA));
 	}
 	
 	@Test
 	public void onEventDeleteUserRemains() {
 
-
-		GUESTING.setUserEntityOwner(BEN);
+		BEN.makeOwner(GUESTING);
 		userRepo.save(BEN);
-		
+		userRepo.save(ALYSSA); //TODO: automatic pls;
 		GUESTING.subscribe(ALYSSA);
-		userRepo.save(ALYSSA);
 		
-		assertTrue(eventRepo.existsById(GUESTING.getId()));
-		EventEntity savedE = eventRepo.findById(GUESTING.getId()).get();
-		System.out.println(savedE);
-		
-		GUESTING.unsubscribe(ALYSSA);
-		eventRepo.delete(GUESTING);
+		GUESTING.unSubscribe(ALYSSA);  //TODO: automatic pls;
+		BEN.removeOwnedEvent(GUESTING); 
 
 		assertFalse(eventRepo.existsById(GUESTING.getId()));
 		assertTrue(userRepo.existsById(ALYSSA.getId()));
-
+		assertFalse(ALYSSA.getEventEntityGuest().contains(GUESTING));
 
 	}
 

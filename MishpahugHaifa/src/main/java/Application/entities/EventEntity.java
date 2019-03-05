@@ -92,6 +92,19 @@ public class EventEntity {
 	@JsonManagedReference
 	private List<FeedBackEntity> feedBackEntities = new ArrayList<>();
 
+	public List<UserEntity> subscribe(UserEntity userEntityGuest){
+		userItemsGuestsOfEvents.add(userEntityGuest);
+		return userItemsGuestsOfEvents;
+	}
+
+	public List<UserEntity> unsubscribe(UserEntity userEntityGuest){
+		if (userItemsGuestsOfEvents.contains(userEntityGuest)) {
+			userItemsGuestsOfEvents.remove(userEntityGuest);
+		}
+		return userItemsGuestsOfEvents;
+	}
+
+
 	public enum EventStatus {
 		CREATED, PENDING, COMPLETE, CANCELED
 	}

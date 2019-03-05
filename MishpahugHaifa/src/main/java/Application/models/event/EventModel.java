@@ -2,17 +2,23 @@ package Application.models.event;
 
 import Application.entities.EventEntity;
 import Application.entities.UserEntity;
+import Application.exceptions.ExceptionMishpaha;
 import Application.repo.EventRepository;
+import Application.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.HashMap;
+import java.util.Set;
+
 @Service
 public class EventModel implements IEventModel{
 
     @Autowired
     EventRepository eventRepository;
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     public List<EventEntity> getAll() {
@@ -20,8 +26,8 @@ public class EventModel implements IEventModel{
     }
 
     @Override
-    public List<EventEntity> getAllByUser(Integer userId) {
-        return null;
+    public Set<EventEntity> getAllByUser(Integer userId) {
+        return userRepository.getOne(userId).getEventItemsGuest();
     }
 
     @Override
@@ -53,6 +59,44 @@ public class EventModel implements IEventModel{
 
     @Override
     public EventEntity getById(Integer id) {
-        return eventRepository.getOne(id);
+        EventEntity eventEntity = eventRepository.getOne(id);
+        if (eventEntity != null) return eventEntity;
+        else {
+            new ExceptionMishpaha("Error! Not found event", null);
+            return null;
+        }
+    }
+
+    @Override
+    public EventEntity getByFullName(String name) {
+        return eventRepository.byFullName(name);
+    }
+
+    @Override
+    public EventEntity subscribe(Integer eventId, Integer userId) {
+        EventEntity eventEntity = eventRepository.getOne(eventId);
+        UserEntity userEntity = userRepository.getOne(userId);
+        if ((userEntity != null) && (eventEntity != null)){
+            eventEntity.subscribe(userEntity);
+            eventRepository.save(eventEntity);
+            userEntity.getEventItemsGuest().add(eventEntity);
+            userRepository.save(userEntity);
+        }
+        else new ExceptionMishpaha("Error! Not found user or event", null);
+        return eventEntity;
+    }
+
+    @Override
+    public EventEntity unsubscribe(Integer eventId, Integer userId) {
+        EventEntity eventEntity = eventRepository.getOne(eventId);
+        UserEntity userEntity = userRepository.getOne(userId);
+        if ((userEntity != null) && (eventEntity != null)){
+            eventEntity.unsubscribe(userEntity);
+            eventRepository.save(eventEntity);
+            userEntity.getEventItemsGuest().add(eventEntity);
+            userRepository.save(userEntity);
+        }
+        else new ExceptionMishpaha("Error! Not found user or event", null);
+        return eventEntity;
     }
 }

@@ -64,7 +64,6 @@ public class removegetfeedbacktest {
         for (int i = 0; i < namesOfEvents.length; i++){
             eventEntities[i] = new EventEntity();
             eventEntities[i].setNameOfEvent(namesOfEvents[i]);
-            LocalDate date;
             eventEntities[i].setDate(LocalDate.of(2019, 1, (i + 1) * 2));
             eventEntities[i].setTime(LocalTime.of(11,00));
             eventEntities[i].setUserEntityOwner(userEntities[i]);
@@ -85,13 +84,13 @@ public class removegetfeedbacktest {
                     (i + 1) *2,
                     10,
                     00));
-            feedBackEntity.setEventItem(eventEntities[i]);
-            feedBackEntity.setUserItem(userEntities[i]);
+
             //feedBackEntity.setUserItem(userEntities[i + eventEntities.length]);
             feedBackEntity.setComment(userEntities[i].getNickname() + "@"
                     + eventEntities[i].getNameOfEvent());
-            userEntities[i].getFeedBacks().put(i, feedBackEntity);
+            feedBackEntity.setData( userEntities[i], eventEntities[i]);
             userRepository.save(userEntities[i]);
+            eventRepository.save(eventEntities[i]);
             feedBackRepository.save(feedBackEntity);
         }
         for (int i = 0; i < namesOfEvents.length; i++){
@@ -109,8 +108,11 @@ public class removegetfeedbacktest {
             userEntities[i].getFeedBacks().put(i + eventEntities.length, feedBackEntity);
             userRepository.save(userEntities[i + eventEntities.length]);
             feedBackRepository.save(feedBackEntity);
+            userRepository.save(userEntities[i + eventEntities.length]);
+            eventRepository.save(eventEntities[i]);
         }
         System.out.println("@ " + userRepository.getOne(userEntities[2].getId()).getFeedBacks().size());
+        //System.out.println("@ " + eventRepository.findAll().size());
     }
 
     @Test

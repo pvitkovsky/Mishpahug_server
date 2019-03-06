@@ -53,5 +53,13 @@ public class FeedBackEntity{
     public int hashCode() {
         return Objects.hash(id, comment, dateTime, rating, userItem, eventItem);
     }
+
+    public void setData(UserEntity userEntity, EventEntity eventEntity){
+        this.setUserItem(userEntity);
+        this.setEventItem(eventEntity);
+        //eventItem.getFeedbacks().put(this.id, this);
+        userEntity.getFeedBacks().put(this.id, this);
+
+    }
 }
 

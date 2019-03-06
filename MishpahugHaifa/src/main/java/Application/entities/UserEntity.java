@@ -81,14 +81,7 @@ public class UserEntity {
 	@JsonManagedReference
 	private Set<EventEntity> eventItemsOwner = new HashSet<>();
 
-	@ManyToMany(cascade = CascadeType.ALL) // User a guest in events
-	@JoinTable(name = "USER_EVENT",
-    joinColumns = {
-        @JoinColumn(name = "EVENT_ID")
-    },
-    inverseJoinColumns = {
-        @JoinColumn(name = "USER_ID")
-    })
+	@ManyToMany(mappedBy = "userItemsGuestsOfEvents", fetch = FetchType.LAZY) //TODO: immutable getters on sets; 
 	@JsonManagedReference
 	private Set<EventEntity> eventItemsGuest = new HashSet<>();
 
@@ -141,12 +134,18 @@ public class UserEntity {
 	}
 
 	/**
-	 * Removing owned event
+	 * Removing owned event, event is deleted once the user is merged; 
 	 * @param event
 	 */
 	public boolean removeOwnedEvent(EventEntity event) {
 		if (!event.getUserEntityOwner().equals(this)) {
 			throw new IllegalArgumentException("Trying to remove event with another owner");
+		}
+		if (!eventItemsOwner.contains(event)) {
+			throw new IllegalStateException("Event has user set as owner, but not present in the user's collection of owned events");
+		}
+		for(UserEntity guest : event.getUserItemsGuestsOfEvents()) {
+			event.unSubscribe(guest);
 		}
 		return eventItemsOwner.remove(event); // TODO: thread safety argument;
 	}
@@ -165,13 +164,11 @@ public class UserEntity {
 	 * @return
 	 */
 	public boolean subscribeTo(EventEntity event) {
-        if (!event.getUserEntityOwner().equals(this)){
-            event.getUserItemsGuestsOfEvents().add(this);
-            return eventItemsGuest.add(event); // TODO: thread safety argument;
+        if (event.getUserEntityOwner().equals(this)){
+        	throw new IllegalArgumentException("Trying to subscribe to the owned event");
         }
-		else {
-		    return false;
-        }
+        event.getUserItemsGuestsOfEvents().add(this);
+        return eventItemsGuest.add(event); // TODO: thread safety argument;
 	}
 
 	/**
@@ -181,7 +178,13 @@ public class UserEntity {
 	 */
 	public boolean unsubscribeFrom(EventEntity event) {
 		if(event.getUserEntityOwner().equals(this)) {
-			throw new IllegalArgumentException("Trying to subscribe to the owned event");
+			throw new IllegalArgumentException("Trying to unsubscribe from the owned event");
+		}
+		if(!event.getUserItemsGuestsOfEvents().contains(this)) {
+			throw new IllegalArgumentException("Not subscribed and trying to unsubscibe");
+		}
+		if(event.getUserItemsGuestsOfEvents().contains(this) && !this.eventItemsGuest.contains(event)) {
+			throw new IllegalStateException("User is guest of event, but his set of subscriptions does not contain this event");
 		}
 		event.getUserItemsGuestsOfEvents().remove(this);
 		return eventItemsGuest.remove(event);
@@ -193,5 +196,4 @@ public class UserEntity {
 	public Set<EventEntity> getEventEntityGuest() {
 		return Collections.unmodifiableSet(eventItemsGuest);
 	}
-
 }

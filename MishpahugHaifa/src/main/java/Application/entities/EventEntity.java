@@ -90,7 +90,15 @@ public class EventEntity {
 	@JsonBackReference
 	private AddressEntity addressEntity;
 
-	@ManyToMany(mappedBy = "eventItemsGuest") //TODO: immutable getters on sets; 
+	
+	@ManyToMany(cascade = CascadeType.PERSIST) // User a guest in events
+	@JoinTable(name = "USER_EVENT",
+    joinColumns = {
+        @JoinColumn(name = "EVENT_ID")
+    },
+    inverseJoinColumns = {
+        @JoinColumn(name = "USER_ID")
+    })
 	@JsonBackReference
 	private Set<UserEntity> userItemsGuestsOfEvents = new HashSet<>();
 

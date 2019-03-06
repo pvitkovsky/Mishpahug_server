@@ -91,10 +91,10 @@ public class UserEventGuestTest {
 		
 		BEN.makeOwner(GUESTING);
 		userRepo.save(BEN);	
-		userRepo.save(ALYSSA);	 //TODO: automatic cascade pls; 
+		userRepo.save(ALYSSA);	 //TODO: maintain saving in model, UserEntity doesn't persist from subscription;
 		
 		GUESTING.subscribe(ALYSSA);
-		GUESTING.unSubscribe(ALYSSA); //TODO: automatic pls;  
+		GUESTING.unSubscribe(ALYSSA); //TODO: maintain unsubscription in model; 
 		userRepo.delete(ALYSSA);
 		
 		assertTrue(eventRepo.existsById(GUESTING.getId()));
@@ -107,10 +107,9 @@ public class UserEventGuestTest {
 
 		BEN.makeOwner(GUESTING);
 		userRepo.save(BEN);
-		userRepo.save(ALYSSA); //TODO: automatic pls;
+		userRepo.save(ALYSSA); //TODO: maintain saving in model, UserEntity doesn't persist from subscription;
 		GUESTING.subscribe(ALYSSA);
 		
-		GUESTING.unSubscribe(ALYSSA);  //TODO: automatic pls;
 		BEN.removeOwnedEvent(GUESTING); 
 
 		assertFalse(eventRepo.existsById(GUESTING.getId()));

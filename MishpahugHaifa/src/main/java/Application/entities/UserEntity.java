@@ -71,7 +71,7 @@ public class UserEntity {
 
 	@JsonManagedReference
 	@Column(name = "feedbacks")
-	private HashMap<Integer, FeedBackEntity> feedBacks;
+	private HashMap<Integer, FeedBackEntity> feedBacks = new HashMap<>();
 
 	@OneToOne(mappedBy = "userEntity") // Address of user
 	@JsonManagedReference

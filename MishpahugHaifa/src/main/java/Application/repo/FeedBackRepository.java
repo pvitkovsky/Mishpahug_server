@@ -8,9 +8,4 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface FeedBackRepository extends JpaRepository<FeedBackEntity, Integer> {
-    /*проверить не уверен*/
-    @Query("SELECT fb from FeedBackEntity fb WHERE fb.userItem like %:userEntity%")
-    public List<FeedBackEntity> getByUser(UserEntity userEntity);
-    @Query("DELETE from FeedBackEntity fb WHERE fb.userItem like %:userEntity%")
-    public List<FeedBackEntity> removeByUser(UserEntity userEntity);
 }

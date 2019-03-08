@@ -58,7 +58,7 @@ public class removegetfeedbacktest {
             userEntities[i].setFirstName(names[i]);
             userEntities[i].setPhoneNumber("44444" + i);
             userEntities[i].setLastName("Ivanov");
-            userRepository.save(userEntities[i]);
+            //userRepository.save(userEntities[i]);
         }
         //generator for events
         for (int i = 0; i < namesOfEvents.length; i++){
@@ -69,7 +69,7 @@ public class removegetfeedbacktest {
             eventEntities[i].setUserEntityOwner(userEntities[i]);
             eventEntities[i].subscribe(userEntities[namesOfEvents.length + i]);
             eventEntities[i].setStatus(EventEntity.EventStatus.CREATED);
-            eventRepository.save(eventEntities[i]);
+            //eventRepository.save(eventEntities[i]);
         }
 
     }
@@ -79,19 +79,22 @@ public class removegetfeedbacktest {
         //To do
         for (int i = 0; i < namesOfEvents.length; i++){
             FeedBackEntity feedBackEntity = new FeedBackEntity();
-            feedBackEntity.setDateTime(LocalDateTime.of(2020,
-                    2,
+            feedBackEntity.setDateTime(LocalDateTime.of(2010,
+                    1,
                     (i + 1) *2,
-                    10,
+                    20,
                     00));
 
-            //feedBackEntity.setUserItem(userEntities[i + eventEntities.length]);
+            feedBackEntity.setEventItem(eventEntities[i]);
+            feedBackEntity.setUserItem(userEntities[i]);
             feedBackEntity.setComment(userEntities[i].getNickname() + "@"
                     + eventEntities[i].getNameOfEvent());
-            feedBackEntity.setData( userEntities[i], eventEntities[i]);
+            userEntities[i + eventEntities.length].addFeedBack(feedBackEntity);
+            feedBackRepository.save(feedBackEntity);
+
             userRepository.save(userEntities[i]);
             eventRepository.save(eventEntities[i]);
-            feedBackRepository.save(feedBackEntity);
+
         }
         for (int i = 0; i < namesOfEvents.length; i++){
             FeedBackEntity feedBackEntity = new FeedBackEntity();
@@ -101,17 +104,25 @@ public class removegetfeedbacktest {
                     20,
                     00));
             feedBackEntity.setEventItem(eventEntities[i]);
-            //feedBackEntity.setUserItem(userEntities[i]);
             feedBackEntity.setUserItem(userEntities[i + eventEntities.length]);
-            feedBackEntity.setComment(userEntities[i].getNickname() + "@"
+            feedBackEntity.setComment(userEntities[i + eventEntities.length].getNickname() + "@"
                     + eventEntities[i].getNameOfEvent());
-            userEntities[i].getFeedBacks().put(i + eventEntities.length, feedBackEntity);
             userRepository.save(userEntities[i + eventEntities.length]);
             feedBackRepository.save(feedBackEntity);
-            userRepository.save(userEntities[i + eventEntities.length]);
+            userEntities[i + eventEntities.length].addFeedBack(feedBackEntity);
             eventRepository.save(eventEntities[i]);
+            userRepository.save(userEntities[i + eventEntities.length]);
+
         }
-        System.out.println("@ " + userRepository.getOne(userEntities[2].getId()).getFeedBacks().size());
+        Integer z = userRepository.findAll().size();
+        for (int i = 0; i<z;i++){
+            System.out.println("@ " + userRepository.findAll().get(i).getFeedBacks());
+        }
+        z = eventRepository.findAll().size();
+        for (int i = 0; i<z;i++){
+            System.out.println("@ " + eventRepository.findAll().get(i).getFeedbacks());
+        }
+
         //System.out.println("@ " + eventRepository.findAll().size());
     }
 

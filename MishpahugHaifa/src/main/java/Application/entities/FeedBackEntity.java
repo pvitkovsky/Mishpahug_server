@@ -57,7 +57,7 @@ public class FeedBackEntity{
     public void setData(UserEntity userEntity, EventEntity eventEntity){
         this.setUserItem(userEntity);
         this.setEventItem(eventEntity);
-        //eventItem.getFeedbacks().put(this.id, this);
+        eventItem.getFeedbacks().put(this.id, this);
         userEntity.getFeedBacks().put(this.id, this);
 
     }

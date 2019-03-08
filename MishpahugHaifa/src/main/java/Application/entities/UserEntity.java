@@ -94,6 +94,13 @@ public class UserEntity {
 	@JsonManagedReference
 	private Set<FeedBackEntity> feedBackEntities = new HashSet<>();
 
+	public void addFeedBack(FeedBackEntity data){
+
+		System.out.println(feedBackEntities.add(data));
+		System.out.println(feedBackEntities);
+	}
+
+
 	public enum UserRole {
 		ADMIN, AUTHORISED, SUSPENDED,
 	}

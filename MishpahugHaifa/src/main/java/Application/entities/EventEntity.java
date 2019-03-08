@@ -2,10 +2,9 @@ package Application.entities;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -20,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -27,6 +27,7 @@ import javax.persistence.UniqueConstraint;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -57,26 +58,13 @@ public class EventEntity {
 	@Column(name="name_of_event")
 	private String nameOfEvent;
 
-    @JsonManagedReference
-	private HashMap<Integer, FeedBackEntity> feedbacks;
-
 	@ManyToOne
 	@JsonManagedReference
 	private KichenTypeEntity kichenTypeEntity;
 
-
 	@ManyToOne
 	@JsonManagedReference
 	private HoliDayEntity holiDayEntity;
-
-
-	public HoliDayEntity getHoliDayEntity() {
-		return 	holiDayEntity;
-	}
-
-	public void setHoliDayEntity(HoliDayEntity holiDayEntity) {
-		this.holiDayEntity = holiDayEntity;
-	}
 
 	@Enumerated(EnumType.STRING)
 	private EventStatus status;
@@ -84,6 +72,7 @@ public class EventEntity {
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "user_entity_owner")
 	@JsonBackReference
+	@Setter(AccessLevel.PACKAGE) // clients should use User.makeOwner; can't do bidirectional setter here bc of circular reference;  
 	private UserEntity userEntityOwner;
 
 	@ManyToOne
@@ -99,17 +88,18 @@ public class EventEntity {
     inverseJoinColumns = {
         @JoinColumn(name = "USER_ID")
     })
-	@JsonBackReference
+	@JsonBackReference //TODO: make bidirectional setters protected; 
 	private Set<UserEntity> userItemsGuestsOfEvents = new HashSet<>();
 
-	@OneToMany(mappedBy = "eventItem", cascade = CascadeType.ALL) // All feedBacks of event
+	@OneToMany(mappedBy = "eventItem") 
+	@MapKey(name = "id")
 	@JsonManagedReference
-	private List<FeedBackEntity> feedBackEntities = new ArrayList<>();
-
+	private Map<Integer, FeedBackEntity> feedbacks = new HashMap<>();
+	
 	public enum EventStatus {
 		CREATED, PENDING, COMPLETE, CANCELED
 	}
-
+	
 	/*
 	 * TODO: consider embedded business key with its own methods; 
 	 */
@@ -121,11 +111,33 @@ public class EventEntity {
 		return this.nameOfEvent + " " + this.date.toString() + " " + this.time.toString();
 	}
 
+	//TODO: bidirectional setters without breaking encapsulation;
+	/**
+	 * Bidirectional setter, warning: unsafe, uses exposed getters
+	 * @param guest
+	 */
 	public void subscribe(UserEntity guest) {
 		guest.subscribeTo(this);
 	}	
 	
+
+	//TODO: bidirectional setters without breaking encapsulation;
+	/**
+	 * Bidirectional setter, warning: unsafe, uses exposed getters
+	 * @param guest
+	 */
 	public void unSubscribe(UserEntity guest) {
 		guest.unsubscribeFrom(this);
 	}	
+	
+	/**
+	 * Adding feedback;
+	 * @param feedback
+	 */
+	//TODO: immutable getter; defensive coding
+	public void addFeedBack(FeedBackEntity feedback){
+
+		feedbacks.put(feedback.getId(), feedback);
+
+	}
 }

@@ -70,7 +70,7 @@ public class UserEventGuestTest {
 		
 		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
 		EventEntity savedE = eventRepo.findById(GUESTING.getId()).get();
-		EventEntity savedEfromUser = savedA.getEventItemsGuest().iterator().next();
+		EventEntity savedEfromUser = savedA.getEventEntityGuest().iterator().next();
 		UserEntity savedAfromEvent = savedE.getUserItemsGuestsOfEvents().iterator().next();
 		
 		assertTrue(savedA.equals(ALYSSA));

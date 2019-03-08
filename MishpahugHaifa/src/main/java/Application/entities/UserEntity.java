@@ -3,6 +3,7 @@ package Application.entities;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -16,9 +17,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -27,6 +27,7 @@ import javax.persistence.UniqueConstraint;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import Application.entities.values.PictureValue;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -69,37 +70,31 @@ public class UserEntity {
 	@Column(name = "role")
 	private UserRole role;
 
-	@JsonManagedReference
-	@Column(name = "feedbacks")
-	private HashMap<Integer, FeedBackEntity> feedBacks = new HashMap<>();
-
 	@OneToOne(mappedBy = "userEntity") // Address of user
 	@JsonManagedReference
 	private AddressEntity addressEntity;
 
 	@OneToMany(mappedBy = "userEntityOwner", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true) // User owner of events
 	@JsonManagedReference
+	@Getter(AccessLevel.NONE)
+	@Setter(AccessLevel.NONE)
 	private Set<EventEntity> eventItemsOwner = new HashSet<>();
 
 	@ManyToMany(mappedBy = "userItemsGuestsOfEvents", fetch = FetchType.LAZY) //TODO: immutable getters on sets; 
 	@JsonManagedReference
+	@Getter(AccessLevel.NONE)
+	@Setter(AccessLevel.NONE)
 	private Set<EventEntity> eventItemsGuest = new HashSet<>();
 
 	@ElementCollection
 	@CollectionTable
 	@Column(name = "pictures")
 	private Set<PictureValue> pictureItems = new HashSet<>();
-
-	@OneToMany(mappedBy = "userItem", cascade = CascadeType.ALL)
+	
+	@OneToMany(mappedBy = "userItem") 
+	@MapKey(name = "id")
 	@JsonManagedReference
-	private Set<FeedBackEntity> feedBackEntities = new HashSet<>();
-
-	public void addFeedBack(FeedBackEntity data){
-
-		System.out.println(feedBackEntities.add(data));
-		System.out.println(feedBackEntities);
-	}
-
+	private Map<Integer, FeedBackEntity> feedbacks = new HashMap<>();
 
 	public enum UserRole {
 		ADMIN, AUTHORISED, SUSPENDED,
@@ -202,5 +197,16 @@ public class UserEntity {
 	 */
 	public Set<EventEntity> getEventEntityGuest() {
 		return Collections.unmodifiableSet(eventItemsGuest);
+	}
+	
+	/**
+	 * Adding feedback;
+	 * @param feedback
+	 */
+	//TODO: immutable getter; defensive coding
+	public void addFeedBack(FeedBackEntity feedback){
+
+		feedbacks.put(feedback.getId(), feedback);
+
 	}
 }

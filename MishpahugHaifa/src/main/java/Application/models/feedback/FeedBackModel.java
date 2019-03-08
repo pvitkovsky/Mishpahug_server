@@ -1,15 +1,16 @@
 package Application.models.feedback;
 
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import Application.entities.FeedBackEntity;
 import Application.entities.UserEntity;
 import Application.repo.EventRepository;
 import Application.repo.FeedBackRepository;
 import Application.repo.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.List;
 @Service
 public class FeedBackModel implements IFeedBackModel {
 
@@ -23,18 +24,18 @@ public class FeedBackModel implements IFeedBackModel {
     UserRepository userRepository;
 
     @Override
-    public List<FeedBackEntity> getAllByEvent(Integer eventId) {
-        return eventRepository.getOne(eventId).getFeedBackEntities();
+    public Map<Integer, FeedBackEntity> getAllByEvent(Integer eventId) {
+        return eventRepository.getOne(eventId).getFeedbacks();
     }
 
     @Override
-    public HashMap<Integer, FeedBackEntity> getAllByUser(UserEntity userEntity) {
-        return userRepository.getOne(userEntity.getId()).getFeedBacks();
+    public Map<Integer, FeedBackEntity> getAllByUser(UserEntity userEntity) {
+        return userRepository.getOne(userEntity.getId()).getFeedbacks();
     }
 
     @Override
     public void removeAllByUser(UserEntity userEntity) {
-        userRepository.getOne(userEntity.getId()).getFeedBacks().clear();
+        userRepository.getOne(userEntity.getId()).getFeedbacks().clear();
     }
 
     @Override

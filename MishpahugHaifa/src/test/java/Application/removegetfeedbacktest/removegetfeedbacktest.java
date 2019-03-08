@@ -1,11 +1,10 @@
 package Application.removegetfeedbacktest;
 
-import Application.entities.EventEntity;
-import Application.entities.FeedBackEntity;
-import Application.entities.UserEntity;
-import Application.repo.EventRepository;
-import Application.repo.FeedBackRepository;
-import Application.repo.UserRepository;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Set;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,10 +14,12 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.Date;
+import Application.entities.EventEntity;
+import Application.entities.FeedBackEntity;
+import Application.entities.UserEntity;
+import Application.repo.EventRepository;
+import Application.repo.FeedBackRepository;
+import Application.repo.UserRepository;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -26,16 +27,16 @@ import java.util.Date;
 @Transactional
 public class removegetfeedbacktest {
 
-    private static final String[] names = {"David",
+    private static final String[] userNames = {"David",
             "Ivan", "Alex", "Dasha", "Pasha",
             "Masha", "Ura", "Tanja", "Sarah",
             "Tom", "Anna", "Felix", "Jone",
             "Marina", "Mark", "Haim", "Phillip"};
-    private static final String[] namesOfEvents = {"Purim",
-            "Shabat", "Posh-Ashana", "Hanuka", "Tu-Bi-Shvat",
-            "Lag-Ba-Omer", "Nar-Mitsva"};
-    private UserEntity[] userEntities = new UserEntity[names.length];
-    private EventEntity[] eventEntities = new EventEntity[namesOfEvents.length];
+    private static final String[] eventNames = {"Purim",
+            "Shabat", "Rosh-Ashana", "Hanuka", "Tu-Bi-Shvat",
+            "Lag-Ba-Omer", "Nar-Mitsva", "Women's day"};
+    private UserEntity[] userEntities = new UserEntity[userNames.length];
+    private EventEntity[] eventEntities = new EventEntity[eventNames.length];
 
     @Autowired
     EventRepository eventRepository;
@@ -51,33 +52,35 @@ public class removegetfeedbacktest {
     public void buildEntities() {
         //To do
         // generator for users
-        for (int i = 0; i < names.length; i++){
+        for (int i = 0; i < userNames.length; i++){
             userEntities[i] = new UserEntity();
-            userEntities[i].setNickname(names[i]);
-            userEntities[i].setEMail(names[i] + "@gmail.com");
-            userEntities[i].setFirstName(names[i]);
+            userEntities[i].setNickname(userNames[i]);
+            userEntities[i].setEMail(userNames[i] + "@gmail.com");
+            userEntities[i].setFirstName(userNames[i]);
             userEntities[i].setPhoneNumber("44444" + i);
             userEntities[i].setLastName("Ivanov");
-            //userRepository.save(userEntities[i]);
         }
         //generator for events
-        for (int i = 0; i < namesOfEvents.length; i++){
+        for (int i = 0; i < eventNames.length; i++){
             eventEntities[i] = new EventEntity();
-            eventEntities[i].setNameOfEvent(namesOfEvents[i]);
+            eventEntities[i].setNameOfEvent(eventNames[i]);
             eventEntities[i].setDate(LocalDate.of(2019, 1, (i + 1) * 2));
             eventEntities[i].setTime(LocalTime.of(11,00));
-            eventEntities[i].setUserEntityOwner(userEntities[i]);
-            eventEntities[i].subscribe(userEntities[namesOfEvents.length + i]);
+            userEntities[i].makeOwner(eventEntities[i]); 
+            // eventEntities[i].setUserEntityOwner(userEntities[i]); //should use makeOwner; 
+            eventEntities[i].subscribe(userEntities[eventNames.length - i - 1]); // subscribe cascade saves a user; therefore double users here;  
             eventEntities[i].setStatus(EventEntity.EventStatus.CREATED);
-            //eventRepository.save(eventEntities[i]);
         }
 
     }
 
     @Test
     public void addTest(){
-        //To do
-        for (int i = 0; i < namesOfEvents.length; i++){
+        //To do: 2 and more events for user; 2 and more feedbacks etc. 
+        for (int i = 0; i < eventNames.length; i++){
+        	System.out.println("saving " + i);
+        	userRepository.save(userEntities[i]);
+            eventRepository.save(eventEntities[i]);
             FeedBackEntity feedBackEntity = new FeedBackEntity();
             feedBackEntity.setDateTime(LocalDateTime.of(2010,
                     1,
@@ -89,51 +92,59 @@ public class removegetfeedbacktest {
             feedBackEntity.setUserItem(userEntities[i]);
             feedBackEntity.setComment(userEntities[i].getNickname() + "@"
                     + eventEntities[i].getNameOfEvent());
-            userEntities[i + eventEntities.length].addFeedBack(feedBackEntity);
+            feedBackEntity.setRating(5);
             feedBackRepository.save(feedBackEntity);
-
-            userRepository.save(userEntities[i]);
-            eventRepository.save(eventEntities[i]);
-
+            userEntities[i].addFeedBack(feedBackEntity);
+            eventEntities[i].addFeedBack(feedBackEntity);
+            
         }
-        for (int i = 0; i < namesOfEvents.length; i++){
-            FeedBackEntity feedBackEntity = new FeedBackEntity();
-            feedBackEntity.setDateTime(LocalDateTime.of(2010,
-                    1,
-                    (i + 1) *2,
-                    20,
-                    00));
-            feedBackEntity.setEventItem(eventEntities[i]);
-            feedBackEntity.setUserItem(userEntities[i + eventEntities.length]);
-            feedBackEntity.setComment(userEntities[i + eventEntities.length].getNickname() + "@"
-                    + eventEntities[i].getNameOfEvent());
-            userRepository.save(userEntities[i + eventEntities.length]);
-            feedBackRepository.save(feedBackEntity);
-            userEntities[i + eventEntities.length].addFeedBack(feedBackEntity);
-            eventRepository.save(eventEntities[i]);
-            userRepository.save(userEntities[i + eventEntities.length]);
+        
+        System.out.println("USER PRINTOUT");
+        System.out.println("==============================================");
+        Integer savedUsersCount = userRepository.findAll().size();
+        for (int i = 0; i<savedUsersCount;i++){
+        	UserEntity savedU = userRepository.findAll().get(i);
+//        	System.out.println("User " + savedU);
+//        	System.out.println("User feedback collection size " + savedU.getFeedbacks().size());
+        	savedU.getFeedbacks().values().forEach(System.out::println);
+        }
+        
+        System.out.println("EVENT PRINTOUT");
+        System.out.println("==============================================");
+        Integer savedEventsCount = eventRepository.findAll().size();
+        for (int i = 0; i<savedEventsCount;i++){
+        	EventEntity savedE = eventRepository.findAll().get(i);
+//        	System.out.println("Event " + savedE);
+//        	System.out.println("Event feedback collection size" + savedE.getFeedbacks().size());
+        	savedE.getFeedbacks().values().forEach(System.out::println);
+         
+        }
+        
+        System.out.println("FULL PRINTOUT");
+        System.out.println("==============================================");
+        for (int i = 0; i<savedUsersCount;i++){
+        	UserEntity savedU = userRepository.findAll().get(i);
+        	System.out.println("User " + savedU);
+        	System.out.println("User feedback collection size " + savedU.getFeedbacks().size());
+        	savedU.getFeedbacks().values().forEach(System.out::println);
+        	Set<EventEntity> savedEsfromU = savedU.getEventEntityOwner();
+        	savedEsfromU.forEach(System.out::println);
+        	savedEsfromU.forEach(e -> e.getFeedbacks().values().forEach(System.out::println));
+        }
 
-        }
-        Integer z = userRepository.findAll().size();
-        for (int i = 0; i<z;i++){
-            System.out.println("@ " + userRepository.findAll().get(i).getFeedBacks());
-        }
-        z = eventRepository.findAll().size();
-        for (int i = 0; i<z;i++){
-            System.out.println("@ " + eventRepository.findAll().get(i).getFeedbacks());
-        }
-
-        //System.out.println("@ " + eventRepository.findAll().size());
+        System.out.println("@ " + eventRepository.findAll().size());
     }
 
-    @Test
-    public void getTest(){
-        //To do
-    }
+//Blank tests just confuse; please don't do 3 tests if there's only 1 working
 
-    @Test
-    public void removeTest(){
-        //To do
-    }
+//    @Test
+//    public void getTest(){
+//        //To do
+//    }
+//
+//    @Test
+//    public void removeTest(){
+//        //To do
+//    }
 
 }

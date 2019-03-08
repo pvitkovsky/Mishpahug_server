@@ -66,8 +66,8 @@ public class SAUsTest {
     public void savedata(){
             eventEntity1.subscribe(userEntity3);
             eventEntity2.subscribe(userEntity4);
-            eventEntity1.setUserEntityOwner(userEntity2);
-            eventEntity2.setUserEntityOwner(userEntity1);
+            userEntity2.makeOwner(eventEntity1);
+            userEntity1.makeOwner(eventEntity2);
             userRepository.save(userEntity1);
             userRepository.save(userEntity2);
             userRepository.save(userEntity3);
@@ -81,8 +81,8 @@ public class SAUsTest {
             System.out.println(eventEntity2.getUserItemsGuestsOfEvents());
             System.out.println(userEntity1);
             System.out.println(userEntity2);
-            System.out.println(userEntity3.getEventItemsGuest());
-            System.out.println(userEntity4.getEventItemsGuest());
+            System.out.println(userEntity3.getEventEntityGuest());
+            System.out.println(userEntity4.getEventEntityGuest());
             System.out.println("Test End");
         }
 

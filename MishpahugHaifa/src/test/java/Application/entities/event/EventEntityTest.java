@@ -64,11 +64,11 @@ public class EventEntityTest {
 	@Test(expected = DataIntegrityViolationException.class)
 	public void givenDuplicateEventsSaveAndGetException() {
 		
-		TESTING.setUserEntityOwner(ALYSSA);
+		ALYSSA.makeOwner(TESTING);
 		userRepo.save(ALYSSA);
 		eventRepo.save(TESTING);
 		
-		TESTINGDUPLICATE.setUserEntityOwner(ALYSSA);
+		ALYSSA.makeOwner(TESTINGDUPLICATE);
 		eventRepo.save(TESTINGDUPLICATE);
 
 	}
@@ -76,7 +76,7 @@ public class EventEntityTest {
 	@Test()
 	public void givenEventSaveAndRead() {
 		
-		TESTING.setUserEntityOwner(ALYSSA);
+		ALYSSA.makeOwner(TESTING);
 		userRepo.save(ALYSSA);
 		eventRepo.save(TESTING);
 		assertEquals(eventRepo.getOne(TESTING.getId()), TESTING);	

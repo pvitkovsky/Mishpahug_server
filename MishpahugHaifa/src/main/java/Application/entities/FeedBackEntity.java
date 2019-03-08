@@ -13,6 +13,7 @@ import java.util.Objects;
 @Table(name="feedback")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 @ToString
+@EqualsAndHashCode(of = {"comment", "dateTime", "rating", "userItem", "eventItem"})
 public class FeedBackEntity{
 
     @Id
@@ -29,36 +30,23 @@ public class FeedBackEntity{
     private Integer rating;
 
     @ManyToOne
+    @PrimaryKeyJoinColumn(name="USERID", referencedColumnName="id")
     @JsonBackReference
+    @ToString.Exclude
     private UserEntity userItem;
 
     @ManyToOne
+    @PrimaryKeyJoinColumn(name="EVENTID", referencedColumnName="id")
     @JsonBackReference
+    @ToString.Exclude
     private EventEntity eventItem;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        FeedBackEntity that = (FeedBackEntity) o;
-        return id.equals(that.id) &&
-                comment.equals(that.comment) &&
-                dateTime.equals(that.dateTime) &&
-                rating.equals(that.rating) &&
-                userItem.equals(that.userItem) &&
-                eventItem.equals(that.eventItem);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, comment, dateTime, rating, userItem, eventItem);
-    }
 
     public void setData(UserEntity userEntity, EventEntity eventEntity){
         this.setUserItem(userEntity);
         this.setEventItem(eventEntity);
         eventItem.getFeedbacks().put(this.id, this);
-        userEntity.getFeedBacks().put(this.id, this);
+        userEntity.getFeedbacks().put(this.id, this);
 
     }
 }

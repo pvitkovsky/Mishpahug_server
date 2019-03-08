@@ -30,7 +30,7 @@ public class EventModel implements IEventModel {
 
 	@Override
 	public Set<EventEntity> getAllByUser(Integer userId) {
-		return userRepository.getOne(userId).getEventItemsGuest();
+		return userRepository.getOne(userId).getEventEntityGuest();
 	}
 
 	@Override

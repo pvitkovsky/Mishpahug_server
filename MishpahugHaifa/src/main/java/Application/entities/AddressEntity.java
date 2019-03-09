@@ -34,14 +34,17 @@ public class AddressEntity {
 
     @ManyToOne
     @JsonBackReference
+    //TODO: safe bidirectional setter	
     private CityEntity cityEntity;
 
     @OneToOne//(mappedBy = "addressEntity")
     @JsonBackReference
+    //TODO: safe bidirectional setter
     private UserEntity userEntity;
 
     @OneToMany(mappedBy = "addressEntity")
     @JsonManagedReference
+    //TODO: safe bidirectional getter/setter
     private List<EventEntity> eventEntities = new ArrayList<>();
 
     @Override

@@ -25,6 +25,7 @@ public class CountryEntity {
 
     @OneToMany(mappedBy = "countryEntity")
     @JsonManagedReference
+    //TODO: safe bidirectional getter/setter
     private List<CityEntity> cityEntities = new ArrayList<>();
 
 }

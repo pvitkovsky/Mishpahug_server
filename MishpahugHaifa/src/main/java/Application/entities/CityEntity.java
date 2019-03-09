@@ -25,10 +25,12 @@ public class CityEntity {
 
     @ManyToOne                                  // Country of city
     @JsonBackReference
+    //TODO: safe bidirectional setter
     private CountryEntity countryEntity;
 
     @OneToMany(mappedBy = "cityEntity")
-    @JsonManagedReference
+    @JsonManagedReference 
+    //TODO: safe bidirectional getter/setter
     private List<AddressEntity> addressEntities = new ArrayList<>();
 
     public CityEntity(String name, CountryEntity countryEntity, List<AddressEntity> addressEntities) {

@@ -60,10 +60,12 @@ public class EventEntity {
 
 	@ManyToOne
 	@JsonManagedReference
+	//TODO: safe bidirectional setter
 	private KichenTypeEntity kichenTypeEntity;
 
 	@ManyToOne
 	@JsonManagedReference
+	//TODO: safe bidirectional setter
 	private HoliDayEntity holiDayEntity;
 
 	@Enumerated(EnumType.STRING)
@@ -77,6 +79,7 @@ public class EventEntity {
 
 	@ManyToOne
 	@JsonBackReference
+	//TODO: safe bidirectional setter
 	private AddressEntity addressEntity;
 
 	
@@ -88,12 +91,13 @@ public class EventEntity {
     inverseJoinColumns = {
         @JoinColumn(name = "USER_ID")
     })
-	@JsonBackReference //TODO: make bidirectional setters protected; 
+	@JsonBackReference //TODO: safe bidirectional getter/setter
 	private Set<UserEntity> userItemsGuestsOfEvents = new HashSet<>();
 
 	@OneToMany(mappedBy = "eventItem") 
 	@MapKey(name = "id")
 	@JsonManagedReference
+	//TODO: safe bidirectional getter/setter
 	private Map<Integer, FeedBackEntity> feedbacks = new HashMap<>();
 	
 	public enum EventStatus {

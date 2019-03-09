@@ -33,12 +33,14 @@ public class FeedBackEntity{
     @PrimaryKeyJoinColumn(name="USERID", referencedColumnName="id")
     @JsonBackReference
     @ToString.Exclude
+    //TODO: safe bidirectional setter
     private UserEntity userItem;
 
     @ManyToOne
     @PrimaryKeyJoinColumn(name="EVENTID", referencedColumnName="id")
     @JsonBackReference
     @ToString.Exclude
+    //TODO: safe bidirectional setter
     private EventEntity eventItem;
 
 

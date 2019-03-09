@@ -72,6 +72,7 @@ public class UserEntity {
 
 	@OneToOne(mappedBy = "userEntity") // Address of user
 	@JsonManagedReference
+	//TODO: safe bidirectional getter/setter
 	private AddressEntity addressEntity;
 
 	@OneToMany(mappedBy = "userEntityOwner", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true) // User owner of events
@@ -94,6 +95,7 @@ public class UserEntity {
 	@OneToMany(mappedBy = "userItem") 
 	@MapKey(name = "id")
 	@JsonManagedReference
+	//TODO: safe bidirectional getter/setter
 	private Map<Integer, FeedBackEntity> feedbacks = new HashMap<>();
 
 	public enum UserRole {

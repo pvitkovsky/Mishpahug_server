@@ -3,6 +3,7 @@ package Application.removegetfeedbacktest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.Before;
@@ -101,29 +102,33 @@ public class removegetfeedbacktest {
         
         System.out.println("USER PRINTOUT");
         System.out.println("==============================================");
-        Integer savedUsersCount = userRepository.findAll().size();
-        for (int i = 0; i<savedUsersCount;i++){
-        	UserEntity savedU = userRepository.findAll().get(i);
-//        	System.out.println("User " + savedU);
-//        	System.out.println("User feedback collection size " + savedU.getFeedbacks().size());
+        List<UserEntity> dataU = userRepository.findAll();
+        Integer savedUsersCount = dataU.size();
+        for (int i = 0; i < savedUsersCount; i++){
+        	UserEntity savedU = dataU.get(i);
+        	System.out.println("Feedback of " + savedU.getNickname() + " begin");
         	savedU.getFeedbacks().values().forEach(System.out::println);
+            System.out.println("Feedback of " + savedU.getNickname() + " end");
+            System.out.println("");
+
         }
-        
+
         System.out.println("EVENT PRINTOUT");
         System.out.println("==============================================");
-        Integer savedEventsCount = eventRepository.findAll().size();
-        for (int i = 0; i<savedEventsCount;i++){
-        	EventEntity savedE = eventRepository.findAll().get(i);
-//        	System.out.println("Event " + savedE);
-//        	System.out.println("Event feedback collection size" + savedE.getFeedbacks().size());
+        List<EventEntity> dataE = eventRepository.findAll();
+        Integer savedEventsCount = dataE.size();
+        for (int i = 0; i < savedEventsCount; i++){
+        	EventEntity savedE = dataE.get(i);
+            System.out.println("Feedback of " + savedE.getNameOfEvent() + " begin");
         	savedE.getFeedbacks().values().forEach(System.out::println);
-         
+            System.out.println("Feedback of " + savedE.getNameOfEvent() + " end");
+            System.out.println("");
         }
-        
+
         System.out.println("FULL PRINTOUT");
         System.out.println("==============================================");
         for (int i = 0; i<savedUsersCount;i++){
-        	UserEntity savedU = userRepository.findAll().get(i);
+        	UserEntity savedU = dataU.get(i);
         	System.out.println("User " + savedU);
         	System.out.println("User feedback collection size " + savedU.getFeedbacks().size());
         	savedU.getFeedbacks().values().forEach(System.out::println);

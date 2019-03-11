@@ -39,8 +39,9 @@ import lombok.ToString;
 @Entity
 @Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = { "nickname" }) })
 @ToString(exclude = { "eventItemsOwner", "eventItemsGuest", "pictureItems", "feedBackEntities" })
-@EqualsAndHashCode(of = {"nickname"})
-@Getter @Setter
+@EqualsAndHashCode(of = { "nickname" })
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -66,22 +67,22 @@ public class UserEntity {
 	@Column(name = "email")
 	private String eMail;
 
-	@Enumerated(EnumType.STRING)
 	@Column(name = "role")
+	@Enumerated(EnumType.STRING)
 	private UserRole role;
 
 	@ManyToOne(optional = true)
 	@JsonManagedReference
-	//TODO: safe bidirectional getter/setter
+	// TODO: safe bidirectional getter/setter
 	private AddressEntity addressEntity;
 
-	@OneToMany(mappedBy = "userEntityOwner", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true) // User owner of events
+	@OneToMany(mappedBy = "userEntityOwner", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	@JsonManagedReference
 	@Getter(AccessLevel.NONE)
 	@Setter(AccessLevel.NONE)
 	private Set<EventEntity> eventItemsOwner = new HashSet<>();
 
-	@ManyToMany(mappedBy = "userItemsGuests", fetch = FetchType.LAZY) //TODO: immutable getters on sets; 
+	@ManyToMany(mappedBy = "userItemsGuests", fetch = FetchType.LAZY) // TODO: immutable getters on sets;
 	@JsonManagedReference
 	@Getter(AccessLevel.NONE)
 	@Setter(AccessLevel.NONE)
@@ -90,23 +91,22 @@ public class UserEntity {
 	@ElementCollection
 	@CollectionTable
 	@Column(name = "pictures")
-	//TODO: safe bidirectional getter/setter
+	// TODO: safe bidirectional getter/setter
 	private Set<PictureValue> pictureItems = new HashSet<>();
-	
-	@OneToMany(mappedBy = "userItem") 
+
+	@OneToMany(mappedBy = "userItem")
 	@MapKey(name = "id")
 	@JsonManagedReference
-	//TODO: safe bidirectional getter/setter
+	// TODO: safe bidirectional getter/setter
 	private Map<Integer, FeedBackEntity> feedbacks = new HashMap<>();
-
-
 
 	public enum UserRole {
 		ADMIN, AUTHORISED, SUSPENDED,
 	}
 
 	/**
-	 * Adds an event to the set of events owned by this user, transferring it from any previous users; 
+	 * Adds an event to the set of events owned by this user, transferring it from
+	 * any previous users;
 	 * 
 	 * @param event EventEntity that has this user as the owner.
 	 * @return true if the event was added; false if the event was not added, as it
@@ -114,7 +114,7 @@ public class UserEntity {
 	 */
 
 	public boolean makeOwner(EventEntity event) {
-		if (event.getUserEntityOwner() == null) { // transient state; 
+		if (event.getUserEntityOwner() == null) { // transient state;
 			event.setUserEntityOwner(this);
 		}
 		if (!event.getUserEntityOwner().equals(this)) {
@@ -122,11 +122,12 @@ public class UserEntity {
 		}
 		return eventItemsOwner.add(event); // TODO: thread safety argument;
 	}
-	
+
 	/**
-	 * Adds an event to the set of events owned by another user, transferring it from this; 
+	 * Adds an event to the set of events owned by another user, transferring it
+	 * from this;
 	 * 
-	 * @param event EventEntity that has this user as the owner.
+	 * @param event    EventEntity that has this user as the owner.
 	 * @param newOwner any another user
 	 * @return true if the event was added; false if the event was not added, as it
 	 *         is already in the set.
@@ -138,11 +139,12 @@ public class UserEntity {
 		eventItemsOwner.remove(event);
 		event.setUserEntityOwner(newOwner);
 		return newOwner.makeOwner(event);
-		
+
 	}
 
 	/**
-	 * Removing owned event, event is deleted once the user is merged; 
+	 * Removing owned event, event is deleted once the user is merged;
+	 * 
 	 * @param event
 	 */
 	public boolean removeOwnedEvent(EventEntity event) {
@@ -150,9 +152,10 @@ public class UserEntity {
 			throw new IllegalArgumentException("Trying to remove event with another owner");
 		}
 		if (!eventItemsOwner.contains(event)) {
-			throw new IllegalStateException("Event has user set as owner, but not present in the user's collection of owned events");
+			throw new IllegalStateException(
+					"Event has user set as owner, but not present in the user's collection of owned events");
 		}
-		for(UserEntity guest : event.getUserItemsGuestsOfEvents()) {
+		for (UserEntity guest : event.getUserItemsGuestsOfEvents()) {
 			event.unSubscribe(guest);
 		}
 		return eventItemsOwner.remove(event); // TODO: thread safety argument;
@@ -164,25 +167,27 @@ public class UserEntity {
 	public Set<EventEntity> getEventEntityOwner() {
 		return Collections.unmodifiableSet(eventItemsOwner);
 	}
-	
+
 	/**
-     * Protected way to add SubscribedEvent; 
-     * @param city
-     * @return
-     */
-    protected boolean addSubsctibedEvent(EventEntity eventEntity) {
-    	return eventItemsGuest.add(eventEntity);
-    }
-    
-    /**
-     * SubscribedEvent is not deleted once the user is merged;
-     * @param city
-     * @return
-     */
-    protected boolean removeSubsctibedEvent(EventEntity eventEntity) {
-    	return eventItemsGuest.remove(eventEntity);
-    }
-    
+	 * Protected way to add SubscribedEvent;
+	 * 
+	 * @param city
+	 * @return
+	 */
+	protected boolean addSubsctibedEvent(EventEntity eventEntity) {
+		return eventItemsGuest.add(eventEntity);
+	}
+
+	/**
+	 * SubscribedEvent is not deleted once the user is merged;
+	 * 
+	 * @param city
+	 * @return
+	 */
+	protected boolean removeSubsctibedEvent(EventEntity eventEntity) {
+		return eventItemsGuest.remove(eventEntity);
+	}
+
 	/**
 	 * Immutable wrapper over events guested by this user;
 	 */
@@ -192,10 +197,11 @@ public class UserEntity {
 
 	/**
 	 * Adding feedback;
+	 * 
 	 * @param feedback
 	 */
-	//TODO: immutable getter; defensive coding
-	public void addFeedBack(FeedBackEntity feedback){
+	// TODO: immutable getter; defensive coding
+	public void addFeedBack(FeedBackEntity feedback) {
 
 		feedbacks.put(feedback.getId(), feedback);
 

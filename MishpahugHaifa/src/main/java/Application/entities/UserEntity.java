@@ -121,9 +121,10 @@ public class UserEntity {
 	}
 	
 	/**
-	 * Adds an event to the set of events owned by this user, transferring it from any previous users; 
+	 * Adds an event to the set of events owned by another user, transferring it from this; 
 	 * 
 	 * @param event EventEntity that has this user as the owner.
+	 * @param newOwner any another user
 	 * @return true if the event was added; false if the event was not added, as it
 	 *         is already in the set.
 	 */
@@ -167,6 +168,7 @@ public class UserEntity {
 	 * @param event
 	 * @return
 	 */
+	//TODO: this method dependa on unsafe setters, redo;
 	public boolean subscribeTo(EventEntity event) {
         if (event.getUserEntityOwner().equals(this)){
         	throw new IllegalArgumentException("Trying to subscribe to the owned event");
@@ -180,6 +182,7 @@ public class UserEntity {
 	 * 
 	 * @param event
 	 */
+	//TODO: this method dependa on unsafe setters, redo;
 	public boolean unsubscribeFrom(EventEntity event) {
 		if(event.getUserEntityOwner().equals(this)) {
 			throw new IllegalArgumentException("Trying to unsubscribe from the owned event");

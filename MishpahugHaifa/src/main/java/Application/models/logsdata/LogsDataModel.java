@@ -1,10 +1,13 @@
 package Application.models.logsdata;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import Application.entities.LogsDataEntity;
 
 @Service
+@Transactional
 public class LogsDataModel implements ILogsDataModel {
     @Override
     public LogsDataEntity add(LogsDataEntity data) {

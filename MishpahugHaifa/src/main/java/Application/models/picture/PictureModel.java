@@ -2,10 +2,14 @@ package Application.models.picture;
 
 import java.sql.Blob;
 
-import Application.entities.values.PictureValue;
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
+import Application.entities.values.PictureValue;
+
 @Service
+@Transactional
 public class PictureModel implements  IPictureModel{
     @Override
     public PictureValue add(PictureValue data) {

@@ -1,17 +1,40 @@
 package Application.entities;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.*;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
-@Table(name="cities")
+@Table(name="cities", uniqueConstraints={
+	    @UniqueConstraint(columnNames = {"name", "country_of_city"})
+	})
 @Getter @Setter
-@ToString
+@ToString(exclude = "addressEntities")
+@AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"name", "countryEntity"})
 public class CityEntity {
@@ -23,29 +46,44 @@ public class CityEntity {
     @Column(name = "name")
     private String name;
 
-    @ManyToOne                                  // Country of city
+    @ManyToOne(optional = false) 
+    @JoinColumn(name = "country_of_city")
     @JsonBackReference
-    //TODO: safe bidirectional setter
+    @Setter(AccessLevel.PACKAGE) 
     private CountryEntity countryEntity;
 
-    @OneToMany(mappedBy = "cityEntity")
+    @OneToMany(mappedBy = "cityEntity",  cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonManagedReference 
-    //TODO: safe bidirectional getter/setter
-    private List<AddressEntity> addressEntities = new ArrayList<>();
-
-    public CityEntity(String name, CountryEntity countryEntity, List<AddressEntity> addressEntities) {
-        this.name = name;
-        this.countryEntity = countryEntity;
-        this.addressEntities = addressEntities;
+    @Getter(AccessLevel.NONE)
+	@Setter(AccessLevel.NONE)
+    private Set<AddressEntity> addressEntities = new HashSet<>();
+    
+    /**
+     * Adding an address to the city
+     * @param city
+     * @return
+     */
+    public boolean addAddress(AddressEntity address) {
+    	address.setCityEntity(this);
+    	return addressEntities.add(address);
     }
-
-    @Override
-    public String toString() {
-        return "CityEntity{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", countryEntity=" + countryEntity +
-                '}';
+    
+    /**
+     * Address is deleted once the city is merged;
+     * @param city
+     * @return
+     */
+    public boolean removeAddress(AddressEntity address) {
+    	return addressEntities.remove(address);
     }
+    
+    /**
+     * Immutable wrapper;
+     * @return
+     */
+    public Set<AddressEntity> getAddresses() {
+    	return Collections.unmodifiableSet(addressEntities); 
+    }
+    
 
 }

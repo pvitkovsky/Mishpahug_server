@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import Application.repo.EventRepository;
 import Application.repo.UserRepository;
 
 @Service
+@Transactional
 public class EventModel implements IEventModel {
 
 	@Autowired
@@ -97,7 +99,7 @@ public class EventModel implements IEventModel {
 		} catch (Exception e) {
 			throw new ExceptionMishpaha("Error! Not found user with id " + userId, null);
 		}
-		userEntity.subscribeTo(eventEntity);
+		eventEntity.subscribe(userEntity);
 		userRepository.save(userEntity);
 		return eventEntity;
 	}
@@ -116,7 +118,7 @@ public class EventModel implements IEventModel {
 		} catch (Exception e) {
 			throw new ExceptionMishpaha("Error! Not found user with id " + userId, null);
 		}
-		userEntity.unsubscribeFrom(eventEntity);
+		eventEntity.unSubscribe(userEntity);
 		userRepository.save(userEntity);
 		return eventEntity;
 	}

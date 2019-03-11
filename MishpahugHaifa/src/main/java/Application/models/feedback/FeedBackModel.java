@@ -1,7 +1,8 @@
 package Application.models.feedback;
 
-import java.util.List;
 import java.util.Map;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import Application.repo.EventRepository;
 import Application.repo.FeedBackRepository;
 import Application.repo.UserRepository;
 @Service
+@Transactional
 public class FeedBackModel implements IFeedBackModel {
 
     @Autowired

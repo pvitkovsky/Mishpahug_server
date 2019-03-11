@@ -7,8 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import javax.transaction.Transactional;
+
 import java.util.HashMap;
 @Service
+@Transactional
 public class UserModel implements IUserModel {
 
     @Autowired
@@ -60,12 +64,12 @@ public class UserModel implements IUserModel {
         if (data.containsKey("telephone")) userEntity.setPhoneNumber(data.get("telephone"));
         /*!!!*/
         if (data.containsKey("address.build"))
-            userEntity.getAddressEntity().setBuild(Integer.getInteger(data.get("address.build")));
+            userEntity.getAddressEntity().setBuilding(Integer.getInteger(data.get("address.build")));
         if (data.containsKey("address.apartment"))
             userEntity.getAddressEntity().setApartment(Integer.getInteger(data.get("address.apartment")));
         if ((data.containsKey("address.city"))
                 && (cityRepository.getByFullName(data.get("address.city")) != null))
-            userEntity.getAddressEntity().setCityEntity(cityRepository.getByFullName(data.get("address.city")));
+        	cityRepository.getByFullName(data.get("address.city")).addAddress(userEntity.getAddressEntity());
         if (data.containsKey("address.street"))
             userEntity.getAddressEntity().setStreet(data.get("address.street"));
         /*!!!*/

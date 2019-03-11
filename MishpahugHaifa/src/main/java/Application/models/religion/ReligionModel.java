@@ -1,12 +1,16 @@
 package Application.models.religion;
 
-import Application.entities.ReligionEntity;
-import Application.repo.ReligionRepository;
+import java.util.List;
+
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import Application.entities.ReligionEntity;
+import Application.repo.ReligionRepository;
 @Service
+@Transactional
 public class ReligionModel implements IReligionModel {
 
     @Autowired

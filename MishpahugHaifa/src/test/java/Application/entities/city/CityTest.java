@@ -115,9 +115,9 @@ public class CityTest {
 			while ((detail = empdtil.readLine()) != null) {
 				citiesCount++;
 				CityEntity cityEntity = new CityEntity();
-				cityEntity.setCountryEntity(countryEntity);
 				cityEntity.setName(detail);
-				cityRepository.save(cityEntity);
+				countryEntity.addCity(cityEntity);
+				countryRepository.save(countryEntity); //city is cascaded; 
 			}
 			empdtil.close();
 		} catch (IOException e) {

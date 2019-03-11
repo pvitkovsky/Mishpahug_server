@@ -2,6 +2,7 @@ package Application.entities;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -74,12 +75,12 @@ public class EventEntity {
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "user_entity_owner")
 	@JsonBackReference
-	@Setter(AccessLevel.PACKAGE) // clients should use User.makeOwner; can't do bidirectional setter here bc of circular reference;  
+	@Setter(AccessLevel.PACKAGE) 
 	private UserEntity userEntityOwner;
 
-	@ManyToOne
+	@ManyToOne(optional = true)
 	@JsonBackReference
-	//TODO: safe bidirectional setter
+	@Setter(AccessLevel.PACKAGE)
 	private AddressEntity addressEntity;
 
 	
@@ -91,8 +92,10 @@ public class EventEntity {
     inverseJoinColumns = {
         @JoinColumn(name = "USER_ID")
     })
-	@JsonBackReference //TODO: safe bidirectional getter/setter
-	private Set<UserEntity> userItemsGuestsOfEvents = new HashSet<>();
+	@JsonBackReference 
+	@Getter(AccessLevel.NONE)
+	@Setter(AccessLevel.NONE)
+	private Set<UserEntity> userItemsGuests = new HashSet<>();
 
 	@OneToMany(mappedBy = "eventItem") 
 	@MapKey(name = "id")
@@ -103,37 +106,56 @@ public class EventEntity {
 	public enum EventStatus {
 		CREATED, PENDING, COMPLETE, CANCELED
 	}
-	
-	/*
-	 * TODO: consider embedded business key with its own methods; 
-	 */
+
 	/**
 	 * Returns part of business key as string for logging;
 	 * @return part of business key that allows to uniquely identify event among a list of user's events; 
 	 */
+	//TODO: consider embedded business key with its own methods; 
 	public String toEventUniqueDescription() {
 		return this.nameOfEvent + " " + this.date.toString() + " " + this.time.toString();
 	}
 
-	//TODO: bidirectional setters without breaking encapsulation;
 	/**
-	 * Bidirectional setter, warning: unsafe, uses exposed getters
+	 * Adds a Guest to the Event, two directions. 
 	 * @param guest
 	 */
-	public void subscribe(UserEntity guest) {
-		guest.subscribeTo(this);
+	public boolean subscribe(UserEntity guest) {
+		if (userEntityOwner.equals(guest)){
+        	throw new IllegalArgumentException("Trying to subscribe to the owned event");
+        }
+		
+		guest.addSubsctibedEvent(this);
+		return userItemsGuests.add(guest);
 	}	
 	
 
-	//TODO: bidirectional setters without breaking encapsulation;
 	/**
-	 * Bidirectional setter, warning: unsafe, uses exposed getters
+	 * Removes a Guest from the Event, two directions. 
 	 * @param guest
 	 */
-	public void unSubscribe(UserEntity guest) {
-		guest.unsubscribeFrom(this);
+	public boolean unSubscribe(UserEntity guest) {
+		if(userEntityOwner.equals(guest)) {
+			throw new IllegalArgumentException("Trying to unsubscribe from the owned event");
+		}
+		if(!userItemsGuests.contains(guest)) {
+			throw new IllegalArgumentException("Not subscribed and trying to unsubscibe");
+		}
+		if(userItemsGuests.contains(guest) && !guest.getEventEntityGuest().contains(this)) { // 
+			throw new IllegalStateException("User is guest of event, but his set of subscriptions does not contain this event");
+		}
+		guest.removeSubsctibedEvent(this);
+		return userItemsGuests.remove(guest);
 	}	
 	
+	   /**
+     * Immutable wrapper over Guests;
+     * @return
+     */
+    public Set<UserEntity> getUserItemsGuestsOfEvents() {
+    	return Collections.unmodifiableSet(userItemsGuests); 
+    }
+    
 	/**
 	 * Adding feedback;
 	 * @param feedback

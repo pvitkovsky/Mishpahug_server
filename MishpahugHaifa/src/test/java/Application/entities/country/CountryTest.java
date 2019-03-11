@@ -3,6 +3,8 @@ package Application.entities.country;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 
 import org.junit.Before;
@@ -33,7 +35,9 @@ public class CountryTest {
     public void load(){
         String detail;
         try {
-            BufferedReader empdtil = new BufferedReader(new FileReader("d:\\DropBox_Java\\Dropbox\\Mishpahug_server\\data_country.csv"));
+        	ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+			InputStream is = classloader.getResourceAsStream("data_country.csv");
+            BufferedReader empdtil = new BufferedReader(new InputStreamReader(is));
             while ((detail = empdtil.readLine()) != null) {
                 CountryEntity countryEntity = new CountryEntity();
                 countryEntity.setName(detail);

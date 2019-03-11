@@ -1,13 +1,17 @@
 package Application.models.kichentype;
 
-import Application.entities.KichenTypeEntity;
-import Application.repo.KichenTypeRepository;
+import java.util.List;
+
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import Application.entities.KichenTypeEntity;
+import Application.repo.KichenTypeRepository;
 @Service
-public class KichenType implements IKichenTypeModel {
+@Transactional
+public class KichenTypeModel implements IKichenTypeModel {
 
     @Autowired
     KichenTypeRepository kichenTypeRepository;

@@ -1,15 +1,19 @@
 package Application.models.city;
 
-import Application.exceptions.ExceptionMishpaha;
-import Application.entities.CityEntity;
-import Application.entities.CountryEntity;
-import Application.repo.CityRepository;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import Application.entities.CityEntity;
+import Application.entities.CountryEntity;
+import Application.exceptions.ExceptionMishpaha;
+import Application.repo.CityRepository;
 @Service
+@Transactional
 public class CityModel implements ICityModel {
     @Autowired
     CityRepository cityRepository;
@@ -93,14 +97,13 @@ public class CityModel implements ICityModel {
     @Override
     public List<CityEntity> addFromList(List<String> data, CountryEntity countryEntity) throws ExceptionMishpaha {
         try {
-            CityEntity cityEntity = new CityEntity();
             List<CityEntity> result = new ArrayList<>();
             for(String z:data){
-                CityEntity temp = new CityEntity();
-                temp.setName(z);
-                temp.setCountryEntity(countryEntity);
-                cityRepository.save(temp);
-                result.add(temp);
+                CityEntity city = new CityEntity();
+                city.setName(z);
+                countryEntity.addCity(city);
+                cityRepository.save(city);
+                result.add(city);
 
             }
             return result;

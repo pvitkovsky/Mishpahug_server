@@ -18,9 +18,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -70,7 +70,7 @@ public class UserEntity {
 	@Column(name = "role")
 	private UserRole role;
 
-	@OneToOne(mappedBy = "userEntity") // Address of user
+	@ManyToOne(optional = true)
 	@JsonManagedReference
 	//TODO: safe bidirectional getter/setter
 	private AddressEntity addressEntity;
@@ -81,7 +81,7 @@ public class UserEntity {
 	@Setter(AccessLevel.NONE)
 	private Set<EventEntity> eventItemsOwner = new HashSet<>();
 
-	@ManyToMany(mappedBy = "userItemsGuestsOfEvents", fetch = FetchType.LAZY) //TODO: immutable getters on sets; 
+	@ManyToMany(mappedBy = "userItemsGuests", fetch = FetchType.LAZY) //TODO: immutable getters on sets; 
 	@JsonManagedReference
 	@Getter(AccessLevel.NONE)
 	@Setter(AccessLevel.NONE)
@@ -90,6 +90,7 @@ public class UserEntity {
 	@ElementCollection
 	@CollectionTable
 	@Column(name = "pictures")
+	//TODO: safe bidirectional getter/setter
 	private Set<PictureValue> pictureItems = new HashSet<>();
 	
 	@OneToMany(mappedBy = "userItem") 
@@ -97,6 +98,8 @@ public class UserEntity {
 	@JsonManagedReference
 	//TODO: safe bidirectional getter/setter
 	private Map<Integer, FeedBackEntity> feedbacks = new HashMap<>();
+
+
 
 	public enum UserRole {
 		ADMIN, AUTHORISED, SUSPENDED,
@@ -161,49 +164,32 @@ public class UserEntity {
 	public Set<EventEntity> getEventEntityOwner() {
 		return Collections.unmodifiableSet(eventItemsOwner);
 	}
-
+	
 	/**
-	 * Setting this user as guest in Event;
-	 * 
-	 * @param event
-	 * @return
-	 */
-	//TODO: this method dependa on unsafe setters, redo;
-	public boolean subscribeTo(EventEntity event) {
-        if (event.getUserEntityOwner().equals(this)){
-        	throw new IllegalArgumentException("Trying to subscribe to the owned event");
-        }
-        event.getUserItemsGuestsOfEvents().add(this);
-        return eventItemsGuest.add(event); // TODO: thread safety argument;
-	}
-
-	/**
-	 * Removing this user as guest in Event;
-	 * 
-	 * @param event
-	 */
-	//TODO: this method dependa on unsafe setters, redo;
-	public boolean unsubscribeFrom(EventEntity event) {
-		if(event.getUserEntityOwner().equals(this)) {
-			throw new IllegalArgumentException("Trying to unsubscribe from the owned event");
-		}
-		if(!event.getUserItemsGuestsOfEvents().contains(this)) {
-			throw new IllegalArgumentException("Not subscribed and trying to unsubscibe");
-		}
-		if(event.getUserItemsGuestsOfEvents().contains(this) && !this.eventItemsGuest.contains(event)) {
-			throw new IllegalStateException("User is guest of event, but his set of subscriptions does not contain this event");
-		}
-		event.getUserItemsGuestsOfEvents().remove(this);
-		return eventItemsGuest.remove(event);
-	}
-
+     * Protected way to add SubscribedEvent; 
+     * @param city
+     * @return
+     */
+    protected boolean addSubsctibedEvent(EventEntity eventEntity) {
+    	return eventItemsGuest.add(eventEntity);
+    }
+    
+    /**
+     * SubscribedEvent is not deleted once the user is merged;
+     * @param city
+     * @return
+     */
+    protected boolean removeSubsctibedEvent(EventEntity eventEntity) {
+    	return eventItemsGuest.remove(eventEntity);
+    }
+    
 	/**
 	 * Immutable wrapper over events guested by this user;
 	 */
 	public Set<EventEntity> getEventEntityGuest() {
 		return Collections.unmodifiableSet(eventItemsGuest);
 	}
-	
+
 	/**
 	 * Adding feedback;
 	 * @param feedback

@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+
+import javax.transaction.Transactional;
 @Service
+@Transactional
 public class AddressModel implements IAddressModel {
 
     @Autowired
@@ -26,16 +29,16 @@ public class AddressModel implements IAddressModel {
     public AddressEntity update(HashMap<String, String> data, Integer id) {
         AddressEntity addressEntity = addressRepository.getOne(id);
         if (data.containsKey("build"))
-            addressEntity.setBuild(Integer.getInteger(data.get("build")));
+            addressEntity.setBuilding(Integer.getInteger(data.get("build")));
         if (data.containsKey("apartament"))
             addressEntity.setApartment(Integer.getInteger(data.get("apartament")));
         if (data.containsKey("street"))
-            addressEntity.setBuild(Integer.getInteger(data.get("street")));
+            addressEntity.setBuilding(Integer.getInteger(data.get("street")));
         CityEntity cityEntity = null;
         if (data.containsKey("cityname")) {
             cityEntity = cityRepository.getByFullName(data.get("cityname"));
         }
-        addressEntity.setCityEntity(cityEntity);
+        cityEntity.addAddress(addressEntity);
         return addressRepository.save(addressEntity);
     }
 

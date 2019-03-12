@@ -13,12 +13,12 @@ import javax.transaction.Transactional;
 @Transactional
 public class PasswordModel implements IPasswordModel {
 
-    @Autowired
-    UserRepository userRepository;
+
 
     @Autowired
     PasswordRepository passwordRepository;
-
+    @Autowired
+    UserRepository userRepository;
     @Override
     public PasswordEntity getByUserNickName(String nickname) {
         UserEntity userEntity = userRepository.getByNickName(nickname);

@@ -22,6 +22,8 @@ import Application.repo.EventRepository;
 import Application.repo.FeedBackRepository;
 import Application.repo.UserRepository;
 
+import javax.validation.constraints.AssertTrue;
+
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @ActiveProfiles("test")
@@ -35,7 +37,7 @@ public class removegetfeedbacktest {
             "Marina", "Mark", "Haim", "Phillip"};
     private static final String[] eventNames = {"Purim",
             "Shabat", "Rosh-Ashana", "Hanuka", "Tu-Bi-Shvat",
-            "Lag-Ba-Omer", "Nar-Mitsva", "Women's day"};
+            "Lag-Ba-Omer", "Bar-Mitsva", "Women's day"};
     private UserEntity[] userEntities = new UserEntity[userNames.length];
     private EventEntity[] eventEntities = new EventEntity[eventNames.length];
 

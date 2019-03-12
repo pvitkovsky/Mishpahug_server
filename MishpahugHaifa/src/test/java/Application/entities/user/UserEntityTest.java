@@ -1,6 +1,8 @@
 
 package Application.entities.user;
 
+import Application.entities.AddressEntity;
+import Application.repo.AddressRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,13 +30,19 @@ public class UserEntityTest {
 
 	private final UserEntity ALYSSA = new UserEntity();
 	private final UserEntity ALYSSADUPLICATE = new UserEntity();
+	private final AddressEntity addressEntity = new AddressEntity();
 	private final String ANICKNAME = "P. Hacker";
 	
 	@Autowired
 	UserRepository userRepo;
+	@Autowired
+	AddressRepository addressRepository;
 
 	@Before
 	public void buildEntities() {
+		addressEntity.setStreet("Chuguev");
+		addressEntity.setApartment(33);
+		addressEntity.setBuilding(3);
 		ALYSSA.setNickname(ANICKNAME);
 		ALYSSADUPLICATE.setNickname(ANICKNAME);
 	}

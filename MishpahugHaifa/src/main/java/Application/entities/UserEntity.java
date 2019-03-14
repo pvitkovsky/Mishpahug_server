@@ -72,18 +72,18 @@ public class UserEntity {
 	private UserRole role;
 
 	@ManyToOne(optional = true)
-	@JsonManagedReference
-	// TODO: safe bidirectional getter/setter
+	@JsonManagedReference //Bidirectional, managed from Address;
+	@Setter(AccessLevel.PACKAGE)
 	private AddressEntity addressEntity;
 
 	@OneToMany(mappedBy = "userEntityOwner", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-	@JsonManagedReference
+	@JsonManagedReference //Bidirectional, managed from here; 
 	@Getter(AccessLevel.NONE)
 	@Setter(AccessLevel.NONE)
 	private Set<EventEntity> eventItemsOwner = new HashSet<>();
 
 	@ManyToMany(mappedBy = "userItemsGuests", fetch = FetchType.LAZY) // TODO: immutable getters on sets;
-	@JsonManagedReference
+	@JsonManagedReference //Bidirectional, managed from Event;
 	@Getter(AccessLevel.NONE)
 	@Setter(AccessLevel.NONE)
 	private Set<EventEntity> eventItemsGuest = new HashSet<>();
@@ -91,7 +91,6 @@ public class UserEntity {
 	@ElementCollection
 	@CollectionTable
 	@Column(name = "pictures")
-	// TODO: safe bidirectional getter/setter
 	private Set<PictureValue> pictureItems = new HashSet<>();
 
 	@OneToMany(mappedBy = "userItem")

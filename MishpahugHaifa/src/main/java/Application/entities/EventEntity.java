@@ -58,14 +58,12 @@ public class EventEntity {
 	@Column(name = "name_of_event")
 	private String nameOfEvent;
 
-	@ManyToOne
-	@JsonManagedReference
-	// TODO: safe bidirectional setter
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)
+	@JsonManagedReference //Unidirectional;
 	private KichenTypeEntity kichenTypeEntity;
 
-	@ManyToOne
-	@JsonManagedReference
-	// TODO: safe bidirectional setter
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true) 
+	@JsonManagedReference //Unidirectional;
 	private HoliDayEntity holiDayEntity;
 
 	@Column(name = "status")
@@ -74,19 +72,19 @@ public class EventEntity {
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "user_entity_owner")
-	@JsonBackReference
+	@JsonBackReference //Bidirectional, managed from User; 
 	@Setter(AccessLevel.PACKAGE)
 	private UserEntity userEntityOwner;
 
 	@ManyToOne(optional = true)
-	@JsonBackReference
+	@JsonBackReference //Bidirectional, managed from Address; 
 	@Setter(AccessLevel.PACKAGE)
 	private AddressEntity addressEntity;
 
-	@ManyToMany(cascade = CascadeType.PERSIST) // User a guest in events
+	@ManyToMany(cascade = CascadeType.PERSIST) 
 	@JoinTable(name = "USER_EVENT", joinColumns = { @JoinColumn(name = "EVENT_ID") }, inverseJoinColumns = {
 			@JoinColumn(name = "USER_ID") })
-	@JsonBackReference
+	@JsonBackReference //Bidirectional, managed from here; 
 	@Getter(AccessLevel.NONE)
 	@Setter(AccessLevel.NONE)
 	private Set<UserEntity> userItemsGuests = new HashSet<>();

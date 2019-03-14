@@ -6,29 +6,19 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name="religion")
+@Table(name = "religion", uniqueConstraints = { @UniqueConstraint(columnNames = { "name" }) })
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = { "name" })
 @ToString
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class ReligionEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 
-    @Column(name = "name")
-    private String name;
+	@Column(name = "name")
+	private String name;
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ReligionEntity that = (ReligionEntity) o;
-        return id.equals(that.id) &&
-                name.equals(that.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name);
-    }
 }

@@ -28,6 +28,7 @@ import javax.persistence.UniqueConstraint;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import Application.entities.values.FeedBackValue;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -81,19 +82,9 @@ public class EventEntity {
 	@Setter(AccessLevel.PACKAGE)
 	private AddressEntity addressEntity;
 
-	@ManyToMany(cascade = CascadeType.PERSIST) 
-	@JoinTable(name = "USER_EVENT", joinColumns = { @JoinColumn(name = "EVENT_ID") }, inverseJoinColumns = {
-			@JoinColumn(name = "USER_ID") })
-	@JsonBackReference //Bidirectional, managed from here; 
-	@Getter(AccessLevel.NONE)
-	@Setter(AccessLevel.NONE)
-	private Set<UserEntity> userItemsGuests = new HashSet<>();
-
-	@OneToMany(mappedBy = "eventItem")
-	@MapKey(name = "id")
-	@JsonManagedReference
-	// TODO: safe bidirectional getter/setter
-	private Map<Integer, FeedBackEntity> feedbacks = new HashMap<>();
+	@OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+	@JsonBackReference //TODO: safe bidir getters/setters; feedback
+	private Set<EventGuestRelation> subscriptions = new HashSet<>();
 
 	public enum EventStatus {
 		CREATED, PENDING, COMPLETE, CANCELED
@@ -109,59 +100,88 @@ public class EventEntity {
 	public String toEventUniqueDescription() {
 		return this.nameOfEvent + " " + this.date.toString() + " " + this.time.toString();
 	}
-
+	
 	/**
-	 * Adds a Guest to the Event, two directions.
+	 * Protected way to add SubscribedEvent;
 	 * 
-	 * @param guest
+	 * @param city
+	 * @return
 	 */
-	public boolean subscribe(UserEntity guest) {
-		if (userEntityOwner.equals(guest)) {
-			throw new IllegalArgumentException("Trying to subscribe to the owned event");
-		}
-
-		guest.addSubsctibedEvent(this);
-		return userItemsGuests.add(guest);
+	protected boolean addSubscription(EventGuestRelation subscription) {
+		return subscriptions.add(subscription);
 	}
 
 	/**
-	 * Removes a Guest from the Event, two directions.
+	 * SubscribedEvent is not deleted once the user is merged;
 	 * 
-	 * @param guest
+	 * @param city
+	 * @return
 	 */
-	public boolean unSubscribe(UserEntity guest) {
-		if (userEntityOwner.equals(guest)) {
-			throw new IllegalArgumentException("Trying to unsubscribe from the owned event");
-		}
-		if (!userItemsGuests.contains(guest)) {
-			throw new IllegalArgumentException("Not subscribed and trying to unsubscibe");
-		}
-		if (userItemsGuests.contains(guest) && !guest.getEventEntityGuest().contains(this)) { //
-			throw new IllegalStateException(
-					"User is guest of event, but his set of subscriptions does not contain this event");
-		}
-		guest.removeSubsctibedEvent(this);
-		return userItemsGuests.remove(guest);
+	protected boolean removeSubsription(EventGuestRelation subscription) {
+		return subscriptions.remove(subscription);
 	}
-
+//
+//	/**
+//	 * Adds a Guest to the Event, two directions.
+//	 * 
+//	 * @param guest
+//	 */
+//	public boolean subscribe(UserEntity guest) {
+//		if (userEntityOwner.equals(guest)) {
+//			throw new IllegalArgumentException("Trying to subscribe to the owned event");
+//		}
+//		EventGuestRelation subscribed = new EventGuestRelation(guest, this); 
+//		guest.addSubscription(subscribed);
+//		return subscriptions.add(subscribed);
+//	}
+//
+//	/**
+//	 * Removes a Guest from the Event, two directions.
+//	 * 
+//	 * @param guest
+//	 */
+//	public boolean unSubscribe(UserEntity guest) {
+//		if (userEntityOwner.equals(guest)) {
+//			throw new IllegalArgumentException("Trying to unsubscribe from the owned event");
+//		}
+//
+//		EventGuestRelation subscribed= validateSubscription(guest, "subscribe");
+//		guest.removeSubscribedEvent(subscribed);
+//		return subscriptions.remove(subscribed);
+//	}
+//
 	/**
 	 * Immutable wrapper over Guests;
 	 * 
 	 * @return
 	 */
-	public Set<UserEntity> getUserItemsGuestsOfEvents() {
-		return Collections.unmodifiableSet(userItemsGuests);
+	public Set<EventGuestRelation> getUserItemsGuestsOfEvents() {
+		return Collections.unmodifiableSet(subscriptions);
 	}
-
-	/**
-	 * Adding feedback;
-	 * 
-	 * @param feedback
-	 */
-	// TODO: immutable getter; defensive coding
-	public void addFeedBack(FeedBackEntity feedback) {
-
-		feedbacks.put(feedback.getId(), feedback);
-
-	}
+//
+//	/**
+//	 * Adding feedback;
+//	 * 
+//	 * @param feedback
+//	 */
+//	public void addFeedBack(UserEntity guest, FeedBackValue feedback) {
+//		EventGuestRelation subscribed = validateSubscription(guest, "put feedback");
+//		subscribed.setFeedback(feedback);
+//	}
+//
+//	/**
+//	 * Checking that guest is part of this event; 
+//	 * @param guest
+//	 * @param subscribed
+//	 */
+//	private EventGuestRelation validateSubscription(UserEntity guest, String action) {
+//		EventGuestRelation subscribed = new EventGuestRelation(guest, this); 
+//		if (!subscriptions.contains(subscribed)) {
+//			throw new IllegalArgumentException("Not subscribed and trying to "+action);
+//		}
+//		if (subscriptions.contains(subscribed) && !guest.getSubscriptions().contains(subscribed)) { //
+//			throw new IllegalStateException(
+//					"User is guest of event, but his set of subscriptions does not contain this event");
+//		}
+//	}
 }

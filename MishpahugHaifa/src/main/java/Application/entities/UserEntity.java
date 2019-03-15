@@ -26,6 +26,7 @@ import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import Application.entities.values.FeedBackValue;
 import Application.entities.values.PictureValue;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -82,22 +83,14 @@ public class UserEntity {
 	@Setter(AccessLevel.NONE)
 	private Set<EventEntity> eventItemsOwner = new HashSet<>();
 
-	@ManyToMany(mappedBy = "userItemsGuests", fetch = FetchType.LAZY) // TODO: immutable getters on sets;
-	@JsonManagedReference //Bidirectional, managed from Event;
-	@Getter(AccessLevel.NONE)
-	@Setter(AccessLevel.NONE)
-	private Set<EventEntity> eventItemsGuest = new HashSet<>();
+	@OneToMany(mappedBy = "userGuest", cascade = CascadeType.ALL)
+	@JsonManagedReference //TODO: safe bidir getters/setters; feedback
+	private Set<EventGuestRelation> subscriptions = new HashSet<>();
 
 	@ElementCollection
 	@CollectionTable
 	@Column(name = "pictures")
 	private Set<PictureValue> pictureItems = new HashSet<>();
-
-	@OneToMany(mappedBy = "userItem")
-	@MapKey(name = "id")
-	@JsonManagedReference
-	// TODO: safe bidirectional getter/setter
-	private Map<Integer, FeedBackEntity> feedbacks = new HashMap<>();
 
 	public enum UserRole {
 		ADMIN, AUTHORISED, SUSPENDED,
@@ -154,9 +147,9 @@ public class UserEntity {
 			throw new IllegalStateException(
 					"Event has user set as owner, but not present in the user's collection of owned events");
 		}
-		for (UserEntity guest : event.getUserItemsGuestsOfEvents()) {
-			event.unSubscribe(guest);
-		}
+//		for (UserEntity guest : event.getUserItemsGuestsOfEvents()) {
+//			event.unSubscribe(guest);
+//		}
 		return eventItemsOwner.remove(event); // TODO: thread safety argument;
 	}
 
@@ -173,8 +166,8 @@ public class UserEntity {
 	 * @param city
 	 * @return
 	 */
-	protected boolean addSubsctibedEvent(EventEntity eventEntity) {
-		return eventItemsGuest.add(eventEntity);
+	protected boolean addSubscription(EventGuestRelation subscription) {
+		return subscriptions.add(subscription);
 	}
 
 	/**
@@ -183,26 +176,26 @@ public class UserEntity {
 	 * @param city
 	 * @return
 	 */
-	protected boolean removeSubsctibedEvent(EventEntity eventEntity) {
-		return eventItemsGuest.remove(eventEntity);
+	protected boolean removeSubsription(EventGuestRelation subscription) {
+		return subscriptions.remove(subscription);
 	}
-
-	/**
-	 * Immutable wrapper over events guested by this user;
-	 */
-	public Set<EventEntity> getEventEntityGuest() {
-		return Collections.unmodifiableSet(eventItemsGuest);
-	}
-
-	/**
-	 * Adding feedback;
-	 * 
-	 * @param feedback
-	 */
-	// TODO: immutable getter; defensive coding
-	public void addFeedBack(FeedBackEntity feedback) {
-
-		feedbacks.put(feedback.getId(), feedback);
-
-	}
+//
+//	/**
+//	 * Immutable wrapper over events guested by this user;
+//	 */
+//	public Set<EventEntity> getEventEntityGuest() {
+//		return Collections.unmodifiableSet(eventItemsGuest);
+//	}
+//
+//	/**
+//	 * Adding feedback;
+//	 * 
+//	 * @param feedback
+//	 */
+//	// TODO: immutable getter; defensive coding
+//	public void addFeedBack(FeedBackValue feedback) {
+//
+//		feedbacks.put(feedback.getId(), feedback);
+//
+//	}
 }

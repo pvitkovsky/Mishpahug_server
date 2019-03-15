@@ -1,6 +1,7 @@
 package Application.models.event;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -11,8 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import Application.entities.EventEntity;
+import Application.entities.EventGuestRelation;
 import Application.entities.UserEntity;
 import Application.exceptions.ExceptionMishpaha;
+import Application.repo.EvengGuestRepository;
 import Application.repo.EventRepository;
 import Application.repo.UserRepository;
 
@@ -24,6 +27,8 @@ public class EventModel implements IEventModel {
 	EventRepository eventRepository;
 	@Autowired
 	UserRepository userRepository;
+	@Autowired
+	EvengGuestRepository subscriptionsRepository;
 
 	@Override
 	public List<EventEntity> getAll() {
@@ -32,7 +37,9 @@ public class EventModel implements IEventModel {
 
 	@Override
 	public Set<EventEntity> getAllByUser(Integer userId) {
-		return userRepository.getOne(userId).getEventEntityGuest();
+		UserEntity guest = userRepository.getOne(userId);
+		Set<EventGuestRelation> subscriptions = subscriptionsRepository.findAllByUser(guest);
+		return eventRepository.findEventBySubscriptionSet(subscriptions);
 	}
 
 	@Override
@@ -52,7 +59,9 @@ public class EventModel implements IEventModel {
 
 	@Override
 	public Set<UserEntity> getAllSubscribed(Integer eventId) {
-		return eventRepository.getOne(eventId).getUserItemsGuestsOfEvents();
+		EventEntity event = eventRepository.getOne(eventId);
+		Set<EventGuestRelation> subsriptions = event.getUserItemsGuestsOfEvents();
+		return userRepository.findUserBySubscriptionSet(subsriptions);
 	}
 
 	@Override
@@ -61,10 +70,8 @@ public class EventModel implements IEventModel {
 			EventEntity eventEntity = eventRepository.getOne(eventId);
 			UserEntity userOwner = eventEntity.getUserEntityOwner();
 			userOwner.removeOwnedEvent(eventEntity);
-			for (UserEntity guest : eventEntity.getUserItemsGuestsOfEvents()) {
-				eventEntity.unSubscribe(guest);
-			}
 			userRepository.save(userOwner); // event is cascaded from user;
+			// TODO: remove guest relations;
 			return eventEntity;
 		} catch (EntityNotFoundException e) {
 			throw new ExceptionMishpaha("Error! Not found event with id " + eventId, null);
@@ -99,8 +106,9 @@ public class EventModel implements IEventModel {
 		} catch (Exception e) {
 			throw new ExceptionMishpaha("Error! Not found user with id " + userId, null);
 		}
-		eventEntity.subscribe(userEntity);
-		userRepository.save(userEntity);
+		EventGuestRelation subscription = new EventGuestRelation();
+		subscription.subscribe(userEntity, eventEntity);
+		subscriptionsRepository.save(subscription);
 		return eventEntity;
 	}
 
@@ -118,8 +126,19 @@ public class EventModel implements IEventModel {
 		} catch (Exception e) {
 			throw new ExceptionMishpaha("Error! Not found user with id " + userId, null);
 		}
-		eventEntity.unSubscribe(userEntity);
-		userRepository.save(userEntity);
+//		try {
+//			userEntity = subscriptionsRepository.getOne(userId); // TODO: primary key; 
+//		} catch (Exception e) {
+//			throw new ExceptionMishpaha("Error! Not found user with id " + userId, null);
+//		}
+//		if (false) { // not found subscription with this key
+//			throw new IllegalArgumentException("Not subscribed and trying to unsubscribe");
+//		}
+//		if (false) {// subscription found && (user.does_not_contain || event.doesnotcontain)))
+//			throw new IllegalStateException("User is guest of event, but his set of subscriptions does not contain this event");
+//		}
+		EventGuestRelation subscription = new EventGuestRelation();
+		subscription.unsubscribe(userEntity, eventEntity);
 		return eventEntity;
 	}
 }

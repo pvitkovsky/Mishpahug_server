@@ -42,7 +42,7 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(of = { "userEntityOwner", "date", "time", "nameOfEvent" }) // business key;
-@ToString(exclude = { "userItemsGuestsOfEvents", "feedBackEntities" })
+@ToString(exclude = { "userItemsGuests", "feedbacks" })
 public class EventEntity {
 
 	@Id

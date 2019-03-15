@@ -1,8 +1,12 @@
 package Application.entities;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -10,35 +14,51 @@ import javax.persistence.UniqueConstraint;
 
 import Application.entities.values.FeedBackValue;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@EqualsAndHashCode(of = {"userGuest", "event"})
+@EqualsAndHashCode //(of = {"userGuest", "event"})
 @Entity
-@Table(name = "user_event_guest", uniqueConstraints = { @UniqueConstraint(columnNames = { "userGuest", "event"}) })
+@Table(name = "user_event_guest") //, uniqueConstraints = { @UniqueConstraint(columnNames = { "userGuest", "event"}) })
 @ToString
 public class EventGuestRelation {
 
-	@Id
+	@Embeddable
+	@NoArgsConstructor
+	@AllArgsConstructor
+	@EqualsAndHashCode
+	public static class Id implements Serializable {
+		
+		private static final long serialVersionUID = 1L;
+
+		@Column(name = "GUEST_ID")
+		protected Long categoryId;
+		
+		@Column(name = "EVENT_ID")
+		protected Long itemId;	
+	}
+	
+	@EmbeddedId
+	protected Id id = new Id();
+	
+
 	@ManyToOne
-	@JoinColumn
+	@JoinColumn(insertable = false, updatable = false)
 	@Setter(AccessLevel.PACKAGE)
 	private UserEntity userGuest;
 
-	@Id
 	@ManyToOne
-	@JoinColumn
+	@JoinColumn(insertable = false, updatable = false)
 	@Setter(AccessLevel.PACKAGE)
 	private EventEntity event;
-	
-	//NEEDS EMBEDDED PK pls; 
+
 	
 	@Embedded
 	private FeedBackValue feedback;

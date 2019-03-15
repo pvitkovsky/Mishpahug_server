@@ -10,14 +10,14 @@ import org.springframework.stereotype.Service;
 import Application.entities.UserEntity;
 import Application.entities.values.FeedBackValue;
 import Application.repo.EventRepository;
-import Application.repo.EvengGuestRepository;
+import Application.repo.EventGuestRepository;
 import Application.repo.UserRepository;
 @Service
 @Transactional
 public class FeedBackModel implements IFeedBackModel {
 
     @Autowired
-    EvengGuestRepository feedBackRepository;
+    EventGuestRepository feedBackRepository;
 
     @Autowired
     EventRepository eventRepository;

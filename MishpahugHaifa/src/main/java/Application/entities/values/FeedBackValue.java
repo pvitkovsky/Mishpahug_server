@@ -24,10 +24,6 @@ import lombok.ToString;
 @EqualsAndHashCode(of = {"comment", "dateTime", "rating"})
 public class FeedBackValue{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
     @Column(length=255)
     @NotNull
     private String comment;

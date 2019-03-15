@@ -15,7 +15,7 @@ import Application.entities.EventEntity;
 import Application.entities.EventGuestRelation;
 import Application.entities.UserEntity;
 import Application.exceptions.ExceptionMishpaha;
-import Application.repo.EvengGuestRepository;
+import Application.repo.EventGuestRepository;
 import Application.repo.EventRepository;
 import Application.repo.UserRepository;
 
@@ -28,7 +28,7 @@ public class EventModel implements IEventModel {
 	@Autowired
 	UserRepository userRepository;
 	@Autowired
-	EvengGuestRepository subscriptionsRepository;
+	EventGuestRepository subscriptionsRepository;
 
 	@Override
 	public List<EventEntity> getAll() {

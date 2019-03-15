@@ -19,7 +19,7 @@ import Application.entities.EventEntity;
 import Application.entities.UserEntity;
 import Application.entities.values.FeedBackValue;
 import Application.repo.EventRepository;
-import Application.repo.EvengGuestRepository;
+import Application.repo.EventGuestRepository;
 import Application.repo.UserRepository;
 
 import javax.validation.constraints.AssertTrue;

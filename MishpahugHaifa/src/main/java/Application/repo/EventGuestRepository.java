@@ -8,7 +8,7 @@ import Application.entities.EventEntity;
 import Application.entities.EventGuestRelation;
 import Application.entities.UserEntity;
 
-public interface EvengGuestRepository extends JpaRepository<EventGuestRelation, Integer> {
+public interface EventGuestRepository extends JpaRepository<EventGuestRelation, Long> {
 		public Set<EventGuestRelation> findAllByUser(UserEntity user);
 		public Set<EventGuestRelation> findAllByEvent(EventEntity Event);
 }

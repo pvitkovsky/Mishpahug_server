@@ -22,7 +22,7 @@ public class PasswordModel implements IPasswordModel {
     @Override
     public PasswordEntity getByUserNickName(String nickname) {
         UserEntity userEntity = userRepository.getByNickName(nickname);
-        PasswordEntity passwordEntity = passwordRepository.getByUserId(userEntity.getId());
-        return passwordEntity;
+        //PasswordEntity passwordEntity = passwordRepository.getByUserId(userEntity.getId());
+        return null;//passwordEntity;
     }
 }

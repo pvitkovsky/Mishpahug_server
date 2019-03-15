@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = {"userEntityId", "password"})
+@EqualsAndHashCode(of = {"userEntity", "password"})
 public class PasswordEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

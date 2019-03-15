@@ -31,7 +31,7 @@ import lombok.*;
 
 @Entity
 @Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = { "nickname" }) })
-@ToString(exclude = { "eventItemsOwner", "eventItemsGuest", "pictureItems", "feedBackEntities" })
+@ToString(exclude = { "eventItemsOwner", "eventItemsGuest", "pictureItems", "feedbacks" })
 @EqualsAndHashCode(of = { "nickname" })
 @Getter
 @Setter
@@ -73,22 +73,26 @@ public class UserEntity {
 	@JsonManagedReference //Bidirectional, managed from here; 
 	@Getter(AccessLevel.NONE)
 	@Setter(AccessLevel.NONE)
+	@Builder.Default
 	private Set<EventEntity> eventItemsOwner = new HashSet<>();
 
 	@ManyToMany(mappedBy = "userItemsGuests", fetch = FetchType.LAZY) // TODO: immutable getters on sets;
 	@JsonManagedReference //Bidirectional, managed from Event;
 	@Getter(AccessLevel.NONE)
 	@Setter(AccessLevel.NONE)
+	@Builder.Default
 	private Set<EventEntity> eventItemsGuest = new HashSet<>();
 
 	@ElementCollection
 	@CollectionTable
 	@Column(name = "pictures")
+	@Builder.Default
 	private Set<PictureValue> pictureItems = new HashSet<>();
 
 	@OneToMany(mappedBy = "userItem")
 	@MapKey(name = "id")
 	@JsonManagedReference
+	@Builder.Default
 	// TODO: safe bidirectional getter/setter
 	private Map<Integer, FeedBackEntity> feedbacks = new HashMap<>();
 

@@ -27,14 +27,7 @@ import javax.persistence.UniqueConstraint;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import Application.entities.values.PictureValue;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
 @Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = { "nickname" }) })
@@ -43,11 +36,11 @@ import lombok.ToString;
 @Getter
 @Setter
 @AllArgsConstructor
+//@RequiredArgsConstructor
 @NoArgsConstructor
 @Builder
 
 public class UserEntity {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -170,7 +163,7 @@ public class UserEntity {
 	/**
 	 * Protected way to add SubscribedEvent;
 	 * 
-	 * @param city
+	 * @param_city
 	 * @return
 	 */
 	protected boolean addSubsctibedEvent(EventEntity eventEntity) {
@@ -180,7 +173,7 @@ public class UserEntity {
 	/**
 	 * SubscribedEvent is not deleted once the user is merged;
 	 * 
-	 * @param city
+	 * @param_city
 	 * @return
 	 */
 	protected boolean removeSubsctibedEvent(EventEntity eventEntity) {

@@ -17,7 +17,9 @@ public class PasswordEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer userEntityId;
+    @OneToOne(mappedBy = "passwordEntity", cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY, optional = false)
+    private UserEntity userEntity;
 
     private String password;
 }

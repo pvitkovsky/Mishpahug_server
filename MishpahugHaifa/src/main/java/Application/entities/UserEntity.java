@@ -83,6 +83,11 @@ public class UserEntity {
 	@Builder.Default
 	private Set<EventEntity> eventItemsGuest = new HashSet<>();
 
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "pass_id")
+	private PasswordEntity passwordEntity;
+
+
 	@ElementCollection
 	@CollectionTable
 	@Column(name = "pictures")

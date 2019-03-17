@@ -23,10 +23,13 @@ import lombok.ToString;
 
 @Getter
 @Setter
+/*
+ * No @AllArgsConstructor because there's an embedded composite ID whose fields must be set manually; 
+ */
 @NoArgsConstructor
-@EqualsAndHashCode //(of = {"userGuest", "event"})
+@EqualsAndHashCode (of = {"userGuest", "event"})
 @Entity
-@Table(name = "user_event_guest") //, uniqueConstraints = { @UniqueConstraint(columnNames = { "userGuest", "event"}) })
+@Table(name = "user_event_guest", uniqueConstraints = { @UniqueConstraint(columnNames = { "user_guest", "event"}) })
 @ToString
 public class EventGuestRelation {
 
@@ -39,36 +42,57 @@ public class EventGuestRelation {
 		private static final long serialVersionUID = 1L;
 
 		@Column(name = "GUEST_ID")
-		protected Integer userId;
+		protected Integer userGuestId;
 		
 		@Column(name = "EVENT_ID")
-		protected Integer itemId;	
+		protected Integer eventId;	
+		
+		
 	}
 	
 	@EmbeddedId
 	protected Id id = new Id();
 	
 
-	@ManyToOne
-	@JoinColumn(insertable = false, updatable = false)
+	@ManyToOne //TODO: cascading
+	@JoinColumn(name = "user_guest", insertable = false, updatable = false)
 	@Setter(AccessLevel.PACKAGE)
 	private UserEntity userGuest;
 
-	@ManyToOne
-	@JoinColumn(insertable = false, updatable = false)
+	@ManyToOne //TODO: cascading
+	@JoinColumn(name = "event", insertable = false, updatable = false)
 	@Setter(AccessLevel.PACKAGE)
 	private EventEntity event;
-
 	
 	@Embedded
 	private FeedBackValue feedback;
-
+	
+	
 	public EventGuestRelation(UserEntity userGuest, EventEntity event) {
 		super();
-		this.userGuest = userGuest;
-		this.event = event;
+		setRelationAndID(userGuest,  event);
 	}
 	
+	public EventGuestRelation(Id id, UserEntity userGuest, EventEntity event, FeedBackValue feedback) {
+		super();
+		this.id = id;
+		setRelationAndID(userGuest,  event);
+		this.feedback = feedback;
+	}
+
+	/**
+	 * Helper method for setting the embedded Id fields together with the relation fields; 
+	 * @param guest
+	 * @param event
+	 */
+	private void setRelationAndID(UserEntity guest, EventEntity event) {
+		this.userGuest = guest;
+		this.event = event; 
+		this.id.userGuestId = userGuest.getId();
+		this.id.eventId = event.getId();
+	}
+	
+
 	/**
 	 * Adds a Guest to the Event, two directions.
 	 * 
@@ -78,8 +102,7 @@ public class EventGuestRelation {
 		if (event.getUserEntityOwner().equals(guest)) {
 			throw new IllegalArgumentException("Trying to subscribe to the owned event");
 		}
-		this.userGuest = guest;
-		this.event = event; 
+		setRelationAndID(guest, event);
 		boolean res = true;
 		res = guest.addSubscription(this) && res;
 		res = event.addSubscription(this) && res;
@@ -102,6 +125,10 @@ public class EventGuestRelation {
 //		res = event.addSubscription(this) && res;
 		return res; 
 	}
+
+
+
+
 
 
 

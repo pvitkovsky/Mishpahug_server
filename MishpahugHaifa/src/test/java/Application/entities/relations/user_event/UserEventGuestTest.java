@@ -17,15 +17,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import Application.entities.EventEntity;
+import Application.entities.EventGuestRelation;
 import Application.entities.UserEntity;
+import Application.repo.EventGuestRepository;
 import Application.repo.EventRepository;
 import Application.repo.UserRepository;
 
-/**
- * Relation: 
- * OneToMany; User is the primary entity, that has a Set of Events.  
- * Event has only one User as its owner. Updates are casceded from User. 
- */
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @ActiveProfiles("test")
@@ -35,59 +32,62 @@ public class UserEventGuestTest {
 	private final UserEntity ALYSSA = new UserEntity();
 	private final UserEntity BEN = new UserEntity();
 	private final EventEntity GUESTING = new EventEntity();
-
-	@PersistenceContext // https://www.javabullets.com/access-entitymanager-spring-data-jpa/
-	private EntityManager em;	@Autowired
+	private final EventGuestRelation AGUESTING = new EventGuestRelation();
 	
+	@Autowired
 	UserRepository userRepo;
 
 	@Autowired
 	EventRepository eventRepo;
 
+	@Autowired
+	EventGuestRepository eventGuestRepo;
+	
 	@Before
 	public void buildEntities() {
 		ALYSSA.setNickname("Alyssa");
 		BEN.setNickname("Ben");
 	}
 
-	/**
-	 * Checking that Event.setUserEntityOwner creates bidirectional link; 
-	 * Checking cascade save; 
-	 * Checking equals in User and Event; 
-	 */
 	@Test
-	public void onUserSaveReadEvent() {
+	public void onSubscriptionSaveReadUserAndEvent() {
 		
-//		BEN.makeOwner(GUESTING);
-//		userRepo.save(BEN);
-//		userRepo.save(ALYSSA); //TODO: automatic cascade please;
-//	
-//		GUESTING.subscribe(ALYSSA);
-//		eventRepo.save(GUESTING);
-//		
-//		assertTrue(userRepo.existsById(ALYSSA.getId()));
-//		assertTrue(eventRepo.existsById(GUESTING.getId()));
-//		
-//		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
-//		EventEntity savedE = eventRepo.findById(GUESTING.getId()).get();
-//		EventEntity savedEfromUser = savedA.getEventEntityGuest().iterator().next();
-//		UserEntity savedAfromEvent = savedE.getUserItemsGuestsOfEvents().iterator().next();
-//		
-//		assertTrue(savedA.equals(ALYSSA));
-//		assertTrue(savedAfromEvent.equals(ALYSSA));
-//		assertTrue(savedA.equals(savedAfromEvent));
-//
-//		assertTrue(savedE.equals(GUESTING));
-//		assertTrue(savedEfromUser.equals(GUESTING));
-//		assertTrue(savedE.equals(savedEfromUser));
+		BEN.makeOwner(GUESTING);
+		userRepo.save(BEN);
+		userRepo.save(ALYSSA); 
+		AGUESTING.subscribe(ALYSSA, GUESTING);
+		eventGuestRepo.save(AGUESTING);
+		
+		assertTrue(userRepo.existsById(ALYSSA.getId()));
+		assertTrue(eventRepo.existsById(GUESTING.getId()));
+		assertEquals(userRepo.count(), 2);
+		assertEquals(eventRepo.count(), 1);
+		
+		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
+		EventEntity savedE = eventRepo.findById(GUESTING.getId()).get();
+		EventGuestRelation savedSubcsrUser = savedA.getSubscriptions().iterator().next();
+		EventGuestRelation savedSubcsrEvent = savedE.getSubscriptions().iterator().next();
+		assertEquals(AGUESTING, savedSubcsrUser);
+		assertEquals(AGUESTING, savedSubcsrEvent);
+		assertEquals(savedSubcsrUser, savedSubcsrEvent);
+	
+		UserEntity savedAfromRelation = AGUESTING.getUserGuest();
+		EventEntity savedEfromRelation = AGUESTING.getEvent();
+		assertTrue(savedA.equals(ALYSSA));
+		assertTrue(savedAfromRelation.equals(ALYSSA));
+		assertTrue(savedA.equals(savedAfromRelation));
+		assertTrue(savedE.equals(GUESTING));
+		assertTrue(savedEfromRelation.equals(GUESTING));
+		assertTrue(savedE.equals(savedEfromRelation));
 
 	}
 	
-	/**
-	 * Shows that you have to clear user of events before deleting; 
-	 */
-	@Test
-	public void onUserDeleteEventRemains() {
+//TODO: redo please; 
+//	/**
+//	 * Shows that you have to clear user of events before deleting; 
+//	 */
+//	@Test
+//	public void onUserDeleteEventRemains() {
 //		
 //		BEN.makeOwner(GUESTING);
 //		userRepo.save(BEN);	
@@ -100,10 +100,10 @@ public class UserEventGuestTest {
 //		assertTrue(eventRepo.existsById(GUESTING.getId()));
 //		assertFalse(userRepo.existsById(ALYSSA.getId()));
 //		assertFalse(GUESTING.getUserItemsGuestsOfEvents().contains(ALYSSA));
-	}
-	
-	@Test
-	public void onEventDeleteUserRemains() {
+//	}
+//	
+//	@Test
+//	public void onEventDeleteUserRemains() {
 
 //		BEN.makeOwner(GUESTING);
 //		userRepo.save(BEN);
@@ -116,7 +116,7 @@ public class UserEventGuestTest {
 //		assertTrue(userRepo.existsById(ALYSSA.getId()));
 //		assertFalse(ALYSSA.getEventEntityGuest().contains(GUESTING));
 
-	}
+//	}
 
 
 

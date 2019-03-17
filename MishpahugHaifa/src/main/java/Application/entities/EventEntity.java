@@ -43,7 +43,7 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(of = { "userEntityOwner", "date", "time", "nameOfEvent" }) // business key;
-@ToString(exclude = { "userItemsGuestsOfEvents", "feedBackEntities" })
+@ToString(exclude = { "subscriptions", "feedBackEntities" })
 public class EventEntity {
 
 	@Id
@@ -104,7 +104,7 @@ public class EventEntity {
 	/**
 	 * Protected way to add SubscribedEvent;
 	 * 
-	 * @param city
+	 * @param_city
 	 * @return
 	 */
 	protected boolean addSubscription(EventGuestRelation subscription) {
@@ -114,7 +114,7 @@ public class EventEntity {
 	/**
 	 * SubscribedEvent is not deleted once the user is merged;
 	 * 
-	 * @param city
+	 * @param_city
 	 * @return
 	 */
 	protected boolean removeSubsription(EventGuestRelation subscription) {

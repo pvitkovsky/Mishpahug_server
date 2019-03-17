@@ -15,7 +15,5 @@ import org.springframework.data.jpa.repository.Query;
 public interface UserRepository extends JpaRepository<UserEntity, Integer>, UserRepositoryCustom {
     @Query("SELECT u from UserEntity u WHERE u.nickname = :nickname")
     public UserEntity getByNickName(String nickname);
-    
-    public Set<UserEntity> findUserBySubscriptionSet(Collection<EventGuestRelation> subscriptions);
 
 }

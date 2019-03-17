@@ -15,6 +15,6 @@ public interface EventRepository extends JpaRepository<EventEntity, Integer>, Ev
     @Query("SELECT e from EventEntity e WHERE e.nameOfEvent = :name")
     public EventEntity byFullName(String name);
     
-    public Set<EventEntity> findEventBySubscriptionSet(Collection<EventGuestRelation> subscriptions);
+    //public Set<EventEntity> findEventBySubscriptionSet(Collection<EventGuestRelation> subscriptions);
 
 }

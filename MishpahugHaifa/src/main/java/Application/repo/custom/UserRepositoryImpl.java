@@ -1,14 +1,15 @@
 package Application.repo.custom;
 
 import Application.entities.EventEntity;
+import Application.entities.EventGuestRelation;
+import Application.entities.UserEntity;
 import org.omg.CORBA.Object;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 /*
 поля для фильтрации
 -никнайм
@@ -22,6 +23,10 @@ public class UserRepositoryImpl implements EventRepositoryCustom {
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    public Set<UserEntity> findUserBySubscriptionSet(Collection<EventGuestRelation> subscriptions){
+        return null;
+    }
 
     @Override
     public List<EventEntity> searchByFilter(HashMap<String, String> filter) {

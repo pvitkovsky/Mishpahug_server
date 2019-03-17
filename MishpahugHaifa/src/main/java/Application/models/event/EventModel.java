@@ -39,7 +39,7 @@ public class EventModel implements IEventModel {
 	public Set<EventEntity> getAllByUser(Integer userId) {
 		UserEntity guest = userRepository.getOne(userId);
 		Set<EventGuestRelation> subscriptions = subscriptionsRepository.findAllByUser(guest);
-		return eventRepository.findEventBySubscriptionSet(subscriptions);
+		return null; //eventRepository.findEventBySubscriptionSet(subscriptions);
 	}
 
 	@Override

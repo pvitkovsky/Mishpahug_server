@@ -163,7 +163,7 @@ public class UserEntity {
 	/**
 	 * Protected way to add SubscribedEvent;
 	 * 
-	 * @param city
+	 * @param_city
 	 * @return
 	 */
 	protected boolean addSubscription(EventGuestRelation subscription) {
@@ -173,7 +173,7 @@ public class UserEntity {
 	/**
 	 * SubscribedEvent is not deleted once the user is merged;
 	 * 
-	 * @param city
+	 * @param_city
 	 * @return
 	 */
 	protected boolean removeSubsription(EventGuestRelation subscription) {

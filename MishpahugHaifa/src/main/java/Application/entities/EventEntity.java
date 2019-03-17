@@ -38,12 +38,12 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "eventlist", uniqueConstraints = {
-		@UniqueConstraint(columnNames = { "user_entity_owner", "date", "time", "name_of_event" }) })
+		@UniqueConstraint(columnNames = { "date", "time", "name_of_event" }) })
 @Getter
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(of = { "userEntityOwner", "date", "time", "nameOfEvent" }) // business key;
-@ToString(exclude = { "subscriptions", "feedBackEntities" })
+@ToString(exclude = { "nameOfEvent", "userEntityOwner", "addressEntity" , "subscriptions" })
 public class EventEntity {
 
 	@Id
@@ -72,7 +72,7 @@ public class EventEntity {
 	private EventStatus status;
 
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "user_entity_owner")
+	@JoinColumn(name = "eventItemsOwner")
 	@JsonBackReference //Bidirectional, managed from User; 
 	@Setter(AccessLevel.PACKAGE)
 	private UserEntity userEntityOwner;

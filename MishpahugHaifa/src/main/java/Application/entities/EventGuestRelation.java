@@ -39,10 +39,10 @@ public class EventGuestRelation {
 		private static final long serialVersionUID = 1L;
 
 		@Column(name = "GUEST_ID")
-		protected Long categoryId;
+		protected Integer userId;
 		
 		@Column(name = "EVENT_ID")
-		protected Long itemId;	
+		protected Integer itemId;	
 	}
 	
 	@EmbeddedId

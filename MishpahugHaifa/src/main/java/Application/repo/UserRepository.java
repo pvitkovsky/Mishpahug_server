@@ -16,4 +16,5 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer>, User
     @Query("SELECT u from UserEntity u WHERE u.nickname = :nickname")
     public UserEntity getByNickName(String nickname);
 
+    public Set<UserEntity> findUserBySubscriptions(Collection<EventGuestRelation> subscriptions);
 }

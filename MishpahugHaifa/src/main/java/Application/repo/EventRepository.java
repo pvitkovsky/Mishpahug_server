@@ -12,9 +12,10 @@ import java.util.List;
 import java.util.Set;
 
 public interface EventRepository extends JpaRepository<EventEntity, Integer>, EventRepositoryCustom {
-    @Query("SELECT e from EventEntity e WHERE e.nameOfEvent = :name")
+  
+	@Query("SELECT e from EventEntity e WHERE e.nameOfEvent = :name")
     public EventEntity byFullName(String name);
     
-    //public Set<EventEntity> findEventBySubscriptionSet(Collection<EventGuestRelation> subscriptions);
+    public Set<EventEntity> findEventBySubscriptions(Collection<EventGuestRelation> subscriptions);
 
 }

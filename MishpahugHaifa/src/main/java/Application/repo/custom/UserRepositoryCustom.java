@@ -10,5 +10,4 @@ import java.util.Set;
 
 public interface UserRepositoryCustom {
     public List<UserEntity> searchByFilter(HashMap<String, String> filter);
-    public Set<UserEntity> findUserBySubscriptionSet(Collection<EventGuestRelation> subscriptions);
 }

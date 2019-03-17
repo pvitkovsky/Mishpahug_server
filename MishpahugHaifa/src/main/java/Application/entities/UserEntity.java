@@ -1,9 +1,7 @@
 package Application.entities;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -17,16 +15,14 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import Application.entities.values.FeedBackValue;
 import Application.entities.values.PictureValue;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -45,14 +41,14 @@ import lombok.ToString;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-
+@Builder //TODO: BUILDER creates NPE in userEntityOwner's hashSet 
 public class UserEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	//@NotNull TODO: clarify
 	@Column(name = "nickname", nullable = false)
 	private String nickname;
 
@@ -106,6 +102,7 @@ public class UserEntity {
 	 */
 
 	public boolean makeOwner(EventEntity event) {
+		//TODO: check that event has its business key not null; or NPE is possible;
 		if (event.getUserEntityOwner() == null) { // transient state;
 			event.setUserEntityOwner(this);
 		}

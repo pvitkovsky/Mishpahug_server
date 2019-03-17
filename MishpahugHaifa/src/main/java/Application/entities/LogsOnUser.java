@@ -4,7 +4,19 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
+import Application.entities.LogsOnEvent.ActionsOnEvent;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+//TODO: equals and uniqueness constraint;
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(exclude = "userTarget")
 public class LogsOnUser extends LogsDataEntity {
 
 	//TODO: unidirectional safety check;

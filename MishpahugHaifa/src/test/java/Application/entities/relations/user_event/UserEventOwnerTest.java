@@ -4,6 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -35,10 +38,14 @@ public class UserEventOwnerTest {
 	private final UserEntity ALYSSA = new UserEntity();
 	private final UserEntity BEN = new UserEntity();
 	private final EventEntity TESTING = new EventEntity();
+	private final LocalDate TDATE = LocalDate.of(2190, 1, 1);
+	private final LocalTime TTIME = LocalTime.of(23, 59);
+	private final String TNAME = "TESTING";
 
 	@PersistenceContext // https://www.javabullets.com/access-entitymanager-spring-data-jpa/
-	private EntityManager em;	@Autowired
+	private EntityManager em;	
 	
+	@Autowired
 	UserRepository userRepo;
 
 	@Autowired
@@ -48,6 +55,9 @@ public class UserEventOwnerTest {
 	public void buildEntities() {
 		ALYSSA.setNickname("Alyssa");
 		BEN.setNickname("Ben");
+		TESTING.setDate(TDATE);
+		TESTING.setTime(TTIME);
+		TESTING.setNameOfEvent(TNAME);
 	}
 
 	/**

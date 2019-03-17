@@ -24,6 +24,7 @@ import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -43,20 +44,23 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(of = { "userEntityOwner", "date", "time", "nameOfEvent" }) // business key;
-@ToString(exclude = { "nameOfEvent", "userEntityOwner", "addressEntity" , "subscriptions" })
+@ToString(exclude = { "userEntityOwner", "addressEntity" , "subscriptions" })
 public class EventEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-
-	@Column(name = "date")
+	
+	//@NotNull TODO: clarify
+	@Column(name = "date", nullable = false)
 	private LocalDate date;
 
-	@Column(name = "time")
+	//@NotNull TODO: clarify
+	@Column(name = "time", nullable = false)
 	private LocalTime time;
 
-	@Column(name = "name_of_event")
+	//@NotNull TODO: clarify
+	@Column(name = "name_of_event", nullable = false)
 	private String nameOfEvent;
 
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)

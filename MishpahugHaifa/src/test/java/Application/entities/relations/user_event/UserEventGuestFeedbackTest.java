@@ -4,7 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -31,13 +33,15 @@ import Application.repo.UserRepository;
 @ActiveProfiles("test")
 @Transactional
 public class UserEventGuestFeedbackTest {
-
+	
 	private final UserEntity ALYSSA = new UserEntity();
 	private final UserEntity BEN = new UserEntity();
 	private final EventEntity GUESTING = new EventEntity();
 	private final EventGuestRelation AGUESTING = new EventGuestRelation();
 	private final FeedBackValue ABFEEDBACK = new FeedBackValue();
-	
+	private final LocalDate TDATE = LocalDate.of(2190, 1, 1);
+	private final LocalTime TTIME = LocalTime.of(23, 59);
+	private final String TNAME = "TESTING";
 	
 	@Autowired
 	UserRepository userRepo;
@@ -52,6 +56,9 @@ public class UserEventGuestFeedbackTest {
 	public void buildEntities() {
 		ALYSSA.setNickname("Alyssa");
 		BEN.setNickname("Ben");
+		GUESTING.setDate(TDATE);
+		GUESTING.setTime(TTIME);
+		GUESTING.setNameOfEvent(TNAME);
 		ABFEEDBACK.setComment("Nice event");
 		ABFEEDBACK.setDateTime(LocalDateTime.now());
 		ABFEEDBACK.setRating(5);

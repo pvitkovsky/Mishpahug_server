@@ -39,7 +39,7 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = { "nickname" }) })
-@ToString(exclude = { "eventItemsOwner", "eventItemsGuest", "pictureItems", "feedBackEntities" })
+@ToString(exclude = { "eventItemsOwner", "subscriptions", "pictureItems" })
 @EqualsAndHashCode(of = { "nickname" })
 @Getter
 @Setter
@@ -81,15 +81,18 @@ public class UserEntity {
 	@JsonManagedReference //Bidirectional, managed from here; 
 	@Getter(AccessLevel.NONE)
 	@Setter(AccessLevel.NONE)
+	@Builder.Default
 	private Set<EventEntity> eventItemsOwner = new HashSet<>();
 
 	@OneToMany(mappedBy = "userGuest") //TODO: cascading
 	@JsonManagedReference //TODO: safe bidir getters/setters; feedback
+	@Builder.Default
 	private Set<EventGuestRelation> subscriptions = new HashSet<>();
 
 	@ElementCollection
 	@CollectionTable
 	@Column(name = "pictures")
+	@Builder.Default
 	private Set<PictureValue> pictureItems = new HashSet<>();
 
 	public enum UserRole {

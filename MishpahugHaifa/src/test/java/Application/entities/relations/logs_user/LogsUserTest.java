@@ -37,8 +37,7 @@ public class LogsUserTest {
 	private final String RNAME = "RAN";
 	private final LogsOnEvent LOG_A = new LogsOnEvent();
 	private final LogsOnEvent LOG_B = new LogsOnEvent();
-	//private final UserEntity RAN = RandomEntities.randomUserEntity(); // BUILDER creates NPE in userEntityOwner's hashSet 
-	private final UserEntity RAN = new UserEntity();
+	private final UserEntity RAN = RandomEntities.randomUserEntity(); // BUILDER creates NPE in userEntityOwner's hashSet 
 	private final EventEntity TESTING = new EventEntity();
 	private final LocalDate TDATE = LocalDate.of(2190, 1, 1);
 	private final LocalTime TTIME = LocalTime.of(23, 59);

@@ -6,8 +6,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -159,8 +159,12 @@ public class UserEventGuestTest {
 		
 		assertTrue(eventRepo.existsById(GUESTING.getId()));
 		
-		Set<EventGuestRelation> subscriptions = ALYSSA.getSubscriptions();
-		Set<EventEntity> events = subscriptions.stream().map(s -> s.getEvent()).collect(Collectors.toSet());
+		List<EventGuestRelation> subscriptions = eventGuestRepo.findAll();
+		assertEquals(subscriptions.size(), 1);
+		assertTrue(subscriptions.contains(AGUESTING));
+		System.out.println(AGUESTING);
+		
+		List<EventEntity> events = eventGuestRepo.getEventIdsForGuest(ALYSSA);
 		assertEquals(events.size(), 1);
 		assertTrue(events.contains(GUESTING));
 	}

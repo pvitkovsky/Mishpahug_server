@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -65,7 +66,6 @@ public class UserEventGuestTest {
 		userRepo.save(BEN);
 		userRepo.save(ALYSSA); 
 		AGUESTING.subscribe(ALYSSA, GUESTING);
-		eventGuestRepo.save(AGUESTING);
 		
 		assertTrue(userRepo.existsById(ALYSSA.getId()));
 		assertTrue(eventRepo.existsById(GUESTING.getId()));
@@ -91,41 +91,93 @@ public class UserEventGuestTest {
 
 	}
 	
-//TODO: redo please; 
-//	/**
-//	 * Shows that you have to clear user of events before deleting; 
-//	 */
-//	@Test
-//	public void onUserDeleteEventRemains() {
-//		
-//		BEN.makeOwner(GUESTING);
-//		userRepo.save(BEN);	
-//		userRepo.save(ALYSSA);	 //TODO: maintain saving in model, UserEntity doesn't persist from subscription;
-//		
-//		GUESTING.subscribe(ALYSSA);
-//		GUESTING.unSubscribe(ALYSSA); //TODO: maintain unsubscription in model; 
-//		userRepo.delete(ALYSSA);
-//		
-//		assertTrue(eventRepo.existsById(GUESTING.getId()));
-//		assertFalse(userRepo.existsById(ALYSSA.getId()));
-//		assertFalse(GUESTING.getUserItemsGuestsOfEvents().contains(ALYSSA));
-//	}
-//	
-//	@Test
-//	public void onEventDeleteUserRemains() {
+	@Test(expected = IllegalArgumentException.class)
+	public void onMultipleSubscriptionsThrow() {
+		
+		BEN.makeOwner(GUESTING);
+		userRepo.save(BEN);
+		userRepo.save(ALYSSA); 
+		AGUESTING.subscribe(ALYSSA, GUESTING);
+		AGUESTING.subscribe(ALYSSA, GUESTING);
+		AGUESTING.subscribe(ALYSSA, GUESTING);
 
-//		BEN.makeOwner(GUESTING);
-//		userRepo.save(BEN);
-//		userRepo.save(ALYSSA); //TODO: maintain saving in model, UserEntity doesn't persist from subscription;
-//		GUESTING.subscribe(ALYSSA);
-//		
-//		BEN.removeOwnedEvent(GUESTING); 
-//
-//		assertFalse(eventRepo.existsById(GUESTING.getId()));
-//		assertTrue(userRepo.existsById(ALYSSA.getId()));
-//		assertFalse(ALYSSA.getEventEntityGuest().contains(GUESTING));
 
-//	}
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void onUnexistentSubscriptionUnsubscriptionThrow() {
+		
+		BEN.makeOwner(GUESTING);
+		userRepo.save(BEN);
+		userRepo.save(ALYSSA); 
+		AGUESTING.unsubscribe(ALYSSA, GUESTING);
+
+	}
+	
+	@Test
+	public void onUserDeleteEventRemains() {
+		
+		BEN.makeOwner(GUESTING);
+		userRepo.save(BEN);	
+		userRepo.save(ALYSSA);	
+		AGUESTING.subscribe(ALYSSA, GUESTING);
+		assertTrue(GUESTING.getUserItemsGuestsOfEvents().contains(AGUESTING));
+		
+		AGUESTING.unsubscribe(ALYSSA, GUESTING); //TODO: needs to unsub if wanting to delete -> model; 
+		assertFalse(GUESTING.getUserItemsGuestsOfEvents().contains(AGUESTING));
+		userRepo.delete(ALYSSA); 
+		
+		assertTrue(eventRepo.existsById(GUESTING.getId()));
+		assertFalse(userRepo.existsById(ALYSSA.getId()));
+		assertFalse(eventGuestRepo.existsById(AGUESTING.getId()));
+		assertFalse(GUESTING.getUserItemsGuestsOfEvents().contains(AGUESTING));
+		assertEquals(GUESTING.getSubscriptions().size(), 0);
+	}
+	
+	@Test
+	public void onEventDeleteUserRemains() {
+		BEN.makeOwner(GUESTING);
+		userRepo.save(BEN);	
+		userRepo.save(ALYSSA);	
+		AGUESTING.subscribe(ALYSSA, GUESTING);
+
+		BEN.removeOwnedEvent(GUESTING); 
+		AGUESTING.unsubscribe(ALYSSA, GUESTING); //TODO: needs to unsub after each remove; 
+		eventGuestRepo.delete(AGUESTING);  //TODO: needs to delete after each remove; 
+
+		assertFalse(eventRepo.existsById(GUESTING.getId()));
+		assertTrue(userRepo.existsById(ALYSSA.getId()));
+		assertFalse(eventGuestRepo.existsById(AGUESTING.getId()));
+		assertFalse(ALYSSA.getSubscriptions().contains(AGUESTING));
+		assertEquals(ALYSSA.getSubscriptions().size(), 0);
+	}
+	
+	@Test
+	public void findEventBySubs(){
+		BEN.makeOwner(GUESTING);
+		userRepo.save(BEN);	
+		userRepo.save(ALYSSA);	
+		AGUESTING.subscribe(ALYSSA, GUESTING);
+		
+		assertTrue(eventRepo.existsById(GUESTING.getId()));
+		
+		Set<EventGuestRelation> subscriptions = ALYSSA.getSubscriptions();
+		System.out.println("SUBS " + subscriptions );
+		assertEquals(eventRepo.findAllBySubscriptions(ALYSSA), GUESTING);
+	}
+	
+	@Test
+	public void findUserBySubs(){
+		
+		BEN.makeOwner(GUESTING);
+		userRepo.save(BEN);	
+		userRepo.save(ALYSSA);	
+		AGUESTING.subscribe(ALYSSA, GUESTING);
+		
+		Set<EventGuestRelation> subscriptions = GUESTING.getSubscriptions();
+		System.out.println("SUBS " + subscriptions );
+		assertEquals(userRepo.findUserBySubscriptions(subscriptions), ALYSSA);
+	}
 
 
 

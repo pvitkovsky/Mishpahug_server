@@ -80,7 +80,7 @@ public class UserEntity {
 	@Builder.Default
 	private Set<EventEntity> eventItemsOwner = new HashSet<>();
 
-	@OneToMany(mappedBy = "userGuest") //TODO: cascading
+	@OneToMany(mappedBy = "userGuest", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true) 
 	@JsonManagedReference //TODO: safe bidir getters/setters; feedback
 	@Builder.Default
 	private Set<EventGuestRelation> subscriptions = new HashSet<>();
@@ -147,8 +147,7 @@ public class UserEntity {
 			throw new IllegalStateException(
 					"Event has user set as owner, but not present in the user's collection of owned events");
 		}
-//		for (UserEntity guest : event.getUserItemsGuestsOfEvents()) {
-//			event.unSubscribe(guest);
+//		for (EventGuestRelation subscription : event.getUserItemsGuestsOfEvents()) { //TODO: delete subscriptions;
 //		}
 		return eventItemsOwner.remove(event); // TODO: thread safety argument;
 	}
@@ -177,25 +176,16 @@ public class UserEntity {
 	 * @return
 	 */
 	protected boolean removeSubsription(EventGuestRelation subscription) {
-		return subscriptions.remove(subscription);
+		return subscriptions.remove(subscription); // TODO: is it cascaded?
 	}
-//
-//	/**
-//	 * Immutable wrapper over events guested by this user;
-//	 */
-//	public Set<EventEntity> getEventEntityGuest() {
-//		return Collections.unmodifiableSet(eventItemsGuest);
-//	}
-//
-//	/**
-//	 * Adding feedback;
-//	 * 
-//	 * @param feedback
-//	 */
-//	// TODO: immutable getter; defensive coding
-//	public void addFeedBack(FeedBackValue feedback) {
-//
-//		feedbacks.put(feedback.getId(), feedback);
-//
-//	}
+	
+	
+	/**
+	 * Immutable wrapper over Subscriptions;
+	 * 
+	 * @return
+	 */
+	public Set<EventGuestRelation> getUserItemsGuestsOfEvents() {
+		return Collections.unmodifiableSet(subscriptions);
+	}
 }

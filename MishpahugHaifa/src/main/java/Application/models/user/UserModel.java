@@ -82,6 +82,7 @@ public class UserModel implements IUserModel {
         UserEntity usr = userRepository.getOne(userId);
         userRepository.deleteById(userId);
         return usr;
+        //TODO: unsubscribe everything;
     }
 
 }

@@ -37,7 +37,7 @@ public class EventGuestRelation {
 	@NoArgsConstructor
 	@AllArgsConstructor
 	@EqualsAndHashCode
-	public static class Id implements Serializable {
+	public static class EventGuestId implements Serializable {
 		
 		private static final long serialVersionUID = 1L;
 
@@ -51,7 +51,7 @@ public class EventGuestRelation {
 	}
 	
 	@EmbeddedId
-	protected Id id = new Id();
+	protected EventGuestId id = new EventGuestId();
 	
 
 	@ManyToOne //TODO: cascading
@@ -73,7 +73,7 @@ public class EventGuestRelation {
 		setRelationAndID(userGuest,  event);
 	}
 	
-	public EventGuestRelation(Id id, UserEntity userGuest, EventEntity event, FeedBackValue feedback) {
+	public EventGuestRelation(EventGuestId id, UserEntity userGuest, EventEntity event, FeedBackValue feedback) {
 		super();
 		this.id = id;
 		setRelationAndID(userGuest,  event);
@@ -102,6 +102,9 @@ public class EventGuestRelation {
 		if (event.getUserEntityOwner().equals(guest)) {
 			throw new IllegalArgumentException("Trying to subscribe to the owned event");
 		}
+		if (guest.getSubscriptions().contains(this) && event.getSubscriptions().contains(this)) {
+			throw new IllegalArgumentException("Trying to subsribe where subscription already exists");
+		}
 		setRelationAndID(guest, event);
 		boolean res = true;
 		res = guest.addSubscription(this) && res;
@@ -118,32 +121,20 @@ public class EventGuestRelation {
 		if (event.getUserEntityOwner().equals(guest)) {
 			throw new IllegalArgumentException("Trying to unsubscribe to the owned event");
 		}
+		if (!guest.getSubscriptions().contains(this) && !event.getSubscriptions().contains(this)) {
+			throw new IllegalArgumentException("Trying to unsubsribe from non-existing subscription");
+		}
+		if (guest.getSubscriptions().contains(this) != event.getSubscriptions().contains(this)) {
+			throw new IllegalStateException("Subscription is not consistent across User and Event");
+		}
 		this.userGuest = guest;
 		this.event = event; 
 		boolean res = true;
-//		res = guest.addSubscription(this) && res; TODO: unsub;
-//		res = event.addSubscription(this) && res;
+		res = guest.removeSubsription(this) && res;  // what if this command succeeds and the other does not? inconsistent state; 
+		res = event.removeSubsription(this) && res;
 		return res; 
 	}
 
 
 
-
-
-
-
-//	/**
-//	 * Removes a Guest from the Event, two directions.
-//	 * 
-//	 * @param guest
-//	 */
-//	public boolean unSubscribe(UserEntity guest) {
-//		if (userEntityOwner.equals(guest)) {
-//			throw new IllegalArgumentException("Trying to unsubscribe from the owned event");
-//		}
-//
-//		EventGuestRelation subscribed= validateSubscription(guest, "subscribe");
-//		guest.removeSubscribedEvent(subscribed);
-//		return subscriptions.remove(subscribed);
-//	}
 }

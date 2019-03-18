@@ -1,16 +1,15 @@
 package Application.repo;
 
-import java.util.Set;
-
-import Application.repo.custom.EventGuestRepositoryCustom;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import Application.entities.EventEntity;
 import Application.entities.EventGuestRelation;
+import Application.entities.EventGuestRelation.EventGuestId;
 import Application.entities.UserEntity;
+import Application.repo.custom.EventGuestRepositoryCustom;
 
 
-public interface EventGuestRepository extends JpaRepository<EventGuestRelation, Long>, EventGuestRepositoryCustom {
+public interface EventGuestRepository extends JpaRepository<EventGuestRelation, EventGuestId>, EventGuestRepositoryCustom {
     
 
 	public EventGuestRelation findByUserGuestAndEvent(UserEntity user, EventEntity event);

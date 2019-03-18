@@ -13,6 +13,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -86,7 +87,7 @@ public class EventEntity {
 	@Setter(AccessLevel.PACKAGE)
 	private AddressEntity addressEntity;
 
-	@OneToMany(mappedBy = "event") //TODO: cascading
+	@OneToMany(mappedBy = "event", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true) 
 	@JsonBackReference //TODO: safe bidir getters/setters; feedback
 	private Set<EventGuestRelation> subscriptions = new HashSet<>();
 
@@ -124,6 +125,15 @@ public class EventEntity {
 	protected boolean removeSubsription(EventGuestRelation subscription) {
 		return subscriptions.remove(subscription);
 	}
+	
+	/**
+	 * Immutable wrapper over Subscriptions;
+	 * 
+	 * @return
+	 */
+	public Set<EventGuestRelation> getUserItemsGuestsOfEvents() {
+		return Collections.unmodifiableSet(subscriptions);
+	}
 //
 //	/**
 //	 * Adds a Guest to the Event, two directions.
@@ -154,14 +164,7 @@ public class EventEntity {
 //		return subscriptions.remove(subscribed);
 //	}
 //
-	/**
-	 * Immutable wrapper over Guests;
-	 * 
-	 * @return
-	 */
-	public Set<EventGuestRelation> getUserItemsGuestsOfEvents() {
-		return Collections.unmodifiableSet(subscriptions);
-	}
+
 //
 //	/**
 //	 * Adding feedback;

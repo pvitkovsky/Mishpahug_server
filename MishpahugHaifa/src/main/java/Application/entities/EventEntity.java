@@ -87,7 +87,7 @@ public class EventEntity {
 	@Setter(AccessLevel.PACKAGE)
 	private AddressEntity addressEntity;
 
-	@OneToMany(mappedBy = "event", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true) 
+	@OneToMany(mappedBy = "id.eventId" , cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true) 
 	@JsonBackReference //TODO: safe bidir getters/setters; feedback
 	private Set<EventGuestRelation> subscriptions = new HashSet<>();
 

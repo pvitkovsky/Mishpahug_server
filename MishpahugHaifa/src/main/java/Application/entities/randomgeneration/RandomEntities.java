@@ -3,10 +3,12 @@ package Application.entities.randomgeneration;
 import java.util.Random;
 
 import Application.entities.UserEntity;
+import net.bytebuddy.utility.RandomString;
 
 public class RandomEntities {
 	
     static Random random = new Random();
+    static RandomString randStr = new RandomString(8); 
 
     public static final String[] FIRSTNAMES =
             {"John", "Robert", "Jackob", "Thomas", "Edward", "William", "Henry", "George", "Gregory", "Charles"};
@@ -14,7 +16,7 @@ public class RandomEntities {
     public static final String[] LASTNAMES =
             {"Johnson", "Smith", "Lee", "Linn", "Fox", "Simpson", "Ford", "Piper", "Moor", "Philips"};
     
-    public static String randomNickName() {
+    public static String randomNickNameFromSet() {
     	return FIRSTNAMES[random.nextInt(RandomEntities.FIRSTNAMES.length)];
     }
     
@@ -28,7 +30,7 @@ public class RandomEntities {
     
     public static UserEntity randomUserEntity() {
     	return UserEntity.builder()
-    			.nickname(randomNickName())
+    			.nickname(randStr.nextString())
     			.build();
     }
 

@@ -10,7 +10,7 @@ import java.util.Set;
 
 public interface IEventModel {
     public List<EventEntity> getAll();
-    public Set<EventEntity> getAllByUser(Integer userId);
+    public Set<EventEntity> getAllByUser(Integer userId); //TODO: owned or subscribed events here? 
     public List<EventEntity> getByFilter(HashMap<String, String> filter);
     public EventEntity add(EventEntity data); // Should not allow duplicated events; 
     public EventEntity update(Integer eventId, HashMap<String, String> data);

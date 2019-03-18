@@ -6,12 +6,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -142,7 +138,7 @@ public class UserEventGuestTest {
 		userRepo.save(BEN);	
 		userRepo.save(ALYSSA);	
 		AGUESTING.subscribe(ALYSSA, GUESTING);
-
+//
 		BEN.removeOwnedEvent(GUESTING); 
 		AGUESTING.unsubscribe(ALYSSA, GUESTING); //TODO: needs to unsub after each remove; 
 		eventGuestRepo.delete(AGUESTING);  //TODO: needs to delete after each remove; 
@@ -169,19 +165,18 @@ public class UserEventGuestTest {
 		assertTrue(events.contains(GUESTING));
 	}
 	
-//	@Test //TODO: same as above
-//	public void findUserBySubs(){
-//		
-//		BEN.makeOwner(GUESTING);
-//		userRepo.save(BEN);	
-//		userRepo.save(ALYSSA);	
-//		AGUESTING.subscribe(ALYSSA, GUESTING);
-//		
-//		Set<EventGuestRelation> subscriptions = GUESTING.getSubscriptions();
-//		System.out.println("SUBS " + subscriptions );
-//		assertEquals(userRepo.findUserBySubscriptions(subscriptions), ALYSSA);
-//	}
-
+	@Test //TODO: same as above
+	public void findUserBySubs(){
+		
+		BEN.makeOwner(GUESTING);
+		userRepo.save(BEN);	
+		userRepo.save(ALYSSA);	
+		AGUESTING.subscribe(ALYSSA, GUESTING);
+		
+		Set<EventGuestRelation> subscriptions = GUESTING.getSubscriptions();
+		System.out.println("SUBS " + subscriptions );
+		assertEquals(userRepo.findUserBySubscriptions(subscriptions), ALYSSA);
+	}
 
 
 

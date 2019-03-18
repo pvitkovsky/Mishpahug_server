@@ -62,9 +62,10 @@ public class EventModel implements IEventModel {
 
 	@Override
 	public Set<UserEntity> getAllSubscribed(Integer eventId) {
-		EventEntity event = eventRepository.getOne(eventId);
-		Set<EventGuestRelation> subsriptions = event.getSubscriptions();
-		return userRepository.findUserBySubscriptions(subsriptions);
+		return null; //TODO: proper method pls; 
+//		EventEntity event = eventRepository.getOne(eventId);
+//		Set<EventGuestRelation> subsriptions = event.getSubscriptions();
+//		return userRepository.findUserBySubscriptions(subsriptions);
 	}
 
 	@Override

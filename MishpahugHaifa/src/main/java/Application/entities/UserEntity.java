@@ -80,7 +80,7 @@ public class UserEntity {
 	@Builder.Default
 	private Set<EventEntity> eventItemsOwner = new HashSet<>();
 
-	@OneToMany(mappedBy = "id.userGuestId", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true) 
+	@OneToMany(mappedBy = "userGuest", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true) 
 	@JsonManagedReference //TODO: safe bidir getters/setters; feedback
 	@Builder.Default
 	private Set<EventGuestRelation> subscriptions = new HashSet<>();

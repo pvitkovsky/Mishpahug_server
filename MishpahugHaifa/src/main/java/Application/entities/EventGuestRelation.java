@@ -29,7 +29,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @EqualsAndHashCode (of = {"userGuest", "event"})
 @Entity
-@Table(name = "user_event_guest", uniqueConstraints = { @UniqueConstraint(columnNames = { "user_guest", "event"}) })
+@Table(name = "user_event_guest", uniqueConstraints = { @UniqueConstraint(columnNames = { "user_guest", "event_sub"}) })
 @ToString
 public class EventGuestRelation {
 
@@ -37,6 +37,7 @@ public class EventGuestRelation {
 	@NoArgsConstructor
 	@AllArgsConstructor
 	@EqualsAndHashCode
+	@ToString
 	public static class EventGuestId implements Serializable {
 		
 		private static final long serialVersionUID = 1L;
@@ -60,7 +61,7 @@ public class EventGuestRelation {
 	private UserEntity userGuest;
 
 	@ManyToOne //TODO: cascading
-	@JoinColumn(name = "event", insertable = false, updatable = false)
+	@JoinColumn(name = "event_sub", insertable = false, updatable = false)
 	@Setter(AccessLevel.PACKAGE)
 	private EventEntity event;
 	

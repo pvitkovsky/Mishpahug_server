@@ -171,10 +171,10 @@ public class EventModelTest {
 		Mockito.when(eventRepo.getOne(GUESTING.getId())).thenReturn(GUESTING);
 		Mockito.when(userRepo.getOne(ALYSSA.getId())).thenReturn(ALYSSA);
 		Mockito.when(userRepo.getOne(BEN.getId())).thenReturn(BEN);
-
+		Mockito.when(subscriptionsRepo.existsById(idAG)).thenReturn(true);
+		
 		try {
 			assertEquals(eventModel.unsubscribe(GUESTING.getId(), ALYSSA.getId()), GUESTING);
-			AGUESTING.unsubscribe(ALYSSA, GUESTING);
 			Mockito.when(subscriptionsRepo.getOne(idAG)).thenReturn(AGUESTING);
 			subAtoG = subscriptionsRepo.getOne(idAG); 
 			assertFalse(ALYSSA.getSubscriptions().contains(subAtoG));

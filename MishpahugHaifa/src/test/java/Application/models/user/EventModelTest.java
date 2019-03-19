@@ -1,6 +1,8 @@
 package Application.models.user;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -20,7 +22,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import Application.entities.EventEntity;
 import Application.entities.EventGuestRelation;
+import Application.entities.EventGuestRelation.EventGuestId;
 import Application.entities.UserEntity;
+import Application.exceptions.ExceptionMishpaha;
 import Application.models.event.EventModel;
 import Application.models.event.IEventModel;
 import Application.repo.EventGuestRepository;
@@ -59,6 +63,7 @@ public class EventModelTest {
 	private final EventGuestRelation AGUESTING = new EventGuestRelation();
 	private final Set<EventEntity> ASUBS = new HashSet<>();
 	private final Set<UserEntity> GSUBS = new HashSet<>();
+	
 	
 	@Before
 	public void buildEntities() {
@@ -109,4 +114,73 @@ public class EventModelTest {
 
 	}
 	
+	@Test
+	public void subscribe() {
+		
+		Mockito.when(userRepo.save(BEN)).thenReturn(BEN);
+		Mockito.when(userRepo.save(ALYSSA)).thenReturn(ALYSSA);
+		Mockito.when(eventRepo.save(GUESTING)).thenReturn(GUESTING);
+		Mockito.when(subscriptionsRepo.save(AGUESTING)).thenReturn(AGUESTING);
+		
+		BEN.makeOwner(GUESTING);
+		userRepo.save(BEN);
+		userRepo.save(ALYSSA); 
+		ALYSSA.setId(2); //TODO: generated Id with Mockito please
+		BEN.setId(1);
+		GUESTING.setId(1);
+		
+		EventGuestId idAG = new EventGuestId(ALYSSA.getId(), GUESTING.getId()); 
+		AGUESTING.subscribe(ALYSSA, GUESTING);
+		Mockito.when(subscriptionsRepo.getOne(idAG)).thenReturn(AGUESTING);
+		EventGuestRelation subAtoG = subscriptionsRepo.getOne(idAG); 
+		
+		Mockito.when(eventRepo.getOne(GUESTING.getId())).thenReturn(GUESTING);
+		Mockito.when(userRepo.getOne(ALYSSA.getId())).thenReturn(ALYSSA);
+		Mockito.when(userRepo.getOne(BEN.getId())).thenReturn(BEN);
+
+		try {
+			assertEquals(eventModel.subscribe(GUESTING.getId(), ALYSSA.getId()), GUESTING);
+			assertTrue(ALYSSA.getSubscriptions().contains(subAtoG));
+			assertTrue(GUESTING.getSubscriptions().contains(subAtoG));
+		} catch (ExceptionMishpaha e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	@Test
+	public void unsubscribe() {
+		
+		Mockito.when(userRepo.save(BEN)).thenReturn(BEN);
+		Mockito.when(userRepo.save(ALYSSA)).thenReturn(ALYSSA);
+		Mockito.when(eventRepo.save(GUESTING)).thenReturn(GUESTING);
+		Mockito.when(subscriptionsRepo.save(AGUESTING)).thenReturn(AGUESTING);
+		
+		BEN.makeOwner(GUESTING);
+		userRepo.save(BEN);
+		userRepo.save(ALYSSA); 
+		ALYSSA.setId(2); //TODO: generated Id with Mockito please
+		BEN.setId(1);
+		GUESTING.setId(1);
+		
+		EventGuestId idAG = new EventGuestId(ALYSSA.getId(), GUESTING.getId()); 
+		AGUESTING.subscribe(ALYSSA, GUESTING);
+		Mockito.when(subscriptionsRepo.getOne(idAG)).thenReturn(AGUESTING);
+		EventGuestRelation subAtoG = subscriptionsRepo.getOne(idAG); 
+		
+		Mockito.when(eventRepo.getOne(GUESTING.getId())).thenReturn(GUESTING);
+		Mockito.when(userRepo.getOne(ALYSSA.getId())).thenReturn(ALYSSA);
+		Mockito.when(userRepo.getOne(BEN.getId())).thenReturn(BEN);
+
+		try {
+			assertEquals(eventModel.unsubscribe(GUESTING.getId(), ALYSSA.getId()), GUESTING);
+			AGUESTING.unsubscribe(ALYSSA, GUESTING);
+			Mockito.when(subscriptionsRepo.getOne(idAG)).thenReturn(AGUESTING);
+			subAtoG = subscriptionsRepo.getOne(idAG); 
+			assertFalse(ALYSSA.getSubscriptions().contains(subAtoG));
+			assertFalse(GUESTING.getSubscriptions().contains(subAtoG));
+		} catch (ExceptionMishpaha e) {
+			e.printStackTrace();
+		}
+	}
 }

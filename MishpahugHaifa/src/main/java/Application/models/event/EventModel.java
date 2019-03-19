@@ -135,7 +135,7 @@ public class EventModel implements IEventModel {
 		if(!subscriptionsRepository.existsById(subscriptionKey)) {
 			throw new ExceptionMishpaha("User with id " + userId + " is not subscribed to event with id " + eventId , null);
 		}			
-		subscription = subscriptionsRepository.findById(subscriptionKey).get();
+		subscription = subscriptionsRepository.getOne(subscriptionKey);
 		if (!userEntity.getSubscriptions().contains(subscription) || !eventEntity.getSubscriptions().contains(subscription)){
 			throw new IllegalStateException("User is guest of event, but his set of subscriptions does not contain this event");
 		}

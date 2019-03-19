@@ -156,20 +156,30 @@ public class UserEventGuestTest {
 		userRepo.save(BEN);
 		userRepo.save(ALYSSA);
 		AGUESTING.subscribe(ALYSSA, GUESTING);
-			
-//		List<EventEntity> events = eventGuestRepo.findByUserGuest(ALYSSA).parallelStream()
+
+		// List<EventEntity> events =
+		// eventGuestRepo.findByUserGuest(ALYSSA).parallelStream()
+		// .map(EventGuestRelation::getEvent).collect(Collectors.toList());
+		// assertEquals(events.size(), 1);
+		// assertTrue(events.contains(GUESTING));
+
+//		List<EventEntity> events = eventGuestRepo.findByEvent(GUESTING).parallelStream()
 //				.map(EventGuestRelation::getEvent).collect(Collectors.toList());
 //		assertEquals(events.size(), 1);
 //		assertTrue(events.contains(GUESTING));
-		
-		
+
 		System.out.println(eventRepo.findAll());
 		System.out.println(eventGuestRepo.findAll());
-				
-		List<EventEntity> eventsII = eventGuestRepo.getEventIdsForGuest(ALYSSA);
+
+		
+//		List<EventEntity> eventsII = eventGuestRepo.getEventIdsForGuest(ALYSSA);
+//		assertEquals(eventsII.size(), 1);
+//		assertTrue(eventsII.contains(GUESTING));
+
+		List<EventEntity> eventsII = eventGuestRepo.getEventIdsForEvent(GUESTING);
 		assertEquals(eventsII.size(), 1);
 		assertTrue(eventsII.contains(GUESTING));
-		
+
 	}
 
 	@Test // TODO: same as above

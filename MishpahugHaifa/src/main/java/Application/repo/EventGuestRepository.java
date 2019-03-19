@@ -22,7 +22,10 @@ public interface EventGuestRepository extends JpaRepository<EventGuestRelation, 
 	
 	public List<EventGuestRelation> findByUserGuest(UserEntity guest);  //TODO: join doesn't work as intended
 	
-//	public List<EventGuestRelation> findByEvent(EventEntity event); 
+	@Query("SELECT r.event FROM EventGuestRelation r WHERE r.event= :event") //TODO: join doesn't work as intended
+	public List<EventEntity> getEventIdsForEvent(@Param(value = "event") EventEntity event); 
+
+	public List<EventGuestRelation> findByEvent(EventEntity event); 
 	
 
 	

@@ -1,4 +1,4 @@
-package Application.entities.relations.logs_user;
+package Application.relations.logs_user;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;

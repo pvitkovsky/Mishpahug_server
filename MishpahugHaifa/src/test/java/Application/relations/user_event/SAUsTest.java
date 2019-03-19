@@ -1,4 +1,4 @@
-package Application.subscribeandunsubscribe;
+package Application.relations.user_event;
 
 import Application.entities.EventEntity;
 import Application.entities.UserEntity;
@@ -81,8 +81,8 @@ public class SAUsTest {
             System.out.println(eventEntity2.getUserItemsGuestsOfEvents());
             System.out.println(userEntity1);
             System.out.println(userEntity2);
-//            System.out.println(userEntity3.getEventEntityGuest());
-//            System.out.println(userEntity4.getEventEntityGuest());
+            System.out.println(userEntity3.getSubscriptions());
+            System.out.println(userEntity4.getSubscriptions());
             System.out.println("Test End");
         }
 

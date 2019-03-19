@@ -10,11 +10,5 @@ public interface EventRepository extends JpaRepository<EventEntity, Integer>, Ev
   
 	@Query("SELECT e from EventEntity e WHERE e.nameOfEvent = :name")
     public EventEntity byFullName(String name);
-
-//	@Query("SELECT e from EventEntity e WHERE :user member of e.subscriptions")	
-//    public Set<EventEntity> findAllBySubscriptions(@Param(value = "user") UserEntity user); //TODO: properly working query pls;
-/*
- * Trying to :subscription member of e.subscriptions failed due to multi-column query limitation in H2;
- * 
- */
+	
 }

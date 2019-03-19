@@ -1,4 +1,4 @@
-package Application.entities.relations.user_event;
+package Application.relations.user_event;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

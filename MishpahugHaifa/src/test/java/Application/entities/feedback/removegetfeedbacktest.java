@@ -1,4 +1,4 @@
-package Application.removegetfeedbacktest;
+package Application.entities.feedback;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

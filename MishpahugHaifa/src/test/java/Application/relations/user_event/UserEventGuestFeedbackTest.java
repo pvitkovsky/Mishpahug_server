@@ -1,4 +1,4 @@
-package Application.entities.relations.user_event;
+package Application.relations.user_event;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

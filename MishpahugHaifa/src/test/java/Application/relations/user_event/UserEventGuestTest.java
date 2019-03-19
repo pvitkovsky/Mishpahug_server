@@ -1,4 +1,4 @@
-package Application.entities.relations.user_event;
+package Application.relations.user_event;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -141,7 +140,6 @@ public class UserEventGuestTest {
 		//
 		BEN.removeOwnedEvent(GUESTING);
 		AGUESTING.unsubscribe(ALYSSA, GUESTING); // TODO: needs to unsub after each remove;
-		eventGuestRepo.delete(AGUESTING); // TODO: needs to delete after each remove;
 
 		assertFalse(eventRepo.existsById(GUESTING.getId()));
 		assertTrue(userRepo.existsById(ALYSSA.getId()));
@@ -157,25 +155,10 @@ public class UserEventGuestTest {
 		userRepo.save(ALYSSA);
 		AGUESTING.subscribe(ALYSSA, GUESTING);
 
-		// List<EventEntity> events =
-		// eventGuestRepo.findByUserGuest(ALYSSA).parallelStream()
-		// .map(EventGuestRelation::getEvent).collect(Collectors.toList());
-		// assertEquals(events.size(), 1);
-		// assertTrue(events.contains(GUESTING));
-
-//		List<EventEntity> events = eventGuestRepo.findByEvent(GUESTING).parallelStream()
-//				.map(EventGuestRelation::getEvent).collect(Collectors.toList());
-//		assertEquals(events.size(), 1);
-//		assertTrue(events.contains(GUESTING));
-
-
-//		List<EventEntity> eventsII = eventGuestRepo.getEventIdsForGuest(ALYSSA);
-//		assertEquals(eventsII.size(), 1);
-//		assertTrue(eventsII.contains(GUESTING));
-
-		List<EventEntity> eventsII = eventGuestRepo.getEventIdsForEvent(GUESTING);
-		assertEquals(eventsII.size(), 1);
-		assertTrue(eventsII.contains(GUESTING));
+		Set<EventGuestRelation> subscriptions = ALYSSA.getSubscriptions();
+		Set<EventEntity> events = subscriptions.stream().map(s -> s.getEvent()).collect(Collectors.toSet());
+		assertEquals(events.size(), 1);
+		assertTrue(events.contains(GUESTING));
 
 	}
 
@@ -188,8 +171,8 @@ public class UserEventGuestTest {
 		AGUESTING.subscribe(ALYSSA, GUESTING);
 
 		Set<EventGuestRelation> subscriptions = GUESTING.getSubscriptions();
-		System.out.println("SUBS " + subscriptions);
-		assertTrue(userRepo.findUserBySubscriptions(subscriptions) == ALYSSA);
+		Set<UserEntity> users = subscriptions.stream().map(s -> s.getUserGuest()).collect(Collectors.toSet());
+		assertTrue(users.contains(ALYSSA));
 	}
 
 }

@@ -168,10 +168,7 @@ public class UserEventGuestTest {
 //		assertEquals(events.size(), 1);
 //		assertTrue(events.contains(GUESTING));
 
-		System.out.println(eventRepo.findAll());
-		System.out.println(eventGuestRepo.findAll());
 
-		
 //		List<EventEntity> eventsII = eventGuestRepo.getEventIdsForGuest(ALYSSA);
 //		assertEquals(eventsII.size(), 1);
 //		assertTrue(eventsII.contains(GUESTING));
@@ -192,7 +189,7 @@ public class UserEventGuestTest {
 
 		Set<EventGuestRelation> subscriptions = GUESTING.getSubscriptions();
 		System.out.println("SUBS " + subscriptions);
-		assertEquals(userRepo.findUserBySubscriptions(subscriptions), ALYSSA);
+		assertTrue(userRepo.findUserBySubscriptions(subscriptions) == ALYSSA);
 	}
 
 }

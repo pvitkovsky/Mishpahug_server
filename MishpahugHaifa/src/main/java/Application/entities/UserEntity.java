@@ -41,6 +41,9 @@ public class UserEntity {
 	@Column(name = "phonenumber")
 	private String phoneNumber;
 
+	@Column(name = "password")
+	private String password;
+
 	@Column(name = "email")
 	private String eMail;
 
@@ -66,11 +69,6 @@ public class UserEntity {
 	@Setter(AccessLevel.NONE)
 	@Builder.Default
 	private Set<EventEntity> eventItemsGuest = new HashSet<>();
-
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "pass_id")
-	private PasswordEntity passwordEntity;
-
 
 	@ElementCollection
 	@CollectionTable

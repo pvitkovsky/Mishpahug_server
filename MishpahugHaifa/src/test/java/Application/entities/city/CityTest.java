@@ -109,7 +109,7 @@ public class CityTest {
 		String detail;
 		try {
 			ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-			InputStream is = classloader.getResourceAsStream("data.csv");
+			InputStream is = classloader.getResourceAsStream("data_city.csv");
 			// https://stackoverflow.com/q/15749192
 			BufferedReader empdtil = new BufferedReader(new InputStreamReader(is));
 			while ((detail = empdtil.readLine()) != null) {

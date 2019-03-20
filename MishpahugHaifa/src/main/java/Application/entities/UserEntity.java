@@ -15,7 +15,7 @@ import application.entities.values.PictureValue;
 import lombok.*;
 
 @Entity
-@Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = { "email" }) })
+@Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = { "User_Name" }) })
 @ToString(exclude = { "eventItemsOwner", "eventItemsGuest", "pictureItems", "feedbacks" })
 @EqualsAndHashCode(of = { "lastName", "firstName", "eMail" })
 @Getter

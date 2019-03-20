@@ -133,6 +133,7 @@ public class AddressTest {
                 UserEntity userEntity = new UserEntity();
                 userEntity.setUserName(z);
                 userEntity.setAddressEntity(x);
+                //userEntity.setEMail(x+x.getId().toString()+"@tut.by");
                 userRepository.save(userEntity);
             }
         }

@@ -27,9 +27,9 @@ public class UserRepositoryImpl implements EventRepositoryCustom {
         StringBuilder query = new StringBuilder();
         Map<String, String> parameters = new HashMap<>();
         query.append("select e from EventEntity e where 1=1 ");
-        if (filter.containsKey("nickname")){
-            query.append(" and e.nickname LIKE '%:nickname%'");
-            parameters.put("nickname", filter.get("nickname"));
+        if (filter.containsKey("userName")){
+            query.append(" and e.userName LIKE '%:userName%'");
+            parameters.put("userName", filter.get("userName"));
         }
         if (filter.containsKey("firstname")){
             query.append(" and e.firstname LIKE '%:firstname%'");

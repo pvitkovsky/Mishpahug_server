@@ -3,6 +3,7 @@ package application.entities.Address;
 import application.entities.AddressEntity;
 import application.entities.CityEntity;
 import application.entities.CountryEntity;
+import application.entities.UserEntity;
 import application.repo.AddressRepository;
 import application.repo.CityRepository;
 import application.repo.CountryRepository;
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -113,6 +115,7 @@ public class AddressTest {
         addAddress();
         generatorOfAddresses();
         addNames();
+        addUsers();
     }
 
     @Test
@@ -123,14 +126,28 @@ public class AddressTest {
         }
     }
 
-    @Test
     public void addUsers(){
         List<AddressEntity> data = addressRepository.findAll();
         for (AddressEntity x : data) {
             for (String z : names) {
-                
+                UserEntity userEntity = new UserEntity();
+                userEntity.setUserName(z);
+                userEntity.setAddressEntity(x);
+                userRepository.save(userEntity);
             }
         }
+    }
+
+    @Test
+    public void filterUserTest(){
+        HashMap<String, String> filterForUsers = new HashMap<>();
+        filterForUsers.put("userName","Alex");
+        List<UserEntity> res = userRepository.searchByFilter(filterForUsers);
+        System.out.println("Begin userfilter test");
+        for (UserEntity z : res) {
+            System.out.println(z);
+        }
+        System.out.println("End userfilter test");
     }
 
 }

@@ -1,7 +1,6 @@
-package Application.entities.country;
+package application.entities.country;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -12,13 +11,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import Application.entities.CountryEntity;
-import Application.repo.CountryRepository;
+import application.entities.CountryEntity;
+import application.repo.CountryRepository;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest

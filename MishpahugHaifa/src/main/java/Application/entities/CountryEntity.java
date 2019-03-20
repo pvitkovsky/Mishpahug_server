@@ -1,4 +1,4 @@
-package Application.entities;
+package application.entities;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -14,8 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-
-import org.hibernate.validator.constraints.UniqueElements;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 

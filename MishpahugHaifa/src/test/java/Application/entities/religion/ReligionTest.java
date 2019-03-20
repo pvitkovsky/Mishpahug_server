@@ -1,8 +1,8 @@
-package Application.entities.religion;
+package application.entities.religion;
 
 
-import Application.entities.ReligionEntity;
-import Application.repo.ReligionRepository;
+import application.entities.ReligionEntity;
+import application.repo.ReligionRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

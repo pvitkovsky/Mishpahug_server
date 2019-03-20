@@ -1,4 +1,4 @@
-package Application.removegetfeedbacktest;
+package application.removegetfeedbacktest;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,14 +15,12 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import Application.entities.EventEntity;
-import Application.entities.FeedBackEntity;
-import Application.entities.UserEntity;
-import Application.repo.EventRepository;
-import Application.repo.FeedBackRepository;
-import Application.repo.UserRepository;
-
-import javax.validation.constraints.AssertTrue;
+import application.entities.EventEntity;
+import application.entities.FeedBackEntity;
+import application.entities.UserEntity;
+import application.repo.EventRepository;
+import application.repo.FeedBackRepository;
+import application.repo.UserRepository;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest

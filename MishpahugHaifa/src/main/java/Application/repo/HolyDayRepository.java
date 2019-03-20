@@ -1,7 +1,6 @@
-package Application.repo;
+package application.repo;
 
-import Application.entities.HoliDayEntity;
-import Application.repo.custom.HoliDayRepositoryCustom;
+import application.entities.HoliDayEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

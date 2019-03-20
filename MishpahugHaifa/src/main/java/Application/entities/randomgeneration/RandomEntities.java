@@ -1,8 +1,8 @@
-package Application.entities.randomgeneration;
+package application.entities.randomgeneration;
 
 import java.util.Random;
 
-import Application.entities.UserEntity;
+import application.entities.UserEntity;
 
 public class RandomEntities {
 	

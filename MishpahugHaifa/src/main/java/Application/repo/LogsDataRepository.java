@@ -1,8 +1,8 @@
-package Application.repo;
+package application.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import Application.entities.LogsDataEntity;
+import application.entities.LogsDataEntity;
 
 public interface LogsDataRepository extends JpaRepository<LogsDataEntity, Long>{
 

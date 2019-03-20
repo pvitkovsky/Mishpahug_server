@@ -1,4 +1,4 @@
-package Application.entities.relations.user_event;
+package application.entities.relations.user_event;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -16,10 +16,10 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import Application.entities.EventEntity;
-import Application.entities.UserEntity;
-import Application.repo.EventRepository;
-import Application.repo.UserRepository;
+import application.entities.EventEntity;
+import application.entities.UserEntity;
+import application.repo.EventRepository;
+import application.repo.UserRepository;
 
 /**
  * Relation: 
@@ -58,10 +58,10 @@ public class UserEventOwnerTest {
 
 		ALYSSA.makeOwner(TESTING);
 		userRepo.save(ALYSSA);
-		assertTrue(userRepo.existsById(ALYSSA.getId()));
+		assertTrue(userRepo.existsById(ALYSSA.getUser_Id()));
 		assertTrue(eventRepo.existsById(TESTING.getId()));
 		
-		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
+		UserEntity savedA = userRepo.findById(ALYSSA.getUser_Id()).get();
 		EventEntity savedE = eventRepo.findById(TESTING.getId()).get();
 		EventEntity savedEfromUser = savedA.getEventEntityOwner().iterator().next();
 		UserEntity savedAfromEvent = savedE.getUserEntityOwner();
@@ -100,7 +100,7 @@ public class UserEventOwnerTest {
 		ALYSSA.makeOwner(TESTING);
 		userRepo.save(ALYSSA);
 
-		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
+		UserEntity savedA = userRepo.findById(ALYSSA.getUser_Id()).get();
 		EventEntity savedE = eventRepo.findById(TESTING.getId()).get();
 		
 		System.out.println(savedA); //TODO: toString w/o println pls
@@ -120,7 +120,7 @@ public class UserEventOwnerTest {
 		ALYSSA.makeOwner(TESTING);
 
 		userRepo.save(ALYSSA);
-		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
+		UserEntity savedA = userRepo.findById(ALYSSA.getUser_Id()).get();
 		assertTrue(savedA.getEventEntityOwner().size() == 1);
 
 	}
@@ -139,8 +139,8 @@ public class UserEventOwnerTest {
 		userRepo.save(ALYSSA);
 		userRepo.save(BEN);
 
-		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
-		UserEntity savedB = userRepo.findById(BEN.getId()).get();
+		UserEntity savedA = userRepo.findById(ALYSSA.getUser_Id()).get();
+		UserEntity savedB = userRepo.findById(BEN.getUser_Id()).get();
 
 		assertTrue(savedA.getEventEntityOwner().size() == 0);
 		assertTrue(savedB.getEventEntityOwner().size() == 1);
@@ -174,7 +174,7 @@ public class UserEventOwnerTest {
 		ALYSSA.removeOwnedEvent(TESTING);
 
 		assertFalse(eventRepo.existsById(TESTING.getId()));
-		assertTrue(userRepo.existsById(ALYSSA.getId()));
+		assertTrue(userRepo.existsById(ALYSSA.getUser_Id()));
 
 	}
 	
@@ -187,7 +187,7 @@ public class UserEventOwnerTest {
 		userRepo.delete(ALYSSA);
 
 		assertFalse(eventRepo.existsById(TESTING.getId()));
-		assertFalse(userRepo.existsById(ALYSSA.getId()));
+		assertFalse(userRepo.existsById(ALYSSA.getUser_Id()));
 
 	}
 }

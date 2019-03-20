@@ -1,4 +1,4 @@
-package Application.entities.relations.user_event;
+package application.entities.relations.user_event;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -16,10 +16,10 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import Application.entities.EventEntity;
-import Application.entities.UserEntity;
-import Application.repo.EventRepository;
-import Application.repo.UserRepository;
+import application.entities.EventEntity;
+import application.entities.UserEntity;
+import application.repo.EventRepository;
+import application.repo.UserRepository;
 
 /**
  * Relation: 
@@ -63,10 +63,10 @@ public class UserEventGuestTest {
 		GUESTING.subscribe(ALYSSA);
 		eventRepo.save(GUESTING);
 		
-		assertTrue(userRepo.existsById(ALYSSA.getId()));
+		assertTrue(userRepo.existsById(ALYSSA.getUser_Id()));
 		assertTrue(eventRepo.existsById(GUESTING.getId()));
 		
-		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
+		UserEntity savedA = userRepo.findById(ALYSSA.getUser_Id()).get();
 		EventEntity savedE = eventRepo.findById(GUESTING.getId()).get();
 		EventEntity savedEfromUser = savedA.getEventEntityGuest().iterator().next();
 		UserEntity savedAfromEvent = savedE.getUserItemsGuestsOfEvents().iterator().next();
@@ -96,7 +96,7 @@ public class UserEventGuestTest {
 		userRepo.delete(ALYSSA);
 		
 		assertTrue(eventRepo.existsById(GUESTING.getId()));
-		assertFalse(userRepo.existsById(ALYSSA.getId()));
+		assertFalse(userRepo.existsById(ALYSSA.getUser_Id()));
 		assertFalse(GUESTING.getUserItemsGuestsOfEvents().contains(ALYSSA));
 	}
 	
@@ -111,7 +111,7 @@ public class UserEventGuestTest {
 		BEN.removeOwnedEvent(GUESTING); 
 
 		assertFalse(eventRepo.existsById(GUESTING.getId()));
-		assertTrue(userRepo.existsById(ALYSSA.getId()));
+		assertTrue(userRepo.existsById(ALYSSA.getUser_Id()));
 		assertFalse(ALYSSA.getEventEntityGuest().contains(GUESTING));
 
 	}

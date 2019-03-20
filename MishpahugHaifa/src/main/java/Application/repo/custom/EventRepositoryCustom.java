@@ -1,6 +1,6 @@
-package Application.repo.custom;
+package application.repo.custom;
 
-import Application.entities.EventEntity;
+import application.entities.EventEntity;
 
 import java.util.HashMap;
 import java.util.List;

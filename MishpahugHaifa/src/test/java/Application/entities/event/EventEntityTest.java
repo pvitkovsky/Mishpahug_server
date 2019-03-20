@@ -1,5 +1,5 @@
 
-package Application.entities.event;
+package application.entities.event;
 
 import static org.junit.Assert.assertEquals;
 
@@ -16,10 +16,10 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import Application.entities.EventEntity;
-import Application.entities.UserEntity;
-import Application.repo.EventRepository;
-import Application.repo.UserRepository;
+import application.entities.EventEntity;
+import application.entities.UserEntity;
+import application.repo.EventRepository;
+import application.repo.UserRepository;
 
 /**
  * Relation: OneToMany User is the primary entity. Event must have a user as its

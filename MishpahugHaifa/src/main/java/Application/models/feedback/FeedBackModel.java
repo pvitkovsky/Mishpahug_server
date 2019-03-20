@@ -1,4 +1,4 @@
-package Application.models.feedback;
+package application.models.feedback;
 
 import java.util.Map;
 
@@ -7,11 +7,11 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import Application.entities.FeedBackEntity;
-import Application.entities.UserEntity;
-import Application.repo.EventRepository;
-import Application.repo.FeedBackRepository;
-import Application.repo.UserRepository;
+import application.entities.FeedBackEntity;
+import application.entities.UserEntity;
+import application.repo.EventRepository;
+import application.repo.FeedBackRepository;
+import application.repo.UserRepository;
 @Service
 @Transactional
 public class FeedBackModel implements IFeedBackModel {
@@ -32,12 +32,12 @@ public class FeedBackModel implements IFeedBackModel {
 
     @Override
     public Map<Integer, FeedBackEntity> getAllByUser(UserEntity userEntity) {
-        return userRepository.getOne(userEntity.getId()).getFeedbacks();
+        return userRepository.getOne(userEntity.getUser_Id()).getFeedbacks();
     }
 
     @Override
     public void removeAllByUser(UserEntity userEntity) {
-        userRepository.getOne(userEntity.getId()).getFeedbacks().clear();
+        userRepository.getOne(userEntity.getUser_Id()).getFeedbacks().clear();
     }
 
     @Override

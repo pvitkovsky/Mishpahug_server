@@ -1,4 +1,4 @@
-package Application.models.event;
+package application.models.event;
 
 import java.util.HashMap;
 import java.util.List;
@@ -10,11 +10,11 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import Application.entities.EventEntity;
-import Application.entities.UserEntity;
-import Application.exceptions.ExceptionMishpaha;
-import Application.repo.EventRepository;
-import Application.repo.UserRepository;
+import application.entities.EventEntity;
+import application.entities.UserEntity;
+import application.exceptions.ExceptionMishpaha;
+import application.repo.EventRepository;
+import application.repo.UserRepository;
 
 @Service
 @Transactional

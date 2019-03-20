@@ -1,7 +1,7 @@
-package Application.controllers;
+package application.controllers;
 
-import Application.entities.ReligionEntity;
-import Application.models.religion.IReligionModel;
+import application.entities.ReligionEntity;
+import application.models.religion.IReligionModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

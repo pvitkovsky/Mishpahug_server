@@ -1,10 +1,10 @@
-package Application.models.logsdata;
+package application.models.logsdata;
 
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
-import Application.entities.LogsDataEntity;
+import application.entities.LogsDataEntity;
 
 @Service
 @Transactional

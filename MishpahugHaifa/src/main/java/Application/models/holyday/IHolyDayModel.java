@@ -1,6 +1,6 @@
-package Application.models.holyday;
+package application.models.holyday;
 
-import Application.entities.HoliDayEntity;
+import application.entities.HoliDayEntity;
 
 import java.util.List;
 

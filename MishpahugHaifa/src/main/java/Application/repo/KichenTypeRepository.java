@@ -1,6 +1,6 @@
-package Application.repo;
+package application.repo;
 
-import Application.entities.KichenTypeEntity;
+import application.entities.KichenTypeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

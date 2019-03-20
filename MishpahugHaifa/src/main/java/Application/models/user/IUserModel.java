@@ -1,6 +1,6 @@
-package Application.models.user;
+package application.models.user;
 
-import Application.entities.UserEntity;
+import application.entities.UserEntity;
 
 import java.util.List;
 import java.util.HashMap;
@@ -12,4 +12,5 @@ public interface IUserModel {
     public UserEntity add(UserEntity data);
     public UserEntity update(Integer userId, HashMap<String, String> data);
     public UserEntity remove(Integer userId);
+    public UserEntity getByName(String name);
 }

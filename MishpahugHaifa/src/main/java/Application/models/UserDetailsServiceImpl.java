@@ -1,9 +1,10 @@
-package Application.models;
+package application.models;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import Application.entities.AppUser;
+import application.entities.UserEntity;
+import application.models.user.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,14 +18,14 @@ import org.springframework.stereotype.Service;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private AppUserDAO appUserDAO;
+    private UserModel appUserDAO;
 
     @Autowired
     private AppRoleDAO appRoleDAO;
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        AppUser appUser = this.appUserDAO.findUserAccount(userName);
+        UserEntity appUser = this.appUserDAO.getByName(userName);
 
         if (appUser == null) {
             System.out.println("User not found! " + userName);
@@ -34,7 +35,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         System.out.println("Found User: " + appUser);
 
         // [ROLE_USER, ROLE_ADMIN,..]
-        List<String> roleNames = this.appRoleDAO.getRoleNames(appUser.getUserId());
+        List<String> roleNames = this.appRoleDAO.getRoleNames(appUser.getUser_Id());
 
         List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
         if (roleNames != null) {

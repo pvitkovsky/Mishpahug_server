@@ -1,4 +1,4 @@
-package Application.models.picture;
+package application.models.picture;
 
 import java.sql.Blob;
 
@@ -6,7 +6,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
-import Application.entities.values.PictureValue;
+import application.entities.values.PictureValue;
 
 @Service
 @Transactional

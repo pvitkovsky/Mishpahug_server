@@ -1,9 +1,9 @@
-package Application.subscribeandunsubscribe;
+package application.subscribeandunsubscribe;
 
-import Application.entities.EventEntity;
-import Application.entities.UserEntity;
-import Application.repo.EventRepository;
-import Application.repo.UserRepository;
+import application.entities.EventEntity;
+import application.entities.UserEntity;
+import application.repo.EventRepository;
+import application.repo.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

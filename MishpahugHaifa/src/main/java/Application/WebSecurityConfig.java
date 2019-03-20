@@ -1,6 +1,6 @@
-package Application;
+package application;
 
-import Application.models.UserDetailsServiceImpl;
+import application.models.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

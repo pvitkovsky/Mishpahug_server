@@ -1,11 +1,7 @@
-package Application.repo;
+package application.repo;
 
-import Application.entities.FeedBackEntity;
-import Application.entities.UserEntity;
+import application.entities.FeedBackEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-
-import java.util.List;
 
 public interface FeedBackRepository extends JpaRepository<FeedBackEntity, Integer> {
 }

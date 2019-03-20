@@ -1,10 +1,10 @@
-package Application.controllers;
+package application.controllers;
 
-import Application.exceptions.ExceptionMishpaha;
-import Application.entities.CityEntity;
-import Application.entities.CountryEntity;
-import Application.models.city.ICityModel;
-import Application.models.country.ICountryModel;
+import application.exceptions.ExceptionMishpaha;
+import application.entities.CityEntity;
+import application.entities.CountryEntity;
+import application.models.city.ICityModel;
+import application.models.country.ICountryModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

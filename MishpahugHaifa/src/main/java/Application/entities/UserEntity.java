@@ -1,4 +1,4 @@
-package Application.entities;
+package application.entities;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -8,15 +8,16 @@ import java.util.Set;
 
 import javax.persistence.*;
 
+import application.controllers.EncrytedPasswordUtils;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import Application.entities.values.PictureValue;
+import application.entities.values.PictureValue;
 import lombok.*;
 
 @Entity
 @Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = { "email" }) })
 @ToString(exclude = { "eventItemsOwner", "eventItemsGuest", "pictureItems", "feedbacks" })
-@EqualsAndHashCode(of = { "lastname", "fistname", "email" })
+@EqualsAndHashCode(of = { "lastName", "firstName", "eMail" })
 @Getter
 @Setter
 @AllArgsConstructor
@@ -26,8 +27,9 @@ import lombok.*;
 
 public class UserEntity {
 	@Id
+	@Column(name = "User_Id", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Integer user_Id;
 
 	@Column(name = "firstname")
 	private String firstName;
@@ -42,6 +44,20 @@ public class UserEntity {
 	@Column(name = "email")
 	private String eMail;
 
+
+	@Column(name = "User_Name", length = 36)
+	private String userName;
+
+	@Column(name = "Encryted_Password", length = 128)
+	@Setter(AccessLevel.NONE)
+	private String encrytedPassword;
+
+	public void setEncrytedPassword(String encrytedPassword) {
+		this.encrytedPassword = EncrytedPasswordUtils.encrytePassword(encrytedPassword);
+	}
+
+	@Column(name = "Enabled", length = 1)
+	private boolean enabled;
 
 	@ManyToOne(optional = true)
 	@JsonManagedReference //Bidirectional, managed from Address;

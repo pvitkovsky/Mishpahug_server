@@ -1,6 +1,6 @@
-package Application.models.country;
+package application.models.country;
 
-import Application.entities.CountryEntity;
+import application.entities.CountryEntity;
 
 import java.util.List;
 

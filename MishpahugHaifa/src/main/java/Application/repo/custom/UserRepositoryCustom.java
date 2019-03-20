@@ -1,6 +1,6 @@
-package Application.repo.custom;
+package application.repo.custom;
 
-import Application.entities.UserEntity;
+import application.entities.UserEntity;
 
 import java.util.HashMap;
 import java.util.List;

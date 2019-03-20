@@ -1,4 +1,4 @@
-package Application.models.country;
+package application.models.country;
 
 import java.util.List;
 
@@ -7,8 +7,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import Application.entities.CountryEntity;
-import Application.repo.CountryRepository;
+import application.entities.CountryEntity;
+import application.repo.CountryRepository;
 @Service
 @Transactional
 public class CountryModel implements ICountryModel {

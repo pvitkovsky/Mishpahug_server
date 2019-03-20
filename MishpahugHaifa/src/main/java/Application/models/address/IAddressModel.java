@@ -1,6 +1,6 @@
-package Application.models.address;
+package application.models.address;
 
-import Application.entities.AddressEntity;
+import application.entities.AddressEntity;
 
 import java.util.HashMap;
 

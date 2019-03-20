@@ -1,8 +1,8 @@
-package Application.models.city;
+package application.models.city;
 
-import Application.exceptions.ExceptionMishpaha;
-import Application.entities.CityEntity;
-import Application.entities.CountryEntity;
+import application.exceptions.ExceptionMishpaha;
+import application.entities.CityEntity;
+import application.entities.CountryEntity;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package Application.models.city;
+package application.models.city;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,10 +8,10 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import Application.entities.CityEntity;
-import Application.entities.CountryEntity;
-import Application.exceptions.ExceptionMishpaha;
-import Application.repo.CityRepository;
+import application.entities.CityEntity;
+import application.entities.CountryEntity;
+import application.exceptions.ExceptionMishpaha;
+import application.repo.CityRepository;
 @Service
 @Transactional
 public class CityModel implements ICityModel {

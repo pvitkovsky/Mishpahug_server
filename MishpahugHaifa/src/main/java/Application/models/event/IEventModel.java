@@ -1,8 +1,8 @@
-package Application.models.event;
+package application.models.event;
 
-import Application.entities.EventEntity;
-import Application.entities.UserEntity;
-import Application.exceptions.ExceptionMishpaha;
+import application.entities.EventEntity;
+import application.entities.UserEntity;
+import application.exceptions.ExceptionMishpaha;
 
 import java.util.List;
 import java.util.HashMap;

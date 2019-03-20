@@ -1,10 +1,8 @@
-package Application.models.feedback;
+package application.models.feedback;
 
-import Application.entities.FeedBackEntity;
-import Application.entities.UserEntity;
+import application.entities.FeedBackEntity;
+import application.entities.UserEntity;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public interface IFeedBackModel {

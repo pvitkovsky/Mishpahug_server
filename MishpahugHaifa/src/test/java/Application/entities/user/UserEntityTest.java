@@ -1,8 +1,8 @@
 
-package Application.entities.user;
+package application.entities.user;
 
-import Application.entities.AddressEntity;
-import Application.repo.AddressRepository;
+import application.entities.AddressEntity;
+import application.repo.AddressRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,8 +13,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import Application.entities.UserEntity;
-import Application.repo.UserRepository;
+import application.entities.UserEntity;
+import application.repo.UserRepository;
 
 /**
  * Relation: OneToMany User is the primary entity. Event must have a user as its
@@ -28,7 +28,7 @@ import Application.repo.UserRepository;
 public class UserEntityTest {
 
 
-	private final UserEntity ALYSSA = new UserEntity();
+	private UserEntity ALYSSA = new UserEntity();
 	private final UserEntity ALYSSADUPLICATE = new UserEntity();
 	private final AddressEntity addressEntity = new AddressEntity();
 	private final String ANICKNAME = "P. Hacker";
@@ -47,8 +47,22 @@ public class UserEntityTest {
 
 	@Test(expected = DataIntegrityViolationException.class)
 	public void givenDuplicateUsersSaveAndGetException() {
-		userRepo.save(ALYSSA); 
+		ALYSSA.setLastName("lhlkhl");
+		ALYSSA.setFirstName("Alise");
+		ALYSSA.setUserName("aliseS");
+		ALYSSA.setEMail("aliseS@gmail.com");
+		ALYSSA.setEncrytedPassword("ghluikgluglujgog");
+		userRepo.save(ALYSSA);
 		userRepo.save(ALYSSADUPLICATE);
+	}
+	@Test
+	public void getByName() {
+		ALYSSA.setLastName("lhlkhl");
+		ALYSSA.setFirstName("Alise");
+		ALYSSA.setUserName("aliseS");
+		ALYSSA.setEMail("aliseS@gmail.com");
+		userRepo.save(ALYSSA);
+		System.out.println (userRepo.findByUName("aliseS"));
 	}
 
 }

@@ -1,4 +1,4 @@
-package Application.entities.relations.logs_user;
+package application.entities.relations.logs_user;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -15,12 +15,12 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import Application.entities.EventEntity;
-import Application.entities.LogsDataEntity;
-import Application.entities.LogsDataEntity.UserActions;
-import Application.entities.UserEntity;
-import Application.entities.randomgeneration.RandomEntities;
-import Application.repo.LogsDataRepository;
+import application.entities.EventEntity;
+import application.entities.LogsDataEntity;
+import application.entities.LogsDataEntity.UserActions;
+import application.entities.UserEntity;
+import application.entities.randomgeneration.RandomEntities;
+import application.repo.LogsDataRepository;
 
 /**
  * Relation: OneToMany User is the primary entity. Event must have a user as its

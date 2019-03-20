@@ -1,10 +1,10 @@
-package Application.models.address;
+package application.models.address;
 
-import Application.entities.AddressEntity;
-import Application.entities.CityEntity;
-import Application.exceptions.ExceptionMishpaha;
-import Application.repo.AddressRepository;
-import Application.repo.CityRepository;
+import application.entities.AddressEntity;
+import application.entities.CityEntity;
+import application.exceptions.ExceptionMishpaha;
+import application.repo.AddressRepository;
+import application.repo.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

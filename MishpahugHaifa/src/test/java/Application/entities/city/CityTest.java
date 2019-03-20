@@ -1,4 +1,4 @@
-package Application.entities.city;
+package application.entities.city;
 
 import static org.junit.Assert.assertTrue;
 
@@ -17,10 +17,10 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-import Application.entities.CityEntity;
-import Application.entities.CountryEntity;
-import Application.repo.CityRepository;
-import Application.repo.CountryRepository;
+import application.entities.CityEntity;
+import application.entities.CountryEntity;
+import application.repo.CityRepository;
+import application.repo.CountryRepository;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest(showSql = false) 

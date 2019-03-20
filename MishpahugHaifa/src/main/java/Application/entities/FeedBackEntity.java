@@ -1,4 +1,4 @@
-package Application.entities;
+package application.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
@@ -7,7 +7,6 @@ import org.hibernate.validator.constraints.Range;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Entity
 @Table(name="feedback")

@@ -1,4 +1,4 @@
-package Application.controllers;
+package application.controllers;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,18 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import Application.entities.EventEntity;
-import Application.entities.UserEntity;
-import Application.exceptions.ExceptionMishpaha;
-import Application.models.event.IEventModel;
-
-import Application.models.user.IUserModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import application.entities.EventEntity;
+import application.entities.UserEntity;
+import application.exceptions.ExceptionMishpaha;
+import application.models.event.IEventModel;
 
 
 @RestController

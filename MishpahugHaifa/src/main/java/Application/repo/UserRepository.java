@@ -1,9 +1,12 @@
-package Application.repo;
+package application.repo;
 
-import Application.entities.UserEntity;
-import Application.repo.custom.UserRepositoryCustom;
+import application.entities.UserEntity;
+import application.repo.custom.UserRepositoryCustom;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 
 public interface UserRepository extends JpaRepository<UserEntity, Integer>, UserRepositoryCustom {
+    @Query("SELECT u from UserEntity u WHERE u.userName = :userName")
+    public UserEntity findByUName(String userName);
 }

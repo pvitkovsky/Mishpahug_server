@@ -1,11 +1,11 @@
-package Application.models;
+package application.models;
 
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import Application.entities.UserRole;
+import application.entities.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +17,7 @@ public class AppRoleDAO {
     @Autowired
     private EntityManager entityManager;
 
-    public List<String> getRoleNames(Long userId) {
+    public List<String> getRoleNames(Integer userId) {
         String sql = "Select ur.appRole.roleName from " + UserRole.class.getName() + " ur " //
                 + " where ur.appUser.userId = :userId ";
 

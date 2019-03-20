@@ -1,7 +1,6 @@
-package Application.repo.custom;
+package application.repo.custom;
 
-import Application.entities.EventEntity;
-import org.omg.CORBA.Object;
+import application.entities.EventEntity;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

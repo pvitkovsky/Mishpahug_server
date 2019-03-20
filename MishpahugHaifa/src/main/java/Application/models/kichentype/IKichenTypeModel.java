@@ -1,6 +1,6 @@
-package Application.models.kichentype;
+package application.models.kichentype;
 
-import Application.entities.KichenTypeEntity;
+import application.entities.KichenTypeEntity;
 
 import java.util.List;
 

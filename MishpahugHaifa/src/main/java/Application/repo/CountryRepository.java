@@ -1,6 +1,6 @@
-package Application.repo;
+package application.repo;
 
-import Application.entities.CountryEntity;
+import application.entities.CountryEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

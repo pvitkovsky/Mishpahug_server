@@ -1,4 +1,4 @@
-package Application.models.holyday;
+package application.models.holyday;
 
 import java.util.List;
 
@@ -7,8 +7,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import Application.entities.HoliDayEntity;
-import Application.repo.HolyDayRepository;
+import application.entities.HoliDayEntity;
+import application.repo.HolyDayRepository;
 @Service
 @Transactional
 public class HolyDayModel implements IHolyDayModel {

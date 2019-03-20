@@ -1,4 +1,4 @@
-package Application.exceptions;
+package application.exceptions;
 
 public class ExceptionMishpaha extends Exception {
 

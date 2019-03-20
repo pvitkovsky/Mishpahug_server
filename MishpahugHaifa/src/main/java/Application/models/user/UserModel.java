@@ -1,8 +1,8 @@
-package Application.models.user;
+package application.models.user;
 
-import Application.entities.UserEntity;
-import Application.repo.CityRepository;
-import Application.repo.UserRepository;
+import application.entities.UserEntity;
+import application.repo.CityRepository;
+import application.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -81,6 +81,11 @@ public class UserModel implements IUserModel {
         UserEntity usr = userRepository.getOne(userId);
         userRepository.deleteById(userId);
         return usr;
+    }
+
+    @Override
+    public UserEntity getByName(String name) {
+        return userRepository.findByUName(name);
     }
 
 }

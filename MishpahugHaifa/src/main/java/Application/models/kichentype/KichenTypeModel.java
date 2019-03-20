@@ -1,4 +1,4 @@
-package Application.models.kichentype;
+package application.models.kichentype;
 
 import java.util.List;
 
@@ -7,8 +7,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import Application.entities.KichenTypeEntity;
-import Application.repo.KichenTypeRepository;
+import application.entities.KichenTypeEntity;
+import application.repo.KichenTypeRepository;
 @Service
 @Transactional
 public class KichenTypeModel implements IKichenTypeModel {

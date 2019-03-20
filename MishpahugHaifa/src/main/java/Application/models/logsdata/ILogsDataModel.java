@@ -1,6 +1,6 @@
-package Application.models.logsdata;
+package application.models.logsdata;
 
-import Application.entities.LogsDataEntity;
+import application.entities.LogsDataEntity;
 
 public interface ILogsDataModel {
     public LogsDataEntity add(LogsDataEntity data);

@@ -1,7 +1,7 @@
-package Application.controllers;
+package application.controllers;
 
-import Application.entities.UserEntity;
-import Application.models.user.IUserModel;
+import application.entities.UserEntity;
+import application.models.user.IUserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

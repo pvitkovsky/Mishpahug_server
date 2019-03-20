@@ -1,4 +1,4 @@
-package Application.entities;
+package application.entities;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -73,7 +73,7 @@ public class AddressEntity {
 
     /**
      * Adding a user to the address; 
-     * @param city
+     * @paramcity
      * @return
      */
     public boolean addUser(UserEntity userEntity) {
@@ -83,7 +83,7 @@ public class AddressEntity {
     
     /**
      * User is not deleted once the address is merged;
-     * @param city
+     * @paramcity
      * @return
      */
     public boolean removeUser(UserEntity userEntity) {
@@ -101,7 +101,7 @@ public class AddressEntity {
     
     /**
      * Adding a Event to the address; 
-     * @param city
+     * @paramcity
      * @return
      */
     public boolean addEvent(EventEntity eventEntity) {
@@ -111,7 +111,7 @@ public class AddressEntity {
     
     /**
      * Event is not deleted once the address is merged;
-     * @param city
+     * @paramcity
      * @return
      */
     public boolean removeEvent(EventEntity eventEntity) {

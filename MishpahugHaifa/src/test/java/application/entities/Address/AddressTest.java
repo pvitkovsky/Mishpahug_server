@@ -46,7 +46,7 @@ public class AddressTest {
         String detail;
         try {
             ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-            InputStream is = classloader.getResourceAsStream("data.csv");
+            InputStream is = classloader.getResourceAsStream("cities.csv");
             // https://stackoverflow.com/q/15749192
             CountryEntity countryEntity = new CountryEntity();
             countryEntity.setName("Israel");
@@ -141,12 +141,10 @@ public class AddressTest {
     @Test
     public void filterUserTest(){
         HashMap<String, String> filterForUsers = new HashMap<>();
-        filterForUsers.put("userName","Alex");
+        filterForUsers.put("username",names.get(3));
         List<UserEntity> res = userRepository.searchByFilter(filterForUsers);
         System.out.println("Begin userfilter test");
-        for (UserEntity z : res) {
-            System.out.println(z);
-        }
+        System.out.println(res);
         System.out.println("End userfilter test");
     }
 

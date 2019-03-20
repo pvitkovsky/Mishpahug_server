@@ -28,7 +28,6 @@ public class RandomEntities {
     
     public static UserEntity randomUserEntity() {
     	return UserEntity.builder()
-    			.nickname(randomNickName())
     			.build();
     }
 

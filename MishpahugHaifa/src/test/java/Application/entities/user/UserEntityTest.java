@@ -43,8 +43,6 @@ public class UserEntityTest {
 		addressEntity.setStreet("Chuguev");
 		addressEntity.setApartment(33);
 		addressEntity.setBuilding(3);
-		ALYSSA.setNickname(ANICKNAME);
-		ALYSSADUPLICATE.setNickname(ANICKNAME);
 	}
 
 	@Test(expected = DataIntegrityViolationException.class)

@@ -58,14 +58,12 @@ public class LogsUserTest {
 		TESTING.setTime(TTIME);
 		TESTING.setNameOfEvent(TNAME);
 
-		LOG_A.setUserNickName(RAN.getNickname());
 		LOG_A.setEventDescription(TESTING.toEventUniqueDescription());
 		LOG_A.setAction(UserActions.EVENT_STATUS_CHANGE);
 		LOG_A.setDate(TDATE);
 		LOG_A.setTime(TTIME);
 		LOG_A.setTime(TTIME);
 
-		LOG_B.setUserNickName(RAN.getNickname());
 		LOG_B.setEventDescription(TESTING.toEventUniqueDescription());
 		LOG_B.setAction(UserActions.EVENT_STATUS_CHANGE);
 		LOG_B.setDate(TDATE);

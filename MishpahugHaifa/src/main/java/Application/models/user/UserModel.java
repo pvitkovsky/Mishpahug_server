@@ -57,7 +57,6 @@ public class UserModel implements IUserModel {
     @Override
     public UserEntity update(Integer userId, HashMap<String, String> data) {
         UserEntity userEntity = userRepository.getOne(userId);
-        if (data.containsKey("nickname")) userEntity.setNickname(data.get("nickname"));
         if (data.containsKey("lastname")) userEntity.setLastName(data.get("lastname"));
         if (data.containsKey("firstname")) userEntity.setFirstName(data.get("firstname"));
         if (data.containsKey("email")) userEntity.setEMail(data.get("email"));

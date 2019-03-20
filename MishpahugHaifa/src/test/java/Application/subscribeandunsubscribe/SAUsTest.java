@@ -36,27 +36,23 @@ public class SAUsTest {
         eventEntity1 = new EventEntity();
         eventEntity2 = new EventEntity();
         userEntity1 = new UserEntity();
-        userEntity1.setNickname("Vasia");
         userEntity1.setEMail("vasia@gmail.com");
         userEntity1.setFirstName("Vasia");
         userEntity1.setLastName("Fedorov");
         userEntity1.setPhoneNumber("3453453");
         userEntity2 = new UserEntity();
         userEntity2.setEMail("dadid@gmail.com");
-        userEntity2.setNickname("dadid");
         userEntity2.setFirstName("dadid");
         userEntity2.setLastName("Petrov");
         userEntity2.setPhoneNumber("345345");
 
         userEntity3 = new UserEntity();
-        userEntity3.setNickname("Sasha");
         userEntity3.setEMail("sasha@gmail.com");
         userEntity3.setFirstName("Sasha");
         userEntity3.setLastName("Guskin");
         userEntity3.setPhoneNumber("354345345");
         userEntity4 = new UserEntity();
         userEntity4.setEMail("pasha@gmail.com");
-        userEntity4.setNickname("Pasha");
         userEntity4.setFirstName("Pasha");
         userEntity4.setLastName("Popov");
         userEntity4.setPhoneNumber("345345345");

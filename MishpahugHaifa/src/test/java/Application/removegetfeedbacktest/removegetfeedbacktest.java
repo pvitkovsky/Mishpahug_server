@@ -57,7 +57,6 @@ public class removegetfeedbacktest {
         // generator for users
         for (int i = 0; i < userNames.length; i++){
             userEntities[i] = new UserEntity();
-            userEntities[i].setNickname(userNames[i]);
             userEntities[i].setEMail(userNames[i] + "@gmail.com");
             userEntities[i].setFirstName(userNames[i]);
             userEntities[i].setPhoneNumber("44444" + i);
@@ -93,7 +92,7 @@ public class removegetfeedbacktest {
 
             feedBackEntity.setEventItem(eventEntities[i]);
             feedBackEntity.setUserItem(userEntities[i]);
-            feedBackEntity.setComment(userEntities[i].getNickname() + "@"
+            feedBackEntity.setComment("@"
                     + eventEntities[i].getNameOfEvent());
             feedBackEntity.setRating(5);
             feedBackRepository.save(feedBackEntity);
@@ -108,9 +107,9 @@ public class removegetfeedbacktest {
         Integer savedUsersCount = dataU.size();
         for (int i = 0; i < savedUsersCount; i++){
         	UserEntity savedU = dataU.get(i);
-        	System.out.println("Feedback of " + savedU.getNickname() + " begin");
+        	System.out.println("Feedback of begin");
         	savedU.getFeedbacks().values().forEach(System.out::println);
-            System.out.println("Feedback of " + savedU.getNickname() + " end");
+            System.out.println("Feedback of end");
             System.out.println("");
 
         }

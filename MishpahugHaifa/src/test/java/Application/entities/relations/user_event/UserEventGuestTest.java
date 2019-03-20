@@ -46,8 +46,6 @@ public class UserEventGuestTest {
 
 	@Before
 	public void buildEntities() {
-		ALYSSA.setNickname("Alyssa");
-		BEN.setNickname("Ben");
 	}
 
 	/**

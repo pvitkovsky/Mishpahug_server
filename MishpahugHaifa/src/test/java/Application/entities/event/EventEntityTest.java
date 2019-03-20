@@ -48,8 +48,7 @@ public class EventEntityTest {
 	@Before
 	public void buildEntities() {
 		
-		ALYSSA.setNickname("Alyssa");
-		
+
 		TESTING.setDate(TDATE);
 		TESTING.setTime(TTIME);
 		TESTING.setNameOfEvent(TNAME);

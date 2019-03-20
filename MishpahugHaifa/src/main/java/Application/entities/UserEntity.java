@@ -14,9 +14,9 @@ import Application.entities.values.PictureValue;
 import lombok.*;
 
 @Entity
-@Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = { "nickname" }) })
+@Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = { "email" }) })
 @ToString(exclude = { "eventItemsOwner", "eventItemsGuest", "pictureItems", "feedbacks" })
-@EqualsAndHashCode(of = { "nickname" })
+@EqualsAndHashCode(of = { "lastname", "fistname", "email" })
 @Getter
 @Setter
 @AllArgsConstructor
@@ -29,9 +29,6 @@ public class UserEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name = "nickname", nullable = false)
-	private String nickname;
-
 	@Column(name = "firstname")
 	private String firstName;
 
@@ -41,15 +38,10 @@ public class UserEntity {
 	@Column(name = "phonenumber")
 	private String phoneNumber;
 
-	@Column(name = "password")
-	private String password;
 
 	@Column(name = "email")
 	private String eMail;
 
-	@Column(name = "role")
-	@Enumerated(EnumType.STRING)
-	private UserRole role;
 
 	@ManyToOne(optional = true)
 	@JsonManagedReference //Bidirectional, managed from Address;
@@ -83,9 +75,6 @@ public class UserEntity {
 	// TODO: safe bidirectional getter/setter
 	private Map<Integer, FeedBackEntity> feedbacks = new HashMap<>();
 
-	public enum UserRole {
-		ADMIN, AUTHORISED, SUSPENDED,
-	}
 
 	/**
 	 * Adds an event to the set of events owned by this user, transferring it from

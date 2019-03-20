@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import Application.entities.CityEntity;
 import Application.entities.EventEntity;
 import Application.entities.EventGuestRelation;
 import Application.entities.UserEntity;
@@ -26,9 +25,7 @@ import Application.repo.UserRepository;
 @Component
 public class DB_test_loader implements CommandLineRunner {
 
-	private final UserEntity ALYSSA = new UserEntity();
-	private final UserEntity ALYSSADUPLICATE = new UserEntity();
-	private final String ANICKNAME = "P. Hacker";
+
 
 	@Autowired
 	UserRepository userRepo;
@@ -39,7 +36,8 @@ public class DB_test_loader implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-
+		loadTest(MPHEntity.USER);
+		System.out.println("Loaded successfully");
 	}
 
 	private void loadTest(MPHEntity entity) {
@@ -70,7 +68,6 @@ public class DB_test_loader implements CommandLineRunner {
 	}
 
 	private enum MPHEntity {
-
 		USER {
 			public String dataFile() {
 				return "data_user.csv";
@@ -105,7 +102,7 @@ public class DB_test_loader implements CommandLineRunner {
 				String detail;
 				while ((detail = empdtil.readLine()) != null) {
 					UserEntity user = new UserEntity();
-					user.setEMail(detail);
+					user.setNickname(detail);
 					userRepo.save(user);
 				}
 				empdtil.close();

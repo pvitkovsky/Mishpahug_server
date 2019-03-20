@@ -46,11 +46,10 @@ public class AddressEntity {
     @ManyToOne(optional = false)
     @JoinColumn(name = "city_of_address")
     @JsonBackReference
-    @Setter(AccessLevel.PACKAGE)
     private CityEntity cityEntity;
     
     @Column(name = "street")
-    @Size(min = 4, max = 32, message = "maximum 32 symbols")
+    @Size(min = 1, max = 128, message = "maximum 128 symbols")
     private String street;
     
     @Column(name = "building")

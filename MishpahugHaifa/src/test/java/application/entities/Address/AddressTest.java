@@ -1,0 +1,136 @@
+package application.entities.Address;
+
+import application.entities.AddressEntity;
+import application.entities.CityEntity;
+import application.entities.CountryEntity;
+import application.repo.AddressRepository;
+import application.repo.CityRepository;
+import application.repo.CountryRepository;
+import application.repo.UserRepository;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+
+@RunWith(SpringRunner.class)
+@DataJpaTest
+@ActiveProfiles("test")
+@Transactional
+public class AddressTest {
+
+    @Autowired
+    CityRepository cityRepository;
+    @Autowired
+    CountryRepository countryRepository;
+    @Autowired
+    AddressRepository addressRepository;
+    @Autowired
+    UserRepository userRepository;
+    List<String> streets = new ArrayList<>();
+    List<String> names = new ArrayList<>();
+
+    public void addCity() {
+        String detail;
+        try {
+            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+            InputStream is = classloader.getResourceAsStream("data.csv");
+            // https://stackoverflow.com/q/15749192
+            CountryEntity countryEntity = new CountryEntity();
+            countryEntity.setName("Israel");
+            BufferedReader empdtil = new BufferedReader(new InputStreamReader(is));
+            while ((detail = empdtil.readLine()) != null) {
+                CityEntity cityEntity = new CityEntity();
+                cityEntity.setName(detail);
+                countryEntity.addCity(cityEntity);
+                countryRepository.save(countryEntity); //city is cascaded;
+            }
+            empdtil.close();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void addAddress(){
+        String detail;
+        try {
+            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+            InputStream is = classloader.getResourceAsStream("streets.csv");
+            // https://stackoverflow.com/q/15749192
+            BufferedReader empdtil = new BufferedReader(new InputStreamReader(is));
+            while ((detail = empdtil.readLine()) != null) {
+                streets.add(detail);
+            }
+            empdtil.close();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void addNames(){
+        String detail;
+        try {
+            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+            InputStream is = classloader.getResourceAsStream("names.csv");
+            // https://stackoverflow.com/q/15749192
+            BufferedReader empdtil = new BufferedReader(new InputStreamReader(is));
+            while ((detail = empdtil.readLine()) != null) {
+                names.add(detail);
+            }
+            empdtil.close();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void generatorOfAddresses(){
+        List<CityEntity> cities = cityRepository.findAll();
+        for (CityEntity z : cities) {
+            for (String x : streets) {
+                AddressEntity addressEntity = new AddressEntity();
+                addressEntity.setCityEntity(z);
+                addressEntity.setStreet(x);
+                addressEntity.setBuilding(4);
+                addressEntity.setApartment(11);
+                addressRepository.save(addressEntity);
+            }
+        }
+    }
+
+    @Before
+    public void loadData(){
+        addCity();
+        addAddress();
+        generatorOfAddresses();
+        addNames();
+    }
+
+    @Test
+    public void displayAddresses(){
+        List<AddressEntity> data = addressRepository.findAll();
+        for (AddressEntity x : data) {
+            System.out.println(x);
+        }
+    }
+
+    @Test
+    public void addUsers(){
+        List<AddressEntity> data = addressRepository.findAll();
+        for (AddressEntity x : data) {
+            for (String z : names) {
+                
+            }
+        }
+    }
+
+}

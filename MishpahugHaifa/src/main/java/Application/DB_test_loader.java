@@ -4,9 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.StandardSocketOptions;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -20,9 +23,10 @@ import Application.repo.EventRepository;
 import Application.repo.UserRepository;
 
 /**
- * Load the production DB with integration test data; TODO: make it a profile
+ * Load the production DB with integration test data; TODO: make it a Spring profile
  */
 @Component
+@Transactional
 public class DB_test_loader implements CommandLineRunner {
 
 
@@ -37,7 +41,9 @@ public class DB_test_loader implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		loadTest(MPHEntity.USER);
-		System.out.println("Loaded successfully");
+		loadTest(MPHEntity.EVENT);
+		loadTest(MPHEntity.GUESTS);
+		eventGuestRepo.findAll().forEach(System.out::println);
 	}
 
 	private void loadTest(MPHEntity entity) {
@@ -57,10 +63,14 @@ public class DB_test_loader implements CommandLineRunner {
 			EventLoader loader = new EventLoader(empdtil);
 			loader.load();
 		}
-		case GUESTS: {
+		case GUESTS: { 
+			eventGuestRepo.deleteAll();
+			UserEntity randomGuest = userRepo.findAll().get(1); //TODO:random;
 			for (EventEntity event : eventRepo.findAll()) {
 				EventGuestRelation subscription = new EventGuestRelation();
-				subscription.subscribe(userRepo.getOne(0), event);
+				if(!event.getUserEntityOwner().equals(randomGuest)) {
+					subscription.subscribe(randomGuest, event);
+				}
 			}
 		}
 		}
@@ -80,7 +90,7 @@ public class DB_test_loader implements CommandLineRunner {
 		},
 		GUESTS {
 			public String dataFile() {
-				return null;
+				return "data_guests_blank.csv";
 			}
 		};
 		abstract String dataFile();
@@ -95,10 +105,11 @@ public class DB_test_loader implements CommandLineRunner {
 		public UserLoader(BufferedReader empdtil) {
 			this.empdtil = empdtil;
 		}
-
+		
 		void load() {
 			try {
 				userRepo.deleteAll();
+				userRepo.flush(); //TODO: do we need flush here?
 				String detail;
 				while ((detail = empdtil.readLine()) != null) {
 					UserEntity user = new UserEntity();
@@ -122,18 +133,21 @@ public class DB_test_loader implements CommandLineRunner {
 		public EventLoader(BufferedReader empdtil) {
 			this.empdtil = empdtil;
 		}
-
+		
 		void load() {
 			try {
 				eventRepo.deleteAll();
+				eventRepo.flush();//TODO: do we need flush here?
 				String detail;
+				UserEntity randomOwner = userRepo.findAll().get(0);
 				while ((detail = empdtil.readLine()) != null) {
 					String[] eventAttributes = detail.split(",");
 					EventEntity event = new EventEntity();
-					event.setDate(LocalDate.parse(eventAttributes[0].replaceAll("/", ""), DateTimeFormatter.ISO_DATE));
+					event.setDate(LocalDate.parse(eventAttributes[0].replaceAll("/", "-"), DateTimeFormatter.ISO_DATE));//TODO: h:mm, not only hh:mm
 					event.setTime(LocalTime.parse(eventAttributes[1], DateTimeFormatter.ISO_LOCAL_TIME));
 					event.setNameOfEvent(eventAttributes[2]);
-					userRepo.getOne(0).makeOwner(event);// TODO: random user;
+					randomOwner.makeOwner(event);// TODO: random user;
+					//eventRepo.save(event); //TODO: cascading pls;
 				}
 				empdtil.close();
 			} catch (IOException e) {

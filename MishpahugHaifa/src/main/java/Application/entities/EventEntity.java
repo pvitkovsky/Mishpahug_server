@@ -49,15 +49,6 @@ public class EventEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name = "User_Name", length = 36, nullable = false)
-	private String userName;
-
-	@Column(name = "Encryted_Password", length = 128, nullable = false)
-	private String encrytedPassword;
-
-	@Column(name = "Enabled", length = 1, nullable = false)
-	private boolean enabled;
-
 	@Column(name = "date")
 	private LocalDate date;
 

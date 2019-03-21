@@ -25,8 +25,8 @@ public class EventRepositoryImpl implements EventRepositoryCustom{
             parameters.put("date", filter.get("date"));
         }
         if (filter.containsKey("nameOfEvent")){
-            query.append(" and e.nameOfEvent LIKE '%:nameOfEvent%'");
-            parameters.put("nameOfEvent", filter.get("nameOfEvent"));
+            query.append(" and e.nameOfEvent LIKE :nameOfEvent");
+            parameters.put("nameOfEvent",  "%" + filter.get("nameOfEvent") + "%");
         }
         if (filter.containsKey("status")){
             query.append(" and e.status = :status");

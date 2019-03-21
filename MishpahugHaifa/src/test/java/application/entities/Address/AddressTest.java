@@ -140,7 +140,8 @@ public class AddressTest {
         }*/
         for (int i=0; i<names.size();i++){
             UserEntity userEntity = new UserEntity();
-            userEntity.setUserName(names.get(i));
+            userEntity.setUserName("657" + names.get(i) + "1212");
+            userEntity.setFirstName(names.get(i));
             userEntity.setAddressEntity(data.get(i));
             userEntity.setEMail(names.get(i)+i+"@tut.by");
             userRepository.save(userEntity);
@@ -151,6 +152,8 @@ public class AddressTest {
     public void filterUserTest(){
         HashMap<String, String> filterForUsers = new HashMap<>();
         filterForUsers.put("username",names.get(3));
+        //filterForUsers.put("firstname",names.get(3));
+
         List<UserEntity> res = userRepository.searchByFilter(filterForUsers);
         System.out.println("Begin userfilter test");
         System.out.println(res);
@@ -158,6 +161,7 @@ public class AddressTest {
         System.out.println(userRepository.findByUserName(names.get(3)));
         HashMap<String, String> updateForUser = new HashMap<>();
         updateForUser.put("lastname","Dusia");
+
         System.out.println(userRepository.findByUserName(names.get(3)));
 
     }

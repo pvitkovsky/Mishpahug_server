@@ -2,12 +2,12 @@ package application.repo.custom;
 
 import application.entities.UserEntity;
 
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 /*
 поля для фильтрации
 -никнайм
@@ -21,6 +21,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 
     @PersistenceContext
     private EntityManager entityManager;
+
     @Override
     public UserEntity update(Integer userId, HashMap<String, String> data){
         return null;

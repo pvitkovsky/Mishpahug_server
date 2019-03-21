@@ -11,4 +11,6 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<UserEntity, Integer>, UserRepositoryCustom {
     //@Query("SELECT u from UserEntity u WHERE u.userName = :userName")
     public UserEntity findByUserName(String userName);
+    
+    public UserEntity getByNickname(String nickName); //TODO: working query pls;
 }

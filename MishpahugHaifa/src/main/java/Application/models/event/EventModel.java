@@ -3,8 +3,10 @@ package application.models.event;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
@@ -12,9 +14,13 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import application.entities.EventEntity;
+import application.entities.EventGuestRelation;
+import application.entities.EventGuestRelation.EventGuestId;
 import application.entities.UserEntity;
 import application.exceptions.ExceptionMishpaha;
+import application.repo.EventGuestRepository;
 import application.repo.EventRepository;
 import application.repo.UserRepository;
 
@@ -26,6 +32,8 @@ public class EventModel implements IEventModel {
 	EventRepository eventRepository;
 	@Autowired
 	UserRepository userRepository;
+	@Autowired
+	EventGuestRepository subscriptionsRepository;
 
 	@Override
 	public List<EventEntity> getAll() {
@@ -33,8 +41,13 @@ public class EventModel implements IEventModel {
 	}
 
 	@Override
+	/**
+	 * Guest
+	 */
 	public Set<EventEntity> getAllByUser(Integer userId) {
-		return userRepository.getOne(userId).getEventEntityGuest();
+		UserEntity userEntity = userRepository.getOne(userId);
+		Set<EventGuestRelation> subscriptions = userEntity.getSubscriptions();
+		return subscriptions.stream().map(s -> s.getEvent()).collect(Collectors.toSet());
 	}
 
 	@Override
@@ -67,7 +80,9 @@ public class EventModel implements IEventModel {
 
 	@Override
 	public Set<UserEntity> getAllSubscribed(Integer eventId) {
-		return eventRepository.getOne(eventId).getUserItemsGuestsOfEvents();
+		EventEntity eventEntity = eventRepository.getOne(eventId);
+		Set<EventGuestRelation> subscriptions = eventEntity.getSubscriptions();
+		return subscriptions.stream().map(s -> s.getUserGuest()).collect(Collectors.toSet());
 	}
 
 	@Override
@@ -76,10 +91,8 @@ public class EventModel implements IEventModel {
 			EventEntity eventEntity = eventRepository.getOne(eventId);
 			UserEntity userOwner = eventEntity.getUserEntityOwner();
 			userOwner.removeOwnedEvent(eventEntity);
-			for (UserEntity guest : eventEntity.getUserItemsGuestsOfEvents()) {
-				eventEntity.unSubscribe(guest);
-			}
-			userRepository.save(userOwner); // event is cascaded from user;
+			userRepository.save(userOwner); 
+			//TODO: check cascade; 
 			return eventEntity;
 		} catch (EntityNotFoundException e) {
 			throw new ExceptionMishpaha("Error! Not found event with id " + eventId, null);
@@ -114,8 +127,8 @@ public class EventModel implements IEventModel {
 		} catch (Exception e) {
 			throw new ExceptionMishpaha("Error! Not found user with id " + userId, null);
 		}
-		eventEntity.subscribe(userEntity);
-		userRepository.save(userEntity);
+		EventGuestRelation subscription = new EventGuestRelation();
+		subscription.subscribe(userEntity, eventEntity);
 		return eventEntity;
 	}
 
@@ -123,6 +136,7 @@ public class EventModel implements IEventModel {
 	public EventEntity unsubscribe(Integer eventId, Integer userId) throws ExceptionMishpaha {
 		EventEntity eventEntity;
 		UserEntity userEntity;
+		EventGuestRelation subscription;
 		try {
 			eventEntity = eventRepository.getOne(eventId);
 		} catch (EntityNotFoundException e) {
@@ -133,8 +147,15 @@ public class EventModel implements IEventModel {
 		} catch (Exception e) {
 			throw new ExceptionMishpaha("Error! Not found user with id " + userId, null);
 		}
-		eventEntity.unSubscribe(userEntity);
-		userRepository.save(userEntity);
+		EventGuestId subscriptionKey = new EventGuestId(userEntity.getId(), eventEntity.getId());
+		if(!subscriptionsRepository.existsById(subscriptionKey)) {
+			throw new ExceptionMishpaha("User with id " + userId + " is not subscribed to event with id " + eventId , null);
+		}			
+		subscription = subscriptionsRepository.getOne(subscriptionKey);
+		if (!userEntity.getSubscriptions().contains(subscription) || !eventEntity.getSubscriptions().contains(subscription)){
+			throw new IllegalStateException("User is guest of event, but his set of subscriptions does not contain this event");
+		}
+		subscription.unsubscribe(userEntity, eventEntity); //cascaded, no need to explicitly delete; 
 		return eventEntity;
 	}
 }

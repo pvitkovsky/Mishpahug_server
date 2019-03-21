@@ -1,9 +1,10 @@
 package Application.repo;
 
-import Application.entities.UserEntity;
-import Application.repo.custom.UserRepositoryCustom;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+
+import Application.entities.UserEntity;
+import Application.repo.custom.UserRepositoryCustom;
 
 
 public interface UserRepository extends JpaRepository<UserEntity, Integer>, UserRepositoryCustom {

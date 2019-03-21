@@ -1,12 +1,25 @@
 package Application.entities;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -22,13 +35,13 @@ import lombok.*;
 @AllArgsConstructor
 //@RequiredArgsConstructor
 @NoArgsConstructor
-@Builder
-
+@Builder //TODO: BUILDER creates NPE in userEntityOwner's hashSet 
 public class UserEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	//@NotNull TODO: clarify
 	@Column(name = "nickname", nullable = false)
 	private String nickname;
 
@@ -43,6 +56,9 @@ public class UserEntity {
 
 	@Column(name = "email")
 	private String eMail;
+
+	@Column(name = "password")
+	private String password;
 
 	@Column(name = "role")
 	@Enumerated(EnumType.STRING)
@@ -60,12 +76,11 @@ public class UserEntity {
 	@Builder.Default
 	private Set<EventEntity> eventItemsOwner = new HashSet<>();
 
-	@ManyToMany(mappedBy = "userItemsGuests", fetch = FetchType.LAZY) // TODO: immutable getters on sets;
-	@JsonManagedReference //Bidirectional, managed from Event;
-	@Getter(AccessLevel.NONE)
-	@Setter(AccessLevel.NONE)
+
+	@OneToMany(mappedBy = "userGuest", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true) 
+	@JsonManagedReference //TODO: safe bidir getters/setters; feedback
 	@Builder.Default
-	private Set<EventEntity> eventItemsGuest = new HashSet<>();
+	private Set<EventGuestRelation> subscriptions = new HashSet<>();
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "pass_id")
@@ -77,13 +92,6 @@ public class UserEntity {
 	@Column(name = "pictures")
 	@Builder.Default
 	private Set<PictureValue> pictureItems = new HashSet<>();
-
-	@OneToMany(mappedBy = "userItem")
-	@MapKey(name = "id")
-	@JsonManagedReference
-	@Builder.Default
-	// TODO: safe bidirectional getter/setter
-	private Map<Integer, FeedBackEntity> feedbacks = new HashMap<>();
 
 	public enum UserRole {
 		ADMIN, AUTHORISED, SUSPENDED,
@@ -99,6 +107,7 @@ public class UserEntity {
 	 */
 
 	public boolean makeOwner(EventEntity event) {
+		//TODO: check that event has its business key not null; or NPE is possible;
 		if (event.getUserEntityOwner() == null) { // transient state;
 			event.setUserEntityOwner(this);
 		}
@@ -140,9 +149,8 @@ public class UserEntity {
 			throw new IllegalStateException(
 					"Event has user set as owner, but not present in the user's collection of owned events");
 		}
-		for (UserEntity guest : event.getUserItemsGuestsOfEvents()) {
-			event.unSubscribe(guest);
-		}
+//		for (EventGuestRelation subscription : event.getUserItemsGuestsOfEvents()) { //TODO: delete subscriptions;
+//		}
 		return eventItemsOwner.remove(event); // TODO: thread safety argument;
 	}
 
@@ -159,8 +167,8 @@ public class UserEntity {
 	 * @param_city
 	 * @return
 	 */
-	protected boolean addSubsctibedEvent(EventEntity eventEntity) {
-		return eventItemsGuest.add(eventEntity);
+	protected boolean addSubscription(EventGuestRelation subscription) {
+		return subscriptions.add(subscription);
 	}
 
 	/**
@@ -169,26 +177,17 @@ public class UserEntity {
 	 * @param_city
 	 * @return
 	 */
-	protected boolean removeSubsctibedEvent(EventEntity eventEntity) {
-		return eventItemsGuest.remove(eventEntity);
+	protected boolean removeSubsription(EventGuestRelation subscription) {
+		return subscriptions.remove(subscription); // TODO: is it cascaded?
 	}
-
+	
+	
 	/**
-	 * Immutable wrapper over events guested by this user;
-	 */
-	public Set<EventEntity> getEventEntityGuest() {
-		return Collections.unmodifiableSet(eventItemsGuest);
-	}
-
-	/**
-	 * Adding feedback;
+	 * Immutable wrapper over Subscriptions;
 	 * 
-	 * @param feedback
+	 * @return
 	 */
-	// TODO: immutable getter; defensive coding
-	public void addFeedBack(FeedBackEntity feedback) {
-
-		feedbacks.put(feedback.getId(), feedback);
-
+	public Set<EventGuestRelation> getUserItemsGuestsOfEvents() {
+		return Collections.unmodifiableSet(subscriptions);
 	}
 }

@@ -9,33 +9,34 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Data @Getter @Setter @AllArgsConstructor @NoArgsConstructor
-@ToString
+//TODO: hashcode, unique, toString
 @Entity
-@Table(name = "logs")
-public class LogsDataEntity {
-	/*
-	 * Default equals;
-	 */
+@Getter @Setter @AllArgsConstructor @NoArgsConstructor
+@ToString(exclude = "userActor")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class LogsDataEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(name="buiness_logs_seq", sequenceName="logs_data_entity_id_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE ,generator="buiness_logs_seq")
 	private Long id; 
 	
-	@Column(name = "usernickname", nullable = false)
-	private String userNickName;
-	
-	@Column(name = "eventdesc", nullable = true)
-	private String eventDescription;
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "user_actor")
+	//TODO: unidirectional safety check;
+	private UserEntity userActor;
 	
 	@Column(name = "date", nullable = false)
 	private LocalDate date;
@@ -43,16 +44,8 @@ public class LogsDataEntity {
 	@Column(name = "time", nullable = false)
 	private LocalTime time;
 
-	@Column(name = "action", nullable = false)
-	private UserActions action;
-
-	@Column(name = "description")
+	@Column(name = "text_description")
 	private String description;
 
-	public enum UserActions {
-		EVENT_STATUS_CHANGE, USER_EDITION_EMAIL, USER_EDITION_ADDRESS, USER_EDITION_NAME, USER_LOGIN, USER_PROFILE_VIEW,
-        USER_REGISTRATION, EVENT_SUBSCRIBE, EVENT_UNSUBSCRIBE, EVENT_EDITION, EVENT_VIEW, EVENT_CANCEL, EVENT_COMMENT,
-        USER_COMMENT
-	}
 
 }

@@ -7,17 +7,17 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import Application.entities.FeedBackEntity;
 import Application.entities.UserEntity;
+import Application.entities.values.FeedBackValue;
 import Application.repo.EventRepository;
-import Application.repo.FeedBackRepository;
+import Application.repo.EventGuestRepository;
 import Application.repo.UserRepository;
 @Service
 @Transactional
 public class FeedBackModel implements IFeedBackModel {
 
     @Autowired
-    FeedBackRepository feedBackRepository;
+    EventGuestRepository feedBackRepository;
 
     @Autowired
     EventRepository eventRepository;
@@ -26,18 +26,18 @@ public class FeedBackModel implements IFeedBackModel {
     UserRepository userRepository;
 
     @Override
-    public Map<Integer, FeedBackEntity> getAllByEvent(Integer eventId) {
-        return eventRepository.getOne(eventId).getFeedbacks();
+    public Map<Integer, FeedBackValue> getAllByEvent(Integer eventId) {
+        return null; //TODO: eventRepository.getOne(eventId).getFeedbacks();
     }
 
     @Override
-    public Map<Integer, FeedBackEntity> getAllByUser(UserEntity userEntity) {
-        return userRepository.getOne(userEntity.getId()).getFeedbacks();
+    public Map<Integer, FeedBackValue> getAllByUser(UserEntity userEntity) {
+        return null; //TODO: userRepository.getOne(userEntity.getId()).getFeedbacks();
     }
 
     @Override
     public void removeAllByUser(UserEntity userEntity) {
-        userRepository.getOne(userEntity.getId()).getFeedbacks().clear();
+        ////TODO: userRepository.getOne(userEntity.getId()).getFeedbacks().clear();
     }
 
     @Override
@@ -45,7 +45,7 @@ public class FeedBackModel implements IFeedBackModel {
     }
 
     @Override
-    public FeedBackEntity removeById(Integer feedBackId) {
+    public FeedBackValue removeById(Integer feedBackId) {
         return null;
     }
 }

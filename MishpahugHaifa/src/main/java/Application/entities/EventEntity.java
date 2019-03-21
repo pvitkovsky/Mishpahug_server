@@ -13,6 +13,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,10 +25,12 @@ import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import Application.entities.values.FeedBackValue;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -37,25 +40,28 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "eventlist", uniqueConstraints = {
-		@UniqueConstraint(columnNames = { "user_entity_owner", "date", "time", "name_of_event" }) })
+		@UniqueConstraint(columnNames = { "user_owner", "date", "time", "name_of_event" }) })
 @Getter
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(of = { "userEntityOwner", "date", "time", "nameOfEvent" }) // business key;
-@ToString(exclude = { "userItemsGuests", "feedbacks" })
+@ToString(exclude = { "userEntityOwner", "addressEntity" , "subscriptions" })
 public class EventEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-
-	@Column(name = "date")
+	
+	//@NotNull TODO: clarify
+	@Column(name = "date", nullable = false)
 	private LocalDate date;
 
-	@Column(name = "time")
+	//@NotNull TODO: clarify
+	@Column(name = "time", nullable = false)
 	private LocalTime time;
 
-	@Column(name = "name_of_event")
+	//@NotNull TODO: clarify
+	@Column(name = "name_of_event", nullable = false)
 	private String nameOfEvent;
 
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)
@@ -71,7 +77,7 @@ public class EventEntity {
 	private EventStatus status;
 
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "user_entity_owner")
+	@JoinColumn(name = "user_owner")
 	@JsonBackReference //Bidirectional, managed from User; 
 	@Setter(AccessLevel.PACKAGE)
 	private UserEntity userEntityOwner;
@@ -81,19 +87,9 @@ public class EventEntity {
 	@Setter(AccessLevel.PACKAGE)
 	private AddressEntity addressEntity;
 
-	@ManyToMany(cascade = CascadeType.PERSIST) 
-	@JoinTable(name = "USER_EVENT", joinColumns = { @JoinColumn(name = "EVENT_ID") }, inverseJoinColumns = {
-			@JoinColumn(name = "USER_ID") })
-	@JsonBackReference //Bidirectional, managed from here; 
-	@Getter(AccessLevel.NONE)
-	@Setter(AccessLevel.NONE)
-	private Set<UserEntity> userItemsGuests = new HashSet<>();
-
-	@OneToMany(mappedBy = "eventItem")
-	@MapKey(name = "id")
-	@JsonManagedReference
-	// TODO: safe bidirectional getter/setter
-	private Map<Integer, FeedBackEntity> feedbacks = new HashMap<>();
+	@OneToMany(mappedBy = "event" , cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true) 
+	@JsonBackReference //TODO: safe bidir getters/setters; feedback
+	private Set<EventGuestRelation> subscriptions = new HashSet<>();
 
 	public enum EventStatus {
 		CREATED, PENDING, COMPLETE, CANCELED
@@ -109,59 +105,33 @@ public class EventEntity {
 	public String toEventUniqueDescription() {
 		return this.nameOfEvent + " " + this.date.toString() + " " + this.time.toString();
 	}
-
+	
 	/**
-	 * Adds a Guest to the Event, two directions.
+	 * Protected way to add SubscribedEvent;
 	 * 
-	 * @param guest
+	 * @param_city
+	 * @return
 	 */
-	public boolean subscribe(UserEntity guest) {
-		if (userEntityOwner.equals(guest)) {
-			throw new IllegalArgumentException("Trying to subscribe to the owned event");
-		}
-
-		guest.addSubsctibedEvent(this);
-		return userItemsGuests.add(guest);
+	protected boolean addSubscription(EventGuestRelation subscription) {
+		return subscriptions.add(subscription);
 	}
 
 	/**
-	 * Removes a Guest from the Event, two directions.
+	 * SubscribedEvent is not deleted once the user is merged;
 	 * 
-	 * @param guest
+	 * @param_city
+	 * @return
 	 */
-	public boolean unSubscribe(UserEntity guest) {
-		if (userEntityOwner.equals(guest)) {
-			throw new IllegalArgumentException("Trying to unsubscribe from the owned event");
-		}
-		if (!userItemsGuests.contains(guest)) {
-			throw new IllegalArgumentException("Not subscribed and trying to unsubscibe");
-		}
-		if (userItemsGuests.contains(guest) && !guest.getEventEntityGuest().contains(this)) { //
-			throw new IllegalStateException(
-					"User is guest of event, but his set of subscriptions does not contain this event");
-		}
-		guest.removeSubsctibedEvent(this);
-		return userItemsGuests.remove(guest);
+	protected boolean removeSubsription(EventGuestRelation subscription) {
+		return subscriptions.remove(subscription);
 	}
-
+	
 	/**
-	 * Immutable wrapper over Guests;
+	 * Immutable wrapper over Subscriptions;
 	 * 
 	 * @return
 	 */
-	public Set<UserEntity> getUserItemsGuestsOfEvents() {
-		return Collections.unmodifiableSet(userItemsGuests);
-	}
-
-	/**
-	 * Adding feedback;
-	 * 
-	 * @param feedback
-	 */
-	// TODO: immutable getter; defensive coding
-	public void addFeedBack(FeedBackEntity feedback) {
-
-		feedbacks.put(feedback.getId(), feedback);
-
+	public Set<EventGuestRelation> getUserItemsGuestsOfEvents() {
+		return Collections.unmodifiableSet(subscriptions);
 	}
 }

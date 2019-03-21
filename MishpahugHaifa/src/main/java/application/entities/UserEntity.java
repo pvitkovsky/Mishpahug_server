@@ -32,15 +32,14 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = { "User_Name" }) })
+@Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = { "email" }) })
 @ToString(exclude = { "eventItemsOwner", "subscriptions", "pictureItems"})
-@EqualsAndHashCode(of = { "lastName", "firstName", "eMail" })
+@EqualsAndHashCode(of = { "eMail" })
 @Getter
 @Setter
 @AllArgsConstructor
-//@RequiredArgsConstructor
 @NoArgsConstructor
-@Builder //TODO: BUILDER creates NPE in userEntityOwner's hashSet 
+@Builder 
 public class UserEntity {
 	@Id
 	@Column(name = "User_Id", nullable = false)
@@ -88,7 +87,6 @@ public class UserEntity {
 	@Setter(AccessLevel.NONE)
 	@Builder.Default
 	private Set<EventEntity> eventItemsOwner = new HashSet<>();
-
 
 	@OneToMany(mappedBy = "userGuest", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true) 
 	@JsonManagedReference //TODO: safe bidir getters/setters; feedback

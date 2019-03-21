@@ -1,14 +1,13 @@
 package application.entities.Address;
 
-import application.entities.AddressEntity;
-import application.entities.CityEntity;
-import application.entities.CountryEntity;
-import application.entities.UserEntity;
-import application.models.user.UserModel;
-import application.repo.AddressRepository;
-import application.repo.CityRepository;
-import application.repo.CountryRepository;
-import application.repo.UserRepository;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,13 +17,14 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import application.entities.AddressEntity;
+import application.entities.CityEntity;
+import application.entities.CountryEntity;
+import application.entities.UserEntity;
+import application.repo.AddressRepository;
+import application.repo.CityRepository;
+import application.repo.CountryRepository;
+import application.repo.UserRepository;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -153,8 +153,7 @@ public class AddressTest {
     public void filterUserTest(){
         HashMap<String, String> filterForUsers = new HashMap<>();
         filterForUsers.put("username",names.get(3));
-        //filterForUsers.put("firstname",names.get(3));
-
+  
         List<UserEntity> res = userRepository.searchByFilter(filterForUsers);
         System.out.println("Begin userfilter test");
         System.out.println(res);

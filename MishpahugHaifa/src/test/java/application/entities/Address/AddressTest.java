@@ -163,8 +163,10 @@ public class AddressTest {
         HashMap<String, String> updateForUser = new HashMap<>();
         updateForUser.put("lastname","Dusia");
 
-        System.out.println(userRepository.findByUserName(names.get(3)));
-
+        HashMap<String, String> filterForUpdateUsers = new HashMap<>();
+        filterForUpdateUsers.put("username", "Vasiyaaaaaaaaaaaaa");
+        System.out.println(userRepository.update(3,filterForUpdateUsers));
     }
+
 
 }

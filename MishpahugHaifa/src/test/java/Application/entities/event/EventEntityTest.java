@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.HashMap;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -66,10 +67,21 @@ public class EventEntityTest {
 		ALYSSA.makeOwner(TESTING);
 		userRepo.save(ALYSSA);
 		eventRepo.save(TESTING);
-		
+
 		ALYSSA.makeOwner(TESTINGDUPLICATE);
 		eventRepo.save(TESTINGDUPLICATE);
 
+	}
+
+	@Test
+	public void updateTest(){
+		ALYSSA.makeOwner(TESTING);
+
+		eventRepo.save(TESTING);
+		HashMap<String, String> data = new HashMap<>();
+		data.put("nameofevent", "dfgdfgdfg");
+		eventRepo.save(eventRepo.update(0, data));
+		System.out.println(eventRepo.getOne(0));
 	}
 	
 	@Test()

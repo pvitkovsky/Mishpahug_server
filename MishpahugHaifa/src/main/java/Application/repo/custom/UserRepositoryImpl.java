@@ -23,7 +23,28 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     private EntityManager entityManager;
     @Override
     public UserEntity update(Integer userId, HashMap<String, String> data){
-        return null;
+        StringBuilder query = new StringBuilder();
+        Map<String, Integer> parameters = new HashMap<>();
+        query.append("select e from UserEntity e where user_Id = :user_Id ");
+        parameters.put("user_Id", userId);
+        Query jpaQuery = entityManager.createQuery(query.toString());
+        for (Map.Entry<String,Integer> map : parameters.entrySet()){
+            jpaQuery.setParameter(map.getKey(), map.getValue());
+        }
+        UserEntity tempResult = (UserEntity) jpaQuery.getResultList().get(0);
+        if (data.containsKey("username")){
+            tempResult.setUserName(data.get("username"));
+        }
+        if (data.containsKey("firstname")){
+            tempResult.setFirstName(data.get("firstname"));
+        }
+        if (data.containsKey("lastname")){
+            tempResult.setLastName(data.get("lastname"));
+        }
+        if (data.containsKey("eMail")){
+            tempResult.setLastName(data.get("eMail"));
+        }
+        return tempResult;
     }
     @Override
     public List<UserEntity> searchByFilter(HashMap<String, String> filter) {

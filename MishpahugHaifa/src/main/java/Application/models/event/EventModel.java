@@ -1,7 +1,5 @@
 package application.models.event;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -40,29 +38,18 @@ public class EventModel implements IEventModel {
 	@Override
 	public List<EventEntity> getByFilter(HashMap<String, String> filter) {
 		return eventRepository.searchByFilter(filter);
+
 	}
 
 	@Override
 	public EventEntity add(EventEntity data) {
 		return eventRepository.save(data);
+
 	}
 
 	@Override
-	public EventEntity update(Integer eventId, HashMap<String, String> data)
-	{
-		EventEntity eventEntity = eventRepository.getOne(eventId);
-		if (data.containsKey("date")) eventEntity.setDate(LocalDate.parse(data.get("date")));
-		if (data.containsKey("time")) eventEntity.setTime(LocalTime.parse(data.get("time")));
-		if (data.containsKey("nameofevent")) eventEntity.setNameOfEvent(data.get("nameofevent"));
-		/*!!!*/
-		if (data.containsKey("address.build"))
-			eventEntity.getAddressEntity().setBuilding(Integer.getInteger(data.get("address.build")));
-		if (data.containsKey("address.apartment"))
-			eventEntity.getAddressEntity().setApartment(Integer.getInteger(data.get("address.apartment")));
-		if (data.containsKey("address.street"))
-			eventEntity.getAddressEntity().setStreet(data.get("address.street"));
-		eventRepository.save(eventEntity);
-		return eventEntity;
+	public EventEntity update(Integer eventId, HashMap<String, String> data){
+		return eventRepository.save(eventRepository.update(eventId, data));
 	}
 
 	@Override
@@ -98,6 +85,7 @@ public class EventModel implements IEventModel {
 	@Override
 	public EventEntity getByFullName(String name) {
 		return eventRepository.byFullName(name);
+
 	}
 
 	@Override

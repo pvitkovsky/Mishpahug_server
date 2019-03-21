@@ -102,9 +102,7 @@ public class UserEntity {
 	 */
 
 	public boolean makeOwner(EventEntity event) {
-		if (event.getUserEntityOwner() == null) { // transient state;
 			event.setUserEntityOwner(this);
-		}
 		if (!event.getUserEntityOwner().equals(this)) {
 			throw new IllegalArgumentException("Trying to make this user owner of event that belongs to another");
 		}

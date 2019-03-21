@@ -57,23 +57,7 @@ public class UserModel implements IUserModel {
     @Override
     public UserEntity update(Integer userId, HashMap<String, String> data)
     {
-        UserEntity userEntity = userRepository.getOne(userId);
-        if (data.containsKey("lastname")) userEntity.setLastName(data.get("lastname"));
-        if (data.containsKey("firstname")) userEntity.setFirstName(data.get("firstname"));
-        if (data.containsKey("email")) userEntity.setEMail(data.get("email"));
-        if (data.containsKey("telephone")) userEntity.setPhoneNumber(data.get("telephone"));
-        /*!!!*/
-        if (data.containsKey("address.build"))
-            userEntity.getAddressEntity().setBuilding(Integer.getInteger(data.get("address.build")));
-        if (data.containsKey("address.apartment"))
-            userEntity.getAddressEntity().setApartment(Integer.getInteger(data.get("address.apartment")));
-        if ((data.containsKey("address.city"))
-                && (cityRepository.getByFullName(data.get("address.city")) != null))
-        	cityRepository.getByFullName(data.get("address.city")).addAddress(userEntity.getAddressEntity());
-        if (data.containsKey("address.street"))
-            userEntity.getAddressEntity().setStreet(data.get("address.street"));
-        userRepository.save(userEntity);
-        return userEntity;
+        return userRepository.save(userRepository.update(userId,data));
     }
 
     @Override

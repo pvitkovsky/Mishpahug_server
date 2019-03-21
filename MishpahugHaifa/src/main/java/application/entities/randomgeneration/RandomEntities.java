@@ -25,11 +25,12 @@ public class RandomEntities {
     }
     
     public static String randomEmail() {
-    	return null;
+    	return randStr.nextString() + "@" + randStr.nextString() + ".edu";
     }
     
     public static UserEntity randomUserEntity() {
     	return UserEntity.builder() //TODO: email	
+    			.eMail(randomEmail())
     			.build();
     }
 

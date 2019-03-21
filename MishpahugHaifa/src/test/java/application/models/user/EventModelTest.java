@@ -67,8 +67,8 @@ public class EventModelTest {
 	
 	@Before
 	public void buildEntities() {
-		ALYSSA.setNickname("Alyssa");
-		BEN.setNickname("Ben");
+		ALYSSA.setEMail("p_hacker@sicp.edu");
+		BEN.setEMail("bitdiddle@sicp.edu");
 		GUESTING.setDate(TDATE);
 		GUESTING.setTime(TTIME);
 		GUESTING.setNameOfEvent(TNAME);

@@ -34,10 +34,9 @@ import application.repo.UserRepository;
 public class UserEventGuestPerformanceTest {
 
 	private static RandomString gen = new RandomString();
-	private static Integer USERSIZE = 100; 
-	private static Integer EVENTSIZE = 1000; 
-	
-	
+	private static Integer USERSIZE = 10; 
+	private static Integer EVENTSIZE = 100; 
+
 	private final UserEntity BEN = new UserEntity();
 	private final LocalDate TDATE = LocalDate.of(2190, 1, 1);
 	private final LocalTime TTIME = LocalTime.of(23, 59);
@@ -54,7 +53,7 @@ public class UserEventGuestPerformanceTest {
 
 	@Before
 	public void bigSubscriptionSetup() {
-		BEN.setNickname("Ben");
+		BEN.setEMail("bitdiddle@sicp.edu");
 		Set<EventEntity> events = Stream.generate(EventEntity::new).map(e -> fillRandomEvent(e)).limit(USERSIZE).collect(Collectors.toSet());
 		Set<UserEntity> users = Stream.generate(RandomEntities::randomUserEntity).limit(EVENTSIZE).collect(Collectors.toSet());
 		events.forEach(BEN::makeOwner);

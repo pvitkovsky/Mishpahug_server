@@ -31,7 +31,6 @@ public class UserEntityTest {
 	private UserEntity ALYSSA = new UserEntity();
 	private final UserEntity ALYSSADUPLICATE = new UserEntity();
 	private final AddressEntity addressEntity = new AddressEntity();
-	private final String ANICKNAME = "P. Hacker";
 	
 	@Autowired
 	UserRepository userRepo;

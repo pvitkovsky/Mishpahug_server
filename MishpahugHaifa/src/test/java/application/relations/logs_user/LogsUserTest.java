@@ -54,7 +54,7 @@ public class LogsUserTest {
 	@Before
 	public void buildEntities() {
 		
-		RAN.setNickname(RNAME);
+		RAN.setEMail("therandom@sicp.edu");
 		
 		//Can we add to the set and then set value fields later?
 		

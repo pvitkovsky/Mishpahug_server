@@ -40,12 +40,11 @@ public class UserModelTest {
 	
 	private final UserEntity ALYSSA = new UserEntity();
 	private final UserEntity ALYSSADUPLICATE = new UserEntity();
-	private final String ANICKNAME = "P. Hacker";
 	
 	@Before
 	public void buildEntities() {
-		ALYSSA.setNickname(ANICKNAME);
-		ALYSSADUPLICATE.setNickname(ANICKNAME);
+		ALYSSA.setEMail("p_hacker@sicp.edu");
+		ALYSSADUPLICATE.setEMail("p_hacker@sicp.edu");
 	}
 	
 	

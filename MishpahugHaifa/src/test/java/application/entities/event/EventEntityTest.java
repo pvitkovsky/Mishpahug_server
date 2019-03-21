@@ -48,7 +48,7 @@ public class EventEntityTest {
 	@Before
 	public void buildEntities() {
 		
-
+		ALYSSA.setEMail("p_hacker@sicp.edu");
 		TESTING.setDate(TDATE);
 		TESTING.setTime(TTIME);
 		TESTING.setNameOfEvent(TNAME);
@@ -74,6 +74,7 @@ public class EventEntityTest {
 	
 	@Test()
 	public void givenEventSaveAndRead() {
+		
 		
 		ALYSSA.makeOwner(TESTING);
 		userRepo.save(ALYSSA);

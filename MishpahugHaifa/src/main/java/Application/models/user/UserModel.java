@@ -55,7 +55,8 @@ public class UserModel implements IUserModel {
     * проверен вариант зактнуть логику в сущноть... не подойдет,
      * так как нужен поиск города по имени*/
     @Override
-    public UserEntity update(Integer userId, HashMap<String, String> data) {
+    public UserEntity update(Integer userId, HashMap<String, String> data)
+    {
         UserEntity userEntity = userRepository.getOne(userId);
         if (data.containsKey("lastname")) userEntity.setLastName(data.get("lastname"));
         if (data.containsKey("firstname")) userEntity.setFirstName(data.get("firstname"));

@@ -11,7 +11,7 @@ import javax.transaction.Transactional;
 
 @Service
 @Transactional
-public class PasswordModel implements IPasswordModel {
+public class PasswordModel { //TODO: interface
 
 
 
@@ -19,7 +19,6 @@ public class PasswordModel implements IPasswordModel {
     PasswordRepository passwordRepository;
     @Autowired
     UserRepository userRepository;
-    @Override
     public PasswordEntity getByUserNickName(String nickname) {
         UserEntity userEntity = userRepository.getByNickName(nickname);
         //PasswordEntity passwordEntity = passwordRepository.getByUserId(userEntity.getId());

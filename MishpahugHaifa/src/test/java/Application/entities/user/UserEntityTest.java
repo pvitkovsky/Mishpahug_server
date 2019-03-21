@@ -62,7 +62,7 @@ public class UserEntityTest {
 		ALYSSA.setUserName("aliseS");
 		ALYSSA.setEMail("aliseS@gmail.com");
 		userRepo.save(ALYSSA);
-		System.out.println (userRepo.findByUName("aliseS"));
+		System.out.println (userRepo.findByUserName("aliseS"));
 	}
 
 }

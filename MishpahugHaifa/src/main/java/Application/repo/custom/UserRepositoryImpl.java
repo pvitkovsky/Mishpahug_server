@@ -1,6 +1,7 @@
 package application.repo.custom;
 
 import application.entities.EventEntity;
+import application.entities.UserEntity;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,16 +18,19 @@ import java.util.Map;
 -номер телефона
 использовать like '%:parameter%'
  */
-public class UserRepositoryImpl implements EventRepositoryCustom {
+public class UserRepositoryImpl implements UserRepositoryCustom {
 
     @PersistenceContext
     private EntityManager entityManager;
-
     @Override
-    public List<EventEntity> searchByFilter(HashMap<String, String> filter) {
+    public UserEntity update(Integer userId, HashMap<String, String> data){
+        return null;
+    }
+    @Override
+    public List<UserEntity> searchByFilter(HashMap<String, String> filter) {
         StringBuilder query = new StringBuilder();
         Map<String, String> parameters = new HashMap<>();
-        query.append("select e from EventEntity e where 1=1 ");
+        query.append("select e from UserEntity e where 1=1 ");
         if (filter.containsKey("username")){
             query.append(" and e.userName LIKE :username");
             parameters.put("username", filter.get("username"));

@@ -9,6 +9,6 @@ import java.util.List;
 
 
 public interface UserRepository extends JpaRepository<UserEntity, Integer>, UserRepositoryCustom {
-    @Query("SELECT u from UserEntity u WHERE u.userName = :userName")
-    public UserEntity findByUName(String userName);
+    //@Query("SELECT u from UserEntity u WHERE u.userName = :userName")
+    public UserEntity findByUserName(String userName);
 }

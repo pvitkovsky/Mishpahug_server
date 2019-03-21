@@ -4,6 +4,7 @@ import application.entities.AddressEntity;
 import application.entities.CityEntity;
 import application.entities.CountryEntity;
 import application.entities.UserEntity;
+import application.models.user.UserModel;
 import application.repo.AddressRepository;
 import application.repo.CityRepository;
 import application.repo.CountryRepository;
@@ -128,7 +129,7 @@ public class AddressTest {
 
     public void addUsers(){
         List<AddressEntity> data = addressRepository.findAll();
-        for (AddressEntity x : data) {
+        /*for (AddressEntity x : data) {
             for (String z : names) {
                 UserEntity userEntity = new UserEntity();
                 userEntity.setUserName(z);
@@ -136,6 +137,13 @@ public class AddressTest {
                 //userEntity.setEMail(x+x.getId().toString()+"@tut.by");
                 userRepository.save(userEntity);
             }
+        }*/
+        for (int i=0; i<names.size();i++){
+            UserEntity userEntity = new UserEntity();
+            userEntity.setUserName(names.get(i));
+            userEntity.setAddressEntity(data.get(i));
+            userEntity.setEMail(names.get(i)+i+"@tut.by");
+            userRepository.save(userEntity);
         }
     }
 
@@ -147,6 +155,11 @@ public class AddressTest {
         System.out.println("Begin userfilter test");
         System.out.println(res);
         System.out.println("End userfilter test");
+        System.out.println(userRepository.findByUserName(names.get(3)));
+        HashMap<String, String> updateForUser = new HashMap<>();
+        updateForUser.put("lastname","Dusia");
+        System.out.println(userRepository.findByUserName(names.get(3)));
+
     }
 
 }

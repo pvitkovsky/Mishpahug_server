@@ -71,7 +71,6 @@ public class UserModel implements IUserModel {
         	cityRepository.getByFullName(data.get("address.city")).addAddress(userEntity.getAddressEntity());
         if (data.containsKey("address.street"))
             userEntity.getAddressEntity().setStreet(data.get("address.street"));
-        /*!!!*/
         userRepository.save(userEntity);
         return userEntity;
     }
@@ -85,7 +84,7 @@ public class UserModel implements IUserModel {
 
     @Override
     public UserEntity getByName(String name) {
-        return userRepository.findByUName(name);
+        return userRepository.findByUserName(name);
     }
 
 }

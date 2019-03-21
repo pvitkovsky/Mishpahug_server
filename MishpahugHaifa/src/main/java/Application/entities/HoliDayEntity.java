@@ -1,5 +1,6 @@
 package application.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,8 +26,9 @@ public class HoliDayEntity {
 	@Column(name = "name")
 	private String name;
 
-	@Column(name = "religion")
-	private Integer religionId;
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)
+	@JsonManagedReference //Unidirectional;
+	private ReligionEntity religionEntity;
 
 	@Column(name = "description")
 	private String description;

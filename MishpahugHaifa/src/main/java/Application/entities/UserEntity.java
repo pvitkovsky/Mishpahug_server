@@ -61,7 +61,7 @@ public class UserEntity {
 
 	@ManyToOne(optional = true)
 	@JsonManagedReference //Bidirectional, managed from Address;
-	//@Setter(AccessLevel.PACKAGE)
+	@Setter(AccessLevel.PACKAGE)
 	private AddressEntity addressEntity;
 
 	@OneToMany(mappedBy = "userEntityOwner", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)

@@ -60,7 +60,7 @@ public class CityEntity {
     
     /**
      * Adding an address to the city
-     * @param city
+     * @paramcity
      * @return
      */
     public boolean addAddress(AddressEntity address) {
@@ -70,7 +70,7 @@ public class CityEntity {
     
     /**
      * Address is deleted once the city is merged;
-     * @param city
+     * @paramcity
      * @return
      */
     public boolean removeAddress(AddressEntity address) {

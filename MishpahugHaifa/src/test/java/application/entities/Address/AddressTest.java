@@ -101,7 +101,8 @@ public class AddressTest {
         for (CityEntity z : cities) {
             for (String x : streets) {
                 AddressEntity addressEntity = new AddressEntity();
-                addressEntity.setCityEntity(z);
+                //addressEntity.setCityEntity(z);
+                z.addAddress(addressEntity);
                 addressEntity.setStreet(x);
                 addressEntity.setBuilding(4);
                 addressEntity.setApartment(11);
@@ -142,7 +143,7 @@ public class AddressTest {
             UserEntity userEntity = new UserEntity();
             userEntity.setUserName("657" + names.get(i) + "1212");
             userEntity.setFirstName(names.get(i));
-            userEntity.setAddressEntity(data.get(i));
+            data.get(i).addUser(userEntity);
             userEntity.setEMail(names.get(i)+i+"@tut.by");
             userRepository.save(userEntity);
         }

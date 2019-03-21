@@ -46,6 +46,7 @@ public class AddressEntity {
     @ManyToOne(optional = false)
     @JoinColumn(name = "city_of_address")
     @JsonBackReference
+    @Setter(AccessLevel.PACKAGE)
     private CityEntity cityEntity;
     
     @Column(name = "street")
@@ -62,7 +63,7 @@ public class AddressEntity {
     @JsonBackReference
 	@Getter(AccessLevel.NONE)
 	@Setter(AccessLevel.NONE)
-    private Set<UserEntity> userEntities;
+    private Set<UserEntity> userEntities = new HashSet<>();
 
     @OneToMany(mappedBy = "addressEntity",   cascade = {CascadeType.MERGE, CascadeType.PERSIST}  , fetch = FetchType.LAZY, orphanRemoval = false)
     @JsonManagedReference

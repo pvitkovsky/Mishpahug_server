@@ -113,7 +113,8 @@ public class DB_test_loader implements CommandLineRunner {
 				String detail;
 				while ((detail = empdtil.readLine()) != null) {
 					UserEntity user = new UserEntity();
-					user.setNickname(detail);
+					user.setEMail(detail);
+					user.setEnabled(true);
 					userRepo.save(user);
 				}
 				empdtil.close();

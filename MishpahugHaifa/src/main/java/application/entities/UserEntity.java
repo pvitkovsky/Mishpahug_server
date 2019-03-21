@@ -33,7 +33,7 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = { "User_Name" }) })
-@ToString(exclude = { "eventItemsOwner", "eventItemsGuest", "pictureItems", "feedbacks" })
+@ToString(exclude = { "eventItemsOwner", "subscriptions", "pictureItems"})
 @EqualsAndHashCode(of = { "lastName", "firstName", "eMail" })
 @Getter
 @Setter
@@ -48,7 +48,7 @@ public class UserEntity {
 	private Integer id;
 
 	//@NotNull TODO: clarify
-	@Column(name = "nickname", nullable = false)
+	@Column(name = "nickname")
 	private String nickname;
 
 	@Column(name = "firstname")
@@ -60,7 +60,7 @@ public class UserEntity {
 	@Column(name = "phonenumber")
 	private String phoneNumber;
 
-	@Column(name = "email")
+	@Column(name = "email", nullable = false)
 	private String eMail;
 
 	@Column(name = "User_Name", length = 36)

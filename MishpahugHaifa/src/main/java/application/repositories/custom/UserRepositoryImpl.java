@@ -1,4 +1,4 @@
-package application.repo.custom;
+package application.repositories.custom;
 
 import application.entities.UserEntity;
 

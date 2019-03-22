@@ -3,8 +3,8 @@ package application.models.address;
 import application.entities.AddressEntity;
 import application.entities.CityEntity;
 import application.exceptions.ExceptionMishpaha;
-import application.repo.AddressRepository;
-import application.repo.CityRepository;
+import application.repositories.AddressRepository;
+import application.repositories.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -14,8 +14,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import application.entities.UserEntity;
-import application.repo.CityRepository;
-import application.repo.UserRepository;
+import application.repositories.CityRepository;
+import application.repositories.UserRepository;
 
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")

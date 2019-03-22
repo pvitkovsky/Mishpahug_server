@@ -1,28 +1,10 @@
 package application.entities.feedback;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.List;
-import java.util.Set;
-
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-
-import application.entities.EventEntity;
-import application.entities.UserEntity;
-import application.entities.values.FeedBackValue;
-import application.repo.EventRepository;
-import application.repo.EventGuestRepository;
-import application.repo.UserRepository;
-
-import javax.validation.constraints.AssertTrue;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest

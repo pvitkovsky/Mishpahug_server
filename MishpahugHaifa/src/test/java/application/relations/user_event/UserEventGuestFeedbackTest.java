@@ -8,9 +8,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,9 +21,9 @@ import application.entities.EventEntity;
 import application.entities.EventGuestRelation;
 import application.entities.UserEntity;
 import application.entities.values.FeedBackValue;
-import application.repo.EventGuestRepository;
-import application.repo.EventRepository;
-import application.repo.UserRepository;
+import application.repositories.EventGuestRepository;
+import application.repositories.EventRepository;
+import application.repositories.UserRepository;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest

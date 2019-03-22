@@ -1,8 +1,8 @@
 package application.models.user;
 
 import application.entities.UserEntity;
-import application.repo.CityRepository;
-import application.repo.UserRepository;
+import application.repositories.CityRepository;
+import application.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

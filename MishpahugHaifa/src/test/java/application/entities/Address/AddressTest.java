@@ -21,10 +21,10 @@ import application.entities.AddressEntity;
 import application.entities.CityEntity;
 import application.entities.CountryEntity;
 import application.entities.UserEntity;
-import application.repo.AddressRepository;
-import application.repo.CityRepository;
-import application.repo.CountryRepository;
-import application.repo.UserRepository;
+import application.repositories.AddressRepository;
+import application.repositories.CityRepository;
+import application.repositories.CountryRepository;
+import application.repositories.UserRepository;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest

@@ -20,7 +20,7 @@ import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import application.controllers.EncrytedPasswordUtils;
+import application.utils.EncrytedPasswordUtils;
 import application.entities.values.PictureValue;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

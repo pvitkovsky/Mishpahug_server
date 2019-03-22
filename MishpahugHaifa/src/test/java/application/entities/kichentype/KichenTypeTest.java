@@ -1,7 +1,7 @@
 package application.entities.kichentype;
 
 import application.entities.KichenTypeEntity;
-import application.repo.KichenTypeRepository;
+import application.repositories.KichenTypeRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -21,9 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 import application.entities.EventEntity;
 import application.entities.EventGuestRelation;
 import application.entities.UserEntity;
-import application.repo.EventGuestRepository;
-import application.repo.EventRepository;
-import application.repo.UserRepository;
+import application.repositories.EventGuestRepository;
+import application.repositories.EventRepository;
+import application.repositories.UserRepository;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest

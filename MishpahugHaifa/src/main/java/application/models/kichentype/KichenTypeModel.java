@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import application.entities.KichenTypeEntity;
-import application.repo.KichenTypeRepository;
+import application.repositories.KichenTypeRepository;
 @Service
 @Transactional
 public class KichenTypeModel implements IKichenTypeModel {

@@ -16,9 +16,9 @@ import application.entities.EventGuestRelation;
 import application.entities.EventGuestRelation.EventGuestId;
 import application.entities.UserEntity;
 import application.exceptions.ExceptionMishpaha;
-import application.repo.EventGuestRepository;
-import application.repo.EventRepository;
-import application.repo.UserRepository;
+import application.repositories.EventGuestRepository;
+import application.repositories.EventRepository;
+import application.repositories.UserRepository;
 
 @Service
 @Transactional

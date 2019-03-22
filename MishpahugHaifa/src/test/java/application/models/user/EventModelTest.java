@@ -27,9 +27,9 @@ import application.entities.UserEntity;
 import application.exceptions.ExceptionMishpaha;
 import application.models.event.EventModel;
 import application.models.event.IEventModel;
-import application.repo.EventGuestRepository;
-import application.repo.EventRepository;
-import application.repo.UserRepository;
+import application.repositories.EventGuestRepository;
+import application.repositories.EventRepository;
+import application.repositories.UserRepository;
 
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")

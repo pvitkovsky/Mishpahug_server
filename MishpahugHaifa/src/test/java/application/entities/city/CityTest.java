@@ -20,8 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import application.entities.CityEntity;
 import application.entities.CountryEntity;
-import application.repo.CityRepository;
-import application.repo.CountryRepository;
+import application.repositories.CityRepository;
+import application.repositories.CountryRepository;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest(showSql = false)

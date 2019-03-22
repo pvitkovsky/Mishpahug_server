@@ -2,8 +2,8 @@ package application.models.password;
 
 import application.entities.PasswordEntity;
 import application.entities.UserEntity;
-import application.repo.PasswordRepository;
-import application.repo.UserRepository;
+import application.repositories.PasswordRepository;
+import application.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

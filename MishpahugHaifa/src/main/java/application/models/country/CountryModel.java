@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import application.entities.CountryEntity;
-import application.repo.CountryRepository;
+import application.repositories.CountryRepository;
 @Service
 @Transactional
 public class CountryModel implements ICountryModel {

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import application.entities.ReligionEntity;
-import application.repo.ReligionRepository;
+import application.repositories.ReligionRepository;
 @Service
 @Transactional
 public class ReligionModel implements IReligionModel {

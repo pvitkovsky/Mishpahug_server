@@ -16,7 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import application.entities.CountryEntity;
-import application.repo.CountryRepository;
+import application.repositories.CountryRepository;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest

@@ -2,8 +2,8 @@ package application.relations.user_event;
 
 import application.entities.EventEntity;
 import application.entities.UserEntity;
-import application.repo.EventRepository;
-import application.repo.UserRepository;
+import application.repositories.EventRepository;
+import application.repositories.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

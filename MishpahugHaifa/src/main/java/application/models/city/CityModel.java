@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import application.entities.CityEntity;
 import application.entities.CountryEntity;
 import application.exceptions.ExceptionMishpaha;
-import application.repo.CityRepository;
+import application.repositories.CityRepository;
 @Service
 @Transactional
 public class CityModel implements ICityModel {

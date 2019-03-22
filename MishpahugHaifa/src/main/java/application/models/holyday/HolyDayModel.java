@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import application.entities.HoliDayEntity;
-import application.repo.HolyDayRepository;
+import application.repositories.HolyDayRepository;
 @Service
 @Transactional
 public class HolyDayModel implements IHolyDayModel {

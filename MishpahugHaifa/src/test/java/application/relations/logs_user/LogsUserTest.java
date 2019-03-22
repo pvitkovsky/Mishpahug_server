@@ -12,7 +12,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,12 +20,11 @@ import application.entities.EventEntity;
 import application.entities.LogsDataEntity;
 import application.entities.LogsOnEvent;
 import application.entities.LogsOnEvent.ActionsOnEvent;
-import application.entities.LogsOnUser;
 import application.entities.UserEntity;
 import application.entities.randomgeneration.RandomEntities;
-import application.repo.EventRepository;
-import application.repo.LogsDataRepository;
-import application.repo.UserRepository;
+import application.repositories.EventRepository;
+import application.repositories.LogsDataRepository;
+import application.repositories.UserRepository;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest

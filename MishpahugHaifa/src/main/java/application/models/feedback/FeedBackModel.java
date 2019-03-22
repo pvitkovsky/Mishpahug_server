@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 
 import application.entities.UserEntity;
 import application.entities.values.FeedBackValue;
-import application.repo.EventRepository;
-import application.repo.EventGuestRepository;
-import application.repo.UserRepository;
+import application.repositories.EventRepository;
+import application.repositories.EventGuestRepository;
+import application.repositories.UserRepository;
 
 @Service
 @Transactional

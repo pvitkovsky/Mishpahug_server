@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Random;
 
 import javax.transaction.Transactional;
 
@@ -64,7 +65,9 @@ public class DB_test_loader implements CommandLineRunner {
 		}
 		case GUESTS: { 
 			eventGuestRepo.deleteAll();
-			UserEntity randomGuest = userRepo.findAll().get(1); //TODO:random;
+			Integer randomUserRange = userRepo.findAll().size()-1;
+			Random randomUser = new Random();
+			UserEntity randomGuest = userRepo.findAll().get(randomUser.nextInt(randomUserRange));
 			for (EventEntity event : eventRepo.findAll()) {
 				EventGuestRelation subscription = new EventGuestRelation();
 				if(!event.getUserEntityOwner().equals(randomGuest)) {

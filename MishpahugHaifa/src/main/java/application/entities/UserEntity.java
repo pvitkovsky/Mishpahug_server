@@ -46,10 +46,6 @@ public class UserEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	//@NotNull TODO: clarify
-	@Column(name = "nickname")
-	private String nickname;
-
 	@Column(name = "firstname")
 	private String firstName;
 

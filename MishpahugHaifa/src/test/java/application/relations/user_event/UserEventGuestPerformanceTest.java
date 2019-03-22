@@ -89,8 +89,8 @@ public class UserEventGuestPerformanceTest {
 			results.put(user, events.size());
 		}
 		System.out.println(results);
-		List<String> userNickNames = users.stream().map(u -> u.getNickname()).collect(Collectors.toList());
-		System.out.println(userNickNames);
+		List<String> userNames = users.stream().map(u -> u.getUserName()).collect(Collectors.toList());
+		System.out.println(userNames);
 	}
 	
 

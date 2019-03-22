@@ -19,8 +19,8 @@ public class PasswordModel { //TODO: interface
     PasswordRepository passwordRepository;
     @Autowired
     UserRepository userRepository;
-    public PasswordEntity getByUserNickName(String nickname) {
-        UserEntity userEntity = userRepository.getByNickname(nickname);
+    public PasswordEntity getByUserNickName(String username) {
+        UserEntity userEntity = userRepository.getByUserName(username);
         //PasswordEntity passwordEntity = passwordRepository.getByUserId(userEntity.getId());
         return null;//passwordEntity;
     }

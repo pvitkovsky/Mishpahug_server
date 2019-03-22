@@ -9,5 +9,5 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer>, User
     //@Query("SELECT u from UserEntity u WHERE u.userName = :userName")
     public UserEntity findByUserName(String userName);
     
-    public UserEntity getByNickname(String nickName); //TODO: working query pls;
+    public UserEntity getByUserName(String nickName); //TODO: working query pls;
 }

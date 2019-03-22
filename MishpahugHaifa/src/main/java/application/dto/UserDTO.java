@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-@ToString(exclude = { "eventItemsOwner", "subscriptions", "pictureItems"})
+@ToString(exclude = { "nickname", "firstName", "lastName", "phoneNumber", "eMail"})
 @EqualsAndHashCode(of = { "eMail" })
 @Getter
 @Setter
@@ -21,8 +21,6 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder 
 public class UserDTO {
-	private String nickname;
-
 	private String firstName;
 
 	private String lastName;

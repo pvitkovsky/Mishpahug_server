@@ -1,29 +1,27 @@
 package application.controllers;
 
-import application.dto.EventDTO;
-import application.dto.EventDTODetail;
-import application.dto.EventDTOLists;
+import application.dto.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/event")
-public class EventController {
+@RequestMapping(value = "/user")
+public class UserController {
     @GetMapping(value="/getall")
-    public EventDTOLists getDataForAddForm(){
+    public UserDTOLists getDataForAddForm(){
         return null;
 
     }
     @PostMapping(value="/addPage2")
-    public EventDTODetail setDataFromFormDetail(){
+    public UserDTODetail setDataFromFormDetail(){
         return null;
 
     }
 
     @PostMapping(value="/addPage1")
-    public EventDTO setDataFromForm(){
+    public UserDTO setDataFromForm(){
         return null;
 
     }

@@ -1,16 +1,10 @@
 package application.dto;
 
 import application.entities.*;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 
 @Getter
 @Setter

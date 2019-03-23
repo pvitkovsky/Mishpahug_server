@@ -2,6 +2,8 @@ package application.models.user;
 
 import application.entities.UserEntity;
 import application.repositories.CityRepository;
+import application.repositories.CountryRepository;
+import application.repositories.KichenTypeRepository;
 import application.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,12 @@ public class UserModel implements IUserModel {
 
     @Autowired
     CityRepository cityRepository;
+
+    @Autowired
+    CountryRepository countryRepository;
+
+    @Autowired
+    KichenTypeRepository kichenTypeRepository;
 
     @Override
     public List<UserEntity> getAll() {

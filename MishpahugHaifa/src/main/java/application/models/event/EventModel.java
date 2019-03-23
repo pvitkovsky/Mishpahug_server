@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
+import application.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +17,6 @@ import application.entities.EventGuestRelation;
 import application.entities.EventGuestRelation.EventGuestId;
 import application.entities.UserEntity;
 import application.exceptions.ExceptionMishpaha;
-import application.repositories.EventGuestRepository;
-import application.repositories.EventRepository;
-import application.repositories.UserRepository;
 
 @Service
 @Transactional
@@ -30,6 +28,12 @@ public class EventModel implements IEventModel {
 	UserRepository userRepository;
 	@Autowired
 	EventGuestRepository subscriptionsRepository;
+	@Autowired
+	ReligionRepository religionRepository;
+	@Autowired
+	KichenTypeRepository kichenTypeRepository;
+	@Autowired
+	HolyDayRepository holyDayRepository;
 
 	@Override
 	public List<EventEntity> getAll() {

@@ -21,6 +21,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import application.dto.EventDTO;
+import application.dto.EventDTODetail;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -127,4 +129,11 @@ public class EventEntity {
 	public Set<EventGuestRelation> getUserItemsGuestsOfEvents() {
 		return Collections.unmodifiableSet(subscriptions);
 	}
+
+	public void convertEventDTO(EventDTO data){
+		this.date = data.getDate();
+		this.nameOfEvent = data.getNameOfEvent();
+		this.time = data.getTime();
+	}
+
 }

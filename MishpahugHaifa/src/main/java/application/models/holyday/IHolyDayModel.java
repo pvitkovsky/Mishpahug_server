@@ -10,5 +10,7 @@ public interface IHolyDayModel {
 
     List<HoliDayEntity> getAll();
 
+    HoliDayEntity getByName(String name);
+
     public void updateFromServer();
 }

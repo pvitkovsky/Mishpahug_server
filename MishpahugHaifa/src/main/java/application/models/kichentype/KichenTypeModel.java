@@ -37,4 +37,9 @@ public class KichenTypeModel implements IKichenTypeModel {
         temp.setName(name);
         return kichenTypeRepository.save(temp);
     }
+
+    @Override
+    public KichenTypeEntity getByName(String kichenType) {
+        return kichenTypeRepository.getByFullName(kichenType);
+    }
 }

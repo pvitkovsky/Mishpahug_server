@@ -32,7 +32,12 @@ public class HolyDayModel implements IHolyDayModel {
     }
 
     @Override
-    public void updateFromServer() {
+    public HoliDayEntity getByName(String name){
+        return holyDayRepository.getByFullName(name);
+    }
 
+    @Override
+    public void updateFromServer() {
+        //TODO
     }
 }

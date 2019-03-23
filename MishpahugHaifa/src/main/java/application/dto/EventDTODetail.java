@@ -9,6 +9,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class EventDTODetail {
     private String holiday;
-    private String religion;
     private String kichenType;
 }

@@ -9,5 +9,5 @@ public interface IKichenTypeModel {
     public List<KichenTypeEntity> getAll();
     public KichenTypeEntity add(KichenTypeEntity data);
     public KichenTypeEntity update(Integer id, String name);
-
+    public KichenTypeEntity getByName(String kichenType);
 }

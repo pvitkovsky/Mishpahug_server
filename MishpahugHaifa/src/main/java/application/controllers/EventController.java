@@ -3,6 +3,7 @@ package application.controllers;
 import application.dto.EventDTO;
 import application.dto.EventDTODetail;
 import application.dto.EventDTOLists;
+import application.entities.EventEntity;
 import application.models.city.ICityModel;
 import application.models.country.ICountryModel;
 import application.models.event.IEventModel;
@@ -44,15 +45,18 @@ public class EventController {
         return eventDTOLists;
     }
     @PostMapping(value="/addPage2")
-    public EventDTODetail setDataFromFormDetail(@RequestBody EventDTODetail data){
-
-        return null;
-
+    public void setDataFromFormDetail(@RequestBody EventDTODetail data,
+                                                @RequestParam(value = "nameofevent") String nameOfEvent){
+        EventEntity eventEntity = eventModel.getByFullName(nameOfEvent);
+        eventEntity.setHoliDayEntity(holyDayModel.getByName(data.getHoliday()));
+        eventEntity.setKichenTypeEntity(kichenTypeModel.getByName(data.getKichenType()));
+        eventModel.add(eventEntity);
     }
 
     @PostMapping(value="/addPage1")
-    public EventDTO setDataFromForm(@RequestBody EventDTO data){
-        return null;
-
+    public EventEntity setDataFromForm(@RequestBody EventDTO data){
+        EventEntity eventEntity = new EventEntity();
+        eventEntity.convertEventDTO(data);
+        return eventModel.add(eventEntity);
     }
 }

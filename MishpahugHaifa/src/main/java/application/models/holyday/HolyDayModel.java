@@ -17,13 +17,18 @@ public class HolyDayModel implements IHolyDayModel {
     HolyDayRepository holyDayRepository;
 
     @Override
-    public List<HoliDayEntity> getByReligion(Integer religionId) {
-        return null;
+    public HoliDayEntity getByReligion(Integer religionId) {
+        return holyDayRepository.getOne(religionId);
     }
 
     @Override
     public List<HoliDayEntity> getByYear(Integer year) {
-        return null;
+        return null;//TODO
+    }
+
+    @Override
+    public List<HoliDayEntity> getAll(){
+        return holyDayRepository.findAll();
     }
 
     @Override

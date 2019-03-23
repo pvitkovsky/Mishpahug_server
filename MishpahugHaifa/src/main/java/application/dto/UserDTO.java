@@ -13,13 +13,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-@ToString(exclude = { "nickname", "firstName", "lastName", "phoneNumber", "eMail"})
-@EqualsAndHashCode(of = { "eMail" })
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder 
 public class UserDTO {
 	private String firstName;
 

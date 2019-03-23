@@ -5,7 +5,10 @@ import application.entities.HoliDayEntity;
 import java.util.List;
 
 public interface IHolyDayModel {
-    public List<HoliDayEntity> getByReligion(Integer religionId);
+    public HoliDayEntity getByReligion(Integer religionId);
     public List<HoliDayEntity> getByYear(Integer year);
+
+    List<HoliDayEntity> getAll();
+
     public void updateFromServer();
 }

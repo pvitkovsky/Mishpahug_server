@@ -44,6 +44,14 @@ public class EventController {
         eventDTOLists.setReligionEntities(religionModel.getAll());
         return eventDTOLists;
     }
+
+    @PostMapping(value="/addPage1")
+    public EventEntity setDataFromForm(@RequestBody EventDTO data){
+        EventEntity eventEntity = new EventEntity();
+        eventEntity.convertEventDTO(data);
+        return eventModel.add(eventEntity);
+    }
+
     @PostMapping(value="/addPage2")
     public void setDataFromFormDetail(@RequestBody EventDTODetail data,
                                                 @RequestParam(value = "nameofevent") String nameOfEvent){
@@ -53,10 +61,5 @@ public class EventController {
         eventModel.add(eventEntity);
     }
 
-    @PostMapping(value="/addPage1")
-    public EventEntity setDataFromForm(@RequestBody EventDTO data){
-        EventEntity eventEntity = new EventEntity();
-        eventEntity.convertEventDTO(data);
-        return eventModel.add(eventEntity);
-    }
+
 }

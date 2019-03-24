@@ -14,4 +14,6 @@ public class EventDTO {
 	private LocalTime time;
 	private String nameOfEvent;
 	private  AddressEntity addressEntity;
+	private String holiday;
+	private String kichenType;
 }

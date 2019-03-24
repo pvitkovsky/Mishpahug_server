@@ -23,7 +23,7 @@ public class ReligionTest {
     private ReligionEntity religionEntity;
     private String[] data = {"Christianity", "Judaism", "Atheism", "Buddhism", "Hare Krishnas", "Sikhism", "Confucianism", "Sikhism", "Zoroastrianism"};
     private String[] dataForFindByNameTest = {"hi", "ni", "fi", "ei"};
-    private List<ReligionEntity> testReligion;
+    private ReligionEntity testReligion;
     @Autowired
     ReligionRepository religionRepository;
     @Before
@@ -49,8 +49,8 @@ public class ReligionTest {
         System.out.println(religionRepository.getByFullName("test"));
         System.out.println(religionRepository.getByFullName("Buddhism"));
         for (int i = 0; i < dataForFindByNameTest.length; i++){
-            testReligion = religionRepository.getByName(dataForFindByNameTest[i]);
-            System.out.println(dataForFindByNameTest[i] + " included on " + testReligion.size() + " records");
+            testReligion = religionRepository.getByFullName(dataForFindByNameTest[i]);
+            System.out.println(dataForFindByNameTest[i] + " included on " + testReligion);
         }
     }
     @Test

@@ -1,5 +1,6 @@
 package application.entities;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,6 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import application.dto.UserDTO;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import application.utils.EncrytedPasswordUtils;
@@ -65,12 +67,42 @@ public class UserEntity {
 	@Setter(AccessLevel.NONE)
 	private String encrytedPassword;
 
+	@Column(name = "dateofbirth")
+	private LocalDate dateOfBirth;
+
+	public UserEntity(UserDTO data){
+		this.setFirstName(data.getFirstName());
+		this.setEMail(data.getEMail());
+		this.setLastName(data.getLastName());
+		this.setPhoneNumber(data.getPhoneNumber());
+		this.setUserName(data.getUserName());
+		this.setDateOfBirth(data.getDayOfBirth());
+		this.setEncrytedPassword(data.getEncrytedPassword());
+
+	}
+
 	public void setEncrytedPassword(String encrytedPassword) {
 		this.encrytedPassword = EncrytedPasswordUtils.encrytePassword(encrytedPassword);
 	}
 
 	@Column(name = "Enabled", length = 1)
 	private boolean enabled;
+
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)
+	@JsonManagedReference //Unidirectional;
+	private MarriageStatusEntity marriageStatusEntity;
+
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)
+	@JsonManagedReference //Unidirectional;
+	private GenderEntity genderEntity;
+
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)
+	@JsonManagedReference //Unidirectional;
+	private KichenTypeEntity kichenTypeEntity;
+
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)
+	@JsonManagedReference //Unidirectional;
+	private ReligionEntity religionEntity;
 
 	@ManyToOne(optional = true)
 	@JsonManagedReference //Bidirectional, managed from Address;

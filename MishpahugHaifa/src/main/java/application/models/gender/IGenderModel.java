@@ -2,11 +2,10 @@ package application.models.gender;
 
 import application.entities.GenderEntity;
 
-import java.awt.*;
+import java.util.List;
 
 public interface IGenderModel {
-    GenderEntity getByName(String name);
-
+    public GenderEntity getByName(String name);
     public List<GenderEntity> getAll();
     //TODO
 }

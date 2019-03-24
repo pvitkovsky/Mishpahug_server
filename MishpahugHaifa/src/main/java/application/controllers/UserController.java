@@ -1,16 +1,14 @@
 package application.controllers;
 
 import application.dto.*;
+import application.entities.UserEntity;
 import application.models.gender.IGenderModel;
 import application.models.kichentype.IKichenTypeModel;
 import application.models.marriagestatus.IMarriageStatusModel;
 import application.models.religion.IReligionModel;
 import application.models.user.IUserModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/user")
@@ -31,7 +29,7 @@ public class UserController {
     @Autowired
     IMarriageStatusModel marriageStatusModel;
 
-    @GetMapping(value="/getall")
+    @GetMapping(value="/getlists")
     public UserDTOLists getDataForAddForm(){
         UserDTOLists userDTOLists = new UserDTOLists();
         userDTOLists.setKichenTypeEntities(kichenTypeModel.getAll());
@@ -41,15 +39,23 @@ public class UserController {
         return userDTOLists;
 
     }
-    @PostMapping(value="/addPage2")
-    public UserDTODetail setDataFromFormDetail(){
-        return null;
-
-    }
 
     @PostMapping(value="/addPage1")
-    public UserDTO setDataFromForm(){
-        return null;
-
+    public void setDataFromForm(@RequestBody UserDTO data){
+        UserEntity userEntity = new UserEntity(data);
+        userModel.add(userEntity);
     }
+
+    @PostMapping(value="/addPage2")
+    public void setDataFromFormDetail(@RequestBody UserDTODetail data,
+                                      @RequestParam(name = "username") String userName){
+        UserEntity userEntity = userModel.getByName(userName);
+        userEntity.setGenderEntity(genderModel.getByName(data.getGender()));
+        userEntity.setMarriageStatusEntity(marriageStatusModel.getByName(data.getMarriageStatus()));
+        userEntity.setReligionEntity(religionModel.getByName(data.getReligion()));
+        userEntity.setKichenTypeEntity(kichenTypeModel.getByName(data.getKichenType()));
+        userModel.add(userEntity);
+    }
+
+
 }

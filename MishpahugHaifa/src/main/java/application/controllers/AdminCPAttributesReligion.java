@@ -18,10 +18,10 @@ public class AdminCPAttributesReligion {
     }
     @GetMapping(value="/getbyfullname")
     public ReligionEntity getByFullName(@RequestParam(value = "name") String name){
-        return religionModel.getByFullName(name);
+        return religionModel.getByName(name);
     }
     @GetMapping(value="/getbyname")
-    public List<ReligionEntity> getByName(@RequestParam(value = "name") String name){
+    public ReligionEntity getByName(@RequestParam(value = "name") String name){
         return religionModel.getByName(name);
     }
     @GetMapping(value="/getbyid")

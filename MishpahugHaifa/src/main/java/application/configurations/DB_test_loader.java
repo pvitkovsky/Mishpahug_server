@@ -160,7 +160,7 @@ public class DB_test_loader implements CommandLineRunner {
 					user.setUserName(data[0].split("@")[0]);
 					user.setEnabled(true);
 					Random rr = new Random();
-					user.setGenderEntity(genderEntityList.get(rr.nextInt(genderEntityList.size()-1)));
+					genderEntityList.get(rr.nextInt(genderEntityList.size()-1)).addUser(user);
 					user.setMarriageStatusEntity(marriageStatusEntityList.get(rr.nextInt(marriageStatusEntityList.size()-1)));
 					userRepository.save(user);
 				}

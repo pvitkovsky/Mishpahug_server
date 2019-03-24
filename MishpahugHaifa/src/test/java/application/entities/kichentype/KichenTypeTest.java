@@ -23,7 +23,7 @@ public class KichenTypeTest {
     KichenTypeEntity kichenTypeEntity;
     @Autowired
     KichenTypeRepository kichenTypeRepository;
-    private List<KichenTypeEntity> testKichenType;
+    private KichenTypeEntity testKichenType;
 
     @Before
     public void load(){
@@ -47,8 +47,8 @@ public class KichenTypeTest {
         System.out.println(kichenTypeRepository.getByFullName("test"));
         System.out.println(kichenTypeRepository.getByFullName("Buddhism"));
         for (int i = 0; i < dataForFindByNameTest.length; i++){
-            testKichenType = kichenTypeRepository.getByName(dataForFindByNameTest[i]);
-            System.out.println(dataForFindByNameTest[i] + " included on " + testKichenType.size() + " records");
+            testKichenType = kichenTypeRepository.getByFullName(dataForFindByNameTest[i]);
+            System.out.println(dataForFindByNameTest[i] + " included on " + testKichenType);
         }
     }
     @Test

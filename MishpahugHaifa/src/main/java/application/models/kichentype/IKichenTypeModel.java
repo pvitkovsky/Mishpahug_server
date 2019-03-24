@@ -1,7 +1,9 @@
 package application.models.kichentype;
 
 import application.entities.KichenTypeEntity;
+import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 public interface IKichenTypeModel {

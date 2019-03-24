@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,6 +27,8 @@ public class UserDTO {
 	private String eMail;
 
 	private String userName;
+
+	private LocalDate dayOfBirth;
 
 	private String encrytedPassword;//????
 

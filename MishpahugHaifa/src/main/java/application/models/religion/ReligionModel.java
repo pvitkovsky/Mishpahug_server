@@ -46,17 +46,12 @@ public class ReligionModel implements IReligionModel {
     }
 
     @Override
-    public ReligionEntity getByFullName(String name) {
-        return religionRepository.getByFullName(name);
-    }
-
-    @Override
     public void remove(Integer id) {
         religionRepository.deleteById(id);
     }
 
     @Override
-    public List<ReligionEntity> getByName(String name) {
-        return religionRepository.getByName(name);
+    public ReligionEntity getByName(String name) {
+        return religionRepository.getByFullName(name);
     }
 }

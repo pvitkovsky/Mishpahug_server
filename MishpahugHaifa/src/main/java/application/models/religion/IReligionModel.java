@@ -9,8 +9,7 @@ public interface IReligionModel {
     public List<ReligionEntity> getAll();
     public ReligionEntity add(ReligionEntity data);
     public ReligionEntity update(String oldName, String newName);
-    public ReligionEntity getByFullName(String name);
-    public List<ReligionEntity> getByName(String name);
+    public ReligionEntity getByName(String name);
     public void remove(Integer id);
     public ReligionEntity update(Integer religionId, String newName);
 }

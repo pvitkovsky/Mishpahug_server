@@ -8,4 +8,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class UserDTODetail {
+    private String gender;
+    private String kichenType;
+    private String religion;
+    private String marriageStatus;
 }

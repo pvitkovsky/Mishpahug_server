@@ -11,16 +11,11 @@ import java.util.Random;
 
 import javax.transaction.Transactional;
 
+import application.entities.*;
+import application.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import application.entities.EventEntity;
-import application.entities.EventGuestRelation;
-import application.entities.UserEntity;
-import application.repositories.EventGuestRepository;
-import application.repositories.EventRepository;
-import application.repositories.UserRepository;
 
 /**
  * Load the production DB with integration test data; TODO: make it a Spring profile
@@ -32,18 +27,22 @@ public class DB_test_loader implements CommandLineRunner {
 
 
 	@Autowired
-	UserRepository userRepo;
+	UserRepository userRepository;
 	@Autowired
-	EventRepository eventRepo;
+	EventRepository eventRepository;
 	@Autowired
-	EventGuestRepository eventGuestRepo;
+	EventGuestRepository eventGuestRepository;
+	@Autowired
+	CityRepository cityRepository;
+	@Autowired
+	CountryRepository countryRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
 		loadTest(MPHEntity.USER);
 		loadTest(MPHEntity.EVENT);
 		loadTest(MPHEntity.GUESTS);
-		eventGuestRepo.findAll().forEach(System.out::println);
+		eventGuestRepository.findAll().forEach(System.out::println);
 	}
 
 	private void loadTest(MPHEntity entity) {
@@ -51,8 +50,8 @@ public class DB_test_loader implements CommandLineRunner {
 		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
 		InputStream is = classloader.getResourceAsStream(entity.dataFile());
 		BufferedReader empdtil = new BufferedReader(new InputStreamReader(is));
-		long userCount = userRepo.count();
-		long eventCount = eventRepo.count();
+		long userCount = userRepository.count();
+		long eventCount = eventRepository.count();
 
 		switch (entity) {
 		case USER: {
@@ -63,12 +62,16 @@ public class DB_test_loader implements CommandLineRunner {
 			EventLoader loader = new EventLoader(empdtil);
 			loader.load();
 		}
+		case CITY: {
+			CityLoader loader = new CityLoader(empdtil);
+			loader.load();
+		}
 		case GUESTS: { 
-			eventGuestRepo.deleteAll();
-			Integer randomUserRange = userRepo.findAll().size()-1;
+			eventGuestRepository.deleteAll();
+			Integer randomUserRange = userRepository.findAll().size()-1;
 			Random randomUser = new Random();
-			UserEntity randomGuest = userRepo.findAll().get(randomUser.nextInt(randomUserRange));
-			for (EventEntity event : eventRepo.findAll()) {
+			UserEntity randomGuest = userRepository.findAll().get(randomUser.nextInt(randomUserRange));
+			for (EventEntity event : eventRepository.findAll()) {
 				EventGuestRelation subscription = new EventGuestRelation();
 				if(!event.getUserEntityOwner().equals(randomGuest)) {
 					subscription.subscribe(randomGuest, event);
@@ -83,6 +86,11 @@ public class DB_test_loader implements CommandLineRunner {
 		USER {
 			public String dataFile() {
 				return "data_user.csv";
+			}
+		},
+		CITY {
+			public String dataFile() {
+				return "cities.csv";
 			}
 		},
 		EVENT {
@@ -110,16 +118,44 @@ public class DB_test_loader implements CommandLineRunner {
 		
 		void load() {
 			try {
-				userRepo.deleteAll();
-				userRepo.flush(); //TODO: do we need flush here?
+				userRepository.deleteAll();
+				userRepository.flush(); //TODO: do we need flush here?
 				String detail;
 				while ((detail = empdtil.readLine()) != null) {
 					UserEntity user = new UserEntity();
 					user.setEMail(detail);
 					user.setEnabled(true);
-					userRepo.save(user);
+					userRepository.save(user);
 				}
 				empdtil.close();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+
+	private class CityLoader {
+		BufferedReader empdtil;
+
+		public CityLoader(BufferedReader empdtil) {
+			this.empdtil = empdtil;
+		}
+
+		void load() {
+			try {
+				cityRepository.deleteAll();
+				cityRepository.flush(); //TODO: do we need flush here?
+				String detail;
+				CountryEntity countryEntity = new CountryEntity();
+				countryEntity.setName("Israel");
+				while ((detail = empdtil.readLine()) != null) {
+					CityEntity cityEntity = new CityEntity();
+					cityEntity.setName(detail);
+					countryEntity.addCity(cityEntity);
+					cityRepository.save(cityEntity);
+				}
+				empdtil.close();
+				countryRepository.save(countryEntity);
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}
@@ -131,7 +167,7 @@ public class DB_test_loader implements CommandLineRunner {
 	 */
 	private class EventLoader {
 		BufferedReader empdtil;
-		Long userCount = userRepo.count(); // for random Users;
+		Long userCount = userRepository.count(); // for random Users;
 
 		public EventLoader(BufferedReader empdtil) {
 			this.empdtil = empdtil;
@@ -139,10 +175,10 @@ public class DB_test_loader implements CommandLineRunner {
 		
 		void load() {
 			try {
-				eventRepo.deleteAll();
-				eventRepo.flush();//TODO: do we need flush here?
+				eventRepository.deleteAll();
+				eventRepository.flush();//TODO: do we need flush here?
 				String detail;
-				UserEntity randomOwner = userRepo.findAll().get(0);
+				UserEntity randomOwner = userRepository.findAll().get(0);
 				while ((detail = empdtil.readLine()) != null) {
 					String[] eventAttributes = detail.split(",");
 					EventEntity event = new EventEntity();

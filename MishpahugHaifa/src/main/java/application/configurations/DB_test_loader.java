@@ -42,7 +42,8 @@ public class DB_test_loader implements CommandLineRunner {
 		loadTest(MPHEntity.USER);
 		loadTest(MPHEntity.EVENT);
 		loadTest(MPHEntity.GUESTS);
-		eventGuestRepository.findAll().forEach(System.out::println);
+		loadTest(MPHEntity.CITY);
+		cityRepository.findAll().forEach(System.out::println);
 	}
 
 	private void loadTest(MPHEntity entity) {
@@ -143,19 +144,19 @@ public class DB_test_loader implements CommandLineRunner {
 
 		void load() {
 			try {
-				cityRepository.deleteAll();
-				cityRepository.flush(); //TODO: do we need flush here?
+				countryRepository.deleteAll(); // cascade deleting cities and addresses
+				countryRepository.flush();
 				String detail;
 				CountryEntity countryEntity = new CountryEntity();
 				countryEntity.setName("Israel");
+				countryRepository.save(countryEntity);
 				while ((detail = empdtil.readLine()) != null) {
 					CityEntity cityEntity = new CityEntity();
 					cityEntity.setName(detail);
 					countryEntity.addCity(cityEntity);
-					cityRepository.save(cityEntity);
+					//no need to save city explicitly, as its save is cascaded from Country; 
 				}
-				empdtil.close();
-				countryRepository.save(countryEntity);
+				empdtil.close();//.
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}

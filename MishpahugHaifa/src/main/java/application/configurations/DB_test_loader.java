@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Random;
 
 import javax.transaction.Transactional;
@@ -36,13 +37,19 @@ public class DB_test_loader implements CommandLineRunner {
 	CityRepository cityRepository;
 	@Autowired
 	CountryRepository countryRepository;
+	@Autowired
+	MarriageStatusRepository marriageStatusRepository;
+	@Autowired
+	GenderRepository genderRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
-		loadTest(MPHEntity.USER);
 		loadTest(MPHEntity.EVENT);
 		loadTest(MPHEntity.GUESTS);
 		loadTest(MPHEntity.CITY);
+		loadTest(MPHEntity.MARRIAGE);
+		loadTest(MPHEntity.GENDER);
+		loadTest(MPHEntity.USER);
 		cityRepository.findAll().forEach(System.out::println);
 	}
 
@@ -65,6 +72,14 @@ public class DB_test_loader implements CommandLineRunner {
 		}
 		case CITY: {
 			CityLoader loader = new CityLoader(empdtil);
+			loader.load();
+		}
+		case GENDER: {
+			GenderLoader loader = new GenderLoader(empdtil);
+			loader.load();
+		}
+		case MARRIAGE:{
+			MarriageStatusLoader loader = new MarriageStatusLoader(empdtil);
 			loader.load();
 		}
 		case GUESTS: { 
@@ -99,6 +114,16 @@ public class DB_test_loader implements CommandLineRunner {
 				return "data_event.csv";
 			}
 		},
+		MARRIAGE {
+			public String dataFile() {
+				return "marriage_status.csv";
+			}
+		},
+		GENDER {
+			public String dataFile() {
+				return "gender.csv";
+			}
+		},
 		GUESTS {
 			public String dataFile() {
 				return "data_guests_blank.csv";
@@ -119,14 +144,73 @@ public class DB_test_loader implements CommandLineRunner {
 		
 		void load() {
 			try {
+				List<MarriageStatusEntity> marriageStatusEntityList = marriageStatusRepository.findAll();
+				List<GenderEntity> genderEntityList = genderRepository.findAll();
 				userRepository.deleteAll();
 				userRepository.flush(); //TODO: do we need flush here?
 				String detail;
 				while ((detail = empdtil.readLine()) != null) {
 					UserEntity user = new UserEntity();
-					user.setEMail(detail);
+					String[] data = detail.split("!");
+					user.setEMail(data[0]);
+					user.setFirstName(data[1]);
+					user.setLastName(data[2]);
+					user.setDateOfBirth(LocalDate.parse(data[3]));
+					user.setPhoneNumber(data[4]);
+					user.setUserName(data[0].split("@")[0]);
 					user.setEnabled(true);
+					Random rr = new Random();
+					user.setGenderEntity(genderEntityList.get(rr.nextInt(genderEntityList.size()-1)));
+					user.setMarriageStatusEntity(marriageStatusEntityList.get(rr.nextInt(marriageStatusEntityList.size()-1)));
 					userRepository.save(user);
+				}
+				empdtil.close();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+
+	private class GenderLoader {
+		BufferedReader empdtil;
+
+		public GenderLoader(BufferedReader empdtil) {
+			this.empdtil = empdtil;
+		}
+
+		void load() {
+			try {
+				genderRepository.deleteAll();
+				genderRepository.flush(); //TODO: do we need flush here?
+				String detail;
+				while ((detail = empdtil.readLine()) != null) {
+					GenderEntity genderEntity = new GenderEntity();
+					genderEntity.setName(detail);
+					genderRepository.save(genderEntity);
+				}
+				empdtil.close();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+
+	private class MarriageStatusLoader {
+		BufferedReader empdtil;
+
+		public MarriageStatusLoader(BufferedReader empdtil) {
+			this.empdtil = empdtil;
+		}
+
+		void load() {
+			try {
+				marriageStatusRepository.deleteAll();
+				marriageStatusRepository.flush(); //TODO: do we need flush here?
+				String detail;
+				while ((detail = empdtil.readLine()) != null) {
+					MarriageStatusEntity marriageStatusEntity = new MarriageStatusEntity();
+					marriageStatusEntity.setName(detail);
+					marriageStatusRepository.save(marriageStatusEntity);
 				}
 				empdtil.close();
 			} catch (IOException e) {

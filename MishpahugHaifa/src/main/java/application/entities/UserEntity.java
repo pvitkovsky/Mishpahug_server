@@ -97,6 +97,7 @@ public class UserEntity {
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)
 	@JsonManagedReference //Bidirectional, managed from genderEntity;
 	@Setter(AccessLevel.PACKAGE)
+
 	private GenderEntity genderEntity;
 
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)
@@ -110,7 +111,6 @@ public class UserEntity {
 	@ManyToOne(optional = true)
 	@JsonManagedReference //Bidirectional, managed from Address;
 	@Setter(AccessLevel.PACKAGE)
-    @JsonIgnore
 	private AddressEntity addressEntity;
 
 	@OneToMany(mappedBy = "userEntityOwner", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)

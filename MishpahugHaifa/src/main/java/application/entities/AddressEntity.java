@@ -34,10 +34,10 @@ import lombok.ToString;
 	    @UniqueConstraint(columnNames = {"city_of_address", "street", "building", "apartment"})
 	})
 @Getter @Setter
-@ToString(exclude = {"eventEntities", "userEntities"})
+@ToString(exclude = {"city_of_address", "street", "building", "apartment"})
 @AllArgsConstructor 
 @NoArgsConstructor
-@EqualsAndHashCode(of = {"cityEntity", "street", "building", "apartment"})
+@EqualsAndHashCode(of = {"city_of_address", "street", "building", "apartment"})
 public class AddressEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

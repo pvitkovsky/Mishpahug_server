@@ -1,30 +1,28 @@
 package application.repositories;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import application.entities.EventEntity;
 import application.entities.EventGuestRelation;
 import application.entities.EventGuestRelation.EventGuestId;
+import application.entities.UserEntity;
 
 public interface EventGuestRepository extends JpaRepository<EventGuestRelation, EventGuestId> {
 
-	// TODO: working queries please
-	// public EventGuestRelation findByUserGuestAndEvent(UserEntity user,
-	// EventEntity event);
-	// public boolean removeByUserGuestAndEvent(UserEntity user, EventEntity event);
 
-	// @Query("SELECT r.event FROM EventGuestRelation r WHERE r.userGuest = :guest")
-	// //TODO: join doesn't work as intended
-	// public List<EventEntity> getEventIdsForGuest(@Param(value = "guest")
-	// UserEntity guest);
-	// public List<EventGuestRelation> findByUserGuest(UserEntity guest); //TODO:
-	// join doesn't work as intended
-	// public boolean removeByUserGuest(UserEntity user);
+	@Query("SELECT r.userGuest FROM EventGuestRelation r WHERE r.event = :event")    
+	public List<UserEntity> getGuestsForEvent (@Param(value = "event") EventEntity event); 
+	
+	public List<UserEntity> findByEvent(EventEntity event); //TODO: converter; 
 
-	// @Query("SELECT r.event FROM EventGuestRelation r WHERE r.event= :event")
-	// //TODO: join doesn't work as intended
-	// public List<EventEntity> getEventIdsForEvent(@Param(value = "event")
-	// EventEntity event);
-	// public List<EventGuestRelation> findByEvent(EventEntity event);
-	// public boolean removeByEvent(EventEntity event);
+
+	@Query("SELECT r.event FROM EventGuestRelation r WHERE r.userGuest = :guest")    
+	public List<EventEntity> getEventsForGuest(@Param(value = "guest") UserEntity guest); 
+
+	public List<EventEntity> findByUserGuest(UserEntity guest); //TODO: converter; 
 
 }

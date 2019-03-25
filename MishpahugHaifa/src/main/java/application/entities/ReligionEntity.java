@@ -1,21 +1,13 @@
 package application.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "religion", uniqueConstraints = { @UniqueConstraint(columnNames = { "name" }) })
@@ -24,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = { "name" })
-@ToString
+@ToString(exclude = "userEntities")
 public class ReligionEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,4 +25,19 @@ public class ReligionEntity {
 	@Column(name = "name")
 	private String name;
 
+	@OneToMany(mappedBy = "religionEntity", fetch = FetchType.LAZY, orphanRemoval = false)
+	@JsonBackReference
+	@Getter(AccessLevel.NONE)
+	@Setter(AccessLevel.NONE)
+	private Set<UserEntity> userEntities = new HashSet<>();
+
+	public boolean addUser(UserEntity userEntity) {
+		userEntity.setReligionEntity(this);
+		return userEntities.add(userEntity);
+	}
+
+	public boolean removeUser(UserEntity userEntity) {
+		userEntity.setReligionEntity(null);
+		return userEntities.remove(userEntity);
+	}
 }

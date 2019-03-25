@@ -13,26 +13,11 @@ import java.util.Random;
 
 import javax.transaction.Transactional;
 
+import application.entities.*;
+import application.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import application.entities.AddressEntity;
-import application.entities.CityEntity;
-import application.entities.CountryEntity;
-import application.entities.EventEntity;
-import application.entities.EventGuestRelation;
-import application.entities.GenderEntity;
-import application.entities.MarriageStatusEntity;
-import application.entities.UserEntity;
-import application.repositories.AddressRepository;
-import application.repositories.CityRepository;
-import application.repositories.CountryRepository;
-import application.repositories.EventGuestRepository;
-import application.repositories.EventRepository;
-import application.repositories.GenderRepository;
-import application.repositories.MarriageStatusRepository;
-import application.repositories.UserRepository;
 
 /**
  * Load the production DB with integration test data; TODO: make it a Spring
@@ -58,10 +43,16 @@ public class DB_test_loader implements CommandLineRunner {
 	GenderRepository genderRepository;
 	@Autowired
 	AddressRepository addressRepository;
+	@Autowired
+	ReligionRepository religionRepository;
+	@Autowired
+	KichenTypeRepository kichenTypeRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
 		loadTest(MPHEntity.CITY);
+		loadTest(MPHEntity.RELIGION);
+		loadTest(MPHEntity.KICHENTYPES);
 		loadTest(MPHEntity.MARRIAGE);
 		loadTest(MPHEntity.ADDRESS);
 		loadTest(MPHEntity.GENDER);
@@ -75,8 +66,6 @@ public class DB_test_loader implements CommandLineRunner {
 		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
 		InputStream is = classloader.getResourceAsStream(entity.dataFile());
 		BufferedReader empdtil = new BufferedReader(new InputStreamReader(is));
-		long userCount = userRepository.count();
-		long eventCount = eventRepository.count();
 
 		switch (entity) {
 		case USER: {
@@ -94,8 +83,18 @@ public class DB_test_loader implements CommandLineRunner {
 			loader.load();
 			break;
 		}
+		case KICHENTYPES: {
+			KichenTypeLoader loader = new KichenTypeLoader(empdtil);
+			loader.load();
+			break;
+		}
 		case ADDRESS: {
 			AddressLoader loader = new AddressLoader(empdtil);
+			loader.load();
+			break;
+		}
+		case RELIGION: {
+			ReligionLoader loader = new ReligionLoader(empdtil);
 			loader.load();
 			break;
 		}
@@ -157,6 +156,16 @@ public class DB_test_loader implements CommandLineRunner {
 				return "streets.csv";
 			}
 		},
+		KICHENTYPES {
+			public String dataFile() {
+				return "foods.csv";
+			}
+		},
+		RELIGION {
+			public String dataFile() {
+				return "religions.csv";
+			}
+		},
 		GUESTS {
 			public String dataFile() {
 				return "data_guests_blank.csv";
@@ -180,6 +189,8 @@ public class DB_test_loader implements CommandLineRunner {
 				List<MarriageStatusEntity> marriageStatusEntityList = marriageStatusRepository.findAll();
 				List<GenderEntity> genderEntityList = genderRepository.findAll();
 				List<AddressEntity> addressEntityList = addressRepository.findAll();
+				List<ReligionEntity> religionEntityList = religionRepository.findAll();
+				List<KichenTypeEntity> kichenTypeEntityList = kichenTypeRepository.findAll();
 				userRepository.deleteAll();
 				userRepository.flush(); // TODO: do we need flush here?
 				String detail;
@@ -195,7 +206,9 @@ public class DB_test_loader implements CommandLineRunner {
 					user.setEnabled(true);
 					Random rr = new Random();
 					genderEntityList.get(rr.nextInt(genderEntityList.size() - 1)).addUser(user);
+					religionEntityList.get(rr.nextInt(religionEntityList.size() - 1)).addUser(user);
 					addressEntityList.get(rr.nextInt(addressEntityList.size() - 1)).addUser(user);
+					kichenTypeEntityList.get(rr.nextInt(kichenTypeEntityList.size() - 1)).addUser(user);
 					marriageStatusEntityList.get(rr.nextInt(marriageStatusEntityList.size() - 1)).addUser(user);
 					userRepository.save(user);
 				}
@@ -229,6 +242,68 @@ public class DB_test_loader implements CommandLineRunner {
 					GenderEntity genderEntity = new GenderEntity();
 					genderEntity.setName(detail);
 					genderRepository.save(genderEntity);
+				}
+				empdtil.close();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+
+	private class KichenTypeLoader {
+		BufferedReader empdtil;
+
+		public KichenTypeLoader(BufferedReader empdtil) {
+			this.empdtil = empdtil;
+		}
+
+		void load() {
+			try {
+				Collection<UserEntity> users = userRepository.findAll();
+				for (UserEntity user : users) {
+					KichenTypeEntity kichenTypeEntity = user.getKichenTypeEntity();
+					if (kichenTypeEntity != null) {
+						kichenTypeEntity.removeUser(user);
+					}
+				}
+				kichenTypeRepository.deleteAll();
+				kichenTypeRepository.flush(); // TODO: do we need flush here?
+				String detail;
+				while ((detail = empdtil.readLine()) != null) {
+					KichenTypeEntity kichenTypeEntity = new KichenTypeEntity();
+					kichenTypeEntity.setName(detail);
+					kichenTypeRepository.save(kichenTypeEntity);
+				}
+				empdtil.close();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+
+	private class ReligionLoader {
+		BufferedReader empdtil;
+
+		public ReligionLoader(BufferedReader empdtil) {
+			this.empdtil = empdtil;
+		}
+
+		void load() {
+			try {
+				Collection<UserEntity> users = userRepository.findAll();
+				for (UserEntity user : users) {
+					ReligionEntity religionEntity = user.getReligionEntity();
+					if (religionEntity != null) {
+						religionEntity.removeUser(user);
+					}
+				}
+				religionRepository.deleteAll();
+				religionRepository.flush(); // TODO: do we need flush here?
+				String detail;
+				while ((detail = empdtil.readLine()) != null) {
+					ReligionEntity religionEntity = new ReligionEntity();
+					religionEntity.setName(detail);
+					religionRepository.save(religionEntity);
 				}
 				empdtil.close();
 			} catch (IOException e) {
@@ -378,10 +453,6 @@ public class DB_test_loader implements CommandLineRunner {
 					String[] eventAttributes = detail.split(",");
 					EventEntity event = new EventEntity();
 					event.setDate(LocalDate.parse(eventAttributes[0].replaceAll("/", "-"), DateTimeFormatter.ISO_DATE));// TODO:
-																														// h:mm,
-																														// not
-																														// only
-																														// hh:mm
 					event.setTime(LocalTime.parse(eventAttributes[1], DateTimeFormatter.ISO_LOCAL_TIME));
 					event.setNameOfEvent(eventAttributes[2]);
 					randomOwner.makeOwner(event);// TODO: random user;

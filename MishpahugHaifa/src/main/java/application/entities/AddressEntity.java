@@ -34,7 +34,7 @@ import lombok.ToString;
 	    @UniqueConstraint(columnNames = {"city_of_address", "street", "building", "apartment"})
 	})
 @Getter @Setter
-@ToString(exclude = {"cityEntity", "street", "building", "apartment"})
+@ToString(exclude = {"cityEntity", "userEntities", "eventEntities"})
 @AllArgsConstructor 
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"cityEntity", "street", "building", "apartment"})

@@ -10,6 +10,10 @@ import application.models.user.IUserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 @RestController
 @RequestMapping(value = "/user")
 public class UserController {
@@ -38,6 +42,11 @@ public class UserController {
         userDTOLists.setMarriageStatusEntities(marriageStatusModel.getAll());
         return userDTOLists;
 
+    }
+
+    @GetMapping(value="/getbygender")
+    public Set<UserEntity> getByGender(@RequestParam(name = "gender") String gender){
+        return genderModel.getByName(gender).getUsers();
     }
 
     @PostMapping(value="/addPage1")

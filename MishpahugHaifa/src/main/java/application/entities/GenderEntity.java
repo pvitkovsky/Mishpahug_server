@@ -33,6 +33,10 @@ public class GenderEntity {
     @Setter(AccessLevel.NONE)
     private Set<UserEntity> userEntities = new HashSet<>();
 
+    public Set<UserEntity> getUsers(){
+        return userEntities;
+    }
+
     public boolean addUser(UserEntity userEntity) {
         userEntity.setGenderEntity(this);
         return userEntities.add(userEntity);

@@ -29,6 +29,9 @@ import application.models.event.EventModel;
 import application.models.event.IEventModel;
 import application.repositories.EventGuestRepository;
 import application.repositories.EventRepository;
+import application.repositories.HolyDayRepository;
+import application.repositories.KichenTypeRepository;
+import application.repositories.ReligionRepository;
 import application.repositories.UserRepository;
 
 @RunWith(SpringRunner.class)
@@ -42,13 +45,20 @@ public class EventModelTest {
 			return new EventModel();
 		}
 	}
-	
+
 	@MockBean
 	EventRepository eventRepo;
 	@MockBean
 	UserRepository userRepo;
 	@MockBean
 	EventGuestRepository subscriptionsRepo;
+	@MockBean
+	ReligionRepository religionRepo;
+	@MockBean
+	KichenTypeRepository kichenTypeRepo;
+	@MockBean
+	HolyDayRepository holyDayRepo;
+
 	
 	@Autowired
 	private IEventModel eventModel;

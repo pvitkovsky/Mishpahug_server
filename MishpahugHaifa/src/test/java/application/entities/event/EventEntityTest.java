@@ -76,12 +76,12 @@ public class EventEntityTest {
 	@Test
 	public void updateTest(){
 		ALYSSA.makeOwner(TESTING);
-
-		eventRepo.save(TESTING);
+		userRepo.save(ALYSSA);
+		
 		HashMap<String, String> data = new HashMap<>();
 		data.put("nameofevent", "dfgdfgdfg");
-		eventRepo.save(eventRepo.update(0, data));
-		System.out.println(eventRepo.getOne(0));
+		eventRepo.update(TESTING, data);
+		System.out.println(eventRepo.getOne(TESTING.getId()));
 	}
 	
 	@Test()

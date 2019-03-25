@@ -15,6 +15,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import application.entities.UserEntity;
 import application.repositories.CityRepository;
+import application.repositories.CountryRepository;
+import application.repositories.KichenTypeRepository;
 import application.repositories.UserRepository;
 
 @RunWith(SpringRunner.class)
@@ -34,6 +36,13 @@ public class UserModelTest {
 	
 	@MockBean
 	CityRepository cityRepo;
+	
+	@MockBean
+    CountryRepository countryRepository;
+
+	@MockBean
+    KichenTypeRepository kichenTypeRepository;
+
 	
 	@Autowired
 	private IUserModel userModel;

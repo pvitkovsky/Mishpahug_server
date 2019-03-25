@@ -6,6 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface EventRepositoryCustom {
-    public EventEntity update(Integer userId, HashMap<String, String> data);
+    public EventEntity update(EventEntity event, HashMap<String, String> data);
     public List<EventEntity> searchByFilter(HashMap<String, String> filter);
 }

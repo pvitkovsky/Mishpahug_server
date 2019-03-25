@@ -17,7 +17,7 @@ import java.util.Set;
 @Getter
 @Setter
 @EqualsAndHashCode(of = { "name" })
-@ToString
+@ToString(exclude = "userEntities")
 public class GenderEntity {
 
     @Id
@@ -27,7 +27,7 @@ public class GenderEntity {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "genderEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "genderEntity", fetch = FetchType.LAZY, orphanRemoval = false)
     @JsonBackReference
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)

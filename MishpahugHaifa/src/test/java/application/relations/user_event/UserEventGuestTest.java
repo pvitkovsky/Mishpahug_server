@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -155,8 +156,8 @@ public class UserEventGuestTest {
 		userRepo.save(ALYSSA);
 		AGUESTING.subscribe(ALYSSA, GUESTING);
 
-		Set<EventGuestRelation> subscriptions = ALYSSA.getSubscriptions();
-		Set<EventEntity> events = subscriptions.stream().map(s -> s.getEvent()).collect(Collectors.toSet());
+		List<EventEntity> events = eventGuestRepo.getEventsForGuest(ALYSSA);
+		//List<EventEntity> events = eventGuestRepo.findByUserGuest(ALYSSA); //TODO: converter
 		assertEquals(events.size(), 1);
 		assertTrue(events.contains(GUESTING));
 
@@ -170,9 +171,10 @@ public class UserEventGuestTest {
 		userRepo.save(ALYSSA);
 		AGUESTING.subscribe(ALYSSA, GUESTING);
 
-		Set<EventGuestRelation> subscriptions = GUESTING.getSubscriptions();
-		Set<UserEntity> users = subscriptions.stream().map(s -> s.getUserGuest()).collect(Collectors.toSet());
-		assertTrue(users.contains(ALYSSA));
+		List<UserEntity> guests = eventGuestRepo.getGuestsForEvent(GUESTING);
+		//List<UserEntity> guests = eventGuestRepo.findByEvent(GUESTING); //TODO: converter
+		assertEquals(guests.size(), 1);
+		assertTrue(guests.contains(ALYSSA));
 	}
 
 }

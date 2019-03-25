@@ -9,34 +9,29 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "marriage_status",  uniqueConstraints = {
-        @UniqueConstraint(columnNames = { "name" })})
+@Table(name = "marriage_status", uniqueConstraints = { @UniqueConstraint(columnNames = { "name" }) })
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @EqualsAndHashCode(of = { "name" })
-@ToString
-
+@ToString(exclude = "userEntities")
 public class MarriageStatusEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 
-    @Column(name = "name")
-    private String name;
+	@Column(name = "name")
+	private String name;
 
-    @OneToMany(mappedBy = "marriageStatusEntity",
-               cascade = CascadeType.ALL,
-               fetch = FetchType.LAZY,
-               orphanRemoval = true)
-    @JsonBackReference
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
-    private Set<UserEntity> userEntities = new HashSet<>();
+	@OneToMany(mappedBy = "marriageStatusEntity", fetch = FetchType.LAZY, orphanRemoval = false)
+	@JsonBackReference
+	@Getter(AccessLevel.NONE)
+	@Setter(AccessLevel.NONE)
+	private Set<UserEntity> userEntities = new HashSet<>();
 
-    public boolean addUser(UserEntity userEntity) {
-        userEntity.setMarriageStatusEntity(this);
-        return userEntities.add(userEntity);
-    }
+	public boolean addUser(UserEntity userEntity) {
+		userEntity.setMarriageStatusEntity(this);
+		return userEntities.add(userEntity);
+	}
 }

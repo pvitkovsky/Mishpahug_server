@@ -13,7 +13,7 @@ public interface IEventModel {
     public Set<EventEntity> getAllByUser(Integer userId); //TODO: owned or subscribed events here? 
     public List<EventEntity> getByFilter(HashMap<String, String> filter);
     public EventEntity add(EventEntity data); // Should not allow duplicated events; 
-    public EventEntity update(Integer eventId, HashMap<String, String> data);
+    public EventEntity update(Integer eventId, HashMap<String, String> data) throws ExceptionMishpaha;
     public Set<UserEntity> getAllSubscribed(Integer eventId);
     public EventEntity remove(Integer eventId) throws ExceptionMishpaha;
     public EventEntity getById(Integer id) throws ExceptionMishpaha;

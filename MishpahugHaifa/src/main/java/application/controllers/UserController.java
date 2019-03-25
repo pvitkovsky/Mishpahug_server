@@ -50,8 +50,8 @@ public class UserController {
     public void setDataFromFormDetail(@RequestBody UserDTODetail data,
                                       @RequestParam(name = "username") String userName){
         UserEntity userEntity = userModel.getByName(userName);
-        userEntity.setGenderEntity(genderModel.getByName(data.getGender()));
-        userEntity.setMarriageStatusEntity(marriageStatusModel.getByName(data.getMarriageStatus()));
+        genderModel.getByName(data.getGender()).addUser(userEntity);
+        marriageStatusModel.getByName(data.getMarriageStatus()).addUser(userEntity);
         userEntity.setReligionEntity(religionModel.getByName(data.getReligion()));
         userEntity.setKichenTypeEntity(kichenTypeModel.getByName(data.getKichenType()));
         userModel.add(userEntity);

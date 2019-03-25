@@ -56,12 +56,12 @@ public class EventGuestRelation {
 	
 
 	@ManyToOne //TODO: cascading
-	@JoinColumn(name = "user_guest", insertable = false, updatable = false)
+	@JoinColumn(name = "user_guest")//, insertable = false, updatable = false) //TODO: clarify 
 	@Setter(AccessLevel.PACKAGE)
 	private UserEntity userGuest;
 
 	@ManyToOne //TODO: cascading
-	@JoinColumn(name = "event_sub", insertable = false, updatable = false)
+	@JoinColumn(name = "event_sub")//, insertable = false, updatable = false) //TODO: clarify 
 	@Setter(AccessLevel.PACKAGE)
 	private EventEntity event;
 	

@@ -90,11 +90,14 @@ public class UserEntity {
 	private boolean enabled;
 
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)
-	@JsonManagedReference //Unidirectional;
+	@JsonManagedReference  //Bidirectional, managed from marriageStatusEntity;
+	@Setter(AccessLevel.PACKAGE)
 	private MarriageStatusEntity marriageStatusEntity;
 
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)
-	@JsonManagedReference //Unidirectional;
+	@JsonManagedReference //Bidirectional, managed from genderEntity;
+	@Setter(AccessLevel.PACKAGE)
+
 	private GenderEntity genderEntity;
 
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)

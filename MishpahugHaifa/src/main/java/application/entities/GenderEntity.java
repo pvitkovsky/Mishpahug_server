@@ -1,6 +1,7 @@
 package application.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
@@ -27,7 +28,7 @@ public class GenderEntity {
     private String name;
 
     @OneToMany(mappedBy = "genderEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonBackReference
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     private Set<UserEntity> userEntities = new HashSet<>();

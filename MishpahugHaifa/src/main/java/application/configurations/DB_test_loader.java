@@ -44,13 +44,12 @@ public class DB_test_loader implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		loadTest(MPHEntity.EVENT);
-		loadTest(MPHEntity.GUESTS);
 		loadTest(MPHEntity.CITY);
 		loadTest(MPHEntity.MARRIAGE);
 		loadTest(MPHEntity.GENDER);
-		loadTest(MPHEntity.USER);
-		cityRepository.findAll().forEach(System.out::println);
+        loadTest(MPHEntity.USER);
+        loadTest(MPHEntity.EVENT);
+        loadTest(MPHEntity.GUESTS);
 	}
 
 	private void loadTest(MPHEntity entity) {
@@ -65,24 +64,29 @@ public class DB_test_loader implements CommandLineRunner {
 		case USER: {
 			UserLoader loader = new UserLoader(empdtil);
 			loader.load();
+            break;
 		}
 		case EVENT: {
 			EventLoader loader = new EventLoader(empdtil);
 			loader.load();
+            break;
 		}
 		case CITY: {
 			CityLoader loader = new CityLoader(empdtil);
 			loader.load();
+            break;
 		}
 		case GENDER: {
 			GenderLoader loader = new GenderLoader(empdtil);
 			loader.load();
+            break;
 		}
 		case MARRIAGE:{
 			MarriageStatusLoader loader = new MarriageStatusLoader(empdtil);
 			loader.load();
+            break;
 		}
-		case GUESTS: { 
+		case GUESTS: {
 			eventGuestRepository.deleteAll();
 			Integer randomUserRange = userRepository.findAll().size()-1;
 			Random randomUser = new Random();
@@ -93,6 +97,7 @@ public class DB_test_loader implements CommandLineRunner {
 					subscription.subscribe(randomGuest, event);
 				}
 			}
+            break;
 		}
 		}
 
@@ -161,7 +166,7 @@ public class DB_test_loader implements CommandLineRunner {
 					user.setEnabled(true);
 					Random rr = new Random();
 					genderEntityList.get(rr.nextInt(genderEntityList.size()-1)).addUser(user);
-					user.setMarriageStatusEntity(marriageStatusEntityList.get(rr.nextInt(marriageStatusEntityList.size()-1)));
+					marriageStatusEntityList.get(rr.nextInt(marriageStatusEntityList.size()-1)).addUser(user);
 					userRepository.save(user);
 				}
 				empdtil.close();

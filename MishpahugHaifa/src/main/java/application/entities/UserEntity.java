@@ -109,7 +109,7 @@ public class UserEntity {
 	private ReligionEntity religionEntity;
 
 	@ManyToOne(optional = true) //TODO: delete constraints don't allow us to remove address; 
-	@JsonBackReference //Bidirectional, managed from Address;
+	@JsonBackReference //Bidirectional, managed from Address; //TODO: serialization circular reference;
 	@JsonIgnoreProperties("userEntities")
 	@Setter(AccessLevel.PACKAGE)
 	private AddressEntity addressEntity;

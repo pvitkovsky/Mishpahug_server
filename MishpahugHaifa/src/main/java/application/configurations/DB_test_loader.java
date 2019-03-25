@@ -323,6 +323,21 @@ public class DB_test_loader implements CommandLineRunner {
 
 		void load() {
 			try {
+				Collection<UserEntity> users = userRepository.findAll();
+				for (UserEntity user : users) {
+					AddressEntity address = user.getAddressEntity();
+					if (address != null) {
+						address.removeUser(user);
+					}
+				}
+				Collection<EventEntity> events = eventRepository.findAll();
+				for (EventEntity event : events) {
+					AddressEntity address = event.getAddressEntity();
+					if (address != null) {
+						address.removeEvent(event);
+					}
+
+				}
 				countryRepository.deleteAll(); // cascade deleting cities and addresses
 				countryRepository.flush();
 				String detail;

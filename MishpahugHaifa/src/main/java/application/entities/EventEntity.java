@@ -23,6 +23,7 @@ import javax.persistence.UniqueConstraint;
 
 import application.dto.EventDTO;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AccessLevel;
@@ -77,7 +78,8 @@ public class EventEntity {
 	private UserEntity userEntityOwner;
 
 	@ManyToOne(optional = true)
-	@JsonManagedReference //Bidirectional, managed from Address;
+	@JsonBackReference //Bidirectional, managed from Address; //TODO: serialization circular reference;
+	@JsonIgnoreProperties("eventEntities")
 	@Setter(AccessLevel.PACKAGE)
 	private AddressEntity addressEntity;
 

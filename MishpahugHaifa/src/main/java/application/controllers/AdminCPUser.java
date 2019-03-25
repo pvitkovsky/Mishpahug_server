@@ -13,7 +13,7 @@ import java.util.List;
 public class AdminCPUser {
     @Autowired
     IUserModel userModel;
-    @GetMapping(value="/getall")
+    @GetMapping(value="/getall", produces = "application/json;charset=UTF-8")
     public List<UserEntity> getAll(){
         return userModel.getAll();
     }

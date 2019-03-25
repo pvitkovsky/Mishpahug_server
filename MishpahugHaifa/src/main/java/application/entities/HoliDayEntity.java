@@ -29,6 +29,7 @@ import lombok.ToString;
 @Setter
 @EqualsAndHashCode(of = { "name" })
 @ToString
+
 public class HoliDayEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

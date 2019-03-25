@@ -41,11 +41,14 @@ public class DB_test_loader implements CommandLineRunner {
 	MarriageStatusRepository marriageStatusRepository;
 	@Autowired
 	GenderRepository genderRepository;
+	@Autowired
+	AddressRepository addressRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
 		loadTest(MPHEntity.CITY);
 		loadTest(MPHEntity.MARRIAGE);
+		loadTest(MPHEntity.ADDRESS);
 		loadTest(MPHEntity.GENDER);
         loadTest(MPHEntity.USER);
         loadTest(MPHEntity.EVENT);
@@ -75,6 +78,11 @@ public class DB_test_loader implements CommandLineRunner {
 			CityLoader loader = new CityLoader(empdtil);
 			loader.load();
             break;
+		}
+		case ADDRESS: {
+		    AddressLoader loader = new AddressLoader(empdtil);
+		    loader.load();
+		    break;
 		}
 		case GENDER: {
 			GenderLoader loader = new GenderLoader(empdtil);
@@ -129,6 +137,11 @@ public class DB_test_loader implements CommandLineRunner {
 				return "gender.csv";
 			}
 		},
+        ADDRESS {
+            public String dataFile() {
+                return "streets.csv";
+            }
+        },
 		GUESTS {
 			public String dataFile() {
 				return "data_guests_blank.csv";
@@ -151,6 +164,7 @@ public class DB_test_loader implements CommandLineRunner {
 			try {
 				List<MarriageStatusEntity> marriageStatusEntityList = marriageStatusRepository.findAll();
 				List<GenderEntity> genderEntityList = genderRepository.findAll();
+				List<AddressEntity> addressEntityList = addressRepository.findAll();
 				userRepository.deleteAll();
 				userRepository.flush(); //TODO: do we need flush here?
 				String detail;
@@ -166,6 +180,7 @@ public class DB_test_loader implements CommandLineRunner {
 					user.setEnabled(true);
 					Random rr = new Random();
 					genderEntityList.get(rr.nextInt(genderEntityList.size()-1)).addUser(user);
+					addressEntityList.get(rr.nextInt(addressEntityList.size()-1)).addUser(user);
 					marriageStatusEntityList.get(rr.nextInt(marriageStatusEntityList.size()-1)).addUser(user);
 					userRepository.save(user);
 				}
@@ -199,6 +214,36 @@ public class DB_test_loader implements CommandLineRunner {
 			}
 		}
 	}
+
+    private class AddressLoader {
+        BufferedReader empdtil;
+
+        public AddressLoader(BufferedReader empdtil) {
+            this.empdtil = empdtil;
+        }
+
+        void load() {
+            try {
+                Random rr = new Random();
+                List<CityEntity> cityEntityList = cityRepository.findAll();
+                Integer cityEntityListSize = cityEntityList.size() -1;
+                addressRepository.deleteAll();
+                addressRepository.flush(); //TODO: do we need flush here?
+                String detail;
+                while ((detail = empdtil.readLine()) != null) {
+                    AddressEntity addressEntity = new AddressEntity();
+                    addressEntity.setStreet(detail);
+                    addressEntity.setBuilding(rr.nextInt(100));
+                    addressEntity.setApartment(rr.nextInt(50));
+                    cityEntityList.get(rr.nextInt(cityEntityListSize)).addAddress(addressEntity);
+                    addressRepository.save(addressEntity);
+                }
+                empdtil.close();
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
 
 	private class MarriageStatusLoader {
 		BufferedReader empdtil;

@@ -77,7 +77,7 @@ public class EventEntity {
 	private UserEntity userEntityOwner;
 
 	@ManyToOne(optional = true)
-	@JsonBackReference //Bidirectional, managed from Address;
+	@JsonManagedReference //Bidirectional, managed from Address;
 	@Setter(AccessLevel.PACKAGE)
 	private AddressEntity addressEntity;
 

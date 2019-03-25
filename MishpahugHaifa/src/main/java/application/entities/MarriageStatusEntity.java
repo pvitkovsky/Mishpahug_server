@@ -34,4 +34,9 @@ public class MarriageStatusEntity {
 		userEntity.setMarriageStatusEntity(this);
 		return userEntities.add(userEntity);
 	}
+
+	public boolean removeUser(UserEntity userEntity) {
+    	userEntity.setMarriageStatusEntity(null);
+    	return userEntities.remove(userEntity);
+    }
 }

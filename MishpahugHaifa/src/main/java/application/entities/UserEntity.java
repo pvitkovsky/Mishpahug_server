@@ -19,12 +19,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import application.dto.UserDTO;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import application.utils.EncrytedPasswordUtils;
+import application.dto.UserDTO;
 import application.entities.values.PictureValue;
+import application.utils.EncrytedPasswordUtils;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -97,7 +98,6 @@ public class UserEntity {
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)
 	@JsonManagedReference //Bidirectional, managed from genderEntity;
 	@Setter(AccessLevel.PACKAGE)
-
 	private GenderEntity genderEntity;
 
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)
@@ -108,8 +108,9 @@ public class UserEntity {
 	@JsonManagedReference //Unidirectional;
 	private ReligionEntity religionEntity;
 
-	@ManyToOne(optional = true)
-	@JsonManagedReference //Bidirectional, managed from Address;
+	@ManyToOne(optional = true) //TODO: delete constraints don't allow us to remove address; 
+	@JsonBackReference //Bidirectional, managed from Address;
+	@JsonIgnoreProperties("userEntities")
 	@Setter(AccessLevel.PACKAGE)
 	private AddressEntity addressEntity;
 

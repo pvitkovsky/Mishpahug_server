@@ -19,7 +19,8 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -34,10 +35,10 @@ import lombok.ToString;
 	    @UniqueConstraint(columnNames = {"city_of_address", "street", "building", "apartment"})
 	})
 @Getter @Setter
-@ToString(exclude = {"city_of_address", "street", "building", "apartment"})
+@ToString(exclude = {"cityEntity", "street", "building", "apartment"})
 @AllArgsConstructor 
 @NoArgsConstructor
-@EqualsAndHashCode(of = {"city_of_address", "street", "building", "apartment"})
+@EqualsAndHashCode(of = {"cityEntity", "street", "building", "apartment"})
 public class AddressEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -66,7 +67,7 @@ public class AddressEntity {
     private Set<UserEntity> userEntities = new HashSet<>();
 
     @OneToMany(mappedBy = "addressEntity",   cascade = {CascadeType.MERGE, CascadeType.PERSIST}  , fetch = FetchType.LAZY, orphanRemoval = false)
-    @JsonManagedReference
+    @JsonBackReference
 	@Getter(AccessLevel.NONE)
 	@Setter(AccessLevel.NONE)
     private Set<EventEntity> eventEntities = new HashSet<>();
@@ -87,6 +88,7 @@ public class AddressEntity {
      * @return
      */
     public boolean removeUser(UserEntity userEntity) {
+    	userEntity.setAddressEntity(null);
     	return userEntities.remove(userEntity);
     }
     
@@ -115,6 +117,7 @@ public class AddressEntity {
      * @return
      */
     public boolean removeEvent(EventEntity eventEntity) {
+    	eventEntity.setAddressEntity(null);
     	return eventEntities.remove(eventEntity);
     }
     

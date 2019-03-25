@@ -37,4 +37,9 @@ public class GenderEntity {
         userEntity.setGenderEntity(this);
         return userEntities.add(userEntity);
     }
+    
+    public boolean removeUser(UserEntity userEntity) {
+    	userEntity.setGenderEntity(null);
+    	return userEntities.remove(userEntity);
+    }
 }

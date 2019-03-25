@@ -85,5 +85,12 @@ public class CityEntity {
     	return Collections.unmodifiableSet(addressEntities); 
     }
     
+    /**
+     * Clearing all addresses
+     * @return
+     */
+    public void clearAddresses(){
+    	addressEntities.clear();
+    }
 
 }

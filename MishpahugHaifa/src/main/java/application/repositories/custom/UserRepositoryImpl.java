@@ -23,11 +23,11 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     private EntityManager entityManager;
     
     @Override
-    public UserEntity update(Integer userId, HashMap<String, String> data){
+    public UserEntity update(UserEntity user, HashMap<String, String> data){
         StringBuilder query = new StringBuilder();
         Map<String, Integer> parameters = new HashMap<>();
         query.append("select e from UserEntity e where user_Id = :user_Id ");
-        parameters.put("user_Id", userId);
+        parameters.put("user_Id", user.getId());
         Query jpaQuery = entityManager.createQuery(query.toString());
         for (Map.Entry<String,Integer> map : parameters.entrySet()){
             jpaQuery.setParameter(map.getKey(), map.getValue());

@@ -164,7 +164,7 @@ public class AddressTest {
 
         HashMap<String, String> filterForUpdateUsers = new HashMap<>();
         filterForUpdateUsers.put("username", "Vasiyaaaaaaaaaaaaa");
-        System.out.println(userRepository.update(3,filterForUpdateUsers));
+        System.out.println(userRepository.update(userRepository.getOne(3),filterForUpdateUsers));
     }
 
 

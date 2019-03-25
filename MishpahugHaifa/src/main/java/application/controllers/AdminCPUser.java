@@ -1,6 +1,7 @@
 package application.controllers;
 
 import application.entities.UserEntity;
+import application.exceptions.ExceptionMishpaha;
 import application.models.user.IUserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class AdminCPUser {
         return userModel.add(data);
     }
     @PostMapping(value = "/update")
-    public UserEntity update(@RequestBody HashMap<String, String> data,@RequestParam(value = "id") Integer id){
+    public UserEntity update(@RequestBody HashMap<String, String> data,@RequestParam(value = "id") Integer id) throws ExceptionMishpaha{ //TODO: proper exception hanling{
         return userModel.update(id, data);
     }
     @DeleteMapping(value = "/remove")

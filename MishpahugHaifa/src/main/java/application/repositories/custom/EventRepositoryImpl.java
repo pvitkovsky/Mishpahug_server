@@ -17,11 +17,11 @@ public class EventRepositoryImpl implements EventRepositoryCustom{
     private EntityManager entityManager;
 
     @Override
-    public EventEntity update(Integer eventId, HashMap<String, String> data){
+    public EventEntity update(EventEntity event, HashMap<String, String> data){
         StringBuilder query = new StringBuilder();
         Map<String, Integer> parameters = new HashMap<>();
         query.append("select e from EventEntity e where Id = :eventId ");
-        parameters.put("eventId", eventId);
+        parameters.put("eventId", event.getId());
         Query jpaQuery = entityManager.createQuery(query.toString());
         for (Map.Entry<String,Integer> map : parameters.entrySet()){
             jpaQuery.setParameter(map.getKey(), map.getValue());

@@ -64,8 +64,8 @@ public class AdminCPListEvent {
     public EventEntity add(@RequestBody EventEntity data){
         return eventModel.add(data);
     }
-    @PostMapping(value = "/update")
-    public EventEntity update(@RequestBody HashMap<String, String> data, @RequestParam(value = "id") Integer id){
+    @PostMapping(value = "/update") 
+    public EventEntity update(@RequestBody HashMap<String, String> data, @RequestParam(value = "id") Integer id) throws ExceptionMishpaha{ //TODO: proper exception hanling {
         return eventModel.update(id, data);
     }
     @DeleteMapping(value = "/remove")

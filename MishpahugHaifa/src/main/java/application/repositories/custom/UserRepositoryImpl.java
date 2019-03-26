@@ -1,10 +1,12 @@
 package application.repositories.custom;
 
+import application.entities.GenderEntity;
 import application.entities.UserEntity;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,6 +59,10 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
             query.append(" and e.userName LIKE :username");
             parameters.put("username", "%" + filter.get("username") + "%");
         }
+        if (filter.containsKey("gender")){
+            query.append(" and e.genderEntity.name LIKE :gender");
+            parameters.put("gender", filter.get("gender"));
+        }
         if (filter.containsKey("firstname")){
             query.append(" and e.firstname LIKE :firstname");
             parameters.put("firstname", "%" + filter.get("firstname") + "%");
@@ -69,7 +75,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
             query.append(" and e.eMail LIKE :eMail");
             parameters.put("eMail", "%" + filter.get("eMail") + "%");
         }
-        Query jpaQuery = entityManager.createQuery(query.toString());
+        Query jpaQuery = entityManager.createQuery(query.toString(), UserEntity.class);
         for (Map.Entry<String,String> map : parameters.entrySet()){
             jpaQuery.setParameter(map.getKey(), map.getValue());
         }

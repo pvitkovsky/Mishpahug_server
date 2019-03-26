@@ -54,14 +54,14 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     public List<UserEntity> searchByFilter(HashMap<String, String> filter) {
         StringBuilder query = new StringBuilder();
         Map<String, String> parameters = new HashMap<>();
-        query.append("select e from UserEntity e where 1=1 ");
+        query.append("select e from UserEntity e where 1 = 1");
         if (filter.containsKey("username")){
             query.append(" and e.userName LIKE :username");
             parameters.put("username", "%" + filter.get("username") + "%");
         }
         if (filter.containsKey("gender")){
-            query.append(" and e.genderEntity.name LIKE :gender");
-            parameters.put("gender", filter.get("gender"));
+            query.append(" and gender.name = :gender");
+            parameters.put("gender", "male");
         }
         if (filter.containsKey("firstname")){
             query.append(" and e.firstname LIKE :firstname");
@@ -75,6 +75,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
             query.append(" and e.eMail LIKE :eMail");
             parameters.put("eMail", "%" + filter.get("eMail") + "%");
         }
+        System.out.println(query.toString());
         Query jpaQuery = entityManager.createQuery(query.toString(), UserEntity.class);
         for (Map.Entry<String,String> map : parameters.entrySet()){
             jpaQuery.setParameter(map.getKey(), map.getValue());

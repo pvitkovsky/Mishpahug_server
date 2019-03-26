@@ -10,6 +10,7 @@ import application.entities.MaritalStatusEntity;
 import application.entities.ReligionEntity;
 import application.entities.UserEntity;
 import application.repositories.custom.UserRepositoryCustom;
+import org.springframework.data.jpa.repository.Query;
 
 
 public interface UserRepository extends JpaRepository<UserEntity, Integer>, UserRepositoryCustom {

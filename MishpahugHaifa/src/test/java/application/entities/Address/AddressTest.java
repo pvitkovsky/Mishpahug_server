@@ -137,9 +137,9 @@ public class AddressTest {
         for (int i=0; i<names.size();i++){
             UserEntity userEntity = new UserEntity();
             GenderEntity genderEntity = new GenderEntity();
-            if (i % 2 == 1) genderEntity = genderRepository.findByName("male");
-            if (i % 2 == 0) genderEntity = genderRepository.findByName("female");
-            userEntity.setGenderEntity(genderEntity);
+            if (i % 2 == 1) genderEntity = genderRepository.getByName("male");
+            if (i % 2 == 0) genderEntity = genderRepository.getByName("female");
+            userEntity.setGender(genderEntity);
             userEntity.setUserName("657" + names.get(i) + "1212");
             userEntity.setFirstName(names.get(i));
             data.get(i).addUser(userEntity);
@@ -158,7 +158,7 @@ public class AddressTest {
         System.out.println(res);
         System.out.println("End userfilter test");
         System.out.println("Begin user test");
-        System.out.println(userRepository.findByGenderEntity(genderRepository.findByName("male")));
+        System.out.println(userRepository.findByGender(genderRepository.getByName("male")));
         System.out.println("End user test");
         System.out.println(userRepository.findByUserName(names.get(3)));
         HashMap<String, String> updateForUser = new HashMap<>();

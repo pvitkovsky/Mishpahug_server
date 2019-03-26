@@ -10,6 +10,9 @@ public interface IUserModel {
     public List<UserEntity> getAll();
     public UserEntity getById(Integer userId);
     public List<UserEntity> getByFilter(HashMap<String, String> filter);
+
+    public List<UserEntity> getByGender(String gender);
+
     public UserEntity add(UserEntity data);
     public UserEntity update(Integer userId, HashMap<String, String> data) throws ExceptionMishpaha;
     public UserEntity remove(Integer userId);

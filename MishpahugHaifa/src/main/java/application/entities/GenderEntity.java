@@ -26,24 +26,4 @@ public class GenderEntity {
 
     @Column(name = "name")
     private String name;
-
-    @OneToMany(mappedBy = "genderEntity", fetch = FetchType.LAZY, orphanRemoval = false)
-    @JsonBackReference
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
-    private Set<UserEntity> userEntities = new HashSet<>();
-
-    public Set<UserEntity> getUsers(){
-        return userEntities;
-    }
-
-    public boolean addUser(UserEntity userEntity) {
-        userEntity.setGenderEntity(this);
-        return userEntities.add(userEntity);
-    }
-    
-    public boolean removeUser(UserEntity userEntity) {
-    	userEntity.setGenderEntity(null);
-    	return userEntities.remove(userEntity);
-    }
 }

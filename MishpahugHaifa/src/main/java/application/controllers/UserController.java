@@ -45,9 +45,11 @@ public class UserController {
     }
 
     @GetMapping(value="/getbygender")
-    public Set<UserEntity> getByGender(@RequestParam(name = "gender") String gender){
-        return genderModel.getByName(gender).getUsers();
+    public List<UserEntity> getByGender(@RequestParam(name = "gender") String gender){
+        return userModel.getByGender(gender);
     }
+
+    //TODO дописать фильтр для полей с сущностями
 
     @PostMapping(value="/addPage1")
     public void setDataFromForm(@RequestBody UserDTO data){
@@ -59,7 +61,7 @@ public class UserController {
     public void setDataFromFormDetail(@RequestBody UserDTODetail data,
                                       @RequestParam(name = "username") String userName){
         UserEntity userEntity = userModel.getByName(userName);
-        genderModel.getByName(data.getGender()).addUser(userEntity);
+        userEntity.setGenderEntity(genderModel.getByName(data.getGender()));
         marriageStatusModel.getByName(data.getMarriageStatus()).addUser(userEntity);
         userEntity.setReligionEntity(religionModel.getByName(data.getReligion()));
         userEntity.setKichenTypeEntity(kichenTypeModel.getByName(data.getKichenType()));

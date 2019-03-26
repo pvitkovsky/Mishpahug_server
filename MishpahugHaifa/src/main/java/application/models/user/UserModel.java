@@ -5,15 +5,13 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import application.entities.GenderEntity;
+import application.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import application.entities.UserEntity;
 import application.exceptions.ExceptionMishpaha;
-import application.repositories.CityRepository;
-import application.repositories.CountryRepository;
-import application.repositories.KichenTypeRepository;
-import application.repositories.UserRepository;
 
 @Service
 @Transactional
@@ -31,6 +29,9 @@ public class UserModel implements IUserModel {
 	@Autowired
 	KichenTypeRepository kichenTypeRepository;
 
+	@Autowired
+	GenderRepository genderRepository;
+
 	@Override
 	public List<UserEntity> getAll() {
 		return userRepository.findAll();
@@ -44,6 +45,12 @@ public class UserModel implements IUserModel {
 	@Override
 	public List<UserEntity> getByFilter(HashMap<String, String> filter) {
 		return userRepository.searchByFilter(filter);
+	}
+
+	@Override
+	public List<UserEntity> getByGender(String gender){
+		GenderEntity genderEntity = genderRepository.findByName(gender);
+		return userRepository.findByGenderEntity(genderEntity);
 	}
 
 	@Override

@@ -205,7 +205,7 @@ public class DB_test_loader implements CommandLineRunner {
 					user.setUserName(data[0].split("@")[0]);
 					user.setEnabled(true);
 					Random rr = new Random();
-					genderEntityList.get(rr.nextInt(genderEntityList.size() - 1)).addUser(user);
+					user.setGenderEntity(genderEntityList.get(rr.nextInt(genderEntityList.size() - 1)));
 					religionEntityList.get(rr.nextInt(religionEntityList.size() - 1)).addUser(user);
 					addressEntityList.get(rr.nextInt(addressEntityList.size() - 1)).addUser(user);
 					kichenTypeEntityList.get(rr.nextInt(kichenTypeEntityList.size() - 1)).addUser(user);
@@ -229,12 +229,7 @@ public class DB_test_loader implements CommandLineRunner {
 		void load() {
 			try {
 				Collection<UserEntity> users = userRepository.findAll();
-				for (UserEntity user : users) {
-					GenderEntity gender = user.getGenderEntity();
-					if (gender != null) {
-						gender.removeUser(user);
-					}
-				}
+
 				genderRepository.deleteAll();
 				genderRepository.flush(); // TODO: do we need flush here?
 				String detail;

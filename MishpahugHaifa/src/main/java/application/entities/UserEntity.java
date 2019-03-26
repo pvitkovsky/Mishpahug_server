@@ -96,8 +96,7 @@ public class UserEntity {
 	private MarriageStatusEntity marriageStatusEntity;
 
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)
-	@JsonManagedReference //Bidirectional, managed from genderEntity;
-	@Setter(AccessLevel.PACKAGE)
+	@JsonManagedReference //Unidirectional
 	private GenderEntity genderEntity;
 
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)

@@ -8,21 +8,21 @@
             },
             {
                 "name": "March Equinox",
-                "description": null,
+                "description": " ",
                 "date": "2019-03-20",
                 "locations": "All",
                 "states": "All"
             },
             {
                 "name": "Ta'anit Esther (Fast of Esther)",
-                "description": null,
+                "description": " ",
                 "date": "2019-03-20",
                 "locations": "All",
                 "states": "All"
             },
             {
                 "name": "Erev Purim",
-                "description": null,
+                "description": " ",
                 "date": "2019-03-20",
                 "locations": "All",
                 "states": "All"
@@ -36,21 +36,21 @@
             },
             {
                 "name": "Shushan Purim (Jerusalem)",
-                "description": null,
+                "description": " ",
                 "date": "2019-03-22",
                 "locations": "All",
                 "states": "All"
             },
             {
                 "name": "Yom HaAliyah",
-                "description": null,
+                "description": " ",
                 "date": "2019-04-15",
                 "locations": "All",
                 "states": "All"
             },
             {
                 "name": "Erev Pesach",
-                "description": null,
+                "description": " ",
                 "date": "2019-04-19",
                 "locations": "All",
                 "states": "All"
@@ -64,35 +64,35 @@
             },
             {
                 "name": "Pesach II (Passover)",
-                "description": null,
+                "description": " ",
                 "date": "2019-04-21",
                 "locations": "All",
                 "states": "All"
             },
             {
                 "name": "Pesach III (Passover)",
-                "description": null,
+                "description": " ",
                 "date": "2019-04-22",
                 "locations": "All",
                 "states": "All"
             },
             {
                 "name": "Pesach IV (Passover)",
-                "description": null,
+                "description": " ",
                 "date": "2019-04-23",
                 "locations": "All",
                 "states": "All"
             },
             {
                 "name": "Pesach V (Passover)",
-                "description": null,
+                "description": " ",
                 "date": "2019-04-24",
                 "locations": "All",
                 "states": "All"
             },
             {
                 "name": "Pesach VI (Passover)",
-                "description": null,
+                "description": " ",
                 "date": "2019-04-25",
                 "locations": "All",
                 "states": "All"
@@ -113,7 +113,7 @@
             },
             {
                 "name": "Yom HaZikaron (Memorial Day)",
-                "description": null,
+                "description": " ",
                 "date": "2019-05-08",
                 "locations": "All",
                 "states": "All"
@@ -141,7 +141,7 @@
             },
             {
                 "name": "Erev Shavuot",
-                "description": null,
+                "description": " ",
                 "date": "2019-06-08",
                 "locations": "All",
                 "states": "All"
@@ -155,7 +155,7 @@
             },
             {
                 "name": "June Solstice",
-                "description": null,
+                "description": " ",
                 "date": "2019-06-21",
                 "locations": "All",
                 "states": "All"
@@ -169,7 +169,7 @@
             },
             {
                 "name": "Erev Tisha B'Av",
-                "description": null,
+                "description": " ",
                 "date": "2019-08-10",
                 "locations": "All",
                 "states": "All"
@@ -183,14 +183,14 @@
             },
             {
                 "name": "September Equinox",
-                "description": null,
+                "description": " ",
                 "date": "2019-09-23",
                 "locations": "All",
                 "states": "All"
             },
             {
                 "name": "Erev Rosh Hashana",
-                "description": null,
+                "description": " ",
                 "date": "2019-09-29",
                 "locations": "All",
                 "states": "All"
@@ -204,21 +204,21 @@
             },
             {
                 "name": "Rosh Hashana II (New Year day 2)",
-                "description": null,
+                "description": " ",
                 "date": "2019-10-01",
                 "locations": "All",
                 "states": "All"
             },
             {
                 "name": "Tzom Gedaliah",
-                "description": null,
+                "description": " ",
                 "date": "2019-10-02",
                 "locations": "All",
                 "states": "All"
             },
             {
                 "name": "Erev Yom Kippur",
-                "description": null,
+                "description": " ",
                 "date": "2019-10-08",
                 "locations": "All",
                 "states": "All"
@@ -232,7 +232,7 @@
             },
             {
                 "name": "Erev Sukkot",
-                "description": null,
+                "description": " ",
                 "date": "2019-10-13",
                 "locations": "All",
                 "states": "All"
@@ -246,35 +246,35 @@
             },
             {
                 "name": "Sukkot II",
-                "description": null,
+                "description": " ",
                 "date": "2019-10-15",
                 "locations": "All",
                 "states": "All"
             },
             {
                 "name": "Sukkot III",
-                "description": null,
+                "description": " ",
                 "date": "2019-10-16",
                 "locations": "All",
                 "states": "All"
             },
             {
                 "name": "Sukkot IV",
-                "description": null,
+                "description": " ",
                 "date": "2019-10-17",
                 "locations": "All",
                 "states": "All"
             },
             {
                 "name": "Sukkot V",
-                "description": null,
+                "description": " ",
                 "date": "2019-10-18",
                 "locations": "All",
                 "states": "All"
             },
             {
                 "name": "Sukkot VI",
-                "description": null,
+                "description": " ",
                 "date": "2019-10-19",
                 "locations": "All",
                 "states": "All"
@@ -288,21 +288,21 @@
             },
             {
                 "name": "Shmini Atzeret/Simchat Torah",
-                "description": null,
+                "description": " ",
                 "date": "2019-10-21",
                 "locations": "All",
                 "states": "All"
             },
             {
                 "name": "Yom HaAliyah School Observance",
-                "description": null,
+                "description": " ",
                 "date": "2019-11-05",
                 "locations": "All",
                 "states": "All"
             },
             {
                 "name": "December Solstice",
-                "description": null,
+                "description": " ",
                 "date": "2019-12-22",
                 "locations": "All",
                 "states": "All"
@@ -316,42 +316,42 @@
             },
             {
                 "name": "Hanukkah II",
-                "description": null,
+                "description": " ",
                 "date": "2019-12-24",
                 "locations": "All",
                 "states": "All"
             },
             {
                 "name": "Hanukkah III",
-                "description": null,
+                "description": " ",
                 "date": "2019-12-25",
                 "locations": "All",
                 "states": "All"
             },
             {
                 "name": "Hanukkah IV",
-                "description": null,
+                "description": " ",
                 "date": "2019-12-26",
                 "locations": "All",
                 "states": "All"
             },
             {
                 "name": "Hanukkah V",
-                "description": null,
+                "description": " ",
                 "date": "2019-12-27",
                 "locations": "All",
                 "states": "All"
             },
             {
                 "name": "Hanukkah VI/Rosh Chodesh Tevet",
-                "description": null,
+                "description": " ",
                 "date": "2019-12-28",
                 "locations": "All",
                 "states": "All"
             },
             {
                 "name": "Hanukkah VII",
-                "description": null,
+                "description": " ",
                 "date": "2019-12-29",
                 "locations": "All",
                 "states": "All"

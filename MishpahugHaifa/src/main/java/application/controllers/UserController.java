@@ -1,8 +1,10 @@
 package application.controllers;
 
 import application.dto.*;
+import application.dto.forholiday.HolidayDTO;
 import application.entities.UserEntity;
 import application.models.gender.IGenderModel;
+import application.models.holyday.IHolyDayModel;
 import application.models.kichentype.IKichenTypeModel;
 import application.models.marriagestatus.IMaritalStatusModel;
 import application.models.religion.IReligionModel;
@@ -32,6 +34,9 @@ public class UserController {
 
     @Autowired
     IMaritalStatusModel maritalStatusModel;
+
+    @Autowired
+    IHolyDayModel holyDayModel;
 
     @GetMapping(value="/getlists")
     public UserDTOLists getDataForAddForm(){
@@ -82,5 +87,12 @@ public class UserController {
         userModel.add(userEntity);
     }
 
+    @PostMapping(value="/addholiday")
+    public void addHoliday(@RequestBody HolidayDTO[] data){
+        for (HolidayDTO s: data){
+            holyDayModel.updateFromServer(s);
+        }
+
+    }
 
 }

@@ -207,7 +207,7 @@ public class DB_test_loader implements CommandLineRunner {
 					Random rr = new Random();
 					user.setGender(genderEntityList.get(rr.nextInt(genderEntityList.size() - 1)));
 					user.setReligion(religionEntityList.get(rr.nextInt(religionEntityList.size() - 1)));
-					addressEntityList.get(rr.nextInt(addressEntityList.size() - 1)).addUser(user);
+					user.setAddressEntity(addressEntityList.get(rr.nextInt(addressEntityList.size() - 1)));
 					user.setKitchenType(kitchenTypeEntityList.get(rr.nextInt(kitchenTypeEntityList.size() - 1)));
 					user.setMaritalStatus(maritalStatusEntityList.get(rr.nextInt(maritalStatusEntityList.size() - 1)));
 					userRepository.save(user);
@@ -228,21 +228,6 @@ public class DB_test_loader implements CommandLineRunner {
 
 		void load() {
 			try {
-				Collection<UserEntity> users = userRepository.findAll();
-				for (UserEntity user : users) {
-					AddressEntity address = user.getAddressEntity();
-					if (address != null) {
-						address.removeUser(user);
-					}
-				}
-				Collection<EventEntity> events = eventRepository.findAll();
-				for (EventEntity event : events) {
-					AddressEntity address = event.getAddressEntity();
-					if (address != null) {
-						address.removeEvent(event);
-					}
-
-				}
 				List<CityEntity> cityEntityList = cityRepository.findAll();
 				for (CityEntity city : cityEntityList) {
 					city.clearAddresses();
@@ -274,21 +259,6 @@ public class DB_test_loader implements CommandLineRunner {
 
 		void load() {
 			try {
-				Collection<UserEntity> users = userRepository.findAll();
-				for (UserEntity user : users) {
-					AddressEntity address = user.getAddressEntity();
-					if (address != null) {
-						address.removeUser(user);
-					}
-				}
-				Collection<EventEntity> events = eventRepository.findAll();
-				for (EventEntity event : events) {
-					AddressEntity address = event.getAddressEntity();
-					if (address != null) {
-						address.removeEvent(event);
-					}
-
-				}
 				countryRepository.deleteAll(); // cascade deleting cities and addresses
 				countryRepository.flush();
 				String detail;

@@ -1,9 +1,11 @@
 package application.models.holyday;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
+import application.dto.forholiday.HolidayDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +39,12 @@ public class HolyDayModel implements IHolyDayModel {
     }
 
     @Override
-    public void updateFromServer() {
-        //TODO
+    public void updateFromServer(HolidayDTO dto) {
+        System.out.println(dto);
+        HoliDayEntity holiDayEntity = new HoliDayEntity();
+        holiDayEntity.setName(dto.getName());
+        holiDayEntity.setDescription(dto.getDescription());
+        holiDayEntity.setDate(LocalDate.parse(dto.getDate()));
+        holyDayRepository.save(holiDayEntity);
     }
 }

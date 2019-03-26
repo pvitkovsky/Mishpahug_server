@@ -1,5 +1,6 @@
 package application.models.holyday;
 
+import application.dto.forholiday.HolidayDTO;
 import application.entities.HoliDayEntity;
 
 import java.util.List;
@@ -12,5 +13,5 @@ public interface IHolyDayModel {
 
     HoliDayEntity getByName(String name);
 
-    public void updateFromServer();
+    public void updateFromServer(HolidayDTO dto);
 }

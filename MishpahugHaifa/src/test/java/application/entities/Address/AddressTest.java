@@ -38,81 +38,10 @@ public class AddressTest {
     List<String> streets = new ArrayList<>();
     List<String> names = new ArrayList<>();
 
-    public void addCity() {
-        String detail;
-        try {
-            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-            InputStream is = classloader.getResourceAsStream("cities.csv");
-            // https://stackoverflow.com/q/15749192
-            CountryEntity countryEntity = new CountryEntity();
-            countryEntity.setName("Israel");
-            BufferedReader empdtil = new BufferedReader(new InputStreamReader(is));
-            while ((detail = empdtil.readLine()) != null) {
-                CityEntity cityEntity = new CityEntity();
-                cityEntity.setName(detail);
-                countryEntity.addCity(cityEntity);
-                countryRepository.save(countryEntity); //city is cascaded;
-            }
-            empdtil.close();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void addAddress(){
-        String detail;
-        try {
-            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-            InputStream is = classloader.getResourceAsStream("streets.csv");
-            // https://stackoverflow.com/q/15749192
-            BufferedReader empdtil = new BufferedReader(new InputStreamReader(is));
-            while ((detail = empdtil.readLine()) != null) {
-                streets.add(detail);
-            }
-            empdtil.close();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void addNames(){
-        String detail;
-        try {
-            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-            InputStream is = classloader.getResourceAsStream("names.csv");
-            // https://stackoverflow.com/q/15749192
-            BufferedReader empdtil = new BufferedReader(new InputStreamReader(is));
-            while ((detail = empdtil.readLine()) != null) {
-                names.add(detail);
-            }
-            empdtil.close();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void generatorOfAddresses(){
-        List<CityEntity> cities = cityRepository.findAll();
-        for (CityEntity z : cities) {
-            for (String x : streets) {
-                AddressEntity addressEntity = new AddressEntity();
-                //addressEntity.setCityEntity(z);
-                z.addAddress(addressEntity);
-                addressEntity.setStreet(x);
-                addressEntity.setBuilding(4);
-                addressEntity.setApartment(11);
-                addressRepository.save(addressEntity);
-            }
-        }
-    }
 
     @Before
     public void loadData(){
-        addCity();
-        addAddress();
-        generatorOfAddresses();
-        addNames();
-        addUsers();
+
     }
 
     @Test
@@ -123,30 +52,7 @@ public class AddressTest {
         }
     }
 
-    public void addUsers(){
-        List<AddressEntity> data = addressRepository.findAll();
-        /*for (AddressEntity x : data) {
-            for (String z : names) {
-                UserEntity userEntity = new UserEntity();
-                userEntity.setUserName(z);
-                userEntity.setAddressEntity(x);
-                //userEntity.setEMail(x+x.getId().toString()+"@tut.by");
-                userRepository.save(userEntity);
-            }
-        }*/
-        for (int i=0; i<names.size();i++){
-            UserEntity userEntity = new UserEntity();
-            GenderEntity genderEntity = new GenderEntity();
-            if (i % 2 == 1) genderEntity = genderRepository.getByName("male");
-            if (i % 2 == 0) genderEntity = genderRepository.getByName("female");
-            userEntity.setGender(genderEntity);
-            userEntity.setUserName("657" + names.get(i) + "1212");
-            userEntity.setFirstName(names.get(i));
-            data.get(i).addUser(userEntity);
-            userEntity.setEMail(names.get(i)+i+"@tut.by");
-            userRepository.save(userEntity);
-        }
-    }
+
 
     @Test
     public void filterUserTest(){

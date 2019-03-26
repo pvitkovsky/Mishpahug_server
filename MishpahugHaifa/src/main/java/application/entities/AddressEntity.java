@@ -34,7 +34,7 @@ import lombok.ToString;
 	    @UniqueConstraint(columnNames = {"city_of_address", "street", "building", "apartment"})
 	})
 @Getter @Setter
-@ToString(exclude = {"cityEntity", "userEntities", "eventEntities"})
+@ToString
 @AllArgsConstructor 
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"cityEntity", "street", "building", "apartment"})
@@ -58,75 +58,4 @@ public class AddressEntity {
 
     @Column(name = "apartment")
     private Integer apartment;
-
-    @OneToMany(mappedBy = "addressEntity",  cascade = {CascadeType.MERGE, CascadeType.PERSIST}  , fetch = FetchType.LAZY, orphanRemoval = false) 
-    @JsonBackReference
-	@Getter(AccessLevel.NONE)
-	@Setter(AccessLevel.NONE)
-    private Set<UserEntity> userEntities = new HashSet<>();
-
-    @OneToMany(mappedBy = "addressEntity",   cascade = {CascadeType.MERGE, CascadeType.PERSIST}  , fetch = FetchType.LAZY, orphanRemoval = false)
-    @JsonBackReference
-	@Getter(AccessLevel.NONE)
-	@Setter(AccessLevel.NONE)
-    private Set<EventEntity> eventEntities = new HashSet<>();
-
-    /**
-     * Adding a user to the address; 
-     * @paramcity
-     * @return
-     */
-    public boolean addUser(UserEntity userEntity) {
-    	userEntity.setAddressEntity(this);
-    	return userEntities.add(userEntity);
-    }
-    
-    /**
-     * User is not deleted once the address is merged;
-     * @paramcity
-     * @return
-     */
-    public boolean removeUser(UserEntity userEntity) {
-    	userEntity.setAddressEntity(null);
-    	return userEntities.remove(userEntity);
-    }
-    
-    /**
-     * Immutable wrapper over Users;
-     * @return
-     */
-    public Set<UserEntity> getUsers() {
-    	return Collections.unmodifiableSet(userEntities); 
-    }
-    
-    
-    /**
-     * Adding a Event to the address; 
-     * @paramcity
-     * @return
-     */
-    public boolean addEvent(EventEntity eventEntity) {
-    	eventEntity.setAddressEntity(this);
-    	return eventEntities.add(eventEntity);
-    }
-    
-    /**
-     * Event is not deleted once the address is merged;
-     * @paramcity
-     * @return
-     */
-    public boolean removeEvent(EventEntity eventEntity) {
-    	eventEntity.setAddressEntity(null);
-    	return eventEntities.remove(eventEntity);
-    }
-    
-    /**
-     * Immutable wrapper over Events;
-     * @return
-     */
-    public Set<EventEntity> getEvents() {
-    	return Collections.unmodifiableSet(eventEntities); 
-    }
-    
-
 }

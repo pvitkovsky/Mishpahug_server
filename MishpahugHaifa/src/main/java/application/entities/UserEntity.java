@@ -108,8 +108,7 @@ public class UserEntity {
 
 	@ManyToOne(optional = true) //TODO: delete constraints don't allow us to remove address; 
 	@JsonBackReference //Bidirectional, managed from Address; //TODO: serialization circular reference;
-	@JsonIgnoreProperties("userEntities")
-	@Setter(AccessLevel.PACKAGE)
+	//@JsonIgnoreProperties("userEntities")
 	private AddressEntity addressEntity;
 
 	@OneToMany(mappedBy = "userEntityOwner", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)

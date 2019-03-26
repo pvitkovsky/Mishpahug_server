@@ -80,7 +80,6 @@ public class EventEntity {
 	@ManyToOne(optional = true)
 	@JsonBackReference //Bidirectional, managed from Address; //TODO: serialization circular reference;
 	@JsonIgnoreProperties("eventEntities")
-	@Setter(AccessLevel.PACKAGE)
 	private AddressEntity addressEntity;
 
 	@OneToMany(mappedBy = "event" , cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true) 

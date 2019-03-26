@@ -1,13 +1,8 @@
 package application.entities;
 
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "gender",  uniqueConstraints = {
@@ -17,7 +12,7 @@ import java.util.Set;
 @Getter
 @Setter
 @EqualsAndHashCode(of = { "name" })
-@ToString(exclude = "userEntities")
+@ToString
 public class GenderEntity {
 
     @Id

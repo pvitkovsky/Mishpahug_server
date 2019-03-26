@@ -5,13 +5,22 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import application.entities.GenderEntity;
-import application.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import application.entities.GenderEntity;
+import application.entities.KitchenTypeEntity;
+import application.entities.MaritalStatusEntity;
+import application.entities.ReligionEntity;
 import application.entities.UserEntity;
 import application.exceptions.ExceptionMishpaha;
+import application.repositories.CityRepository;
+import application.repositories.CountryRepository;
+import application.repositories.GenderRepository;
+import application.repositories.KichenTypeRepository;
+import application.repositories.MaritalStatusRepository;
+import application.repositories.ReligionRepository;
+import application.repositories.UserRepository;
 
 @Service
 @Transactional
@@ -27,10 +36,17 @@ public class UserModel implements IUserModel {
 	CountryRepository countryRepository;
 
 	@Autowired
-	KichenTypeRepository kichenTypeRepository;
+	ReligionRepository religionRepository;
+	
+	@Autowired
+	KichenTypeRepository kitchenTypeRepository;
 
 	@Autowired
 	GenderRepository genderRepository;
+
+	@Autowired
+	MaritalStatusRepository maritalStatusRepository;
+
 
 	@Override
 	public List<UserEntity> getAll() {
@@ -45,12 +61,6 @@ public class UserModel implements IUserModel {
 	@Override
 	public List<UserEntity> getByFilter(HashMap<String, String> filter) {
 		return userRepository.searchByFilter(filter);
-	}
-
-	@Override
-	public List<UserEntity> getByGender(String gender){
-		GenderEntity genderEntity = genderRepository.findByName(gender);
-		return userRepository.findByGenderEntity(genderEntity);
 	}
 
 	@Override
@@ -86,6 +96,30 @@ public class UserModel implements IUserModel {
 	@Override
 	public UserEntity getByName(String name) {
 		return userRepository.findByUserName(name);
+	}
+
+	@Override
+	public List<UserEntity> getByReligion(String religion) {
+		ReligionEntity religionEntity = religionRepository.getByFullName(religion); //TODO: exceptions if not found
+		return userRepository.findByReligionEntity(religionEntity);
+	}
+
+	@Override
+	public List<UserEntity> getByGender(String gender){
+		GenderEntity genderEntity = genderRepository.getByFullName(gender); //TODO: exceptions if not found
+		return userRepository.findByGenderEntity(genderEntity);
+	}
+
+	@Override
+	public List<UserEntity> getByKitchenType(String kitchenType) {
+		KitchenTypeEntity kitchenTypeEntity = kitchenTypeRepository.getByFullName(kitchenType); //TODO: exceptions if not found
+		return userRepository.findByKitchenTypeEntity(kitchenTypeEntity);
+	}
+
+	@Override
+	public List<UserEntity> getByMaritalStatus(String maritalStatus) {
+		MaritalStatusEntity maritalStatusEntity = maritalStatusRepository.getByFullName(maritalStatus); //TODO: exceptions if not found
+		return userRepository.findByMaritalStatus(maritalStatusEntity);
 	}
 
 }

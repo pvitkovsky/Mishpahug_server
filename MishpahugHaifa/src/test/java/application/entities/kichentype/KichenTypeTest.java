@@ -1,6 +1,6 @@
 package application.entities.kichentype;
 
-import application.entities.KichenTypeEntity;
+import application.entities.KitchenTypeEntity;
 import application.repositories.KichenTypeRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,15 +20,15 @@ import java.util.List;
 public class KichenTypeTest {
     private String[] data = {"kosher milk", "kosher meat", "kosher fur", "non - kosher milk", "non - kosher meat", "non - kosher fur", "n/a"};
     private String[] dataForFindByNameTest = {"non", "iii", "kosher", "fur"};
-    KichenTypeEntity kichenTypeEntity;
+    KitchenTypeEntity kichenTypeEntity;
     @Autowired
     KichenTypeRepository kichenTypeRepository;
-    private KichenTypeEntity testKichenType;
+    private KitchenTypeEntity testKichenType;
 
     @Before
     public void load(){
         for (int i = 0; i < data.length; i++){
-            kichenTypeEntity = new KichenTypeEntity();
+            kichenTypeEntity = new KitchenTypeEntity();
             kichenTypeEntity.setName(data[i]);
             kichenTypeRepository.save(kichenTypeEntity);
         }

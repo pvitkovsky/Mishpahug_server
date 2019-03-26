@@ -61,7 +61,7 @@ public class EventEntity {
 
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)
 	@JsonManagedReference //Unidirectional;
-	private KichenTypeEntity kichenTypeEntity;
+	private KitchenTypeEntity kichenTypeEntity;
 
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true) 
 	@JsonManagedReference //Unidirectional;

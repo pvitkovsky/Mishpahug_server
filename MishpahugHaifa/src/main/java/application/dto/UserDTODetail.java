@@ -11,5 +11,5 @@ public class UserDTODetail {
     private String gender;
     private String kichenType;
     private String religion;
-    private String marriageStatus;
+    private String maritalStatus;
 }

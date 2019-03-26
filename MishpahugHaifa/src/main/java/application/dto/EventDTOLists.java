@@ -1,7 +1,7 @@
 package application.dto;
 
 import application.entities.HoliDayEntity;
-import application.entities.KichenTypeEntity;
+import application.entities.KitchenTypeEntity;
 import application.entities.ReligionEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,5 +14,5 @@ import java.util.List;
 public class EventDTOLists {
     private List<HoliDayEntity> holiDayEntities;
     private List<ReligionEntity> religionEntities;
-    private List<KichenTypeEntity> kichenTypeEntities;
+    private List<KitchenTypeEntity> kichenTypeEntities;
 }

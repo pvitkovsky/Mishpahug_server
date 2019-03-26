@@ -10,11 +10,13 @@ public interface IUserModel {
     public List<UserEntity> getAll();
     public UserEntity getById(Integer userId);
     public List<UserEntity> getByFilter(HashMap<String, String> filter);
-
-    public List<UserEntity> getByGender(String gender);
-
     public UserEntity add(UserEntity data);
     public UserEntity update(Integer userId, HashMap<String, String> data) throws ExceptionMishpaha;
     public UserEntity remove(Integer userId);
     public UserEntity getByName(String name);
+
+    public List<UserEntity> getByGender(String gender);
+    public List<UserEntity> getByReligion(String religion);
+	public List<UserEntity> getByKitchenType(String kitchenType);
+	public List<UserEntity> getByMaritalStatus(String maritalStatus);
 }

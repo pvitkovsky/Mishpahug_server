@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 public class UserDTOLists {
     private List<ReligionEntity> religionEntities;
-    private List<KichenTypeEntity> kichenTypeEntities;
+    private List<KitchenTypeEntity> kichenTypeEntities;
     private List<GenderEntity> genderEntities;
-    private List<MarriageStatusEntity> marriageStatusEntities;
+    private List<MaritalStatusEntity> maritalStatusEntities;
 }

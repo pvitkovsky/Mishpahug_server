@@ -91,21 +91,20 @@ public class UserEntity {
 	private boolean enabled;
 
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)
-	@JsonManagedReference  //Bidirectional, managed from marriageStatusEntity;
-	@Setter(AccessLevel.PACKAGE)
-	private MarriageStatusEntity marriageStatusEntity;
+	@JsonManagedReference //Unidirectional
+	private MaritalStatusEntity maritalStatus;
 
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)
 	@JsonManagedReference //Unidirectional
-	private GenderEntity genderEntity;
+	private GenderEntity gender;
 
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)
 	@JsonManagedReference //Unidirectional;
-	private KichenTypeEntity kichenTypeEntity;
+	private KitchenTypeEntity kitchenType;
 
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)
 	@JsonManagedReference //Unidirectional;
-	private ReligionEntity religionEntity;
+	private ReligionEntity religion;
 
 	@ManyToOne(optional = true) //TODO: delete constraints don't allow us to remove address; 
 	@JsonBackReference //Bidirectional, managed from Address; //TODO: serialization circular reference;

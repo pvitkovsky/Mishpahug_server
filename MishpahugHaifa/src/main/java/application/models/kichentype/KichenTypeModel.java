@@ -7,7 +7,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import application.entities.KichenTypeEntity;
+import application.entities.KitchenTypeEntity;
 import application.repositories.KichenTypeRepository;
 @Service
 @Transactional
@@ -17,29 +17,29 @@ public class KichenTypeModel implements IKichenTypeModel {
     KichenTypeRepository kichenTypeRepository;
 
     @Override
-    public KichenTypeEntity getById(Integer id) {
+    public KitchenTypeEntity getById(Integer id) {
         return kichenTypeRepository.getOne(id);
     }
 
     @Override
-    public List<KichenTypeEntity> getAll() {
+    public List<KitchenTypeEntity> getAll() {
         return kichenTypeRepository.findAll();
     }
 
     @Override
-    public KichenTypeEntity add(KichenTypeEntity data) {
+    public KitchenTypeEntity add(KitchenTypeEntity data) {
         return kichenTypeRepository.save(data);
     }
 
     @Override
-    public KichenTypeEntity update(Integer id, String name) {
-        KichenTypeEntity temp = kichenTypeRepository.getOne(id);
+    public KitchenTypeEntity update(Integer id, String name) {
+        KitchenTypeEntity temp = kichenTypeRepository.getOne(id);
         temp.setName(name);
         return kichenTypeRepository.save(temp);
     }
 
     @Override
-    public KichenTypeEntity getByName(String kichenType) {
-        return kichenTypeRepository.getByFullName(kichenType);
+    public KitchenTypeEntity getByName(String kichenType) {
+        return kichenTypeRepository.getByName(kichenType);
     }
 }

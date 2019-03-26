@@ -61,11 +61,11 @@ public class EventEntity {
 
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)
 	@JsonManagedReference //Unidirectional;
-	private KichenTypeEntity kichenTypeEntity;
+	private KitchenTypeEntity kitchenType;
 
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true) 
 	@JsonManagedReference //Unidirectional;
-	private HoliDayEntity holiDayEntity;
+	private HoliDayEntity holiDay;
 
 	@Column(name = "status")
 	@Enumerated(EnumType.STRING)

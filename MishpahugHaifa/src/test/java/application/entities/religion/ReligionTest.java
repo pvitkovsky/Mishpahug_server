@@ -46,10 +46,10 @@ public class ReligionTest {
     }
     @Test
     public void getByName(){
-        System.out.println(religionRepository.getByFullName("test"));
-        System.out.println(religionRepository.getByFullName("Buddhism"));
+        System.out.println(religionRepository.getByName("test"));
+        System.out.println(religionRepository.getByName("Buddhism"));
         for (int i = 0; i < dataForFindByNameTest.length; i++){
-            testReligion = religionRepository.getByFullName(dataForFindByNameTest[i]);
+            testReligion = religionRepository.getByName(dataForFindByNameTest[i]);
             System.out.println(dataForFindByNameTest[i] + " included on " + testReligion);
         }
     }

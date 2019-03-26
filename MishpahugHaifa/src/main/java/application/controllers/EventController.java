@@ -48,8 +48,8 @@ public class EventController {
     public EventEntity setDataFromForm(@RequestBody EventDTO data){
         EventEntity eventEntity = new EventEntity();
         eventEntity.convertEventDTO(data);
-        eventEntity.setKichenTypeEntity(kichenTypeModel.getByName(data.getKichenType()));
-        eventEntity.setHoliDayEntity(holyDayModel.getByName(data.getHoliday()));
+        eventEntity.setKitchenType(kichenTypeModel.getByName(data.getKichenType()));
+        eventEntity.setHoliDay(holyDayModel.getByName(data.getHoliday()));
         return eventModel.add(eventEntity);
     }
 

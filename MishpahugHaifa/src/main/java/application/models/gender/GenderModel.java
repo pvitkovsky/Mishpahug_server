@@ -16,7 +16,7 @@ public class GenderModel implements IGenderModel{
 
     @Override
     public GenderEntity getByName(String name){
-        return genderRepository.getByFullName(name);
+        return genderRepository.getByName(name);
     }
 
     @Override

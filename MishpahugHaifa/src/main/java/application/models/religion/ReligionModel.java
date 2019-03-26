@@ -33,7 +33,7 @@ public class ReligionModel implements IReligionModel {
 
     @Override
     public ReligionEntity update(String oldName, String newName) {
-        ReligionEntity religionEntity = religionRepository.getByFullName(oldName);
+        ReligionEntity religionEntity = religionRepository.getByName(oldName);
         religionEntity.setName(newName);
         return religionRepository.save(religionEntity);
     }
@@ -52,6 +52,6 @@ public class ReligionModel implements IReligionModel {
 
     @Override
     public ReligionEntity getByName(String name) {
-        return religionRepository.getByFullName(name);
+        return religionRepository.getByName(name);
     }
 }

@@ -92,19 +92,19 @@ public class UserEntity {
 
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)
 	@JsonManagedReference //Unidirectional
-	private MaritalStatusEntity maritalStatusEntity;
+	private MaritalStatusEntity maritalStatus;
 
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)
 	@JsonManagedReference //Unidirectional
-	private GenderEntity genderEntity;
+	private GenderEntity gender;
 
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)
 	@JsonManagedReference //Unidirectional;
-	private KitchenTypeEntity kitchenTypeEntity;
+	private KitchenTypeEntity kitchenType;
 
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)
 	@JsonManagedReference //Unidirectional;
-	private ReligionEntity religionEntity;
+	private ReligionEntity religion;
 
 	@ManyToOne(optional = true) //TODO: delete constraints don't allow us to remove address; 
 	@JsonBackReference //Bidirectional, managed from Address; //TODO: serialization circular reference;

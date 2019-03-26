@@ -40,6 +40,6 @@ public class KichenTypeModel implements IKichenTypeModel {
 
     @Override
     public KitchenTypeEntity getByName(String kichenType) {
-        return kichenTypeRepository.getByFullName(kichenType);
+        return kichenTypeRepository.getByName(kichenType);
     }
 }

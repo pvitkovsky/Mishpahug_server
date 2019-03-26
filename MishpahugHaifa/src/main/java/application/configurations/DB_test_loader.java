@@ -205,84 +205,12 @@ public class DB_test_loader implements CommandLineRunner {
 					user.setUserName(data[0].split("@")[0]);
 					user.setEnabled(true);
 					Random rr = new Random();
-					user.setGenderEntity(genderEntityList.get(rr.nextInt(genderEntityList.size() - 1)));
-					user.setReligionEntity(religionEntityList.get(rr.nextInt(religionEntityList.size() - 1)));
+					user.setGender(genderEntityList.get(rr.nextInt(genderEntityList.size() - 1)));
+					user.setReligion(religionEntityList.get(rr.nextInt(religionEntityList.size() - 1)));
 					addressEntityList.get(rr.nextInt(addressEntityList.size() - 1)).addUser(user);
-					user.setKitchenTypeEntity(kitchenTypeEntityList.get(rr.nextInt(kitchenTypeEntityList.size() - 1)));
-					user.setMaritalStatusEntity(maritalStatusEntityList.get(rr.nextInt(maritalStatusEntityList.size() - 1)));
+					user.setKitchenType(kitchenTypeEntityList.get(rr.nextInt(kitchenTypeEntityList.size() - 1)));
+					user.setMaritalStatus(maritalStatusEntityList.get(rr.nextInt(maritalStatusEntityList.size() - 1)));
 					userRepository.save(user);
-				}
-				empdtil.close();
-			} catch (IOException e) {
-				System.out.println(e.getMessage());
-			}
-		}
-	}
-
-	private class GenderLoader {
-		BufferedReader empdtil;
-
-		public GenderLoader(BufferedReader empdtil) {
-			this.empdtil = empdtil;
-		}
-		
-		void load() {
-			try {
-				genderRepository.deleteAll();
-				genderRepository.flush(); // TODO: do we need flush here?
-				String detail;
-				while ((detail = empdtil.readLine()) != null) {
-					GenderEntity genderEntity = new GenderEntity();
-					genderEntity.setName(detail);
-					genderRepository.save(genderEntity);
-				}
-				empdtil.close();
-			} catch (IOException e) {
-				System.out.println(e.getMessage());
-			}
-		}
-	}
-
-	private class KichenTypeLoader {
-		BufferedReader empdtil;
-
-		public KichenTypeLoader(BufferedReader empdtil) {
-			this.empdtil = empdtil;
-		}
-
-		void load() {
-			try {
-				kichenTypeRepository.deleteAll();
-				kichenTypeRepository.flush(); // TODO: do we need flush here?
-				String detail;
-				while ((detail = empdtil.readLine()) != null) {
-					KitchenTypeEntity kichenTypeEntity = new KitchenTypeEntity();
-					kichenTypeEntity.setName(detail);
-					kichenTypeRepository.save(kichenTypeEntity);
-				}
-				empdtil.close();
-			} catch (IOException e) {
-				System.out.println(e.getMessage());
-			}
-		}
-	}
-
-	private class ReligionLoader {
-		BufferedReader empdtil;
-
-		public ReligionLoader(BufferedReader empdtil) {
-			this.empdtil = empdtil;
-		}
-
-		void load() {
-			try {
-				religionRepository.deleteAll();
-				religionRepository.flush(); // TODO: do we need flush here?
-				String detail;
-				while ((detail = empdtil.readLine()) != null) {
-					ReligionEntity religionEntity = new ReligionEntity();
-					religionEntity.setName(detail);
-					religionRepository.save(religionEntity);
 				}
 				empdtil.close();
 			} catch (IOException e) {
@@ -337,31 +265,6 @@ public class DB_test_loader implements CommandLineRunner {
 		}
 	}
 
-	private class MaritalStatusLoader {
-		BufferedReader empdtil;
-
-		public MaritalStatusLoader(BufferedReader empdtil) {
-			this.empdtil = empdtil;
-		}
-
-		void load() {
-			Collection<UserEntity> users = userRepository.findAll();
-			try {
-				maritalStatusRepository.deleteAll();
-				maritalStatusRepository.flush(); // TODO: do we need flush here?
-				String detail;
-				while ((detail = empdtil.readLine()) != null) {
-					MaritalStatusEntity maritalStatusEntity = new MaritalStatusEntity();
-					maritalStatusEntity.setName(detail);
-					maritalStatusRepository.save(maritalStatusEntity);
-				}
-				empdtil.close();
-			} catch (IOException e) {
-				System.out.println(e.getMessage());
-			}
-		}
-	}
-
 	private class CityLoader {
 		BufferedReader empdtil;
 
@@ -404,6 +307,123 @@ public class DB_test_loader implements CommandLineRunner {
 			}
 		}
 	}
+	
+	private class KichenTypeLoader {
+		BufferedReader empdtil;
+
+		public KichenTypeLoader(BufferedReader empdtil) {
+			this.empdtil = empdtil;
+		}
+
+		void load() {
+			try {
+				Collection<UserEntity> users = userRepository.findAll();
+				for (UserEntity user : users) {
+					user.setKitchenType(null);
+				}
+				Collection<EventEntity> events = eventRepository.findAll();
+				for (EventEntity event : events) {
+					event.setKitchenType(null);
+				}
+				kichenTypeRepository.deleteAll();
+				kichenTypeRepository.flush(); // TODO: do we need flush here?
+				String detail;
+				while ((detail = empdtil.readLine()) != null) {
+					KitchenTypeEntity kichenTypeEntity = new KitchenTypeEntity();
+					kichenTypeEntity.setName(detail);
+					kichenTypeRepository.save(kichenTypeEntity);
+				}
+				empdtil.close();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+
+	private class ReligionLoader {
+		BufferedReader empdtil;
+
+		public ReligionLoader(BufferedReader empdtil) {
+			this.empdtil = empdtil;
+		}
+
+		void load() {
+			try {
+				Collection<UserEntity> users = userRepository.findAll();
+				for (UserEntity user : users) {
+					user.setReligion(null);
+				}
+				religionRepository.deleteAll();
+				religionRepository.flush(); // TODO: do we need flush here?
+				String detail;
+				while ((detail = empdtil.readLine()) != null) {
+					ReligionEntity religionEntity = new ReligionEntity();
+					religionEntity.setName(detail);
+					religionRepository.save(religionEntity);
+				}
+				empdtil.close();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+	
+	private class GenderLoader {
+		BufferedReader empdtil;
+
+		public GenderLoader(BufferedReader empdtil) {
+			this.empdtil = empdtil;
+		}
+		
+		void load() {
+			try {
+				Collection<UserEntity> users = userRepository.findAll();
+				for (UserEntity user : users) {
+					user.setGender(null);
+				}
+				genderRepository.deleteAll();
+				genderRepository.flush(); // TODO: do we need flush here?
+				String detail;
+				while ((detail = empdtil.readLine()) != null) {
+					GenderEntity genderEntity = new GenderEntity();
+					genderEntity.setName(detail);
+					genderRepository.save(genderEntity);
+				}
+				empdtil.close();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+	
+	private class MaritalStatusLoader {
+		BufferedReader empdtil;
+
+		public MaritalStatusLoader(BufferedReader empdtil) {
+			this.empdtil = empdtil;
+		}
+
+		void load() {
+			Collection<UserEntity> users = userRepository.findAll();
+			for (UserEntity user : users) {
+				user.setMaritalStatus(null);
+			}
+			try {
+				maritalStatusRepository.deleteAll();
+				maritalStatusRepository.flush(); // TODO: do we need flush here?
+				String detail;
+				while ((detail = empdtil.readLine()) != null) {
+					MaritalStatusEntity maritalStatusEntity = new MaritalStatusEntity();
+					maritalStatusEntity.setName(detail);
+					maritalStatusRepository.save(maritalStatusEntity);
+				}
+				empdtil.close();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+
 
 	/**
 	 * Loads events and sets owners randomly

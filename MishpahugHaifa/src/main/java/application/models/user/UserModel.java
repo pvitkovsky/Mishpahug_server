@@ -100,25 +100,25 @@ public class UserModel implements IUserModel {
 
 	@Override
 	public List<UserEntity> getByReligion(String religion) {
-		ReligionEntity religionEntity = religionRepository.getByFullName(religion); //TODO: exceptions if not found
-		return userRepository.findByReligionEntity(religionEntity);
+		ReligionEntity religionEntity = religionRepository.getByName(religion); //TODO: exceptions if not found
+		return userRepository.findByReligion(religionEntity);
 	}
 
 	@Override
 	public List<UserEntity> getByGender(String gender){
-		GenderEntity genderEntity = genderRepository.getByFullName(gender); //TODO: exceptions if not found
-		return userRepository.findByGenderEntity(genderEntity);
+		GenderEntity genderEntity = genderRepository.getByName(gender); //TODO: exceptions if not found
+		return userRepository.findByGender(genderEntity);
 	}
 
 	@Override
 	public List<UserEntity> getByKitchenType(String kitchenType) {
-		KitchenTypeEntity kitchenTypeEntity = kitchenTypeRepository.getByFullName(kitchenType); //TODO: exceptions if not found
-		return userRepository.findByKitchenTypeEntity(kitchenTypeEntity);
+		KitchenTypeEntity kitchenTypeEntity = kitchenTypeRepository.getByName(kitchenType); //TODO: exceptions if not found
+		return userRepository.findByKitchenType(kitchenTypeEntity);
 	}
 
 	@Override
 	public List<UserEntity> getByMaritalStatus(String maritalStatus) {
-		MaritalStatusEntity maritalStatusEntity = maritalStatusRepository.getByFullName(maritalStatus); //TODO: exceptions if not found
+		MaritalStatusEntity maritalStatusEntity = maritalStatusRepository.getByName(maritalStatus); //TODO: exceptions if not found
 		return userRepository.findByMaritalStatus(maritalStatusEntity);
 	}
 

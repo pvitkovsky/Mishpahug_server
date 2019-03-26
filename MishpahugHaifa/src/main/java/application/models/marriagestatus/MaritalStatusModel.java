@@ -17,7 +17,7 @@ public class MaritalStatusModel implements IMaritalStatusModel{
 
     @Override
     public MaritalStatusEntity getByName(String name){
-        return maritalStatusRepository.getByFullName(name);
+        return maritalStatusRepository.getByName(name);
     }
 
     @Override

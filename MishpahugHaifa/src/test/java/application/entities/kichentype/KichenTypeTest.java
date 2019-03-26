@@ -44,10 +44,10 @@ public class KichenTypeTest {
     }
     @Test
     public void getByName(){
-        System.out.println(kichenTypeRepository.getByFullName("test"));
-        System.out.println(kichenTypeRepository.getByFullName("Buddhism"));
+        System.out.println(kichenTypeRepository.getByName("test"));
+        System.out.println(kichenTypeRepository.getByName("Buddhism"));
         for (int i = 0; i < dataForFindByNameTest.length; i++){
-            testKichenType = kichenTypeRepository.getByFullName(dataForFindByNameTest[i]);
+            testKichenType = kichenTypeRepository.getByName(dataForFindByNameTest[i]);
             System.out.println(dataForFindByNameTest[i] + " included on " + testKichenType);
         }
     }

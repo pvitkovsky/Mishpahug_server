@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface MaritalStatusRepository extends JpaRepository<MaritalStatusEntity, Integer> {
     @Query("SELECT m from MaritalStatusEntity m WHERE m.name = :name")
-    public MaritalStatusEntity getByFullName(String name);
+    public MaritalStatusEntity getByName(String name);
 }

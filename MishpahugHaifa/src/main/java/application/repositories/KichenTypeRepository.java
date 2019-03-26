@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface KichenTypeRepository extends JpaRepository<KitchenTypeEntity, Integer> {
-    @Query("SELECT kt from KichenTypeEntity kt WHERE kt.name = :name")
-    public KitchenTypeEntity getByFullName(String name);
+    @Query("SELECT kt from KitchenTypeEntity kt WHERE kt.name = :name")
+    public KitchenTypeEntity getByName(String name);
 }
 

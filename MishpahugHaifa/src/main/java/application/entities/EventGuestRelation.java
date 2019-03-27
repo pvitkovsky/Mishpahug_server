@@ -32,7 +32,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @EqualsAndHashCode (of = {"userGuest", "event"})
 @Entity
-@Table(name = "user_event_guest", uniqueConstraints = { @UniqueConstraint(columnNames = { "user_guest", "event_sub"}) })
+@Table(name = "user_event_guest", uniqueConstraints = { @UniqueConstraint(columnNames = { "GUEST_ID", "EVENT_ID"}) })
 @ToString
 public class EventGuestRelation {
 
@@ -59,13 +59,13 @@ public class EventGuestRelation {
 	
 
 	@ManyToOne //TODO: cascading
-	@JoinColumn(name = "user_guest")//, insertable = false, updatable = false) //TODO: clarify 
+	@JoinColumn(name = "GUEST_ID", insertable = false, updatable = false) //relation column names should match with embedded id column names; 
 	@Setter(AccessLevel.PACKAGE)
 	@JsonBackReference
 	private UserEntity userGuest;
 
 	@ManyToOne //TODO: cascading
-	@JoinColumn(name = "event_sub")//, insertable = false, updatable = false) //TODO: clarify 
+	@JoinColumn(name = "EVENT_ID", insertable = false, updatable = false) 
 	@Setter(AccessLevel.PACKAGE)
 	@JsonBackReference
 	private EventEntity event;

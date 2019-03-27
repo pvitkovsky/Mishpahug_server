@@ -34,6 +34,7 @@ import lombok.ToString;
 @Entity
 @Table(name = "user_event_guest", uniqueConstraints = { @UniqueConstraint(columnNames = { "GUEST_ID", "EVENT_ID"}) })
 @ToString
+//TODO: how should we handle unsubscriptions (for example, a user deleted himseld) after leaving feedback? Feedback will be destroyed. 
 public class EventGuestRelation {
 
 	@Embeddable
@@ -49,9 +50,16 @@ public class EventGuestRelation {
 		protected Integer userGuestId;
 		
 		@Column(name = "EVENT_ID")
-		protected Integer eventId;	
-		
-		
+		protected Integer eventId;
+
+		/**
+		 * Extra constructor for type safety;
+		 */
+		public EventGuestId(UserEntity userGuest, EventEntity event) {
+			super();
+			this.userGuestId = userGuest.getId();
+			this.eventId = event.getId();
+		}	
 	}
 	
 	@EmbeddedId
@@ -119,7 +127,7 @@ public class EventGuestRelation {
 	}
 	
 	/**
-	 * Adds a Guest to the Event, two directions.
+	 * Removes a Guest from the Event, two directions.
 	 * 
 	 * @param guest
 	 */
@@ -133,12 +141,19 @@ public class EventGuestRelation {
 		if (guest.getSubscriptions().contains(this) != event.getSubscriptions().contains(this)) {
 			throw new IllegalStateException("Subscription is not consistent across User and Event");
 		}
-		this.userGuest = guest;
-		this.event = event; 
 		boolean res = true;
 		res = guest.removeSubsription(this) && res;  // what if this command succeeds and the other does not? inconsistent state; 
 		res = event.removeSubsription(this) && res;
 		return res; 
+	}
+	
+	/**
+	 * Automatically removes a Guest from the Event, two directions.
+	 * 
+	 * @param guest
+	 */
+	public boolean unsubscribe() {
+		return unsubscribe(this.userGuest, this.event); 
 	}
 
 

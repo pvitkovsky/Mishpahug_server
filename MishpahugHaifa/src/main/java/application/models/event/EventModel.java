@@ -82,8 +82,7 @@ public class EventModel implements IEventModel {
 			EventEntity eventEntity = eventRepository.getOne(eventId);
 			UserEntity userOwner = eventEntity.getUserEntityOwner();
 			userOwner.removeOwnedEvent(eventEntity);
-			userRepository.save(userOwner); 
-			//TODO: check cascade; 
+			//userRepository.save(userOwner); //Managed state, no need to save explicitely 
 			return eventEntity;
 		} catch (EntityNotFoundException e) {
 			throw new ExceptionMishpaha("Error! Not found event with id " + eventId, null);

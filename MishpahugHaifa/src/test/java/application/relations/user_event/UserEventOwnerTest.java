@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Collection;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -21,7 +22,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import application.entities.EventEntity;
+import application.entities.EventGuestRelation;
+import application.entities.EventGuestRelation.EventGuestId;
 import application.entities.UserEntity;
+import application.repositories.EventGuestRepository;
 import application.repositories.EventRepository;
 import application.repositories.UserRepository;
 
@@ -38,10 +42,14 @@ public class UserEventOwnerTest {
 
 	private final UserEntity ALYSSA = new UserEntity();
 	private final UserEntity BEN = new UserEntity();
-	private final EventEntity TESTING = new EventEntity();
+	private final EventEntity ABTEST = new EventEntity();
+	private final EventEntity BATEST = new EventEntity();
+	private final String ABNAME = "ABTEST";
+	private final String BANAME = "BATEST";
+	private final EventGuestRelation ABSUB= new EventGuestRelation();
+	private final EventGuestRelation BASUB = new EventGuestRelation();
 	private final LocalDate TDATE = LocalDate.of(2190, 1, 1);
 	private final LocalTime TTIME = LocalTime.of(23, 59);
-	private final String TNAME = "TESTING";
 
 	@PersistenceContext // https://www.javabullets.com/access-entitymanager-spring-data-jpa/
 	private EntityManager em;	
@@ -51,14 +59,21 @@ public class UserEventOwnerTest {
 
 	@Autowired
 	EventRepository eventRepo;
+	
+	@Autowired
+	EventGuestRepository eventGuestRepo;
+
 
 	@Before
 	public void buildEntities() {
 		ALYSSA.setEMail("p_hacker@sicp.edu");
 		BEN.setEMail("bitdiddle@sicp.edu");
-		TESTING.setDate(TDATE);
-		TESTING.setTime(TTIME);
-		TESTING.setNameOfEvent(TNAME);
+		ABTEST.setDate(TDATE);
+		ABTEST.setTime(TTIME);
+		ABTEST.setNameOfEvent(ABNAME);
+		BATEST.setDate(TDATE);
+		BATEST.setTime(TTIME);
+		BATEST.setNameOfEvent(BANAME);
 	}
 
 	/**
@@ -69,13 +84,13 @@ public class UserEventOwnerTest {
 	@Test
 	public void onUserSaveReadEvent() {
 
-		ALYSSA.makeOwner(TESTING);
+		ALYSSA.makeOwner(BATEST);
 		userRepo.save(ALYSSA);
 		assertTrue(userRepo.existsById(ALYSSA.getId()));
-		assertTrue(eventRepo.existsById(TESTING.getId()));
+		assertTrue(eventRepo.existsById(BATEST.getId()));
 		
 		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
-		EventEntity savedE = eventRepo.findById(TESTING.getId()).get();
+		EventEntity savedE = eventRepo.findById(BATEST.getId()).get();
 		EventEntity savedEfromUser = savedA.getEventEntityOwner().iterator().next();
 		UserEntity savedAfromEvent = savedE.getUserEntityOwner();
 		
@@ -83,8 +98,8 @@ public class UserEventOwnerTest {
 		assertTrue(savedAfromEvent.equals(ALYSSA));
 		assertTrue(savedA.equals(savedAfromEvent));
 
-		assertTrue(savedE.equals(TESTING));
-		assertTrue(savedEfromUser.equals(TESTING));
+		assertTrue(savedE.equals(BATEST));
+		assertTrue(savedEfromUser.equals(BATEST));
 		assertTrue(savedE.equals(savedEfromUser));
 
 	}
@@ -95,12 +110,12 @@ public class UserEventOwnerTest {
 	@Test
 	public void onUserAndEventSaveDeleteUser() {
 
-		ALYSSA.makeOwner(TESTING);
+		ALYSSA.makeOwner(BATEST);
 		userRepo.save(ALYSSA);
-		assertTrue(eventRepo.existsById(TESTING.getId()));
+		assertTrue(eventRepo.existsById(BATEST.getId()));
 
 		userRepo.delete(ALYSSA);
-		assertFalse(eventRepo.existsById(TESTING.getId()));
+		assertFalse(eventRepo.existsById(BATEST.getId()));
 
 	}
 	
@@ -110,11 +125,11 @@ public class UserEventOwnerTest {
 	@Test
 	public void toStringBiDir() {
 
-		ALYSSA.makeOwner(TESTING);
+		ALYSSA.makeOwner(BATEST);
 		userRepo.save(ALYSSA);
 
 		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
-		EventEntity savedE = eventRepo.findById(TESTING.getId()).get();
+		EventEntity savedE = eventRepo.findById(BATEST.getId()).get();
 		
 		System.out.println(savedA); //TODO: toString w/o println pls
 		System.out.println(savedE);
@@ -127,10 +142,10 @@ public class UserEventOwnerTest {
 	 */
 	public void saveDuplicateEvent() {
 
-		ALYSSA.makeOwner(TESTING);
-		ALYSSA.makeOwner(TESTING);
-		ALYSSA.makeOwner(TESTING);
-		ALYSSA.makeOwner(TESTING);
+		ALYSSA.makeOwner(BATEST);
+		ALYSSA.makeOwner(BATEST);
+		ALYSSA.makeOwner(BATEST);
+		ALYSSA.makeOwner(BATEST);
 
 		userRepo.save(ALYSSA);
 		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
@@ -145,10 +160,10 @@ public class UserEventOwnerTest {
 	@Test
 	public void onTransferEvent() {
 
-		ALYSSA.makeOwner(TESTING);
+		ALYSSA.makeOwner(BATEST);
 		userRepo.save(ALYSSA);
 
-		ALYSSA.transferOwnedEvent(TESTING, BEN);
+		ALYSSA.transferOwnedEvent(BATEST, BEN);
 		userRepo.save(ALYSSA);
 		userRepo.save(BEN);
 
@@ -157,50 +172,83 @@ public class UserEventOwnerTest {
 
 		assertTrue(savedA.getEventEntityOwner().size() == 0);
 		assertTrue(savedB.getEventEntityOwner().size() == 1);
-		assertFalse(savedA.getEventEntityOwner().contains(TESTING));
-		assertTrue(savedB.getEventEntityOwner().contains(TESTING));
-		assertTrue(eventRepo.existsById(TESTING.getId()));
-		assertEquals(eventRepo.findById(TESTING.getId()).get().getUserEntityOwner(), BEN);
+		assertFalse(savedA.getEventEntityOwner().contains(BATEST));
+		assertTrue(savedB.getEventEntityOwner().contains(BATEST));
+		assertTrue(eventRepo.existsById(BATEST.getId()));
+		assertEquals(eventRepo.findById(BATEST.getId()).get().getUserEntityOwner(), BEN);
 
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void addEventOfAnotherOwner() { 
-		ALYSSA.makeOwner(TESTING);
-		BEN.makeOwner(TESTING);
+		ALYSSA.makeOwner(BATEST);
+		BEN.makeOwner(BATEST);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void removeEventOfAnotherOwner() {
-		ALYSSA.makeOwner(TESTING);
-		BEN.transferOwnedEvent(TESTING, ALYSSA);
+		ALYSSA.makeOwner(BATEST);
+		BEN.transferOwnedEvent(BATEST, ALYSSA);
 	}
 
 
-	
+	/**
+	 * Deleting event and testing that its subscribers are unsubscribed automatically;
+	 * 
+	 */
+	//TODO more subscribers; 
 	@Test
-	public void onDeleteEvent() {
+	public void onDeleteEventWithSubscription() {
 
-		ALYSSA.makeOwner(TESTING);
+		ALYSSA.makeOwner(BATEST);
 		userRepo.save(ALYSSA);
+		userRepo.save(BEN);
+		BASUB.subscribe(BEN, BATEST);
 
-		ALYSSA.removeOwnedEvent(TESTING);
+		assertTrue(eventGuestRepo.existsById(BASUB.getId()));
+		
+		ALYSSA.removeOwnedEvent(BATEST);
 
-		assertFalse(eventRepo.existsById(TESTING.getId()));
+		assertFalse(eventRepo.existsById(BATEST.getId()));
 		assertTrue(userRepo.existsById(ALYSSA.getId()));
+		assertFalse(eventGuestRepo.existsById(BASUB.getId()));
 
 	}
 	
+	/**
+	 * Deleting user and testing its unsubscribeAll() to ensure that he's unsubcribed from everywhere and 
+	 * all his/her owned events clear themselves of tuests;
+	 */
 	@Test
 	public void onUserDeleteEventNotRemains() {
 
-		ALYSSA.makeOwner(TESTING);
+		ALYSSA.makeOwner(BATEST);
+		BEN.makeOwner(ABTEST);
 		userRepo.save(ALYSSA);
+		userRepo.save(BEN);
+		ABSUB.subscribe(ALYSSA, ABTEST);
+		BASUB.subscribe(BEN, BATEST);
 		
-		userRepo.delete(ALYSSA);
+		System.out.println(BEN.getSubscriptions());
+		
+		assertTrue(eventGuestRepo.existsById(ABSUB.getId()));
+		assertTrue(eventGuestRepo.existsById(BASUB.getId()));
+		assertTrue(ALYSSA.getSubscriptions().contains(ABSUB));
+		assertTrue(BEN.getSubscriptions().contains(BASUB));
 
-		assertFalse(eventRepo.existsById(TESTING.getId()));
+		ALYSSA.unsubscribeAll(); // have to unsub everything when subscribing; 
+		userRepo.delete(ALYSSA);
+		
 		assertFalse(userRepo.existsById(ALYSSA.getId()));
+		assertFalse(eventRepo.existsById(BATEST.getId()));
+		assertFalse(eventGuestRepo.existsById(BASUB.getId()));
+		assertFalse(BEN.getSubscriptions().contains(BASUB));
+		
+		assertTrue(userRepo.existsById(BEN.getId()));
+		assertTrue(eventRepo.existsById(ABTEST.getId()));
+		assertFalse(eventGuestRepo.existsById(ABSUB.getId()));
+		//No Alyssa in the system...
+		
 
 	}
 }

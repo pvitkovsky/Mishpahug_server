@@ -129,6 +129,13 @@ public class EventEntity {
 	public Set<EventGuestRelation> getUserItemsGuestsOfEvents() {
 		return Collections.unmodifiableSet(subscriptions);
 	}
+	
+	/**
+	 * Helper method for removing all subscriptions when deleting event; 
+	 */
+	public void unsubscribeAll() {
+		subscriptions.forEach(EventGuestRelation::unsubscribe);		
+	}
 
 	public void convertEventDTO(EventDTO data){
 		this.date = data.getDate();

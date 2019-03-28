@@ -121,8 +121,7 @@ public class UserEventGuestTest {
 		AGUESTING.subscribe(ALYSSA, GUESTING);
 		assertTrue(GUESTING.getUserItemsGuestsOfEvents().contains(AGUESTING));
 
-		AGUESTING.unsubscribe(ALYSSA, GUESTING); // TODO: needs to unsub if wanting to delete -> model;
-		assertFalse(GUESTING.getUserItemsGuestsOfEvents().contains(AGUESTING));
+		ALYSSA.unsubscribeAll();
 		userRepo.delete(ALYSSA);
 
 		assertTrue(eventRepo.existsById(GUESTING.getId()));
@@ -138,19 +137,19 @@ public class UserEventGuestTest {
 		userRepo.save(BEN);
 		userRepo.save(ALYSSA);
 		AGUESTING.subscribe(ALYSSA, GUESTING);
-		//
+		
 		BEN.removeOwnedEvent(GUESTING);
-		AGUESTING.unsubscribe(ALYSSA, GUESTING); // TODO: needs to unsub after each remove;
 
-		assertFalse(eventRepo.existsById(GUESTING.getId()));
 		assertTrue(userRepo.existsById(ALYSSA.getId()));
+		assertTrue(userRepo.existsById(BEN.getId()));
+		assertFalse(eventRepo.existsById(GUESTING.getId()));
 		assertFalse(eventGuestRepo.existsById(AGUESTING.getId()));
 		assertFalse(ALYSSA.getSubscriptions().contains(AGUESTING));
 		assertEquals(ALYSSA.getSubscriptions().size(), 0);
 	}
 
 	@Test
-	public void findEventBySubs() { // TODO: proper query/join for many to many access;
+	public void findEventBySubs() {
 		BEN.makeOwner(GUESTING);
 		userRepo.save(BEN);
 		userRepo.save(ALYSSA);
@@ -163,7 +162,7 @@ public class UserEventGuestTest {
 
 	}
 
-	@Test // TODO: same as above
+	@Test
 	public void findUserBySubs() {
 
 		BEN.makeOwner(GUESTING);

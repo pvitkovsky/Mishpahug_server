@@ -106,9 +106,8 @@ public class UserEntity {
 	@JsonManagedReference //Unidirectional;
 	private ReligionEntity religion;
 
-	@ManyToOne(optional = true) //TODO: delete constraints don't allow us to remove address; 
-	@JsonBackReference //Bidirectional, managed from Address; //TODO: serialization circular reference;
-	//@JsonIgnoreProperties("userEntities")
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true) 
+	@JsonManagedReference //Unidirectional; //TODO: serializes only address not city or country; cause - innecessary bidirections;  
 	private AddressEntity addressEntity;
 
 	@OneToMany(mappedBy = "userEntityOwner", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
@@ -119,7 +118,9 @@ public class UserEntity {
 	private Set<EventEntity> eventItemsOwner = new HashSet<>();
 
 	@OneToMany(mappedBy = "userGuest", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true) 
-	@JsonManagedReference //TODO: safe bidir getters/setters; feedback
+	@JsonManagedReference 
+	@Getter(AccessLevel.NONE)
+	@Setter(AccessLevel.NONE)
 	@Builder.Default
 	private Set<EventGuestRelation> subscriptions = new HashSet<>();
 
@@ -182,8 +183,7 @@ public class UserEntity {
 			throw new IllegalStateException(
 					"Event has user set as owner, but not present in the user's collection of owned events");
 		}
-//		for (EventGuestRelation subscription : event.getUserItemsGuestsOfEvents()) { //TODO: delete subscriptions;
-//		}
+		event.unsubscribeAll();
 		return eventItemsOwner.remove(event); // TODO: thread safety argument;
 	}
 
@@ -211,7 +211,7 @@ public class UserEntity {
 	 * @return
 	 */
 	protected boolean removeSubsription(EventGuestRelation subscription) {
-		return subscriptions.remove(subscription); // TODO: is it cascaded?
+		return subscriptions.remove(subscription); 
 	}
 	
 	
@@ -220,7 +220,15 @@ public class UserEntity {
 	 * 
 	 * @return
 	 */
-	public Set<EventGuestRelation> getUserItemsGuestsOfEvents() {
+	public Set<EventGuestRelation> getSubscriptions() {
 		return Collections.unmodifiableSet(subscriptions);
+	}
+	
+	/**
+	 * Unsubscribes user from all subscribed events; unsubscribes others from this user's owned event;
+	 */
+	public void unsubscribeAll() {
+		subscriptions.forEach(EventGuestRelation::unsubscribe);
+		eventItemsOwner.forEach(EventEntity::unsubscribeAll);
 	}
 }

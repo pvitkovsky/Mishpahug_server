@@ -1,7 +1,6 @@
 package application.controllers;
 
 import application.dto.*;
-import application.dto.forholiday.HolidayDTO;
 import application.entities.UserEntity;
 import application.models.gender.IGenderModel;
 import application.models.holyday.IHolyDayModel;
@@ -12,9 +11,8 @@ import application.models.user.IUserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping(value = "/user")
@@ -69,6 +67,11 @@ public class UserController {
         return userModel.getByMaritalStatus(maritalStatus);
     }
 
+    @GetMapping(value="/getbyfilter")
+    public List<UserEntity> getByFilter(@RequestBody HashMap<String, String> data){
+        return userModel.getByFilter(data);
+    }
+
     //TODO дописать фильтр для полей с сущностями
     @PostMapping(value="/addPage1")
     public void setDataFromForm(@RequestBody UserDTO data){
@@ -85,14 +88,6 @@ public class UserController {
         userEntity.setReligion(religionModel.getByName(data.getReligion()));
         userEntity.setKitchenType(kichenTypeModel.getByName(data.getKichenType()));
         userModel.add(userEntity);
-    }
-
-    @PostMapping(value="/addholiday")
-    public void addHoliday(@RequestBody HolidayDTO[] data){
-        for (HolidayDTO s: data){
-            holyDayModel.updateFromServer(s);
-        }
-
     }
 
 }

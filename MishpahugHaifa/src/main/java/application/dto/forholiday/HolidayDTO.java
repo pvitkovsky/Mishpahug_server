@@ -13,4 +13,5 @@ public class HolidayDTO {
     private String date;
     private String locations;
     private String states;
+    private String[] type;
 }

@@ -1,12 +1,12 @@
 package application.controllers;
 
 import application.dto.forholiday.HolidayDTO;
+import application.entities.HoliDayEntity;
 import application.models.holyday.IHolyDayModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/holidays")
@@ -22,5 +22,15 @@ public class HoliDaysController {
             holyDayModel.updateFromServer(s);
         }
 
+    }
+
+    @GetMapping(value="/getall")
+    public List<HoliDayEntity> getAll(){
+            return holyDayModel.getAll();
+    }
+
+    @GetMapping(value="/getallby")
+    public List<HoliDayEntity> getAllBy(){
+        return null; //TODO
     }
 }

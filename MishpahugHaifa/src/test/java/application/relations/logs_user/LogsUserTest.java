@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNotEquals;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import application.entities.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,11 +17,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import application.entities.EventEntity;
-import application.entities.LogsDataEntity;
-import application.entities.LogsOnEvent;
 import application.entities.LogsOnEvent.ActionsOnEvent;
-import application.entities.UserEntity;
 import application.entities.randomgeneration.RandomEntities;
 import application.repositories.EventRepository;
 import application.repositories.LogsDataRepository;
@@ -34,9 +31,12 @@ import application.repositories.UserRepository;
 public class LogsUserTest {
 
 	private final String RNAME = "RAN";
-	private final LogsOnEvent LOG_A = new LogsOnEvent();
-	private final LogsOnEvent LOG_B = new LogsOnEvent();
-	private final UserEntity RAN = RandomEntities.randomUserEntity(); // BUILDER creates NPE in userEntityOwner's hashSet 
+	private final LogsOnEvent LOG_AA = new LogsOnEvent();
+	private final LogsOnEvent LOG_AB = new LogsOnEvent();
+	private final LogsOnUser LOG_UA = new LogsOnUser();
+	private final LogsOnUser LOG_UB = new LogsOnUser();
+	private final UserEntity RAN = RandomEntities.randomUserEntity(); // BUILDER creates NPE in userEntityOwner's hashSet
+	private final UserEntity RAN_U = RandomEntities.randomUserEntity();
 	private final EventEntity TESTING = new EventEntity();
 	private final LocalDate TDATE = LocalDate.of(2190, 1, 1);
 	private final LocalTime TTIME = LocalTime.of(23, 59);
@@ -63,19 +63,29 @@ public class LogsUserTest {
 		RAN.makeOwner(TESTING);
 		
 
-		LOG_A.setUserActor(RAN);
-		LOG_A.setEventTarget(TESTING);
-		LOG_A.setAction(ActionsOnEvent.EVENT_STATUS_CHANGE);
-		LOG_A.setDate(TDATE);
-		LOG_A.setTime(TTIME);
-		LOG_A.setTime(TTIME);
+		LOG_AA.setUserActor(RAN);
+		LOG_AA.setEventTarget(TESTING);
+		LOG_AA.setAction(ActionsOnEvent.EVENT_STATUS_CHANGE);
+		LOG_AA.setDate(TDATE);
+		LOG_AA.setTime(TTIME);
 
-		LOG_B.setUserActor(RAN);
-		LOG_B.setEventTarget(TESTING);
-		LOG_B.setAction(ActionsOnEvent.EVENT_STATUS_CHANGE);
-		LOG_B.setDate(TDATE);
-		LOG_B.setTime(TTIME);
-		LOG_B.setTime(TTIME);
+		LOG_AB.setUserActor(RAN);
+		LOG_AB.setEventTarget(TESTING);
+		LOG_AB.setAction(ActionsOnEvent.EVENT_STATUS_CHANGE);
+		LOG_AB.setDate(TDATE);
+		LOG_AB.setTime(TTIME);
+
+		LOG_UA.setUserActor(RAN);
+		LOG_UA.setUserTarget(RAN_U);
+		LOG_UA.setAction(LogsOnUser.ActionsOnUser.USER_EDITION_ADDRESS);
+		LOG_UA.setDate(TDATE);
+		LOG_UA.setTime(TTIME);
+
+		LOG_UB.setUserActor(RAN);
+		LOG_UB.setUserTarget(RAN_U);
+		LOG_UB.setAction(LogsOnUser.ActionsOnUser.USER_COMMENT);
+		LOG_UB.setDate(TDATE);
+		LOG_UB.setTime(TTIME);
 	}
 
 	@Test
@@ -83,16 +93,27 @@ public class LogsUserTest {
 
 		
 		userRepo.save(RAN);
-		logsRepo.save(LOG_A);
-		logsRepo.save(LOG_B);
+		userRepo.save(RAN_U);
+		logsRepo.save(LOG_AA);
+		logsRepo.save(LOG_AB);
+		logsRepo.save(LOG_UA);
+		logsRepo.save(LOG_UB);
 
-		LogsDataEntity savedLA = logsRepo.getOne(LOG_A.getId());
-		assertEquals(savedLA, LOG_A);
-		assertNotEquals(savedLA, LOG_B);
+		LogsDataEntity savedLA = logsRepo.getOne(LOG_AA.getId());
+		assertEquals(savedLA, LOG_AA);
+		assertNotEquals(savedLA, LOG_AB);
 
-		LogsDataEntity savedLB = logsRepo.getOne(LOG_B.getId());
-		assertNotEquals(savedLB, LOG_A);
-		assertEquals(savedLB, LOG_B);
+		LogsDataEntity savedLB = logsRepo.getOne(LOG_AB.getId());
+		assertNotEquals(savedLB, LOG_AA);
+		assertEquals(savedLB, LOG_AB);
+
+		LogsDataEntity savedULA = logsRepo.getOne(LOG_UA.getId());
+		assertEquals(savedULA, LOG_UA);
+		assertNotEquals(savedULA, LOG_UB);
+
+		LogsDataEntity savedULB = logsRepo.getOne(LOG_UB.getId());
+		assertNotEquals(savedULB, LOG_UA);
+		assertEquals(savedULB, LOG_UB);
 	}
 
 }

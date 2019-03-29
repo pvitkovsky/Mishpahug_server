@@ -6,6 +6,7 @@ import application.models.holyday.IHolyDayModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -15,8 +16,8 @@ public class HoliDaysController {
     @Autowired
     IHolyDayModel holyDayModel;
 
-    @PostMapping(value="/addholiday")
-    public void addHoliday(@RequestBody HolidayDTO[] data){
+    @PostMapping(value="/")
+    public void post(@RequestBody HolidayDTO[] data){
         for (HolidayDTO s: data){
             System.out.println(s);
             holyDayModel.updateFromServer(s);
@@ -24,13 +25,28 @@ public class HoliDaysController {
 
     }
 
-    @GetMapping(value="/getall")
-    public List<HoliDayEntity> getAll(){
-            return holyDayModel.getAll();
+    @DeleteMapping(value="/")
+    public void delete(@RequestParam(name = "id", required = false) Integer id){
+        if (id == null){
+
+        }
+        else{
+            
+        }
     }
 
-    @GetMapping(value="/getallby")
-    public List<HoliDayEntity> getAllBy(){
-        return null; //TODO
+    @GetMapping(value="/")
+    public List<HoliDayEntity> get(@RequestParam(name = "id", required = false) Integer id,
+                                   @RequestBody(required = false)HashMap<String, String> data){
+        if (id != null && data == null){
+
+        }
+        if (id == null && data != null){
+
+        }
+        if (id == null && data == null){
+            return holyDayModel.getAll();
+        }
+        return null;
     }
 }

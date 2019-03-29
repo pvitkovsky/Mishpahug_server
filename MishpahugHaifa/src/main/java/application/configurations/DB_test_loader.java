@@ -1,9 +1,6 @@
 package application.configurations;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -13,8 +10,11 @@ import java.util.Random;
 
 import javax.transaction.Transactional;
 
+import application.dto.forholiday.ArrHolidayDTO;
+import application.dto.forholiday.HolidayDTO;
 import application.entities.*;
 import application.repositories.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -401,6 +401,29 @@ public class DB_test_loader implements CommandLineRunner {
 			}
 		}
 	}
+
+
+	/*private class HolidayLoader {
+		BufferedReader empdtil;
+
+		public HolidayLoader(BufferedReader empdtil) {
+			this.empdtil = empdtil;
+		}
+
+		void load() {
+			ObjectMapper mapper = new ObjectMapper();
+
+			*//**
+			 * Read object from file
+			 *//*
+			ArrHolidayDTO value = null;
+			try {
+				value = mapper.readValue(new File("holidays.json"), ArrHolidayDTO.class);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}*/
 
 
 	/**

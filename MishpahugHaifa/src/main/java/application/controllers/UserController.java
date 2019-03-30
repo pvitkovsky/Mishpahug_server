@@ -36,15 +36,21 @@ public class UserController {
     @Autowired
     IHolyDayModel holyDayModel;
 
-    @GetMapping(value="/getlists")
-    public UserDTOLists getDataForAddForm(){
-        UserDTOLists userDTOLists = new UserDTOLists();
-        userDTOLists.setKichenTypeEntities(kichenTypeModel.getAll());
-        userDTOLists.setReligionEntities(religionModel.getAll());
-        userDTOLists.setGenderEntities(genderModel.getAll());
-        userDTOLists.setMaritalStatusEntities(maritalStatusModel.getAll());
-        return userDTOLists;
-
+    @GetMapping(value="/{action}")
+    public void getDataForAddForm(@PathVariable(value = "action", required = false) String action){
+        if (action != null){
+            switch (action) {
+                case "lists": {
+                    UserDTOLists userDTOLists = new UserDTOLists();
+                    userDTOLists.setKichenTypeEntities(kichenTypeModel.getAll());
+                    userDTOLists.setReligionEntities(religionModel.getAll());
+                    userDTOLists.setGenderEntities(genderModel.getAll());
+                    userDTOLists.setMaritalStatusEntities(maritalStatusModel.getAll());
+                    System.out.println(userDTOLists);
+                    break;
+                }
+            }
+        }
     }
 
     @GetMapping(value="/getbyreligion")

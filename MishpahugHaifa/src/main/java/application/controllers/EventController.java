@@ -1,7 +1,6 @@
 package application.controllers;
 
 import application.dto.EventDTO;
-import application.dto.EventDTOLists;
 import application.entities.EventEntity;
 import application.exceptions.ExceptionMishpaha;
 import application.models.city.ICityModel;
@@ -13,6 +12,7 @@ import application.models.religion.IReligionModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,28 +27,30 @@ public class EventController {
     IHolyDayModel holyDayModel;
 
     @Autowired
-    ICountryModel countryModel;
-
-    @Autowired
-    ICityModel cityModel;
-
-    @Autowired
-    IReligionModel religionModel;
-
-    @Autowired
     IKichenTypeModel kichenTypeModel;
 
 
-    @GetMapping(value="/getlists")
-    public EventDTOLists getDataForAddForm(){
-        EventDTOLists eventDTOLists = new EventDTOLists();
-        eventDTOLists.setHoliDayEntities(holyDayModel.getAll());
-        eventDTOLists.setKichenTypeEntities(kichenTypeModel.getAll());
-        eventDTOLists.setReligionEntities(religionModel.getAll());
-        return eventDTOLists;
+    @GetMapping(value="/{id}")
+    public List<EventEntity> get(@PathVariable(value = "id", required = false) Integer id,
+                                 @RequestBody(required = false) HashMap<String, String> data) throws ExceptionMishpaha {
+        List<EventEntity> res = new ArrayList<>();
+        if (id != null){
+            if (data == null) {
+                res.add(eventModel.getById(id));
+            }
+        }
+        else{
+            if (data == null) {
+                res = eventModel.getAll();
+            }
+            else {
+                res = eventModel.getByFilter(data);
+            }
+        }
+        return res;
     }
 
-    @PostMapping(value="/add")
+    @PostMapping(value="/")
     public EventEntity setDataFromForm(@RequestBody EventDTO data){
         EventEntity eventEntity = new EventEntity();
         eventEntity.convertEventDTO(data);
@@ -57,24 +59,14 @@ public class EventController {
         return eventModel.add(eventEntity);
     }
 
-    @PostMapping(value="/update")
+    @PutMapping(value="/{id}")
     public EventEntity updateDataFromForm(@RequestBody HashMap<String, String> data,
-                                          @RequestParam(name = "id") Integer id) throws ExceptionMishpaha {
+                                          @PathVariable(value = "id") Integer id) throws ExceptionMishpaha {
         return eventModel.update(id, data);
     }
 
-    @DeleteMapping(value = "/delete")
-    public EventEntity deleteEvent(@RequestParam(name = "id") Integer id) throws ExceptionMishpaha {
+    @DeleteMapping(value = "/")
+    public EventEntity deleteEvent(@PathVariable(value = "id", required = false) Integer id) throws ExceptionMishpaha {
         return eventModel.remove(id);
-    }
-
-    @GetMapping(value="/getlist")
-    public List<EventEntity> getAll(){
-        return eventModel.getAll();
-    }
-
-    @GetMapping(value="/getbyfilter")
-    public List<EventEntity> getByFilter(@RequestBody HashMap<String, String> data){
-        return eventModel.getByFilter(data);
     }
 }

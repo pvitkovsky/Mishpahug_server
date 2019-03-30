@@ -1,8 +1,8 @@
 package application.controllers;
 
-import application.entities.CityEntity;
+import application.entities.GenderEntity;
 import application.exceptions.ExceptionMishpaha;
-import application.models.city.ICityModel;
+import application.models.gender.IGenderModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,43 +10,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/city")
-public class CityController {
+@RequestMapping(value = "/gender")
+public class GenderController {
     @Autowired
-    ICityModel cityModel;
+    IGenderModel genderModel;
+
     @PostMapping(value="/")
-    public void post(@RequestBody CityEntity data) throws ExceptionMishpaha {
-        cityModel.add(data);
+    public void post(@RequestBody GenderEntity data) throws ExceptionMishpaha {
+        genderModel.add(data);
     }
 
     @PutMapping(value="/")
     public void put(@RequestParam(name = "id") Integer id,
                     @RequestParam(name = "name") String name) throws ExceptionMishpaha {
-        cityModel.updateName(id, name);
+        genderModel.updateName(id, name);
     }
 
     @DeleteMapping(value="/")
     public void delete(@RequestParam(name = "id", required = false) Integer id) throws ExceptionMishpaha {
         if (id == null){
-            cityModel.deleteAll();
+            genderModel.deleteAll();
         }
         else{
-            cityModel.deleteByID(id);
+            genderModel.deleteByID(id);
         }
     }
 
     @GetMapping(value="/")
-    public List<CityEntity> get(@RequestParam(name = "id", required = false) Integer id,
-                                   @RequestBody(required = false) String data) throws ExceptionMishpaha {
-        List<CityEntity> res = new ArrayList<>();
+    public List<GenderEntity> get(@RequestParam(name = "id", required = false) Integer id,
+                                @RequestBody(required = false) String data) throws ExceptionMishpaha {
+        List<GenderEntity> res = new ArrayList<>();
         if (id != null && data == null){
-            res.add(cityModel.getById(id));
+            res.add(genderModel.getById(id));
         }
         if (id == null && data != null){
-            res.add(cityModel.getByName(data));
+            res.add(genderModel.getByName(data));
         }
         if (id == null && data == null){
-            res = cityModel.getAll();
+            res = genderModel.getAll();
         }
         return res;
     }

@@ -22,6 +22,23 @@ public class KichenTypeModel implements IKichenTypeModel {
     }
 
     @Override
+    public KitchenTypeEntity updateName(Integer id, String name) {
+        KitchenTypeEntity countryEntity = kichenTypeRepository.getOne(id);
+        countryEntity.setName(name);
+        return kichenTypeRepository.save(countryEntity);
+    }
+
+    @Override
+    public void deleteByID(Integer id) {
+        kichenTypeRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteAll() {
+        kichenTypeRepository.deleteAll();
+    }
+
+    @Override
     public List<KitchenTypeEntity> getAll() {
         return kichenTypeRepository.findAll();
     }

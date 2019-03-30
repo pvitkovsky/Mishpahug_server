@@ -36,7 +36,7 @@ public class AddressModel implements IAddressModel {
             addressEntity.setBuilding(Integer.getInteger(data.get("street")));
         CityEntity cityEntity = null;
         if (data.containsKey("cityname")) {
-            cityEntity = cityRepository.getByFullName(data.get("cityname"));
+            cityEntity = cityRepository.getByName(data.get("cityname"));
         }
         cityEntity.addAddress(addressEntity);
         return addressRepository.save(addressEntity);

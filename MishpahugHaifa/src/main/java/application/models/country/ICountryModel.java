@@ -7,9 +7,9 @@ import java.util.List;
 public interface ICountryModel {
     public CountryEntity getById(Integer id);
     public CountryEntity addCountry(CountryEntity data);
-    public void removeCountry(Integer id);
+    public void deleteByID(Integer id);
+    public void deleteAll();
     public CountryEntity updateName(Integer id, String name);
-    public CountryEntity getByFullName(String name);
     public List<CountryEntity> getAll();
-    public List<CountryEntity> getByName(String name);
+    public CountryEntity getByName(String name);
 }

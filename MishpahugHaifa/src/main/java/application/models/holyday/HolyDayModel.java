@@ -42,7 +42,22 @@ public class HolyDayModel implements IHolyDayModel {
 
     @Override
     public HoliDayEntity getByName(String name){
-        return holyDayRepository.getByFullName(name);
+        return holyDayRepository.getByName(name);
+    }
+
+    @Override
+    public HoliDayEntity getById(Integer id){
+        return holyDayRepository.getOne(id);
+    }
+
+    @Override
+    public void deleteByID(Integer id) {
+        holyDayRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteAll() {
+        holyDayRepository.deleteAll();
     }
 
     @Override

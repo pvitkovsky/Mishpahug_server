@@ -37,7 +37,7 @@ public class CityModel implements ICityModel {
     }
 
     @Override
-    public CityEntity remove(Integer id)  throws ExceptionMishpaha {
+    public CityEntity deleteByID(Integer id)  throws ExceptionMishpaha {
         try {
             CityEntity cityEntity = cityRepository.getOne(id);
             cityRepository.deleteById(id);
@@ -45,6 +45,11 @@ public class CityModel implements ICityModel {
         } catch (Exception e) {
             throw new ExceptionMishpaha(this.getClass().toString(), e);
         }
+    }
+
+    @Override
+    public void deleteAll(){
+        cityRepository.deleteAll();
     }
 
     @Override
@@ -68,15 +73,6 @@ public class CityModel implements ICityModel {
     }
 
     @Override
-    public CityEntity getByFullName(String name) throws ExceptionMishpaha {
-       try {
-            return cityRepository.getByFullName(name);
-        } catch (Exception e) {
-            throw new ExceptionMishpaha(this.getClass().toString(), e);
-        }
-    }
-
-    @Override
     public CountryEntity getCountryByCity(Integer id) throws ExceptionMishpaha {
         try {
             return cityRepository.getOne(id).getCountryEntity();
@@ -86,7 +82,7 @@ public class CityModel implements ICityModel {
     }
 
     @Override
-    public List<CityEntity> getByName(String name) throws ExceptionMishpaha {
+    public CityEntity getByName(String name) throws ExceptionMishpaha {
         try {
             return cityRepository.getByName(name);
         } catch (Exception e) {

@@ -26,8 +26,13 @@ public class CountryModel implements ICountryModel {
     }
 
     @Override
-    public void removeCountry(Integer id) {
+    public void deleteByID(Integer id) {
         countryRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteAll() {
+        countryRepository.deleteAll();
     }
 
     @Override
@@ -38,12 +43,7 @@ public class CountryModel implements ICountryModel {
     }
 
     @Override
-    public CountryEntity getByFullName(String name) {
-        return countryRepository.getByFullName(name);
-    }
-
-    @Override
-    public List<CountryEntity> getByName(String name) {
+    public CountryEntity getByName(String name) {
         return countryRepository.getByName(name);
     }
 

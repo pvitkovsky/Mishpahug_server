@@ -81,11 +81,6 @@ public class CountryTest {
 
     @Test
     public void getByName(){
-        System.out.println(countryRepository.getByFullName("Belarus"));
-        for (int i = 0; i < dataForFindByNameTest.length; i++){
-            testCountry = countryRepository.getByName(dataForFindByNameTest[i]);
-            System.out.println(dataForFindByNameTest[i] + " included on " + testCountry.size() + " records ");
-            System.out.println(testCountry);
-        }
+        System.out.println(countryRepository.getByName("Belarus"));
     }
 }

@@ -11,5 +11,9 @@ public interface IHolyDayModel {
     public List<HoliDayEntity> getByYear(Integer year);
     public List<HoliDayEntity> getAll();
     public HoliDayEntity getByName(String name);
+
+    public HoliDayEntity getById(Integer id);
+    public void deleteByID(Integer id);
+    public void deleteAll();
     public void updateFromServer(HolidayDTO dto);
 }

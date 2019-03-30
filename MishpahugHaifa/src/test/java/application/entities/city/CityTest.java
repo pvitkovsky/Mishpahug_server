@@ -61,20 +61,13 @@ public class CityTest {
 		assertTrue(cityRepository.findAll().size() == citiesCount);
 	}
 
-	@Test
-	public void findByName() {
-		for (int i = 0; i < dataForFindByNameTest.length; i++) {
-			testCity = cityRepository.getByName(dataForFindByNameTest[i]);
-			System.out.println(dataForFindByNameTest[i] + " included on " + testCity.size() + " records");
-		}
-	}
 
 	@Test
 	public void update() {
 		final String changedName = "testtest";
 		assertTrue(cityRepository.findAll().size() == citiesCount);		
 		cityRepository.findAll().get(0).setName(changedName);
-		assertTrue(cityRepository.getByFullName(changedName).getName().equals(changedName));
+		assertTrue(cityRepository.getByName(changedName).getName().equals(changedName));
 	}
 
 	@Test

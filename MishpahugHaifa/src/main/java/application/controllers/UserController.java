@@ -41,7 +41,7 @@ public class UserController {
         if (action != null){
                 switch (action) {
                     case "lists": {
-                        
+
                         break;
                     }
                 }

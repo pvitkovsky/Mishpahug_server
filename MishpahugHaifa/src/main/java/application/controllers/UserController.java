@@ -36,16 +36,9 @@ public class UserController {
     @Autowired
     IHolyDayModel holyDayModel;
 
-    @GetMapping(value="/{action}")
-    public void getDataForAddForm(@PathVariable(value = "action", required = false) String action){
-        if (action != null){
-                switch (action) {
-                    case "lists": {
-
-                        break;
-                    }
-                }
-        }
+    @GetMapping(value="/")
+    public List<UserEntity> get(){
+        return userModel.getAll();
     }
 
     @GetMapping(value="/getbyreligion")

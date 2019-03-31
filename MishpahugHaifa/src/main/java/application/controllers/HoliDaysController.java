@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/holidays")
+@RequestMapping(value = "/holiday")
 public class HoliDaysController {
 
     @Autowired
@@ -26,28 +26,30 @@ public class HoliDaysController {
     }
 
     @DeleteMapping(value="/")
-    public void delete(@RequestParam(name = "id", required = false) Integer id){
-        if (id == null){
+    public void delete(){
             holyDayModel.deleteAll();
-        }
-        else{
-            holyDayModel.deleteByID(id);
-        }
+    }
+
+    @DeleteMapping(value="/{id}")
+    public void delete(@PathVariable(name = "id") Integer id){
+        holyDayModel.deleteByID(id);
     }
 
     @GetMapping(value="/")
-    public List<HoliDayEntity> get(@RequestParam(name = "id", required = false) Integer id,
-                                   @RequestBody(required = false) String data){
-        List<HoliDayEntity> res = new ArrayList<>();
-        if (id != null && data == null){
-            res.add(holyDayModel.getById(id));
-        }
-        if (id == null && data != null){
-            res.add(holyDayModel.getByName(data));
-        }
-        if (id == null && data == null){
-            res = holyDayModel.getAll();
-        }
-        return res;
+    public List<HoliDayEntity> get(){
+        return holyDayModel.getAll();
     }
+
+    @GetMapping(value="/{id}")
+    public HoliDayEntity get(@PathVariable(name = "id") Integer id){
+           return holyDayModel.getById(id);
+    }
+
+    @GetMapping(value="/{name}")
+    public HoliDayEntity get(@RequestBody String data){
+        return holyDayModel.getByName(data);
+    }
+
+
+
 }

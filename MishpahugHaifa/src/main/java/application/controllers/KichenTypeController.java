@@ -22,33 +22,36 @@ public class KichenTypeController {
 
     @PutMapping(value="/")
     public void put(@RequestParam(name = "id") Integer id,
-                    @RequestParam(name = "name") String name) throws ExceptionMishpaha {
+                    @RequestParam(name = "name") String name) {
         kichenTypeModel.updateName(id, name);
     }
 
     @DeleteMapping(value="/")
-    public void delete(@RequestParam(name = "id", required = false) Integer id) throws ExceptionMishpaha {
-        if (id == null){
-            kichenTypeModel.deleteAll();
-        }
-        else{
-            kichenTypeModel.deleteByID(id);
-        }
+    public void delete() {
+        kichenTypeModel.deleteAll();
     }
 
-    @GetMapping(value="/")
-    public List<KitchenTypeEntity> get(@RequestParam(name = "id", required = false) Integer id,
-                                  @RequestBody(required = false) String data) throws ExceptionMishpaha {
-        List<KitchenTypeEntity> res = new ArrayList<>();
-        if (id != null && data == null){
-            res.add(kichenTypeModel.getById(id));
-        }
-        if (id == null && data != null){
-            res.add(kichenTypeModel.getByName(data));
-        }
-        if (id == null && data == null){
-            res = kichenTypeModel.getAll();
-        }
-        return res;
+    @DeleteMapping(value="/{id}")
+    public void delete(@PathVariable(name = "id") Integer id) {
+        kichenTypeModel.deleteByID(id);
     }
+
+
+    @GetMapping(value="/")
+    public List<KitchenTypeEntity> get() {
+        List<KitchenTypeEntity> res = new ArrayList<>();
+            return kichenTypeModel.getAll();
+    }
+
+    @GetMapping(value="/{id}")
+    public KitchenTypeEntity get(@PathVariable(name = "id", required = false) Integer id) {
+           return kichenTypeModel.getById(id);
+    }
+
+    @GetMapping(value="/{name}")
+    public KitchenTypeEntity get(@RequestBody String data) {
+           return kichenTypeModel.getByName(data);
+    }
+
+
 }

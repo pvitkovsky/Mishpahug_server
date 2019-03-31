@@ -26,29 +26,28 @@ public class GenderController {
         genderModel.updateName(id, name);
     }
 
+    @DeleteMapping(value="/{id}")
+    public void delete(@PathVariable(name = "id") Integer id) throws ExceptionMishpaha {
+        genderModel.deleteByID(id);
+    }
+
     @DeleteMapping(value="/")
-    public void delete(@RequestParam(name = "id", required = false) Integer id) throws ExceptionMishpaha {
-        if (id == null){
-            genderModel.deleteAll();
-        }
-        else{
-            genderModel.deleteByID(id);
-        }
+    public void delete() throws ExceptionMishpaha {
+        genderModel.deleteAll();
     }
 
     @GetMapping(value="/")
-    public List<GenderEntity> get(@RequestParam(name = "id", required = false) Integer id,
-                                @RequestBody(required = false) String data) throws ExceptionMishpaha {
-        List<GenderEntity> res = new ArrayList<>();
-        if (id != null && data == null){
-            res.add(genderModel.getById(id));
-        }
-        if (id == null && data != null){
-            res.add(genderModel.getByName(data));
-        }
-        if (id == null && data == null){
-            res = genderModel.getAll();
-        }
-        return res;
+    public List<GenderEntity> get() throws ExceptionMishpaha {
+            return genderModel.getAll();
+    }
+
+    @GetMapping(value="/{id}")
+    public GenderEntity get(@PathVariable(name = "id") Integer id) throws ExceptionMishpaha {
+        return genderModel.getById(id);
+    }
+
+    @GetMapping(value="/{name}")
+    public GenderEntity get(@RequestBody String data) throws ExceptionMishpaha {
+        return genderModel.getByName(data);
     }
 }

@@ -5,7 +5,6 @@ import application.models.country.ICountryModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -26,28 +25,27 @@ public class CountryController {
     }
 
     @DeleteMapping(value="/")
-    public void delete(@RequestParam(name = "id", required = false) Integer id){
-        if (id == null){
-            countryModel.deleteAll();
-        }
-        else{
-            countryModel.deleteByID(id);
-        }
+    public void delete(){
+        countryModel.deleteAll();
+    }
+
+    @DeleteMapping(value="/{id}")
+    public void delete(@PathVariable(name = "id") Integer id){
+        countryModel.deleteByID(id);
     }
 
     @GetMapping(value="/")
-    public List<CountryEntity> get(@RequestParam(name = "id", required = false) Integer id,
-                                   @RequestBody(required = false) String data){
-        List<CountryEntity> res = new ArrayList<>();
-        if (id != null && data == null){
-            res.add(countryModel.getById(id));
-        }
-        if (id == null && data != null){
-            res.add(countryModel.getByName(data));
-        }
-        if (id == null && data == null){
-            res = countryModel.getAll();
-        }
-        return res;
+    public List<CountryEntity> get(){
+        return countryModel.getAll();
+    }
+
+    @GetMapping(value="/{id}")
+    public CountryEntity get(@PathVariable(name = "id") Integer id){
+        return countryModel.getById(id);
+    }
+
+    @GetMapping(value="/{name}")
+    public CountryEntity get(@RequestBody String data){
+        return countryModel.getByName(data);
     }
 }

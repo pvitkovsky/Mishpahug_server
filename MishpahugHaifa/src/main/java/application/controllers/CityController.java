@@ -6,7 +6,6 @@ import application.models.city.ICityModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -26,28 +25,27 @@ public class CityController {
     }
 
     @DeleteMapping(value="/")
-    public void delete(@RequestParam(name = "id", required = false) Integer id) throws ExceptionMishpaha {
-        if (id == null){
-            cityModel.deleteAll();
-        }
-        else{
-            cityModel.deleteByID(id);
-        }
+    public void delete() {
+        cityModel.deleteAll();
+    }
+
+    @DeleteMapping(value="/{id}")
+    public void delete(@PathVariable(name = "id") Integer id) throws ExceptionMishpaha {
+        cityModel.deleteByID(id);
     }
 
     @GetMapping(value="/")
-    public List<CityEntity> get(@RequestParam(name = "id", required = false) Integer id,
-                                   @RequestBody(required = false) String data) throws ExceptionMishpaha {
-        List<CityEntity> res = new ArrayList<>();
-        if (id != null && data == null){
-            res.add(cityModel.getById(id));
-        }
-        if (id == null && data != null){
-            res.add(cityModel.getByName(data));
-        }
-        if (id == null && data == null){
-            res = cityModel.getAll();
-        }
-        return res;
+    public List<CityEntity> get() throws ExceptionMishpaha {
+        return cityModel.getAll();
+    }
+
+    @GetMapping(value="/{id}")
+    public CityEntity get(@PathVariable(name = "id") Integer id) throws ExceptionMishpaha {
+        return cityModel.getById(id);
+    }
+
+    @GetMapping(value="/{name}")
+    public CityEntity get(@RequestBody String data) throws ExceptionMishpaha {
+        return cityModel.getByName(data);
     }
 }

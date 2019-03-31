@@ -77,7 +77,7 @@ public class EventModel implements IEventModel {
 	}
 
 	@Override
-	public EventEntity remove(Integer eventId) throws ExceptionMishpaha {
+	public EventEntity delete(Integer eventId) throws ExceptionMishpaha {
 		try {
 			EventEntity eventEntity = eventRepository.getOne(eventId);
 			UserEntity userOwner = eventEntity.getUserEntityOwner();
@@ -87,6 +87,11 @@ public class EventModel implements IEventModel {
 		} catch (EntityNotFoundException e) {
 			throw new ExceptionMishpaha("Error! Not found event with id " + eventId, null);
 		}
+	}
+
+	@Override
+	public void deleteAll() throws ExceptionMishpaha {
+		eventRepository.deleteAll();
 	}
 
 	@Override
@@ -100,7 +105,7 @@ public class EventModel implements IEventModel {
 
 	@Override
 	public EventEntity getByFullName(String name) {
-		return eventRepository.byFullName(name);
+		return eventRepository.getByNameOfEvent(name);
 	}
 
 	@Override

@@ -10,9 +10,7 @@ import application.entities.EventEntity;
 import application.repositories.custom.EventRepositoryCustom;
 
 public interface EventRepository extends JpaRepository<EventEntity, Integer>, EventRepositoryCustom {
-  
-	@Query("SELECT e from EventEntity e WHERE e.nameOfEvent = :name")
-    public EventEntity byFullName(String name);
+    public EventEntity getByNameOfEvent(String name);
 
 	
 }

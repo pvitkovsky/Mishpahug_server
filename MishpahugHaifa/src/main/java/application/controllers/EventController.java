@@ -31,23 +31,18 @@ public class EventController {
 
 
     @GetMapping(value="/{id}")
-    public List<EventEntity> get(@PathVariable(value = "id", required = false) Integer id,
-                                 @RequestBody(required = false) HashMap<String, String> data) throws ExceptionMishpaha {
-        List<EventEntity> res = new ArrayList<>();
-        if (id != null){
-            if (data == null) {
-                res.add(eventModel.getById(id));
-            }
-        }
-        else{
-            if (data == null) {
-                res = eventModel.getAll();
-            }
-            else {
-                res = eventModel.getByFilter(data);
-            }
-        }
-        return res;
+    public EventEntity get(@PathVariable(value = "id", required = false) Integer id) throws ExceptionMishpaha {
+               return eventModel.getById(id);
+    }
+
+    @GetMapping(value="/")
+    public List<EventEntity> get() {
+        return eventModel.getAll();
+    }
+
+    @GetMapping(value="/{filter}")
+    public List<EventEntity> get(@RequestBody HashMap<String, String> data) {
+        return eventModel.getByFilter(data);
     }
 
     @PostMapping(value="/")
@@ -65,8 +60,13 @@ public class EventController {
         return eventModel.update(id, data);
     }
 
+    @DeleteMapping(value = "/{id}")
+    public EventEntity delete(@PathVariable(value = "id") Integer id) throws ExceptionMishpaha {
+        return eventModel.delete(id);
+    }
+
     @DeleteMapping(value = "/")
-    public EventEntity deleteEvent(@PathVariable(value = "id", required = false) Integer id) throws ExceptionMishpaha {
-        return eventModel.remove(id);
+    public void delete() throws ExceptionMishpaha {
+        eventModel.deleteAll();
     }
 }

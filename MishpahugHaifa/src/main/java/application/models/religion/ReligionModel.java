@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import application.exceptions.ExceptionMishpaha;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,34 @@ public class ReligionModel implements IReligionModel {
     public ReligionEntity add(ReligionEntity data) {
         return religionRepository.save(data);
     }
+
+    @Override
+    public ReligionEntity updateName(Integer id, String name) throws ExceptionMishpaha {
+        try {
+            ReligionEntity cityEntity = religionRepository.getOne(id);
+            cityEntity.setName(name);
+            return religionRepository.saveAndFlush(cityEntity);
+        } catch (Exception e) {
+            throw new ExceptionMishpaha(this.getClass().toString(), e);
+        }
+    }
+
+    @Override
+    public ReligionEntity deleteByID(Integer id)  throws ExceptionMishpaha {
+        try {
+            ReligionEntity cityEntity = religionRepository.getOne(id);
+            religionRepository.deleteById(id);
+            return cityEntity;
+        } catch (Exception e) {
+            throw new ExceptionMishpaha(this.getClass().toString(), e);
+        }
+    }
+
+    @Override
+    public void deleteAll(){
+        religionRepository.deleteAll();
+    }
+
 
     @Override
     public ReligionEntity update(String oldName, String newName) {

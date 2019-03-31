@@ -100,8 +100,10 @@ public class UserModel implements IUserModel {
 	}
 
 	@Override
-	public void deleteAll() {
+	public List<UserEntity> deleteAll() {
+		List<UserEntity> all = userRepository.findAll();
 		userRepository.deleteAll();
+		return all;
 	}
 
 	@Override

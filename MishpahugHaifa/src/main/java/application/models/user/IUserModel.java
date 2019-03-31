@@ -7,16 +7,16 @@ import java.util.List;
 import java.util.HashMap;
 
 public interface IUserModel {
-    public List<UserEntity> getAll();
-    public UserEntity getById(Integer userId);
-    public List<UserEntity> getByFilter(HashMap<String, String> filter);
-    public UserEntity add(UserEntity data);
+    public List<UserEntity> getAll() throws ExceptionMishpaha;
+    public UserEntity getById(Integer userId)  throws ExceptionMishpaha;
+    public List<UserEntity> getByFilter(HashMap<String, String> filter) throws ExceptionMishpaha;
+    public UserEntity add(UserEntity data) throws ExceptionMishpaha;
     public UserEntity update(Integer userId, HashMap<String, String> data) throws ExceptionMishpaha;
-    public UserEntity deleteByID(Integer userId);
-    public UserEntity getByName(String name);
-    public void deleteAll();
-    public List<UserEntity> getByGender(String gender);
-    public List<UserEntity> getByReligion(String religion);
-	public List<UserEntity> getByKitchenType(String kitchenType);
-	public List<UserEntity> getByMaritalStatus(String maritalStatus);
+    public UserEntity deleteByID(Integer userId) throws ExceptionMishpaha;
+    public UserEntity getByName(String name) throws ExceptionMishpaha;
+    public List<UserEntity> deleteAll() throws ExceptionMishpaha;
+    public List<UserEntity> getByGender(String gender) throws ExceptionMishpaha;
+    public List<UserEntity> getByReligion(String religion) throws ExceptionMishpaha;
+	public List<UserEntity> getByKitchenType(String kitchenType) throws ExceptionMishpaha;
+	public List<UserEntity> getByMaritalStatus(String maritalStatus) throws ExceptionMishpaha;
 }

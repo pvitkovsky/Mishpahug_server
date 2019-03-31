@@ -47,6 +47,11 @@ public class UserController {
         return userModel.getById(id);
     }
 
+    @PostMapping(value="/")
+    public UserEntity add(@RequestBody UserDTO userDTO) throws ExceptionMishpaha {
+        return userModel.add(new UserEntity(userDTO));
+    }
+
     @PutMapping(value="/{id}")
     public UserEntity update(@RequestBody HashMap<String, String> data,
                              @PathVariable(value = "id") Integer id) throws ExceptionMishpaha {

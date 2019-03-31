@@ -43,7 +43,7 @@ public class UserController {
     }
 
     @GetMapping(value="/{id}")
-    public UserEntity get(@PathVariable(value = "id", required = false) Integer id) throws ExceptionMishpaha {
+    public UserEntity get(@PathVariable(value = "id") Integer id) throws ExceptionMishpaha {
         return userModel.getById(id);
     }
 
@@ -55,12 +55,12 @@ public class UserController {
 
     @DeleteMapping(value = "/{id}")
     public UserEntity delete(@PathVariable(value = "id") Integer id) throws ExceptionMishpaha {
-        return userModel.remove(id);
+        return userModel.deleteByID(id);
     }
 
     @DeleteMapping(value = "/")
-    public List<UserEntity> delete() throws ExceptionMishpaha {
-        return userModel.removeAll();
+    public void delete() throws ExceptionMishpaha {
+        userModel.deleteAll();
     }
 
 

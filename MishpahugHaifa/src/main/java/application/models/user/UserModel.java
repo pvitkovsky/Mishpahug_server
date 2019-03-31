@@ -87,7 +87,7 @@ public class UserModel implements IUserModel {
 	}
 
 	@Override
-	public UserEntity remove(Integer userId) {
+	public UserEntity deleteByID(Integer userId) {
 		UserEntity usr = userRepository.getOne(userId);
 		usr.unsubscribeAll();
 		userRepository.deleteById(userId);
@@ -97,6 +97,11 @@ public class UserModel implements IUserModel {
 	@Override
 	public UserEntity getByName(String name) {
 		return userRepository.findByUserName(name);
+	}
+
+	@Override
+	public void deleteAll() {
+		userRepository.deleteAll();
 	}
 
 	@Override

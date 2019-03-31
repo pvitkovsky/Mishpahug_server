@@ -13,6 +13,7 @@ import javax.transaction.Transactional;
 import application.dto.forholiday.ArrHolidayDTO;
 import application.dto.forholiday.HolidayDTO;
 import application.entities.*;
+import application.entities.LogsOnEvent.ActionsOnEvent;
 import application.repositories.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,10 @@ public class DB_test_loader implements CommandLineRunner {
 	ReligionRepository religionRepository;
 	@Autowired
 	KichenTypeRepository kichenTypeRepository;
+	@Autowired
+	LogsDataRepository logsDataRepository;
+	
+	
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -59,6 +64,7 @@ public class DB_test_loader implements CommandLineRunner {
 		loadTest(MPHEntity.USER);
 		loadTest(MPHEntity.EVENT);
 		loadTest(MPHEntity.GUESTS);
+		loadTest(MPHEntity.LOGS);
 	}
 
 	private void loadTest(MPHEntity entity) {
@@ -111,8 +117,8 @@ public class DB_test_loader implements CommandLineRunner {
 		case GUESTS: {
 			eventGuestRepository.deleteAll();
 			Integer randomUserRange = userRepository.findAll().size() - 1;
-			Random randomUser = new Random();
-			UserEntity randomGuest = userRepository.findAll().get(randomUser.nextInt(randomUserRange));
+			Random gen = new Random();
+			UserEntity randomGuest = userRepository.findAll().get(gen.nextInt(randomUserRange));
 			for (EventEntity event : eventRepository.findAll()) {
 				EventGuestRelation subscription = new EventGuestRelation();
 				if (!event.getUserEntityOwner().equals(randomGuest)) {
@@ -120,6 +126,25 @@ public class DB_test_loader implements CommandLineRunner {
 				}
 			}
 			break;
+		}
+		case LOGS:{
+			logsDataRepository.deleteAll();
+			Random gen = new Random();
+			Integer randomUserRange = userRepository.findAll().size() - 1;
+			UserEntity randomUserActor = userRepository.findAll().get(gen.nextInt(randomUserRange));
+			Integer randomEventRange = eventRepository.findAll().size() - 1;
+			EventEntity randomEventTarget= eventRepository.findAll().get(gen.nextInt(randomEventRange));
+			LocalTime TTIME = LocalTime.of(23, 59);
+			for ( int i = 0; i<100; i++) {
+				LogsOnEvent logUE = new LogsOnEvent();
+				logUE.setDate(LocalDate.of(2019, 03, 1 + gen.nextInt(30)));
+				logUE.setUserActor(randomUserActor);
+				logUE.setEventTarget(randomEventTarget);
+				logUE.setAction(ActionsOnEvent.EVENT_VIEW);
+				logUE.setTime(TTIME);
+				logsDataRepository.save(logUE);
+			}
+			
 		}
 		}
 
@@ -168,7 +193,12 @@ public class DB_test_loader implements CommandLineRunner {
 		},
 		GUESTS {
 			public String dataFile() {
-				return "data_guests_blank.csv";
+				return "data_blank.csv";
+			}
+		},
+		LOGS {
+			public String dataFile() {
+				return "data_blank.csv";
 			}
 		};
 		abstract String dataFile();
@@ -191,6 +221,7 @@ public class DB_test_loader implements CommandLineRunner {
 				List<AddressEntity> addressEntityList = addressRepository.findAll();
 				List<ReligionEntity> religionEntityList = religionRepository.findAll();
 				List<KitchenTypeEntity> kitchenTypeEntityList = kichenTypeRepository.findAll();
+				logsDataRepository.deleteAll();
 				userRepository.deleteAll();
 				userRepository.flush(); // TODO: do we need flush here?
 				String detail;
@@ -434,9 +465,10 @@ public class DB_test_loader implements CommandLineRunner {
 		public EventLoader(BufferedReader empdtil) {
 			this.empdtil = empdtil;
 		}
-
+		
 		void load() {
 			try {
+				logsDataRepository.deleteAll();
 				eventRepository.deleteAll();
 				eventRepository.flush();// TODO: do we need flush here?
 				String detail;

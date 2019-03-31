@@ -22,7 +22,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 
 public class PdfDocumentFormat {
-    private static String file = "";
+    private String file = "";
     private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,
             Font.BOLD);
     private static Font redFont = new Font(Font.FontFamily.TIMES_ROMAN, 12,
@@ -32,17 +32,17 @@ public class PdfDocumentFormat {
     private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12,
             Font.BOLD);
 
-    public static String getFile() {
-        return PdfDocumentFormat.file;
+    public String getFile() {
+        return file;
     }
 
-    public static void setFile(String file) {
-        PdfDocumentFormat.file = file;
+    public void setFile(String file) {
+        this.file = file;
     }
 
-    public static void main(String[] args) {
+    public void createdocument(String filename) {
         try {
-            PdfDocumentFormat.file = "C:/temp/doc.pdf";
+            this.file = filename;
             Document document = new Document();
             FileOutputStream fileOutputStream = new FileOutputStream(file);
             PdfWriter.getInstance(document, fileOutputStream);

@@ -41,6 +41,11 @@ public class GenderController {
             return genderModel.getAll();
     }
 
+    @GetMapping(value="/name/{name}")
+    publiGenderEntity get(@PathVariable(name = "name") String name) {
+        return genderModel.getByName(name);
+    }
+
     @GetMapping(value="/{id}")
     public GenderEntity get(@PathVariable(name = "id") Integer id) {
         return genderModel.getById(id);

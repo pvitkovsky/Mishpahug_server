@@ -15,13 +15,14 @@ public class MaritalStatusController {
     @Autowired
     IMaritalStatusModel maritalStatusModel;
 
-    @GetMapping(value="")
+    @GetMapping(value="/")
     public List<MaritalStatusEntity> get(){
         return maritalStatusModel.getAll();
     }
 
     @GetMapping(value="/{id}")
     public MaritalStatusEntity get(@PathVariable(name = "id") Integer id){
+        System.out.println(maritalStatusModel.getById(id));
         return maritalStatusModel.getById(id);
     }
 

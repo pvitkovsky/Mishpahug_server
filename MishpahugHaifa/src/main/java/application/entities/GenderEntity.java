@@ -1,5 +1,6 @@
 package application.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ import javax.persistence.*;
 @Setter
 @EqualsAndHashCode(of = { "name" })
 @ToString
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class GenderEntity {
 
     @Id

@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
@@ -29,7 +30,7 @@ import lombok.ToString;
 @Setter
 @EqualsAndHashCode(of = { "name" })
 @ToString
-
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class HoliDayEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

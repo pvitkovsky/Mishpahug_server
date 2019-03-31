@@ -44,8 +44,4 @@ public class CityController {
         return cityModel.getById(id);
     }
 
-    @GetMapping(value="/{name}")
-    public CityEntity get(@RequestBody String data) throws ExceptionMishpaha {
-        return cityModel.getByName(data);
-    }
 }

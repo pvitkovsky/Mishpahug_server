@@ -44,8 +44,4 @@ public class CountryController {
         return countryModel.getById(id);
     }
 
-    @GetMapping(value="/{name}")
-    public CountryEntity get(@RequestBody String data){
-        return countryModel.getByName(data);
-    }
 }

@@ -15,7 +15,7 @@ public class MaritalStatusController {
     @Autowired
     IMaritalStatusModel maritalStatusModel;
 
-    @GetMapping(value="/")
+    @GetMapping(value="")
     public List<MaritalStatusEntity> get(){
         return maritalStatusModel.getAll();
     }
@@ -25,7 +25,7 @@ public class MaritalStatusController {
         return maritalStatusModel.getById(id);
     }
 
-    @PostMapping(value="/{name}")
+    @PostMapping(value="/")
     public void post(@RequestBody MaritalStatusEntity data) throws ExceptionMishpaha {
         maritalStatusModel.add(data);
     }

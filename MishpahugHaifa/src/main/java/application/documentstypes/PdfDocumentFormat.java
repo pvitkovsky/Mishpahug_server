@@ -43,7 +43,7 @@ public class PdfDocumentFormat {
 
     public void createdocument(String filename) {
         try {
-            this.file = filename;
+
             Document document = new Document();
             FileOutputStream fileOutputStream = new FileOutputStream(file);
             PdfWriter.getInstance(document, fileOutputStream);

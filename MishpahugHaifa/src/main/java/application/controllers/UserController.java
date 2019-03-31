@@ -2,6 +2,7 @@ package application.controllers;
 
 import application.dto.*;
 import application.entities.UserEntity;
+import application.exceptions.ExceptionMishpaha;
 import application.models.gender.IGenderModel;
 import application.models.holyday.IHolyDayModel;
 import application.models.kichentype.IKichenTypeModel;
@@ -37,45 +38,48 @@ public class UserController {
     IHolyDayModel holyDayModel;
 
     @GetMapping(value="/")
-    public List<UserEntity> get(){
+    public List<UserEntity> get() throws ExceptionMishpaha {
         return userModel.getAll();
     }
 
-    @GetMapping(value="/getbyreligion")
-    public List<UserEntity> getByReligion(@RequestParam(name = "religion") String religion){
-        return userModel.getByReligion(religion);
+    @GetMapping(value="/{id}")
+    public UserEntity get(@PathVariable(value = "id", required = false) Integer id) throws ExceptionMishpaha {
+        return userModel.getById(id);
     }
 
-    @GetMapping(value="/getbykitchen")
-    public List<UserEntity> getByKitchenType(@RequestParam(name = "kitchentype") String kitchenType){
-        return userModel.getByKitchenType(kitchenType);
+    @PutMapping(value="/{id}")
+    public UserEntity update(@RequestBody HashMap<String, String> data,
+                             @PathVariable(value = "id") Integer id) throws ExceptionMishpaha {
+        return userModel.update(id, data);
     }
 
-    @GetMapping(value="/getbygender")
-    public List<UserEntity> getByGender(@RequestParam(name = "gender") String gender){
-        return userModel.getByGender(gender);
+    @DeleteMapping(value = "/{id}")
+    public UserEntity delete(@PathVariable(value = "id") Integer id) throws ExceptionMishpaha {
+        return userModel.remove(id);
     }
 
-    @GetMapping(value="/getbymaritalstatus")
-    public List<UserEntity> getByMaritalStatus(@RequestParam(name = "maritalstatus") String maritalStatus){
-        return userModel.getByMaritalStatus(maritalStatus);
+    @DeleteMapping(value = "/")
+    public List<UserEntity> delete() throws ExceptionMishpaha {
+        return userModel.removeAll();
     }
 
-    @GetMapping(value="/getbyfilter")
-    public List<UserEntity> getByFilter(@RequestBody HashMap<String, String> data){
-        return userModel.getByFilter(data);
-    }
+
+
+
+
+
+
 
     //TODO дописать фильтр для полей с сущностями
     @PostMapping(value="/addPage1")
-    public void setDataFromForm(@RequestBody UserDTO data){
+    public void setDataFromForm(@RequestBody UserDTO data) throws ExceptionMishpaha{
         UserEntity userEntity = new UserEntity(data);
         userModel.add(userEntity);
     }
 
     @PostMapping(value="/addPage2")
     public void setDataFromFormDetail(@RequestBody UserDTODetail data,
-                                      @RequestParam(name = "username") String userName){
+                                      @RequestParam(name = "username") String userName) throws ExceptionMishpaha{
         UserEntity userEntity = userModel.getByName(userName);
         userEntity.setGender(genderModel.getByName(data.getGender()));
         userEntity.setMaritalStatus(maritalStatusModel.getByName(data.getMaritalStatus()));

@@ -2,6 +2,7 @@ package application.documentstypes;
 
 import java.io.FileOutputStream;
 import java.util.Date;
+import java.util.HashMap;
 
 import com.itextpdf.text.Anchor;
 import com.itextpdf.text.BadElementException;
@@ -42,12 +43,12 @@ public class PdfDocumentFormat {
 
     public void createdocument(String filename) {
         try {
-            this.file = filename;
+
             Document document = new Document();
             FileOutputStream fileOutputStream = new FileOutputStream(file);
             PdfWriter.getInstance(document, fileOutputStream);
             document.open();
-            addMetaData(document);
+            addMetaData(document, new HashMap<>());
             addTitlePage(document);
             addContent(document);
             document.close();
@@ -59,12 +60,12 @@ public class PdfDocumentFormat {
     // iText allows to add metadata to the PDF which can be viewed in your Adobe
     // Reader
     // under File -> Properties
-    private static void addMetaData(Document document) {
-        document.addTitle("My first PDF");
-        document.addSubject("Using iText");
-        document.addKeywords("Java, PDF, iText");
-        document.addAuthor("Lars Vogel");
-        document.addCreator("Lars Vogel");
+    private static void addMetaData(Document document, HashMap<String, String> metadata) {
+        document.addTitle(metadata.get("title"));
+        document.addSubject(metadata.get("subject"));
+        document.addKeywords(metadata.get("keywords"));
+        document.addAuthor(metadata.get("author"));
+        document.addCreator(metadata.get("creator"));
     }
 
     private static void addTitlePage(Document document)

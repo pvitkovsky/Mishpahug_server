@@ -22,10 +22,11 @@ public class MaritalStatusController {
 
     @GetMapping(value="/{id}")
     public MaritalStatusEntity get(@PathVariable(name = "id") Integer id){
+        System.out.println(maritalStatusModel.getById(id));
         return maritalStatusModel.getById(id);
     }
 
-    @PostMapping(value="/{name}")
+    @PostMapping(value="/")
     public void post(@RequestBody MaritalStatusEntity data) throws ExceptionMishpaha {
         maritalStatusModel.add(data);
     }

@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AccessLevel;
@@ -32,6 +33,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"name"})
 @ToString(exclude = "cityEntities")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class CountryEntity {
 
     @Id

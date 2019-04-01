@@ -36,11 +36,6 @@ public class EventController {
     }
 
     @GetMapping(value="/")
-    public List<EventEntity> get() {
-        return eventModel.getAll();
-    }
-
-    @GetMapping(value="/{filter}")
     public List<EventEntity> get(@RequestBody HashMap<String, String> data) {
         return eventModel.getByFilter(data);
     }

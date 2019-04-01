@@ -6,7 +6,6 @@ import application.models.gender.IGenderModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -32,22 +31,27 @@ public class GenderController {
     }
 
     @DeleteMapping(value="/")
-    public void delete() throws ExceptionMishpaha {
+    public void delete() {
         genderModel.deleteAll();
+
     }
 
     @GetMapping(value="/")
-    public List<GenderEntity> get() throws ExceptionMishpaha {
+    public List<GenderEntity> get() {
             return genderModel.getAll();
+
+    }
+
+    @GetMapping(value="/name/{name}")
+    public GenderEntity get(@PathVariable(name = "name") String name) {
+        return genderModel.getByName(name);
+
     }
 
     @GetMapping(value="/{id}")
-    public GenderEntity get(@PathVariable(name = "id") Integer id) throws ExceptionMishpaha {
+    public GenderEntity get(@PathVariable(name = "id") Integer id) {
         return genderModel.getById(id);
+
     }
 
-    @GetMapping(value="/{name}")
-    public GenderEntity get(@RequestBody String data) throws ExceptionMishpaha {
-        return genderModel.getByName(data);
-    }
 }

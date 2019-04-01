@@ -21,6 +21,7 @@ import com.querydsl.core.types.Predicate;
 import application.dto.UserDTO;
 import application.dto.UserDTODetail;
 import application.entities.UserEntity;
+import application.exceptions.ExceptionMishpaha;
 import application.models.gender.IGenderModel;
 import application.models.holyday.IHolyDayModel;
 import application.models.kichentype.IKichenTypeModel;
@@ -34,7 +35,7 @@ import application.repositories.UserRepository;
 public class UserController {
 	
 	@Autowired 
-	UserRepository userRepo;
+	UserRepository userRepo; //TODO: encapsulate this into model
 
     @Autowired
     IReligionModel religionModel;
@@ -53,7 +54,8 @@ public class UserController {
 
     @Autowired
     IHolyDayModel holyDayModel;
-
+`
+//TODO: clarify please
 //    @GetMapping(value="/{action}")
 //    public void getDataForAddForm(@PathVariable(value = "action", required = false) String action){
 //        if (action != null){
@@ -66,41 +68,43 @@ public class UserController {
 //        }
 //    }
 
-    @GetMapping(value="/getbyreligion")
-    public List<UserEntity> getByReligion(@RequestParam(name = "religion") String religion){
-        return userModel.getByReligion(religion);
+
+    @GetMapping(value="/{id}")
+    public UserEntity get(@PathVariable(value = "id") Integer id) throws ExceptionMishpaha {
+        return userModel.getById(id);
     }
 
-    @GetMapping(value="/getbykitchen")
-    public List<UserEntity> getByKitchenType(@RequestParam(name = "kitchentype") String kitchenType){
-        return userModel.getByKitchenType(kitchenType);
+    @PostMapping(value="/")
+    public UserEntity add(@RequestBody UserDTO userDTO) throws ExceptionMishpaha {
+        return userModel.add(new UserEntity(userDTO));
     }
 
-    @GetMapping(value="/getbygender")
-    public List<UserEntity> getByGender(@RequestParam(name = "gender") String gender){
-        return userModel.getByGender(gender);
+    @PutMapping(value="/{id}")
+    public UserEntity update(@RequestBody HashMap<String, String> data,
+                             @PathVariable(value = "id") Integer id) throws ExceptionMishpaha {
+        return userModel.update(id, data);
     }
 
-    @GetMapping(value="/getbymaritalstatus")
-    public List<UserEntity> getByMaritalStatus(@RequestParam(name = "maritalstatus") String maritalStatus){
-        return userModel.getByMaritalStatus(maritalStatus);
+    @DeleteMapping(value = "/{id}")
+    public UserEntity delete(@PathVariable(value = "id") Integer id) throws ExceptionMishpaha {
+        return userModel.deleteByID(id);
     }
 
-    @GetMapping(value="/getbyfilter")
-    public List<UserEntity> getByFilter(@RequestBody HashMap<String, String> data){
-        return userModel.getByFilter(data);
+    @DeleteMapping(value = "/")
+    public void delete() throws ExceptionMishpaha {
+        userModel.deleteAll();
     }
 
     //TODO дописать фильтр для полей с сущностями
     @PostMapping(value="/addPage1")
-    public void setDataFromForm(@RequestBody UserDTO data){
+    public void setDataFromForm(@RequestBody UserDTO data) throws ExceptionMishpaha{
         UserEntity userEntity = new UserEntity(data);
         userModel.add(userEntity);
     }
 
     @PostMapping(value="/addPage2")
     public void setDataFromFormDetail(@RequestBody UserDTODetail data,
-                                      @RequestParam(name = "username") String userName){
+                                      @RequestParam(name = "username") String userName) throws ExceptionMishpaha{
         UserEntity userEntity = userModel.getByName(userName);
         userEntity.setGender(genderModel.getByName(data.getGender()));
         userEntity.setMaritalStatus(maritalStatusModel.getByName(data.getMaritalStatus()));
@@ -109,7 +113,7 @@ public class UserController {
         userModel.add(userEntity);
     }
     
-    @RequestMapping(method = RequestMethod.GET, value = "/")
+  @RequestMapping(method = RequestMethod.GET, value = "/")
 	@ResponseBody
 	public Iterable<UserEntity> findAllByWebQuerydsl(
 	  @QuerydslPredicate(root = UserEntity.class) Predicate predicate) {

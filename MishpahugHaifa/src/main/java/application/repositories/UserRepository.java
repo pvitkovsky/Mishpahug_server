@@ -20,6 +20,7 @@ import application.entities.ReligionEntity;
 import application.entities.UserEntity;
 import application.repositories.custom.UserRepositoryCustom;
 
+
 public interface UserRepository extends JpaRepository<UserEntity, Integer>, UserRepositoryCustom,
 		QuerydslPredicateExecutor<UserEntity>, QuerydslBinderCustomizer<QUserEntity> {
 

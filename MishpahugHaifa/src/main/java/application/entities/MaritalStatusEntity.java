@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+
 @Entity
 @Table(name = "marriage_status", uniqueConstraints = { @UniqueConstraint(columnNames = { "name" }) })
 @AllArgsConstructor

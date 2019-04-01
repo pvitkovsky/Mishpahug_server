@@ -44,12 +44,4 @@ public class HoliDaysController {
     public HoliDayEntity get(@PathVariable(name = "id") Integer id){
            return holyDayModel.getById(id);
     }
-
-    @GetMapping(value="/{name}")
-    public HoliDayEntity get(@RequestBody String data){
-        return holyDayModel.getByName(data);
-    }
-
-
-
 }

@@ -1,6 +1,8 @@
 package application.entities;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 
@@ -12,6 +14,7 @@ import lombok.*;
 @AllArgsConstructor
 @EqualsAndHashCode(of = { "name" })
 @ToString
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ReligionEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

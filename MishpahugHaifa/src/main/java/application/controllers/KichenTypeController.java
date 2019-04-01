@@ -38,20 +38,13 @@ public class KichenTypeController {
 
 
     @GetMapping(value="/")
-    public List<KitchenTypeEntity> get() {
-        List<KitchenTypeEntity> res = new ArrayList<>();
-            return kichenTypeModel.getAll();
+    public List<KitchenTypeEntity> get(@RequestBody(required = false) String data) {
+        return kichenTypeModel.getAll();
     }
 
     @GetMapping(value="/{id}")
     public KitchenTypeEntity get(@PathVariable(name = "id", required = false) Integer id) {
-           return kichenTypeModel.getById(id);
+        return kichenTypeModel.getById(id);
     }
-
-    @GetMapping(value="/{name}")
-    public KitchenTypeEntity get(@RequestBody String data) {
-           return kichenTypeModel.getByName(data);
-    }
-
 
 }

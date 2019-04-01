@@ -18,6 +18,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AccessLevel;
@@ -37,6 +38,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"name", "countryEntity"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class CityEntity {
 
     @Id

@@ -21,12 +21,6 @@ public class ReligionController {
 
     }
 
-    @GetMapping(value="/{name}")
-    public ReligionEntity get(@RequestBody String data){
-        return religionModel.getByName(data);
-
-    }
-
     @GetMapping(value="/{id}")
     public ReligionEntity get(@PathVariable(name = "id") Integer id){
         return religionModel.getById(id);

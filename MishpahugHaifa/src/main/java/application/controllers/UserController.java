@@ -1,6 +1,25 @@
 package application.controllers;
 
-import application.dto.*;
+import java.util.HashMap;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.querydsl.binding.QuerydslPredicate;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.querydsl.core.types.Predicate;
+
+import application.dto.UserDTO;
+import application.dto.UserDTODetail;
 import application.entities.UserEntity;
 import application.exceptions.ExceptionMishpaha;
 import application.models.gender.IGenderModel;
@@ -9,15 +28,14 @@ import application.models.kichentype.IKichenTypeModel;
 import application.models.marriagestatus.IMaritalStatusModel;
 import application.models.religion.IReligionModel;
 import application.models.user.IUserModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.List;
+import application.repositories.UserRepository;
 
 @RestController
 @RequestMapping(value = "/user")
 public class UserController {
+	
+	@Autowired 
+	UserRepository userRepo; //TODO: encapsulate this into model
 
     @Autowired
     IReligionModel religionModel;
@@ -36,11 +54,20 @@ public class UserController {
 
     @Autowired
     IHolyDayModel holyDayModel;
+`
+//TODO: clarify please
+//    @GetMapping(value="/{action}")
+//    public void getDataForAddForm(@PathVariable(value = "action", required = false) String action){
+//        if (action != null){
+//                switch (action) {
+//                    case "lists": {
+//
+//                        break;
+//                    }
+//                }
+//        }
+//    }
 
-    @GetMapping(value="/")
-    public List<UserEntity> get() throws ExceptionMishpaha {
-        return userModel.getAll();
-    }
 
     @GetMapping(value="/{id}")
     public UserEntity get(@PathVariable(value = "id") Integer id) throws ExceptionMishpaha {
@@ -85,5 +112,12 @@ public class UserController {
         userEntity.setKitchenType(kichenTypeModel.getByName(data.getKichenType()));
         userModel.add(userEntity);
     }
+    
+  @RequestMapping(method = RequestMethod.GET, value = "/")
+	@ResponseBody
+	public Iterable<UserEntity> findAllByWebQuerydsl(
+	  @QuerydslPredicate(root = UserEntity.class) Predicate predicate) {
+	    return userRepo.findAll(predicate);
+	}
 
 }

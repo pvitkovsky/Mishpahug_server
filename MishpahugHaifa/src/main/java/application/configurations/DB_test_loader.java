@@ -130,10 +130,12 @@ public class DB_test_loader implements CommandLineRunner {
 		case LOGS:{
 			logsDataRepository.deleteAll();
 			Random gen = new Random();
-			Integer randomUserRange = userRepository.findAll().size() - 1;
-			UserEntity randomUserActor = userRepository.findAll().get(gen.nextInt(randomUserRange));
-			Integer randomEventRange = eventRepository.findAll().size() - 1;
-			EventEntity randomEventTarget= eventRepository.findAll().get(gen.nextInt(randomEventRange));
+			List<UserEntity> userEntityList = userRepository.findAll();
+			Integer randomUserRange = userEntityList.size() - 1;
+			UserEntity randomUserActor = userEntityList.get(gen.nextInt(randomUserRange));
+			List<EventEntity> eventEntityList = eventRepository.findAll();
+			Integer randomEventRange = eventEntityList.size() - 1;
+			EventEntity randomEventTarget= eventEntityList.get(gen.nextInt(randomEventRange));
 			LocalTime TTIME = LocalTime.of(23, 59);
 			for ( int i = 0; i<100; i++) {
 				LogsOnEvent logUE = new LogsOnEvent();

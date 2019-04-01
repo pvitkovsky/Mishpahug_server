@@ -28,15 +28,11 @@ import application.models.kichentype.IKichenTypeModel;
 import application.models.marriagestatus.IMaritalStatusModel;
 import application.models.religion.IReligionModel;
 import application.models.user.IUserModel;
-import application.repositories.UserRepository;
 
 @RestController
 @RequestMapping(value = "/user")
 public class UserController {
 	
-	@Autowired 
-	UserRepository userRepo; //TODO: encapsulate this into model
-
     @Autowired
     IReligionModel religionModel;
 
@@ -95,7 +91,6 @@ public class UserController {
         userModel.deleteAll();
     }
 
-    //TODO дописать фильтр для полей с сущностями
     @PostMapping(value="/addPage1")
     public void setDataFromForm(@RequestBody UserDTO data) throws ExceptionMishpaha{
         UserEntity userEntity = new UserEntity(data);
@@ -117,7 +112,7 @@ public class UserController {
 	@ResponseBody
 	public Iterable<UserEntity> findAllByWebQuerydsl(
 	  @QuerydslPredicate(root = UserEntity.class) Predicate predicate) {
-	    return userRepo.findAll(predicate);
+	    return userModel.getAll(predicate);
 	}
 
 }

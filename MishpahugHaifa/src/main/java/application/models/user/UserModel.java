@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import com.querydsl.core.types.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,11 +47,16 @@ public class UserModel implements IUserModel {
 
 	@Autowired
 	MaritalStatusRepository maritalStatusRepository;
-
+	// findAll(Predicate predicate)
 
 	@Override
 	public List<UserEntity> getAll() {
 		return userRepository.findAll();
+	}
+
+	@Override
+	public Iterable<UserEntity> getAll(Predicate predicate){
+		return userRepository.findAll(predicate);
 	}
 
 	@Override

@@ -229,7 +229,10 @@ public class DB_test_loader implements CommandLineRunner {
 				List<KitchenTypeEntity> kitchenTypeEntityList = kichenTypeRepository.findAll();
 				logsDataRepository.deleteAll();
 				userRepository.deleteAll();
-				userRepository.flush(); // TODO: do we need flush here?
+				userRepository.flush();
+				//do we need flush here?
+				// need
+				// https://stackoverflow.com/questions/49595852/deleteall-in-repository-randomly-causes-constraintviolationexception
 				String detail;
 				while ((detail = empdtil.readLine()) != null) {
 					UserEntity user = new UserEntity();
@@ -341,7 +344,9 @@ public class DB_test_loader implements CommandLineRunner {
 					event.setKitchenType(null);
 				}
 				kichenTypeRepository.deleteAll();
-				kichenTypeRepository.flush(); // TODO: do we need flush here?
+				kichenTypeRepository.flush();
+				// do we need flush here?
+				// need
 				String detail;
 				while ((detail = empdtil.readLine()) != null) {
 					KitchenTypeEntity kichenTypeEntity = new KitchenTypeEntity();
@@ -369,7 +374,9 @@ public class DB_test_loader implements CommandLineRunner {
 					user.setReligion(null);
 				}
 				religionRepository.deleteAll();
-				religionRepository.flush(); // TODO: do we need flush here?
+				religionRepository.flush();
+				// do we need flush here?
+				// need
 				String detail;
 				while ((detail = empdtil.readLine()) != null) {
 					ReligionEntity religionEntity = new ReligionEntity();
@@ -397,7 +404,9 @@ public class DB_test_loader implements CommandLineRunner {
 					user.setGender(null);
 				}
 				genderRepository.deleteAll();
-				genderRepository.flush(); // TODO: do we need flush here?
+				genderRepository.flush();
+				//do we need flush here?
+				// need
 				String detail;
 				while ((detail = empdtil.readLine()) != null) {
 					GenderEntity genderEntity = new GenderEntity();
@@ -425,7 +434,9 @@ public class DB_test_loader implements CommandLineRunner {
 			}
 			try {
 				maritalStatusRepository.deleteAll();
-				maritalStatusRepository.flush(); // TODO: do we need flush here?
+				maritalStatusRepository.flush();
+				//do we need flush here?
+				// need
 				String detail;
 				while ((detail = empdtil.readLine()) != null) {
 					MaritalStatusEntity maritalStatusEntity = new MaritalStatusEntity();
@@ -476,16 +487,22 @@ public class DB_test_loader implements CommandLineRunner {
 			try {
 				logsDataRepository.deleteAll();
 				eventRepository.deleteAll();
-				eventRepository.flush();// TODO: do we need flush here?
+				eventRepository.flush();
+				//do we need flush here?
+				//need
 				String detail;
-				UserEntity randomOwner = userRepository.findAll().get(0);
+				List<UserEntity> userEntityList = userRepository.findAll();
+				Integer userEntityListCount = userEntityList.size() - 1;
+				Random r = new Random();
 				while ((detail = empdtil.readLine()) != null) {
+					UserEntity randomOwner = userEntityList.get(r.nextInt(userEntityListCount));
 					String[] eventAttributes = detail.split(",");
 					EventEntity event = new EventEntity();
-					event.setDate(LocalDate.parse(eventAttributes[0].replaceAll("/", "-"), DateTimeFormatter.ISO_DATE));// TODO:
+					event.setDate(LocalDate.parse(eventAttributes[0].replaceAll("/", "-"), DateTimeFormatter.ISO_DATE));
+					// TODO:  ???
 					event.setTime(LocalTime.parse(eventAttributes[1], DateTimeFormatter.ISO_LOCAL_TIME));
 					event.setNameOfEvent(eventAttributes[2]);
-					randomOwner.makeOwner(event);// TODO: random user;
+					randomOwner.makeOwner(event);
 				}
 				empdtil.close();
 			} catch (IOException e) {

@@ -11,9 +11,11 @@ import application.entities.ReligionEntity;
 import application.entities.UserEntity;
 import application.repositories.custom.UserRepositoryCustom;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 
 
-public interface UserRepository extends JpaRepository<UserEntity, Integer>, UserRepositoryCustom {
+public interface UserRepository extends JpaRepository<UserEntity, Integer>, UserRepositoryCustom,
+		QueryDslPredicateExecutor<UserEntity>, QuerydslBinderCustomizer<QUserEntity>{
    
 	public List<UserEntity> findByReligion(ReligionEntity religionEntity);
 	

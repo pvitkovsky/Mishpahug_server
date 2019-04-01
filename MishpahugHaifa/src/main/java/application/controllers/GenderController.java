@@ -6,7 +6,6 @@ import application.models.gender.IGenderModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -34,21 +33,25 @@ public class GenderController {
     @DeleteMapping(value="/")
     public void delete() {
         genderModel.deleteAll();
+
     }
 
     @GetMapping(value="/")
     public List<GenderEntity> get() {
             return genderModel.getAll();
+
     }
 
     @GetMapping(value="/name/{name}")
-    publiGenderEntity get(@PathVariable(name = "name") String name) {
+    public GenderEntity get(@PathVariable(name = "name") String name) {
         return genderModel.getByName(name);
+
     }
 
     @GetMapping(value="/{id}")
     public GenderEntity get(@PathVariable(name = "id") Integer id) {
         return genderModel.getById(id);
+
     }
 
 }

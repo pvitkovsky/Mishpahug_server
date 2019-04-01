@@ -68,13 +68,6 @@ public class UserController {
         userModel.deleteAll();
     }
 
-
-
-
-
-
-
-
     //TODO дописать фильтр для полей с сущностями
     @PostMapping(value="/addPage1")
     public void setDataFromForm(@RequestBody UserDTO data) throws ExceptionMishpaha{

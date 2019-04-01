@@ -48,11 +48,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer>, User
                  return Optional.of(path.between(from, to));
              }
 		});
-
-		bindings.bind(root.gender.name).all((path, value) -> {
-			List<? extends String> dates = new ArrayList<>(value);
-				return Optional.of(path.eq(dates.get(0)));
-		});
 	}
 
 }

@@ -15,6 +15,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,6 +42,7 @@ public abstract class LogsDataEntity {
 	private UserEntity userActor;
 	
 	@Column(name = "date", nullable = false)
+	@DateTimeFormat(iso = ISO.DATE) 
 	private LocalDate date;
 
 	@Column(name = "time", nullable = false)

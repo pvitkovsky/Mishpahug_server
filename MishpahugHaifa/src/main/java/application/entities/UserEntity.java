@@ -19,8 +19,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import application.dto.UserDTO;
@@ -70,6 +71,7 @@ public class UserEntity {
 	private String encrytedPassword;
 
 	@Column(name = "dateofbirth")
+	@DateTimeFormat(iso = ISO.DATE) 
 	private LocalDate dateOfBirth;
 
 	public UserEntity(UserDTO data){

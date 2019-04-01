@@ -21,6 +21,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
 import application.dto.EventDTO;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -49,10 +52,12 @@ public class EventEntity {
 	
 	//@NotNull TODO: clarify
 	@Column(name = "date", nullable = false)
+	@DateTimeFormat(iso = ISO.DATE) 
 	private LocalDate date;
 
 	//@NotNull TODO: clarify
 	@Column(name = "time", nullable = false)
+	//TODO: JSON time format;
 	private LocalTime time;
 
 	//@NotNull TODO: clarify

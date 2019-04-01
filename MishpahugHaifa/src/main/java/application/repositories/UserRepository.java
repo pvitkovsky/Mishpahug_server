@@ -49,6 +49,46 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer>, User
              }
 		});
 
+		bindings.bind(root.firstName).all((path, value) -> {
+			List<? extends String> firstNames = new ArrayList<>(value);
+			return Optional.of(path.contains(firstNames.get(0)));
+		});
+
+		bindings.bind(root.lastName).all((path, value) -> {
+			List<? extends String> lastNames = new ArrayList<>(value);
+			return Optional.of(path.contains(lastNames.get(0)));
+		});
+
+		bindings.bind(root.eMail).all((path, value) -> {
+			List<? extends String> eMails = new ArrayList<>(value);
+			return Optional.of(path.contains(eMails.get(0)));
+		});
+
+		bindings.bind(root.addressEntity.cityEntity.name).all((path, value) -> {
+			List<? extends String> cities = new ArrayList<>(value);
+			return Optional.of(path.contains(cities.get(0)));
+		});
+
+		bindings.bind(root.addressEntity.street).all((path, value) -> {
+			List<? extends String> streets = new ArrayList<>(value);
+			return Optional.of(path.contains(streets.get(0)));
+		});
+
+		bindings.bind(root.addressEntity.building).all((path, value) -> {
+			List<? extends Integer> builds = new ArrayList<>(value);
+			return Optional.of(path.eq(builds.get(0)));
+		});
+
+		bindings.bind(root.addressEntity.apartment).all((path, value) -> {
+			List<? extends Integer> apartments = new ArrayList<>(value);
+			return Optional.of(path.eq(apartments.get(0)));
+		});
+
+		bindings.bind(root.phoneNumber).all((path, value) -> {
+			List<? extends String> phoneNumbers = new ArrayList<>(value);
+			return Optional.of(path.contains(phoneNumbers.get(0)));
+		});
+
 		bindings.bind(root.gender.name).all((path, value) -> {
 			List<? extends String> genderNames = new ArrayList<>(value);
 				return Optional.of(path.eq(genderNames.get(0)));

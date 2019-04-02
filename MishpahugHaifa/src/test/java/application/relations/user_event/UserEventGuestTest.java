@@ -119,7 +119,7 @@ public class UserEventGuestTest {
 		userRepo.save(BEN);
 		userRepo.save(ALYSSA);
 		AGUESTING.subscribe(ALYSSA, GUESTING);
-		assertTrue(GUESTING.getUserItemsGuestsOfEvents().contains(AGUESTING));
+		assertTrue(GUESTING.getSubscriptions().contains(AGUESTING));
 
 		ALYSSA.unsubscribeAll();
 		userRepo.delete(ALYSSA);
@@ -127,7 +127,7 @@ public class UserEventGuestTest {
 		assertTrue(eventRepo.existsById(GUESTING.getId()));
 		assertFalse(userRepo.existsById(ALYSSA.getId()));
 		assertFalse(eventGuestRepo.existsById(AGUESTING.getId()));
-		assertFalse(GUESTING.getUserItemsGuestsOfEvents().contains(AGUESTING));
+		assertFalse(GUESTING.getSubscriptions().contains(AGUESTING));
 		assertEquals(GUESTING.getSubscriptions().size(), 0);
 	}
 

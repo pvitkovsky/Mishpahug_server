@@ -73,8 +73,8 @@ public class SAUsTest {
             System.out.println("Test Bebin");
             System.out.println(eventEntity1);
             System.out.println(eventEntity2);
-            System.out.println(eventEntity1.getUserItemsGuestsOfEvents());
-            System.out.println(eventEntity2.getUserItemsGuestsOfEvents());
+            System.out.println(eventEntity1.getSubscriptions());
+            System.out.println(eventEntity2.getSubscriptions());
             System.out.println(userEntity1);
             System.out.println(userEntity2);
             System.out.println(userEntity3.getSubscriptions());

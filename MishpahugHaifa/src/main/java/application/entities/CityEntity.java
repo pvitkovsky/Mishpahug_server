@@ -50,12 +50,12 @@ public class CityEntity {
 
     @ManyToOne(optional = false) 
     @JoinColumn(name = "country_of_city")
-    @JsonBackReference
+    @JsonBackReference("countryOfCity")
     @Setter(AccessLevel.PACKAGE) 
     private CountryEntity countryEntity;
 
     @OneToMany(mappedBy = "cityEntity",  cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @JsonManagedReference 
+    @JsonManagedReference("cityOfAddress")
     @Getter(AccessLevel.NONE)
 	@Setter(AccessLevel.NONE)
     private Set<AddressEntity> addressEntities = new HashSet<>();

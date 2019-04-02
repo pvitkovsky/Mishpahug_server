@@ -32,6 +32,17 @@ public interface EventRepository extends JpaRepository<EventEntity, Integer>,
             return Optional.of(path.contains(NamesOfEvents.get(0)));
         });
 
+        bindings.bind(root.holiDay.name).all((path, value) -> {
+            List<? extends String> NamesOfHolidays = new ArrayList<>(value);
+            return Optional.of(path.contains(NamesOfHolidays.get(0)));
+        });
+
+        bindings.bind(root.addressEntity.cityEntity.name).all((path, value) -> {
+            List<? extends String> NamesOfCities = new ArrayList<>(value);
+            return Optional.of(path.contains(NamesOfCities.get(0)));
+        });
+
+
         bindings.bind(root.date).all((path, value) -> {
             List<? extends LocalDate> dates = new ArrayList<>(value);
             if (dates.size() == 1) {

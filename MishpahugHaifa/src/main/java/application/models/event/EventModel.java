@@ -9,6 +9,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 import application.repositories.*;
+import com.querydsl.core.types.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -107,6 +108,12 @@ public class EventModel implements IEventModel {
 	public EventEntity getByFullName(String name) {
 		return eventRepository.getByNameOfEvent(name);
 	}
+
+	@Override
+	public Iterable<EventEntity> getAll(Predicate predicate){
+		return eventRepository.findAll(predicate);
+	}
+
 
 	@Override
 	public EventEntity subscribe(Integer eventId, Integer userId) throws ExceptionMishpaha {

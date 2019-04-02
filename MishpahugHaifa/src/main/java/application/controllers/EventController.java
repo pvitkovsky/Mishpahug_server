@@ -9,7 +9,9 @@ import application.models.event.IEventModel;
 import application.models.holyday.IHolyDayModel;
 import application.models.kichentype.IKichenTypeModel;
 import application.models.religion.IReligionModel;
+import com.querydsl.core.types.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -28,6 +30,13 @@ public class EventController {
 
     @Autowired
     IKichenTypeModel kichenTypeModel;
+
+    @RequestMapping(method = RequestMethod.GET, value = "/")
+    @ResponseBody
+    public Iterable<EventEntity> findAllByWebQuerydsl(
+            @QuerydslPredicate(root = EventEntity.class) Predicate predicate) {
+        return eventModel.getAll(predicate);
+    }
 
 
     @GetMapping(value="/{id}")

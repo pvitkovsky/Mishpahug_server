@@ -2,34 +2,31 @@ package application.models.logsdata;
 
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.querydsl.core.types.Predicate;
+
 import application.entities.LogsDataEntity;
+import application.repositories.LogsDataRepository;
 
-import java.util.HashMap;
-import java.util.List;
-
-//TODO ALL
 @Service
 @Transactional
 public class LogsDataModel implements ILogsDataModel {
-    @Override
-    public LogsDataEntity add(LogsDataEntity data) {
-        return null;
-    }
+	
+	
+	@Autowired 
+	LogsDataRepository logsRepo;
+	
+	@Override
+	public Iterable<LogsDataEntity> getAll(Predicate predicate){
+		return logsRepo.findAll(predicate);
+	}
 
-    @Override
-    public void clear() {
+	@Override
+	public void delete(Predicate predicate) {
+		logsRepo.deleteAll(getAll(predicate));
+	}
 
-    }
 
-    @Override
-    public List<LogsDataEntity> getAll() {
-        return null;
-    }
-
-    @Override
-    public List<LogsDataEntity> getByFilter(HashMap<String, String> data) {
-        return null;
-    }
 }

@@ -1,13 +1,13 @@
 package application.models.logsdata;
 
+import com.querydsl.core.types.Predicate;
+
 import application.entities.LogsDataEntity;
 
-import java.util.HashMap;
-import java.util.List;
-
 public interface ILogsDataModel {
-    public LogsDataEntity add(LogsDataEntity data);
-    public void clear();
-    public List<LogsDataEntity> getAll();
-    public List<LogsDataEntity> getByFilter(HashMap<String, String> data);
+
+	public Iterable<LogsDataEntity> getAll(Predicate predicate);
+    
+	public void delete(Predicate predicate);
+	
 }

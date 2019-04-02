@@ -1,5 +1,6 @@
 package application.repositories;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -17,8 +18,9 @@ import org.springframework.data.repository.query.Param;
 import application.entities.EventEntity;
 import application.repositories.custom.EventRepositoryCustom;
 
-public interface EventRepository extends JpaRepository<EventEntity, Integer>, EventRepositoryCustom,
-        QuerydslPredicateExecutor<EventEntity>, QuerydslBinderCustomizer<QEventEntity> {
+public interface EventRepository extends JpaRepository<EventEntity, Integer>,
+        QuerydslPredicateExecutor<EventEntity>, QuerydslBinderCustomizer<QEventEntity>,
+        EventRepositoryCustom{
     public EventEntity getByNameOfEvent(String name);
 
     @Override
@@ -28,6 +30,17 @@ public interface EventRepository extends JpaRepository<EventEntity, Integer>, Ev
         bindings.bind(root.nameOfEvent).all((path, value) -> {
             List<? extends String> NamesOfEvents = new ArrayList<>(value);
             return Optional.of(path.contains(NamesOfEvents.get(0)));
+        });
+
+        bindings.bind(root.date).all((path, value) -> {
+            List<? extends LocalDate> dates = new ArrayList<>(value);
+            if (dates.size() == 1) {
+                return Optional.of(path.eq(dates.get(0)));
+            } else {
+                LocalDate from = dates.get(0);
+                LocalDate to = dates.get(1);
+                return Optional.of(path.between(from, to));
+            }
         });
     }
 

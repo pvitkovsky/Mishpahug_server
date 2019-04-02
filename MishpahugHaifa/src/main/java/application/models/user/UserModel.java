@@ -65,11 +65,6 @@ public class UserModel implements IUserModel {
 	}
 
 	@Override
-	public List<UserEntity> getByFilter(HashMap<String, String> filter) {
-		return userRepository.searchByFilter(filter);
-	}
-
-	@Override
 	public UserEntity add(UserEntity data) {
 		return userRepository.save(data);
 	}

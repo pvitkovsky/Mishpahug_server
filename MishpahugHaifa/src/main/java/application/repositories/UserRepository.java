@@ -21,8 +21,9 @@ import application.entities.UserEntity;
 import application.repositories.custom.UserRepositoryCustom;
 
 
-public interface UserRepository extends JpaRepository<UserEntity, Integer>, UserRepositoryCustom,
-		QuerydslPredicateExecutor<UserEntity>, QuerydslBinderCustomizer<QUserEntity> {
+public interface UserRepository extends JpaRepository<UserEntity, Integer>,
+		QuerydslPredicateExecutor<UserEntity>, QuerydslBinderCustomizer<QUserEntity>,
+	UserRepositoryCustom{
 
 	public List<UserEntity> findByReligion(ReligionEntity religionEntity);
 

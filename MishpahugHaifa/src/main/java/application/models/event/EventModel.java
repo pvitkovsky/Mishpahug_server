@@ -48,11 +48,7 @@ public class EventModel implements IEventModel {
 		return subscriptions.stream().map(s -> s.getEvent()).collect(Collectors.toSet());
 	}
 
-	@Override
-	public List<EventEntity> getByFilter(HashMap<String, String> filter) {
-		return eventRepository.searchByFilter(filter);
 
-	}
 
 	@Override
 	public EventEntity add(EventEntity data) {

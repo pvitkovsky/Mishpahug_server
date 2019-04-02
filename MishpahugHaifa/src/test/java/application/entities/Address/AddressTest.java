@@ -56,13 +56,6 @@ public class AddressTest {
 
     @Test
     public void filterUserTest(){
-        HashMap<String, String> filterForUsers = new HashMap<>();
-        filterForUsers.put("gender","male");
-  
-        List<UserEntity> res = userRepository.searchByFilter(filterForUsers);
-        System.out.println("Begin userfilter test");
-        System.out.println(res);
-        System.out.println("End userfilter test");
         System.out.println("Begin user test");
         System.out.println(userRepository.findByGender(genderRepository.getByName("male")));
         System.out.println("End user test");

@@ -13,7 +13,6 @@ public interface IUserModel {
     public Iterable<UserEntity> getAll(Predicate predicate);
 
     public UserEntity getById(Integer userId)  throws ExceptionMishpaha;
-    public List<UserEntity> getByFilter(HashMap<String, String> filter) throws ExceptionMishpaha;
     public UserEntity add(UserEntity data) throws ExceptionMishpaha;
     public UserEntity update(Integer userId, HashMap<String, String> data) throws ExceptionMishpaha;
     public UserEntity deleteByID(Integer userId) throws ExceptionMishpaha;

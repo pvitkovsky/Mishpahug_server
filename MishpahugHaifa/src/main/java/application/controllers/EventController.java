@@ -39,16 +39,6 @@ public class EventController {
     }
 
 
-    @GetMapping(value="/{id}")
-    public EventEntity get(@PathVariable(value = "id", required = false) Integer id) throws ExceptionMishpaha {
-               return eventModel.getById(id);
-    }
-
-    @GetMapping(value="/")
-    public List<EventEntity> get(@RequestBody HashMap<String, String> data) {
-        return eventModel.getByFilter(data);
-    }
-
     @PostMapping(value="/")
     public EventEntity setDataFromForm(@RequestBody EventDTO data){
         EventEntity eventEntity = new EventEntity();

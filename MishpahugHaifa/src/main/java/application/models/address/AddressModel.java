@@ -5,10 +5,12 @@ import application.entities.CityEntity;
 import application.exceptions.ExceptionMishpaha;
 import application.repositories.AddressRepository;
 import application.repositories.CityRepository;
+import com.querydsl.core.types.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.transaction.Transactional;
 @Service
@@ -43,9 +45,36 @@ public class AddressModel implements IAddressModel {
     }
 
     @Override
+    public AddressEntity deleteByID(Integer id)  throws ExceptionMishpaha {
+        try {
+            AddressEntity cityEntity = addressRepository.getOne(id);
+            addressRepository.deleteById(id);
+            return cityEntity;
+        } catch (Exception e) {
+            throw new ExceptionMishpaha(this.getClass().toString(), e);
+        }
+    }
+
+    @Override
+    public void deleteAll(){
+        addressRepository.deleteAll();
+    }
+    @Override
     public AddressEntity add(AddressEntity data) {
         return addressRepository.save(data);
     }
+
+    @Override
+    public List<AddressEntity> getAll(){
+        return addressRepository.findAll();
+    }
+
+    @Override
+    public Iterable<AddressEntity> getAll(Predicate predicate){
+        return addressRepository.findAll(predicate);
+    }
+
+
 
     @Override
     public AddressEntity remove(Integer id) {

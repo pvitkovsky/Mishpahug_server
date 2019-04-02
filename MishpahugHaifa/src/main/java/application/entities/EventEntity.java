@@ -64,12 +64,10 @@ public class EventEntity {
 	@Column(name = "name_of_event", nullable = false)
 	private String nameOfEvent;
 
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)
-	@JsonManagedReference //Unidirectional;
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true) //Unidirectional;
 	private KitchenTypeEntity kitchenType;
 
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true) 
-	@JsonManagedReference //Unidirectional;
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true) //Unidirectional;
 	private HoliDayEntity holiDay;
 
 	@Column(name = "status")
@@ -78,17 +76,17 @@ public class EventEntity {
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "user_owner")
-	@JsonBackReference //Bidirectional, managed from User; 
+	@JsonBackReference("userEventOwner") //Bidirectional, managed from User; 
 	@Setter(AccessLevel.PACKAGE)
 	private UserEntity userEntityOwner;
 
-	@ManyToOne(optional = true)
-	@JsonBackReference //Bidirectional, managed from Address; //TODO: serialization circular reference;
-	@JsonIgnoreProperties("eventEntities")
+	@ManyToOne(optional = true) //Unidirectional, managed from Address; //TODO: serialization circular reference;
 	private AddressEntity addressEntity;
 
 	@OneToMany(mappedBy = "event" , cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true) 
-	@JsonBackReference //TODO: safe bidir getters/setters; feedback
+	@JsonManagedReference("eventOfSubscription") //TODO: feedback
+	@Getter(AccessLevel.NONE)
+	@Setter(AccessLevel.NONE)
 	private Set<EventGuestRelation> subscriptions = new HashSet<>();
 
 	public enum EventStatus {
@@ -131,7 +129,7 @@ public class EventEntity {
 	 * 
 	 * @return
 	 */
-	public Set<EventGuestRelation> getUserItemsGuestsOfEvents() {
+	public Set<EventGuestRelation> getSubscriptions() {
 		return Collections.unmodifiableSet(subscriptions);
 	}
 	

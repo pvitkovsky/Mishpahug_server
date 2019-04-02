@@ -44,7 +44,7 @@ public class CountryEntity {
     private String name;
 
     @OneToMany(mappedBy = "countryEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference("countryOfCity")
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     private Set<CityEntity> cityEntities = new HashSet<>();

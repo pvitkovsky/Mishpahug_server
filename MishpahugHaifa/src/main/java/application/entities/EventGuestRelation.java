@@ -69,18 +69,19 @@ public class EventGuestRelation {
 	@ManyToOne //TODO: cascading
 	@JoinColumn(name = "GUEST_ID", insertable = false, updatable = false) //relation column names should match with embedded id column names; 
 	@Setter(AccessLevel.PACKAGE)
-	@JsonBackReference
+	@JsonBackReference("guestOfSubscription")
 	private UserEntity userGuest;
 
 	@ManyToOne //TODO: cascading
 	@JoinColumn(name = "EVENT_ID", insertable = false, updatable = false) 
 	@Setter(AccessLevel.PACKAGE)
-	@JsonBackReference
+	@JsonBackReference("eventOfSubscription")
 	private EventEntity event;
 	
 	@Embedded
 	private FeedBackValue feedback;
 	
+	//TODO: status (pending, closed, canceled);
 	
 	public EventGuestRelation(UserEntity userGuest, EventEntity event) {
 		super();

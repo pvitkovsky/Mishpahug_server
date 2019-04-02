@@ -62,7 +62,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer>,
 
 		bindings.bind(root.eMail).all((path, value) -> {
 			List<? extends String> eMails = new ArrayList<>(value);
-			return Optional.of(path.contains(eMails.get(0)));
+			return Optional.of(path.eq(eMails.get(0)));
 		});
 
 		bindings.bind(root.addressEntity.cityEntity.name).all((path, value) -> {

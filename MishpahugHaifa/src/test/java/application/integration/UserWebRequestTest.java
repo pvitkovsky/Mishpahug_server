@@ -48,5 +48,27 @@ public class UserWebRequestTest {
     			  null,
     			new ParameterizedTypeReference<Collection<UserEntity>>(){}).getBody();
     	assertTrue(users.contains(ALYSSA));
+    	assertTrue(users.size() > 1);
     }
+    @Test
+	public void testFiltring(){
+		System.out.println("Between dates filter >>>");
+		Collection<UserEntity> users = this.restTemplate.exchange("http://localhost:" + port + "/user/?dateOfBirth=1980-01-01&dateOfBirth=2000-01-01", HttpMethod.GET,
+				null,
+				new ParameterizedTypeReference<Collection<UserEntity>>(){}).getBody();
+		users.forEach((data) -> System.out.println("user : " + data));
+		assertTrue(users.size() > 1);
+		System.out.println("lastname *man* filter >>>");
+		users = this.restTemplate.exchange("http://localhost:" + port + "/user/?lastName=man", HttpMethod.GET,
+				null,
+				new ParameterizedTypeReference<Collection<UserEntity>>(){}).getBody();
+		users.forEach((data) -> System.out.println("user : " + data));
+		assertTrue(users.size() > 0);
+		System.out.println("lastname *man* and between dates filter >>>");
+		users = this.restTemplate.exchange("http://localhost:" + port + "/user/?lastName=man&dateOfBirth=1980-01-01&dateOfBirth=2000-01-01", HttpMethod.GET,
+				null,
+				new ParameterizedTypeReference<Collection<UserEntity>>(){}).getBody();
+		users.forEach((data) -> System.out.println("user : " + data));
+		assertTrue(users.size() > 0);
+	}
 }

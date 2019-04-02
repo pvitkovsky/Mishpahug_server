@@ -52,21 +52,4 @@ public class AddressTest {
         }
     }
 
-
-
-    @Test
-    public void filterUserTest(){
-        System.out.println("Begin user test");
-        System.out.println(userRepository.findByGender(genderRepository.getByName("male")));
-        System.out.println("End user test");
-        System.out.println(userRepository.findByUserName(names.get(3)));
-        HashMap<String, String> updateForUser = new HashMap<>();
-        updateForUser.put("lastname","Dusia");
-
-        HashMap<String, String> filterForUpdateUsers = new HashMap<>();
-        filterForUpdateUsers.put("username", "Vasiyaaaaaaaaaaaaa");
-        System.out.println(userRepository.update(userRepository.getOne(3),filterForUpdateUsers));
-    }
-
-
 }

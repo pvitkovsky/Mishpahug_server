@@ -38,7 +38,7 @@ public class AddressEntity {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "city_of_address")
-    @JsonBackReference
+    @JsonBackReference("cityOfAddress")
     @Setter(AccessLevel.PACKAGE)
     private CityEntity cityEntity;
     

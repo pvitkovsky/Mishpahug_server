@@ -42,8 +42,7 @@ public class HoliDayEntity {
 	@Column(name = "name")
 	private String name;
 
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)
-	@JsonManagedReference //Unidirectional;
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true) //Unidirectional;
 	private ReligionEntity religionEntity;
 
 	@Column(name = "description")

@@ -92,35 +92,30 @@ public class UserEntity {
 	@Column(name = "Enabled", length = 1)
 	private boolean enabled;
 
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)
-	@JsonManagedReference //Unidirectional
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true) //Unidirectional
 	private MaritalStatusEntity maritalStatus;
 
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)
-	@JsonManagedReference //Unidirectional
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true) //Unidirectional
 	private GenderEntity gender;
 
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)
-	@JsonManagedReference //Unidirectional;
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true) //Unidirectional;
 	private KitchenTypeEntity kitchenType;
 
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)
-	@JsonManagedReference //Unidirectional;
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true) //Unidirectional;
 	private ReligionEntity religion;
 
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true) 
-	@JsonManagedReference //Unidirectional; //TODO: serializes only address not city or country; cause - innecessary bidirections;  
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true) //Unidirectional; //TODO: serializes only address not city or country; cause - innecessary bidirections;  
 	private AddressEntity addressEntity;
 
 	@OneToMany(mappedBy = "userEntityOwner", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-	@JsonManagedReference //Bidirectional, managed from here; 
+	@JsonManagedReference("userEventOwner") //Bidirectional, managed from here; 
 	@Getter(AccessLevel.NONE)
 	@Setter(AccessLevel.NONE)
 	@Builder.Default
 	private Set<EventEntity> eventItemsOwner = new HashSet<>();
 
 	@OneToMany(mappedBy = "userGuest", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true) 
-	@JsonManagedReference 
+	@JsonManagedReference("guestOfSubscription")
 	@Getter(AccessLevel.NONE)
 	@Setter(AccessLevel.NONE)
 	@Builder.Default

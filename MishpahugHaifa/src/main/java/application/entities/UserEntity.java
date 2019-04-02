@@ -22,7 +22,11 @@ import javax.persistence.UniqueConstraint;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import application.dto.UserDTO;
 import application.entities.values.PictureValue;
@@ -68,6 +72,9 @@ public class UserEntity {
 
 	@Column(name = "Encryted_Password", length = 128)
 	@Setter(AccessLevel.NONE)
+	/*
+	 * @JsonInclude(Include.NON_NULL) on class or @JsonInclude(Include.NON_NULL) here to prevent this from being serialized as null
+	 */
 	private String encrytedPassword;
 
 	@Column(name = "dateofbirth")
@@ -112,6 +119,7 @@ public class UserEntity {
 	@Getter(AccessLevel.NONE)
 	@Setter(AccessLevel.NONE)
 	@Builder.Default
+	@JsonProperty("owned_events")
 	private Set<EventEntity> eventItemsOwner = new HashSet<>();
 
 	@OneToMany(mappedBy = "userGuest", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true) 
@@ -119,6 +127,7 @@ public class UserEntity {
 	@Getter(AccessLevel.NONE)
 	@Setter(AccessLevel.NONE)
 	@Builder.Default
+	@JsonProperty("subscriptions")
 	private Set<EventGuestRelation> subscriptions = new HashSet<>();
 
 	@ElementCollection
@@ -187,6 +196,7 @@ public class UserEntity {
 	/**
 	 * Immutable wrapper over events owned by this user;
 	 */
+	@JsonIgnore
 	public Set<EventEntity> getEventEntityOwner() {
 		return Collections.unmodifiableSet(eventItemsOwner);
 	}
@@ -217,6 +227,7 @@ public class UserEntity {
 	 * 
 	 * @return
 	 */
+	@JsonIgnore
 	public Set<EventGuestRelation> getSubscriptions() {
 		return Collections.unmodifiableSet(subscriptions);
 	}

@@ -50,7 +50,7 @@ public class AddressTest {
         for (AddressEntity x : data) {
             System.out.println(x);
         }
-        
+
     }
 
 }

@@ -9,9 +9,6 @@ import org.springframework.stereotype.Service;
 import com.querydsl.core.types.Predicate;
 
 import application.entities.LogsDataEntity;
-import application.repositories.LogsDataRepository;
-
-import java.util.HashMap;
 import java.util.List;
 
 @Service

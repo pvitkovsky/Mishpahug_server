@@ -5,8 +5,6 @@ import application.exceptions.ExceptionMishpaha;
 import application.models.kichentype.IKichenTypeModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController

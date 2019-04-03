@@ -3,20 +3,14 @@ package application.controllers;
 import application.dto.EventDTO;
 import application.entities.EventEntity;
 import application.exceptions.ExceptionMishpaha;
-import application.models.city.ICityModel;
-import application.models.country.ICountryModel;
 import application.models.event.IEventModel;
 import application.models.holyday.IHolyDayModel;
 import application.models.kichentype.IKichenTypeModel;
-import application.models.religion.IReligionModel;
 import com.querydsl.core.types.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/event")

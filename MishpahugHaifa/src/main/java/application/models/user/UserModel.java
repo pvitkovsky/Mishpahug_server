@@ -1,27 +1,15 @@
 package application.models.user;
 
-import java.util.HashMap;
-import java.util.List;
-
-import javax.transaction.Transactional;
-
+import application.entities.*;
+import application.exceptions.ExceptionMishpaha;
+import application.repositories.*;
 import com.querydsl.core.types.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import application.entities.GenderEntity;
-import application.entities.KitchenTypeEntity;
-import application.entities.MaritalStatusEntity;
-import application.entities.ReligionEntity;
-import application.entities.UserEntity;
-import application.exceptions.ExceptionMishpaha;
-import application.repositories.CityRepository;
-import application.repositories.CountryRepository;
-import application.repositories.GenderRepository;
-import application.repositories.KichenTypeRepository;
-import application.repositories.MaritalStatusRepository;
-import application.repositories.ReligionRepository;
-import application.repositories.UserRepository;
+import javax.transaction.Transactional;
+import java.util.HashMap;
+import java.util.List;
 
 @Service
 @Transactional

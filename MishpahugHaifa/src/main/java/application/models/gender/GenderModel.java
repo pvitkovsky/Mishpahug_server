@@ -1,5 +1,5 @@
 package application.models.gender;
-import java.util.List;
+
 import application.entities.GenderEntity;
 import application.exceptions.ExceptionMishpaha;
 import application.repositories.GenderRepository;
@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional

@@ -1,17 +1,15 @@
 package application.models.city;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.transaction.Transactional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import application.entities.CityEntity;
 import application.entities.CountryEntity;
 import application.exceptions.ExceptionMishpaha;
 import application.repositories.CityRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 @Service
 @Transactional
 public class CityModel implements ICityModel {

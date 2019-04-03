@@ -3,7 +3,6 @@ package application.models.holyday;
 import application.dto.forholiday.HolidayDTO;
 import application.entities.HoliDayEntity;
 
-import java.net.URISyntaxException;
 import java.util.List;
 
 public interface IHolyDayModel {

@@ -2,7 +2,7 @@ package application.models.logsdata;
 
 import application.entities.LogsDataEntity;
 import com.querydsl.core.types.Predicate;
-import java.util.HashMap;
+
 import java.util.List;
 
 public interface ILogsDataModel {

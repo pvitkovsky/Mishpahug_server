@@ -1,18 +1,9 @@
 package application.dto;
 
-import application.entities.AddressEntity;
-import application.entities.EventEntity;
-import application.entities.EventGuestRelation;
-import application.entities.values.PictureValue;
-import application.utils.EncrytedPasswordUtils;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.*;
-
-import javax.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 
 @Getter
 @Setter

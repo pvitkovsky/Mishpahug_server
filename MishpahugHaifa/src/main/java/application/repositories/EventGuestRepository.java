@@ -1,15 +1,14 @@
 package application.repositories;
 
-import java.util.List;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-
 import application.entities.EventEntity;
 import application.entities.EventGuestRelation;
 import application.entities.EventGuestRelation.EventGuestId;
 import application.entities.UserEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import java.util.List;
 
 public interface EventGuestRepository extends JpaRepository<EventGuestRelation, EventGuestId> {
 

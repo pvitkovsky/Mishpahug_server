@@ -1,14 +1,11 @@
 package application.repositories.custom;
 
-import application.entities.GenderEntity;
 import application.entities.UserEntity;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 /*
 поля для фильтрации

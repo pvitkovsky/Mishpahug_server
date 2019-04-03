@@ -8,7 +8,6 @@ import javax.persistence.Query;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class EventRepositoryImpl implements EventRepositoryCustom{

@@ -1,9 +1,8 @@
 package application.entities.randomgeneration;
 
-import java.util.Random;
-
 import application.entities.UserEntity;
 import net.bytebuddy.utility.RandomString;
+import java.util.Random;
 
 public class RandomEntities {
 	

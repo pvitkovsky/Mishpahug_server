@@ -1,14 +1,12 @@
 package application.relations.user_event;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
+import application.entities.EventEntity;
+import application.entities.EventGuestRelation;
+import application.entities.UserEntity;
+import application.entities.randomgeneration.RandomEntities;
+import application.repositories.EventGuestRepository;
+import application.repositories.EventRepository;
+import application.repositories.UserRepository;
 import org.assertj.core.internal.bytebuddy.utility.RandomString;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,13 +17,14 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import application.entities.EventEntity;
-import application.entities.EventGuestRelation;
-import application.entities.UserEntity;
-import application.entities.randomgeneration.RandomEntities;
-import application.repositories.EventGuestRepository;
-import application.repositories.EventRepository;
-import application.repositories.UserRepository;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest

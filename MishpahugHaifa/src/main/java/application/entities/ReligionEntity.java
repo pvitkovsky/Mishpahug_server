@@ -1,10 +1,8 @@
 package application.entities;
 
-import javax.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
-
+import javax.persistence.*;
 
 @Entity
 @Table(name = "religion", uniqueConstraints = { @UniqueConstraint(columnNames = { "name" }) })

@@ -4,8 +4,8 @@ import application.entities.UserEntity;
 import application.exceptions.ExceptionMishpaha;
 import com.querydsl.core.types.Predicate;
 
-import java.util.List;
 import java.util.HashMap;
+import java.util.List;
 
 public interface IUserModel {
     public List<UserEntity> getAll() throws ExceptionMishpaha;

@@ -1,17 +1,12 @@
 
 package application.relations.user_event;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.Collection;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
+import application.entities.EventEntity;
+import application.entities.EventGuestRelation;
+import application.entities.UserEntity;
+import application.repositories.EventGuestRepository;
+import application.repositories.EventRepository;
+import application.repositories.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,13 +16,12 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import application.entities.EventEntity;
-import application.entities.EventGuestRelation;
-import application.entities.EventGuestRelation.EventGuestId;
-import application.entities.UserEntity;
-import application.repositories.EventGuestRepository;
-import application.repositories.EventRepository;
-import application.repositories.UserRepository;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+import static org.junit.Assert.*;
 
 /**
  * Relation: 

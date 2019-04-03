@@ -1,9 +1,7 @@
 package application.integration;
 
-import static org.junit.Assert.assertTrue;
-
-import java.util.Collection;
-
+import application.entities.UserEntity;
+import application.repositories.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,8 +15,9 @@ import org.springframework.http.client.HttpComponentsAsyncClientHttpRequestFacto
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
-import application.entities.UserEntity;
-import application.repositories.UserRepository;
+import java.util.Collection;
+
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)

@@ -1,6 +1,5 @@
 package application.models.marriagestatus;
 
-import application.entities.GenderEntity;
 import application.entities.MaritalStatusEntity;
 import application.exceptions.ExceptionMishpaha;
 import application.repositories.MaritalStatusRepository;

@@ -5,8 +5,8 @@ import application.entities.UserEntity;
 import application.exceptions.ExceptionMishpaha;
 import com.querydsl.core.types.Predicate;
 
-import java.util.List;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 public interface IEventModel {

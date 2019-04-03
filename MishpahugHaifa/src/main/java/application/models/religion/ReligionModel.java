@@ -1,15 +1,13 @@
 package application.models.religion;
 
-import java.util.List;
-
-import javax.transaction.Transactional;
-
+import application.entities.ReligionEntity;
 import application.exceptions.ExceptionMishpaha;
+import application.repositories.ReligionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import application.entities.ReligionEntity;
-import application.repositories.ReligionRepository;
+import javax.transaction.Transactional;
+import java.util.List;
 @Service
 @Transactional
 public class ReligionModel implements IReligionModel {

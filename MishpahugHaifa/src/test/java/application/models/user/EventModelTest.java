@@ -185,4 +185,6 @@ public class EventModelTest {
 			e.printStackTrace();
 		}
 	}
+	
+	//TODO: tests on deactivate and cancel pls
 }

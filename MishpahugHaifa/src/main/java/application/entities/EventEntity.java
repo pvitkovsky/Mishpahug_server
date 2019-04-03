@@ -1,17 +1,40 @@
 package application.entities;
 
-import application.dto.EventDTO;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import application.dto.EventDTO;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "eventlist", uniqueConstraints = {
@@ -27,17 +50,17 @@ public class EventEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	//@NotNull TODO: clarify
+	@NotNull //can omit nullable=false with Hibernate;
 	@Column(name = "date", nullable = false)
 	@DateTimeFormat(iso = ISO.DATE) 
 	private LocalDate date;
 
-	//@NotNull TODO: clarify
+	@NotNull 
 	@Column(name = "time", nullable = false)
 	//TODO: JSON time format;
 	private LocalTime time;
 
-	//@NotNull TODO: clarify
+	@NotNull
 	@Column(name = "name_of_event", nullable = false)
 	private String nameOfEvent;
 
@@ -46,10 +69,6 @@ public class EventEntity {
 
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true) //Unidirectional;
 	private HoliDayEntity holiDay;
-
-	@Column(name = "status")
-	@Enumerated(EnumType.STRING)
-	private EventStatus status;
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "user_owner")
@@ -66,6 +85,10 @@ public class EventEntity {
 	@Setter(AccessLevel.NONE)
 	private Set<EventGuestRelation> subscriptions = new HashSet<>();
 
+	@Column(name = "status")
+	@Enumerated(EnumType.STRING)
+	private EventStatus status;
+	
 	public enum EventStatus {
 		CREATED, PENDING, COMPLETE, CANCELED
 	}

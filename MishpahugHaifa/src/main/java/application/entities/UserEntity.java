@@ -71,7 +71,7 @@ public class UserEntity {
 		this.encrytedPassword = EncrytedPasswordUtils.encrytePassword(encrytedPassword);
 	}
 
-	@Column(name = "Enabled", length = 1)
+	@Column(name = "Enabled", length = 1)//TODO: enum;
 	private boolean enabled;
 
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true) //Unidirectional
@@ -194,8 +194,7 @@ public class UserEntity {
 	 */
 	protected boolean removeSubsription(EventGuestRelation subscription) {
 		return subscriptions.remove(subscription); 
-	}
-	
+	}	
 	
 	/**
 	 * Immutable wrapper over Subscriptions;

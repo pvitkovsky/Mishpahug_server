@@ -24,4 +24,6 @@ public interface IEventModel {
 
     public EventEntity subscribe(Integer eventId, Integer userId) throws ExceptionMishpaha; //TODO: why integers here? looks like unnecessary representation exposure; also bad design choice: easy to put them in wrong order;
     public EventEntity unsubscribe(Integer eventId, Integer userId) throws ExceptionMishpaha; //TODO: same as above;
+    public EventEntity deactivate(Integer eventId, Integer userId) throws ExceptionMishpaha; //TODO: same as above;
+
 }

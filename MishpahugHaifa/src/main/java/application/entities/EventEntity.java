@@ -19,6 +19,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
@@ -169,15 +170,25 @@ public class EventEntity {
 	 * Puts all subscriptions into deletion queue;
 	 */
 	private void putSubscriptionsIntoDeletionQueue() {
-		subscriptions.forEach(EventGuestRelation::putForDeletion);
+		subscriptions.forEach(EventGuestRelation::putIntoDeletionQueue);
 	}
 
 	/**
-	 * Removes all subscriptions when deleting event; must be in the deletion queue
+	 * Checks that the event is OK to delete and then unsubscribes all its subscribers;
 	 */
-	//TODO: maybe check for event status here?
-	public void unsubscribeAll() {
-		subscriptions.forEach(EventGuestRelation::unsubscribe);
+	@PreRemove
+	public void nullifyForRemoval() {
+		if(!isPendingForDeletion()) {
+			throw new IllegalArgumentException("Event must be first putIntoDeletionQueue");
+		}
+		unsubscribeAll(); //TODO: fix me pls;
+	}
+	
+	/**
+	 * Removes all subscriptions when deleting event; not needed - if an event is deleted, @PreRemove on EventGuestRelation does this;
+	 */
+	private void unsubscribeAll() {
+		subscriptions.forEach(EventGuestRelation::nullifyForRemoval);
 	}
 
 	public void convertEventDTO(EventDTO data) {
@@ -217,7 +228,7 @@ public class EventEntity {
 	/**
 	 * @return true if the event is pending for deletion;
 	 */
-	public boolean isPendingForDelete() {
+	public boolean isPendingForDeletion() {
 		return this.status.equals(EventStatus.PENDINGFORDELETE);
 	}
 
@@ -258,7 +269,7 @@ public class EventEntity {
 	/**
 	 * Puts the event into delete queue;
 	 */
-	public void putForDeletion() {
+	public void putIntoDeletionQueue() {
 		putSubscriptionsIntoDeletionQueue();
 		this.status = EventStatus.PENDINGFORDELETE;
 	}

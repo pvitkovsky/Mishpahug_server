@@ -68,7 +68,6 @@ public class UserModel implements IUserModel {
 	public UserEntity deleteByID(Integer userId) {
 		UserEntity usr = userRepository.getOne(userId);
 		usr.putIntoDeletionQueue();
-	    usr.unsubscribeEventsAndSubscripions();
 		userRepository.deleteById(userId);
 		return usr;
 	}
@@ -82,7 +81,6 @@ public class UserModel implements IUserModel {
 		List<UserEntity> all = userRepository.findAll();
 		for(UserEntity user : all) {
 			user.putIntoDeletionQueue();
-			user.unsubscribeEventsAndSubscripions();
 		}
 		userRepository.deleteAll();
 		return all;

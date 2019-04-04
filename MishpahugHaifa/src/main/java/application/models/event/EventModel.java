@@ -47,7 +47,6 @@ public class EventModel implements IEventModel {
 	@Autowired
 	HolyDayRepository holyDayRepository;
 
-
 	@Override
 	public List<EventEntity> getAll() {
 		return eventRepository.findAll();
@@ -136,25 +135,24 @@ public class EventModel implements IEventModel {
 		Subscription subscription = new Subscription(eventId, userId);
 		return subscription.deactivate();
 	}
-	
-	
+
 	/**
 	 * Handles subscription logic;
 	 */
-	//TODO: integer arguments design issue; test;
+	// TODO: integer arguments design issue; test;
 	private class Subscription {
 		final private Integer eventId;
 		final private Integer userId;
 		private EventEntity eventEntity;
 		private UserEntity userEntity;
 		private EventGuestRelation subscription;
-		
-		private Subscription(Integer eventId, Integer userId) throws ExceptionMishpaha{
+
+		private Subscription(Integer eventId, Integer userId) throws ExceptionMishpaha {
 			this.eventId = eventId;
-			this.userId = userId; 
+			this.userId = userId;
 			load();
 		}
-		
+
 		private void load() throws ExceptionMishpaha {
 			try {
 				eventEntity = eventRepository.getOne(eventId);
@@ -174,24 +172,28 @@ public class EventModel implements IEventModel {
 				if (!userEntity.getSubscriptions().contains(subscription)
 						|| !eventEntity.getSubscriptions().contains(subscription)) {
 					throw new IllegalStateException(
-							"User is guest of event, but his set of subscriptions does not contain this event");
+							"Subscription relation exists, but is not in subscription sets of Event or Guest");
 				}
 			}
 		}
+
 		EventEntity subscribe() {
 			subscription.subscribe(userEntity, eventEntity);
 			return eventEntity;
 		}
+
 		EventEntity cancel() {
 			subscription.cancel();
 			return eventEntity;
-	    }
+		}
+
 		EventEntity deactivate() {
 			subscription.deactivate();
 			return eventEntity;
-	    }
+		}
+
 		EventEntity unsubscribe() {
-			subscription.unsubscribe(); // cascaded, no need to explicitly delete;
+			subscription.nullifyForRemoval(); // cascaded, no need to explicitly delete;
 			return eventEntity;
 		}
 	}

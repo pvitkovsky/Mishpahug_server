@@ -108,6 +108,7 @@ public class UserEventOwnerTest {
 		userRepo.save(ALYSSA);
 		assertTrue(eventRepo.existsById(BATEST.getId()));
 
+		ALYSSA.putIntoDeletionQueue();
 		userRepo.delete(ALYSSA);
 		assertFalse(eventRepo.existsById(BATEST.getId()));
 
@@ -152,7 +153,7 @@ public class UserEventOwnerTest {
 	 * Transfer Event not in the API, but useful as a tool for testing how relation works;
 	 */
 	@Test
-	public void onTransferEvent() {
+	public void onTransferEvent() { //TODO: fix me please, remove method wants to delete the event but it's not pending for deletion
 
 		ALYSSA.makeOwner(BATEST);
 		userRepo.save(ALYSSA);
@@ -201,7 +202,7 @@ public class UserEventOwnerTest {
 
 		assertTrue(eventGuestRepo.existsById(BASUB.getId()));
 		
-		BATEST.putForDeletion();
+		BATEST.putIntoDeletionQueue();
 		ALYSSA.removeOwnedEvent(BATEST);
 
 		assertFalse(eventRepo.existsById(BATEST.getId()));
@@ -224,15 +225,12 @@ public class UserEventOwnerTest {
 		ABSUB.subscribe(ALYSSA, ABTEST);
 		BASUB.subscribe(BEN, BATEST);
 		
-		System.out.println(BEN.getSubscriptions());
-		
 		assertTrue(eventGuestRepo.existsById(ABSUB.getId()));
 		assertTrue(eventGuestRepo.existsById(BASUB.getId()));
 		assertTrue(ALYSSA.getSubscriptions().contains(ABSUB));
 		assertTrue(BEN.getSubscriptions().contains(BASUB));
 
-		ALYSSA.putIntoDeletionQueue(); 
-		ALYSSA.unsubscribeEventsAndSubscripions(); // have to unsub everything when subscribing; 
+		ALYSSA.putIntoDeletionQueue();
 		userRepo.delete(ALYSSA);
 		
 		assertFalse(userRepo.existsById(ALYSSA.getId()));

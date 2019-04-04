@@ -1,29 +1,55 @@
 package application.entities;
 
-import application.dto.UserDTO;
-import application.entities.values.PictureValue;
-import application.utils.EncrytedPasswordUtils;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.PreRemove;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import application.dto.UserDTO;
+import application.entities.values.PictureValue;
+import application.utils.EncrytedPasswordUtils;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 @Entity
 @Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = { "email" }) })
-@ToString(exclude = { "eventItemsOwner", "subscriptions", "pictureItems"})
+@ToString(exclude = { "eventItemsOwner", "subscriptions", "pictureItems" })
 @EqualsAndHashCode(of = { "eMail" })
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder 
+@Builder
 public class UserEntity {
 	@Id
 	@Column(name = "User_Id", nullable = false)
@@ -48,15 +74,16 @@ public class UserEntity {
 	@Column(name = "Encryted_Password", length = 128)
 	@Setter(AccessLevel.NONE)
 	/*
-	 * @JsonInclude(Include.NON_NULL) on class or @JsonInclude(Include.NON_NULL) here to prevent this from being serialized as null
+	 * @JsonInclude(Include.NON_NULL) on class or @JsonInclude(Include.NON_NULL)
+	 * here to prevent this from being serialized as null
 	 */
 	private String encrytedPassword;
 
 	@Column(name = "dateofbirth")
-	@DateTimeFormat(iso = ISO.DATE) 
+	@DateTimeFormat(iso = ISO.DATE)
 	private LocalDate dateOfBirth;
 
-	public UserEntity(UserDTO data){
+	public UserEntity(UserDTO data) {
 		this.setFirstName(data.getFirstName());
 		this.setEMail(data.getEMail());
 		this.setLastName(data.getLastName());
@@ -71,39 +98,44 @@ public class UserEntity {
 		this.encrytedPassword = EncrytedPasswordUtils.encrytePassword(encrytedPassword);
 	}
 
-	@Column(name = "Enabled", length = 1)//TODO: enum;
+	@Column(name = "status")
+	@Enumerated(EnumType.STRING)
 	@Getter(AccessLevel.NONE)
 	@Setter(AccessLevel.NONE)
+	@Builder.Default
 	private UserStatus status = UserStatus.ACTIVE;
-	
-	public enum UserStatus{
+
+	public enum UserStatus {
 		ACTIVE, DEACTIVATED, PENDINGFORDELETION
 	}
 
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true) //Unidirectional
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, optional = true) // Unidirectional
 	private MaritalStatusEntity maritalStatus;
 
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true) //Unidirectional
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, optional = true) // Unidirectional
 	private GenderEntity gender;
 
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true) //Unidirectional;
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, optional = true) // Unidirectional;
 	private KitchenTypeEntity kitchenType;
 
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true) //Unidirectional;
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, optional = true) // Unidirectional;
 	private ReligionEntity religion;
 
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true) //Unidirectional; //TODO: serializes only address not city or country; cause - innecessary bidirections;  
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, optional = true) // Unidirectional; //TODO:
+																						// serializes only address not
+																						// city or country; cause -
+																						// innecessary bidirections;
 	private AddressEntity addressEntity;
 
 	@OneToMany(mappedBy = "userEntityOwner", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-	@JsonManagedReference("userEventOwner") //Bidirectional, managed from here; 
+	@JsonManagedReference("userEventOwner") // Bidirectional, managed from here;
 	@Getter(AccessLevel.NONE)
 	@Setter(AccessLevel.NONE)
 	@Builder.Default
 	@JsonProperty("owned_events")
 	private Set<EventEntity> eventItemsOwner = new HashSet<>();
 
-	@OneToMany(mappedBy = "userGuest", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true) 
+	@OneToMany(mappedBy = "userGuest", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	@JsonManagedReference("guestOfSubscription")
 	@Getter(AccessLevel.NONE)
 	@Setter(AccessLevel.NONE)
@@ -117,7 +149,6 @@ public class UserEntity {
 	@Builder.Default
 	private Set<PictureValue> pictureItems = new HashSet<>();
 
-
 	/**
 	 * Adds an event to the set of events owned by this user, transferring it from
 	 * any previous users;
@@ -126,9 +157,9 @@ public class UserEntity {
 	 * @return true if the event was added; false if the event was not added, as it
 	 *         is already in the set.
 	 */
-	//TODO: maybe check for event status here?
+	// TODO: maybe check for event status here?
 	public boolean makeOwner(EventEntity event) {
-		//TODO: check that event has its business key not null; or NPE is possible;
+		// TODO: check that event has its business key not null; or NPE is possible;
 		if (event.getUserEntityOwner() == null) { // transient state;
 			event.setUserEntityOwner(this);
 		}
@@ -162,7 +193,7 @@ public class UserEntity {
 	 * 
 	 * @param event
 	 */
-	//TODO: maybe check if event is ready for deletion?
+	// TODO: maybe check if event is ready for deletion?
 	public boolean removeOwnedEvent(EventEntity event) {
 		if (!event.getUserEntityOwner().equals(this)) {
 			throw new IllegalArgumentException("Trying to remove event with another owner");
@@ -171,7 +202,7 @@ public class UserEntity {
 			throw new IllegalStateException(
 					"Event has user set as owner, but not present in the user's collection of owned events");
 		}
-		event.unsubscribeAll();
+		event.nullifyForRemoval();
 		return eventItemsOwner.remove(event); // TODO: thread safety argument;
 	}
 
@@ -200,9 +231,9 @@ public class UserEntity {
 	 * @return
 	 */
 	protected boolean removeSubsription(EventGuestRelation subscription) {
-		return subscriptions.remove(subscription); 
-	}	
-	
+		return subscriptions.remove(subscription);
+	}
+
 	/**
 	 * Immutable wrapper over Subscriptions;
 	 * 
@@ -212,17 +243,27 @@ public class UserEntity {
 	public Set<EventGuestRelation> getSubscriptions() {
 		return Collections.unmodifiableSet(subscriptions);
 	}
-	
+
 	/**
-	 * Unsubscribes user from all subscribed events; unsubscribes others from this user's owned event;
-	 * this must be done only before final deletion;
+	 * Checks that the user is OK to delete and then unsubscribes him/her from everywhere, and his subscribers too;
 	 */
-	//TODO: check if pending for deletion first?
-	public void unsubscribeEventsAndSubscripions() {
-		subscriptions.forEach(EventGuestRelation::unsubscribe);
-		eventItemsOwner.forEach(EventEntity::unsubscribeAll);
+	@PreRemove
+	private void nullifyForRemoval() {
+		if(!isPendingForDeletion()) {
+			throw new IllegalArgumentException("User must be first putIntoDeletionQueue");
+		}
+		unsubscribeEventsAndSubscriptions();
 	}
 	
+	/**
+	 * Unsubscribes user from all subscribed events; unsubscribes others from this
+	 * user's owned event; this must be done only before final deletion;
+	 */
+	private void unsubscribeEventsAndSubscriptions() {;
+		subscriptions.forEach(EventGuestRelation::nullifyForRemoval); //TODO: fix me pls;
+		eventItemsOwner.forEach(EventEntity::nullifyForRemoval);
+	}
+
 	/**
 	 * Activates all "Deactivated" events and subscription of this user;
 	 */
@@ -230,32 +271,37 @@ public class UserEntity {
 		subscriptions.forEach(EventGuestRelation::activate);
 		eventItemsOwner.forEach(EventEntity::activate);
 	}
-	
+
 	/**
-	 * Deactivates all events and subscription of this user; 
+	 * Deactivates all events and subscription of this user;
 	 */
 	private void deactivateEventsAndSubscriptions() {
 		subscriptions.forEach(EventGuestRelation::deactivate);
 		eventItemsOwner.forEach(EventEntity::deactivate);
 	}
-	
-	/**
-	 * Activates all "Deactivated" events and subscription of this user;
-	 */
-	private void putEventsAndSubscriptionsForDeletion() {
-		subscriptions.forEach(EventGuestRelation::putForDeletion);
-		eventItemsOwner.forEach(EventEntity::putForDeletion);
-	}
-	
-	
 
 	/**
-	 * @return true if this user is activated 
+	 * Puts all events and subsriptions of this user for deletion;
+	 */
+	private void putEventsAndSubscriptionsForDeletion() {
+		subscriptions.forEach(EventGuestRelation::putIntoDeletionQueue);
+		eventItemsOwner.forEach(EventEntity::putIntoDeletionQueue);
+	}
+
+	/**
+	 * @return true if this user is activated
 	 */
 	public boolean isEnabled() {
 		return status.equals(UserStatus.ACTIVE);
 	}
 	
+	/**
+	 * @return true if this user is pending for deletion
+	 */
+	public boolean isPendingForDeletion() {
+		return status.equals(UserStatus.PENDINGFORDELETION);
+	}
+
 	/**
 	 * Activate this user
 	 */
@@ -263,7 +309,7 @@ public class UserEntity {
 		activateEventsAndSubscriptions();
 		status = UserStatus.ACTIVE;
 	}
-	
+
 	/**
 	 * Deactivate this user
 	 */
@@ -271,7 +317,7 @@ public class UserEntity {
 		deactivateEventsAndSubscriptions();
 		status = UserStatus.DEACTIVATED;
 	}
-	
+
 	/**
 	 * Puts this user in the deletion queue
 	 */

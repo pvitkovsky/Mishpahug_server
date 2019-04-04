@@ -1,11 +1,30 @@
 package application.entities;
 
-import application.entities.EventEntity.EventStatus;
-import application.entities.values.FeedBackValue;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.*;
-import javax.persistence.*;
 import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.PreRemove;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import application.entities.values.FeedBackValue;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -158,10 +177,7 @@ public class EventGuestRelation {
 	 * 
 	 * @param guest
 	 */
-	public boolean unsubscribe(UserEntity guest, EventEntity event) {
-		if (!isPendingForDeletion()) {
-			throw new IllegalArgumentException("Trying to unsubscribe, but subscription is " + this.status);	
-		}
+	private boolean unsubscribe(UserEntity guest, EventEntity event) {
 		if (event.getUserEntityOwner().equals(guest)) {
 			throw new IllegalArgumentException("Trying to unsubscribe to the owned event");
 		}
@@ -179,12 +195,26 @@ public class EventGuestRelation {
 	}
 
 	/**
-	 * Automatically removes a Guest from the Event, two directions.
-	 * 
-	 * @param guest
+	 * Checks that the guest-event relation is OK to delete and then nullifies it; This is launched when User or Event are deleted.
 	 */
-	public boolean unsubscribe() {
-		return unsubscribe(this.userGuest, this.event);
+	public void nullifyForRemoval() {
+		if (!isPendingForDeletion()) {
+			throw new IllegalArgumentException("EventGuestRelation must be first putIntoDeletionQueue");	
+		}
+		unsubscribe(this.userGuest, this.event);
+	}
+	
+	/**
+	 * Launched on remove() from this entity's repository. Checks if the guest-event relation is OK to delete and then nullifies it. 
+	 */
+	@PreRemove
+	public void nullifyForIndependentRemoval() {
+		if (!isPendingForDeletion()) {
+			throw new IllegalArgumentException("EventGuestRelation must be first putIntoDeletionQueue");	
+		}
+		if(this.userGuest.getSubscriptions().contains(this) || this.event.getSubscriptions().contains(this)) {
+			unsubscribe(this.userGuest, this.event); // if at least one of the many-to-many entities contains the intermediate entity, we fire the full consistency check. 
+		}
 	}
 
 	/**
@@ -223,7 +253,7 @@ public class EventGuestRelation {
 	 * Deactivates the subscription
 	 */
 	//TODO: can't cancel deletion queue?
-	public void putForDeletion() {
+	public void putIntoDeletionQueue() {
 		this.status = SubscriptionStatus.PENDINGFORDELETION;
 	}
 

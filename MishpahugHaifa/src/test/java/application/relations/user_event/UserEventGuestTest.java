@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -103,12 +104,18 @@ public class UserEventGuestTest {
 		BEN.makeOwner(GUESTING);
 		userRepo.save(BEN);
 		userRepo.save(ALYSSA);
-		AGUESTING.unsubscribe(ALYSSA, GUESTING);
+		AGUESTING.nullifyForRemoval();
 
 	}
-
+	
+	
+	
+	
+	/**
+	 * You must put the user into deletion queue;
+	 */
 	@Test
-	public void onUserDeleteEventRemains() {
+	public void onGuestDeleteEventRemains() {
 
 		BEN.makeOwner(GUESTING);
 		userRepo.save(BEN);
@@ -118,7 +125,6 @@ public class UserEventGuestTest {
 
 		//TODO: maybe enforce that must be pending for deletion first?
 		ALYSSA.putIntoDeletionQueue();
-		ALYSSA.unsubscribeEventsAndSubscripions();
 		userRepo.delete(ALYSSA);
 
 		assertTrue(eventRepo.existsById(GUESTING.getId()));
@@ -127,15 +133,43 @@ public class UserEventGuestTest {
 		assertFalse(GUESTING.getSubscriptions().contains(AGUESTING));
 		assertEquals(GUESTING.getSubscriptions().size(), 0);
 	}
+	
+	/**
+	 * You must put the user into deletion queue, even if there are no subscriptions
+	 */
+	@Test(expected = InvalidDataAccessApiUsageException.class)
+	public void deleteUserBlankEventWithoutDeactivation() {
 
-	@Test
-	public void onEventDeleteUserRemains() {
+		BEN.makeOwner(GUESTING);
+		userRepo.save(BEN);
+		
+		userRepo.delete(BEN);
+		
+		assertFalse(userRepo.existsById(BEN.getId()));
+	}
+	
+	/**
+	* You must put the user into deletion queue,  of course if there are subscriptions
+	*/
+	@Test(expected = InvalidDataAccessApiUsageException.class)
+	public void onUserWithSubscriptionsDeleteWithoutQueue() {
+
 		BEN.makeOwner(GUESTING);
 		userRepo.save(BEN);
 		userRepo.save(ALYSSA);
 		AGUESTING.subscribe(ALYSSA, GUESTING);
 		
-		GUESTING.putForDeletion();
+		userRepo.delete(BEN);
+	}
+
+	@Test
+	public void onEventDeleteGuestRemains() {
+		BEN.makeOwner(GUESTING);
+		userRepo.save(BEN);
+		userRepo.save(ALYSSA);
+		AGUESTING.subscribe(ALYSSA, GUESTING);
+		
+		GUESTING.putIntoDeletionQueue();
 		BEN.removeOwnedEvent(GUESTING);
 
 		assertTrue(userRepo.existsById(ALYSSA.getId()));
@@ -173,5 +207,35 @@ public class UserEventGuestTest {
 		assertEquals(guests.size(), 1);
 		assertTrue(guests.contains(ALYSSA));
 	}
+	
+	
+	
+	@Test(expected = IllegalArgumentException.class)
+	//TODO: why different exception here?
+	public void deleteEventBlankEventWithoutDeactivation() {
 
+		BEN.makeOwner(GUESTING);
+		userRepo.save(BEN);
+		
+		BEN.removeOwnedEvent(GUESTING);
+		
+		assertTrue(userRepo.existsById(BEN.getId()));
+		assertFalse(eventRepo.existsById(GUESTING.getId()));
+	}
+	
+
+	
+	@Test(expected = IllegalArgumentException.class)
+	//TODO: why different exception here?
+	public void deleteEventSubscribedEventWithoutDeactivation() {
+
+		BEN.makeOwner(GUESTING);
+		userRepo.save(BEN);
+		userRepo.save(ALYSSA);
+		AGUESTING.subscribe(ALYSSA, GUESTING);
+		
+		BEN.removeOwnedEvent(GUESTING);
+	}
+	
+	
 }

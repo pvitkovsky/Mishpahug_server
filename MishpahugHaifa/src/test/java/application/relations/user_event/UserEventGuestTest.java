@@ -116,7 +116,9 @@ public class UserEventGuestTest {
 		AGUESTING.subscribe(ALYSSA, GUESTING);
 		assertTrue(GUESTING.getSubscriptions().contains(AGUESTING));
 
-		ALYSSA.unsubscribeAll();
+		//TODO: maybe enforce that must be pending for deletion first?
+		ALYSSA.putIntoDeletionQueue();
+		ALYSSA.unsubscribeEventsAndSubscripions();
 		userRepo.delete(ALYSSA);
 
 		assertTrue(eventRepo.existsById(GUESTING.getId()));
@@ -133,6 +135,7 @@ public class UserEventGuestTest {
 		userRepo.save(ALYSSA);
 		AGUESTING.subscribe(ALYSSA, GUESTING);
 		
+		GUESTING.putForDeletion();
 		BEN.removeOwnedEvent(GUESTING);
 
 		assertTrue(userRepo.existsById(ALYSSA.getId()));

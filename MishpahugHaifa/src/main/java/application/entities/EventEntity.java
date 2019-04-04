@@ -1,6 +1,7 @@
 package application.entities;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Collections;
 import java.util.HashSet;
@@ -43,54 +44,64 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(of = { "userEntityOwner", "date", "time", "nameOfEvent" }) // business key;
-@ToString(exclude = { "userEntityOwner", "addressEntity" , "subscriptions" })
+@ToString(exclude = { "userEntityOwner", "addressEntity", "subscriptions" })
 public class EventEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
-	@NotNull //can omit nullable=false with Hibernate;
+
+	@NotNull // can omit nullable=false with Hibernate;
 	@Column(name = "date", nullable = false)
-	@DateTimeFormat(iso = ISO.DATE) 
+	@DateTimeFormat(iso = ISO.DATE)
 	private LocalDate date;
 
-	@NotNull 
+	@NotNull
 	@Column(name = "time", nullable = false)
-	//TODO: JSON time format;
+	// TODO: JSON time format;
 	private LocalTime time;
 
 	@NotNull
 	@Column(name = "name_of_event", nullable = false)
 	private String nameOfEvent;
 
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true) //Unidirectional;
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, optional = true) // Unidirectional;
 	private KitchenTypeEntity kitchenType;
 
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true) //Unidirectional;
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, optional = true) // Unidirectional;
 	private HoliDayEntity holiDay;
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "user_owner")
-	@JsonBackReference("userEventOwner") //Bidirectional, managed from User; 
+	@JsonBackReference("userEventOwner") // Bidirectional, managed from User;
 	@Setter(AccessLevel.PACKAGE)
 	private UserEntity userEntityOwner;
 
-	@ManyToOne(optional = true) //Unidirectional, managed from Address; //TODO: serialization circular reference;
+	@ManyToOne(optional = true) // Unidirectional, managed from Address; //TODO: serialization circular
+								// reference;
 	private AddressEntity addressEntity;
 
-	@OneToMany(mappedBy = "event" , cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true) 
-	@JsonManagedReference("eventOfSubscription") //TODO: feedback
+	@OneToMany(mappedBy = "event", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	@JsonManagedReference("eventOfSubscription") // TODO: feedback
 	@Getter(AccessLevel.NONE)
 	@Setter(AccessLevel.NONE)
 	private Set<EventGuestRelation> subscriptions = new HashSet<>();
 
 	@Column(name = "status")
 	@Enumerated(EnumType.STRING)
-	private EventStatus status;
-	
+	private EventStatus status = EventStatus.ACTIVE;
+
+	@Getter(AccessLevel.NONE)
+	@Setter(AccessLevel.NONE)
 	public enum EventStatus {
-		CREATED, PENDING, COMPLETE, CANCELED
+		ACTIVE, CANCELED, DEACTIVATED, PENDINGFORDELETE
+	}
+
+	/**
+	 * @return immutable timestamp of event;
+	 */
+	public LocalDateTime timeDue() {
+		return LocalDateTime.of(date, time);
 	}
 
 	/**
@@ -103,7 +114,7 @@ public class EventEntity {
 	public String toEventUniqueDescription() {
 		return this.nameOfEvent + " " + this.date.toString() + " " + this.time.toString();
 	}
-	
+
 	/**
 	 * Protected way to add SubscribedEvent;
 	 * 
@@ -123,7 +134,7 @@ public class EventEntity {
 	protected boolean removeSubsription(EventGuestRelation subscription) {
 		return subscriptions.remove(subscription);
 	}
-	
+
 	/**
 	 * Immutable wrapper over Subscriptions;
 	 * 
@@ -132,19 +143,124 @@ public class EventEntity {
 	public Set<EventGuestRelation> getSubscriptions() {
 		return Collections.unmodifiableSet(subscriptions);
 	}
-	
+
 	/**
-	 * Helper method for removing all subscriptions when deleting event; 
+	 * Activates all subscriptions;
 	 */
-	public void unsubscribeAll() {
-		subscriptions.forEach(EventGuestRelation::unsubscribe);		
+	private void activateAllSubscriptions() {
+		subscriptions.forEach(EventGuestRelation::activate);
 	}
 
-	public void convertEventDTO(EventDTO data){
+	/**
+	 * Deactivates all subscriptions;
+	 */
+	private void deactivateAllSubscriptions() {
+		subscriptions.forEach(EventGuestRelation::deactivate);
+	}
+
+	/**
+	 * Cancels all subscriptions;
+	 */
+	private void cancellAllSubscriptions() {
+		subscriptions.forEach(EventGuestRelation::deactivate);
+	}
+	
+	/**
+	 * Puts all subscriptions into deletion queue;
+	 */
+	private void putSubscriptionsIntoDeletionQueue() {
+		subscriptions.forEach(EventGuestRelation::putForDeletion);
+	}
+
+	/**
+	 * Removes all subscriptions when deleting event; must be in the deletion queue
+	 */
+	//TODO: maybe check for event status here?
+	public void unsubscribeAll() {
+		subscriptions.forEach(EventGuestRelation::unsubscribe);
+	}
+
+	public void convertEventDTO(EventDTO data) {
 		this.date = data.getDate();
 		this.nameOfEvent = data.getNameOfEvent();
 		this.time = data.getTime();
+	}
 
+	/**
+	 * @return true if and only if the event is active and not yet happened;
+	 */
+	public boolean isDue() {
+		return this.status.equals(EventStatus.ACTIVE) && timeDue().isAfter(LocalDateTime.now());
+	}
+
+	/**
+	 * @return true if and only if the event is active and has happened;
+	 */
+	public boolean isComplete() {
+		return this.status.equals(EventStatus.ACTIVE) && timeDue().isBefore(LocalDateTime.now());
+	}
+
+	/**
+	 * @return true if the event is canceled;
+	 */
+	public boolean isCanceled() {
+		return this.status.equals(EventStatus.CANCELED);
+	}
+
+	/**
+	 * @return true if the event is deactivaed (when the owner is deactivated);
+	 */
+	public boolean isDeactivated() {
+		return this.status.equals(EventStatus.DEACTIVATED);
+	}
+
+	/**
+	 * @return true if the event is pending for deletion;
+	 */
+	public boolean isPendingForDelete() {
+		return this.status.equals(EventStatus.PENDINGFORDELETE);
+	}
+
+	/**
+	 * Activates the event;
+	 */
+	public void activate() {
+		if(!isDeactivated()) {
+			throw new IllegalArgumentException("trying to activate event, but its status is " + this.status);	
+		}
+		activateAllSubscriptions();
+		this.status = EventStatus.ACTIVE;
+	}
+
+	/**
+	 * Deactivates the event;
+	 */
+	public void deactivate() {
+		if (isDue() || isComplete()) {
+			deactivateAllSubscriptions();
+			this.status = EventStatus.DEACTIVATED;
+		} else {
+			throw new IllegalArgumentException("trying to deactivate event, but its status is " + this.status);
+		}
+	}
+
+	/**
+	 * Cancels the event;
+	 */
+	public void cancel() {
+		if(!isDue()) {
+			throw new IllegalArgumentException("trying to cancel event, but its status is " + this.status);
+		}
+		cancellAllSubscriptions();
+		this.status = EventStatus.CANCELED;
+	}
+
+	/**
+	 * Puts the event into delete queue;
+	 */
+	public void putForDeletion() {
+		putSubscriptionsIntoDeletionQueue();
+		this.status = EventStatus.PENDINGFORDELETE;
 	}
 
 }

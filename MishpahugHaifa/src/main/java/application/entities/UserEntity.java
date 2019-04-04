@@ -72,7 +72,13 @@ public class UserEntity {
 	}
 
 	@Column(name = "Enabled", length = 1)//TODO: enum;
-	private boolean enabled;
+	@Getter(AccessLevel.NONE)
+	@Setter(AccessLevel.NONE)
+	private UserStatus status = UserStatus.ACTIVE;
+	
+	public enum UserStatus{
+		ACTIVE, DEACTIVATED, PENDINGFORDELETION
+	}
 
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true) //Unidirectional
 	private MaritalStatusEntity maritalStatus;
@@ -120,7 +126,7 @@ public class UserEntity {
 	 * @return true if the event was added; false if the event was not added, as it
 	 *         is already in the set.
 	 */
-
+	//TODO: maybe check for event status here?
 	public boolean makeOwner(EventEntity event) {
 		//TODO: check that event has its business key not null; or NPE is possible;
 		if (event.getUserEntityOwner() == null) { // transient state;
@@ -156,6 +162,7 @@ public class UserEntity {
 	 * 
 	 * @param event
 	 */
+	//TODO: maybe check if event is ready for deletion?
 	public boolean removeOwnedEvent(EventEntity event) {
 		if (!event.getUserEntityOwner().equals(this)) {
 			throw new IllegalArgumentException("Trying to remove event with another owner");
@@ -208,9 +215,68 @@ public class UserEntity {
 	
 	/**
 	 * Unsubscribes user from all subscribed events; unsubscribes others from this user's owned event;
+	 * this must be done only before final deletion;
 	 */
-	public void unsubscribeAll() {
+	//TODO: check if pending for deletion first?
+	public void unsubscribeEventsAndSubscripions() {
 		subscriptions.forEach(EventGuestRelation::unsubscribe);
 		eventItemsOwner.forEach(EventEntity::unsubscribeAll);
+	}
+	
+	/**
+	 * Activates all "Deactivated" events and subscription of this user;
+	 */
+	private void activateEventsAndSubscriptions() {
+		subscriptions.forEach(EventGuestRelation::activate);
+		eventItemsOwner.forEach(EventEntity::activate);
+	}
+	
+	/**
+	 * Deactivates all events and subscription of this user; 
+	 */
+	private void deactivateEventsAndSubscriptions() {
+		subscriptions.forEach(EventGuestRelation::deactivate);
+		eventItemsOwner.forEach(EventEntity::deactivate);
+	}
+	
+	/**
+	 * Activates all "Deactivated" events and subscription of this user;
+	 */
+	private void putEventsAndSubscriptionsForDeletion() {
+		subscriptions.forEach(EventGuestRelation::putForDeletion);
+		eventItemsOwner.forEach(EventEntity::putForDeletion);
+	}
+	
+	
+
+	/**
+	 * @return true if this user is activated 
+	 */
+	public boolean isEnabled() {
+		return status.equals(UserStatus.ACTIVE);
+	}
+	
+	/**
+	 * Activate this user
+	 */
+	public void activate() {
+		activateEventsAndSubscriptions();
+		status = UserStatus.ACTIVE;
+	}
+	
+	/**
+	 * Deactivate this user
+	 */
+	public void deactivate() {
+		deactivateEventsAndSubscriptions();
+		status = UserStatus.DEACTIVATED;
+	}
+	
+	/**
+	 * Puts this user in the deletion queue
+	 */
+	public void putIntoDeletionQueue() {
+		putEventsAndSubscriptionsForDeletion();
+		status = UserStatus.PENDINGFORDELETION;
 	}
 }

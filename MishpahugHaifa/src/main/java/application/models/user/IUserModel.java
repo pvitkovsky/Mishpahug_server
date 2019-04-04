@@ -9,17 +9,22 @@ import java.util.List;
 
 public interface IUserModel {
     public List<UserEntity> getAll() throws ExceptionMishpaha;
-
     public Iterable<UserEntity> getAll(Predicate predicate);
 
     public UserEntity getById(Integer userId)  throws ExceptionMishpaha;
-    public UserEntity add(UserEntity data) throws ExceptionMishpaha;
-    public UserEntity update(Integer userId, HashMap<String, String> data) throws ExceptionMishpaha;
-    public UserEntity deleteByID(Integer userId) throws ExceptionMishpaha;
     public UserEntity getByName(String name) throws ExceptionMishpaha;
+    
+    public UserEntity add(UserEntity data) throws ExceptionMishpaha;
+    
+    public UserEntity update(Integer userId, HashMap<String, String> data) throws ExceptionMishpaha;
+    
+    public UserEntity deleteByID(Integer userId) throws ExceptionMishpaha;
     public List<UserEntity> deleteAll() throws ExceptionMishpaha;
-    public List<UserEntity> getByGender(String gender) throws ExceptionMishpaha;
-    public List<UserEntity> getByReligion(String religion) throws ExceptionMishpaha;
-	public List<UserEntity> getByKitchenType(String kitchenType) throws ExceptionMishpaha;
-	public List<UserEntity> getByMaritalStatus(String maritalStatus) throws ExceptionMishpaha;
+    
+    public UserEntity activateByID(Integer userId) throws ExceptionMishpaha;
+    
+    public UserEntity deactivateByID(Integer userId) throws ExceptionMishpaha;
+    
+    public UserEntity prepareForDeletionByID(Integer userId) throws ExceptionMishpaha;
+        
 }

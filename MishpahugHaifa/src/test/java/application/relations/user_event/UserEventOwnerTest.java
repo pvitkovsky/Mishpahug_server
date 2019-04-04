@@ -201,6 +201,7 @@ public class UserEventOwnerTest {
 
 		assertTrue(eventGuestRepo.existsById(BASUB.getId()));
 		
+		BATEST.putForDeletion();
 		ALYSSA.removeOwnedEvent(BATEST);
 
 		assertFalse(eventRepo.existsById(BATEST.getId()));
@@ -230,7 +231,8 @@ public class UserEventOwnerTest {
 		assertTrue(ALYSSA.getSubscriptions().contains(ABSUB));
 		assertTrue(BEN.getSubscriptions().contains(BASUB));
 
-		ALYSSA.unsubscribeAll(); // have to unsub everything when subscribing; 
+		ALYSSA.putIntoDeletionQueue(); 
+		ALYSSA.unsubscribeEventsAndSubscripions(); // have to unsub everything when subscribing; 
 		userRepo.delete(ALYSSA);
 		
 		assertFalse(userRepo.existsById(ALYSSA.getId()));

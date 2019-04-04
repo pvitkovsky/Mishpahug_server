@@ -72,7 +72,7 @@ public class EventGuestRelation {
 	private SubscriptionStatus status = SubscriptionStatus.BLANK;
 
 	public enum SubscriptionStatus {
-		BLANK, ACTIVE, CANCELED, DEACTIVATED, DUETODELETION
+		BLANK, ACTIVE, CANCELED, DEACTIVATED, PENDINGFORDELETION
 	}
 	
 	public EventGuestRelation(UserEntity userGuest, EventEntity event) {
@@ -102,12 +102,41 @@ public class EventGuestRelation {
 	}
 
 	/**
+	 * @return true if this subscription is ready to be created;
+	 */
+	public boolean isBlank() {
+		return this.status == SubscriptionStatus.BLANK;
+	}
+	
+	/**
+	 * @return true if this subscription is active;
+	 */
+	public boolean isActive() {
+		return this.status == SubscriptionStatus.ACTIVE;
+	}
+	
+	/**
+	 * @return true if this subscription is deactivated;
+	 */
+	public boolean isDeactivated() {
+		return this.status == SubscriptionStatus.DEACTIVATED;
+	}
+	
+	/**
+	 * @return true if this subscription is ready to be unsubscribed and deleted;
+	 */
+	public boolean isPendingForDeletion() {
+		return this.status == SubscriptionStatus.PENDINGFORDELETION;
+	}
+	
+	
+	/**
 	 * Adds a Guest to the Event, two directions.
 	 * 
 	 * @param guest
 	 */
 	public boolean subscribe(UserEntity guest, EventEntity event) {
-		if (!isReady()) {
+		if (!isBlank()) {
 			throw new IllegalArgumentException("Trying to subscribe, but subscription has status " + this.status);
 		}
 		if (event.getUserEntityOwner().equals(guest)) {
@@ -130,8 +159,8 @@ public class EventGuestRelation {
 	 * @param guest
 	 */
 	public boolean unsubscribe(UserEntity guest, EventEntity event) {
-		if (!isSubscribed()) {
-			throw new IllegalArgumentException("Trying to unsubscribe, but subscription has status " + this.status);
+		if (!isPendingForDeletion()) {
+			throw new IllegalArgumentException("Trying to unsubscribe, but subscription is " + this.status);	
 		}
 		if (event.getUserEntityOwner().equals(guest)) {
 			throw new IllegalArgumentException("Trying to unsubscribe to the owned event");
@@ -141,8 +170,7 @@ public class EventGuestRelation {
 		}
 		if (guest.getSubscriptions().contains(this) != event.getSubscriptions().contains(this)) {
 			throw new IllegalStateException("Subscription is not consistent across User and Event");
-		}
-		this.status = SubscriptionStatus.DUETODELETION;
+		}	
 		boolean res = true;
 		res = guest.removeSubsription(this) && res; // what if this command succeeds and the other does not?
 													// inconsistent state;
@@ -160,38 +188,45 @@ public class EventGuestRelation {
 	}
 
 	/**
-	 * Cancels the subscription
+	 * Cancels the subscription, can only be applied to active subscription
 	 */
+	//TODO: can't re-cancel?
 	public void cancel() {
-		if (!isSubscribed()) {
+		if (!isActive()) {
 			throw new IllegalArgumentException("Trying to cancel, but subscription has status " + this.status);
 		}
 		this.status = SubscriptionStatus.CANCELED;
 	}
 
 	/**
+	 * Activates the subscription
+	 */
+	public void activate() {
+		if (!isDeactivated()) {
+			throw new IllegalArgumentException("Trying to activate, but subscription has status " + this.status);
+		}
+		this.status = SubscriptionStatus.ACTIVE;
+	}
+	
+	/**
 	 * Deactivates the subscription
 	 */
 	public void deactivate() {
-		if (!isSubscribed()) {
-			throw new IllegalArgumentException("Trying to deactivate, but subscription has status " + this.status);
+		if (isBlank()) {
+			throw new IllegalArgumentException("Trying to deactivate, but subscription is blank");
 		}
 		this.status = SubscriptionStatus.DEACTIVATED;
 	}
 
-	/**
-	 * @return true if this subscription is ready to be created;
-	 */
-	public boolean isReady() {
-		return this.status == SubscriptionStatus.BLANK;
-	}
 
 	/**
-	 * @return true if this subscription is created;
+	 * Deactivates the subscription
 	 */
-	public boolean isSubscribed() {
-		return (this.status == SubscriptionStatus.ACTIVE || this.status == SubscriptionStatus.CANCELED
-				|| this.status == SubscriptionStatus.DEACTIVATED);
+	//TODO: can't cancel deletion queue?
+	public void putForDeletion() {
+		this.status = SubscriptionStatus.PENDINGFORDELETION;
 	}
+
+
 
 }

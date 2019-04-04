@@ -242,7 +242,6 @@ public class DB_test_loader implements CommandLineRunner {
 					user.setDateOfBirth(LocalDate.parse(data[3]));
 					user.setPhoneNumber(data[4]);
 					user.setUserName(data[0].split("@")[0]);
-					user.setEnabled(true);
 					Random rr = new Random();
 					user.setGender(genderEntityList.get(rr.nextInt(genderEntityList.size() - 1)));
 					user.setReligion(religionEntityList.get(rr.nextInt(religionEntityList.size() - 1)));

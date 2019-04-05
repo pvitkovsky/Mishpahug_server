@@ -227,6 +227,7 @@ public class DB_test_loader implements CommandLineRunner {
 				List<ReligionEntity> religionEntityList = religionRepository.findAll();
 				List<KitchenTypeEntity> kitchenTypeEntityList = kichenTypeRepository.findAll();
 				logsDataRepository.deleteAll();
+				userRepository.findAll().forEach(UserEntity::putIntoDeletionQueue);
 				userRepository.deleteAll();
 				userRepository.flush();
 				//do we need flush here?

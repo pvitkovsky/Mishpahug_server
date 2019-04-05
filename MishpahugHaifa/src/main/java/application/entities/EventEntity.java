@@ -24,6 +24,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
@@ -46,6 +47,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @EqualsAndHashCode(of = { "userEntityOwner", "date", "time", "nameOfEvent" }) // business key;
 @ToString(exclude = { "userEntityOwner", "addressEntity", "subscriptions" })
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class EventEntity {
 
 	@Id

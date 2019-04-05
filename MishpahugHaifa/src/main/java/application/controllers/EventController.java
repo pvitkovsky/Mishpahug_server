@@ -32,6 +32,12 @@ public class EventController {
         return eventModel.getAll(predicate);
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
+    @ResponseBody
+    public EventEntity findAll(@PathVariable(name = "id") Integer id) throws ExceptionMishpaha {
+        return eventModel.getById(id);
+    }
+
 
     @PostMapping(value="/")
     public EventEntity setDataFromForm(@RequestBody EventDTO data){
@@ -50,11 +56,13 @@ public class EventController {
 
     @DeleteMapping(value = "/{id}")
     public EventEntity delete(@PathVariable(value = "id") Integer id) throws ExceptionMishpaha {
+        eventModel.getById(id).putIntoDeletionQueue();
         return eventModel.delete(id);
     }
 
     @DeleteMapping(value = "/")
     public void delete() throws ExceptionMishpaha {
+        eventModel.getAll().forEach(EventEntity::putIntoDeletionQueue);
         eventModel.deleteAll();
     }
 }

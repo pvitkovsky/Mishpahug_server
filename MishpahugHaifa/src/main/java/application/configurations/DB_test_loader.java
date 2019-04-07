@@ -60,10 +60,11 @@ public class DB_test_loader implements CommandLineRunner {
 		loadTest(MPHEntity.MARRIAGE);
 		loadTest(MPHEntity.ADDRESS);
 		loadTest(MPHEntity.GENDER);
+
+		loadTest(MPHEntity.USER);
 		loadTest(MPHEntity.EVENT);
 		loadTest(MPHEntity.GUESTS);
 		loadTest(MPHEntity.LOGS);
-		loadTest(MPHEntity.USER);
 	}
 
 	private void loadTest(MPHEntity entity) {

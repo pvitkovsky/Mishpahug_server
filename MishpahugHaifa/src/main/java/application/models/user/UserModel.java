@@ -19,6 +19,11 @@ public class UserModel implements IUserModel {
 	UserRepository userRepository;
 
 	@Override
+	public UserEntity getByUsernameAndPassword(String username, String password){
+		return userRepository.findByUserNameAndAndEncrytedPassword(username, password);
+	}
+
+	@Override
 	public List<UserEntity> getAll() {
 		return userRepository.findAll();
 	}

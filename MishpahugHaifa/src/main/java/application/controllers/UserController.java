@@ -1,8 +1,11 @@
 package application.controllers;
 
+import application.dto.LoginDTO;
+import application.dto.LoginResponse;
 import application.dto.UserDTO;
 import application.dto.UserDTODetail;
 import application.entities.UserEntity;
+import application.entities.UserSession;
 import application.exceptions.ExceptionMishpaha;
 import application.models.gender.IGenderModel;
 import application.models.holyday.IHolyDayModel;
@@ -10,11 +13,13 @@ import application.models.kichentype.IKichenTypeModel;
 import application.models.marriagestatus.IMaritalStatusModel;
 import application.models.religion.IReligionModel;
 import application.models.user.IUserModel;
+import application.repositories.UserSessionRepository;
 import com.querydsl.core.types.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/user")
@@ -31,6 +36,9 @@ public class UserController {
 
     @Autowired
     IGenderModel genderModel;
+
+    @Autowired
+    UserSessionRepository userSessionRepository;
 
     @Autowired
     IMaritalStatusModel maritalStatusModel;
@@ -55,6 +63,20 @@ public class UserController {
     @GetMapping(value="/{id}")
     public UserEntity get(@PathVariable(value = "id") Integer id) throws ExceptionMishpaha {
         return userModel.getById(id);
+    }
+    @PostMapping(value = "/login")
+    public LoginResponse login(@RequestBody LoginDTO loginDTO){
+        UserEntity userEntity = userModel.getByUsernameAndPassword(loginDTO.getUsername(), loginDTO.getPassword());
+        if (userEntity == null){
+            throw new RuntimeException("Incorrect password or username");
+        }
+        UserSession userSession = UserSession.builder()
+                .userEntity(userEntity)
+                .token(UUID.randomUUID().toString())
+                .isValid(true)
+                .build();
+        userSessionRepository.save(userSession);
+        return new LoginResponse(userSession.getToken());
     }
 
     @PostMapping(value="/register")

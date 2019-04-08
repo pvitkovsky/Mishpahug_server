@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface IUserModel {
+    UserEntity getByUsernameAndPassword(String username, String password);
+
     public List<UserEntity> getAll() throws ExceptionMishpaha;
     public Iterable<UserEntity> getAll(Predicate predicate);
 

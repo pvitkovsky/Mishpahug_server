@@ -57,9 +57,16 @@ public class UserController {
         return userModel.getById(id);
     }
 
-    @PostMapping(value="/")
-    public UserEntity add(@RequestBody UserDTO userDTO) throws ExceptionMishpaha {
-        return userModel.add(new UserEntity(userDTO));
+    @PostMapping(value="/register")
+    public void add(@RequestBody UserDTO userDTO) throws ExceptionMishpaha {
+        if (userModel.getByName(userDTO.getUserName()) != null){
+            throw new RuntimeException("Such user already exists");
+        }
+        if (!userDTO.getEncrytedPassword().equals(userDTO.getConfirmedPassword())){
+            throw new RuntimeException("Passwords do not match");
+        }
+        UserEntity userEntity = new UserEntity(userDTO);
+        userModel.add(userEntity);
     }
 
     @PutMapping(value="/{id}")

@@ -23,4 +23,6 @@ public class UserDTO {
 
 	private String encrytedPassword;//????
 
+	private String confirmedPassword;//????
+
 }

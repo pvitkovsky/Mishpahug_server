@@ -32,7 +32,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import application.dto.UserDTO;
 import application.entities.values.PictureValue;
-import application.utils.EncrytedPasswordUtils;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -97,7 +96,7 @@ public class UserEntity {
 	}
 
 	public void setEncrytedPassword(String encrytedPassword) {
-		this.encrytedPassword = EncrytedPasswordUtils.encrytePassword(encrytedPassword);
+		this.encrytedPassword = encrytedPassword;
 	}
 
 	@Column(name = "status")

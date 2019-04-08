@@ -95,7 +95,6 @@ public class EventEntity {
 	private EventStatus status = EventStatus.ACTIVE;
 
 	@Getter(AccessLevel.NONE)
-	@Setter(AccessLevel.NONE)
 	public enum EventStatus {
 		ACTIVE, CANCELED, DEACTIVATED, PENDINGFORDELETE
 	}

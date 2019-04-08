@@ -1,4 +1,4 @@
-package application;
+package application.configurations;
 
 import application.entities.UserSession;
 import application.repositories.UserSessionRepository;

@@ -247,7 +247,7 @@ public class DB_test_loader implements CommandLineRunner {
 					Random rr = new Random();
 					user.setPhoneNumber(data[4]+ rr.nextInt(9)+ rr.nextInt(9)+ rr.nextInt(9)+ rr.nextInt(9)+ rr.nextInt(9)+ rr.nextInt(9)+ rr.nextInt(9));
 					user.setUserName(data[0].split("@")[0]);
-					user.setEncrytedPassword(DigestUtils.md5Hex(data[0].split("@")[0]));
+					user.setEncrytedPassword(DigestUtils.sha256Hex(data[0].split("@")[0]));
 					user.activate();
 					user.setGender(genderEntityList.get(rr.nextInt(genderEntityList.size() - 1)));
 					user.setReligion(religionEntityList.get(rr.nextInt(religionEntityList.size() - 1)));

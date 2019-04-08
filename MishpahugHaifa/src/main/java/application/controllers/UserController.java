@@ -18,6 +18,8 @@ import com.querydsl.core.types.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -77,6 +79,13 @@ public class UserController {
                 .build();
         userSessionRepository.save(userSession);
         return new LoginResponse(userSession.getToken());
+    }
+
+    @PostMapping(value = "/logout")
+    public void logout(@RequestHeader(name = "", required = false) String token){
+        UserSession userSession = userSessionRepository.findByTokenAAndIsValidTrue(token);
+        userSession.setIsValid(false);
+        userSessionRepository.save(userSession);
     }
 
     @PostMapping(value="/register")

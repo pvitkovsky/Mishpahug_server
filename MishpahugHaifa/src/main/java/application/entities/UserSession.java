@@ -26,6 +26,6 @@ public class UserSession {
     private String token;
 
     @Column(name = "isValid", nullable = false)
-    private boolean isValid;
+    private Boolean isValid;
 
 }

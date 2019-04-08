@@ -32,7 +32,7 @@ public class DB_test_loader implements CommandLineRunner {
 	@Autowired
 	EventRepository eventRepository;
 	@Autowired
-	EventGuestRepository eventGuestRepository;
+	SubscriptionRepository eventGuestRepository;
 	@Autowired
 	CityRepository cityRepository;
 	@Autowired
@@ -119,7 +119,7 @@ public class DB_test_loader implements CommandLineRunner {
 			Random gen = new Random();
 			UserEntity randomGuest = userRepository.findAll().get(gen.nextInt(randomUserRange));
 			for (EventEntity event : eventRepository.findAll()) {
-				EventGuestRelation subscription = new EventGuestRelation();
+				SubscriptionEntity subscription = new SubscriptionEntity();
 				if (!event.getUserEntityOwner().equals(randomGuest)) {
 					subscription.subscribe(randomGuest, event);
 				}

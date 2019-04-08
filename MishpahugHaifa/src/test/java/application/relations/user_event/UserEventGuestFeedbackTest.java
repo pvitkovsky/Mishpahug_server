@@ -1,10 +1,10 @@
 package application.relations.user_event;
 
 import application.entities.EventEntity;
-import application.entities.EventGuestRelation;
+import application.entities.SubscriptionEntity;
 import application.entities.UserEntity;
 import application.entities.values.FeedBackValue;
-import application.repositories.EventGuestRepository;
+import application.repositories.SubscriptionRepository;
 import application.repositories.EventRepository;
 import application.repositories.UserRepository;
 import org.junit.Before;
@@ -31,7 +31,7 @@ public class UserEventGuestFeedbackTest {
 	private final UserEntity ALYSSA = new UserEntity();
 	private final UserEntity BEN = new UserEntity();
 	private final EventEntity GUESTING = new EventEntity();
-	private final EventGuestRelation AGUESTING = new EventGuestRelation();
+	private final SubscriptionEntity AGUESTING = new SubscriptionEntity();
 	private final FeedBackValue ABFEEDBACK = new FeedBackValue();
 	private final LocalDate TDATE = LocalDate.of(2190, 1, 1);
 	private final LocalTime TTIME = LocalTime.of(23, 59);
@@ -44,7 +44,7 @@ public class UserEventGuestFeedbackTest {
 	EventRepository eventRepo;
 
 	@Autowired
-	EventGuestRepository eventGuestRepo;
+	SubscriptionRepository eventGuestRepo;
 	
 	@Before
 	public void buildEntities() {
@@ -69,7 +69,7 @@ public class UserEventGuestFeedbackTest {
 		eventGuestRepo.save(AGUESTING);
 	
 		EventEntity savedE = eventRepo.findById(GUESTING.getId()).get();
-		EventGuestRelation savedSubcsrEvent = savedE.getSubscriptions().iterator().next();
+		SubscriptionEntity savedSubcsrEvent = savedE.getSubscriptions().iterator().next();
 		FeedBackValue savedFB = savedSubcsrEvent.getFeedback();
 		assertEquals(savedFB, ABFEEDBACK);
 

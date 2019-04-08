@@ -1,9 +1,9 @@
 package application.repositories.custom;
 
+import java.util.Map;
+
 import application.entities.EventEntity;
 
-import java.util.HashMap;
-
 public interface EventRepositoryCustom {
-    public EventEntity update(EventEntity event, HashMap<String, String> data);
+    public EventEntity update(EventEntity event, Map<String, String> data);
 }

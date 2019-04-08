@@ -2,9 +2,9 @@
 package application.relations.user_event;
 
 import application.entities.EventEntity;
-import application.entities.EventGuestRelation;
+import application.entities.SubscriptionEntity;
 import application.entities.UserEntity;
-import application.repositories.EventGuestRepository;
+import application.repositories.SubscriptionRepository;
 import application.repositories.EventRepository;
 import application.repositories.UserRepository;
 import org.junit.Before;
@@ -40,8 +40,8 @@ public class UserEventOwnerTest {
 	private final EventEntity BATEST = new EventEntity();
 	private final String ABNAME = "ABTEST";
 	private final String BANAME = "BATEST";
-	private final EventGuestRelation ABSUB= new EventGuestRelation();
-	private final EventGuestRelation BASUB = new EventGuestRelation();
+	private final SubscriptionEntity ABSUB= new SubscriptionEntity();
+	private final SubscriptionEntity BASUB = new SubscriptionEntity();
 	private final LocalDate TDATE = LocalDate.of(2190, 1, 1);
 	private final LocalTime TTIME = LocalTime.of(23, 59);
 
@@ -55,7 +55,7 @@ public class UserEventOwnerTest {
 	EventRepository eventRepo;
 	
 	@Autowired
-	EventGuestRepository eventGuestRepo;
+	SubscriptionRepository eventGuestRepo;
 
 
 	@Before

@@ -1,9 +1,9 @@
 package application.relations.user_event;
 
 import application.entities.EventEntity;
-import application.entities.EventGuestRelation;
+import application.entities.SubscriptionEntity;
 import application.entities.UserEntity;
-import application.repositories.EventGuestRepository;
+import application.repositories.SubscriptionRepository;
 import application.repositories.EventRepository;
 import application.repositories.UserRepository;
 import org.junit.Before;
@@ -34,7 +34,7 @@ public class UserEventGuestTest {
 	private final LocalDate TDATE = LocalDate.of(2190, 1, 1);
 	private final LocalTime TTIME = LocalTime.of(23, 59);
 	private final String TNAME = "TESTING";
-	private final EventGuestRelation AGUESTING = new EventGuestRelation();
+	private final SubscriptionEntity AGUESTING = new SubscriptionEntity();
 
 	@Autowired
 	UserRepository userRepo;
@@ -43,7 +43,7 @@ public class UserEventGuestTest {
 	EventRepository eventRepo;
 
 	@Autowired
-	EventGuestRepository eventGuestRepo;
+	SubscriptionRepository eventGuestRepo;
 
 	@Before
 	public void buildEntities() {
@@ -69,8 +69,8 @@ public class UserEventGuestTest {
 
 		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
 		EventEntity savedE = eventRepo.findById(GUESTING.getId()).get();
-		EventGuestRelation savedSubcsrUser = savedA.getSubscriptions().iterator().next();
-		EventGuestRelation savedSubcsrEvent = savedE.getSubscriptions().iterator().next();
+		SubscriptionEntity savedSubcsrUser = savedA.getSubscriptions().iterator().next();
+		SubscriptionEntity savedSubcsrEvent = savedE.getSubscriptions().iterator().next();
 		assertEquals(AGUESTING, savedSubcsrUser);
 		assertEquals(AGUESTING, savedSubcsrEvent);
 		assertEquals(savedSubcsrUser, savedSubcsrEvent);
@@ -210,8 +210,7 @@ public class UserEventGuestTest {
 	
 	
 	
-	@Test(expected = IllegalArgumentException.class)
-	//TODO: why different exception here?
+	@Test(expected = IllegalArgumentException.class) // as nullify() is called explicitely from User; 
 	public void deleteEventBlankEventWithoutDeactivation() {
 
 		BEN.makeOwner(GUESTING);
@@ -219,14 +218,11 @@ public class UserEventGuestTest {
 		
 		BEN.removeOwnedEvent(GUESTING);
 		
-		assertTrue(userRepo.existsById(BEN.getId()));
-		assertFalse(eventRepo.existsById(GUESTING.getId()));
 	}
 	
 
 	
 	@Test(expected = IllegalArgumentException.class)
-	//TODO: why different exception here?
 	public void deleteEventSubscribedEventWithoutDeactivation() {
 
 		BEN.makeOwner(GUESTING);

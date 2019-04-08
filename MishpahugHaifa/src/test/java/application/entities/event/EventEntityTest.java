@@ -109,6 +109,10 @@ public class EventEntityTest {
 		eventRepo.update(TESTING, TUPDATE);
 	}
 
+	
+	/**
+	 * Also tests eventRepo.delete is correct; 
+	 */
 	@Test
 	public void savedUserChangeStatusWithLegalStringWorks() {
 		ALYSSA.makeOwner(TESTING);
@@ -135,8 +139,7 @@ public class EventEntityTest {
 		assertTrue(TESTING.isPendingForDeletion());
 		TUPDATE.clear();
 		
-		//eventRepo.delete(TESTING); //TODO: <- disallow this in the repo;
-		ALYSSA.removeOwnedEvent(TESTING);
+		eventRepo.delete(TESTING); 
 		assertEquals(eventRepo.count(), 0);
 		assertEquals(ALYSSA.getEventEntityOwner().size(), 0);
 	}	

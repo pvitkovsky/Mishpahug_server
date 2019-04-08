@@ -195,7 +195,7 @@ public class EventEntity {
 	 * Checks that the event is OK to delete and then unsubscribes all its
 	 * subscribers; launched from the owned entity;
 	 */
-	@PreRemove //TODO: sometimes called twice with cascading logic; 
+	@PreRemove 
 	public void nullifyForRemoval() {
 		if (!isPendingForDeletion()) {
 			throw new IllegalArgumentException("Event must be first putIntoDeletionQueue");

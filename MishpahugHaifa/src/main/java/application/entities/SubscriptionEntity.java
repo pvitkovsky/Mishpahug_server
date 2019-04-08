@@ -38,8 +38,6 @@ import lombok.ToString;
 @Entity
 @Table(name = "user_event_guest", uniqueConstraints = { @UniqueConstraint(columnNames = { "GUEST_ID", "EVENT_ID" }) })
 @ToString
-// TODO: how should we handle unsubscriptions (for example, a user deleted
-// himseld) after leaving feedback? Feedback will be destroyed.
 public class SubscriptionEntity {
 
 	@Embeddable

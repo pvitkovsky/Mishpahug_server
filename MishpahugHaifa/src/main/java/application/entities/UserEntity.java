@@ -175,7 +175,6 @@ public class UserEntity {
 	 * @return true if the event was added; false if the event was not added, as it
 	 *         is already in the set.
 	 */
-	// TODO: maybe check for event status here?
 	public boolean makeOwner(EventEntity event) {
 		// TODO: check that event has its business key not null; or NPE is possible;
 		if (event.getUserEntityOwner() == null) { // transient state;

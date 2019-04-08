@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 
 import application.entities.EventEntity;
 
@@ -40,5 +41,11 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
 			tempResult.changeStatus(data.get("status"));
 		}
 		return tempResult;
+	}
+	
+	@Override 
+	@Transactional
+	public void delete(EventEntity event) {
+		event.getUserEntityOwner().removeOwnedEvent(event);
 	}
 }

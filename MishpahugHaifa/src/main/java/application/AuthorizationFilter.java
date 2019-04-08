@@ -1,4 +1,4 @@
-package application.configurations;
+package application;
 
 import application.entities.UserSession;
 import application.repositories.UserSessionRepository;
@@ -26,8 +26,10 @@ public class AuthorizationFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        if (request.getRequestURI().equals("/register") || request.getRequestURI().equals("/login")) {
+        System.out.println("!!!!!!! " + request.getRequestURI());
+        if (request.getRequestURI().contains("/user/register") || request.getRequestURI().contains("/user/login")) {
             chain.doFilter(servletRequest, servletResponse);
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             return;
         }
         String token = request.getHeader("Authorization");
@@ -35,7 +37,7 @@ public class AuthorizationFilter implements Filter {
             response.sendError(401);
             return;
         }
-        UserSession userSession = userSessionRepository.findByTokenAAndIsValidTrue(token);
+        UserSession userSession = userSessionRepository.findByTokenAndIsValidTrue(token);
         if (userSession == null) {
             response.sendError(401);
             return;

@@ -15,6 +15,7 @@ import application.models.religion.IReligionModel;
 import application.models.user.IUserModel;
 import application.repositories.UserSessionRepository;
 import com.querydsl.core.types.Predicate;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.web.bind.annotation.*;
@@ -68,7 +69,7 @@ public class UserController {
     }
     @PostMapping(value = "/login")
     public LoginResponse login(@RequestBody LoginDTO loginDTO){
-        UserEntity userEntity = userModel.getByUsernameAndPassword(loginDTO.getUsername(), loginDTO.getPassword());
+        UserEntity userEntity = userModel.getByUsernameAndPassword(loginDTO.getUsername(), DigestUtils.md5Hex(loginDTO.getPassword()));
         if (userEntity == null){
             throw new RuntimeException("Incorrect password or username");
         }
@@ -82,8 +83,8 @@ public class UserController {
     }
 
     @PostMapping(value = "/logout")
-    public void logout(@RequestHeader(name = "", required = false) String token){
-        UserSession userSession = userSessionRepository.findByTokenAAndIsValidTrue(token);
+    public void logout(@RequestHeader(name = "Authorization", required = false) String token){
+        UserSession userSession = userSessionRepository.findByTokenAndIsValidTrue(token);
         userSession.setIsValid(false);
         userSessionRepository.save(userSession);
     }

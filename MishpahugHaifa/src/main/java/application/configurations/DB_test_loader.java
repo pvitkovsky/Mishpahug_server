@@ -3,6 +3,8 @@ package application.configurations;
 import application.entities.*;
 import application.entities.LogsOnEvent.ActionsOnEvent;
 import application.repositories.*;
+import com.itextpdf.xmp.impl.Base64;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -242,12 +244,11 @@ public class DB_test_loader implements CommandLineRunner {
 					user.setFirstName(data[1]);
 					user.setLastName(data[2]);
 					user.setDateOfBirth(LocalDate.parse(data[3]));
-					user.setPhoneNumber(data[4]);
-					user.setUserName(data[0].split("@")[0]);
-
-					user.activate();
-
 					Random rr = new Random();
+					user.setPhoneNumber(data[4]+ rr.nextInt(9)+ rr.nextInt(9)+ rr.nextInt(9)+ rr.nextInt(9)+ rr.nextInt(9)+ rr.nextInt(9)+ rr.nextInt(9));
+					user.setUserName(data[0].split("@")[0]);
+					user.setEncrytedPassword(DigestUtils.md5Hex(data[0].split("@")[0]));
+					user.activate();
 					user.setGender(genderEntityList.get(rr.nextInt(genderEntityList.size() - 1)));
 					user.setReligion(religionEntityList.get(rr.nextInt(religionEntityList.size() - 1)));
 					user.setAddressEntity(addressEntityList.get(rr.nextInt(addressEntityList.size() - 1)));

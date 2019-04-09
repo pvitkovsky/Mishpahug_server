@@ -18,13 +18,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer>,
 		QuerydslPredicateExecutor<UserEntity>, QuerydslBinderCustomizer<QUserEntity>,
 	UserRepositoryCustom{
 
-	public List<UserEntity> findByReligion(ReligionEntity religionEntity);
-
-	public List<UserEntity> findByKitchenType(KitchenTypeEntity kitchenEntity);
-
-	public List<UserEntity> findByGender(GenderEntity genderEntity);
-
-	public List<UserEntity> findByMaritalStatus(MaritalStatusEntity maritalStatusEntity);
+	public UserEntity findByUserNameAndAndEncrytedPassword(String username, String password);
 
 	public UserEntity findByUserName(String userName);
 

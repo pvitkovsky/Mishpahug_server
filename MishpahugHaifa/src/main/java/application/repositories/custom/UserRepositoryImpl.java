@@ -1,12 +1,13 @@
 package application.repositories.custom;
 
-import application.entities.UserEntity;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.util.HashMap;
-import java.util.Map;
+
+import application.entities.UserEntity;
 /*
 поля для фильтрации
 -никнайм
@@ -22,7 +23,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     private EntityManager entityManager;
     
     @Override
-    public UserEntity update(UserEntity user, HashMap<String, String> data){
+    public UserEntity update(UserEntity user, Map<String, String> data){
         StringBuilder query = new StringBuilder();
         Map<String, Integer> parameters = new HashMap<>();
         query.append("select e from UserEntity e where user_Id = :user_Id ");
@@ -43,6 +44,9 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
         }
         if (data.containsKey("eMail")){
             tempResult.setLastName(data.get("eMail"));
+        }
+        if (data.containsKey("status")){
+            tempResult.changeStatus(data.get("status"));
         }
         return tempResult;
     }

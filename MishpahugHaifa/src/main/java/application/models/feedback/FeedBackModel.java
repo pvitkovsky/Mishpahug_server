@@ -2,7 +2,7 @@ package application.models.feedback;
 
 import application.entities.UserEntity;
 import application.entities.values.FeedBackValue;
-import application.repositories.EventGuestRepository;
+import application.repositories.SubscriptionRepository;
 import application.repositories.EventRepository;
 import application.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import java.util.Map;
 public class FeedBackModel implements IFeedBackModel {
 
     @Autowired
-    EventGuestRepository feedBackRepository;
+    SubscriptionRepository feedBackRepository;
 
     @Autowired
     EventRepository eventRepository;

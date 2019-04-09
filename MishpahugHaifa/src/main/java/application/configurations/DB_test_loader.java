@@ -3,6 +3,8 @@ package application.configurations;
 import application.entities.*;
 import application.entities.LogsOnEvent.ActionsOnEvent;
 import application.repositories.*;
+import com.itextpdf.xmp.impl.Base64;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -32,7 +34,7 @@ public class DB_test_loader implements CommandLineRunner {
 	@Autowired
 	EventRepository eventRepository;
 	@Autowired
-	EventGuestRepository eventGuestRepository;
+	SubscriptionRepository eventGuestRepository;
 	@Autowired
 	CityRepository cityRepository;
 	@Autowired
@@ -60,6 +62,7 @@ public class DB_test_loader implements CommandLineRunner {
 		loadTest(MPHEntity.MARRIAGE);
 		loadTest(MPHEntity.ADDRESS);
 		loadTest(MPHEntity.GENDER);
+
 		loadTest(MPHEntity.USER);
 		loadTest(MPHEntity.EVENT);
 		loadTest(MPHEntity.GUESTS);
@@ -119,13 +122,14 @@ public class DB_test_loader implements CommandLineRunner {
 			Random gen = new Random();
 			UserEntity randomGuest = userRepository.findAll().get(gen.nextInt(randomUserRange));
 			for (EventEntity event : eventRepository.findAll()) {
-				EventGuestRelation subscription = new EventGuestRelation();
+				SubscriptionEntity subscription = new SubscriptionEntity();
 				if (!event.getUserEntityOwner().equals(randomGuest)) {
 					subscription.subscribe(randomGuest, event);
 				}
 			}
 			break;
 		}
+		//TODO
 		case LOGS:{
 			logsDataRepository.deleteAll();
 			Random gen = new Random();
@@ -227,6 +231,7 @@ public class DB_test_loader implements CommandLineRunner {
 				List<ReligionEntity> religionEntityList = religionRepository.findAll();
 				List<KitchenTypeEntity> kitchenTypeEntityList = kichenTypeRepository.findAll();
 				logsDataRepository.deleteAll();
+				userRepository.findAll().forEach(UserEntity::putIntoDeletionQueue);
 				userRepository.deleteAll();
 				userRepository.flush();
 				//do we need flush here?
@@ -240,10 +245,11 @@ public class DB_test_loader implements CommandLineRunner {
 					user.setFirstName(data[1]);
 					user.setLastName(data[2]);
 					user.setDateOfBirth(LocalDate.parse(data[3]));
-					user.setPhoneNumber(data[4]);
-					user.setUserName(data[0].split("@")[0]);
-					user.setEnabled(true);
 					Random rr = new Random();
+					user.setPhoneNumber(data[4]+ rr.nextInt(9)+ rr.nextInt(9)+ rr.nextInt(9)+ rr.nextInt(9)+ rr.nextInt(9)+ rr.nextInt(9)+ rr.nextInt(9));
+					user.setUserName(data[0].split("@")[0]);
+					user.setEncrytedPassword(DigestUtils.md5Hex(data[0].split("@")[0]));
+					user.activate();
 					user.setGender(genderEntityList.get(rr.nextInt(genderEntityList.size() - 1)));
 					user.setReligion(religionEntityList.get(rr.nextInt(religionEntityList.size() - 1)));
 					user.setAddressEntity(addressEntityList.get(rr.nextInt(addressEntityList.size() - 1)));
@@ -257,7 +263,9 @@ public class DB_test_loader implements CommandLineRunner {
 			}
 		}
 	}
-
+	/**
+	 * Loads address
+	 */
 	private class AddressLoader {
 		BufferedReader empdtil;
 
@@ -288,7 +296,9 @@ public class DB_test_loader implements CommandLineRunner {
 			}
 		}
 	}
-
+	/**
+	 * Loads city
+	 */
 	private class CityLoader {
 		BufferedReader empdtil;
 
@@ -324,7 +334,9 @@ public class DB_test_loader implements CommandLineRunner {
 			}
 		}
 	}
-	
+	/**
+	 * Loads kichentype
+	 */
 	private class KichenTypeLoader {
 		BufferedReader empdtil;
 
@@ -358,7 +370,9 @@ public class DB_test_loader implements CommandLineRunner {
 			}
 		}
 	}
-
+	/**
+	 * Loads Religion
+	 */
 	private class ReligionLoader {
 		BufferedReader empdtil;
 
@@ -388,7 +402,9 @@ public class DB_test_loader implements CommandLineRunner {
 			}
 		}
 	}
-	
+	/**
+	 * Loads gender
+	 */
 	private class GenderLoader {
 		BufferedReader empdtil;
 
@@ -418,7 +434,9 @@ public class DB_test_loader implements CommandLineRunner {
 			}
 		}
 	}
-	
+	/**
+	 * Loads maritalstatus
+	 */
 	private class MaritalStatusLoader {
 		BufferedReader empdtil;
 
@@ -485,6 +503,7 @@ public class DB_test_loader implements CommandLineRunner {
 		void load() {
 			try {
 				logsDataRepository.deleteAll();
+				eventRepository.findAll().forEach(EventEntity::putIntoDeletionQueue);
 				eventRepository.deleteAll();
 				eventRepository.flush();
 				//do we need flush here?

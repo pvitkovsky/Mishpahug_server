@@ -2,9 +2,9 @@
 package application.relations.user_event;
 
 import application.entities.EventEntity;
-import application.entities.EventGuestRelation;
+import application.entities.SubscriptionEntity;
 import application.entities.UserEntity;
-import application.repositories.EventGuestRepository;
+import application.repositories.SubscriptionRepository;
 import application.repositories.EventRepository;
 import application.repositories.UserRepository;
 import org.junit.Before;
@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,8 +41,8 @@ public class UserEventOwnerTest {
 	private final EventEntity BATEST = new EventEntity();
 	private final String ABNAME = "ABTEST";
 	private final String BANAME = "BATEST";
-	private final EventGuestRelation ABSUB= new EventGuestRelation();
-	private final EventGuestRelation BASUB = new EventGuestRelation();
+	private final SubscriptionEntity ABSUB= new SubscriptionEntity();
+	private final SubscriptionEntity BASUB = new SubscriptionEntity();
 	private final LocalDate TDATE = LocalDate.of(2190, 1, 1);
 	private final LocalTime TTIME = LocalTime.of(23, 59);
 
@@ -55,7 +56,7 @@ public class UserEventOwnerTest {
 	EventRepository eventRepo;
 	
 	@Autowired
-	EventGuestRepository eventGuestRepo;
+	SubscriptionRepository eventGuestRepo;
 
 
 	@Before
@@ -70,6 +71,32 @@ public class UserEventOwnerTest {
 		BATEST.setNameOfEvent(BANAME);
 	}
 
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void addEventOfAnotherOwner() { 
+		
+		ALYSSA.makeOwner(BATEST);
+		BEN.makeOwner(BATEST);
+		
+	}
+	
+	@Test
+	/**
+	 * Can't add event to user more than 1 time; checks hashcode of Event; 
+	 */
+	public void saveDuplicateEvent() {
+
+		ALYSSA.makeOwner(BATEST);
+		ALYSSA.makeOwner(BATEST);
+		ALYSSA.makeOwner(BATEST);
+		ALYSSA.makeOwner(BATEST);
+
+		userRepo.save(ALYSSA);
+		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
+		assertTrue(savedA.getEventEntityOwner().size() == 1);
+
+	}
+	
 	/**
 	 * Checking that Event.setUserEntityOwner creates bidirectional link; 
 	 * Checking cascade save; 
@@ -80,6 +107,7 @@ public class UserEventOwnerTest {
 
 		ALYSSA.makeOwner(BATEST);
 		userRepo.save(ALYSSA);
+		
 		assertTrue(userRepo.existsById(ALYSSA.getId()));
 		assertTrue(eventRepo.existsById(BATEST.getId()));
 		
@@ -99,21 +127,6 @@ public class UserEventOwnerTest {
 	}
 
 	/**
-	 * Checking that the events are automatically deleted (cascade) after the UserEntity
-	 */
-	@Test
-	public void onUserAndEventSaveDeleteUser() {
-
-		ALYSSA.makeOwner(BATEST);
-		userRepo.save(ALYSSA);
-		assertTrue(eventRepo.existsById(BATEST.getId()));
-
-		userRepo.delete(ALYSSA);
-		assertFalse(eventRepo.existsById(BATEST.getId()));
-
-	}
-	
-	/**
 	 * Checking that toString works in the bidirectional relation;
 	 */
 	@Test
@@ -130,29 +143,12 @@ public class UserEventOwnerTest {
 
 	}
 	
-	@Test
-	/**
-	 * Can't add event to user more than 1 time; checks hashcode of Event; 
-	 */
-	public void saveDuplicateEvent() {
-
-		ALYSSA.makeOwner(BATEST);
-		ALYSSA.makeOwner(BATEST);
-		ALYSSA.makeOwner(BATEST);
-		ALYSSA.makeOwner(BATEST);
-
-		userRepo.save(ALYSSA);
-		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
-		assertTrue(savedA.getEventEntityOwner().size() == 1);
-
-	}
-
 	/**
 	 * This tests User.transferEvent;
 	 * Transfer Event not in the API, but useful as a tool for testing how relation works;
 	 */
 	@Test
-	public void onTransferEvent() {
+	public void onTransferEvent() { //TODO: fix me please, remove method wants to delete the event but it's not pending for deletion
 
 		ALYSSA.makeOwner(BATEST);
 		userRepo.save(ALYSSA);
@@ -172,43 +168,15 @@ public class UserEventOwnerTest {
 		assertEquals(eventRepo.findById(BATEST.getId()).get().getUserEntityOwner(), BEN);
 
 	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void addEventOfAnotherOwner() { 
-		ALYSSA.makeOwner(BATEST);
-		BEN.makeOwner(BATEST);
-	}
-
+	
 	@Test(expected = IllegalArgumentException.class)
 	public void removeEventOfAnotherOwner() {
+		
 		ALYSSA.makeOwner(BATEST);
 		BEN.transferOwnedEvent(BATEST, ALYSSA);
-	}
-
-
-	/**
-	 * Deleting event and testing that its subscribers are unsubscribed automatically;
-	 * 
-	 */
-	//TODO more subscribers; 
-	@Test
-	public void onDeleteEventWithSubscription() {
-
-		ALYSSA.makeOwner(BATEST);
-		userRepo.save(ALYSSA);
-		userRepo.save(BEN);
-		BASUB.subscribe(BEN, BATEST);
-
-		assertTrue(eventGuestRepo.existsById(BASUB.getId()));
 		
-		ALYSSA.removeOwnedEvent(BATEST);
-
-		assertFalse(eventRepo.existsById(BATEST.getId()));
-		assertTrue(userRepo.existsById(ALYSSA.getId()));
-		assertFalse(eventGuestRepo.existsById(BASUB.getId()));
-
 	}
-	
+
 	/**
 	 * Deleting user and testing its unsubscribeAll() to ensure that he's unsubcribed from everywhere and 
 	 * all his/her owned events clear themselves of tuests;
@@ -223,21 +191,22 @@ public class UserEventOwnerTest {
 		ABSUB.subscribe(ALYSSA, ABTEST);
 		BASUB.subscribe(BEN, BATEST);
 		
-		System.out.println(BEN.getSubscriptions());
-		
 		assertTrue(eventGuestRepo.existsById(ABSUB.getId()));
 		assertTrue(eventGuestRepo.existsById(BASUB.getId()));
 		assertTrue(ALYSSA.getSubscriptions().contains(ABSUB));
 		assertTrue(BEN.getSubscriptions().contains(BASUB));
 
-		ALYSSA.unsubscribeAll(); // have to unsub everything when subscribing; 
+		ALYSSA.putIntoDeletionQueue();
 		userRepo.delete(ALYSSA);
+		
+		assertEquals(userRepo.count(), 1);
+		assertEquals(eventRepo.count(), 1);
 		
 		assertFalse(userRepo.existsById(ALYSSA.getId()));
 		assertFalse(eventRepo.existsById(BATEST.getId()));
 		assertFalse(eventGuestRepo.existsById(BASUB.getId()));
 		assertFalse(BEN.getSubscriptions().contains(BASUB));
-		
+	
 		assertTrue(userRepo.existsById(BEN.getId()));
 		assertTrue(eventRepo.existsById(ABTEST.getId()));
 		assertFalse(eventGuestRepo.existsById(ABSUB.getId()));
@@ -245,4 +214,8 @@ public class UserEventOwnerTest {
 		
 
 	}
+	
+
+
+
 }

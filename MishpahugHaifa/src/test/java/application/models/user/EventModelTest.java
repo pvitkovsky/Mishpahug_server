@@ -1,8 +1,8 @@
 package application.models.user;
 
 import application.entities.EventEntity;
-import application.entities.EventGuestRelation;
-import application.entities.EventGuestRelation.EventGuestId;
+import application.entities.SubscriptionEntity;
+import application.entities.SubscriptionEntity.EventGuestId;
 import application.entities.UserEntity;
 import application.exceptions.ExceptionMishpaha;
 import application.models.event.EventModel;
@@ -43,7 +43,7 @@ public class EventModelTest {
 	@MockBean
 	UserRepository userRepo;
 	@MockBean
-	EventGuestRepository subscriptionsRepo;
+	SubscriptionRepository subscriptionsRepo;
 	@MockBean
 	ReligionRepository religionRepo;
 	@MockBean
@@ -62,7 +62,7 @@ public class EventModelTest {
 	private final LocalDate TDATE = LocalDate.of(2190, 1, 1);
 	private final LocalTime TTIME = LocalTime.of(23, 59);
 	private final String TNAME = "TESTING";
-	private final EventGuestRelation AGUESTING = new EventGuestRelation();
+	private final SubscriptionEntity AGUESTING = new SubscriptionEntity();
 	private final Set<EventEntity> ASUBS = new HashSet<>();
 	private final Set<UserEntity> GSUBS = new HashSet<>();
 	
@@ -134,7 +134,7 @@ public class EventModelTest {
 		EventGuestId idAG = new EventGuestId(ALYSSA.getId(), GUESTING.getId()); 
 		AGUESTING.subscribe(ALYSSA, GUESTING);
 		Mockito.when(subscriptionsRepo.getOne(idAG)).thenReturn(AGUESTING);
-		EventGuestRelation subAtoG = subscriptionsRepo.getOne(idAG); 
+		SubscriptionEntity subAtoG = subscriptionsRepo.getOne(idAG); 
 		
 		Mockito.when(eventRepo.getOne(GUESTING.getId())).thenReturn(GUESTING);
 		Mockito.when(userRepo.getOne(ALYSSA.getId())).thenReturn(ALYSSA);
@@ -168,7 +168,7 @@ public class EventModelTest {
 		EventGuestId idAG = new EventGuestId(ALYSSA.getId(), GUESTING.getId()); 
 		AGUESTING.subscribe(ALYSSA, GUESTING);
 		Mockito.when(subscriptionsRepo.getOne(idAG)).thenReturn(AGUESTING);
-		EventGuestRelation subAtoG = subscriptionsRepo.getOne(idAG); 
+		SubscriptionEntity subAtoG = subscriptionsRepo.getOne(idAG); 
 		
 		Mockito.when(eventRepo.getOne(GUESTING.getId())).thenReturn(GUESTING);
 		Mockito.when(userRepo.getOne(ALYSSA.getId())).thenReturn(ALYSSA);
@@ -185,4 +185,6 @@ public class EventModelTest {
 			e.printStackTrace();
 		}
 	}
+	
+	//TODO: tests on deactivate and cancel pls
 }

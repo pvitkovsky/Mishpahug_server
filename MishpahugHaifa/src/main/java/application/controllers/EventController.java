@@ -14,7 +14,7 @@ import java.util.HashMap;
 
 @RestController
 @RequestMapping(value = "/event")
-public class EventController {
+public class EventController implements IEventController {
 
     @Autowired
     IEventModel eventModel;
@@ -25,15 +25,33 @@ public class EventController {
     @Autowired
     IKichenTypeModel kichenTypeModel;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/")
+    /* (non-Javadoc)
+	 * @see application.controllers.IEventController#findAllByWebQuerydsl(com.querydsl.core.types.Predicate)
+	 */
+    @Override
+	@RequestMapping(method = RequestMethod.GET, value = "/")
     @ResponseBody
     public Iterable<EventEntity> findAllByWebQuerydsl(
             @QuerydslPredicate(root = EventEntity.class) Predicate predicate) {
         return eventModel.getAll(predicate);
     }
 
+    /* (non-Javadoc)
+	 * @see application.controllers.IEventController#findAll(java.lang.Integer)
+	 */
+    @Override
+	@RequestMapping(method = RequestMethod.GET, value = "/{id}")
+    @ResponseBody
+    public EventEntity findAll(@PathVariable(name = "id") Integer id) throws ExceptionMishpaha {
+        return eventModel.getById(id);
+    }
 
-    @PostMapping(value="/")
+
+    /* (non-Javadoc)
+	 * @see application.controllers.IEventController#setDataFromForm(application.dto.EventDTO)
+	 */
+    @Override
+	@PostMapping(value="/")
     public EventEntity setDataFromForm(@RequestBody EventDTO data){
         EventEntity eventEntity = new EventEntity();
         eventEntity.convertEventDTO(data);
@@ -42,19 +60,33 @@ public class EventController {
         return eventModel.add(eventEntity);
     }
 
-    @PutMapping(value="/{id}")
+    /* (non-Javadoc)
+	 * @see application.controllers.IEventController#updateDataFromForm(java.util.HashMap, java.lang.Integer)
+	 */
+    @Override
+	@PutMapping(value="/{id}")
     public EventEntity updateDataFromForm(@RequestBody HashMap<String, String> data,
                                           @PathVariable(value = "id") Integer id) throws ExceptionMishpaha {
         return eventModel.update(id, data);
     }
 
-    @DeleteMapping(value = "/{id}")
+    /* (non-Javadoc)
+	 * @see application.controllers.IEventController#delete(java.lang.Integer)
+	 */
+    @Override
+	@DeleteMapping(value = "/{id}")
     public EventEntity delete(@PathVariable(value = "id") Integer id) throws ExceptionMishpaha {
+        eventModel.getById(id).putIntoDeletionQueue();
         return eventModel.delete(id);
     }
 
-    @DeleteMapping(value = "/")
+    /* (non-Javadoc)
+	 * @see application.controllers.IEventController#delete()
+	 */
+    @Override
+	@DeleteMapping(value = "/")
     public void delete() throws ExceptionMishpaha {
+        eventModel.getAll().forEach(EventEntity::putIntoDeletionQueue);
         eventModel.deleteAll();
     }
 }

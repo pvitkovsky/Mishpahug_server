@@ -41,8 +41,8 @@ public class UserEventOwnerTest {
 	private final LocalTime TTIME = LocalTime.of(23, 59);
 	private final EventEntity ABTEST = new EventEntity(TDATE, TTIME);
 	private final EventEntity BATEST = new EventEntity(TDATE, TTIME);
-	private final SubscriptionEntity ABSUB= new SubscriptionEntity();
-	private final SubscriptionEntity BASUB = new SubscriptionEntity();
+	private SubscriptionEntity ABSUB;
+	private SubscriptionEntity BASUB;
 
 
 	@PersistenceContext // https://www.javabullets.com/access-entitymanager-spring-data-jpa/
@@ -62,6 +62,14 @@ public class UserEventOwnerTest {
 	public void buildEntities() {
 		ALYSSA.setEMail("p_hacker@sicp.edu");
 		BEN.setEMail("bitdiddle@sicp.edu");
+		userRepo.save(ALYSSA);
+		userRepo.save(BEN);
+		ABTEST.setUserEntityOwner(BEN);
+		BATEST.setUserEntityOwner(ALYSSA);
+		eventRepo.save(ABTEST);  //TODO: where is cascade?!
+		eventRepo.save(BATEST);
+		ABSUB = new SubscriptionEntity(ALYSSA, ABTEST);
+		BASUB = new SubscriptionEntity(BEN, BATEST);
 	}
 
 	
@@ -89,7 +97,6 @@ public class UserEventOwnerTest {
 		BATEST.setUserEntityOwner(ALYSSA);
 		BATEST.setUserEntityOwner(ALYSSA);
 
-		userRepo.save(ALYSSA);
 		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
 		assertTrue(savedA.getEventEntityOwner().size() == 1);
 
@@ -102,9 +109,6 @@ public class UserEventOwnerTest {
 	 */
 	@Test
 	public void onUserSaveReadEvent() {
-
-		BATEST.setUserEntityOwner(ALYSSA);
-		userRepo.save(ALYSSA);
 		
 		assertTrue(userRepo.existsById(ALYSSA.getId()));
 		assertTrue(eventRepo.existsById(BATEST.getId()));
@@ -129,9 +133,6 @@ public class UserEventOwnerTest {
 	 */
 	@Test
 	public void toStringBiDir() {
-
-		BATEST.setUserEntityOwner(ALYSSA);
-		userRepo.save(ALYSSA);
 
 		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
 		EventEntity savedE = eventRepo.findById(BATEST.getId()).get();
@@ -182,13 +183,6 @@ public class UserEventOwnerTest {
 	@Test
 	public void onUserDeleteEventNotRemains() {
 
-		BATEST.setUserEntityOwner(ALYSSA);
-		ABTEST.setUserEntityOwner(BEN);
-		userRepo.save(ALYSSA);
-		userRepo.save(BEN);
-		ABSUB.subscribe(ALYSSA, ABTEST);
-		BASUB.subscribe(BEN, BATEST);
-		
 		assertTrue(eventGuestRepo.existsById(ABSUB.getId()));
 		assertTrue(eventGuestRepo.existsById(BASUB.getId()));
 		assertTrue(ALYSSA.getSubscriptions().contains(ABSUB));

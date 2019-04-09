@@ -122,9 +122,8 @@ public class DB_test_loader implements CommandLineRunner {
 			Random gen = new Random();
 			UserEntity randomGuest = userRepository.findAll().get(gen.nextInt(randomUserRange));
 			for (EventEntity event : eventRepository.findAll()) {
-				SubscriptionEntity subscription = new SubscriptionEntity();
 				if (!event.getUserEntityOwner().equals(randomGuest)) {
-					subscription.subscribe(randomGuest, event);
+					SubscriptionEntity subscription = new SubscriptionEntity(randomGuest, event);
 				}
 			}
 			break;

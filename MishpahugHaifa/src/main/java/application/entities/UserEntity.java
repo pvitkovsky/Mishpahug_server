@@ -153,7 +153,7 @@ public class UserEntity {
 	@JsonProperty("owned_events")
 	private Set<EventEntity> eventItemsOwner = new HashSet<>();
 
-	@OneToMany(mappedBy = "userGuest", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	@OneToMany(mappedBy = "guest", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	@JsonManagedReference("guestOfSubscription")
 	@Getter(AccessLevel.NONE)
 	@Setter(AccessLevel.NONE)

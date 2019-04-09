@@ -33,7 +33,7 @@ public class UserEventGuestTest {
 	private final LocalDate TDATE = LocalDate.of(2190, 1, 1);
 	private final LocalTime TTIME = LocalTime.of(23, 59);
 	private final EventEntity GUESTING = new EventEntity(TDATE, TTIME);
-	private final SubscriptionEntity AGUESTING = new SubscriptionEntity();
+	private SubscriptionEntity AGUESTING;
 
 	@Autowired
 	UserRepository userRepo;
@@ -48,42 +48,26 @@ public class UserEventGuestTest {
 	public void buildEntities() {
 		ALYSSA.setEMail("p_hacker@sicp.edu");
 		BEN.setEMail("bitdiddle@sicp.edu");
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void onMultipleSubscriptionsThrow() {
-
-		GUESTING.setUserEntityOwner(BEN);
 		userRepo.save(BEN);
 		userRepo.save(ALYSSA);
-		AGUESTING.subscribe(ALYSSA, GUESTING);
-		AGUESTING.subscribe(ALYSSA, GUESTING);
-		AGUESTING.subscribe(ALYSSA, GUESTING);
-
+		GUESTING.setUserEntityOwner(BEN);
+		eventRepo.save(GUESTING); //TODO: why cascade stopped working?
+		AGUESTING = new SubscriptionEntity(ALYSSA, GUESTING);
+		System.out.println(GUESTING);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void onUnexistentSubscriptionUnsubscriptionThrow() {
 
-		GUESTING.setUserEntityOwner(BEN);
-		userRepo.save(BEN);
-		userRepo.save(ALYSSA);
 		AGUESTING.nullifyForRemoval();
 
 	}
 	
 	@Test
 	public void onSubscriptionSaveReadUserAndEvent() {
-
-		GUESTING.setUserEntityOwner(BEN);
-		userRepo.save(BEN);
-		userRepo.save(ALYSSA);
-		AGUESTING.subscribe(ALYSSA, GUESTING);
-
-		assertTrue(userRepo.existsById(ALYSSA.getId()));
-		assertTrue(eventRepo.existsById(GUESTING.getId()));
-		assertEquals(userRepo.count(), 2);
-		assertEquals(eventRepo.count(), 1);
+		
+		assertTrue(eventGuestRepo.existsById(AGUESTING.getId()));
+		assertTrue(GUESTING.getSubscriptions().contains(AGUESTING));
 
 		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
 		EventEntity savedE = eventRepo.findById(GUESTING.getId()).get();
@@ -93,7 +77,7 @@ public class UserEventGuestTest {
 		assertEquals(AGUESTING, savedSubcsrEvent);
 		assertEquals(savedSubcsrUser, savedSubcsrEvent);
 
-		UserEntity savedAfromRelation = AGUESTING.getUserGuest();
+		UserEntity savedAfromRelation = AGUESTING.getGuest();
 		EventEntity savedEfromRelation = AGUESTING.getEvent();
 		assertTrue(savedA.equals(ALYSSA));
 		assertTrue(savedAfromRelation.equals(ALYSSA));
@@ -106,11 +90,6 @@ public class UserEventGuestTest {
 	
 	@Test
 	public void findEventBySubs() {
-		
-		GUESTING.setUserEntityOwner(BEN);
-		userRepo.save(BEN);
-		userRepo.save(ALYSSA);
-		AGUESTING.subscribe(ALYSSA, GUESTING);
 
 		List<EventEntity> events = eventGuestRepo.getEventsForGuest(ALYSSA);
 		//List<EventEntity> events = eventGuestRepo.findByUserGuest(ALYSSA); //TODO: converter
@@ -122,11 +101,6 @@ public class UserEventGuestTest {
 	@Test
 	public void findUserBySubs() {
 
-		GUESTING.setUserEntityOwner(BEN);
-		userRepo.save(BEN);
-		userRepo.save(ALYSSA);
-		AGUESTING.subscribe(ALYSSA, GUESTING);
-
 		List<UserEntity> guests = eventGuestRepo.getGuestsForEvent(GUESTING);
 		//List<UserEntity> guests = eventGuestRepo.findByEvent(GUESTING); //TODO: converter
 		assertEquals(guests.size(), 1);
@@ -136,12 +110,6 @@ public class UserEventGuestTest {
 	
 	@Test
 	public void onGuestDeleteEventRemains() {
-
-		GUESTING.setUserEntityOwner(BEN);
-		userRepo.save(BEN);
-		userRepo.save(ALYSSA);
-		AGUESTING.subscribe(ALYSSA, GUESTING);
-		assertTrue(GUESTING.getSubscriptions().contains(AGUESTING));
 
 		ALYSSA.putIntoDeletionQueue();
 		userRepo.delete(ALYSSA);
@@ -160,14 +128,7 @@ public class UserEventGuestTest {
 	 */
 	@Test
 	public void onEventDeleteGuestRemains() {
-		
-		GUESTING.setUserEntityOwner(BEN);
-		userRepo.save(BEN);
-		userRepo.save(ALYSSA);
-		AGUESTING.subscribe(ALYSSA, GUESTING);
-		
-		assertTrue(eventGuestRepo.existsById(AGUESTING.getId()));
-		
+	
 		GUESTING.putIntoDeletionQueue();
 		eventRepo.delete(GUESTING);
 

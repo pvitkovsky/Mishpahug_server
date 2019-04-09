@@ -53,24 +53,29 @@ public class EventEntityTest {
 	@Before
 	public void buildEntities() {
 		ALYSSA.setEMail("p_hacker@sicp.edu");
+		userRepo.save(ALYSSA);
+		TESTING.setUserEntityOwner(ALYSSA);
+		eventRepo.save(TESTING); // TODO: where is cascade?!
 	}
 
 	@Test(expected = DataIntegrityViolationException.class)
 	public void givenDuplicateEventsSaveAndGetException() {
 		
-		TESTING.setUserEntityOwner(ALYSSA);
-		userRepo.save(ALYSSA);
-
 		TESTINGDUPLICATE.setUserEntityOwner(ALYSSA);
 		eventRepo.save(TESTINGDUPLICATE);
 
 	}
 	
+	@Test(expected = DataIntegrityViolationException.class)
+	public void givenEventsWithoutOwnerSaveAndGetException() {
+		
+		EventEntity NOOWNERTEST = new EventEntity(TDATE, TTIME);
+		eventRepo.save(NOOWNERTEST);
+
+	}
+	
 	@Test()
 	public void givenEventSaveAndRead() {
-		
-		TESTING.setUserEntityOwner(ALYSSA);
-		userRepo.save(ALYSSA);
 		
 		assertEquals(eventRepo.getOne(TESTING.getId()), TESTING);	
 	
@@ -78,9 +83,7 @@ public class EventEntityTest {
 
 	@Test(expected = InvalidDataAccessApiUsageException.class)
 	public void savedEventChangeStatusWithIllegalStringThrows() {
-		TESTING.setUserEntityOwner(ALYSSA);
-		userRepo.save(ALYSSA);
-		
+
 		TUPDATE.put("status", "foo");
 		eventRepo.update(TESTING, TUPDATE);
 	}
@@ -90,9 +93,6 @@ public class EventEntityTest {
 	 */
 	@Test
 	public void onRenameEvent() { //TODO: fix me pls; there's a hashcode mutability issue
-		
-		TESTING.setUserEntityOwner(ALYSSA);
-		userRepo.save(ALYSSA);
 		
 		String newName = "Better_Name";
 		TESTING.setNameOfEvent(newName);
@@ -104,8 +104,7 @@ public class EventEntityTest {
 	
 	@Test
 	public void savedEventChangeStatusWithLegalStringWorks() {
-		TESTING.setUserEntityOwner(ALYSSA);
-		userRepo.save(ALYSSA);
+
 		assertTrue(TESTING.isDue());
 		
 		TUPDATE.put("status", "DEACTIVATED");
@@ -135,9 +134,6 @@ public class EventEntityTest {
 	
 	@Test(expected = InvalidDataAccessApiUsageException.class)
 	public void onEventDeleteWithoutQueueThrows() {
-
-		TESTING.setUserEntityOwner(ALYSSA);
-		userRepo.save(ALYSSA);
 	
 		eventRepo.delete(TESTING); 
 		eventRepo.flush();
@@ -146,9 +142,6 @@ public class EventEntityTest {
 	
 	@Test
 	public void onEventDeleteWithQueueWorks() {
-
-		TESTING.setUserEntityOwner(ALYSSA);
-		userRepo.save(ALYSSA);
 		
 		TESTING.putIntoDeletionQueue();
 		eventRepo.delete(TESTING); 

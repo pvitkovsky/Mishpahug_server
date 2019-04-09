@@ -51,10 +51,12 @@ public class LogsUserTest {
 	public void buildEntities() {
 		
 		RAN_M.setEMail("therandom@sicp.edu");
-	
+		userRepo.save(RAN_M);
+		
 		//Can we add to the set and then set value fields later?
 		
 		TESTING.setUserEntityOwner(RAN_M);
+		eventRepo.save(TESTING); //TODO: where is cascading?!
 	
 		LOG_MA.setUserActor(RAN_M);
 		LOG_MA.setEventTarget(TESTING);
@@ -84,8 +86,7 @@ public class LogsUserTest {
 	@Test
 	public void givenLogSaveAndRetrievedIsEqual() {
 		
-		userRepo.save(RAN_M);
-		userRepo.save(RAN_N);
+		
 		logsRepo.save(LOG_MA);
 		logsRepo.save(LOG_MB);
 		logsRepo.save(LOG_NM);

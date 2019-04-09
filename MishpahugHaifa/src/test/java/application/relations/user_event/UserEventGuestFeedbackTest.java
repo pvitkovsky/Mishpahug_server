@@ -1,12 +1,11 @@
 package application.relations.user_event;
 
-import application.entities.EventEntity;
-import application.entities.SubscriptionEntity;
-import application.entities.UserEntity;
-import application.entities.values.FeedBackValue;
-import application.repositories.SubscriptionRepository;
-import application.repositories.EventRepository;
-import application.repositories.UserRepository;
+import static org.junit.Assert.assertEquals;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,11 +15,13 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-
-import static org.junit.Assert.assertEquals;
+import application.entities.EventEntity;
+import application.entities.SubscriptionEntity;
+import application.entities.UserEntity;
+import application.entities.values.FeedBackValue;
+import application.repositories.EventRepository;
+import application.repositories.SubscriptionRepository;
+import application.repositories.UserRepository;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -33,10 +34,8 @@ public class UserEventGuestFeedbackTest {
 	private final LocalDate TDATE = LocalDate.of(2190, 1, 1);
 	private final LocalTime TTIME = LocalTime.of(23, 59);
 	private final EventEntity GUESTING = new EventEntity(TDATE, TTIME);
-	private final SubscriptionEntity AGUESTING = new SubscriptionEntity();
+	private final SubscriptionEntity AGUESTING = new SubscriptionEntity(ALYSSA, GUESTING);
 	private final FeedBackValue ABFEEDBACK = new FeedBackValue();
-
-	private final String TNAME = "TESTING";
 	
 	@Autowired
 	UserRepository userRepo;
@@ -51,7 +50,11 @@ public class UserEventGuestFeedbackTest {
 	public void buildEntities() {
 		ALYSSA.setEMail("p_hacker@sicp.edu");
 		BEN.setEMail("bitdiddle@sicp.edu");
-		GUESTING.setNameOfEvent(TNAME);
+		userRepo.save(BEN);
+		userRepo.save(ALYSSA); 
+		GUESTING.setUserEntityOwner(BEN);
+		eventRepo.save(GUESTING);	
+		
 		ABFEEDBACK.setComment("Nice event");
 		ABFEEDBACK.setDateTime(LocalDateTime.now());
 		ABFEEDBACK.setRating(5);
@@ -60,10 +63,6 @@ public class UserEventGuestFeedbackTest {
 	@Test
 	public void onSubsctiptionSaveReadFeedback() {
 		
-		GUESTING.setUserEntityOwner(BEN);
-		userRepo.save(BEN);
-		userRepo.save(ALYSSA); 
-		AGUESTING.subscribe(ALYSSA, GUESTING);
 		AGUESTING.setFeedback(ABFEEDBACK);
 		eventGuestRepo.save(AGUESTING);
 	

@@ -60,9 +60,8 @@ public class EventModel implements IEventModel {
 	}
 
 	@Override
-	public EventEntity add(EventEntity data) {
+	public EventEntity add(EventEntity data) { //would throw if no user is in data's owner field;
 		return eventRepository.save(data);
-
 	}
 
 	@Override
@@ -79,14 +78,13 @@ public class EventModel implements IEventModel {
 	public Set<UserEntity> getAllSubscribed(Integer eventId) {
 		EventEntity eventEntity = eventRepository.getOne(eventId);
 		Set<SubscriptionEntity> subscriptions = eventEntity.getSubscriptions();
-		return subscriptions.stream().map(s -> s.getUserGuest()).collect(Collectors.toSet());
+		return subscriptions.stream().map(s -> s.getGuest()).collect(Collectors.toSet());
 	}
 
 	@Override
-	public EventEntity delete(Integer eventId) throws ExceptionMishpaha {
+	public EventEntity delete(Integer eventId) throws ExceptionMishpaha { //throws if not in deletion queue
 		try {
 			EventEntity eventEntity = eventRepository.getOne(eventId);
-			UserEntity userOwner = eventEntity.getUserEntityOwner();
 			eventRepository.delete(eventEntity);
 			return eventEntity;
 		} catch (EntityNotFoundException e) {
@@ -96,7 +94,7 @@ public class EventModel implements IEventModel {
 
 	@Override
 	public void deleteAll() throws ExceptionMishpaha {
-		eventRepository.deleteAll();
+		eventRepository.deleteAll();  //throws if not in deletion queue
 	}
 
 	@Override
@@ -139,6 +137,7 @@ public class EventModel implements IEventModel {
 	/**
 	 * Handles subscription logic;
 	 */
+	// TODO: refactor into Subscription model pls
 	// TODO: integer arguments design issue; test;
 	private class Subscription {
 		final private Integer eventId;
@@ -178,7 +177,6 @@ public class EventModel implements IEventModel {
 		}
 
 		EventEntity subscribe() {
-			subscription.subscribe(userEntity, eventEntity);
 			return eventEntity;
 		}
 

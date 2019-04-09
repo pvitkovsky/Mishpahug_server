@@ -61,15 +61,22 @@ public class EventModelTest {
 	private final LocalDate TDATE = LocalDate.of(2190, 1, 1);
 	private final LocalTime TTIME = LocalTime.of(23, 59);
 	private final EventEntity GUESTING = new EventEntity(TDATE, TTIME);
-	private final SubscriptionEntity AGUESTING = new SubscriptionEntity();
+	private SubscriptionEntity AGUESTING;
 	private final Set<EventEntity> ASUBS = new HashSet<>();
 	private final Set<UserEntity> GSUBS = new HashSet<>();
 	
 	
 	@Before
 	public void buildEntities() {
+		
 		ALYSSA.setEMail("p_hacker@sicp.edu");
 		BEN.setEMail("bitdiddle@sicp.edu");
+		userRepo.save(BEN);
+		userRepo.save(ALYSSA);		
+		GUESTING.setUserEntityOwner(BEN);
+		eventRepo.save(GUESTING);
+		AGUESTING  = new SubscriptionEntity(ALYSSA, GUESTING);
+		
 	}
 	
 	
@@ -82,10 +89,6 @@ public class EventModelTest {
 		Mockito.when(subscriptionsRepo.save(AGUESTING)).thenReturn(AGUESTING);
 		Mockito.when(userRepo.getOne(ALYSSA.getId())).thenReturn(ALYSSA);
 		
-		GUESTING.setUserEntityOwner(BEN);
-		userRepo.save(BEN);
-		userRepo.save(ALYSSA);
-		AGUESTING.subscribe(ALYSSA, GUESTING);
 		ASUBS.add(GUESTING);
 		
 		assertEquals(eventModel.getAllByUser(ALYSSA.getId()), ASUBS);
@@ -101,10 +104,6 @@ public class EventModelTest {
 		Mockito.when(subscriptionsRepo.save(AGUESTING)).thenReturn(AGUESTING);
 		Mockito.when(eventRepo.getOne(GUESTING.getId())).thenReturn(GUESTING);
 		
-		GUESTING.setUserEntityOwner(BEN);
-		userRepo.save(BEN);
-		userRepo.save(ALYSSA);
-		AGUESTING.subscribe(ALYSSA, GUESTING);
 		GSUBS.add(ALYSSA);
 		
 		assertEquals(eventModel.getAllSubscribed(GUESTING.getId()), GSUBS);
@@ -119,15 +118,11 @@ public class EventModelTest {
 		Mockito.when(eventRepo.save(GUESTING)).thenReturn(GUESTING);
 		Mockito.when(subscriptionsRepo.save(AGUESTING)).thenReturn(AGUESTING);
 		
-		GUESTING.setUserEntityOwner(BEN);
-		userRepo.save(BEN);
-		userRepo.save(ALYSSA); 
 		ALYSSA.setId(2); //TODO: generated Id with Mockito please
 		BEN.setId(1);
 		GUESTING.setId(1);
 		
 		EventGuestId idAG = new EventGuestId(ALYSSA.getId(), GUESTING.getId()); 
-		AGUESTING.subscribe(ALYSSA, GUESTING);
 		Mockito.when(subscriptionsRepo.getOne(idAG)).thenReturn(AGUESTING);
 		SubscriptionEntity subAtoG = subscriptionsRepo.getOne(idAG); 
 		
@@ -153,15 +148,11 @@ public class EventModelTest {
 		Mockito.when(eventRepo.save(GUESTING)).thenReturn(GUESTING);
 		Mockito.when(subscriptionsRepo.save(AGUESTING)).thenReturn(AGUESTING);
 		
-		GUESTING.setUserEntityOwner(BEN);
-		userRepo.save(BEN);
-		userRepo.save(ALYSSA); 
 		ALYSSA.setId(2); //TODO: generated Id with Mockito please
 		BEN.setId(1);
 		GUESTING.setId(1);
 		
 		EventGuestId idAG = new EventGuestId(ALYSSA.getId(), GUESTING.getId()); 
-		AGUESTING.subscribe(ALYSSA, GUESTING);
 		Mockito.when(subscriptionsRepo.getOne(idAG)).thenReturn(AGUESTING);
 		SubscriptionEntity subAtoG = subscriptionsRepo.getOne(idAG); 
 		

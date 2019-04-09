@@ -71,13 +71,13 @@ public class SubscriptionEntity {
 	@ManyToOne // TODO: cascading
 	@JoinColumn(name = "GUEST_ID", insertable = false, updatable = false) // relation column names should match with
 																			// embedded id column names;
-	@Setter(AccessLevel.PACKAGE)
+	@Setter(AccessLevel.NONE)
 	@JsonBackReference("guestOfSubscription")
-	private UserEntity userGuest;
+	private UserEntity guest;
 
 	@ManyToOne // TODO: cascading
 	@JoinColumn(name = "EVENT_ID", insertable = false, updatable = false)
-	@Setter(AccessLevel.PACKAGE)
+	@Setter(AccessLevel.NONE)
 	@JsonBackReference("eventOfSubscription")
 	private EventEntity event;
 
@@ -124,18 +124,37 @@ public class SubscriptionEntity {
 
 	/**
 	 * Helper method for setting the embedded Id fields together with the relation
-	 * fields;
+	 * fields, and setting bidirectional links
 	 * 
 	 * @param guest
 	 * @param event
 	 */
 	private void setRelationAndID(UserEntity guest, EventEntity event) {
-		this.userGuest = guest;
-		this.event = event;
-		this.id.userGuestId = userGuest.getId();
+		checkEventAndID(guest, event);
+		this.id.userGuestId = guest.getId();
 		this.id.eventId = event.getId();
+		this.guest = guest;
+		this.event = event;
+		boolean wasAdded = true;
+		wasAdded = this.guest.addSubscription(this) && wasAdded;
+		wasAdded = this.event.addSubscription(this) && wasAdded;
+		//TODO: consider using wasAdded to track inconsistency in related sets;  
 	}
 	
+	private void checkEventAndID(UserEntity guest, EventEntity event) {
+		if( event.getUserEntityOwner() == null ) { //TODO: events should always be consistent!
+			throw new IllegalStateException("Trying to create a subscription for event that is in the inconsistent state");
+		}
+		if (event.getUserEntityOwner().equals(guest)) {
+			throw new IllegalArgumentException("Trying to subscribe to the owned event");
+		}
+		if (this.guest == null && this.event == null) {
+			return;
+		} else {
+			throw new IllegalArgumentException("Trying to subscribe, but subscription has user and event already");
+		}
+	}
+
 	/**
 	 * @return true if this subscription is active;
 	 */
@@ -164,29 +183,6 @@ public class SubscriptionEntity {
 		return this.status == SubscriptionStatus.PENDINGFORDELETION;
 	}
 	
-	
-	/**
-	 * Adds a Guest to the Event, two directions.
-	 * 
-	 * @param guest
-	 */
-	public boolean subscribe(UserEntity guest, EventEntity event) {
-		if (this.userGuest != null || this.event != null) {
-			throw new IllegalArgumentException("Trying to subscribe, but subscription has user and event already");
-		}
-		if (event.getUserEntityOwner().equals(guest)) {
-			throw new IllegalArgumentException("Trying to subscribe to the owned event");
-		}
-		if (guest.getSubscriptions().contains(this) && event.getSubscriptions().contains(this)) {
-			throw new IllegalArgumentException("Trying to subsribe where subscription already exists");
-		}
-		setRelationAndID(guest, event);
-		boolean res = true;
-		res = guest.addSubscription(this) && res;
-		res = event.addSubscription(this) && res;
-		return res;
-	}
-
 	/**
 	 * Removes a Guest from the Event, two directions.
 	 * 
@@ -216,19 +212,19 @@ public class SubscriptionEntity {
 		if (!isPendingForDeletion()) {
 			throw new IllegalArgumentException("EventGuestRelation must be first putIntoDeletionQueue");	
 		}
-		unsubscribe(this.userGuest, this.event);
+		unsubscribe(this.guest, this.event);
 	}
 	
 	/**
 	 * Launched on remove() from this entity's repository. Checks if the guest-event relation is OK to delete and then nullifies it. 
 	 */
 	@PreRemove
-	public void nullifyForIndependentRemoval() {
+	private void nullifyForIndependentRemoval() {
 		if (!isPendingForDeletion()) {
 			throw new IllegalArgumentException("EventGuestRelation must be first putIntoDeletionQueue");	
 		}
-		if(this.userGuest.getSubscriptions().contains(this) || this.event.getSubscriptions().contains(this)) {
-			unsubscribe(this.userGuest, this.event); // if at least one of the many-to-many entities contains the intermediate entity, we fire the full consistency check. 
+		if(this.guest.getSubscriptions().contains(this) || this.event.getSubscriptions().contains(this)) {
+			unsubscribe(this.guest, this.event); // if at least one of the many-to-many entities contains the intermediate entity, we fire the full consistency check. 
 		}
 	}
 

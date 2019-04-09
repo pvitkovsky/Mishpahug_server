@@ -17,6 +17,7 @@ import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import application.entities.EventEntity.EventStatus;
 import application.entities.values.FeedBackValue;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -37,9 +38,7 @@ import lombok.ToString;
 @Entity
 @Table(name = "user_event_guest", uniqueConstraints = { @UniqueConstraint(columnNames = { "GUEST_ID", "EVENT_ID" }) })
 @ToString
-// TODO: how should we handle unsubscriptions (for example, a user deleted
-// himseld) after leaving feedback? Feedback will be destroyed.
-public class EventGuestRelation {
+public class SubscriptionEntity {
 
 	@Embeddable
 	@NoArgsConstructor
@@ -88,18 +87,35 @@ public class EventGuestRelation {
 	@Column(name = "status")
 	@Enumerated(EnumType.STRING)
 	@Setter(AccessLevel.NONE)
-	private SubscriptionStatus status = SubscriptionStatus.BLANK;
+	private SubscriptionStatus status = SubscriptionStatus.ACTIVE;
 
-	public enum SubscriptionStatus {
-		BLANK, ACTIVE, CANCELED, DEACTIVATED, PENDINGFORDELETION
+	public enum SubscriptionStatus implements StatusChanger {
+		ACTIVE(e -> e.activate()), CANCELED(e -> e.cancel()), DEACTIVATED(e -> e.deactivate()), PENDINGFORDELETION(
+				e -> e.putIntoDeletionQueue());
+
+		private StatusChanger changer;
+
+		private SubscriptionStatus(StatusChanger changer) {
+			this.changer = changer;
+		}
+
+		@Override
+		public void change(SubscriptionEntity subscription) {
+			changer.change(subscription);
+		}
+	}
+
+	@FunctionalInterface
+	private interface StatusChanger {
+		void change(SubscriptionEntity subscription);
 	}
 	
-	public EventGuestRelation(UserEntity userGuest, EventEntity event) {
+	public SubscriptionEntity(UserEntity userGuest, EventEntity event) {
 		super();
 		setRelationAndID(userGuest, event);
 	}
 
-	public EventGuestRelation(EventGuestId id, UserEntity userGuest, EventEntity event, FeedBackValue feedback) {
+	public SubscriptionEntity(EventGuestId id, UserEntity userGuest, EventEntity event, FeedBackValue feedback) {
 		super();
 		this.id = id;
 		setRelationAndID(userGuest, event);
@@ -119,13 +135,6 @@ public class EventGuestRelation {
 		this.id.userGuestId = userGuest.getId();
 		this.id.eventId = event.getId();
 	}
-
-	/**
-	 * @return true if this subscription is ready to be created;
-	 */
-	public boolean isBlank() {
-		return this.status == SubscriptionStatus.BLANK;
-	}
 	
 	/**
 	 * @return true if this subscription is active;
@@ -135,10 +144,17 @@ public class EventGuestRelation {
 	}
 	
 	/**
-	 * @return true if this subscription is deactivated;
+	 * @return true if this subscription is active;
 	 */
 	public boolean isDeactivated() {
 		return this.status == SubscriptionStatus.DEACTIVATED;
+	}
+	
+	/**
+	 * @return true if this subscription is deactivated;
+	 */
+	public boolean isCanceled() {
+		return this.status == SubscriptionStatus.CANCELED;
 	}
 	
 	/**
@@ -155,8 +171,8 @@ public class EventGuestRelation {
 	 * @param guest
 	 */
 	public boolean subscribe(UserEntity guest, EventEntity event) {
-		if (!isBlank()) {
-			throw new IllegalArgumentException("Trying to subscribe, but subscription has status " + this.status);
+		if (this.userGuest != null || this.event != null) {
+			throw new IllegalArgumentException("Trying to subscribe, but subscription has user and event already");
 		}
 		if (event.getUserEntityOwner().equals(guest)) {
 			throw new IllegalArgumentException("Trying to subscribe to the owned event");
@@ -165,7 +181,6 @@ public class EventGuestRelation {
 			throw new IllegalArgumentException("Trying to subsribe where subscription already exists");
 		}
 		setRelationAndID(guest, event);
-		this.status = SubscriptionStatus.ACTIVE;
 		boolean res = true;
 		res = guest.addSubscription(this) && res;
 		res = event.addSubscription(this) && res;
@@ -242,19 +257,36 @@ public class EventGuestRelation {
 	 * Deactivates the subscription
 	 */
 	public void deactivate() {
-		if (isBlank()) {
-			throw new IllegalArgumentException("Trying to deactivate, but subscription is blank");
-		}
+		if (!isActive()) {
+			throw new IllegalArgumentException("Trying to deactivate, but subscription has status" + this.status);
+		}	
 		this.status = SubscriptionStatus.DEACTIVATED;
 	}
 
 
 	/**
-	 * Deactivates the subscription
+	 * Puts the subscription into the deletion queue;
 	 */
 	//TODO: can't cancel deletion queue?
 	public void putIntoDeletionQueue() {
 		this.status = SubscriptionStatus.PENDINGFORDELETION;
+	}
+	
+	
+	/**
+	 * Changes this event's status, validating the parameter
+	 * 
+	 * @param status
+	 *            must be equal to one of UserStatus values;
+	 */
+	public void changeStatus(String status) {
+		SubscriptionStatus newStatus;
+		try {
+			newStatus = SubscriptionStatus.valueOf(status);
+		} catch (Exception e) {
+			throw new IllegalArgumentException("Not found SubscriptionStatus with name " + status);
+		}
+		newStatus.change(this);
 	}
 
 

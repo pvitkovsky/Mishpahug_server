@@ -26,7 +26,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/user")
-public class UserController {
+public class UserController implements IUserController {
 	
     @Autowired
     IReligionModel religionModel;
@@ -63,7 +63,11 @@ public class UserController {
 //    }
 
 
-    @GetMapping(value="/{id}")
+    /* (non-Javadoc)
+	 * @see application.controllers.IUserController#get(java.lang.Integer)
+	 */
+    @Override
+	@GetMapping(value="/{id}")
     public UserEntity get(@PathVariable(value = "id") Integer id) throws ExceptionMishpaha {
         return userModel.getById(id);
     }
@@ -101,29 +105,49 @@ public class UserController {
         userModel.add(userEntity);
     }
 
-    @PutMapping(value="/{id}")
+    /* (non-Javadoc)
+	 * @see application.controllers.IUserController#update(java.util.HashMap, java.lang.Integer)
+	 */
+    @Override
+	@PutMapping(value="/{id}")
     public UserEntity update(@RequestBody HashMap<String, String> data,
                              @PathVariable(value = "id") Integer id) throws ExceptionMishpaha {
         return userModel.update(id, data);
     }
 
-    @DeleteMapping(value = "/{id}")
+    /* (non-Javadoc)
+	 * @see application.controllers.IUserController#delete(java.lang.Integer)
+	 */
+    @Override
+	@DeleteMapping(value = "/{id}")
     public UserEntity delete(@PathVariable(value = "id") Integer id) throws ExceptionMishpaha {
         return userModel.deleteByID(id);
     }
 
-    @DeleteMapping(value = "/")
+    /* (non-Javadoc)
+	 * @see application.controllers.IUserController#delete()
+	 */
+    @Override
+	@DeleteMapping(value = "/")
     public void delete() throws ExceptionMishpaha {
         userModel.deleteAll();
     }
 
-    @PostMapping(value="/addPage1")
+    /* (non-Javadoc)
+	 * @see application.controllers.IUserController#setDataFromForm(application.dto.UserDTO)
+	 */
+    @Override
+	@PostMapping(value="/addPage1")
     public void setDataFromForm(@RequestBody UserDTO data) throws ExceptionMishpaha{
         UserEntity userEntity = new UserEntity(data);
         userModel.add(userEntity);
     }
 
-    @PostMapping(value="/addPage2")
+    /* (non-Javadoc)
+	 * @see application.controllers.IUserController#setDataFromFormDetail(application.dto.UserDTODetail, java.lang.String)
+	 */
+    @Override
+	@PostMapping(value="/addPage2")
     public void setDataFromFormDetail(@RequestBody UserDTODetail data,
                                       @RequestParam(name = "username") String userName) throws ExceptionMishpaha{
         UserEntity userEntity = userModel.getByName(userName);
@@ -134,7 +158,11 @@ public class UserController {
         userModel.add(userEntity);
     }
     
-  @RequestMapping(method = RequestMethod.GET, value = "/")
+  /* (non-Javadoc)
+ * @see application.controllers.IUserController#findAllByWebQuerydsl(com.querydsl.core.types.Predicate)
+ */
+@Override
+@RequestMapping(method = RequestMethod.GET, value = "/")
 	@ResponseBody
 	public Iterable<UserEntity> findAllByWebQuerydsl(
 	  @QuerydslPredicate(root = UserEntity.class) Predicate predicate) {

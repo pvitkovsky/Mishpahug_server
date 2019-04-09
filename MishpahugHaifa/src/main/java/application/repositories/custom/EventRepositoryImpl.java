@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 
 import application.entities.EventEntity;
 
@@ -17,7 +18,7 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
 	private EntityManager entityManager;
 
 	@Override
-	public EventEntity update(EventEntity event, HashMap<String, String> data) {
+	public EventEntity update(EventEntity event, Map<String, String> data) {
 		StringBuilder query = new StringBuilder();
 		Map<String, Integer> parameters = new HashMap<>();
 		query.append("select e from EventEntity e where Id = :eventId ");
@@ -36,22 +37,15 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
 		if (data.containsKey("nameofevent")) {
 			tempResult.setNameOfEvent(data.get("nameofevent"));
 		}
-		if (data.containsKey("activation")) {
-			switch (data.get("activation")) {
-			case "activate": {
-				tempResult.activate();
-				break;
-			}
-			case "cancel": {
-				tempResult.cancel();
-				break;
-			}
-			case "deactivate": {
-				tempResult.deactivate();
-				break;
-			}
-			}
+		if (data.containsKey("status")) {
+			tempResult.changeStatus(data.get("status"));
 		}
 		return tempResult;
+	}
+	
+	@Override 
+	@Transactional
+	public void delete(EventEntity event) {
+		event.getUserEntityOwner().removeOwnedEvent(event);
 	}
 }

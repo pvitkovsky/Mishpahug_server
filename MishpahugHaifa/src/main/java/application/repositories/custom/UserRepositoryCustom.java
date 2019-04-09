@@ -1,10 +1,10 @@
 package application.repositories.custom;
 
 
+import java.util.Map;
+
 import application.entities.UserEntity;
 
-import java.util.HashMap;
-
 public interface UserRepositoryCustom {
-    public UserEntity update(UserEntity user, HashMap<String, String> data);
+    public UserEntity update(UserEntity user, Map<String, String> data);
 }

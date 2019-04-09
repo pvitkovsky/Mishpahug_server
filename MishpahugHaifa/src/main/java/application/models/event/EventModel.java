@@ -14,12 +14,12 @@ import org.springframework.stereotype.Service;
 import com.querydsl.core.types.Predicate;
 
 import application.entities.EventEntity;
-import application.entities.EventGuestRelation;
-import application.entities.EventGuestRelation.EventGuestId;
-import application.entities.EventGuestRelation.SubscriptionStatus;
+import application.entities.SubscriptionEntity;
+import application.entities.SubscriptionEntity.EventGuestId;
+import application.entities.SubscriptionEntity.SubscriptionStatus;
 import application.entities.UserEntity;
 import application.exceptions.ExceptionMishpaha;
-import application.repositories.EventGuestRepository;
+import application.repositories.SubscriptionRepository;
 import application.repositories.EventRepository;
 import application.repositories.HolyDayRepository;
 import application.repositories.KichenTypeRepository;
@@ -39,7 +39,7 @@ public class EventModel implements IEventModel {
 	@Autowired
 	UserRepository userRepository;
 	@Autowired
-	EventGuestRepository subscriptionsRepository;
+	SubscriptionRepository subscriptionsRepository;
 	@Autowired
 	ReligionRepository religionRepository;
 	@Autowired
@@ -55,7 +55,7 @@ public class EventModel implements IEventModel {
 	@Override
 	public Set<EventEntity> getAllByUser(Integer userId) {
 		UserEntity userEntity = userRepository.getOne(userId);
-		Set<EventGuestRelation> subscriptions = userEntity.getSubscriptions();
+		Set<SubscriptionEntity> subscriptions = userEntity.getSubscriptions();
 		return subscriptions.stream().map(s -> s.getEvent()).collect(Collectors.toSet());
 	}
 
@@ -78,7 +78,7 @@ public class EventModel implements IEventModel {
 	@Override
 	public Set<UserEntity> getAllSubscribed(Integer eventId) {
 		EventEntity eventEntity = eventRepository.getOne(eventId);
-		Set<EventGuestRelation> subscriptions = eventEntity.getSubscriptions();
+		Set<SubscriptionEntity> subscriptions = eventEntity.getSubscriptions();
 		return subscriptions.stream().map(s -> s.getUserGuest()).collect(Collectors.toSet());
 	}
 
@@ -145,7 +145,7 @@ public class EventModel implements IEventModel {
 		final private Integer userId;
 		private EventEntity eventEntity;
 		private UserEntity userEntity;
-		private EventGuestRelation subscription;
+		private SubscriptionEntity subscription;
 
 		private Subscription(Integer eventId, Integer userId) throws ExceptionMishpaha {
 			this.eventId = eventId;
@@ -166,7 +166,7 @@ public class EventModel implements IEventModel {
 			}
 			EventGuestId subscriptionKey = new EventGuestId(userEntity.getId(), eventEntity.getId());
 			if (!subscriptionsRepository.existsById(subscriptionKey)) {
-				subscription = new EventGuestRelation();
+				subscription = new SubscriptionEntity();
 			} else {
 				subscription = subscriptionsRepository.getOne(subscriptionKey);
 				if (!userEntity.getSubscriptions().contains(subscription)

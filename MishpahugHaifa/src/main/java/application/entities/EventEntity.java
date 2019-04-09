@@ -19,16 +19,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PostRemove;
 import javax.persistence.PreRemove;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import application.dto.EventDTO;
@@ -47,7 +48,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @EqualsAndHashCode(of = { "userEntityOwner", "date", "time", "nameOfEvent" }) // business key;
 @ToString(exclude = { "userEntityOwner", "addressEntity", "subscriptions" })
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class EventEntity {
 
 	@Id
@@ -65,7 +66,7 @@ public class EventEntity {
 	private LocalTime time;
 
 	@NotNull
-	@Column(name = "name_of_event", nullable = false)
+	@Column(name = "name_of_event", nullable = false) //TODO: make this final, as it's part of the hashcode;
 	private String nameOfEvent;
 
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, optional = true) // Unidirectional;
@@ -88,15 +89,32 @@ public class EventEntity {
 	@JsonManagedReference("eventOfSubscription") // TODO: feedback
 	@Getter(AccessLevel.NONE)
 	@Setter(AccessLevel.NONE)
-	private Set<EventGuestRelation> subscriptions = new HashSet<>();
+	private Set<SubscriptionEntity> subscriptions = new HashSet<>();
 
 	@Column(name = "status")
 	@Enumerated(EnumType.STRING)
 	private EventStatus status = EventStatus.ACTIVE;
 
-	@Getter(AccessLevel.NONE)
-	public enum EventStatus {
-		ACTIVE, CANCELED, DEACTIVATED, PENDINGFORDELETE
+
+	public enum EventStatus implements StatusChanger {
+		ACTIVE(e -> e.activate()), CANCELED(e -> e.cancel()), DEACTIVATED(e -> e.deactivate()), PENDINGFORDELETION(
+				e -> e.putIntoDeletionQueue());
+
+		private StatusChanger changer;
+
+		private EventStatus(StatusChanger changer) {
+			this.changer = changer;
+		}
+
+		@Override
+		public void change(EventEntity event) {
+			changer.change(event);
+		}
+	}
+
+	@FunctionalInterface
+	private interface StatusChanger {
+		void change(EventEntity event);
 	}
 
 	/**
@@ -123,7 +141,7 @@ public class EventEntity {
 	 * @param_city
 	 * @return
 	 */
-	protected boolean addSubscription(EventGuestRelation subscription) {
+	protected boolean addSubscription(SubscriptionEntity subscription) {
 		return subscriptions.add(subscription);
 	}
 
@@ -133,7 +151,7 @@ public class EventEntity {
 	 * @param_city
 	 * @return
 	 */
-	protected boolean removeSubsription(EventGuestRelation subscription) {
+	protected boolean removeSubsription(SubscriptionEntity subscription) {
 		return subscriptions.remove(subscription);
 	}
 
@@ -142,7 +160,7 @@ public class EventEntity {
 	 * 
 	 * @return
 	 */
-	public Set<EventGuestRelation> getSubscriptions() {
+	public Set<SubscriptionEntity> getSubscriptions() {
 		return Collections.unmodifiableSet(subscriptions);
 	}
 
@@ -150,46 +168,48 @@ public class EventEntity {
 	 * Activates all subscriptions;
 	 */
 	private void activateAllSubscriptions() {
-		subscriptions.forEach(EventGuestRelation::activate);
+		subscriptions.forEach(SubscriptionEntity::activate);
 	}
 
 	/**
 	 * Deactivates all subscriptions;
 	 */
 	private void deactivateAllSubscriptions() {
-		subscriptions.forEach(EventGuestRelation::deactivate);
+		subscriptions.forEach(SubscriptionEntity::deactivate);
 	}
 
 	/**
 	 * Cancels all subscriptions;
 	 */
 	private void cancellAllSubscriptions() {
-		subscriptions.forEach(EventGuestRelation::deactivate);
+		subscriptions.forEach(SubscriptionEntity::deactivate);
 	}
-	
+
 	/**
 	 * Puts all subscriptions into deletion queue;
 	 */
 	private void putSubscriptionsIntoDeletionQueue() {
-		subscriptions.forEach(EventGuestRelation::putIntoDeletionQueue);
+		subscriptions.forEach(SubscriptionEntity::putIntoDeletionQueue);
 	}
 
 	/**
-	 * Checks that the event is OK to delete and then unsubscribes all its subscribers;
+	 * Checks that the event is OK to delete and then unsubscribes all its
+	 * subscribers; launched from the owned entity;
 	 */
-	@PreRemove
+	@PreRemove 
 	public void nullifyForRemoval() {
-		if(!isPendingForDeletion()) {
+		if (!isPendingForDeletion()) {
 			throw new IllegalArgumentException("Event must be first putIntoDeletionQueue");
 		}
-		unsubscribeAll(); //TODO: fix me pls;
+		unsubscribeAll();
 	}
-	
+
 	/**
-	 * Removes all subscriptions when deleting event; not needed - if an event is deleted, @PreRemove on EventGuestRelation does this;
+	 * Removes all subscriptions when deleting event; not needed - if an event is
+	 * deleted, @PreRemove on EventGuestRelation does this;
 	 */
 	private void unsubscribeAll() {
-		subscriptions.forEach(EventGuestRelation::nullifyForRemoval);
+		subscriptions.forEach(SubscriptionEntity::nullifyForRemoval);
 	}
 
 	public void convertEventDTO(EventDTO data) {
@@ -230,15 +250,15 @@ public class EventEntity {
 	 * @return true if the event is pending for deletion;
 	 */
 	public boolean isPendingForDeletion() {
-		return this.status.equals(EventStatus.PENDINGFORDELETE);
+		return this.status.equals(EventStatus.PENDINGFORDELETION);
 	}
 
 	/**
 	 * Activates the event;
 	 */
 	public void activate() {
-		if(!isDeactivated()) {
-			throw new IllegalArgumentException("trying to activate event, but its status is " + this.status);	
+		if (!isDeactivated()) {
+			throw new IllegalArgumentException("trying to activate event, but its status is " + this.status);
 		}
 		activateAllSubscriptions();
 		this.status = EventStatus.ACTIVE;
@@ -260,7 +280,7 @@ public class EventEntity {
 	 * Cancels the event;
 	 */
 	public void cancel() {
-		if(!isDue()) {
+		if (!isDue()) {
 			throw new IllegalArgumentException("trying to cancel event, but its status is " + this.status);
 		}
 		cancellAllSubscriptions();
@@ -272,7 +292,23 @@ public class EventEntity {
 	 */
 	public void putIntoDeletionQueue() {
 		putSubscriptionsIntoDeletionQueue();
-		this.status = EventStatus.PENDINGFORDELETE;
+		this.status = EventStatus.PENDINGFORDELETION;
+	}
+	
+	/**
+	 * Changes this event's status, validating the parameter
+	 * 
+	 * @param status
+	 *            must be equal to one of UserStatus values;
+	 */
+	public void changeStatus(String status) {
+		EventStatus newStatus;
+		try {
+			newStatus = EventStatus.valueOf(status);
+		} catch (Exception e) {
+			throw new IllegalArgumentException("Not found EventStatus with name " + status);
+		}
+		newStatus.change(this);
 	}
 
 }

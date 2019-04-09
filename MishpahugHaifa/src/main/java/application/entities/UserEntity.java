@@ -22,11 +22,11 @@ import javax.persistence.PreRemove;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -50,7 +50,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class UserEntity {
 	@Id
 	@Column(name = "User_Id", nullable = false)
@@ -67,6 +67,7 @@ public class UserEntity {
 	private String phoneNumber;
 
 	@Column(name = "email", nullable = false)
+	//TODO: must be immutable.. or SubscriptionEntity could break its hashcode contract;
 	private String eMail;
 
 	@Column(name = "User_Name", length = 36)
@@ -92,7 +93,6 @@ public class UserEntity {
 		this.setUserName(data.getUserName());
 		this.setDateOfBirth(data.getDayOfBirth());
 		this.setEncrytedPassword(data.getEncrytedPassword());
-
 	}
 
 	public void setEncrytedPassword(String encrytedPassword) {
@@ -106,8 +106,24 @@ public class UserEntity {
 	@Builder.Default
 	private UserStatus status = UserStatus.ACTIVE;
 
-	public enum UserStatus {
-		ACTIVE, DEACTIVATED, PENDINGFORDELETION
+	public enum UserStatus implements StatusChanger {
+		ACTIVE(u -> u.activate()), DEACTIVATED(u -> u.deactivate()), PENDINGFORDELETION(u -> u.putIntoDeletionQueue());
+
+		private StatusChanger changer;
+
+		private UserStatus(StatusChanger changer) {
+			this.changer = changer;
+		}
+
+		@Override
+		public void change(UserEntity user) {
+			changer.change(user);
+		}
+	}
+
+	@FunctionalInterface
+	private interface StatusChanger {
+		void change(UserEntity user);
 	}
 
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, optional = true) // Unidirectional
@@ -142,7 +158,7 @@ public class UserEntity {
 	@Setter(AccessLevel.NONE)
 	@Builder.Default
 	@JsonProperty("subscriptions")
-	private Set<EventGuestRelation> subscriptions = new HashSet<>();
+	private Set<SubscriptionEntity> subscriptions = new HashSet<>();
 
 	@ElementCollection
 	@CollectionTable
@@ -151,14 +167,21 @@ public class UserEntity {
 	private Set<PictureValue> pictureItems = new HashSet<>();
 
 	/**
+	 * Immutable wrapper over events owned by this user;
+	 */
+	@JsonIgnore
+	public Set<EventEntity> getEventEntityOwner() {
+		return Collections.unmodifiableSet(eventItemsOwner);
+	}
+	/**
 	 * Adds an event to the set of events owned by this user, transferring it from
 	 * any previous users;
 	 * 
-	 * @param event EventEntity that has this user as the owner.
+	 * @param event
+	 *            EventEntity that has this user as the owner.
 	 * @return true if the event was added; false if the event was not added, as it
 	 *         is already in the set.
 	 */
-	// TODO: maybe check for event status here?
 	public boolean makeOwner(EventEntity event) {
 		// TODO: check that event has its business key not null; or NPE is possible;
 		if (event.getUserEntityOwner() == null) { // transient state;
@@ -174,8 +197,10 @@ public class UserEntity {
 	 * Adds an event to the set of events owned by another user, transferring it
 	 * from this;
 	 * 
-	 * @param event    EventEntity that has this user as the owner.
-	 * @param newOwner any another user
+	 * @param event
+	 *            EventEntity that has this user as the owner.
+	 * @param newOwner
+	 *            any another user
 	 * @return true if the event was added; false if the event was not added, as it
 	 *         is already in the set.
 	 */
@@ -203,16 +228,21 @@ public class UserEntity {
 			throw new IllegalStateException(
 					"Event has user set as owner, but not present in the user's collection of owned events");
 		}
-		event.nullifyForRemoval();
 		return eventItemsOwner.remove(event); // TODO: thread safety argument;
 	}
+	
+	
 
+
+	
 	/**
-	 * Immutable wrapper over events owned by this user;
+	 * Immutable wrapper over Subscriptions;
+	 * 
+	 * @return
 	 */
 	@JsonIgnore
-	public Set<EventEntity> getEventEntityOwner() {
-		return Collections.unmodifiableSet(eventItemsOwner);
+	public Set<SubscriptionEntity> getSubscriptions() {
+		return Collections.unmodifiableSet(subscriptions);
 	}
 
 	/**
@@ -221,7 +251,7 @@ public class UserEntity {
 	 * @param_city
 	 * @return
 	 */
-	protected boolean addSubscription(EventGuestRelation subscription) {
+	protected boolean addSubscription(SubscriptionEntity subscription) {
 		return subscriptions.add(subscription);
 	}
 
@@ -231,37 +261,31 @@ public class UserEntity {
 	 * @param_city
 	 * @return
 	 */
-	protected boolean removeSubsription(EventGuestRelation subscription) {
+	protected boolean removeSubsription(SubscriptionEntity subscription) {
 		return subscriptions.remove(subscription);
 	}
 
-	/**
-	 * Immutable wrapper over Subscriptions;
-	 * 
-	 * @return
-	 */
-	@JsonIgnore
-	public Set<EventGuestRelation> getSubscriptions() {
-		return Collections.unmodifiableSet(subscriptions);
-	}
+	
 
 	/**
-	 * Checks that the user is OK to delete and then unsubscribes him/her from everywhere, and his subscribers too;
+	 * Checks that the user is OK to delete and then unsubscribes him/her from
+	 * everywhere, and his subscribers too;
 	 */
 	@PreRemove
 	private void nullifyForRemoval() {
-		if(!isPendingForDeletion()) {
+		if (!isPendingForDeletion()) {
 			throw new IllegalArgumentException("User must be first putIntoDeletionQueue");
 		}
 		unsubscribeEventsAndSubscriptions();
 	}
-	
+
 	/**
 	 * Unsubscribes user from all subscribed events; unsubscribes others from this
 	 * user's owned event; this must be done only before final deletion;
 	 */
-	private void unsubscribeEventsAndSubscriptions() {;
-		subscriptions.forEach(EventGuestRelation::nullifyForRemoval); //TODO: fix me pls;
+	private void unsubscribeEventsAndSubscriptions() {
+		
+		subscriptions.forEach(SubscriptionEntity::nullifyForRemoval); // TODO: fix me pls;
 		eventItemsOwner.forEach(EventEntity::nullifyForRemoval);
 	}
 
@@ -269,7 +293,7 @@ public class UserEntity {
 	 * Activates all "Deactivated" events and subscription of this user;
 	 */
 	private void activateEventsAndSubscriptions() {
-		subscriptions.forEach(EventGuestRelation::activate);
+		subscriptions.forEach(SubscriptionEntity::activate);
 		eventItemsOwner.forEach(EventEntity::activate);
 	}
 
@@ -277,7 +301,7 @@ public class UserEntity {
 	 * Deactivates all events and subscription of this user;
 	 */
 	private void deactivateEventsAndSubscriptions() {
-		subscriptions.forEach(EventGuestRelation::deactivate);
+		subscriptions.forEach(SubscriptionEntity::deactivate);
 		eventItemsOwner.forEach(EventEntity::deactivate);
 	}
 
@@ -285,7 +309,7 @@ public class UserEntity {
 	 * Puts all events and subsriptions of this user for deletion;
 	 */
 	private void putEventsAndSubscriptionsForDeletion() {
-		subscriptions.forEach(EventGuestRelation::putIntoDeletionQueue);
+		subscriptions.forEach(SubscriptionEntity::putIntoDeletionQueue);
 		eventItemsOwner.forEach(EventEntity::putIntoDeletionQueue);
 	}
 
@@ -295,7 +319,7 @@ public class UserEntity {
 	public boolean isEnabled() {
 		return status.equals(UserStatus.ACTIVE);
 	}
-	
+
 	/**
 	 * @return true if this user is pending for deletion
 	 */
@@ -325,5 +349,21 @@ public class UserEntity {
 	public void putIntoDeletionQueue() {
 		putEventsAndSubscriptionsForDeletion();
 		status = UserStatus.PENDINGFORDELETION;
+	}
+
+	/**
+	 * Changes this user's status, validating the parameter
+	 * 
+	 * @param status
+	 *            must be equal to one of UserStatus values;
+	 */
+	public void changeStatus(String status) {
+		UserStatus newStatus;
+		try {
+			newStatus = UserStatus.valueOf(status);
+		} catch (Exception e) {
+			throw new IllegalArgumentException("Not found UserStatus with name " + status);
+		}
+		newStatus.change(this);
 	}
 }

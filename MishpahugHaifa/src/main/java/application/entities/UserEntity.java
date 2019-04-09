@@ -71,6 +71,7 @@ public class UserEntity {
 	private String eMail;
 
 	@Column(name = "User_Name", length = 36)
+	//TODO: userName and email unique, userName immutable
 	private String userName;
 
 	@Column(name = "Encryted_Password", length = 128)
@@ -173,67 +174,86 @@ public class UserEntity {
 	public Set<EventEntity> getEventEntityOwner() {
 		return Collections.unmodifiableSet(eventItemsOwner);
 	}
-	/**
-	 * Adds an event to the set of events owned by this user, transferring it from
-	 * any previous users;
-	 * 
-	 * @param event
-	 *            EventEntity that has this user as the owner.
-	 * @return true if the event was added; false if the event was not added, as it
-	 *         is already in the set.
-	 */
-	public boolean makeOwner(EventEntity event) {
-		// TODO: check that event has its business key not null; or NPE is possible;
-		if (event.getUserEntityOwner() == null) { // transient state;
-			event.setUserEntityOwner(this);
-		}
-		if (!event.getUserEntityOwner().equals(this)) {
-			throw new IllegalArgumentException("Trying to make this user owner of event that belongs to another");
-		}
-		return eventItemsOwner.add(event); // TODO: thread safety argument;
-	}
-
-	/**
-	 * Adds an event to the set of events owned by another user, transferring it
-	 * from this;
-	 * 
-	 * @param event
-	 *            EventEntity that has this user as the owner.
-	 * @param newOwner
-	 *            any another user
-	 * @return true if the event was added; false if the event was not added, as it
-	 *         is already in the set.
-	 */
-	public boolean transferOwnedEvent(EventEntity event, UserEntity newOwner) {
-		if (event.getUserEntityOwner() != null && !event.getUserEntityOwner().equals(this)) {
-			throw new IllegalArgumentException("Trying to transfer event with another owner\"");
-		}
-		eventItemsOwner.remove(event);
-		event.setUserEntityOwner(newOwner);
-		return newOwner.makeOwner(event);
-
-	}
-
-	/**
-	 * Removing owned event, event is deleted once the user is merged;
-	 * 
-	 * @param event
-	 */
-	// TODO: maybe check if event is ready for deletion?
-	public boolean removeOwnedEvent(EventEntity event) {
-		if (!event.getUserEntityOwner().equals(this)) {
-			throw new IllegalArgumentException("Trying to remove event with another owner");
-		}
-		if (!eventItemsOwner.contains(event)) {
-			throw new IllegalStateException(
-					"Event has user set as owner, but not present in the user's collection of owned events");
-		}
-		return eventItemsOwner.remove(event); // TODO: thread safety argument;
-	}
-	
 	
 
+	/**
+	 * Protected way to add SubscribedEvent;
+	 * 
+	 * @param_city
+	 * @return
+	 */
+	protected boolean addOwnedEvent(EventEntity event) {
+		return eventItemsOwner.add(event);
+	}
 
+	/**
+	 * SubscribedEvent is not deleted once the user is merged;
+	 * 
+	 * @param_city
+	 * @return
+	 */
+	protected boolean removeOwnedEvent(EventEntity event) {
+		return eventItemsOwner.remove(event);
+	}
+
+	
+//	/**
+//	 * Adds an event to the set of events owned by this user, transferring it from
+//	 * any previous users;
+//	 * 
+//	 * @param event
+//	 *            EventEntity that has this user as the owner.
+//	 * @return true if the event was added; false if the event was not added, as it
+//	 *         is already in the set.
+//	 */
+//	public boolean makeOwner(EventEntity event) {
+//		// TODO: check that event has its business key not null; or NPE is possible;
+//		if (event.getUserEntityOwner() == null) { // transient state;
+//			event.setUserEntityOwner(this);
+//		}
+//		if (!event.getUserEntityOwner().equals(this)) {
+//			throw new IllegalArgumentException("Trying to make this user owner of event that belongs to another");
+//		}
+//		return eventItemsOwner.add(event); // TODO: thread safety argument;
+//	}
+
+//	/**
+//	 * Adds an event to the set of events owned by another user, transferring it
+//	 * from this;
+//	 * 
+//	 * @param event
+//	 *            EventEntity that has this user as the owner.
+//	 * @param newOwner
+//	 *            any another user
+//	 * @return true if the event was added; false if the event was not added, as it
+//	 *         is already in the set.
+//	 */
+//	public boolean transferOwnedEvent(EventEntity event, UserEntity newOwner) {
+//		if (event.getUserEntityOwner() != null && !event.getUserEntityOwner().equals(this)) {
+//			throw new IllegalArgumentException("Trying to transfer event with another owner\"");
+//		}
+//		eventItemsOwner.remove(event);
+//		event.setUserEntityOwner(newOwner);
+//		return newOwner.makeOwner(event);
+//
+//	}
+
+//	/**
+//	 * Removing owned event, event is deleted once the user is merged;
+//	 * 
+//	 * @param event
+//	 */
+//	// TODO: maybe check if event is ready for deletion?
+//	public boolean removeOwnedEvent(EventEntity event) {
+//		if (!event.getUserEntityOwner().equals(this)) {
+//			throw new IllegalArgumentException("Trying to remove event with another owner");
+//		}
+//		if (!eventItemsOwner.contains(event)) {
+//			throw new IllegalStateException(
+//					"Event has user set as owner, but not present in the user's collection of owned events");
+//		}
+//		return eventItemsOwner.remove(event); // TODO: thread safety argument;
+//	}
 	
 	/**
 	 * Immutable wrapper over Subscriptions;

@@ -28,12 +28,6 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
 			jpaQuery.setParameter(map.getKey(), map.getValue());
 		}
 		EventEntity tempResult = (EventEntity) jpaQuery.getResultList().get(0);
-		if (data.containsKey("date")) {
-			tempResult.setDate(LocalDate.parse(data.get("date")));
-		}
-		if (data.containsKey("time")) {
-			tempResult.setTime(LocalTime.parse(data.get("time")));
-		}
 		if (data.containsKey("nameofevent")) {
 			tempResult.setNameOfEvent(data.get("nameofevent"));
 		}
@@ -43,9 +37,9 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
 		return tempResult;
 	}
 	
-	@Override 
-	@Transactional
-	public void delete(EventEntity event) {
-		event.getUserEntityOwner().removeOwnedEvent(event);
-	}
+//	@Override 
+//	@Transactional
+//	public void delete(EventEntity event) {
+//		event.getUserEntityOwner().removeOwnedEvent(event);
+//	}
 }

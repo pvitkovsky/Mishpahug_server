@@ -2,7 +2,6 @@
 package application.entities.event;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
@@ -38,11 +37,11 @@ import application.repositories.UserRepository;
 public class EventEntityTest {
 
 	private final UserEntity ALYSSA = new UserEntity();
-	private final EventEntity TESTING = new EventEntity();
-	private final EventEntity TESTINGDUPLICATE = new EventEntity();
 	private final LocalDate TDATE = LocalDate.now().plusYears(20);
 	private final LocalTime TTIME = LocalTime.of(23, 59);
-	private final String TNAME = "TESTING";
+	private final EventEntity TESTING = new EventEntity(TDATE, TTIME);
+	private final EventEntity TESTINGDUPLICATE = new EventEntity(TDATE, TTIME);
+	
 	private final Map<String, String> TUPDATE = new HashMap<>();
 
 	@Autowired
@@ -53,26 +52,16 @@ public class EventEntityTest {
 	
 	@Before
 	public void buildEntities() {
-		
 		ALYSSA.setEMail("p_hacker@sicp.edu");
-		TESTING.setDate(TDATE);
-		TESTING.setTime(TTIME);
-		TESTING.setNameOfEvent(TNAME);
-		TESTINGDUPLICATE.setDate(TDATE);
-		TESTINGDUPLICATE.setTime(TTIME);
-		TESTINGDUPLICATE.setNameOfEvent(TNAME);
-		/*
-		 * maybe builder in EventEntity for business key / clone method; 
-		 */
 	}
 
 	@Test(expected = DataIntegrityViolationException.class)
 	public void givenDuplicateEventsSaveAndGetException() {
 		
-		ALYSSA.makeOwner(TESTING);
+		TESTING.setUserEntityOwner(ALYSSA);
 		userRepo.save(ALYSSA);
 
-		ALYSSA.makeOwner(TESTINGDUPLICATE);
+		TESTINGDUPLICATE.setUserEntityOwner(ALYSSA);
 		eventRepo.save(TESTINGDUPLICATE);
 
 	}
@@ -80,7 +69,7 @@ public class EventEntityTest {
 	@Test()
 	public void givenEventSaveAndRead() {
 		
-		ALYSSA.makeOwner(TESTING);
+		TESTING.setUserEntityOwner(ALYSSA);
 		userRepo.save(ALYSSA);
 		
 		assertEquals(eventRepo.getOne(TESTING.getId()), TESTING);	
@@ -89,7 +78,7 @@ public class EventEntityTest {
 
 	@Test(expected = InvalidDataAccessApiUsageException.class)
 	public void savedEventChangeStatusWithIllegalStringThrows() {
-		ALYSSA.makeOwner(TESTING);
+		TESTING.setUserEntityOwner(ALYSSA);
 		userRepo.save(ALYSSA);
 		
 		TUPDATE.put("status", "foo");
@@ -102,7 +91,7 @@ public class EventEntityTest {
 	@Test
 	public void onRenameEvent() { //TODO: fix me pls; there's a hashcode mutability issue
 		
-		ALYSSA.makeOwner(TESTING);
+		TESTING.setUserEntityOwner(ALYSSA);
 		userRepo.save(ALYSSA);
 		
 		String newName = "Better_Name";
@@ -115,7 +104,7 @@ public class EventEntityTest {
 	
 	@Test
 	public void savedEventChangeStatusWithLegalStringWorks() {
-		ALYSSA.makeOwner(TESTING);
+		TESTING.setUserEntityOwner(ALYSSA);
 		userRepo.save(ALYSSA);
 		assertTrue(TESTING.isDue());
 		
@@ -147,7 +136,7 @@ public class EventEntityTest {
 	@Test(expected = InvalidDataAccessApiUsageException.class)
 	public void onEventDeleteWithoutQueueThrows() {
 
-		ALYSSA.makeOwner(TESTING);
+		TESTING.setUserEntityOwner(ALYSSA);
 		userRepo.save(ALYSSA);
 	
 		eventRepo.delete(TESTING); 
@@ -158,7 +147,7 @@ public class EventEntityTest {
 	@Test
 	public void onEventDeleteWithQueueWorks() {
 
-		ALYSSA.makeOwner(TESTING);
+		TESTING.setUserEntityOwner(ALYSSA);
 		userRepo.save(ALYSSA);
 		
 		TESTING.putIntoDeletionQueue();

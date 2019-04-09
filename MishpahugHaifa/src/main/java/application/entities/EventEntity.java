@@ -19,7 +19,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.PostRemove;
+import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -42,11 +42,11 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "eventlist", uniqueConstraints = {
-		@UniqueConstraint(columnNames = { "user_owner", "date", "time", "name_of_event" }) })
+		@UniqueConstraint(columnNames = { "user_owner", "date", "time" }) })
 @Getter
 @Setter
 @NoArgsConstructor
-@EqualsAndHashCode(of = { "userEntityOwner", "date", "time", "nameOfEvent" }) // business key;
+@EqualsAndHashCode(of = { "date", "time", }) // business key;
 @ToString(exclude = { "userEntityOwner", "addressEntity", "subscriptions" })
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class EventEntity {
@@ -56,17 +56,18 @@ public class EventEntity {
 	private Integer id;
 
 	@NotNull // can omit nullable=false with Hibernate;
-	@Column(name = "date", nullable = false)
+	@Column(name = "date", nullable = false) 
 	@DateTimeFormat(iso = ISO.DATE)
+	@Setter(AccessLevel.NONE) //TODO: check serialization works;
 	private LocalDate date;
 
 	@NotNull
 	@Column(name = "time", nullable = false)
+	@Setter(AccessLevel.NONE)  //TODO: check serialization works;
 	// TODO: JSON time format;
 	private LocalTime time;
 
-	@NotNull
-	@Column(name = "name_of_event", nullable = false) //TODO: make this final, as it's part of the hashcode;
+	@Column(name = "name_of_event")
 	private String nameOfEvent;
 
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, optional = true) // Unidirectional;
@@ -78,7 +79,7 @@ public class EventEntity {
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "user_owner")
 	@JsonBackReference("userEventOwner") // Bidirectional, managed from User;
-	@Setter(AccessLevel.PACKAGE)
+	@Setter(AccessLevel.NONE)
 	private UserEntity userEntityOwner;
 
 	@ManyToOne(optional = true) // Unidirectional, managed from Address; //TODO: serialization circular
@@ -116,6 +117,47 @@ public class EventEntity {
 	private interface StatusChanger {
 		void change(EventEntity event);
 	}
+	
+	/**
+	 * Constructor for immutability
+	 * @param date
+	 * @param time
+	 */
+	public EventEntity(@NotNull LocalDate date, @NotNull LocalTime time) {
+		super();
+		this.date = date;
+		this.time = time;
+	}
+
+	
+	/**
+	 * Setting this event's owner
+	 * @param owner
+	 */
+	public void setUserEntityOwner(UserEntity owner) { //TODO: checks;
+		if(this.userEntityOwner != null){
+			if(this.userEntityOwner.equals(owner)){
+				return;
+			}
+			userEntityOwner.removeOwnedEvent(this);
+		}
+		this.userEntityOwner = owner; 
+		userEntityOwner.addOwnedEvent(this);
+	}
+	
+	/**
+	 * Checks that the event is OK to delete and then unsubscribes all its
+	 * subscribers; launched from the owned entity;
+	 */
+	@PreRemove 
+	public void nullifyForRemoval() {
+		if (!isPendingForDeletion()) {
+			throw new IllegalArgumentException("Event must be first putIntoDeletionQueue");
+		}
+		unsubscribeAll();
+		userEntityOwner.removeOwnedEvent(this);
+	}
+
 
 	/**
 	 * @return immutable timestamp of event;
@@ -191,19 +233,7 @@ public class EventEntity {
 	private void putSubscriptionsIntoDeletionQueue() {
 		subscriptions.forEach(SubscriptionEntity::putIntoDeletionQueue);
 	}
-
-	/**
-	 * Checks that the event is OK to delete and then unsubscribes all its
-	 * subscribers; launched from the owned entity;
-	 */
-	@PreRemove 
-	public void nullifyForRemoval() {
-		if (!isPendingForDeletion()) {
-			throw new IllegalArgumentException("Event must be first putIntoDeletionQueue");
-		}
-		unsubscribeAll();
-	}
-
+	
 	/**
 	 * Removes all subscriptions when deleting event; not needed - if an event is
 	 * deleted, @PreRemove on EventGuestRelation does this;

@@ -30,11 +30,12 @@ public class UserEventGuestFeedbackTest {
 	
 	private final UserEntity ALYSSA = new UserEntity();
 	private final UserEntity BEN = new UserEntity();
-	private final EventEntity GUESTING = new EventEntity();
-	private final SubscriptionEntity AGUESTING = new SubscriptionEntity();
-	private final FeedBackValue ABFEEDBACK = new FeedBackValue();
 	private final LocalDate TDATE = LocalDate.of(2190, 1, 1);
 	private final LocalTime TTIME = LocalTime.of(23, 59);
+	private final EventEntity GUESTING = new EventEntity(TDATE, TTIME);
+	private final SubscriptionEntity AGUESTING = new SubscriptionEntity();
+	private final FeedBackValue ABFEEDBACK = new FeedBackValue();
+
 	private final String TNAME = "TESTING";
 	
 	@Autowired
@@ -50,8 +51,6 @@ public class UserEventGuestFeedbackTest {
 	public void buildEntities() {
 		ALYSSA.setEMail("p_hacker@sicp.edu");
 		BEN.setEMail("bitdiddle@sicp.edu");
-		GUESTING.setDate(TDATE);
-		GUESTING.setTime(TTIME);
 		GUESTING.setNameOfEvent(TNAME);
 		ABFEEDBACK.setComment("Nice event");
 		ABFEEDBACK.setDateTime(LocalDateTime.now());
@@ -61,7 +60,7 @@ public class UserEventGuestFeedbackTest {
 	@Test
 	public void onSubsctiptionSaveReadFeedback() {
 		
-		BEN.makeOwner(GUESTING);
+		GUESTING.setUserEntityOwner(BEN);
 		userRepo.save(BEN);
 		userRepo.save(ALYSSA); 
 		AGUESTING.subscribe(ALYSSA, GUESTING);

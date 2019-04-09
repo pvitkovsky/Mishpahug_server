@@ -58,10 +58,9 @@ public class EventModelTest {
 
 	private final UserEntity ALYSSA = new UserEntity();
 	private final UserEntity BEN = new UserEntity();
-	private final EventEntity GUESTING = new EventEntity();
 	private final LocalDate TDATE = LocalDate.of(2190, 1, 1);
 	private final LocalTime TTIME = LocalTime.of(23, 59);
-	private final String TNAME = "TESTING";
+	private final EventEntity GUESTING = new EventEntity(TDATE, TTIME);
 	private final SubscriptionEntity AGUESTING = new SubscriptionEntity();
 	private final Set<EventEntity> ASUBS = new HashSet<>();
 	private final Set<UserEntity> GSUBS = new HashSet<>();
@@ -71,10 +70,6 @@ public class EventModelTest {
 	public void buildEntities() {
 		ALYSSA.setEMail("p_hacker@sicp.edu");
 		BEN.setEMail("bitdiddle@sicp.edu");
-		GUESTING.setDate(TDATE);
-		GUESTING.setTime(TTIME);
-		GUESTING.setNameOfEvent(TNAME);
-		
 	}
 	
 	
@@ -87,7 +82,7 @@ public class EventModelTest {
 		Mockito.when(subscriptionsRepo.save(AGUESTING)).thenReturn(AGUESTING);
 		Mockito.when(userRepo.getOne(ALYSSA.getId())).thenReturn(ALYSSA);
 		
-		BEN.makeOwner(GUESTING);
+		GUESTING.setUserEntityOwner(BEN);
 		userRepo.save(BEN);
 		userRepo.save(ALYSSA);
 		AGUESTING.subscribe(ALYSSA, GUESTING);
@@ -106,7 +101,7 @@ public class EventModelTest {
 		Mockito.when(subscriptionsRepo.save(AGUESTING)).thenReturn(AGUESTING);
 		Mockito.when(eventRepo.getOne(GUESTING.getId())).thenReturn(GUESTING);
 		
-		BEN.makeOwner(GUESTING);
+		GUESTING.setUserEntityOwner(BEN);
 		userRepo.save(BEN);
 		userRepo.save(ALYSSA);
 		AGUESTING.subscribe(ALYSSA, GUESTING);
@@ -124,7 +119,7 @@ public class EventModelTest {
 		Mockito.when(eventRepo.save(GUESTING)).thenReturn(GUESTING);
 		Mockito.when(subscriptionsRepo.save(AGUESTING)).thenReturn(AGUESTING);
 		
-		BEN.makeOwner(GUESTING);
+		GUESTING.setUserEntityOwner(BEN);
 		userRepo.save(BEN);
 		userRepo.save(ALYSSA); 
 		ALYSSA.setId(2); //TODO: generated Id with Mockito please
@@ -151,14 +146,14 @@ public class EventModelTest {
 	
 	
 	@Test
-	public void unsubscribe() {
+	public void unsubscribe() { //TODO: fix me please
 		
 		Mockito.when(userRepo.save(BEN)).thenReturn(BEN);
 		Mockito.when(userRepo.save(ALYSSA)).thenReturn(ALYSSA);
 		Mockito.when(eventRepo.save(GUESTING)).thenReturn(GUESTING);
 		Mockito.when(subscriptionsRepo.save(AGUESTING)).thenReturn(AGUESTING);
 		
-		BEN.makeOwner(GUESTING);
+		GUESTING.setUserEntityOwner(BEN);
 		userRepo.save(BEN);
 		userRepo.save(ALYSSA); 
 		ALYSSA.setId(2); //TODO: generated Id with Mockito please

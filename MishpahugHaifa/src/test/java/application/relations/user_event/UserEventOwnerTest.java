@@ -37,14 +37,13 @@ public class UserEventOwnerTest {
 
 	private final UserEntity ALYSSA = new UserEntity();
 	private final UserEntity BEN = new UserEntity();
-	private final EventEntity ABTEST = new EventEntity();
-	private final EventEntity BATEST = new EventEntity();
-	private final String ABNAME = "ABTEST";
-	private final String BANAME = "BATEST";
-	private final SubscriptionEntity ABSUB= new SubscriptionEntity();
-	private final SubscriptionEntity BASUB = new SubscriptionEntity();
 	private final LocalDate TDATE = LocalDate.of(2190, 1, 1);
 	private final LocalTime TTIME = LocalTime.of(23, 59);
+	private final EventEntity ABTEST = new EventEntity(TDATE, TTIME);
+	private final EventEntity BATEST = new EventEntity(TDATE, TTIME);
+	private final SubscriptionEntity ABSUB= new SubscriptionEntity();
+	private final SubscriptionEntity BASUB = new SubscriptionEntity();
+
 
 	@PersistenceContext // https://www.javabullets.com/access-entitymanager-spring-data-jpa/
 	private EntityManager em;	
@@ -63,20 +62,19 @@ public class UserEventOwnerTest {
 	public void buildEntities() {
 		ALYSSA.setEMail("p_hacker@sicp.edu");
 		BEN.setEMail("bitdiddle@sicp.edu");
-		ABTEST.setDate(TDATE);
-		ABTEST.setTime(TTIME);
-		ABTEST.setNameOfEvent(ABNAME);
-		BATEST.setDate(TDATE);
-		BATEST.setTime(TTIME);
-		BATEST.setNameOfEvent(BANAME);
 	}
 
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void addEventOfAnotherOwner() { 
 		
-		ALYSSA.makeOwner(BATEST);
-		BEN.makeOwner(BATEST);
+		BATEST.setUserEntityOwner(ALYSSA);
+		BATEST.setUserEntityOwner(BEN);
+		
+		assertEquals(ALYSSA.getEventEntityOwner().size(), 0);
+		assertEquals(BEN.getEventEntityOwner().size(), 1);
+		assertFalse(ALYSSA.getEventEntityOwner().contains(BATEST));
+		assertTrue(BEN.getEventEntityOwner().contains(BATEST));
 		
 	}
 	
@@ -86,10 +84,10 @@ public class UserEventOwnerTest {
 	 */
 	public void saveDuplicateEvent() {
 
-		ALYSSA.makeOwner(BATEST);
-		ALYSSA.makeOwner(BATEST);
-		ALYSSA.makeOwner(BATEST);
-		ALYSSA.makeOwner(BATEST);
+		BATEST.setUserEntityOwner(ALYSSA);
+		BATEST.setUserEntityOwner(ALYSSA);
+		BATEST.setUserEntityOwner(ALYSSA);
+		BATEST.setUserEntityOwner(ALYSSA);
 
 		userRepo.save(ALYSSA);
 		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
@@ -105,7 +103,7 @@ public class UserEventOwnerTest {
 	@Test
 	public void onUserSaveReadEvent() {
 
-		ALYSSA.makeOwner(BATEST);
+		BATEST.setUserEntityOwner(ALYSSA);
 		userRepo.save(ALYSSA);
 		
 		assertTrue(userRepo.existsById(ALYSSA.getId()));
@@ -132,7 +130,7 @@ public class UserEventOwnerTest {
 	@Test
 	public void toStringBiDir() {
 
-		ALYSSA.makeOwner(BATEST);
+		BATEST.setUserEntityOwner(ALYSSA);
 		userRepo.save(ALYSSA);
 
 		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
@@ -143,39 +141,39 @@ public class UserEventOwnerTest {
 
 	}
 	
-	/**
-	 * This tests User.transferEvent;
-	 * Transfer Event not in the API, but useful as a tool for testing how relation works;
-	 */
-	@Test
-	public void onTransferEvent() { //TODO: fix me please, remove method wants to delete the event but it's not pending for deletion
-
-		ALYSSA.makeOwner(BATEST);
-		userRepo.save(ALYSSA);
-
-		ALYSSA.transferOwnedEvent(BATEST, BEN);
-		userRepo.save(ALYSSA);
-		userRepo.save(BEN);
-
-		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
-		UserEntity savedB = userRepo.findById(BEN.getId()).get();
-
-		assertTrue(savedA.getEventEntityOwner().size() == 0);
-		assertTrue(savedB.getEventEntityOwner().size() == 1);
-		assertFalse(savedA.getEventEntityOwner().contains(BATEST));
-		assertTrue(savedB.getEventEntityOwner().contains(BATEST));
-		assertTrue(eventRepo.existsById(BATEST.getId()));
-		assertEquals(eventRepo.findById(BATEST.getId()).get().getUserEntityOwner(), BEN);
-
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void removeEventOfAnotherOwner() {
-		
-		ALYSSA.makeOwner(BATEST);
-		BEN.transferOwnedEvent(BATEST, ALYSSA);
-		
-	}
+//	/**
+//	 * This tests User.transferEvent;
+//	 * Transfer Event not in the API, but useful as a tool for testing how relation works;
+//	 */
+//	@Test
+//	public void onTransferEvent() { //TODO: fix me please, remove method wants to delete the event but it's not pending for deletion
+//
+//		BATEST.setUserEntityOwner(ALYSSA);
+//		userRepo.save(ALYSSA);
+//
+//		ALYSSA.transferOwnedEvent(BATEST, BEN);
+//		userRepo.save(ALYSSA);
+//		userRepo.save(BEN);
+//
+//		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
+//		UserEntity savedB = userRepo.findById(BEN.getId()).get();
+//
+//		assertTrue(savedA.getEventEntityOwner().size() == 0);
+//		assertTrue(savedB.getEventEntityOwner().size() == 1);
+//		assertFalse(savedA.getEventEntityOwner().contains(BATEST));
+//		assertTrue(savedB.getEventEntityOwner().contains(BATEST));
+//		assertTrue(eventRepo.existsById(BATEST.getId()));
+//		assertEquals(eventRepo.findById(BATEST.getId()).get().getUserEntityOwner(), BEN);
+//
+//	}
+//	
+//	@Test(expected = IllegalArgumentException.class)
+//	public void removeEventOfAnotherOwner() {
+//		
+//		BATEST.setUserEntityOwner(ALYSSA);
+//		BEN.transferOwnedEvent(BATEST, ALYSSA);
+//		
+//	}
 
 	/**
 	 * Deleting user and testing its unsubscribeAll() to ensure that he's unsubcribed from everywhere and 
@@ -184,8 +182,8 @@ public class UserEventOwnerTest {
 	@Test
 	public void onUserDeleteEventNotRemains() {
 
-		ALYSSA.makeOwner(BATEST);
-		BEN.makeOwner(ABTEST);
+		BATEST.setUserEntityOwner(ALYSSA);
+		ABTEST.setUserEntityOwner(BEN);
 		userRepo.save(ALYSSA);
 		userRepo.save(BEN);
 		ABSUB.subscribe(ALYSSA, ABTEST);

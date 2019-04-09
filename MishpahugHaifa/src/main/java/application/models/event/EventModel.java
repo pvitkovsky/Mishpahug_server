@@ -87,7 +87,7 @@ public class EventModel implements IEventModel {
 		try {
 			EventEntity eventEntity = eventRepository.getOne(eventId);
 			UserEntity userOwner = eventEntity.getUserEntityOwner();
-			userOwner.removeOwnedEvent(eventEntity);
+			eventRepository.delete(eventEntity);
 			return eventEntity;
 		} catch (EntityNotFoundException e) {
 			throw new ExceptionMishpaha("Error! Not found event with id " + eventId, null);

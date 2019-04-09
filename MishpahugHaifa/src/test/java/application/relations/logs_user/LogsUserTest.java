@@ -35,10 +35,10 @@ public class LogsUserTest {
 	private final LogsOnUser LOG_MN = new LogsOnUser();
 	private final UserEntity RAN_M = RandomEntities.randomUserEntity(); // BUILDER creates NPE in userEntityOwner's hashSet
 	private final UserEntity RAN_N = RandomEntities.randomUserEntity();
-	private final EventEntity TESTING = new EventEntity();
 	private final LocalDate TDATE = LocalDate.of(2190, 1, 1);
 	private final LocalTime TTIME = LocalTime.of(23, 59);
-	private final String TNAME = "TESTING";
+	private final EventEntity TESTING = new EventEntity(TDATE, TTIME);
+
 
 	@Autowired
 	UserRepository userRepo;
@@ -54,11 +54,7 @@ public class LogsUserTest {
 	
 		//Can we add to the set and then set value fields later?
 		
-		TESTING.setDate(TDATE);
-		TESTING.setTime(TTIME);
-		TESTING.setNameOfEvent(TNAME);
-		
-		RAN_M.makeOwner(TESTING);
+		TESTING.setUserEntityOwner(RAN_M);
 	
 		LOG_MA.setUserActor(RAN_M);
 		LOG_MA.setEventTarget(TESTING);

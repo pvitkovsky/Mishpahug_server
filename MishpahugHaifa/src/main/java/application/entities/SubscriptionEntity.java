@@ -204,22 +204,12 @@ public class SubscriptionEntity {
 		res = event.removeSubsription(this) && res;
 		return res;
 	}
-
-	/**
-	 * Checks that the guest-event relation is OK to delete and then nullifies it; This is launched when User or Event are deleted.
-	 */
-	public void nullifyForRemoval() {
-		if (!isPendingForDeletion()) {
-			throw new IllegalArgumentException("EventGuestRelation must be first putIntoDeletionQueue");	
-		}
-		unsubscribe(this.guest, this.event);
-	}
 	
 	/**
 	 * Launched on remove() from this entity's repository. Checks if the guest-event relation is OK to delete and then nullifies it. 
 	 */
 	@PreRemove
-	private void nullifyForIndependentRemoval() {
+	public void nullifyForRemoval() {
 		if (!isPendingForDeletion()) {
 			throw new IllegalArgumentException("EventGuestRelation must be first putIntoDeletionQueue");	
 		}

@@ -37,7 +37,7 @@ public class LogsUserTest {
 	private final UserEntity RAN_N = RandomEntities.randomUserEntity();
 	private final LocalDate TDATE = LocalDate.of(2190, 1, 1);
 	private final LocalTime TTIME = LocalTime.of(23, 59);
-	private final EventEntity TESTING = new EventEntity(TDATE, TTIME);
+	private EventEntity TESTING;
 
 
 	@Autowired
@@ -55,7 +55,7 @@ public class LogsUserTest {
 		
 		//Can we add to the set and then set value fields later?
 		
-		TESTING.setUserEntityOwner(RAN_M);
+		TESTING = new EventEntity(RAN_M, TDATE, TTIME);
 		eventRepo.save(TESTING); //TODO: where is cascading?!
 	
 		LOG_MA.setUserActor(RAN_M);

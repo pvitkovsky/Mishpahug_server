@@ -60,7 +60,7 @@ public class EventModelTest {
 	private final UserEntity BEN = new UserEntity();
 	private final LocalDate TDATE = LocalDate.of(2190, 1, 1);
 	private final LocalTime TTIME = LocalTime.of(23, 59);
-	private final EventEntity GUESTING = new EventEntity(TDATE, TTIME);
+	private EventEntity GUESTING;
 	private SubscriptionEntity AGUESTING;
 	private final Set<EventEntity> ASUBS = new HashSet<>();
 	private final Set<UserEntity> GSUBS = new HashSet<>();
@@ -73,7 +73,7 @@ public class EventModelTest {
 		BEN.setEMail("bitdiddle@sicp.edu");
 		userRepo.save(BEN);
 		userRepo.save(ALYSSA);		
-		GUESTING.setUserEntityOwner(BEN);
+		GUESTING = new EventEntity(BEN, TDATE, TTIME);
 		eventRepo.save(GUESTING);
 		AGUESTING  = new SubscriptionEntity(ALYSSA, GUESTING);
 		

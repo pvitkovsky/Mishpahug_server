@@ -2,6 +2,7 @@
 package application.entities.event;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
@@ -39,9 +40,7 @@ public class EventEntityTest {
 	private final UserEntity ALYSSA = new UserEntity();
 	private final LocalDate TDATE = LocalDate.now().plusYears(20);
 	private final LocalTime TTIME = LocalTime.of(23, 59);
-	private final EventEntity TESTING = new EventEntity(TDATE, TTIME);
-	private final EventEntity TESTINGDUPLICATE = new EventEntity(TDATE, TTIME);
-	
+	private EventEntity TESTING; 
 	private final Map<String, String> TUPDATE = new HashMap<>();
 
 	@Autowired
@@ -54,23 +53,15 @@ public class EventEntityTest {
 	public void buildEntities() {
 		ALYSSA.setEMail("p_hacker@sicp.edu");
 		userRepo.save(ALYSSA);
-		TESTING.setUserEntityOwner(ALYSSA);
+		TESTING = new EventEntity(ALYSSA, TDATE, TTIME);
 		eventRepo.save(TESTING); // TODO: where is cascade?!
 	}
 
 	@Test(expected = DataIntegrityViolationException.class)
 	public void givenDuplicateEventsSaveAndGetException() {
 		
-		TESTINGDUPLICATE.setUserEntityOwner(ALYSSA);
+		EventEntity TESTINGDUPLICATE = new EventEntity(ALYSSA, TDATE, TTIME);
 		eventRepo.save(TESTINGDUPLICATE);
-
-	}
-	
-	@Test(expected = DataIntegrityViolationException.class)
-	public void givenEventsWithoutOwnerSaveAndGetException() {
-		
-		EventEntity NOOWNERTEST = new EventEntity(TDATE, TTIME);
-		eventRepo.save(NOOWNERTEST);
 
 	}
 	
@@ -78,6 +69,9 @@ public class EventEntityTest {
 	public void givenEventSaveAndRead() {
 		
 		assertEquals(eventRepo.getOne(TESTING.getId()), TESTING);	
+		assertEquals(eventRepo.count(), 1);	
+		assertTrue(ALYSSA.getEventEntityOwner().contains(TESTING));
+		assertEquals(ALYSSA.getEventEntityOwner().size(), 1);
 	
 	}
 
@@ -143,9 +137,13 @@ public class EventEntityTest {
 	@Test
 	public void onEventDeleteWithQueueWorks() {
 		
+		assertTrue(eventRepo.existsById(TESTING.getId()));	
+		assertEquals(eventRepo.count(), 1);
+		
 		TESTING.putIntoDeletionQueue();
 		eventRepo.delete(TESTING); 
-		eventRepo.flush();
+
+		assertFalse(eventRepo.existsById(TESTING.getId()));	
 		assertEquals(eventRepo.count(), 0);
 		
 	}

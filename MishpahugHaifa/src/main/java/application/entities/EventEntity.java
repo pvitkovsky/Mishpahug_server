@@ -120,21 +120,23 @@ public class EventEntity {
 	
 	/**
 	 * Constructor for immutability
+	 * TODO: add User into constructor and ensure cascading
 	 * @param date
 	 * @param time
 	 */
-	public EventEntity(@NotNull LocalDate date, @NotNull LocalTime time) {
+	public EventEntity(UserEntity owner, @NotNull LocalDate date, @NotNull LocalTime time) {
 		super();
 		this.date = date;
 		this.time = time;
+		//Is very dependent on the order of statements here; or hashcode will be messed up
+		setUserEntityOwner(owner);
 	}
-
 	
 	/**
 	 * Setting this event's owner
 	 * @param owner
 	 */
-	public void setUserEntityOwner(UserEntity owner) { //TODO: checks;
+	private void setUserEntityOwner(UserEntity owner) { //TODO: checks;
 		if(this.userEntityOwner != null){
 			if(this.userEntityOwner.equals(owner)){
 				return;

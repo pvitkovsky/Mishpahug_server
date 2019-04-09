@@ -39,8 +39,8 @@ public class UserEventOwnerTest {
 	private final UserEntity BEN = new UserEntity();
 	private final LocalDate TDATE = LocalDate.of(2190, 1, 1);
 	private final LocalTime TTIME = LocalTime.of(23, 59);
-	private final EventEntity ABTEST = new EventEntity(TDATE, TTIME);
-	private final EventEntity BATEST = new EventEntity(TDATE, TTIME);
+	private EventEntity ABTEST; 
+	private EventEntity BATEST;
 	private SubscriptionEntity ABSUB;
 	private SubscriptionEntity BASUB;
 
@@ -64,44 +64,14 @@ public class UserEventOwnerTest {
 		BEN.setEMail("bitdiddle@sicp.edu");
 		userRepo.save(ALYSSA);
 		userRepo.save(BEN);
-		ABTEST.setUserEntityOwner(BEN);
-		BATEST.setUserEntityOwner(ALYSSA);
+		ABTEST = new EventEntity(BEN, TDATE, TTIME);
+		BATEST = new EventEntity(ALYSSA, TDATE, TTIME);
 		eventRepo.save(ABTEST);  //TODO: where is cascade?!
 		eventRepo.save(BATEST);
 		ABSUB = new SubscriptionEntity(ALYSSA, ABTEST);
 		BASUB = new SubscriptionEntity(BEN, BATEST);
 	}
 
-	
-	@Test
-	public void addEventOfAnotherOwner() { 
-		
-		BATEST.setUserEntityOwner(ALYSSA);
-		BATEST.setUserEntityOwner(BEN);
-		
-		assertEquals(ALYSSA.getEventEntityOwner().size(), 0);
-		assertEquals(BEN.getEventEntityOwner().size(), 1);
-		assertFalse(ALYSSA.getEventEntityOwner().contains(BATEST));
-		assertTrue(BEN.getEventEntityOwner().contains(BATEST));
-		
-	}
-	
-	@Test
-	/**
-	 * Can't add event to user more than 1 time; checks hashcode of Event; 
-	 */
-	public void saveDuplicateEvent() {
-
-		BATEST.setUserEntityOwner(ALYSSA);
-		BATEST.setUserEntityOwner(ALYSSA);
-		BATEST.setUserEntityOwner(ALYSSA);
-		BATEST.setUserEntityOwner(ALYSSA);
-
-		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
-		assertTrue(savedA.getEventEntityOwner().size() == 1);
-
-	}
-	
 	/**
 	 * Checking that Event.setUserEntityOwner creates bidirectional link; 
 	 * Checking cascade save; 

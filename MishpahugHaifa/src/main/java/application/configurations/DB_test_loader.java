@@ -514,9 +514,8 @@ public class DB_test_loader implements CommandLineRunner {
 				while ((detail = empdtil.readLine()) != null) {
 					UserEntity randomOwner = userEntityList.get(r.nextInt(userEntityListCount));
 					String[] eventAttributes = detail.split(",");
-					EventEntity event = new EventEntity(LocalDate.parse(eventAttributes[0].replaceAll("/", "-"), DateTimeFormatter.ISO_DATE), LocalTime.parse(eventAttributes[1], DateTimeFormatter.ISO_LOCAL_TIME));
+					EventEntity event = new EventEntity(randomOwner, LocalDate.parse(eventAttributes[0].replaceAll("/", "-"), DateTimeFormatter.ISO_DATE), LocalTime.parse(eventAttributes[1], DateTimeFormatter.ISO_LOCAL_TIME));
 					event.setNameOfEvent(eventAttributes[2]);
-					event.setUserEntityOwner(randomOwner);
 				}
 				empdtil.close();
 			} catch (IOException e) {

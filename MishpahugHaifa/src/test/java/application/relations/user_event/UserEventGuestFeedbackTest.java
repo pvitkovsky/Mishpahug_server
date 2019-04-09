@@ -33,8 +33,8 @@ public class UserEventGuestFeedbackTest {
 	private final UserEntity BEN = new UserEntity();
 	private final LocalDate TDATE = LocalDate.of(2190, 1, 1);
 	private final LocalTime TTIME = LocalTime.of(23, 59);
-	private final EventEntity GUESTING = new EventEntity(TDATE, TTIME);
-	private final SubscriptionEntity AGUESTING = new SubscriptionEntity(ALYSSA, GUESTING);
+	private EventEntity GUESTING;
+	private SubscriptionEntity AGUESTING; 
 	private final FeedBackValue ABFEEDBACK = new FeedBackValue();
 	
 	@Autowired
@@ -52,8 +52,9 @@ public class UserEventGuestFeedbackTest {
 		BEN.setEMail("bitdiddle@sicp.edu");
 		userRepo.save(BEN);
 		userRepo.save(ALYSSA); 
-		GUESTING.setUserEntityOwner(BEN);
+		GUESTING = new EventEntity(BEN, TDATE, TTIME);
 		eventRepo.save(GUESTING);	
+		AGUESTING = new SubscriptionEntity(ALYSSA, GUESTING);
 		
 		ABFEEDBACK.setComment("Nice event");
 		ABFEEDBACK.setDateTime(LocalDateTime.now());
@@ -73,12 +74,10 @@ public class UserEventGuestFeedbackTest {
 
 	}
 	
-//
+
 //	@Test
 //	public void addFeedbackWithoutSubscription() {
-//		
-//		
-//
+//		//TODO: argument that can't add feedback without subscription;
 //	}
 	
 

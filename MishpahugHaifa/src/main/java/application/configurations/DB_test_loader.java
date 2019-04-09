@@ -129,6 +129,7 @@ public class DB_test_loader implements CommandLineRunner {
 			}
 			break;
 		}
+		//TODO
 		case LOGS:{
 			logsDataRepository.deleteAll();
 			Random gen = new Random();
@@ -262,7 +263,9 @@ public class DB_test_loader implements CommandLineRunner {
 			}
 		}
 	}
-
+	/**
+	 * Loads address
+	 */
 	private class AddressLoader {
 		BufferedReader empdtil;
 
@@ -293,7 +296,9 @@ public class DB_test_loader implements CommandLineRunner {
 			}
 		}
 	}
-
+	/**
+	 * Loads city
+	 */
 	private class CityLoader {
 		BufferedReader empdtil;
 
@@ -329,7 +334,9 @@ public class DB_test_loader implements CommandLineRunner {
 			}
 		}
 	}
-	
+	/**
+	 * Loads kichentype
+	 */
 	private class KichenTypeLoader {
 		BufferedReader empdtil;
 
@@ -363,7 +370,9 @@ public class DB_test_loader implements CommandLineRunner {
 			}
 		}
 	}
-
+	/**
+	 * Loads Religion
+	 */
 	private class ReligionLoader {
 		BufferedReader empdtil;
 
@@ -393,7 +402,9 @@ public class DB_test_loader implements CommandLineRunner {
 			}
 		}
 	}
-	
+	/**
+	 * Loads gender
+	 */
 	private class GenderLoader {
 		BufferedReader empdtil;
 
@@ -423,7 +434,9 @@ public class DB_test_loader implements CommandLineRunner {
 			}
 		}
 	}
-	
+	/**
+	 * Loads maritalstatus
+	 */
 	private class MaritalStatusLoader {
 		BufferedReader empdtil;
 

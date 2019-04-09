@@ -26,8 +26,9 @@ public class AuthorizationFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        System.out.println("!!!!!!! " + request.getRequestURI());
-        if (request.getRequestURI().contains("/user/register") || request.getRequestURI().contains("/user/login")) {
+        System.out.println("!!!!!!! " + request.getMethod());
+        if (request.getRequestURI().contains("/user/register") || request.getRequestURI().contains("/user/login") ||
+                (request.getRequestURI().contains("/event/") && request.getMethod().contains("GET"))) {
             chain.doFilter(servletRequest, servletResponse);
             System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             return;

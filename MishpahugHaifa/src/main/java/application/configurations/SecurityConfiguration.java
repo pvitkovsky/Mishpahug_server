@@ -1,5 +1,6 @@
 package application.configurations;
 
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -15,7 +16,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
                 .antMatchers("/user/login", "/user/register").permitAll()
-                .antMatchers("/user/logout","/event").authenticated();
+                .antMatchers("/user/logout","/event").authenticated()
+                .antMatchers(HttpMethod.GET, "/event/").permitAll();
 
 
     }

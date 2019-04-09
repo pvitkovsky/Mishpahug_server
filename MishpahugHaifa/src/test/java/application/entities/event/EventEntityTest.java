@@ -71,23 +71,10 @@ public class EventEntityTest {
 		
 		ALYSSA.makeOwner(TESTING);
 		userRepo.save(ALYSSA);
-		eventRepo.save(TESTING);
 
 		ALYSSA.makeOwner(TESTINGDUPLICATE);
 		eventRepo.save(TESTINGDUPLICATE);
 
-	}
-
-	@Test
-	public void updateTest(){
-		ALYSSA.makeOwner(TESTING);
-		userRepo.save(ALYSSA);
-	
-		String newName = "dfgdfgdfg";
-		TUPDATE.put("nameofevent", newName);
-		eventRepo.update(TESTING, TUPDATE);
-
-		assertEquals(TESTING.getNameOfEvent(), newName);
 	}
 	
 	@Test()
@@ -99,9 +86,9 @@ public class EventEntityTest {
 		assertEquals(eventRepo.getOne(TESTING.getId()), TESTING);	
 	
 	}
-	
+
 	@Test(expected = InvalidDataAccessApiUsageException.class)
-	public void savedUserChangeStatusWithIllegalStringThrows() {
+	public void savedEventChangeStatusWithIllegalStringThrows() {
 		ALYSSA.makeOwner(TESTING);
 		userRepo.save(ALYSSA);
 		
@@ -109,12 +96,25 @@ public class EventEntityTest {
 		eventRepo.update(TESTING, TUPDATE);
 	}
 
-	
 	/**
-	 * Also tests eventRepo.delete is correct; 
+	 * Business key should be immutable...
 	 */
 	@Test
-	public void savedUserChangeStatusWithLegalStringWorks() {
+	public void onRenameEvent() { //TODO: fix me pls; there's a hashcode mutability issue
+		
+		ALYSSA.makeOwner(TESTING);
+		userRepo.save(ALYSSA);
+		
+		String newName = "Better_Name";
+		TESTING.setNameOfEvent(newName);
+		
+		assertEquals(TESTING.getNameOfEvent(), newName);
+		assertEquals(ALYSSA.getEventEntityOwner().size(), 1);
+		assertTrue(ALYSSA.getEventEntityOwner().contains(TESTING));
+	}
+	
+	@Test
+	public void savedEventChangeStatusWithLegalStringWorks() {
 		ALYSSA.makeOwner(TESTING);
 		userRepo.save(ALYSSA);
 		assertTrue(TESTING.isDue());
@@ -143,5 +143,29 @@ public class EventEntityTest {
 		assertEquals(eventRepo.count(), 0);
 		assertEquals(ALYSSA.getEventEntityOwner().size(), 0);
 	}	
+	
+	@Test(expected = InvalidDataAccessApiUsageException.class)
+	public void onEventDeleteWithoutQueueThrows() {
+
+		ALYSSA.makeOwner(TESTING);
+		userRepo.save(ALYSSA);
+	
+		eventRepo.delete(TESTING); 
+		eventRepo.flush();
+		
+	}
+	
+	@Test
+	public void onEventDeleteWithQueueWorks() {
+
+		ALYSSA.makeOwner(TESTING);
+		userRepo.save(ALYSSA);
+		
+		TESTING.putIntoDeletionQueue();
+		eventRepo.delete(TESTING); 
+		eventRepo.flush();
+		assertEquals(eventRepo.count(), 0);
+		
+	}
 
 }

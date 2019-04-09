@@ -57,29 +57,36 @@ public class UserEntityTest {
 
 	@Test(expected = DataIntegrityViolationException.class)
 	public void givenDuplicateUsersSaveAndGetException() {
+		
 		userRepo.save(ALYSSA);
 		userRepo.save(ALYSSADUPLICATE);
 	}
 	
 	@Test
 	public void getByName() {
+		
+		userRepo.save(ALYSSA);
+		
 		ALYSSA.setLastName("lhlkhl");
 		ALYSSA.setFirstName("Alise");
 		ALYSSA.setUserName("aliseS");
 		ALYSSA.setEncrytedPassword("ghluikgluglujgog");
-		userRepo.save(ALYSSA);
-		System.out.println (userRepo.findByUserName("aliseS"));
+		
+		assertEquals(userRepo.findByUserName("aliseS"), ALYSSA);
 	}
 	
 	@Test(expected = InvalidDataAccessApiUsageException.class)
 	public void savedUserChangeStatusWithIllegalStringThrows() {
+		
 		userRepo.save(ALYSSA);
+		
 		AUPDATE.put("status", "foo");
 		userRepo.update(ALYSSA, AUPDATE);
 	}
 
 	@Test
 	public void savedUserChangeStatusWithLegalStringWorks() {
+		
 		userRepo.save(ALYSSA);
 		assertTrue(ALYSSA.isEnabled());
 		
@@ -87,7 +94,7 @@ public class UserEntityTest {
 		userRepo.update(ALYSSA, AUPDATE);
 		assertFalse(ALYSSA.isEnabled());
 		AUPDATE.clear();
-		
+	
 		AUPDATE.put("status", "ACTIVE");
 		userRepo.update(ALYSSA, AUPDATE);
 		assertTrue(ALYSSA.isEnabled());
@@ -102,4 +109,24 @@ public class UserEntityTest {
 		assertEquals(userRepo.count(), 0);
 	}	
 
+	@Test(expected = InvalidDataAccessApiUsageException.class)
+	public void onUserDeleteWithoutQueueThrows() {
+
+		
+		userRepo.save(ALYSSA);
+		userRepo.delete(ALYSSA);
+		userRepo.flush();
+		
+	}
+	
+	@Test
+	public void onUserDeleteWithQueueWorks() {
+
+		userRepo.save(ALYSSA);
+		ALYSSA.putIntoDeletionQueue();
+		userRepo.delete(ALYSSA);
+		
+		assertEquals(userRepo.count(), 0);
+		
+	}
 }

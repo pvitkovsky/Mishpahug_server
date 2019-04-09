@@ -66,7 +66,7 @@ public class EventEntity {
 	private LocalTime time;
 
 	@NotNull
-	@Column(name = "name_of_event", nullable = false)
+	@Column(name = "name_of_event", nullable = false) //TODO: make this final, as it's part of the hashcode;
 	private String nameOfEvent;
 
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, optional = true) // Unidirectional;

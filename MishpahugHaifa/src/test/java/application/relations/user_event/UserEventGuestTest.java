@@ -31,10 +31,11 @@ public class UserEventGuestTest {
 	private final UserEntity ALYSSA = new UserEntity();
 	private final UserEntity BEN = new UserEntity();
 	private final EventEntity GUESTING = new EventEntity();
+	private final SubscriptionEntity AGUESTING = new SubscriptionEntity();
 	private final LocalDate TDATE = LocalDate.of(2190, 1, 1);
 	private final LocalTime TTIME = LocalTime.of(23, 59);
 	private final String TNAME = "TESTING";
-	private final SubscriptionEntity AGUESTING = new SubscriptionEntity();
+	
 
 	@Autowired
 	UserRepository userRepo;
@@ -54,6 +55,30 @@ public class UserEventGuestTest {
 		GUESTING.setNameOfEvent(TNAME);
 	}
 
+	
+
+	@Test(expected = IllegalArgumentException.class)
+	public void onMultipleSubscriptionsThrow() {
+
+		BEN.makeOwner(GUESTING);
+		userRepo.save(BEN);
+		userRepo.save(ALYSSA);
+		AGUESTING.subscribe(ALYSSA, GUESTING);
+		AGUESTING.subscribe(ALYSSA, GUESTING);
+		AGUESTING.subscribe(ALYSSA, GUESTING);
+
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void onUnexistentSubscriptionUnsubscriptionThrow() {
+
+		BEN.makeOwner(GUESTING);
+		userRepo.save(BEN);
+		userRepo.save(ALYSSA);
+		AGUESTING.nullifyForRemoval();
+
+	}
+	
 	@Test
 	public void onSubscriptionSaveReadUserAndEvent() {
 
@@ -85,103 +110,10 @@ public class UserEventGuestTest {
 		assertTrue(savedE.equals(savedEfromRelation));
 
 	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void onMultipleSubscriptionsThrow() {
-
-		BEN.makeOwner(GUESTING);
-		userRepo.save(BEN);
-		userRepo.save(ALYSSA);
-		AGUESTING.subscribe(ALYSSA, GUESTING);
-		AGUESTING.subscribe(ALYSSA, GUESTING);
-		AGUESTING.subscribe(ALYSSA, GUESTING);
-
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void onUnexistentSubscriptionUnsubscriptionThrow() {
-
-		BEN.makeOwner(GUESTING);
-		userRepo.save(BEN);
-		userRepo.save(ALYSSA);
-		AGUESTING.nullifyForRemoval();
-
-	}
 	
-	
-	
-	
-	/**
-	 * You must put the user into deletion queue;
-	 */
-	@Test
-	public void onGuestDeleteEventRemains() {
-
-		BEN.makeOwner(GUESTING);
-		userRepo.save(BEN);
-		userRepo.save(ALYSSA);
-		AGUESTING.subscribe(ALYSSA, GUESTING);
-		assertTrue(GUESTING.getSubscriptions().contains(AGUESTING));
-
-		//TODO: maybe enforce that must be pending for deletion first?
-		ALYSSA.putIntoDeletionQueue();
-		userRepo.delete(ALYSSA);
-
-		assertTrue(eventRepo.existsById(GUESTING.getId()));
-		assertFalse(userRepo.existsById(ALYSSA.getId()));
-		assertFalse(eventGuestRepo.existsById(AGUESTING.getId()));
-		assertFalse(GUESTING.getSubscriptions().contains(AGUESTING));
-		assertEquals(GUESTING.getSubscriptions().size(), 0);
-	}
-	
-	/**
-	 * You must put the user into deletion queue, even if there are no subscriptions
-	 */
-	@Test(expected = InvalidDataAccessApiUsageException.class)
-	public void deleteUserBlankEventWithoutDeactivation() {
-
-		BEN.makeOwner(GUESTING);
-		userRepo.save(BEN);
-		
-		userRepo.delete(BEN);
-		
-		assertFalse(userRepo.existsById(BEN.getId()));
-	}
-	
-	/**
-	* You must put the user into deletion queue,  of course if there are subscriptions
-	*/
-	@Test(expected = InvalidDataAccessApiUsageException.class)
-	public void onUserWithSubscriptionsDeleteWithoutQueue() {
-
-		BEN.makeOwner(GUESTING);
-		userRepo.save(BEN);
-		userRepo.save(ALYSSA);
-		AGUESTING.subscribe(ALYSSA, GUESTING);
-		
-		userRepo.delete(BEN);
-	}
-
-	@Test
-	public void onEventDeleteGuestRemains() {
-		BEN.makeOwner(GUESTING);
-		userRepo.save(BEN);
-		userRepo.save(ALYSSA);
-		AGUESTING.subscribe(ALYSSA, GUESTING);
-		
-		GUESTING.putIntoDeletionQueue();
-		BEN.removeOwnedEvent(GUESTING);
-
-		assertTrue(userRepo.existsById(ALYSSA.getId()));
-		assertTrue(userRepo.existsById(BEN.getId()));
-		assertFalse(eventRepo.existsById(GUESTING.getId()));
-		assertFalse(eventGuestRepo.existsById(AGUESTING.getId()));
-		assertFalse(ALYSSA.getSubscriptions().contains(AGUESTING));
-		assertEquals(ALYSSA.getSubscriptions().size(), 0);
-	}
-
 	@Test
 	public void findEventBySubs() {
+		
 		BEN.makeOwner(GUESTING);
 		userRepo.save(BEN);
 		userRepo.save(ALYSSA);
@@ -209,28 +141,50 @@ public class UserEventGuestTest {
 	}
 	
 	
-	
-	@Test(expected = IllegalArgumentException.class) // as nullify() is called explicitely from User; 
-	public void deleteEventBlankEventWithoutDeactivation() {
-
-		BEN.makeOwner(GUESTING);
-		userRepo.save(BEN);
-		
-		BEN.removeOwnedEvent(GUESTING);
-		
-	}
-	
-
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deleteEventSubscribedEventWithoutDeactivation() {
+	@Test
+	public void onGuestDeleteEventRemains() {
 
 		BEN.makeOwner(GUESTING);
 		userRepo.save(BEN);
 		userRepo.save(ALYSSA);
 		AGUESTING.subscribe(ALYSSA, GUESTING);
+		assertTrue(GUESTING.getSubscriptions().contains(AGUESTING));
+
+		ALYSSA.putIntoDeletionQueue();
+		userRepo.delete(ALYSSA);
+
+		assertTrue(eventRepo.existsById(GUESTING.getId()));
+		assertFalse(userRepo.existsById(ALYSSA.getId()));
+		assertFalse(eventGuestRepo.existsById(AGUESTING.getId()));
+		assertFalse(GUESTING.getSubscriptions().contains(AGUESTING));
+		assertEquals(GUESTING.getSubscriptions().size(), 0);
 		
+	}
+	
+	/**
+	 * Deleting event and testing that its subscribers are unsubscribed automatically;
+	 * 
+	 */
+	@Test
+	public void onEventDeleteGuestRemains() {
+		
+		BEN.makeOwner(GUESTING);
+		userRepo.save(BEN);
+		userRepo.save(ALYSSA);
+		AGUESTING.subscribe(ALYSSA, GUESTING);
+		
+		assertTrue(eventGuestRepo.existsById(AGUESTING.getId()));
+		
+		GUESTING.putIntoDeletionQueue();
 		BEN.removeOwnedEvent(GUESTING);
+
+		assertTrue(userRepo.existsById(ALYSSA.getId()));
+		assertTrue(userRepo.existsById(BEN.getId()));
+
+		assertEquals(eventRepo.count(), 0);
+		assertEquals(eventGuestRepo.count(), 0);
+		assertEquals(BEN.getEventEntityOwner().size(), 0);
+		assertEquals(ALYSSA.getSubscriptions().size(), 0);
 	}
 	
 	

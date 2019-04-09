@@ -68,6 +68,7 @@ public class UserEntity {
 	private String phoneNumber;
 
 	@Column(name = "email", nullable = false)
+	//TODO: must be immutable.. or SubscriptionEntity could break its hashcode contract;
 	private String eMail;
 
 	@Column(name = "User_Name", length = 36)
@@ -167,6 +168,13 @@ public class UserEntity {
 	private Set<PictureValue> pictureItems = new HashSet<>();
 
 	/**
+	 * Immutable wrapper over events owned by this user;
+	 */
+	@JsonIgnore
+	public Set<EventEntity> getEventEntityOwner() {
+		return Collections.unmodifiableSet(eventItemsOwner);
+	}
+	/**
 	 * Adds an event to the set of events owned by this user, transferring it from
 	 * any previous users;
 	 * 
@@ -221,17 +229,21 @@ public class UserEntity {
 			throw new IllegalStateException(
 					"Event has user set as owner, but not present in the user's collection of owned events");
 		}
-		event.nullifyForRemoval();
 		return eventItemsOwner.remove(event); // TODO: thread safety argument;
 	}
 	
+	
 
+
+	
 	/**
-	 * Immutable wrapper over events owned by this user;
+	 * Immutable wrapper over Subscriptions;
+	 * 
+	 * @return
 	 */
 	@JsonIgnore
-	public Set<EventEntity> getEventEntityOwner() {
-		return Collections.unmodifiableSet(eventItemsOwner);
+	public Set<SubscriptionEntity> getSubscriptions() {
+		return Collections.unmodifiableSet(subscriptions);
 	}
 
 	/**
@@ -254,15 +266,7 @@ public class UserEntity {
 		return subscriptions.remove(subscription);
 	}
 
-	/**
-	 * Immutable wrapper over Subscriptions;
-	 * 
-	 * @return
-	 */
-	@JsonIgnore
-	public Set<SubscriptionEntity> getSubscriptions() {
-		return Collections.unmodifiableSet(subscriptions);
-	}
+	
 
 	/**
 	 * Checks that the user is OK to delete and then unsubscribes him/her from
@@ -281,7 +285,7 @@ public class UserEntity {
 	 * user's owned event; this must be done only before final deletion;
 	 */
 	private void unsubscribeEventsAndSubscriptions() {
-		;
+		
 		subscriptions.forEach(SubscriptionEntity::nullifyForRemoval); // TODO: fix me pls;
 		eventItemsOwner.forEach(EventEntity::nullifyForRemoval);
 	}

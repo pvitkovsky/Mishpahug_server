@@ -18,6 +18,7 @@ import application.repositories.UserSessionRepository;
 import com.querydsl.core.types.Predicate;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.http.HttpHeaders;
@@ -64,21 +65,31 @@ public class UserController implements IUserController {
     @PostMapping(value = "/login")
     public LoginResponse login(@RequestBody LoginDTO loginDTO, @RequestHeader HttpHeaders httpHeaders,
                                HttpServletRequest request){
-        log.info("User Controller -> Headers -> " + String.valueOf(httpHeaders));
-        log.info("User Controller -> Remote IP Address -> " + String.valueOf(request.getRemoteAddr()));
+        log.info("User Controller -> Headers -> " + httpHeaders.get("user-agent"));
+        log.info("User Controller -> Remote IP Address -> " + request.getRemoteAddr());
 
         UserEntity userEntity = userModel.getByUsernameAndPassword(loginDTO.getUsername(), DigestUtils.md5Hex(loginDTO.getPassword()));
         if (userEntity == null){
             throw new RuntimeException("Incorrect password or username");
         }
-        UserSession userSessionOld = userSessionRepository.findByUserEntityAndIsValidTrue(loginDTO.getUsername());
+        UserSession userSessionOld = userSessionRepository.findByUserEntityAndIpAndUserAgentAndIsValidTrue(loginDTO.getUsername(),
+                request.getRemoteAddr(),
+                httpHeaders.get("user-agent").get(0));
         if (userSessionOld != null){
             userSessionOld.setToken(UUID.randomUUID().toString());
+            userSessionOld.setLocalDate(DateTime.now().toLocalDate());
+            userSessionOld.setLocalTime(DateTime.now().toLocalTime());
+            log.info("User Controller -> Update token");
+            userSessionRepository.save(userSessionOld);
             return new LoginResponse(userSessionOld.getToken());
         }
         UserSession userSessionNew = UserSession.builder()
                 .userEntity(userEntity.getUserName())
                 .token(UUID.randomUUID().toString())
+                .ip(request.getRemoteAddr())
+                .userAgent(httpHeaders.get("user-agent").get(0))
+                .localDate(DateTime.now().toLocalDate())
+                .localTime(DateTime.now().toLocalTime())
                 .isValid(true)
                 .build();
         userSessionRepository.save(userSessionNew);

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,5 +29,19 @@ public class UserSession {
 
     @Column(name = "isValid", nullable = false)
     private Boolean isValid;
+
+    @Column(name = "ip", nullable = false)
+    private String ip;
+
+    @Column(name = "useragent", nullable = false)
+    private String userAgent;
+
+    @Column(name = "date", nullable = false)
+    private LocalDate localDate;
+
+    @Column(name = "time", nullable = false)
+    private LocalTime localTime;
+
+
 
 }

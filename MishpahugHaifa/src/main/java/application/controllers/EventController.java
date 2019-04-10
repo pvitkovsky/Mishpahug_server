@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 @Slf4j
 @RestController
@@ -36,8 +38,10 @@ public class EventController implements IEventController {
     @ResponseBody
     public Iterable<EventEntity> findAllByWebQuerydsl(
             @QuerydslPredicate(root = EventEntity.class) Predicate predicate
-            ,@RequestHeader HttpHeaders httpHeaders) {
-        log.info(String.valueOf(httpHeaders));
+            ,@RequestHeader HttpHeaders httpHeaders,
+            HttpServletRequest request) {
+        log.info("EventController -> findAllByWebQuerydsl -> Headers -> " + httpHeaders);
+        log.info("EventController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         return eventModel.getAll(predicate);
     }
 
@@ -48,8 +52,10 @@ public class EventController implements IEventController {
 	@RequestMapping(method = RequestMethod.GET, value = "/{id}")
     @ResponseBody
     public EventEntity findAll(@PathVariable(name = "id") Integer id
-            ,@RequestHeader HttpHeaders httpHeaders) throws ExceptionMishpaha {
-        log.info(String.valueOf(httpHeaders));
+            ,@RequestHeader HttpHeaders httpHeaders,
+                               HttpServletRequest request) throws ExceptionMishpaha {
+        log.info("EventController -> findAllByWebQuerydsl -> Headers -> " + httpHeaders);
+        log.info("EventController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         return eventModel.getById(id);
     }
 

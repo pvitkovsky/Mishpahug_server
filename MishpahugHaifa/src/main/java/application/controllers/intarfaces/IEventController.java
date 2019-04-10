@@ -12,11 +12,15 @@ import application.dto.EventDTO;
 import application.entities.EventEntity;
 import application.exceptions.ExceptionMishpaha;
 
+import javax.servlet.http.HttpServletRequest;
+
 public interface IEventController {
 
-	Iterable<EventEntity> findAllByWebQuerydsl(Predicate predicate, @RequestHeader HttpHeaders httpHeaders);
+	Iterable<EventEntity> findAllByWebQuerydsl(Predicate predicate, @RequestHeader HttpHeaders httpHeaders,
+											   HttpServletRequest request);
 
-	EventEntity findAll(Integer id, @RequestHeader HttpHeaders httpHeaders) throws ExceptionMishpaha;
+	EventEntity findAll(Integer id, @RequestHeader HttpHeaders httpHeaders,
+						HttpServletRequest request) throws ExceptionMishpaha;
 
 	EventEntity setDataFromForm(EventDTO data);
 

@@ -3,6 +3,7 @@ package application.configurations;
 import application.entities.*;
 import application.entities.LogsOnEvent.ActionsOnEvent;
 import application.repositories.*;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -24,6 +25,7 @@ import java.util.Random;
  * Load the production DB with integration test data; TODO: make it a Spring
  * profile
  */
+@Slf4j
 @Component
 @Transactional
 public class DB_test_loader implements CommandLineRunner {
@@ -194,6 +196,7 @@ public class DB_test_loader implements CommandLineRunner {
 		}
 
 		void load() {
+			log.info("DB Loader -> Loading users -> begin");
 			try {
 				List<MaritalStatusEntity> maritalStatusEntityList = maritalStatusRepository.findAll();
 				List<GenderEntity> genderEntityList = genderRepository.findAll();
@@ -231,6 +234,8 @@ public class DB_test_loader implements CommandLineRunner {
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}
+			log.info("DB Loader -> Loading users -> " + userRepository.findAll().size() + " records");
+			log.info("DB Loader -> Loading users -> end");
 		}
 	}
 	/**
@@ -245,6 +250,7 @@ public class DB_test_loader implements CommandLineRunner {
 
 		void load() {
 			try {
+				log.info("DB Loader -> Loading addresses -> begin");
 				List<CityEntity> cityEntityList = cityRepository.findAll();
 				for (CityEntity city : cityEntityList) {
 					city.clearAddresses();
@@ -264,6 +270,8 @@ public class DB_test_loader implements CommandLineRunner {
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}
+			log.info("DB Loader -> Loading addresses -> " + addressRepository.findAll().size() + " records");
+			log.info("DB Loader -> Loading addresses -> end");
 		}
 	}
 
@@ -277,7 +285,7 @@ public class DB_test_loader implements CommandLineRunner {
 		}
 
 		void load() {
-
+			log.info("DB Loader -> Loading logs -> begin");
 			logsDataRepository.deleteAll();
 			Random gen = new Random();
 			List<UserEntity> userEntityList = userRepository.findAll();
@@ -300,7 +308,8 @@ public class DB_test_loader implements CommandLineRunner {
 				logUE.setTime(TTIME);
 				logsDataRepository.save(logUE);
 			}
-
+			log.info("DB Loader -> Loading logs -> " + logsDataRepository.findAll().size() + " records");
+			log.info("DB Loader -> Loading logs -> end");
 		}
 	}
 
@@ -314,6 +323,7 @@ public class DB_test_loader implements CommandLineRunner {
 		}
 
 		void load() {
+			log.info("DB Loader -> Loading genders -> begin");
 			eventGuestRepository.deleteAll();
 			Integer randomUserRange = userRepository.findAll().size() - 1;
 			Random gen = new Random();
@@ -324,6 +334,8 @@ public class DB_test_loader implements CommandLineRunner {
 					subscription.subscribe(randomGuest, event);
 				}
 			}
+			log.info("DB Loader -> Loading genders -> " + genderRepository.findAll().size() + " records");
+			log.info("DB Loader -> Loading genders -> end");
 		}
 	}
 
@@ -339,6 +351,7 @@ public class DB_test_loader implements CommandLineRunner {
 		}
 
 		void load() {
+			log.info("DB Loader -> Loading cities -> begin");
 			try {
 				Collection<UserEntity> users = userRepository.findAll();
 				for (UserEntity user : users) {
@@ -364,10 +377,13 @@ public class DB_test_loader implements CommandLineRunner {
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}
+			log.info("DB Loader -> Loading cities -> " + cityRepository.findAll().size() + " records");
+			log.info("DB Loader -> Loading cities -> end");
+
 		}
 	}
 	/**
-	 * Loads kichentype
+	 * Loads kichen type
 	 */
 	private class KichenTypeLoader {
 		BufferedReader empdtil;
@@ -377,6 +393,7 @@ public class DB_test_loader implements CommandLineRunner {
 		}
 
 		void load() {
+			log.info("DB Loader -> Loading kichen types -> begin");
 			try {
 				Collection<UserEntity> users = userRepository.findAll();
 				for (UserEntity user : users) {
@@ -400,6 +417,8 @@ public class DB_test_loader implements CommandLineRunner {
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}
+			log.info("DB Loader -> Loading kichen types -> " + kichenTypeRepository.findAll().size() + " records");
+			log.info("DB Loader -> Loading kichen types -> end");
 		}
 	}
 	/**
@@ -413,6 +432,7 @@ public class DB_test_loader implements CommandLineRunner {
 		}
 
 		void load() {
+			log.info("DB Loader -> Loading religions -> begin");
 			try {
 				Collection<UserEntity> users = userRepository.findAll();
 				for (UserEntity user : users) {
@@ -432,6 +452,8 @@ public class DB_test_loader implements CommandLineRunner {
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}
+			log.info("DB Loader -> Loading religions -> " + religionRepository.findAll().size() + " records");
+			log.info("DB Loader -> Loading religions -> end");
 		}
 	}
 	/**
@@ -445,6 +467,7 @@ public class DB_test_loader implements CommandLineRunner {
 		}
 		
 		void load() {
+			log.info("DB Loader -> Loading genders -> begin");
 			try {
 				Collection<UserEntity> users = userRepository.findAll();
 				for (UserEntity user : users) {
@@ -464,10 +487,12 @@ public class DB_test_loader implements CommandLineRunner {
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}
+			log.info("DB Loader -> Loading genders -> " + genderRepository.findAll().size() + " records");
+			log.info("DB Loader -> Loading genders -> end");
 		}
 	}
 	/**
-	 * Loads maritalstatus
+	 * Loads marital status
 	 */
 	private class MaritalStatusLoader {
 		BufferedReader empdtil;
@@ -477,6 +502,7 @@ public class DB_test_loader implements CommandLineRunner {
 		}
 
 		void load() {
+			log.info("DB Loader -> Loading marital statuses -> begin");
 			Collection<UserEntity> users = userRepository.findAll();
 			for (UserEntity user : users) {
 				user.setMaritalStatus(null);
@@ -496,6 +522,8 @@ public class DB_test_loader implements CommandLineRunner {
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}
+			log.info("DB Loader -> Loading marital statuses -> " + maritalStatusRepository.findAll().size() + " records");
+			log.info("DB Loader -> Loading marital statuses -> end");
 		}
 	}
 
@@ -533,6 +561,7 @@ public class DB_test_loader implements CommandLineRunner {
 		}
 		
 		void load() {
+			log.info("DB Loader -> Loading events -> begin");
 			try {
 				logsDataRepository.deleteAll();
 				eventRepository.findAll().forEach(EventEntity::putIntoDeletionQueue);
@@ -558,6 +587,8 @@ public class DB_test_loader implements CommandLineRunner {
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}
+			log.info("DB Loader -> Loading events -> " + eventRepository.findAll().size() + " records");
+			log.info("DB Loader -> Loading events -> end");
 		}
 	}
 

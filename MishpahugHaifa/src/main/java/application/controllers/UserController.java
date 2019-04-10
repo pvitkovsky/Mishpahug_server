@@ -16,14 +16,16 @@ import application.models.religion.IReligionModel;
 import application.models.user.IUserModel;
 import application.repositories.UserSessionRepository;
 import com.querydsl.core.types.Predicate;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.UUID;
-
+@Slf4j
 @RestController
 @RequestMapping(value = "/user")
 public class UserController implements IUserController {
@@ -58,7 +60,8 @@ public class UserController implements IUserController {
         return userModel.getById(id);
     }
     @PostMapping(value = "/login")
-    public LoginResponse login(@RequestBody LoginDTO loginDTO){
+    public LoginResponse login(@RequestBody LoginDTO loginDTO, @RequestHeader HttpHeaders httpHeaders){
+        log.info(String.valueOf(httpHeaders));
         UserEntity userEntity = userModel.getByUsernameAndPassword(loginDTO.getUsername(), DigestUtils.md5Hex(loginDTO.getPassword()));
         if (userEntity == null){
             throw new RuntimeException("Incorrect password or username");

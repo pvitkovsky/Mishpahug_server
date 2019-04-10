@@ -59,6 +59,7 @@ public class UserController implements IUserController {
     public UserEntity get(@PathVariable(value = "id") Integer id) throws ExceptionMishpaha {
         return userModel.getById(id);
     }
+    @Override
     @PostMapping(value = "/login")
     public LoginResponse login(@RequestBody LoginDTO loginDTO, @RequestHeader HttpHeaders httpHeaders){
         log.info(String.valueOf(httpHeaders));
@@ -79,14 +80,14 @@ public class UserController implements IUserController {
         userSessionRepository.save(userSessionNew);
         return new LoginResponse(userSessionNew.getToken());
     }
-
+    @Override
     @PostMapping(value = "/logout")
     public void logout(@RequestHeader(name = "Authorization", required = false) String token){
         UserSession userSession = userSessionRepository.findByTokenAndIsValidTrue(token);
         userSession.setIsValid(false);
         userSessionRepository.save(userSession);
     }
-
+    @Override
     @PostMapping(value="/register")
     public void add(@RequestBody UserDTO userDTO) throws ExceptionMishpaha {
         if (userModel.getByName(userDTO.getUserName()) != null){

@@ -2,17 +2,11 @@ package application.controllers.intarfaces;
 
 import java.util.HashMap;
 
+import application.dto.LoginDTO;
+import application.dto.LoginResponse;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.bind.annotation.*;
 
 import com.querydsl.core.types.Predicate;
 
@@ -24,6 +18,12 @@ import application.exceptions.ExceptionMishpaha;
 public interface IUserController {
 
 	UserEntity get(Integer id) throws ExceptionMishpaha;
+
+	@PostMapping(value = "/login")
+	LoginResponse login(@RequestBody LoginDTO loginDTO, @RequestHeader HttpHeaders httpHeaders);
+
+	@PostMapping(value = "/logout")
+	void logout(@RequestHeader(name = "Authorization", required = false) String token);
 
 	void add(UserDTO userDTO) throws ExceptionMishpaha;
 

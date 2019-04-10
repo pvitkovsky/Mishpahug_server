@@ -4,10 +4,11 @@ import application.controllers.intarfaces.IGenderController;
 import application.entities.GenderEntity;
 import application.exceptions.ExceptionMishpaha;
 import application.models.gender.IGenderModel;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-
+@Slf4j
 @RestController
 @RequestMapping(value = "/gender")
 public class GenderController implements IGenderController {

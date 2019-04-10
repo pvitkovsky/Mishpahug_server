@@ -14,10 +14,25 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 @Slf4j
 public class SecurityFilter extends OncePerRequestFilter {
+    static  {
+        SimpleDateFormat dateFormatday = new SimpleDateFormat("dd");
+        System.setProperty("current.date.day", dateFormatday.format(new Date()));
+        SimpleDateFormat timeFormathours = new SimpleDateFormat("hh");
+        System.setProperty("current.time.hours", timeFormathours.format(new Date()));
+        SimpleDateFormat dateFormatmonth = new SimpleDateFormat("MM");
+        System.setProperty("current.date.month", dateFormatmonth.format(new Date()));
+        SimpleDateFormat timeFormatother = new SimpleDateFormat("mm-ss");
+        System.setProperty("current.time", timeFormatother.format(new Date()));
+        SimpleDateFormat dateFormatyear = new SimpleDateFormat("yyyy");
+        System.setProperty("current.date.year", dateFormatyear.format(new Date()));
+    }
+
 
     @Autowired
     public UserSessionRepository userSessionRepository;

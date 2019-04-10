@@ -25,6 +25,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
@@ -45,6 +46,7 @@ import lombok.ToString;
 		@UniqueConstraint(columnNames = { "user_owner", "date", "time", "name_of_event" }) })
 @Getter
 @Setter
+@Slf4j
 @NoArgsConstructor
 @EqualsAndHashCode(of = { "userEntityOwner", "date", "time", "nameOfEvent" }) // business key;
 @ToString(exclude = { "userEntityOwner", "addressEntity", "subscriptions" })

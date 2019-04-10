@@ -4,10 +4,11 @@ import application.controllers.intarfaces.IHoliDaysController;
 import application.dto.forholiday.HolidayDTO;
 import application.entities.HoliDayEntity;
 import application.models.holyday.IHolyDayModel;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-
+@Slf4j
 @RestController
 @RequestMapping(value = "/holiday")
 public class HoliDaysController implements IHoliDaysController {

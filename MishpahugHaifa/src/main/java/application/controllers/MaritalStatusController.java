@@ -4,10 +4,11 @@ import application.controllers.intarfaces.IMaritalStatusController;
 import application.entities.MaritalStatusEntity;
 import application.exceptions.ExceptionMishpaha;
 import application.models.marriagestatus.IMaritalStatusModel;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-
+@Slf4j
 @RestController
 @RequestMapping(value = "/meritalstatus")
 public class MaritalStatusController implements IMaritalStatusController {

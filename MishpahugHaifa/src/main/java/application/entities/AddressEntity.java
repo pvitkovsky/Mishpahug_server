@@ -2,6 +2,8 @@ package application.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
@@ -14,6 +16,8 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor 
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"cityEntity", "street", "building", "apartment"})
+@Slf4j
+//https://projectlombok.org/features/Log
 public class AddressEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

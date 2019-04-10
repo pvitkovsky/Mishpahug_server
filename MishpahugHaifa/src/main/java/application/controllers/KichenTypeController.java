@@ -4,10 +4,11 @@ import application.controllers.intarfaces.IKichenTypeController;
 import application.entities.KitchenTypeEntity;
 import application.exceptions.ExceptionMishpaha;
 import application.models.kichentype.IKichenTypeModel;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-
+@Slf4j
 @RestController
 @RequestMapping(value = "/kichentype")
 public class KichenTypeController implements IKichenTypeController {

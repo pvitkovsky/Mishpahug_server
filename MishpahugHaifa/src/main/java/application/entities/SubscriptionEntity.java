@@ -26,6 +26,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
 @Getter
 @Setter
@@ -38,6 +39,7 @@ import lombok.ToString;
 @Entity
 @Table(name = "user_event_guest", uniqueConstraints = { @UniqueConstraint(columnNames = { "GUEST_ID", "EVENT_ID" }) })
 @ToString
+@Slf4j
 public class SubscriptionEntity {
 
 	@Embeddable

@@ -4,10 +4,11 @@ import application.controllers.intarfaces.IReligionController;
 import application.entities.ReligionEntity;
 import application.exceptions.ExceptionMishpaha;
 import application.models.religion.IReligionModel;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-
+@Slf4j
 @RestController
 @RequestMapping(value = "/religion")
 public class ReligionController implements IReligionController {

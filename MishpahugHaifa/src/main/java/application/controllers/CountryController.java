@@ -3,11 +3,12 @@ package application.controllers;
 import application.controllers.intarfaces.ICountryController;
 import application.entities.CountryEntity;
 import application.models.country.ICountryModel;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@Slf4j
 @RestController
 @RequestMapping(value = "/country")
 public class CountryController implements ICountryController {

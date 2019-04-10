@@ -22,6 +22,7 @@ import javax.persistence.PreRemove;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
@@ -50,6 +51,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Slf4j
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class UserEntity {
 	@Id

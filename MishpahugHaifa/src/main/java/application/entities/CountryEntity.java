@@ -3,6 +3,8 @@ package application.entities;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
+
 import javax.persistence.*;
 import java.util.Collections;
 import java.util.HashSet;
@@ -16,6 +18,7 @@ import java.util.Set;
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"name"})
 @ToString(exclude = "cityEntities")
+@Slf4j
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class CountryEntity {
 

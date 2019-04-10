@@ -41,8 +41,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "eventlist", uniqueConstraints = {
-		@UniqueConstraint(columnNames = { "user_owner", "date", "time" }) })
+@Table(name = "eventlist", uniqueConstraints = { @UniqueConstraint(columnNames = { "user_owner", "date", "time" }) })
 @Getter
 @Setter
 @NoArgsConstructor
@@ -56,14 +55,14 @@ public class EventEntity {
 	private Integer id;
 
 	@NotNull // can omit nullable=false with Hibernate;
-	@Column(name = "date", nullable = false) 
+	@Column(name = "date", nullable = false)
 	@DateTimeFormat(iso = ISO.DATE)
-	@Setter(AccessLevel.NONE) //TODO: check serialization works;
+	@Setter(AccessLevel.NONE) // TODO: check serialization works;
 	private LocalDate date;
 
 	@NotNull
 	@Column(name = "time", nullable = false)
-	@Setter(AccessLevel.NONE)  //TODO: check serialization works;
+	@Setter(AccessLevel.NONE) // TODO: check serialization works;
 	// TODO: JSON time format;
 	private LocalTime time;
 
@@ -96,7 +95,6 @@ public class EventEntity {
 	@Enumerated(EnumType.STRING)
 	private EventStatus status = EventStatus.ACTIVE;
 
-
 	public enum EventStatus implements StatusChanger {
 		ACTIVE(e -> e.activate()), CANCELED(e -> e.cancel()), DEACTIVATED(e -> e.deactivate()), PENDINGFORDELETION(
 				e -> e.putIntoDeletionQueue());
@@ -117,10 +115,11 @@ public class EventEntity {
 	private interface StatusChanger {
 		void change(EventEntity event);
 	}
-	
+
 	/**
-	 * Constructor for immutability
-	 * TODO: add User into constructor and ensure cascading
+	 * Constructor for immutability TODO: add User into constructor and ensure
+	 * cascading
+	 * 
 	 * @param date
 	 * @param time
 	 */
@@ -128,30 +127,48 @@ public class EventEntity {
 		super();
 		this.date = date;
 		this.time = time;
-		//Is very dependent on the order of statements here; or hashcode will be messed up
+		// Is very dependent on the order of statements here; or hashcode will be messed
+		// up
 		setUserEntityOwner(owner);
 	}
-	
+
 	/**
 	 * Setting this event's owner
+	 * 
 	 * @param owner
 	 */
-	private void setUserEntityOwner(UserEntity owner) { //TODO: checks;
-		if(this.userEntityOwner != null){
-			if(this.userEntityOwner.equals(owner)){
+	private void setUserEntityOwner(UserEntity owner) { // TODO: checks;
+		if (this.userEntityOwner != null) {
+			if (this.userEntityOwner.equals(owner)) {
 				return;
 			}
 			userEntityOwner.removeOwnedEvent(this);
 		}
-		this.userEntityOwner = owner; 
+		this.userEntityOwner = owner;
 		userEntityOwner.addOwnedEvent(this);
 	}
-	
+
+	/**
+	 * Checks the correct state of all bidirectional relations in this entity
+	 */
+	public void checkEventIntegrity() {
+		if (!userEntityOwner.getEventEntityOwner().contains(this)) {
+			throw new IllegalStateException(
+					"Event has user set as owner, but not present in the user's collection of owned events");
+		}
+		for (SubscriptionEntity subscription : this.getSubscriptions()) {
+			if (!subscription.getEvent().equals(this)) {
+				throw new IllegalStateException(
+						"Event has a subscription that points to another event : " + subscription);
+			}
+		}
+	}
+
 	/**
 	 * Checks that the event is OK to delete and then unsubscribes all its
 	 * subscribers; launched from the owned entity;
 	 */
-	@PreRemove 
+	@PreRemove
 	public void nullifyForRemoval() {
 		if (!isPendingForDeletion()) {
 			throw new IllegalArgumentException("Event must be first putIntoDeletionQueue");
@@ -159,7 +176,6 @@ public class EventEntity {
 		unsubscribeAll();
 		userEntityOwner.removeOwnedEvent(this);
 	}
-
 
 	/**
 	 * @return immutable timestamp of event;
@@ -235,7 +251,7 @@ public class EventEntity {
 	private void putSubscriptionsIntoDeletionQueue() {
 		subscriptions.forEach(SubscriptionEntity::putIntoDeletionQueue);
 	}
-	
+
 	/**
 	 * Removes all subscriptions when deleting event; not needed - if an event is
 	 * deleted, @PreRemove on EventGuestRelation does this;
@@ -326,7 +342,7 @@ public class EventEntity {
 		putSubscriptionsIntoDeletionQueue();
 		this.status = EventStatus.PENDINGFORDELETION;
 	}
-	
+
 	/**
 	 * Changes this event's status, validating the parameter
 	 * 

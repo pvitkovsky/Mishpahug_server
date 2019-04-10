@@ -238,15 +238,13 @@ public class DB_test_loader implements CommandLineRunner {
 				// https://stackoverflow.com/questions/49595852/deleteall-in-repository-randomly-causes-constraintviolationexception
 				String detail;
 				while ((detail = empdtil.readLine()) != null) {
-					UserEntity user = new UserEntity();
 					String[] data = detail.split("!");
-					user.setEMail(data[0]);
+					UserEntity user = new UserEntity(data[0].split("@")[0], data[0]);
 					user.setFirstName(data[1]);
 					user.setLastName(data[2]);
 					user.setDateOfBirth(LocalDate.parse(data[3]));
 					Random rr = new Random();
 					user.setPhoneNumber(data[4]+ rr.nextInt(9)+ rr.nextInt(9)+ rr.nextInt(9)+ rr.nextInt(9)+ rr.nextInt(9)+ rr.nextInt(9)+ rr.nextInt(9));
-					user.setUserName(data[0].split("@")[0]);
 					user.setEncrytedPassword(DigestUtils.md5Hex(data[0].split("@")[0]));
 					user.activate();
 					user.setGender(genderEntityList.get(rr.nextInt(genderEntityList.size() - 1)));

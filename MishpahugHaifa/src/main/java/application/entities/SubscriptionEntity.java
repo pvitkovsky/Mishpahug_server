@@ -154,33 +154,34 @@ public class SubscriptionEntity {
 			throw new IllegalArgumentException("Trying to subscribe, but subscription has user and event already");
 		}
 	}
-
-	/**
-	 * @return true if this subscription is active;
-	 */
-	public boolean isActive() {
-		return this.status == SubscriptionStatus.ACTIVE;
-	}
 	
 	/**
-	 * @return true if this subscription is active;
+	 * Changes this subscription's status, validating the parameter
+	 * 
+	 * @param status
+	 *            must be equal to one of UserStatus values;
 	 */
-	public boolean isDeactivated() {
-		return this.status == SubscriptionStatus.DEACTIVATED;
+	public void changeStatus(String status) {
+		SubscriptionStatus newStatus;
+		try {
+			newStatus = SubscriptionStatus.valueOf(status);
+		} catch (Exception e) {
+			throw new IllegalArgumentException("Not found SubscriptionStatus with name " + status);
+		}
+		newStatus.change(this);
 	}
-	
 	/**
-	 * @return true if this subscription is deactivated;
+	 * Checks the correct state of all bidirectional relations in this entity
 	 */
-	public boolean isCanceled() {
-		return this.status == SubscriptionStatus.CANCELED;
-	}
-	
-	/**
-	 * @return true if this subscription is ready to be unsubscribed and deleted;
-	 */
-	public boolean isPendingForDeletion() {
-		return this.status == SubscriptionStatus.PENDINGFORDELETION;
+	public void checkEventIntegrity() {
+		if (!guest.getSubscriptions().contains(this)) {
+			throw new IllegalStateException(
+					"Subscription has guest, but not present in the guest's collection of subscriptions: " + guest);
+		}
+		if (!event.getSubscriptions().contains(this)) {
+			throw new IllegalStateException(
+					"Subscription points to event, but not present in the events's collection of subscriptions: " + event);
+		}
 	}
 	
 	/**
@@ -218,6 +219,36 @@ public class SubscriptionEntity {
 		}
 	}
 
+
+	/**
+	 * @return true if this subscription is active;
+	 */
+	public boolean isActive() {
+		return this.status == SubscriptionStatus.ACTIVE;
+	}
+	
+	/**
+	 * @return true if this subscription is active;
+	 */
+	public boolean isDeactivated() {
+		return this.status == SubscriptionStatus.DEACTIVATED;
+	}
+	
+	/**
+	 * @return true if this subscription is deactivated;
+	 */
+	public boolean isCanceled() {
+		return this.status == SubscriptionStatus.CANCELED;
+	}
+	
+	/**
+	 * @return true if this subscription is ready to be unsubscribed and deleted;
+	 */
+	public boolean isPendingForDeletion() {
+		return this.status == SubscriptionStatus.PENDINGFORDELETION;
+	}
+	
+	
 	/**
 	 * Cancels the subscription, can only be applied to active subscription
 	 */
@@ -259,22 +290,6 @@ public class SubscriptionEntity {
 	}
 	
 	
-	/**
-	 * Changes this event's status, validating the parameter
-	 * 
-	 * @param status
-	 *            must be equal to one of UserStatus values;
-	 */
-	public void changeStatus(String status) {
-		SubscriptionStatus newStatus;
-		try {
-			newStatus = SubscriptionStatus.valueOf(status);
-		} catch (Exception e) {
-			throw new IllegalArgumentException("Not found SubscriptionStatus with name " + status);
-		}
-		newStatus.change(this);
-	}
-
-
+	
 
 }

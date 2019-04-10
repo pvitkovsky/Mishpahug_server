@@ -29,8 +29,8 @@ import application.repositories.UserRepository;
 @Transactional
 public class UserEventGuestFeedbackTest {
 	
-	private final UserEntity ALYSSA = new UserEntity();
-	private final UserEntity BEN = new UserEntity();
+	private final UserEntity ALYSSA = new UserEntity("Alyssa", "p_hacker@sicp.edu");
+	private final UserEntity BEN = new UserEntity("Ben", "bitdiddle@sicp.edu");
 	private final LocalDate TDATE = LocalDate.of(2190, 1, 1);
 	private final LocalTime TTIME = LocalTime.of(23, 59);
 	private EventEntity GUESTING;
@@ -48,14 +48,11 @@ public class UserEventGuestFeedbackTest {
 	
 	@Before
 	public void buildEntities() {
-		ALYSSA.setEMail("p_hacker@sicp.edu");
-		BEN.setEMail("bitdiddle@sicp.edu");
 		userRepo.save(BEN);
 		userRepo.save(ALYSSA); 
 		GUESTING = new EventEntity(BEN, TDATE, TTIME);
 		eventRepo.save(GUESTING);	
-		AGUESTING = new SubscriptionEntity(ALYSSA, GUESTING);
-		
+		AGUESTING = new SubscriptionEntity(ALYSSA, GUESTING);	
 		ABFEEDBACK.setComment("Nice event");
 		ABFEEDBACK.setDateTime(LocalDateTime.now());
 		ABFEEDBACK.setRating(5);

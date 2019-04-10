@@ -37,7 +37,7 @@ import application.repositories.UserRepository;
 @Transactional
 public class EventEntityTest {
 
-	private final UserEntity ALYSSA = new UserEntity();
+	private final UserEntity ALYSSA = new UserEntity("Alyssa", "p_hacker@sicp.edu");
 	private final LocalDate TDATE = LocalDate.now().plusYears(20);
 	private final LocalTime TTIME = LocalTime.of(23, 59);
 	private EventEntity TESTING; 
@@ -51,7 +51,6 @@ public class EventEntityTest {
 	
 	@Before
 	public void buildEntities() {
-		ALYSSA.setEMail("p_hacker@sicp.edu");
 		userRepo.save(ALYSSA);
 		TESTING = new EventEntity(ALYSSA, TDATE, TTIME);
 		eventRepo.save(TESTING); // TODO: where is cascade?!

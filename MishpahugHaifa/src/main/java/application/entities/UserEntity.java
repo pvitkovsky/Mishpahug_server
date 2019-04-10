@@ -21,6 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.PreRemove;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -42,9 +43,9 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = { "email" }) })
+@Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = { "email"}), @UniqueConstraint(columnNames = { "username"}) })
 @ToString(exclude = { "eventItemsOwner", "subscriptions", "pictureItems" })
-@EqualsAndHashCode(of = { "eMail" })
+@EqualsAndHashCode(of = { "userName" })
 @Getter
 @Setter
 @AllArgsConstructor
@@ -66,12 +67,15 @@ public class UserEntity {
 	@Column(name = "phonenumber")
 	private String phoneNumber;
 
+	@NotNull
+	@lombok.NonNull
 	@Column(name = "email", nullable = false)
-	//TODO: must be immutable.. or SubscriptionEntity could break its hashcode contract;
 	private String eMail;
 
-	@Column(name = "User_Name", length = 36)
-	//TODO: userName and email unique, userName immutable
+	@NotNull
+	@lombok.NonNull
+	@Column(name = "username", length = 36, nullable = false)
+	@Setter(AccessLevel.NONE)
 	private String userName;
 
 	@Column(name = "Encryted_Password", length = 128)
@@ -82,23 +86,14 @@ public class UserEntity {
 	 */
 	private String encrytedPassword;
 
-	@Column(name = "dateofbirth")
-	@DateTimeFormat(iso = ISO.DATE)
-	private LocalDate dateOfBirth;
-
-	public UserEntity(UserDTO data) {
-		this.setFirstName(data.getFirstName());
-		this.setEMail(data.getEMail());
-		this.setLastName(data.getLastName());
-		this.setPhoneNumber(data.getPhoneNumber());
-		this.setUserName(data.getUserName());
-		this.setDateOfBirth(data.getDayOfBirth());
-		this.setEncrytedPassword(data.getEncrytedPassword());
-	}
-
+	//TODO: why setter here?
 	public void setEncrytedPassword(String encrytedPassword) {
 		this.encrytedPassword = encrytedPassword;
 	}
+	
+	@Column(name = "dateofbirth")
+	@DateTimeFormat(iso = ISO.DATE)
+	private LocalDate dateOfBirth;
 
 	@Column(name = "status")
 	@Enumerated(EnumType.STRING)
@@ -151,6 +146,7 @@ public class UserEntity {
 	@Setter(AccessLevel.NONE)
 	@Builder.Default
 	@JsonProperty("owned_events")
+	//TODO: rename to ownedEvents please; 
 	private Set<EventEntity> eventItemsOwner = new HashSet<>();
 
 	@OneToMany(mappedBy = "guest", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
@@ -168,16 +164,90 @@ public class UserEntity {
 	private Set<PictureValue> pictureItems = new HashSet<>();
 
 	/**
+	 * UserEntity: required fields, userName is immutable;
+	 */
+	public UserEntity(@NotNull String userName, @NotNull String email) {
+		this(); //<- or instance variables won't be initialized;  
+		if(userName.length() > 36) {
+			throw new IllegalArgumentException("userName too long");
+		}
+		this.userName = userName;
+		this.eMail = email;
+	}
+	
+	public UserEntity(UserDTO data) {
+		this(data.getUserName(), data.getEMail());
+		this.setFirstName(data.getFirstName());
+		this.setLastName(data.getLastName());
+		this.setPhoneNumber(data.getPhoneNumber());
+		this.setDateOfBirth(data.getDayOfBirth());
+		this.setEncrytedPassword(data.getEncrytedPassword());
+	}
+	
+	/**
+	 * Changes this user's status, validating the parameter
+	 * 
+	 * @param status
+	 *            must be equal to one of UserStatus values;
+	 */
+	public void changeStatus(String status) {
+		UserStatus newStatus;
+		try {
+			newStatus = UserStatus.valueOf(status);
+		} catch (Exception e) {
+			throw new IllegalArgumentException("Not found UserStatus with name " + status);
+		}
+		newStatus.change(this);
+	}	
+	
+	/**
+	 * Checks the correct state of all bidirectional relations in this entity
+	 */
+	public void checkForIntegrity() {
+		for (EventEntity event : this.getEventEntityOwner()) {
+			if(!event.getUserEntityOwner().equals(this)) {
+				throw new IllegalStateException("User owns an event that has other user as an owner: " + event);
+			}
+		}
+		for (SubscriptionEntity subscription : this.getSubscriptions()) {
+			if(!subscription.getGuest().equals(this)) {
+				throw new IllegalStateException("User has a subscription that has other user as a guest: " + subscription);
+			}
+		}
+	}
+	
+	/**
+	 * Checks that the user is OK to delete and then unsubscribes him/her from
+	 * everywhere, and his subscribers too;
+	 */
+	@PreRemove
+	private void nullifyForRemoval() {
+		if (!isPendingForDeletion()) {
+			throw new IllegalArgumentException("User must be first putIntoDeletionQueue");
+		}
+		unsubscribeEventsAndSubscriptions();
+	}
+
+	/**
 	 * Immutable wrapper over events owned by this user;
 	 */
 	@JsonIgnore
 	public Set<EventEntity> getEventEntityOwner() {
 		return Collections.unmodifiableSet(eventItemsOwner);
 	}
-	
 
 	/**
-	 * Protected way to add SubscribedEvent;
+	 * Immutable wrapper over Subscriptions;
+	 * 
+	 * @return
+	 */
+	@JsonIgnore
+	public Set<SubscriptionEntity> getSubscriptions() {
+		return Collections.unmodifiableSet(subscriptions);
+	}
+
+	/**
+	 * Protected way to add OwnedEvent;
 	 * 
 	 * @param_city
 	 * @return
@@ -187,82 +257,13 @@ public class UserEntity {
 	}
 
 	/**
-	 * SubscribedEvent is not deleted once the user is merged;
+	 * Protected way to remove OwneddEvent;
 	 * 
 	 * @param_city
 	 * @return
 	 */
 	protected boolean removeOwnedEvent(EventEntity event) {
 		return eventItemsOwner.remove(event);
-	}
-
-	
-//	/**
-//	 * Adds an event to the set of events owned by this user, transferring it from
-//	 * any previous users;
-//	 * 
-//	 * @param event
-//	 *            EventEntity that has this user as the owner.
-//	 * @return true if the event was added; false if the event was not added, as it
-//	 *         is already in the set.
-//	 */
-//	public boolean makeOwner(EventEntity event) {
-//		// TODO: check that event has its business key not null; or NPE is possible;
-//		if (event.getUserEntityOwner() == null) { // transient state;
-//			event.setUserEntityOwner(this);
-//		}
-//		if (!event.getUserEntityOwner().equals(this)) {
-//			throw new IllegalArgumentException("Trying to make this user owner of event that belongs to another");
-//		}
-//		return eventItemsOwner.add(event); // TODO: thread safety argument;
-//	}
-
-//	/**
-//	 * Adds an event to the set of events owned by another user, transferring it
-//	 * from this;
-//	 * 
-//	 * @param event
-//	 *            EventEntity that has this user as the owner.
-//	 * @param newOwner
-//	 *            any another user
-//	 * @return true if the event was added; false if the event was not added, as it
-//	 *         is already in the set.
-//	 */
-//	public boolean transferOwnedEvent(EventEntity event, UserEntity newOwner) {
-//		if (event.getUserEntityOwner() != null && !event.getUserEntityOwner().equals(this)) {
-//			throw new IllegalArgumentException("Trying to transfer event with another owner\"");
-//		}
-//		eventItemsOwner.remove(event);
-//		event.setUserEntityOwner(newOwner);
-//		return newOwner.makeOwner(event);
-//
-//	}
-
-//	/**
-//	 * Removing owned event, event is deleted once the user is merged;
-//	 * 
-//	 * @param event
-//	 */
-//	// TODO: maybe check if event is ready for deletion?
-//	public boolean removeOwnedEvent(EventEntity event) {
-//		if (!event.getUserEntityOwner().equals(this)) {
-//			throw new IllegalArgumentException("Trying to remove event with another owner");
-//		}
-//		if (!eventItemsOwner.contains(event)) {
-//			throw new IllegalStateException(
-//					"Event has user set as owner, but not present in the user's collection of owned events");
-//		}
-//		return eventItemsOwner.remove(event); // TODO: thread safety argument;
-//	}
-	
-	/**
-	 * Immutable wrapper over Subscriptions;
-	 * 
-	 * @return
-	 */
-	@JsonIgnore
-	public Set<SubscriptionEntity> getSubscriptions() {
-		return Collections.unmodifiableSet(subscriptions);
 	}
 
 	/**
@@ -284,21 +285,7 @@ public class UserEntity {
 	protected boolean removeSubsription(SubscriptionEntity subscription) {
 		return subscriptions.remove(subscription);
 	}
-
 	
-
-	/**
-	 * Checks that the user is OK to delete and then unsubscribes him/her from
-	 * everywhere, and his subscribers too;
-	 */
-	@PreRemove
-	private void nullifyForRemoval() {
-		if (!isPendingForDeletion()) {
-			throw new IllegalArgumentException("User must be first putIntoDeletionQueue");
-		}
-		unsubscribeEventsAndSubscriptions();
-	}
-
 	/**
 	 * Unsubscribes user from all subscribed events; unsubscribes others from this
 	 * user's owned event; this must be done only before final deletion;
@@ -371,19 +358,5 @@ public class UserEntity {
 		status = UserStatus.PENDINGFORDELETION;
 	}
 
-	/**
-	 * Changes this user's status, validating the parameter
-	 * 
-	 * @param status
-	 *            must be equal to one of UserStatus values;
-	 */
-	public void changeStatus(String status) {
-		UserStatus newStatus;
-		try {
-			newStatus = UserStatus.valueOf(status);
-		} catch (Exception e) {
-			throw new IllegalArgumentException("Not found UserStatus with name " + status);
-		}
-		newStatus.change(this);
-	}
+
 }

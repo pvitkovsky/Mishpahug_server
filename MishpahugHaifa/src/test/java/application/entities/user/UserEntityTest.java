@@ -8,6 +8,9 @@ import static org.junit.Assert.assertTrue;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,11 +27,6 @@ import application.entities.UserEntity;
 import application.repositories.AddressRepository;
 import application.repositories.UserRepository;
 
-/**
- * Relation: OneToMany User is the primary entity. Event must have a user as its
- * owner.
- * 
- */
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @ActiveProfiles("test")
@@ -36,8 +34,8 @@ import application.repositories.UserRepository;
 public class UserEntityTest {
 
 
-	private UserEntity ALYSSA = new UserEntity();
-	private final UserEntity ALYSSADUPLICATE = new UserEntity();
+	private UserEntity ALYSSA = new UserEntity("Alyssa", "p_hacker@sicp.edu");
+	private final UserEntity ALYSSADUPLICATE = new UserEntity("Alyssa", "p_hacker@sicp.edu");
 	private final AddressEntity AADDRESS = new AddressEntity();
 	private final Map<String, String> AUPDATE = new HashMap<>();
 	
@@ -49,36 +47,47 @@ public class UserEntityTest {
 
 	@Before
 	public void buildEntities() {
-		ALYSSA.setEMail("aliseS@gmail.com");
 		AADDRESS.setStreet("Chuguev");
 		AADDRESS.setApartment(33);
 		AADDRESS.setBuilding(3);
+		
+		userRepo.save(ALYSSA);
+	}
+
+	@Test(expected = ConstraintViolationException.class)
+	public void givenUserWithoutUserNameSaveAndGetException() {
+		userRepo.save(new UserEntity());
+	}
+	
+	@Test(expected = DataIntegrityViolationException.class)
+	public void givenDuplicateUsersSaveAndGetException() {	
+		userRepo.save(ALYSSADUPLICATE);
 	}
 
 	@Test(expected = DataIntegrityViolationException.class)
-	public void givenDuplicateUsersSaveAndGetException() {
-		
-		userRepo.save(ALYSSA);
-		userRepo.save(ALYSSADUPLICATE);
+	public void givenDuplicateUsersByNameSaveAndGetException() {
+		userRepo.save(UserEntity.builder().userName("A").eMail("a@dot.com").build());
+		userRepo.save(UserEntity.builder().userName("A").eMail("b@dot.com").build());
+	}
+
+	@Test(expected = DataIntegrityViolationException.class)
+	public void givenDuplicateUsersByEmailSaveAndGetException() {
+		userRepo.save(UserEntity.builder().userName("A").eMail("a@dot.com").build());
+		userRepo.save(UserEntity.builder().userName("B").eMail("a@dot.com").build());
 	}
 	
 	@Test
 	public void getByName() {
-		
-		userRepo.save(ALYSSA);
-		
+	
 		ALYSSA.setLastName("lhlkhl");
 		ALYSSA.setFirstName("Alise");
-		ALYSSA.setUserName("aliseS");
 		ALYSSA.setEncrytedPassword("ghluikgluglujgog");
 		
-		assertEquals(userRepo.findByUserName("aliseS"), ALYSSA);
+		assertEquals(userRepo.findByUserName("Alyssa"), ALYSSA);
 	}
 	
 	@Test(expected = InvalidDataAccessApiUsageException.class)
 	public void savedUserChangeStatusWithIllegalStringThrows() {
-		
-		userRepo.save(ALYSSA);
 		
 		AUPDATE.put("status", "foo");
 		userRepo.update(ALYSSA, AUPDATE);
@@ -87,7 +96,6 @@ public class UserEntityTest {
 	@Test
 	public void savedUserChangeStatusWithLegalStringWorks() {
 		
-		userRepo.save(ALYSSA);
 		assertTrue(ALYSSA.isEnabled());
 		
 		AUPDATE.put("status", "DEACTIVATED");
@@ -112,8 +120,6 @@ public class UserEntityTest {
 	@Test(expected = InvalidDataAccessApiUsageException.class)
 	public void onUserDeleteWithoutQueueThrows() {
 
-		
-		userRepo.save(ALYSSA);
 		userRepo.delete(ALYSSA);
 		userRepo.flush();
 		
@@ -122,7 +128,6 @@ public class UserEntityTest {
 	@Test
 	public void onUserDeleteWithQueueWorks() {
 
-		userRepo.save(ALYSSA);
 		ALYSSA.putIntoDeletionQueue();
 		userRepo.delete(ALYSSA);
 		

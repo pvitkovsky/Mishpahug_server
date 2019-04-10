@@ -25,14 +25,14 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         log.info("Security Filter");
-        log.info("Local address -> " + request.getRemoteAddr());
-        log.info("Local name -> " + request.getRemoteHost());
+        log.info("Security Filter -> Remote address -> " + request.getRemoteAddr());
+        log.info("Security Filter -> Remote port -> " + request.getRemotePort());
         String token = request.getHeader("Authorization");
         if (token != null) {
-            log.info("Filter -> token is not null {} ", token);
+            log.info("Security Filter -> token -> {}", token);
             UserSession userSession = userSessionRepository.findByTokenAndIsValidTrue(token);
             if (userSession!= null){
-                log.info("Filter -> token is valid");
+                log.info("Security Filter -> token is valid");
 
                 String usernameForController = userSession.getUserEntity();
 
@@ -46,7 +46,7 @@ public class SecurityFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(key);
             }
         }
-        log.info("Filter -> exit");
+        log.info("Security Filter -> exit");
         filterChain.doFilter(request, response);
     }
 }

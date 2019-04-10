@@ -23,6 +23,7 @@ import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.UUID;
 @Slf4j
@@ -61,8 +62,11 @@ public class UserController implements IUserController {
     }
     @Override
     @PostMapping(value = "/login")
-    public LoginResponse login(@RequestBody LoginDTO loginDTO, @RequestHeader HttpHeaders httpHeaders){
-        log.info(String.valueOf(httpHeaders));
+    public LoginResponse login(@RequestBody LoginDTO loginDTO, @RequestHeader HttpHeaders httpHeaders,
+                               HttpServletRequest request){
+        log.info("User Controller -> Headers -> " + String.valueOf(httpHeaders));
+        log.info("User Controller -> Remote IP Address -> " + String.valueOf(request.getRemoteAddr()));
+
         UserEntity userEntity = userModel.getByUsernameAndPassword(loginDTO.getUsername(), DigestUtils.md5Hex(loginDTO.getPassword()));
         if (userEntity == null){
             throw new RuntimeException("Incorrect password or username");

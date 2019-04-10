@@ -15,12 +15,15 @@ import application.dto.UserDTODetail;
 import application.entities.UserEntity;
 import application.exceptions.ExceptionMishpaha;
 
+import javax.servlet.http.HttpServletRequest;
+
 public interface IUserController {
 
 	UserEntity get(Integer id) throws ExceptionMishpaha;
 
 	@PostMapping(value = "/login")
-	LoginResponse login(@RequestBody LoginDTO loginDTO, @RequestHeader HttpHeaders httpHeaders);
+	LoginResponse login(@RequestBody LoginDTO loginDTO, @RequestHeader HttpHeaders httpHeaders,
+						HttpServletRequest request);
 
 	@PostMapping(value = "/logout")
 	void logout(@RequestHeader(name = "Authorization", required = false) String token);

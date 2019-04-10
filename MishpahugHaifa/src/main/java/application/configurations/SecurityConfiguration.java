@@ -3,13 +3,15 @@ package application.configurations;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 @Configuration
-@EnableWebSecurity
+@EnableGlobalMethodSecurity()
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
@@ -23,9 +25,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers("/user/login", "/user/register").permitAll()
-                .antMatchers("/user/logout").authenticated()
-                .antMatchers(HttpMethod.GET, "/event/").permitAll();
+                .antMatchers("/user/login", "/user/register").anonymous()
+                .antMatchers("/event/").permitAll()
+                .anyRequest().authenticated();
 
 
 

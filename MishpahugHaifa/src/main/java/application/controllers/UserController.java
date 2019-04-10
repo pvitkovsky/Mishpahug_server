@@ -49,20 +49,6 @@ public class UserController implements IUserController {
     @Autowired
     IHolyDayModel holyDayModel;
 
-//TODO: clarify please
-//    @GetMapping(value="/{action}")
-//    public void getDataForAddForm(@PathVariable(value = "action", required = false) String action){
-//        if (action != null){
-//                switch (action) {
-//                    case "lists": {
-//
-//                        break;
-//                    }
-//                }
-//        }
-//    }
-
-
     /* (non-Javadoc)
 	 * @see application.controllers.intarfaces.IUserController#get(java.lang.Integer)
 	 */
@@ -77,16 +63,18 @@ public class UserController implements IUserController {
         if (userEntity == null){
             throw new RuntimeException("Incorrect password or username");
         }
-        if (userSessionRepository.findByUserEntityAndIsValidTrue(loginDTO.getUsername()) != null){
-            throw new RuntimeException("user has session");
+        UserSession userSessionOld = userSessionRepository.findByUserEntityAndIsValidTrue(loginDTO.getUsername());
+        if (userSessionOld != null){
+            userSessionOld.setToken(UUID.randomUUID().toString());
+            return new LoginResponse(userSessionOld.getToken());
         }
-        UserSession userSession = UserSession.builder()
+        UserSession userSessionNew = UserSession.builder()
                 .userEntity(userEntity.getUserName())
                 .token(UUID.randomUUID().toString())
                 .isValid(true)
                 .build();
-        userSessionRepository.save(userSession);
-        return new LoginResponse(userSession.getToken());
+        userSessionRepository.save(userSessionNew);
+        return new LoginResponse(userSessionNew.getToken());
     }
 
     @PostMapping(value = "/logout")

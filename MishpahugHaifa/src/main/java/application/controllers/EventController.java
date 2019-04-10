@@ -1,5 +1,6 @@
 package application.controllers;
 
+import application.controllers.intarfaces.IEventController;
 import application.dto.EventDTO;
 import application.entities.EventEntity;
 import application.exceptions.ExceptionMishpaha;
@@ -26,7 +27,7 @@ public class EventController implements IEventController {
     IKichenTypeModel kichenTypeModel;
 
     /* (non-Javadoc)
-	 * @see application.controllers.IEventController#findAllByWebQuerydsl(com.querydsl.core.types.Predicate)
+	 * @see application.controllers.intarfaces.IEventController#findAllByWebQuerydsl(com.querydsl.core.types.Predicate)
 	 */
     @Override
 	@RequestMapping(method = RequestMethod.GET, value = "/")
@@ -37,7 +38,7 @@ public class EventController implements IEventController {
     }
 
     /* (non-Javadoc)
-	 * @see application.controllers.IEventController#findAll(java.lang.Integer)
+	 * @see application.controllers.intarfaces.IEventController#findAll(java.lang.Integer)
 	 */
     @Override
 	@RequestMapping(method = RequestMethod.GET, value = "/{id}")
@@ -48,7 +49,7 @@ public class EventController implements IEventController {
 
 
     /* (non-Javadoc)
-	 * @see application.controllers.IEventController#setDataFromForm(application.dto.EventDTO)
+	 * @see application.controllers.intarfaces.IEventController#setDataFromForm(application.dto.EventDTO)
 	 */
     @Override
 	@PostMapping(value="/")
@@ -61,7 +62,7 @@ public class EventController implements IEventController {
     }
 
     /* (non-Javadoc)
-	 * @see application.controllers.IEventController#updateDataFromForm(java.util.HashMap, java.lang.Integer)
+	 * @see application.controllers.intarfaces.IEventController#updateDataFromForm(java.util.HashMap, java.lang.Integer)
 	 */
     @Override
 	@PutMapping(value="/{id}")
@@ -71,7 +72,7 @@ public class EventController implements IEventController {
     }
 
     /* (non-Javadoc)
-	 * @see application.controllers.IEventController#delete(java.lang.Integer)
+	 * @see application.controllers.intarfaces.IEventController#delete(java.lang.Integer)
 	 */
     @Override
 	@DeleteMapping(value = "/{id}")
@@ -81,7 +82,7 @@ public class EventController implements IEventController {
     }
 
     /* (non-Javadoc)
-	 * @see application.controllers.IEventController#delete()
+	 * @see application.controllers.intarfaces.IEventController#delete()
 	 */
     @Override
 	@DeleteMapping(value = "/")

@@ -1,5 +1,6 @@
 package application.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @Getter
 @Entity
 @Builder
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Table(name = "user_session")
 public class UserSession {
 
@@ -18,9 +20,7 @@ public class UserSession {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "User_Id", nullable = false)
-    private UserEntity userEntity;
+    private String userEntity;
 
     @Column(name = "token", nullable = false)
     private String token;

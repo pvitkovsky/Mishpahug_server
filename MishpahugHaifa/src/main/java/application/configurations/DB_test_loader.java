@@ -3,7 +3,6 @@ package application.configurations;
 import application.entities.*;
 import application.entities.LogsOnEvent.ActionsOnEvent;
 import application.repositories.*;
-import com.itextpdf.xmp.impl.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -117,43 +116,14 @@ public class DB_test_loader implements CommandLineRunner {
 			break;
 		}
 		case GUESTS: {
-			eventGuestRepository.deleteAll();
-			Integer randomUserRange = userRepository.findAll().size() - 1;
-			Random gen = new Random();
-			UserEntity randomGuest = userRepository.findAll().get(gen.nextInt(randomUserRange));
-			for (EventEntity event : eventRepository.findAll()) {
-				SubscriptionEntity subscription = new SubscriptionEntity();
-				if (!event.getUserEntityOwner().equals(randomGuest)) {
-					subscription.subscribe(randomGuest, event);
-				}
-			}
+			GuestsLoader loader = new GuestsLoader();
+			loader.load();
 			break;
 		}
-		//TODO
 		case LOGS:{
-			logsDataRepository.deleteAll();
-			Random gen = new Random();
-			List<UserEntity> userEntityList = userRepository.findAll();
-			Integer randomUserRange = userEntityList.size() - 1;
-			List<EventEntity> eventEntityList = eventRepository.findAll();
-			Integer randomEventRange = eventEntityList.size() - 1;
-
-			LocalTime TTIME = LocalTime.of(23, 59);
-			for ( int i = 0; i<100; i++) {
-				UserEntity randomUserActor = userEntityList.get(gen.nextInt(randomUserRange));
-				//System.out.println("Random User = " + randomUserActor);
-
-				EventEntity randomEventTarget= eventEntityList.get(gen.nextInt(randomEventRange));
-
-				LogsOnEvent logUE = new LogsOnEvent();
-				logUE.setDate(LocalDate.of(2019, 03, 1 + gen.nextInt(30)));
-				logUE.setUserActor(randomUserActor);
-				logUE.setEventTarget(randomEventTarget);
-				logUE.setAction(ActionsOnEvent.EVENT_VIEW);
-				logUE.setTime(TTIME);
-				logsDataRepository.save(logUE);
-			}
-			
+			LogsLoader loader = new LogsLoader();
+			loader.load();
+			break;
 		}
 		}
 
@@ -296,6 +266,68 @@ public class DB_test_loader implements CommandLineRunner {
 			}
 		}
 	}
+
+
+	/**
+	 * Loads logs
+	 */
+	private class LogsLoader {
+
+		public LogsLoader() {
+		}
+
+		void load() {
+
+			logsDataRepository.deleteAll();
+			Random gen = new Random();
+			List<UserEntity> userEntityList = userRepository.findAll();
+			Integer randomUserRange = userEntityList.size() - 1;
+			List<EventEntity> eventEntityList = eventRepository.findAll();
+			Integer randomEventRange = eventEntityList.size() - 1;
+
+			LocalTime TTIME = LocalTime.of(23, 59);
+			for ( int i = 0; i<100; i++) {
+				UserEntity randomUserActor = userEntityList.get(gen.nextInt(randomUserRange));
+				//System.out.println("Random User = " + randomUserActor);
+
+				EventEntity randomEventTarget= eventEntityList.get(gen.nextInt(randomEventRange));
+
+				LogsOnEvent logUE = new LogsOnEvent();
+				logUE.setDate(LocalDate.of(2019, 03, 1 + gen.nextInt(30)));
+				logUE.setUserActor(randomUserActor);
+				logUE.setEventTarget(randomEventTarget);
+				logUE.setAction(ActionsOnEvent.EVENT_VIEW);
+				logUE.setTime(TTIME);
+				logsDataRepository.save(logUE);
+			}
+
+		}
+	}
+
+	/**
+	 * Loads logs
+	 */
+	private class GuestsLoader {
+
+		public GuestsLoader() {
+
+		}
+
+		void load() {
+			eventGuestRepository.deleteAll();
+			Integer randomUserRange = userRepository.findAll().size() - 1;
+			Random gen = new Random();
+			UserEntity randomGuest = userRepository.findAll().get(gen.nextInt(randomUserRange));
+			for (EventEntity event : eventRepository.findAll()) {
+				SubscriptionEntity subscription = new SubscriptionEntity();
+				if (!event.getUserEntityOwner().equals(randomGuest)) {
+					subscription.subscribe(randomGuest, event);
+				}
+			}
+		}
+	}
+
+
 	/**
 	 * Loads city
 	 */

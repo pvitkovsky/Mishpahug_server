@@ -1,5 +1,6 @@
 package application.repositories;
 
+import application.MishpohugApplication;
 import application.entities.EventEntity;
 import application.entities.QEventEntity;
 import application.repositories.custom.EventRepositoryCustom;
@@ -22,25 +23,38 @@ public interface EventRepository extends JpaRepository<EventEntity, Integer>,
 
     @Override
     default public void customize(QuerydslBindings bindings, QEventEntity root) {
-        bindings.bind(String.class).first((StringPath path, String value) -> path.containsIgnoreCase(value));
+        MishpohugApplication.log.debug("EventRepository -> customize-> bindings = " + root.toString());
+        bindings.bind(String.class).first((StringPath path, String value) -> {
+            MishpohugApplication.log.debug("EventRepository -> customize-> value = " + value);
+            MishpohugApplication.log.debug("EventRepository -> customize-> path = " + path);
+            return path.containsIgnoreCase(value);
+        });
 
         bindings.bind(root.nameOfEvent).all((path, value) -> {
+            MishpohugApplication.log.debug("EventRepository -> customize-> value = " + value);
+            MishpohugApplication.log.debug("EventRepository -> customize-> path = " + path);
             List<? extends String> NamesOfEvents = new ArrayList<>(value);
             return Optional.of(path.contains(NamesOfEvents.get(0)));
         });
 
         bindings.bind(root.holiDay.name).all((path, value) -> {
+            MishpohugApplication.log.debug("EventRepository -> customize-> value = " + value);
+            MishpohugApplication.log.debug("EventRepository -> customize-> path = " + path);
             List<? extends String> NamesOfHolidays = new ArrayList<>(value);
             return Optional.of(path.contains(NamesOfHolidays.get(0)));
         });
 
         bindings.bind(root.addressEntity.cityEntity.name).all((path, value) -> {
+            MishpohugApplication.log.debug("EventRepository -> customize-> value = " + value);
+            MishpohugApplication.log.debug("EventRepository -> customize-> path = " + path);
             List<? extends String> NamesOfCities = new ArrayList<>(value);
             return Optional.of(path.contains(NamesOfCities.get(0)));
         });
 
 
         bindings.bind(root.date).all((path, value) -> {
+            MishpohugApplication.log.debug("EventRepository -> customize-> value = " + value);
+            MishpohugApplication.log.debug("EventRepository -> customize-> path = " + path);
             List<? extends LocalDate> dates = new ArrayList<>(value);
             if (dates.size() == 1) {
                 return Optional.of(path.eq(dates.get(0)));

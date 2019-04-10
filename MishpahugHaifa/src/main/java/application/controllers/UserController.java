@@ -1,5 +1,6 @@
 package application.controllers;
 
+import application.controllers.intarfaces.IUserController;
 import application.dto.LoginDTO;
 import application.dto.LoginResponse;
 import application.dto.UserDTO;
@@ -20,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -64,7 +64,7 @@ public class UserController implements IUserController {
 
 
     /* (non-Javadoc)
-	 * @see application.controllers.IUserController#get(java.lang.Integer)
+	 * @see application.controllers.intarfaces.IUserController#get(java.lang.Integer)
 	 */
     @Override
 	@GetMapping(value="/{id}")
@@ -77,8 +77,11 @@ public class UserController implements IUserController {
         if (userEntity == null){
             throw new RuntimeException("Incorrect password or username");
         }
+        if (userSessionRepository.findByUserEntityAndIsValidTrue(loginDTO.getUsername()) != null){
+            throw new RuntimeException("user has session");
+        }
         UserSession userSession = UserSession.builder()
-                .userEntity(userEntity)
+                .userEntity(userEntity.getUserName())
                 .token(UUID.randomUUID().toString())
                 .isValid(true)
                 .build();
@@ -106,7 +109,7 @@ public class UserController implements IUserController {
     }
 
     /* (non-Javadoc)
-	 * @see application.controllers.IUserController#update(java.util.HashMap, java.lang.Integer)
+	 * @see application.controllers.intarfaces.IUserController#update(java.util.HashMap, java.lang.Integer)
 	 */
     @Override
 	@PutMapping(value="/{id}")
@@ -116,7 +119,7 @@ public class UserController implements IUserController {
     }
 
     /* (non-Javadoc)
-	 * @see application.controllers.IUserController#delete(java.lang.Integer)
+	 * @see application.controllers.intarfaces.IUserController#delete(java.lang.Integer)
 	 */
     @Override
 	@DeleteMapping(value = "/{id}")
@@ -125,7 +128,7 @@ public class UserController implements IUserController {
     }
 
     /* (non-Javadoc)
-	 * @see application.controllers.IUserController#delete()
+	 * @see application.controllers.intarfaces.IUserController#delete()
 	 */
     @Override
 	@DeleteMapping(value = "/")
@@ -134,7 +137,7 @@ public class UserController implements IUserController {
     }
 
     /* (non-Javadoc)
-	 * @see application.controllers.IUserController#setDataFromForm(application.dto.UserDTO)
+	 * @see application.controllers.intarfaces.IUserController#setDataFromForm(application.dto.UserDTO)
 	 */
     @Override
 	@PostMapping(value="/addPage1")
@@ -144,7 +147,7 @@ public class UserController implements IUserController {
     }
 
     /* (non-Javadoc)
-	 * @see application.controllers.IUserController#setDataFromFormDetail(application.dto.UserDTODetail, java.lang.String)
+	 * @see application.controllers.intarfaces.IUserController#setDataFromFormDetail(application.dto.UserDTODetail, java.lang.String)
 	 */
     @Override
 	@PostMapping(value="/addPage2")
@@ -159,7 +162,7 @@ public class UserController implements IUserController {
     }
     
   /* (non-Javadoc)
- * @see application.controllers.IUserController#findAllByWebQuerydsl(com.querydsl.core.types.Predicate)
+ * @see application.controllers.intarfaces.IUserController#findAllByWebQuerydsl(com.querydsl.core.types.Predicate)
  */
 @Override
 @RequestMapping(method = RequestMethod.GET, value = "/")

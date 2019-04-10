@@ -4,6 +4,7 @@ import application.entities.CityEntity;
 import application.entities.CountryEntity;
 import application.exceptions.ExceptionMishpaha;
 import application.repositories.CityRepository;
+import com.querydsl.core.types.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,11 @@ public class CityModel implements ICityModel {
         } catch (Exception e) {
             throw new ExceptionMishpaha(this.getClass().toString(), e);
         }
+    }
+
+    @Override
+    public Iterable<CityEntity> getAll(Predicate predicate) {
+        return cityRepository.findAll(predicate);
     }
 
     @Override

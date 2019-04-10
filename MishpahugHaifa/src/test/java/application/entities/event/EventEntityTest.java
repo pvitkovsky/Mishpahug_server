@@ -139,7 +139,7 @@ public class EventEntityTest {
 		assertTrue(TESTING.isPendingForDeletion());
 		TUPDATE.clear();
 		
-		eventRepo.delete(TESTING); 
+		//eventRepo.delete(TESTING);
 		assertEquals(eventRepo.count(), 0);
 		assertEquals(ALYSSA.getEventEntityOwner().size(), 0);
 	}	
@@ -150,8 +150,8 @@ public class EventEntityTest {
 		ALYSSA.makeOwner(TESTING);
 		userRepo.save(ALYSSA);
 	
-		eventRepo.delete(TESTING); 
-		eventRepo.flush();
+		//eventRepo.delete(TESTING);
+		//eventRepo.flush();
 		
 	}
 	
@@ -162,7 +162,7 @@ public class EventEntityTest {
 		userRepo.save(ALYSSA);
 		
 		TESTING.putIntoDeletionQueue();
-		eventRepo.delete(TESTING); 
+		//eventRepo.delete(TESTING);
 		eventRepo.flush();
 		assertEquals(eventRepo.count(), 0);
 		

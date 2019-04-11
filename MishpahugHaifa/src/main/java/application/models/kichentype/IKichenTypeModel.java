@@ -14,7 +14,10 @@ public interface IKichenTypeModel {
     void deleteAll();
 
     public List<KitchenTypeEntity> getAll();
+
     public KitchenTypeEntity add(KitchenTypeEntity data);
+
     public KitchenTypeEntity update(Integer id, String name);
+
     public KitchenTypeEntity getByName(String kichenType);
 }

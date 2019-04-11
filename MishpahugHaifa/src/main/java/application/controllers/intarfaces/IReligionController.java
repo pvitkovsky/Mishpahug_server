@@ -7,22 +7,22 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 public interface IReligionController {
-    @GetMapping(value="/")
+    @GetMapping(value = "/")
     List<ReligionEntity> get();
 
-    @GetMapping(value="/{id}")
+    @GetMapping(value = "/{id}")
     ReligionEntity get(@PathVariable(name = "id") Integer id);
 
-    @PostMapping(value="/")
+    @PostMapping(value = "/")
     void post(@RequestBody ReligionEntity data);
 
-    @PutMapping(value="/")
+    @PutMapping(value = "/")
     void put(@RequestParam(name = "id") Integer id,
              @RequestParam(name = "name") String name) throws ExceptionMishpaha;
 
-    @DeleteMapping(value="/")
+    @DeleteMapping(value = "/")
     void delete();
 
-    @DeleteMapping(value="/{id}")
+    @DeleteMapping(value = "/{id}")
     void delete(@PathVariable(name = "id") Integer id) throws ExceptionMishpaha;
 }

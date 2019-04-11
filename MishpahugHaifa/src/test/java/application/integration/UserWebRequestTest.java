@@ -23,51 +23,53 @@ import static org.junit.Assert.assertTrue;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class UserWebRequestTest {
 
-	@LocalServerPort
-	private int port;
+    private final UserEntity ALYSSA = new UserEntity();
+    @Autowired
+    UserRepository userRepo;
+    @LocalServerPort
+    private int port;
+    private RestTemplate restTemplate = new RestTemplate();
 
-	private RestTemplate restTemplate = new RestTemplate();
-	
-	private final UserEntity ALYSSA = new UserEntity();
-	
-	@Autowired
-	UserRepository userRepo;
-	
-	@Before
-	public void buildEntities() {
-		ALYSSA.setEMail("p_hacker@sicp.edu");	
-		restTemplate.setRequestFactory(new HttpComponentsAsyncClientHttpRequestFactory());
-	}
-	
-	
-	@Test
-    public void greetingShouldReturnDefaultMessage() throws Exception {
-		userRepo.save(ALYSSA); 
-    	Collection<UserEntity> users = this.restTemplate.exchange("http://localhost:" + port + "/user/", HttpMethod.GET,
-    			  null,
-    			new ParameterizedTypeReference<Collection<UserEntity>>(){}).getBody();
-    	assertTrue(users.contains(ALYSSA));
-    	assertTrue(users.size() > 1);
+    @Before
+    public void buildEntities() {
+        ALYSSA.setEMail("p_hacker@sicp.edu");
+        restTemplate.setRequestFactory(new HttpComponentsAsyncClientHttpRequestFactory());
     }
+
+
     @Test
-	public void testFiltring(){
-		System.out.println("Between dates filter >>>");
-		Collection<UserEntity> users = this.restTemplate.exchange("http://localhost:" + port + "/user/?dateOfBirth=1980-01-01&dateOfBirth=2000-01-01", HttpMethod.GET,
-				null,
-				new ParameterizedTypeReference<Collection<UserEntity>>(){}).getBody();
-		users.forEach((data) -> System.out.println("user : " + data));
-		assertTrue(users.size() > 1);
-		System.out.println("lastname *man* filter >>>");
-		users = this.restTemplate.exchange("http://localhost:" + port + "/user/?lastName=man", HttpMethod.GET,
-				null,
-				new ParameterizedTypeReference<Collection<UserEntity>>(){}).getBody();
-		users.forEach((data) -> System.out.println("user : " + data));
-		assertTrue(users.size() > 0);
-		System.out.println("lastname *man* and between dates filter >>>");
-		users = this.restTemplate.exchange("http://localhost:" + port + "/user/?lastName=man&dateOfBirth=1980-01-01&dateOfBirth=2000-01-01", HttpMethod.GET,
-				null,
-				new ParameterizedTypeReference<Collection<UserEntity>>(){}).getBody();
-		users.forEach((data) -> System.out.println("user : " + data));
-		assertTrue(users.size() > 0);
-	}
+    public void greetingShouldReturnDefaultMessage() throws Exception {
+        userRepo.save(ALYSSA);
+        Collection<UserEntity> users = this.restTemplate.exchange("http://localhost:" + port + "/user/", HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<Collection<UserEntity>>() {
+                }).getBody();
+        assertTrue(users.contains(ALYSSA));
+        assertTrue(users.size() > 1);
+    }
+
+    @Test
+    public void testFiltring() {
+        System.out.println("Between dates filter >>>");
+        Collection<UserEntity> users = this.restTemplate.exchange("http://localhost:" + port + "/user/?dateOfBirth=1980-01-01&dateOfBirth=2000-01-01", HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<Collection<UserEntity>>() {
+                }).getBody();
+        users.forEach((data) -> System.out.println("user : " + data));
+        assertTrue(users.size() > 1);
+        System.out.println("lastname *man* filter >>>");
+        users = this.restTemplate.exchange("http://localhost:" + port + "/user/?lastName=man", HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<Collection<UserEntity>>() {
+                }).getBody();
+        users.forEach((data) -> System.out.println("user : " + data));
+        assertTrue(users.size() > 0);
+        System.out.println("lastname *man* and between dates filter >>>");
+        users = this.restTemplate.exchange("http://localhost:" + port + "/user/?lastName=man&dateOfBirth=1980-01-01&dateOfBirth=2000-01-01", HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<Collection<UserEntity>>() {
+                }).getBody();
+        users.forEach((data) -> System.out.println("user : " + data));
+        assertTrue(users.size() > 0);
+    }
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {EventlistService} from './eventlist.service';
 
 @Component({
   selector: 'app-eventlist',
@@ -6,10 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./eventlist.component.scss']
 })
 export class EventlistComponent implements OnInit {
-
-  constructor() { }
+  events = [];
+  constructor(private EventServeice: EventlistService) { }
 
   ngOnInit() {
+    this.EventServeice.getEvents().subscribe((response) => {
+      console.log(response);
+    });
   }
 
 }

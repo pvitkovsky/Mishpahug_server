@@ -35,12 +35,12 @@ public class AddressTest {
 
 
     @Before
-    public void loadData(){
+    public void loadData() {
 
     }
 
     @Test
-    public void displayAddresses(){
+    public void displayAddresses() {
         List<AddressEntity> data = addressRepository.findAll();
         for (AddressEntity x : data) {
             System.out.println(x);

@@ -27,11 +27,12 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.UUID;
+
 @Slf4j
 @RestController
 @RequestMapping(value = "/user")
 public class UserController implements IUserController {
-	
+
     @Autowired
     IReligionModel religionModel;
 
@@ -54,28 +55,29 @@ public class UserController implements IUserController {
     IHolyDayModel holyDayModel;
 
     /* (non-Javadoc)
-	 * @see application.controllers.intarfaces.IUserController#get(java.lang.Integer)
-	 */
+     * @see application.controllers.intarfaces.IUserController#get(java.lang.Integer)
+     */
     @Override
-	@GetMapping(value="/{id}")
+    @GetMapping(value = "/{id}")
     public UserEntity get(@PathVariable(value = "id") Integer id) throws ExceptionMishpaha {
         return userModel.getById(id);
     }
+
     @Override
     @PostMapping(value = "/login")
     public LoginResponse login(@RequestBody LoginDTO loginDTO, @RequestHeader HttpHeaders httpHeaders,
-                               HttpServletRequest request){
+                               HttpServletRequest request) {
         log.info("User Controller -> Headers -> " + httpHeaders.get("user-agent"));
         log.info("User Controller -> Remote IP Address -> " + request.getRemoteAddr());
 
         UserEntity userEntity = userModel.getByUsernameAndPassword(loginDTO.getUsername(), DigestUtils.md5Hex(loginDTO.getPassword()));
-        if (userEntity == null){
+        if (userEntity == null) {
             throw new RuntimeException("Incorrect password or username");
         }
         UserSession userSessionOld = userSessionRepository.findByUserEntityAndIpAndUserAgentAndIsValidTrue(loginDTO.getUsername(),
                 request.getRemoteAddr(),
                 httpHeaders.get("user-agent").get(0));
-        if (userSessionOld != null){
+        if (userSessionOld != null) {
             userSessionOld.setToken(UUID.randomUUID().toString());
             userSessionOld.setLocalDate(DateTime.now().toLocalDate());
             userSessionOld.setLocalTime(DateTime.now().toLocalTime());
@@ -95,20 +97,22 @@ public class UserController implements IUserController {
         userSessionRepository.save(userSessionNew);
         return new LoginResponse(userSessionNew.getToken());
     }
+
     @Override
     @PostMapping(value = "/logout")
-    public void logout(@RequestHeader(name = "Authorization", required = false) String token){
+    public void logout(@RequestHeader(name = "Authorization", required = false) String token) {
         UserSession userSession = userSessionRepository.findByTokenAndIsValidTrue(token);
         userSession.setIsValid(false);
         userSessionRepository.save(userSession);
     }
+
     @Override
-    @PostMapping(value="/register")
+    @PostMapping(value = "/register")
     public void add(@RequestBody UserDTO userDTO) throws ExceptionMishpaha {
-        if (userModel.getByName(userDTO.getUserName()) != null){
+        if (userModel.getByName(userDTO.getUserName()) != null) {
             throw new RuntimeException("Such user already exists");
         }
-        if (!userDTO.getEncrytedPassword().equals(userDTO.getConfirmedPassword())){
+        if (!userDTO.getEncrytedPassword().equals(userDTO.getConfirmedPassword())) {
             throw new RuntimeException("Passwords do not match");
         }
         UserEntity userEntity = new UserEntity(userDTO);
@@ -116,50 +120,50 @@ public class UserController implements IUserController {
     }
 
     /* (non-Javadoc)
-	 * @see application.controllers.intarfaces.IUserController#update(java.util.HashMap, java.lang.Integer)
-	 */
+     * @see application.controllers.intarfaces.IUserController#update(java.util.HashMap, java.lang.Integer)
+     */
     @Override
-	@PutMapping(value="/{id}")
+    @PutMapping(value = "/{id}")
     public UserEntity update(@RequestBody HashMap<String, String> data,
                              @PathVariable(value = "id") Integer id) throws ExceptionMishpaha {
         return userModel.update(id, data);
     }
 
     /* (non-Javadoc)
-	 * @see application.controllers.intarfaces.IUserController#delete(java.lang.Integer)
-	 */
+     * @see application.controllers.intarfaces.IUserController#delete(java.lang.Integer)
+     */
     @Override
-	@DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "/{id}")
     public UserEntity delete(@PathVariable(value = "id") Integer id) throws ExceptionMishpaha {
         return userModel.deleteByID(id);
     }
 
     /* (non-Javadoc)
-	 * @see application.controllers.intarfaces.IUserController#delete()
-	 */
+     * @see application.controllers.intarfaces.IUserController#delete()
+     */
     @Override
-	@DeleteMapping(value = "/")
+    @DeleteMapping(value = "/")
     public void delete() throws ExceptionMishpaha {
         userModel.deleteAll();
     }
 
     /* (non-Javadoc)
-	 * @see application.controllers.intarfaces.IUserController#setDataFromForm(application.dto.UserDTO)
-	 */
+     * @see application.controllers.intarfaces.IUserController#setDataFromForm(application.dto.UserDTO)
+     */
     @Override
-	@PostMapping(value="/addPage1")
-    public void setDataFromForm(@RequestBody UserDTO data) throws ExceptionMishpaha{
+    @PostMapping(value = "/addPage1")
+    public void setDataFromForm(@RequestBody UserDTO data) throws ExceptionMishpaha {
         UserEntity userEntity = new UserEntity(data);
         userModel.add(userEntity);
     }
 
     /* (non-Javadoc)
-	 * @see application.controllers.intarfaces.IUserController#setDataFromFormDetail(application.dto.UserDTODetail, java.lang.String)
-	 */
+     * @see application.controllers.intarfaces.IUserController#setDataFromFormDetail(application.dto.UserDTODetail, java.lang.String)
+     */
     @Override
-	@PostMapping(value="/addPage2")
+    @PostMapping(value = "/addPage2")
     public void setDataFromFormDetail(@RequestBody UserDTODetail data,
-                                      @RequestParam(name = "username") String userName) throws ExceptionMishpaha{
+                                      @RequestParam(name = "username") String userName) throws ExceptionMishpaha {
         UserEntity userEntity = userModel.getByName(userName);
         userEntity.setGender(genderModel.getByName(data.getGender()));
         userEntity.setMaritalStatus(maritalStatusModel.getByName(data.getMaritalStatus()));
@@ -167,16 +171,16 @@ public class UserController implements IUserController {
         userEntity.setKitchenType(kichenTypeModel.getByName(data.getKichenType()));
         userModel.add(userEntity);
     }
-    
-  /* (non-Javadoc)
- * @see application.controllers.intarfaces.IUserController#findAllByWebQuerydsl(com.querydsl.core.types.Predicate)
- */
-@Override
-@RequestMapping(method = RequestMethod.GET, value = "/")
-	@ResponseBody
-	public Iterable<UserEntity> findAllByWebQuerydsl(
-	  @QuerydslPredicate(root = UserEntity.class) Predicate predicate) {
-	    return userModel.getAll(predicate);
-	}
+
+    /* (non-Javadoc)
+     * @see application.controllers.intarfaces.IUserController#findAllByWebQuerydsl(com.querydsl.core.types.Predicate)
+     */
+    @Override
+    @RequestMapping(method = RequestMethod.GET, value = "/")
+    @ResponseBody
+    public Iterable<UserEntity> findAllByWebQuerydsl(
+            @QuerydslPredicate(root = UserEntity.class) Predicate predicate) {
+        return userModel.getAll(predicate);
+    }
 
 }

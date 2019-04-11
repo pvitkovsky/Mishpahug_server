@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+
 @Service
 @Transactional
 public class ReligionModel implements IReligionModel {
@@ -42,7 +43,7 @@ public class ReligionModel implements IReligionModel {
     }
 
     @Override
-    public ReligionEntity deleteByID(Integer id)  throws ExceptionMishpaha {
+    public ReligionEntity deleteByID(Integer id) throws ExceptionMishpaha {
         try {
             ReligionEntity cityEntity = religionRepository.getOne(id);
             religionRepository.deleteById(id);
@@ -53,7 +54,7 @@ public class ReligionModel implements IReligionModel {
     }
 
     @Override
-    public void deleteAll(){
+    public void deleteAll() {
         religionRepository.deleteAll();
     }
 

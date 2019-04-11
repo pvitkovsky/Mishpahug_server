@@ -1,6 +1,7 @@
 package application.entities;
 
 import lombok.*;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -14,14 +15,14 @@ import javax.persistence.ManyToOne;
 @ToString(exclude = "eventTarget")
 public class LogsOnEvent extends LogsDataEntity {
 
-	//TODO: unidirectional safety check;
-	@ManyToOne
-	private EventEntity eventTarget;
+    //TODO: unidirectional safety check;
+    @ManyToOne
+    private EventEntity eventTarget;
 
-	@Column(name = "action_on_event", nullable = false)
-	private ActionsOnEvent action;
+    @Column(name = "action_on_event", nullable = false)
+    private ActionsOnEvent action;
 
-	public enum ActionsOnEvent {
-		EVENT_VIEW, EVENT_SUBSCRIBE, EVENT_UNSUBSCRIBE, EVENT_STATUS_CHANGE, EVENT_CANCEL, EVENT_COMMENT, 
-	}
+    public enum ActionsOnEvent {
+        EVENT_VIEW, EVENT_SUBSCRIBE, EVENT_UNSUBSCRIBE, EVENT_STATUS_CHANGE, EVENT_CANCEL, EVENT_COMMENT,
+    }
 }

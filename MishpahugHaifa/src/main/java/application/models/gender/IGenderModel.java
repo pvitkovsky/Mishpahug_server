@@ -10,11 +10,11 @@ public interface IGenderModel {
 
     GenderEntity getById(Integer id);
 
-    GenderEntity deleteByID(Integer id)  throws ExceptionMishpaha;
+    GenderEntity deleteByID(Integer id) throws ExceptionMishpaha;
 
     void deleteAll();
 
-    GenderEntity add(GenderEntity data)  throws ExceptionMishpaha;
+    GenderEntity add(GenderEntity data) throws ExceptionMishpaha;
 
     GenderEntity updateName(Integer id, String name) throws ExceptionMishpaha;
 

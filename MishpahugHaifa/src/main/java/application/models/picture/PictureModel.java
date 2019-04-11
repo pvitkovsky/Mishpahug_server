@@ -8,7 +8,7 @@ import java.sql.Blob;
 
 @Service
 @Transactional
-public class PictureModel implements  IPictureModel{
+public class PictureModel implements IPictureModel {
     @Override
     public PictureValue add(PictureValue data) {
         return null;

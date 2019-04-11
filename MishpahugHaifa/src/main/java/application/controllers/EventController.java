@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+
 @Slf4j
 @RestController
 @RequestMapping(value = "/event")
@@ -31,14 +32,14 @@ public class EventController implements IEventController {
     IKichenTypeModel kichenTypeModel;
 
     /* (non-Javadoc)
-	 * @see application.controllers.intarfaces.IEventController#findAllByWebQuerydsl(com.querydsl.core.types.Predicate)
-	 */
+     * @see application.controllers.intarfaces.IEventController#findAllByWebQuerydsl(com.querydsl.core.types.Predicate)
+     */
     @Override
-	@RequestMapping(method = RequestMethod.GET, value = "/")
+    @RequestMapping(method = RequestMethod.GET, value = "/")
     @ResponseBody
     public Iterable<EventEntity> findAllByWebQuerydsl(
             @QuerydslPredicate(root = EventEntity.class) Predicate predicate
-            ,@RequestHeader HttpHeaders httpHeaders,
+            , @RequestHeader HttpHeaders httpHeaders,
             HttpServletRequest request) {
         log.info("EventController -> findAllByWebQuerydsl -> Headers -> " + httpHeaders);
         log.info("EventController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
@@ -46,13 +47,13 @@ public class EventController implements IEventController {
     }
 
     /* (non-Javadoc)
-	 * @see application.controllers.intarfaces.IEventController#findAll(java.lang.Integer)
-	 */
+     * @see application.controllers.intarfaces.IEventController#findAll(java.lang.Integer)
+     */
     @Override
-	@RequestMapping(method = RequestMethod.GET, value = "/{id}")
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     @ResponseBody
     public EventEntity findAll(@PathVariable(name = "id") Integer id
-            ,@RequestHeader HttpHeaders httpHeaders,
+            , @RequestHeader HttpHeaders httpHeaders,
                                HttpServletRequest request) throws ExceptionMishpaha {
         log.info("EventController -> findAllByWebQuerydsl -> Headers -> " + httpHeaders);
         log.info("EventController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
@@ -61,11 +62,11 @@ public class EventController implements IEventController {
 
 
     /* (non-Javadoc)
-	 * @see application.controllers.intarfaces.IEventController#setDataFromForm(application.dto.EventDTO)
-	 */
+     * @see application.controllers.intarfaces.IEventController#setDataFromForm(application.dto.EventDTO)
+     */
     @Override
-	@PostMapping(value="/")
-    public EventEntity setDataFromForm(@RequestBody EventDTO data){
+    @PostMapping(value = "/")
+    public EventEntity setDataFromForm(@RequestBody EventDTO data) {
         EventEntity eventEntity = new EventEntity();
         eventEntity.convertEventDTO(data);
         eventEntity.setKitchenType(kichenTypeModel.getByName(data.getKichenType()));
@@ -74,30 +75,30 @@ public class EventController implements IEventController {
     }
 
     /* (non-Javadoc)
-	 * @see application.controllers.intarfaces.IEventController#updateDataFromForm(java.util.HashMap, java.lang.Integer)
-	 */
+     * @see application.controllers.intarfaces.IEventController#updateDataFromForm(java.util.HashMap, java.lang.Integer)
+     */
     @Override
-	@PutMapping(value="/{id}")
+    @PutMapping(value = "/{id}")
     public EventEntity updateDataFromForm(@RequestBody HashMap<String, String> data,
                                           @PathVariable(value = "id") Integer id) throws ExceptionMishpaha {
         return eventModel.update(id, data);
     }
 
     /* (non-Javadoc)
-	 * @see application.controllers.intarfaces.IEventController#delete(java.lang.Integer)
-	 */
+     * @see application.controllers.intarfaces.IEventController#delete(java.lang.Integer)
+     */
     @Override
-	@DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "/{id}")
     public EventEntity delete(@PathVariable(value = "id") Integer id) throws ExceptionMishpaha {
         eventModel.getById(id).putIntoDeletionQueue();
         return eventModel.delete(id);
     }
 
     /* (non-Javadoc)
-	 * @see application.controllers.intarfaces.IEventController#delete()
-	 */
+     * @see application.controllers.intarfaces.IEventController#delete()
+     */
     @Override
-	@DeleteMapping(value = "/")
+    @DeleteMapping(value = "/")
     public void delete() throws ExceptionMishpaha {
         eventModel.getAll().forEach(EventEntity::putIntoDeletionQueue);
         eventModel.deleteAll();

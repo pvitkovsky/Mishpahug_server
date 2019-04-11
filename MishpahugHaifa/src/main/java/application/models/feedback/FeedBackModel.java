@@ -2,8 +2,8 @@ package application.models.feedback;
 
 import application.entities.UserEntity;
 import application.entities.values.FeedBackValue;
-import application.repositories.SubscriptionRepository;
 import application.repositories.EventRepository;
+import application.repositories.SubscriptionRepository;
 import application.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,11 +36,11 @@ public class FeedBackModel implements IFeedBackModel {
 
     @Override
     public void removeAllByUser(UserEntity userEntity) {
-    	//TODO: proper feedback please;
+        //TODO: proper feedback please;
     }
 
     @Override
-    public void removeAllByEvent(Integer eventId){
+    public void removeAllByEvent(Integer eventId) {
     }
 
     @Override

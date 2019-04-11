@@ -7,18 +7,18 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 public interface IAddressController {
-    @PostMapping(value="/")
+    @PostMapping(value = "/")
     void post(@RequestBody AddressEntity data) throws ExceptionMishpaha;
 
-    @DeleteMapping(value="/")
+    @DeleteMapping(value = "/")
     void delete();
 
-    @DeleteMapping(value="/{id}")
+    @DeleteMapping(value = "/{id}")
     void delete(@PathVariable(name = "id") Integer id) throws ExceptionMishpaha;
 
-    @GetMapping(value="/")
+    @GetMapping(value = "/")
     List<AddressEntity> get() throws ExceptionMishpaha;
 
-    @GetMapping(value="/{id}")
+    @GetMapping(value = "/{id}")
     AddressEntity get(@PathVariable(name = "id") Integer id) throws ExceptionMishpaha;
 }

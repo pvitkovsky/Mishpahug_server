@@ -20,7 +20,7 @@ import java.util.Date;
 
 @Slf4j
 public class SecurityFilter extends OncePerRequestFilter {
-    static  {
+    static {
         SimpleDateFormat dateFormatday = new SimpleDateFormat("dd");
         System.setProperty("current.date.day", dateFormatday.format(new Date()));
         SimpleDateFormat timeFormathours = new SimpleDateFormat("hh");
@@ -46,7 +46,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         if (token != null) {
             log.info("Security Filter -> token -> {}", token);
             UserSession userSession = userSessionRepository.findByTokenAndIsValidTrue(token);
-            if (userSession!= null){
+            if (userSession != null) {
                 log.info("Security Filter -> token is valid");
 
                 String usernameForController = userSession.getUserEntity();

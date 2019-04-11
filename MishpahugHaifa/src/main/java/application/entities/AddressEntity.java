@@ -8,12 +8,13 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name="address",uniqueConstraints={
-	    @UniqueConstraint(columnNames = {"city_of_address", "street", "building", "apartment"})
-	})
-@Getter @Setter
+@Table(name = "address", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"city_of_address", "street", "building", "apartment"})
+})
+@Getter
+@Setter
 @ToString
-@AllArgsConstructor 
+@AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"cityEntity", "street", "building", "apartment"})
 @Slf4j
@@ -28,11 +29,11 @@ public class AddressEntity {
     @JsonBackReference("cityOfAddress")
     @Setter(AccessLevel.PACKAGE)
     private CityEntity cityEntity;
-    
+
     @Column(name = "street")
     @Size(min = 1, max = 128, message = "maximum 128 symbols")
     private String street;
-    
+
     @Column(name = "building")
     private Integer building;
 

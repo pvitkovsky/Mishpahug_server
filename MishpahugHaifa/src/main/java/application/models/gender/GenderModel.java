@@ -11,23 +11,23 @@ import java.util.List;
 
 @Service
 @Transactional
-public class GenderModel implements IGenderModel{
+public class GenderModel implements IGenderModel {
 
     @Autowired
     GenderRepository genderRepository;
 
     @Override
-    public GenderEntity getByName(String name){
+    public GenderEntity getByName(String name) {
         return genderRepository.getByName(name);
     }
 
     @Override
-    public GenderEntity getById(Integer id){
+    public GenderEntity getById(Integer id) {
         return genderRepository.getOne(id);
     }
 
     @Override
-    public GenderEntity deleteByID(Integer id)  throws ExceptionMishpaha {
+    public GenderEntity deleteByID(Integer id) throws ExceptionMishpaha {
         try {
             GenderEntity cityEntity = genderRepository.getOne(id);
             genderRepository.deleteById(id);
@@ -38,13 +38,13 @@ public class GenderModel implements IGenderModel{
     }
 
     @Override
-    public void deleteAll(){
+    public void deleteAll() {
         genderRepository.deleteAll();
     }
 
 
     @Override
-    public GenderEntity add(GenderEntity data)  throws ExceptionMishpaha {
+    public GenderEntity add(GenderEntity data) throws ExceptionMishpaha {
         try {
             return genderRepository.saveAndFlush(data);
         } catch (Exception e) {

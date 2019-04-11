@@ -6,22 +6,22 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 public interface ICountryController {
-    @PostMapping(value="/")
+    @PostMapping(value = "/")
     void post(@RequestBody CountryEntity data);
 
-    @PutMapping(value="/")
+    @PutMapping(value = "/")
     void post(@RequestParam(name = "id") Integer id,
               @RequestParam(name = "name") String name);
 
-    @DeleteMapping(value="/")
+    @DeleteMapping(value = "/")
     void delete();
 
-    @DeleteMapping(value="/{id}")
+    @DeleteMapping(value = "/{id}")
     void delete(@PathVariable(name = "id") Integer id);
 
-    @GetMapping(value="/")
+    @GetMapping(value = "/")
     List<CountryEntity> get();
 
-    @GetMapping(value="/{id}")
+    @GetMapping(value = "/{id}")
     CountryEntity get(@PathVariable(name = "id") Integer id);
 }

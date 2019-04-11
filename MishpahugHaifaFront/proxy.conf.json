@@ -1,0 +1,14 @@
+{
+  "/api": {
+    "target": "http://localhost",
+    "secure": false,
+    "pathRewrite": {"^/api" : ""}
+  },
+  "/proxy/*": {
+    "target": "http://localhost",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {"^/proxy" : ""}
+  }
+}

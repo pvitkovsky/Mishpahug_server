@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
+
 @Service
 @Transactional
 public class AddressModel implements IAddressModel {
@@ -44,7 +45,7 @@ public class AddressModel implements IAddressModel {
     }
 
     @Override
-    public AddressEntity deleteByID(Integer id)  throws ExceptionMishpaha {
+    public AddressEntity deleteByID(Integer id) throws ExceptionMishpaha {
         try {
             AddressEntity cityEntity = addressRepository.getOne(id);
             addressRepository.deleteById(id);
@@ -55,34 +56,33 @@ public class AddressModel implements IAddressModel {
     }
 
     @Override
-    public void deleteAll(){
+    public void deleteAll() {
         addressRepository.deleteAll();
     }
+
     @Override
     public AddressEntity add(AddressEntity data) {
         return addressRepository.save(data);
     }
 
     @Override
-    public List<AddressEntity> getAll(){
+    public List<AddressEntity> getAll() {
         return addressRepository.findAll();
     }
 
     @Override
-    public Iterable<AddressEntity> getAll(Predicate predicate){
+    public Iterable<AddressEntity> getAll(Predicate predicate) {
         return addressRepository.findAll(predicate);
     }
 
 
-
     @Override
     public AddressEntity remove(Integer id) {
-        if (id >= 0){
+        if (id >= 0) {
             addressRepository.deleteById(id);
             return addressRepository.getOne(id);
-        }
-        else {
-            new ExceptionMishpaha("Error! Index is a negatite",null);
+        } else {
+            new ExceptionMishpaha("Error! Index is a negatite", null);
             return null;
         }
 

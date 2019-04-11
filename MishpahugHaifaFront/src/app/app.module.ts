@@ -8,6 +8,7 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { EventlistComponent } from './eventlist/eventlist.component';
 import { CalendarlistComponent } from './calendarlist/calendarlist.component';
+import {EventlistService} from './eventlist/eventlist.service';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,7 @@ import { CalendarlistComponent } from './calendarlist/calendarlist.component';
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [EventlistService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

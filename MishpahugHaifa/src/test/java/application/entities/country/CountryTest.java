@@ -22,18 +22,18 @@ import java.util.List;
 @ActiveProfiles("test")
 @Transactional
 public class CountryTest {
+    @Autowired
+    CountryRepository countryRepository;
     private String[] dataForFindByNameTest = {"an", "ci", "ia", "rus", "lu"};
     private CountryEntity countryEntity;
     private List<CountryEntity> testCountry;
-    @Autowired
-    CountryRepository countryRepository;
 
     @Before
-    public void load(){
+    public void load() {
         String detail;
         try {
-        	ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-			InputStream is = classloader.getResourceAsStream("data_country.csv");
+            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+            InputStream is = classloader.getResourceAsStream("data_country.csv");
             BufferedReader empdtil = new BufferedReader(new InputStreamReader(is));
             while ((detail = empdtil.readLine()) != null) {
                 CountryEntity countryEntity = new CountryEntity();
@@ -50,12 +50,12 @@ public class CountryTest {
     }
 
     @Test
-    public void testData(){
+    public void testData() {
         System.out.println("Size of repository = " + countryRepository.findAll().size());
     }
 
     @Test
-    public void update(){
+    public void update() {
         Integer index = 6;
         countryEntity = countryRepository.getOne(index);
         System.out.println(countryEntity);
@@ -65,7 +65,7 @@ public class CountryTest {
     }
 
     @Test
-    public void remove(){
+    public void remove() {
         Integer index = 4;
         System.out.println("Size of repository = " + countryRepository.findAll().size());
         countryRepository.deleteById(index);
@@ -73,13 +73,13 @@ public class CountryTest {
     }
 
     @Test
-    public void getById(){
+    public void getById() {
         Integer index = 4;
         System.out.println(countryRepository.getOne(index));
     }
 
     @Test
-    public void getByName(){
+    public void getByName() {
         System.out.println(countryRepository.getByName("Belarus"));
     }
 }

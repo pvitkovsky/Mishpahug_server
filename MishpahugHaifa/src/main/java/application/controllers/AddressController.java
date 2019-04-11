@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping(value = "/address")
@@ -18,31 +19,31 @@ public class AddressController implements IAddressController {
     IAddressModel addressModel;
 
     @Override
-    @PostMapping(value="/")
+    @PostMapping(value = "/")
     public void post(@RequestBody AddressEntity data) throws ExceptionMishpaha {
         addressModel.add(data);
     }
 
     @Override
-    @DeleteMapping(value="/")
+    @DeleteMapping(value = "/")
     public void delete() {
         addressModel.deleteAll();
     }
 
     @Override
-    @DeleteMapping(value="/{id}")
+    @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable(name = "id") Integer id) throws ExceptionMishpaha {
         addressModel.deleteByID(id);
     }
 
     @Override
-    @GetMapping(value="/")
+    @GetMapping(value = "/")
     public List<AddressEntity> get() throws ExceptionMishpaha {
         return addressModel.getAll();
     }
 
     @Override
-    @GetMapping(value="/{id}")
+    @GetMapping(value = "/{id}")
     public AddressEntity get(@PathVariable(name = "id") Integer id) throws ExceptionMishpaha {
         return addressModel.getById(id);
     }

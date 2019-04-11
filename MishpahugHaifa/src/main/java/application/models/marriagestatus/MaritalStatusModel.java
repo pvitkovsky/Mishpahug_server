@@ -11,13 +11,13 @@ import java.util.List;
 
 @Service
 @Transactional
-public class MaritalStatusModel implements IMaritalStatusModel{
+public class MaritalStatusModel implements IMaritalStatusModel {
 
     @Autowired
     MaritalStatusRepository maritalStatusRepository;
 
     @Override
-    public MaritalStatusEntity getByName(String name){
+    public MaritalStatusEntity getByName(String name) {
         return maritalStatusRepository.getByName(name);
     }
 
@@ -28,12 +28,12 @@ public class MaritalStatusModel implements IMaritalStatusModel{
     }
 
     @Override
-    public MaritalStatusEntity getById(Integer id){
+    public MaritalStatusEntity getById(Integer id) {
         return maritalStatusRepository.getOne(id);
     }
 
     @Override
-    public MaritalStatusEntity deleteByID(Integer id)  throws ExceptionMishpaha {
+    public MaritalStatusEntity deleteByID(Integer id) throws ExceptionMishpaha {
         try {
             MaritalStatusEntity maritalStatusEntity = maritalStatusRepository.getOne(id);
             maritalStatusRepository.deleteById(id);
@@ -44,7 +44,7 @@ public class MaritalStatusModel implements IMaritalStatusModel{
     }
 
     @Override
-    public void deleteAll(){
+    public void deleteAll() {
         maritalStatusRepository.deleteAll();
     }
 
@@ -60,7 +60,7 @@ public class MaritalStatusModel implements IMaritalStatusModel{
     }
 
     @Override
-    public MaritalStatusEntity add(MaritalStatusEntity data)  throws ExceptionMishpaha {
+    public MaritalStatusEntity add(MaritalStatusEntity data) throws ExceptionMishpaha {
         try {
             return maritalStatusRepository.saveAndFlush(data);
         } catch (Exception e) {

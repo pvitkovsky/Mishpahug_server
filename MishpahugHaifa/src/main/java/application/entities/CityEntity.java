@@ -12,10 +12,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name="cities", uniqueConstraints={
-	    @UniqueConstraint(columnNames = {"name", "country_of_city"})
-	})
-@Getter @Setter
+@Table(name = "cities", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"name", "country_of_city"})
+})
+@Getter
+@Setter
 @ToString(exclude = "addressEntities")
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,51 +32,55 @@ public class CityEntity {
     @Column(name = "name")
     private String name;
 
-    @ManyToOne(optional = false) 
+    @ManyToOne(optional = false)
     @JoinColumn(name = "country_of_city")
     @JsonBackReference("countryOfCity")
-    @Setter(AccessLevel.PACKAGE) 
+    @Setter(AccessLevel.PACKAGE)
     private CountryEntity countryEntity;
 
-    @OneToMany(mappedBy = "cityEntity",  cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "cityEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonManagedReference("cityOfAddress")
     @Getter(AccessLevel.NONE)
-	@Setter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
     private Set<AddressEntity> addressEntities = new HashSet<>();
-    
+
     /**
      * Adding an address to the city
-     * @paramcity
+     *
      * @return
+     * @paramcity
      */
     public boolean addAddress(AddressEntity address) {
-    	address.setCityEntity(this);
-    	return addressEntities.add(address);
+        address.setCityEntity(this);
+        return addressEntities.add(address);
     }
-    
+
     /**
      * Address is deleted once the city is merged;
-     * @paramcity
+     *
      * @return
+     * @paramcity
      */
     public boolean removeAddress(AddressEntity address) {
-    	return addressEntities.remove(address);
+        return addressEntities.remove(address);
     }
-    
+
     /**
      * Immutable wrapper;
+     *
      * @return
      */
     public Set<AddressEntity> getAddresses() {
-    	return Collections.unmodifiableSet(addressEntities); 
+        return Collections.unmodifiableSet(addressEntities);
     }
-    
+
     /**
      * Clearing all addresses
+     *
      * @return
      */
-    public void clearAddresses(){
-    	addressEntities.clear();
+    public void clearAddresses() {
+        addressEntities.clear();
     }
 
 }

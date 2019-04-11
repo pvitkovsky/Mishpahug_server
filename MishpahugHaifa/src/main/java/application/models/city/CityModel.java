@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+
 @Service
 @Transactional
 public class CityModel implements ICityModel {
@@ -27,7 +28,7 @@ public class CityModel implements ICityModel {
     }
 
     @Override
-    public CityEntity add(CityEntity data)  throws ExceptionMishpaha {
+    public CityEntity add(CityEntity data) throws ExceptionMishpaha {
         try {
             return cityRepository.saveAndFlush(data);
         } catch (Exception e) {
@@ -41,7 +42,7 @@ public class CityModel implements ICityModel {
     }
 
     @Override
-    public CityEntity deleteByID(Integer id)  throws ExceptionMishpaha {
+    public CityEntity deleteByID(Integer id) throws ExceptionMishpaha {
         try {
             CityEntity cityEntity = cityRepository.getOne(id);
             cityRepository.deleteById(id);
@@ -52,12 +53,12 @@ public class CityModel implements ICityModel {
     }
 
     @Override
-    public void deleteAll(){
+    public void deleteAll() {
         cityRepository.deleteAll();
     }
 
     @Override
-    public List<CityEntity> getAll()  throws ExceptionMishpaha {
+    public List<CityEntity> getAll() throws ExceptionMishpaha {
         try {
             return cityRepository.findAll();
         } catch (Exception e) {
@@ -98,7 +99,7 @@ public class CityModel implements ICityModel {
     public List<CityEntity> addFromList(List<String> data, CountryEntity countryEntity) throws ExceptionMishpaha {
         try {
             List<CityEntity> result = new ArrayList<>();
-            for(String z:data){
+            for (String z : data) {
                 CityEntity city = new CityEntity();
                 city.setName(z);
                 countryEntity.addCity(city);

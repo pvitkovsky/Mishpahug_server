@@ -33,14 +33,14 @@ public class LogsDataModel implements ILogsDataModel {
     }
 
     @Override
-    public Iterable<LogsDataEntity> getAll(Predicate predicate){
+    public Iterable<LogsDataEntity> getAll(Predicate predicate) {
         return logsDataRepository.findAll(predicate);
     }
 
 
-	@Override
-	public void delete(Predicate predicate) {
+    @Override
+    public void delete(Predicate predicate) {
         logsDataRepository.deleteAll(getAll(predicate));
-	}
+    }
 
 }

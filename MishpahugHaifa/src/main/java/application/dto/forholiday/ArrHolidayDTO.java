@@ -7,6 +7,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ArrHolidayDTO{
+public class ArrHolidayDTO {
     private HolidayDTO[] data;
 }

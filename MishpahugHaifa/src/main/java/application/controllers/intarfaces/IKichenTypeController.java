@@ -7,22 +7,22 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 public interface IKichenTypeController {
-    @PostMapping(value="/")
+    @PostMapping(value = "/")
     void post(@RequestBody KitchenTypeEntity data) throws ExceptionMishpaha;
 
-    @PutMapping(value="/")
+    @PutMapping(value = "/")
     void put(@RequestParam(name = "id") Integer id,
              @RequestParam(name = "name") String name);
 
-    @DeleteMapping(value="/")
+    @DeleteMapping(value = "/")
     void delete();
 
-    @DeleteMapping(value="/{id}")
+    @DeleteMapping(value = "/{id}")
     void delete(@PathVariable(name = "id") Integer id);
 
-    @GetMapping(value="/")
+    @GetMapping(value = "/")
     List<KitchenTypeEntity> get(@RequestBody(required = false) String data);
 
-    @GetMapping(value="/{id}")
+    @GetMapping(value = "/{id}")
     KitchenTypeEntity get(@PathVariable(name = "id", required = false) Integer id);
 }

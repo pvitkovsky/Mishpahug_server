@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name = "User_Role", //
         uniqueConstraints = { //
-                @UniqueConstraint(name = "USER_ROLE_UK", columnNames = { "User_Id", "Role_Id" }) })
+                @UniqueConstraint(name = "USER_ROLE_UK", columnNames = {"User_Id", "Role_Id"})})
 public class UserRoleEntity {
 
     @Id

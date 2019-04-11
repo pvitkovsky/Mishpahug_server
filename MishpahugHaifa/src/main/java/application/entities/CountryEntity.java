@@ -11,10 +11,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name="country", uniqueConstraints={
-	    @UniqueConstraint(columnNames = {"name"})
-	})
-@Getter @Setter
+@Table(name = "country", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"name"})
+})
+@Getter
+@Setter
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"name"})
 @ToString(exclude = "cityEntities")
@@ -37,31 +38,34 @@ public class CountryEntity {
 
     /**
      * Adding a city to the country
+     *
      * @param city
      * @return
      */
     public boolean addCity(CityEntity city) {
-    	city.setCountryEntity(this);
-    	return cityEntities.add(city);
+        city.setCountryEntity(this);
+        return cityEntities.add(city);
     }
-    
+
     /**
      * City is deleted once the country is merged;
+     *
      * @param city
      * @return
      */
     public boolean removeCity(CityEntity city) {
-    	return cityEntities.remove(city);
+        return cityEntities.remove(city);
     }
-    
+
     /**
      * Immutable wrapper;
+     *
      * @return
      */
     public Set<CityEntity> getCities() {
-    	return Collections.unmodifiableSet(cityEntities); 
+        return Collections.unmodifiableSet(cityEntities);
     }
-    
-    
+
+
 }
 

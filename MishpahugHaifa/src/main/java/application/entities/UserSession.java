@@ -2,10 +2,10 @@ package application.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
-
-import javax.persistence.*;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
+
+import javax.persistence.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,7 +13,7 @@ import org.joda.time.LocalTime;
 @Getter
 @Entity
 @Builder
-@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "user_session")
 public class UserSession {
 
@@ -41,7 +41,6 @@ public class UserSession {
 
     @Column(name = "time", nullable = false)
     private LocalTime localTime;
-
 
 
 }

@@ -7,18 +7,18 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 public interface IHoliDaysController {
-    @PostMapping(value="/")
+    @PostMapping(value = "/")
     void post(@RequestBody HolidayDTO[] data);
 
-    @DeleteMapping(value="/")
+    @DeleteMapping(value = "/")
     void delete();
 
-    @DeleteMapping(value="/{id}")
+    @DeleteMapping(value = "/{id}")
     void delete(@PathVariable(name = "id") Integer id);
 
-    @GetMapping(value="/")
+    @GetMapping(value = "/")
     List<HoliDayEntity> get();
 
-    @GetMapping(value="/{id}")
+    @GetMapping(value = "/{id}")
     HoliDayEntity get(@PathVariable(name = "id") Integer id);
 }

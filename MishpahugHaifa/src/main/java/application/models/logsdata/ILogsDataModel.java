@@ -7,11 +7,13 @@ import java.util.List;
 
 public interface ILogsDataModel {
     public LogsDataEntity add(LogsDataEntity data);
+
     public void clear();
+
     public List<LogsDataEntity> getAll();
 
-	public Iterable<LogsDataEntity> getAll(Predicate predicate);
-    
-	public void delete(Predicate predicate);
-	
+    public Iterable<LogsDataEntity> getAll(Predicate predicate);
+
+    public void delete(Predicate predicate);
+
 }

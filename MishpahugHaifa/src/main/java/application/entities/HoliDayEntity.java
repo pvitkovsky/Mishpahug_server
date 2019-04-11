@@ -2,33 +2,34 @@ package application.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "holyday", uniqueConstraints = { @UniqueConstraint(columnNames = { "name" }) })
+@Table(name = "holyday", uniqueConstraints = {@UniqueConstraint(columnNames = {"name"})})
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(of = { "name" })
+@EqualsAndHashCode(of = {"name"})
 @ToString
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class HoliDayEntity {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	@Column(name = "date")
-	private LocalDate date;
+    @Column(name = "date")
+    private LocalDate date;
 
-	@Column(name = "name")
-	private String name;
+    @Column(name = "name")
+    private String name;
 
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true) //Unidirectional;
-	private ReligionEntity religionEntity;
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true) //Unidirectional;
+    private ReligionEntity religionEntity;
 
-	@Column(name = "description")
-	private String description;
+    @Column(name = "description")
+    private String description;
 
 }

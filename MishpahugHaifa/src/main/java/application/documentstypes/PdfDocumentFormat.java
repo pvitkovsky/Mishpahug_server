@@ -4,13 +4,13 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+
 import java.io.FileOutputStream;
 import java.util.Date;
 import java.util.HashMap;
 
 
 public class PdfDocumentFormat {
-    private String file = "";
     private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,
             Font.BOLD);
     private static Font redFont = new Font(Font.FontFamily.TIMES_ROMAN, 12,
@@ -19,30 +19,7 @@ public class PdfDocumentFormat {
             Font.BOLD);
     private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12,
             Font.BOLD);
-
-    public String getFile() {
-        return file;
-    }
-
-    public void setFile(String file) {
-        this.file = file;
-    }
-
-    public void createdocument(String filename) {
-        try {
-
-            Document document = new Document();
-            FileOutputStream fileOutputStream = new FileOutputStream(file);
-            PdfWriter.getInstance(document, fileOutputStream);
-            document.open();
-            addMetaData(document, new HashMap<>());
-            addTitlePage(document);
-            addContent(document);
-            document.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    private String file = "";
 
     // iText allows to add metadata to the PDF which can be viewed in your Adobe
     // Reader
@@ -173,6 +150,30 @@ public class PdfDocumentFormat {
     private static void addEmptyLine(Paragraph paragraph, int number) {
         for (int i = 0; i < number; i++) {
             paragraph.add(new Paragraph(" "));
+        }
+    }
+
+    public String getFile() {
+        return file;
+    }
+
+    public void setFile(String file) {
+        this.file = file;
+    }
+
+    public void createdocument(String filename) {
+        try {
+
+            Document document = new Document();
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            PdfWriter.getInstance(document, fileOutputStream);
+            document.open();
+            addMetaData(document, new HashMap<>());
+            addTitlePage(document);
+            addContent(document);
+            document.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

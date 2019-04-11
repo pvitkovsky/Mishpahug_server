@@ -28,17 +28,17 @@ public class HolyDayModel implements IHolyDayModel {
     }
 
     @Override
-    public List<HoliDayEntity> getAll(){
+    public List<HoliDayEntity> getAll() {
         return holyDayRepository.findAll();
     }
 
     @Override
-    public HoliDayEntity getByName(String name){
+    public HoliDayEntity getByName(String name) {
         return holyDayRepository.getByName(name);
     }
 
     @Override
-    public HoliDayEntity getById(Integer id){
+    public HoliDayEntity getById(Integer id) {
         return holyDayRepository.getOne(id);
     }
 

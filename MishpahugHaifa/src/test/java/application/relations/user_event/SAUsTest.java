@@ -32,7 +32,7 @@ public class SAUsTest {
     UserEntity userEntity4;
 
     @Before
-    public void load(){
+    public void load() {
         eventEntity1 = new EventEntity();
         eventEntity2 = new EventEntity();
         userEntity1 = new UserEntity();
@@ -58,31 +58,30 @@ public class SAUsTest {
         userEntity4.setPhoneNumber("345345345");
 
     }
+
     @Test
-    public void savedata(){
+    public void savedata() {
 //            eventEntity1.subscribe(userEntity3); //TODO: update subscriptions;
 //            eventEntity2.subscribe(userEntity4);
-            userEntity2.makeOwner(eventEntity1);
-            userEntity1.makeOwner(eventEntity2);
-            userRepository.save(userEntity1);
-            userRepository.save(userEntity2);
-            userRepository.save(userEntity3);
-            userRepository.save(userEntity4);
-            eventRepository.save(eventEntity1);
-            eventRepository.save(eventEntity2);
-            System.out.println("Test Bebin");
-            System.out.println(eventEntity1);
-            System.out.println(eventEntity2);
-            System.out.println(eventEntity1.getSubscriptions());
-            System.out.println(eventEntity2.getSubscriptions());
-            System.out.println(userEntity1);
-            System.out.println(userEntity2);
-            System.out.println(userEntity3.getSubscriptions());
-            System.out.println(userEntity4.getSubscriptions());
-            System.out.println("Test End");
-        }
-
-
+        userEntity2.makeOwner(eventEntity1);
+        userEntity1.makeOwner(eventEntity2);
+        userRepository.save(userEntity1);
+        userRepository.save(userEntity2);
+        userRepository.save(userEntity3);
+        userRepository.save(userEntity4);
+        eventRepository.save(eventEntity1);
+        eventRepository.save(eventEntity2);
+        System.out.println("Test Bebin");
+        System.out.println(eventEntity1);
+        System.out.println(eventEntity2);
+        System.out.println(eventEntity1.getSubscriptions());
+        System.out.println(eventEntity2.getSubscriptions());
+        System.out.println(userEntity1);
+        System.out.println(userEntity2);
+        System.out.println(userEntity3.getSubscriptions());
+        System.out.println(userEntity4.getSubscriptions());
+        System.out.println("Test End");
+    }
 
 
 }

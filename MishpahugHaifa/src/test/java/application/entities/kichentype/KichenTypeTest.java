@@ -16,49 +16,54 @@ import org.springframework.transaction.annotation.Transactional;
 @ActiveProfiles("test")
 @Transactional
 public class KichenTypeTest {
-    private String[] data = {"kosher milk", "kosher meat", "kosher fur", "non - kosher milk", "non - kosher meat", "non - kosher fur", "n/a"};
-    private String[] dataForFindByNameTest = {"non", "iii", "kosher", "fur"};
     KitchenTypeEntity kichenTypeEntity;
     @Autowired
     KichenTypeRepository kichenTypeRepository;
+    private String[] data = {"kosher milk", "kosher meat", "kosher fur", "non - kosher milk", "non - kosher meat", "non - kosher fur", "n/a"};
+    private String[] dataForFindByNameTest = {"non", "iii", "kosher", "fur"};
     private KitchenTypeEntity testKichenType;
 
     @Before
-    public void load(){
-        for (int i = 0; i < data.length; i++){
+    public void load() {
+        for (int i = 0; i < data.length; i++) {
             kichenTypeEntity = new KitchenTypeEntity();
             kichenTypeEntity.setName(data[i]);
             kichenTypeRepository.save(kichenTypeEntity);
         }
     }
+
     @Test
-    public void loadTest(){
+    public void loadTest() {
         System.out.println(kichenTypeRepository.findAll());
     }
+
     @Test
-    public void getById(){
+    public void getById() {
         Integer index = 3;
         System.out.println(kichenTypeRepository.findById(index));
     }
+
     @Test
-    public void getByName(){
+    public void getByName() {
         System.out.println(kichenTypeRepository.getByName("test"));
         System.out.println(kichenTypeRepository.getByName("Buddhism"));
-        for (int i = 0; i < dataForFindByNameTest.length; i++){
+        for (int i = 0; i < dataForFindByNameTest.length; i++) {
             testKichenType = kichenTypeRepository.getByName(dataForFindByNameTest[i]);
             System.out.println(dataForFindByNameTest[i] + " included on " + testKichenType);
         }
     }
+
     @Test
-    public void update(){
+    public void update() {
         Integer index = 5;
         kichenTypeEntity = kichenTypeRepository.getOne(index);
         kichenTypeEntity.setName("testtest");
         kichenTypeRepository.save(kichenTypeEntity);
         System.out.println(kichenTypeRepository.findById(index));
     }
+
     @Test
-    public void remove(){
+    public void remove() {
         Integer index = 4;
         System.out.println("Size of repository = " + kichenTypeRepository.findAll().size());
         kichenTypeRepository.deleteById(index);

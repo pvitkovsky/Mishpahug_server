@@ -5,12 +5,13 @@ import application.entities.CityEntity;
 import application.exceptions.ExceptionMishpaha;
 import application.models.city.ICityModel;
 import com.querydsl.core.types.Predicate;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@Slf4j
 @RestController
 @RequestMapping(value = "/city")
 public class CityController implements ICityController {

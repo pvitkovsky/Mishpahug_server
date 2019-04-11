@@ -4,11 +4,12 @@ import application.controllers.intarfaces.IAddressController;
 import application.entities.AddressEntity;
 import application.exceptions.ExceptionMishpaha;
 import application.models.address.IAddressModel;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@Slf4j
 @RestController
 @RequestMapping(value = "/address")
 public class AddressController implements IAddressController {

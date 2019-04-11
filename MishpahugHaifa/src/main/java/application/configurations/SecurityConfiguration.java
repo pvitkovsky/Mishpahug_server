@@ -28,9 +28,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/login", "/user/register").anonymous()
                 .antMatchers("/event/").permitAll()
                 .anyRequest().authenticated();
-
-
-
             http.addFilterBefore(securityFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }

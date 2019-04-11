@@ -30,507 +30,440 @@ import java.util.Random;
 @Transactional
 public class DB_test_loader implements CommandLineRunner {
 
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    EventRepository eventRepository;
-    @Autowired
-    SubscriptionRepository eventGuestRepository;
-    @Autowired
-    CityRepository cityRepository;
-    @Autowired
-    CountryRepository countryRepository;
-    @Autowired
-    MaritalStatusRepository maritalStatusRepository;
-    @Autowired
-    GenderRepository genderRepository;
-    @Autowired
-    AddressRepository addressRepository;
-    @Autowired
-    ReligionRepository religionRepository;
-    @Autowired
-    KichenTypeRepository kichenTypeRepository;
-    @Autowired
-    LogsDataRepository logsDataRepository;
+	@Autowired
+	UserRepository userRepository;
+	@Autowired
+	EventRepository eventRepository;
+	@Autowired
+	SubscriptionRepository eventGuestRepository;
+	@Autowired
+	CityRepository cityRepository;
+	@Autowired
+	CountryRepository countryRepository;
+	@Autowired
+	MaritalStatusRepository maritalStatusRepository;
+	@Autowired
+	GenderRepository genderRepository;
+	@Autowired
+	AddressRepository addressRepository;
+	@Autowired
+	ReligionRepository religionRepository;
+	@Autowired
+	KichenTypeRepository kichenTypeRepository;
+	@Autowired
+	LogsDataRepository logsDataRepository;
+	
+	
 
+	@Override
+	public void run(String... args) throws Exception {
+		loadTest(MPHEntity.CITY);
+		loadTest(MPHEntity.RELIGION);
+		loadTest(MPHEntity.KICHENTYPES);
+		loadTest(MPHEntity.MARRIAGE);
+		loadTest(MPHEntity.ADDRESS);
+		loadTest(MPHEntity.GENDER);
 
-    @Override
-    public void run(String... args) throws Exception {
-        loadTest(MPHEntity.CITY);
-        loadTest(MPHEntity.RELIGION);
-        loadTest(MPHEntity.KICHENTYPES);
-        loadTest(MPHEntity.MARRIAGE);
-        loadTest(MPHEntity.ADDRESS);
-        loadTest(MPHEntity.GENDER);
+		loadTest(MPHEntity.USER);
+		loadTest(MPHEntity.EVENT);
+		loadTest(MPHEntity.GUESTS);
+		loadTest(MPHEntity.LOGS);
+	}
 
-        loadTest(MPHEntity.USER);
-        loadTest(MPHEntity.EVENT);
-        loadTest(MPHEntity.GUESTS);
-        loadTest(MPHEntity.LOGS);
-    }
+	private void loadTest(MPHEntity entity) {
 
-    private void loadTest(MPHEntity entity) {
+		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+		InputStream is = classloader.getResourceAsStream(entity.dataFile());
+		BufferedReader empdtil = new BufferedReader(new InputStreamReader(is));
 
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        InputStream is = classloader.getResourceAsStream(entity.dataFile());
-        BufferedReader empdtil = new BufferedReader(new InputStreamReader(is));
+		switch (entity) {
+		case USER: {
+			UserLoader loader = new UserLoader(empdtil);
+			loader.load();
+			break;
+		}
+		case EVENT: {
+			EventLoader loader = new EventLoader(empdtil);
+			loader.load();
+			break;
+		}
+		case CITY: {
+			CityLoader loader = new CityLoader(empdtil);
+			loader.load();
+			break;
+		}
+		case KICHENTYPES: {
+			KichenTypeLoader loader = new KichenTypeLoader(empdtil);
+			loader.load();
+			break;
+		}
+		case ADDRESS: {
+			AddressLoader loader = new AddressLoader(empdtil);
+			loader.load();
+			break;
+		}
+		case RELIGION: {
+			ReligionLoader loader = new ReligionLoader(empdtil);
+			loader.load();
+			break;
+		}
+		case GENDER: {
+			GenderLoader loader = new GenderLoader(empdtil);
+			loader.load();
+			break;
+		}
+		case MARRIAGE: {
+			MaritalStatusLoader loader = new MaritalStatusLoader(empdtil);
+			loader.load();
+			break;
+		}
+		case GUESTS: {
+			eventGuestRepository.deleteAll();
+			Integer randomUserRange = userRepository.findAll().size() - 1;
+			Random gen = new Random();
+			UserEntity randomGuest = userRepository.findAll().get(gen.nextInt(randomUserRange));
+			for (EventEntity event : eventRepository.findAll()) {
+				if (!event.getUserEntityOwner().equals(randomGuest)) {
+					SubscriptionEntity subscription = new SubscriptionEntity(randomGuest, event);
+				}
+			}
+			break;
+		}
+		//TODO
+		case LOGS:{
+			logsDataRepository.deleteAll();
+			Random gen = new Random();
+			List<UserEntity> userEntityList = userRepository.findAll();
+			Integer randomUserRange = userEntityList.size() - 1;
+			List<EventEntity> eventEntityList = eventRepository.findAll();
+			Integer randomEventRange = eventEntityList.size() - 1;
 
-        switch (entity) {
-            case USER: {
-                UserLoader loader = new UserLoader(empdtil);
-                loader.load();
-                break;
-            }
-            case EVENT: {
-                EventLoader loader = new EventLoader(empdtil);
-                loader.load();
-                break;
-            }
-            case CITY: {
-                CityLoader loader = new CityLoader(empdtil);
-                loader.load();
-                break;
-            }
-            case KICHENTYPES: {
-                KichenTypeLoader loader = new KichenTypeLoader(empdtil);
-                loader.load();
-                break;
-            }
-            case ADDRESS: {
-                AddressLoader loader = new AddressLoader(empdtil);
-                loader.load();
-                break;
-            }
-            case RELIGION: {
-                ReligionLoader loader = new ReligionLoader(empdtil);
-                loader.load();
-                break;
-            }
-            case GENDER: {
-                GenderLoader loader = new GenderLoader(empdtil);
-                loader.load();
-                break;
-            }
-            case MARRIAGE: {
-                MaritalStatusLoader loader = new MaritalStatusLoader(empdtil);
-                loader.load();
-                break;
-            }
-            case GUESTS: {
-                GuestsLoader loader = new GuestsLoader();
-                loader.load();
-                break;
-            }
-            case LOGS: {
-                LogsLoader loader = new LogsLoader();
-                loader.load();
-                break;
-            }
-        }
+			LocalTime TTIME = LocalTime.of(23, 59);
+			for ( int i = 0; i<100; i++) {
+				UserEntity randomUserActor = userEntityList.get(gen.nextInt(randomUserRange));
+				//System.out.println("Random User = " + randomUserActor);
 
-    }
+				EventEntity randomEventTarget= eventEntityList.get(gen.nextInt(randomEventRange));
 
-    private enum MPHEntity {
-        USER {
-            public String dataFile() {
-                return "data_user.csv";
-            }
-        },
-        CITY {
-            public String dataFile() {
-                return "cities.csv";
-            }
-        },
-        EVENT {
-            public String dataFile() {
-                return "data_event.csv";
-            }
-        },
-        MARRIAGE {
-            public String dataFile() {
-                return "marriage_status.csv";
-            }
-        },
-        GENDER {
-            public String dataFile() {
-                return "gender.csv";
-            }
-        },
-        ADDRESS {
-            public String dataFile() {
-                return "streets.csv";
-            }
-        },
-        KICHENTYPES {
-            public String dataFile() {
-                return "foods.csv";
-            }
-        },
-        RELIGION {
-            public String dataFile() {
-                return "religions.csv";
-            }
-        },
-        GUESTS {
-            public String dataFile() {
-                return "data_blank.csv";
-            }
-        },
-        LOGS {
-            public String dataFile() {
-                return "data_blank.csv";
-            }
-        };
+				LogsOnEvent logUE = new LogsOnEvent();
+				logUE.setDate(LocalDate.of(2019, 03, 1 + gen.nextInt(30)));
+				logUE.setUserActor(randomUserActor);
+				logUE.setEventTarget(randomEventTarget);
+				logUE.setAction(ActionsOnEvent.EVENT_VIEW);
+				logUE.setTime(TTIME);
+				logsDataRepository.save(logUE);
+			}
+			
+		}
+		}
 
-        abstract String dataFile();
-    }
+	}
 
-    /**
-     * Loads users
-     */
-    private class UserLoader {
-        BufferedReader empdtil;
+	private enum MPHEntity {
+		USER {
+			public String dataFile() {
+				return "data_user.csv";
+			}
+		},
+		CITY {
+			public String dataFile() {
+				return "cities.csv";
+			}
+		},
+		EVENT {
+			public String dataFile() {
+				return "data_event.csv";
+			}
+		},
+		MARRIAGE {
+			public String dataFile() {
+				return "marriage_status.csv";
+			}
+		},
+		GENDER {
+			public String dataFile() {
+				return "gender.csv";
+			}
+		},
+		ADDRESS {
+			public String dataFile() {
+				return "streets.csv";
+			}
+		},
+		KICHENTYPES {
+			public String dataFile() {
+				return "foods.csv";
+			}
+		},
+		RELIGION {
+			public String dataFile() {
+				return "religions.csv";
+			}
+		},
+		GUESTS {
+			public String dataFile() {
+				return "data_blank.csv";
+			}
+		},
+		LOGS {
+			public String dataFile() {
+				return "data_blank.csv";
+			}
+		};
+		abstract String dataFile();
+	}
 
-        public UserLoader(BufferedReader empdtil) {
-            this.empdtil = empdtil;
-        }
+	/**
+	 * Loads users
+	 */
+	private class UserLoader {
+		BufferedReader empdtil;
 
-        void load() {
-            log.info("DB Loader -> Loading users -> begin");
-            try {
-                List<MaritalStatusEntity> maritalStatusEntityList = maritalStatusRepository.findAll();
-                List<GenderEntity> genderEntityList = genderRepository.findAll();
-                List<AddressEntity> addressEntityList = addressRepository.findAll();
-                List<ReligionEntity> religionEntityList = religionRepository.findAll();
-                List<KitchenTypeEntity> kitchenTypeEntityList = kichenTypeRepository.findAll();
-                logsDataRepository.deleteAll();
-                userRepository.findAll().forEach(UserEntity::putIntoDeletionQueue);
-                userRepository.deleteAll();
-                userRepository.flush();
-                //do we need flush here?
-                // need
-                // https://stackoverflow.com/questions/49595852/deleteall-in-repository-randomly-causes-constraintviolationexception
-                String detail;
-                while ((detail = empdtil.readLine()) != null) {
-                    UserEntity user = new UserEntity();
-                    String[] data = detail.split("!");
-                    user.setEMail(data[0]);
-                    user.setFirstName(data[1]);
-                    user.setLastName(data[2]);
-                    user.setDateOfBirth(LocalDate.parse(data[3]));
-                    Random rr = new Random();
-                    user.setPhoneNumber(data[4] + rr.nextInt(9) + rr.nextInt(9) + rr.nextInt(9) + rr.nextInt(9) + rr.nextInt(9) + rr.nextInt(9) + rr.nextInt(9));
-                    user.setUserName(data[0].split("@")[0]);
-                    user.setEncrytedPassword(DigestUtils.md5Hex(data[0].split("@")[0]));
-                    user.activate();
-                    user.setGender(genderEntityList.get(rr.nextInt(genderEntityList.size() - 1)));
-                    user.setReligion(religionEntityList.get(rr.nextInt(religionEntityList.size() - 1)));
-                    user.setAddressEntity(addressEntityList.get(rr.nextInt(addressEntityList.size() - 1)));
-                    user.setKitchenType(kitchenTypeEntityList.get(rr.nextInt(kitchenTypeEntityList.size() - 1)));
-                    user.setMaritalStatus(maritalStatusEntityList.get(rr.nextInt(maritalStatusEntityList.size() - 1)));
-                    userRepository.save(user);
-                }
-                empdtil.close();
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
-            log.info("DB Loader -> Loading users -> " + userRepository.findAll().size() + " records");
-            log.info("DB Loader -> Loading users -> end");
-        }
-    }
+		public UserLoader(BufferedReader empdtil) {
+			this.empdtil = empdtil;
+		}
 
-    /**
-     * Loads address
-     */
-    private class AddressLoader {
-        BufferedReader empdtil;
+		void load() {
+			try {
+				List<MaritalStatusEntity> maritalStatusEntityList = maritalStatusRepository.findAll();
+				List<GenderEntity> genderEntityList = genderRepository.findAll();
+				List<AddressEntity> addressEntityList = addressRepository.findAll();
+				List<ReligionEntity> religionEntityList = religionRepository.findAll();
+				List<KitchenTypeEntity> kitchenTypeEntityList = kichenTypeRepository.findAll();
+				logsDataRepository.deleteAll();
+				userRepository.findAll().forEach(UserEntity::putIntoDeletionQueue);
+				userRepository.deleteAll();
+				userRepository.flush();
+				//do we need flush here?
+				// need
+				// https://stackoverflow.com/questions/49595852/deleteall-in-repository-randomly-causes-constraintviolationexception
+				String detail;
+				while ((detail = empdtil.readLine()) != null) {
+					String[] data = detail.split("!");
+					UserEntity user = new UserEntity(data[0].split("@")[0], data[0]);
+					user.setFirstName(data[1]);
+					user.setLastName(data[2]);
+					user.setDateOfBirth(LocalDate.parse(data[3]));
+					Random rr = new Random();
+					user.setPhoneNumber(data[4]+ rr.nextInt(9)+ rr.nextInt(9)+ rr.nextInt(9)+ rr.nextInt(9)+ rr.nextInt(9)+ rr.nextInt(9)+ rr.nextInt(9));
+					user.setEncrytedPassword(DigestUtils.md5Hex(data[0].split("@")[0]));
+					user.activate();
+					user.setGender(genderEntityList.get(rr.nextInt(genderEntityList.size() - 1)));
+					user.setReligion(religionEntityList.get(rr.nextInt(religionEntityList.size() - 1)));
+					user.setAddressEntity(addressEntityList.get(rr.nextInt(addressEntityList.size() - 1)));
+					user.setKitchenType(kitchenTypeEntityList.get(rr.nextInt(kitchenTypeEntityList.size() - 1)));
+					user.setMaritalStatus(maritalStatusEntityList.get(rr.nextInt(maritalStatusEntityList.size() - 1)));
+					userRepository.save(user);
+				}
+				empdtil.close();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+	/**
+	 * Loads address
+	 */
+	private class AddressLoader {
+		BufferedReader empdtil;
 
-        public AddressLoader(BufferedReader empdtil) {
-            this.empdtil = empdtil;
-        }
+		public AddressLoader(BufferedReader empdtil) {
+			this.empdtil = empdtil;
+		}
 
-        void load() {
-            try {
-                log.info("DB Loader -> Loading addresses -> begin");
-                List<CityEntity> cityEntityList = cityRepository.findAll();
-                for (CityEntity city : cityEntityList) {
-                    city.clearAddresses();
-                }
-                Random rr = new Random();
-                Integer cityEntityListSize = cityEntityList.size() - 1;
-                String detail;
-                while ((detail = empdtil.readLine()) != null) {
-                    AddressEntity addressEntity = new AddressEntity();
-                    addressEntity.setStreet(detail);
-                    addressEntity.setBuilding(rr.nextInt(100));
-                    addressEntity.setApartment(rr.nextInt(50));
-                    cityEntityList.get(rr.nextInt(cityEntityListSize)).addAddress(addressEntity);
+		void load() {
+			try {
+				List<CityEntity> cityEntityList = cityRepository.findAll();
+				for (CityEntity city : cityEntityList) {
+					city.clearAddresses();
+				}
+				Random rr = new Random();
+				Integer cityEntityListSize = cityEntityList.size() - 1;
+				String detail;
+				while ((detail = empdtil.readLine()) != null) {
+					AddressEntity addressEntity = new AddressEntity();
+					addressEntity.setStreet(detail);
+					addressEntity.setBuilding(rr.nextInt(100));
+					addressEntity.setApartment(rr.nextInt(50));
+					cityEntityList.get(rr.nextInt(cityEntityListSize)).addAddress(addressEntity);
 
-                }
-                empdtil.close();
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
-            log.info("DB Loader -> Loading addresses -> " + addressRepository.findAll().size() + " records");
-            log.info("DB Loader -> Loading addresses -> end");
-        }
-    }
+				}
+				empdtil.close();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+	/**
+	 * Loads city
+	 */
+	private class CityLoader {
+		BufferedReader empdtil;
 
+		public CityLoader(BufferedReader empdtil) {
+			this.empdtil = empdtil;
+		}
 
-    /**
-     * Loads logs
-     */
-    private class LogsLoader {
+		void load() {
+			try {
+				Collection<UserEntity> users = userRepository.findAll();
+				for (UserEntity user : users) {
+					user.setAddressEntity(null);
+				}
+				Collection<EventEntity> events = eventRepository.findAll();
+				for (EventEntity event : events) {
+					event.setAddressEntity(null);
+				}
+				countryRepository.deleteAll(); // cascade deleting cities and addresses
+				countryRepository.flush();
+				String detail;
+				CountryEntity countryEntity = new CountryEntity();
+				countryEntity.setName("Israel");
+				countryRepository.save(countryEntity);
+				while ((detail = empdtil.readLine()) != null) {
+					CityEntity cityEntity = new CityEntity();
+					cityEntity.setName(detail);
+					countryEntity.addCity(cityEntity);
+					// no need to save city explicitly, as its save is cascaded from Country;
+				}
+				empdtil.close();// .
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+	/**
+	 * Loads kichentype
+	 */
+	private class KichenTypeLoader {
+		BufferedReader empdtil;
 
-        public LogsLoader() {
-        }
+		public KichenTypeLoader(BufferedReader empdtil) {
+			this.empdtil = empdtil;
+		}
 
-        void load() {
-            log.info("DB Loader -> Loading logs -> begin");
-            logsDataRepository.deleteAll();
-            Random gen = new Random();
-            List<UserEntity> userEntityList = userRepository.findAll();
-            Integer randomUserRange = userEntityList.size() - 1;
-            List<EventEntity> eventEntityList = eventRepository.findAll();
-            Integer randomEventRange = eventEntityList.size() - 1;
+		void load() {
+			try {
+				Collection<UserEntity> users = userRepository.findAll();
+				for (UserEntity user : users) {
+					user.setKitchenType(null);
+				}
+				Collection<EventEntity> events = eventRepository.findAll();
+				for (EventEntity event : events) {
+					event.setKitchenType(null);
+				}
+				kichenTypeRepository.deleteAll();
+				kichenTypeRepository.flush();
+				// do we need flush here?
+				// need
+				String detail;
+				while ((detail = empdtil.readLine()) != null) {
+					KitchenTypeEntity kichenTypeEntity = new KitchenTypeEntity();
+					kichenTypeEntity.setName(detail);
+					kichenTypeRepository.save(kichenTypeEntity);
+				}
+				empdtil.close();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+	/**
+	 * Loads Religion
+	 */
+	private class ReligionLoader {
+		BufferedReader empdtil;
 
-            LocalTime TTIME = LocalTime.of(23, 59);
-            for (int i = 0; i < 100; i++) {
-                UserEntity randomUserActor = userEntityList.get(gen.nextInt(randomUserRange));
-                //System.out.println("Random User = " + randomUserActor);
+		public ReligionLoader(BufferedReader empdtil) {
+			this.empdtil = empdtil;
+		}
 
-                EventEntity randomEventTarget = eventEntityList.get(gen.nextInt(randomEventRange));
+		void load() {
+			try {
+				Collection<UserEntity> users = userRepository.findAll();
+				for (UserEntity user : users) {
+					user.setReligion(null);
+				}
+				religionRepository.deleteAll();
+				religionRepository.flush();
+				// do we need flush here?
+				// need
+				String detail;
+				while ((detail = empdtil.readLine()) != null) {
+					ReligionEntity religionEntity = new ReligionEntity();
+					religionEntity.setName(detail);
+					religionRepository.save(religionEntity);
+				}
+				empdtil.close();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+	/**
+	 * Loads gender
+	 */
+	private class GenderLoader {
+		BufferedReader empdtil;
 
-                LogsOnEvent logUE = new LogsOnEvent();
-                logUE.setDate(LocalDate.of(2019, 03, 1 + gen.nextInt(30)));
-                logUE.setUserActor(randomUserActor);
-                logUE.setEventTarget(randomEventTarget);
-                logUE.setAction(ActionsOnEvent.EVENT_VIEW);
-                logUE.setTime(TTIME);
-                logsDataRepository.save(logUE);
-            }
-            log.info("DB Loader -> Loading logs -> " + logsDataRepository.findAll().size() + " records");
-            log.info("DB Loader -> Loading logs -> end");
-        }
-    }
+		public GenderLoader(BufferedReader empdtil) {
+			this.empdtil = empdtil;
+		}
+		
+		void load() {
+			try {
+				Collection<UserEntity> users = userRepository.findAll();
+				for (UserEntity user : users) {
+					user.setGender(null);
+				}
+				genderRepository.deleteAll();
+				genderRepository.flush();
+				//do we need flush here?
+				// need
+				String detail;
+				while ((detail = empdtil.readLine()) != null) {
+					GenderEntity genderEntity = new GenderEntity();
+					genderEntity.setName(detail);
+					genderRepository.save(genderEntity);
+				}
+				empdtil.close();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+	/**
+	 * Loads maritalstatus
+	 */
+	private class MaritalStatusLoader {
+		BufferedReader empdtil;
 
-    /**
-     * Loads logs
-     */
-    private class GuestsLoader {
+		public MaritalStatusLoader(BufferedReader empdtil) {
+			this.empdtil = empdtil;
+		}
 
-        public GuestsLoader() {
-
-        }
-
-        void load() {
-            log.info("DB Loader -> Loading genders -> begin");
-            eventGuestRepository.deleteAll();
-            Integer randomUserRange = userRepository.findAll().size() - 1;
-            Random gen = new Random();
-            UserEntity randomGuest = userRepository.findAll().get(gen.nextInt(randomUserRange));
-            for (EventEntity event : eventRepository.findAll()) {
-                SubscriptionEntity subscription = new SubscriptionEntity();
-                if (!event.getUserEntityOwner().equals(randomGuest)) {
-                    subscription.subscribe(randomGuest, event);
-                }
-            }
-            log.info("DB Loader -> Loading genders -> " + genderRepository.findAll().size() + " records");
-            log.info("DB Loader -> Loading genders -> end");
-        }
-    }
-
-
-    /**
-     * Loads city
-     */
-    private class CityLoader {
-        BufferedReader empdtil;
-
-        public CityLoader(BufferedReader empdtil) {
-            this.empdtil = empdtil;
-        }
-
-        void load() {
-            log.info("DB Loader -> Loading cities -> begin");
-            try {
-                Collection<UserEntity> users = userRepository.findAll();
-                for (UserEntity user : users) {
-                    user.setAddressEntity(null);
-                }
-                Collection<EventEntity> events = eventRepository.findAll();
-                for (EventEntity event : events) {
-                    event.setAddressEntity(null);
-                }
-                countryRepository.deleteAll(); // cascade deleting cities and addresses
-                countryRepository.flush();
-                String detail;
-                CountryEntity countryEntity = new CountryEntity();
-                countryEntity.setName("Israel");
-                countryRepository.save(countryEntity);
-                while ((detail = empdtil.readLine()) != null) {
-                    CityEntity cityEntity = new CityEntity();
-                    cityEntity.setName(detail);
-                    countryEntity.addCity(cityEntity);
-                    // no need to save city explicitly, as its save is cascaded from Country;
-                }
-                empdtil.close();// .
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
-            log.info("DB Loader -> Loading cities -> " + cityRepository.findAll().size() + " records");
-            log.info("DB Loader -> Loading cities -> end");
-
-        }
-    }
-
-    /**
-     * Loads kichen type
-     */
-    private class KichenTypeLoader {
-        BufferedReader empdtil;
-
-        public KichenTypeLoader(BufferedReader empdtil) {
-            this.empdtil = empdtil;
-        }
-
-        void load() {
-            log.info("DB Loader -> Loading kichen types -> begin");
-            try {
-                Collection<UserEntity> users = userRepository.findAll();
-                for (UserEntity user : users) {
-                    user.setKitchenType(null);
-                }
-                Collection<EventEntity> events = eventRepository.findAll();
-                for (EventEntity event : events) {
-                    event.setKitchenType(null);
-                }
-                kichenTypeRepository.deleteAll();
-                kichenTypeRepository.flush();
-                // do we need flush here?
-                // need
-                String detail;
-                while ((detail = empdtil.readLine()) != null) {
-                    KitchenTypeEntity kichenTypeEntity = new KitchenTypeEntity();
-                    kichenTypeEntity.setName(detail);
-                    kichenTypeRepository.save(kichenTypeEntity);
-                }
-                empdtil.close();
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
-            log.info("DB Loader -> Loading kichen types -> " + kichenTypeRepository.findAll().size() + " records");
-            log.info("DB Loader -> Loading kichen types -> end");
-        }
-    }
-
-    /**
-     * Loads Religion
-     */
-    private class ReligionLoader {
-        BufferedReader empdtil;
-
-        public ReligionLoader(BufferedReader empdtil) {
-            this.empdtil = empdtil;
-        }
-
-        void load() {
-            log.info("DB Loader -> Loading religions -> begin");
-            try {
-                Collection<UserEntity> users = userRepository.findAll();
-                for (UserEntity user : users) {
-                    user.setReligion(null);
-                }
-                religionRepository.deleteAll();
-                religionRepository.flush();
-                // do we need flush here?
-                // need
-                String detail;
-                while ((detail = empdtil.readLine()) != null) {
-                    ReligionEntity religionEntity = new ReligionEntity();
-                    religionEntity.setName(detail);
-                    religionRepository.save(religionEntity);
-                }
-                empdtil.close();
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
-            log.info("DB Loader -> Loading religions -> " + religionRepository.findAll().size() + " records");
-            log.info("DB Loader -> Loading religions -> end");
-        }
-    }
-
-    /**
-     * Loads gender
-     */
-    private class GenderLoader {
-        BufferedReader empdtil;
-
-        public GenderLoader(BufferedReader empdtil) {
-            this.empdtil = empdtil;
-        }
-
-        void load() {
-            log.info("DB Loader -> Loading genders -> begin");
-            try {
-                Collection<UserEntity> users = userRepository.findAll();
-                for (UserEntity user : users) {
-                    user.setGender(null);
-                }
-                genderRepository.deleteAll();
-                genderRepository.flush();
-                //do we need flush here?
-                // need
-                String detail;
-                while ((detail = empdtil.readLine()) != null) {
-                    GenderEntity genderEntity = new GenderEntity();
-                    genderEntity.setName(detail);
-                    genderRepository.save(genderEntity);
-                }
-                empdtil.close();
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
-            log.info("DB Loader -> Loading genders -> " + genderRepository.findAll().size() + " records");
-            log.info("DB Loader -> Loading genders -> end");
-        }
-    }
-
-    /**
-     * Loads marital status
-     */
-    private class MaritalStatusLoader {
-        BufferedReader empdtil;
-
-        public MaritalStatusLoader(BufferedReader empdtil) {
-            this.empdtil = empdtil;
-        }
-
-        void load() {
-            log.info("DB Loader -> Loading marital statuses -> begin");
-            Collection<UserEntity> users = userRepository.findAll();
-            for (UserEntity user : users) {
-                user.setMaritalStatus(null);
-            }
-            try {
-                maritalStatusRepository.deleteAll();
-                maritalStatusRepository.flush();
-                //do we need flush here?
-                // need
-                String detail;
-                while ((detail = empdtil.readLine()) != null) {
-                    MaritalStatusEntity maritalStatusEntity = new MaritalStatusEntity();
-                    maritalStatusEntity.setName(detail);
-                    maritalStatusRepository.save(maritalStatusEntity);
-                }
-                empdtil.close();
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
-            log.info("DB Loader -> Loading marital statuses -> " + maritalStatusRepository.findAll().size() + " records");
-            log.info("DB Loader -> Loading marital statuses -> end");
-        }
-    }
+		void load() {
+			Collection<UserEntity> users = userRepository.findAll();
+			for (UserEntity user : users) {
+				user.setMaritalStatus(null);
+			}
+			try {
+				maritalStatusRepository.deleteAll();
+				maritalStatusRepository.flush();
+				//do we need flush here?
+				// need
+				String detail;
+				while ((detail = empdtil.readLine()) != null) {
+					MaritalStatusEntity maritalStatusEntity = new MaritalStatusEntity();
+					maritalStatusEntity.setName(detail);
+					maritalStatusRepository.save(maritalStatusEntity);
+				}
+				empdtil.close();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+	}
 
 
 	/*private class HolidayLoader {
@@ -556,46 +489,39 @@ public class DB_test_loader implements CommandLineRunner {
 	}*/
 
 
-    /**
-     * Loads events and sets owners randomly
-     */
-    private class EventLoader {
-        BufferedReader empdtil;
+	/**
+	 * Loads events and sets owners randomly
+	 */
+	private class EventLoader {
+		BufferedReader empdtil;
+		public EventLoader(BufferedReader empdtil) {
+			this.empdtil = empdtil;
+		}
+		
+		void load() {
+			try {
+				logsDataRepository.deleteAll();
+				eventRepository.findAll().forEach(EventEntity::putIntoDeletionQueue);
+				eventRepository.deleteAll();
+				eventRepository.flush();
+				//do we need flush here?
+				//need
+				String detail;
+				List<UserEntity> userEntityList = userRepository.findAll();
+				Integer userEntityListCount = userEntityList.size() - 1;
+				Random r = new Random();
+				while ((detail = empdtil.readLine()) != null) {
+					UserEntity randomOwner = userEntityList.get(r.nextInt(userEntityListCount));
+					String[] eventAttributes = detail.split(",");
+					EventEntity event = new EventEntity(randomOwner, LocalDate.parse(eventAttributes[0].replaceAll("/", "-"), DateTimeFormatter.ISO_DATE), LocalTime.parse(eventAttributes[1], DateTimeFormatter.ISO_LOCAL_TIME));
+					event.setNameOfEvent(eventAttributes[2]);
+				}
+				empdtil.close();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+	}
 
-        public EventLoader(BufferedReader empdtil) {
-            this.empdtil = empdtil;
-        }
-
-        void load() {
-            log.info("DB Loader -> Loading events -> begin");
-            try {
-                logsDataRepository.deleteAll();
-                eventRepository.findAll().forEach(EventEntity::putIntoDeletionQueue);
-                eventRepository.deleteAll();
-                eventRepository.flush();
-                //do we need flush here?
-                //need
-                String detail;
-                List<UserEntity> userEntityList = userRepository.findAll();
-                Integer userEntityListCount = userEntityList.size() - 1;
-                Random r = new Random();
-                while ((detail = empdtil.readLine()) != null) {
-                    UserEntity randomOwner = userEntityList.get(r.nextInt(userEntityListCount));
-                    String[] eventAttributes = detail.split(",");
-                    EventEntity event = new EventEntity();
-                    event.setDate(LocalDate.parse(eventAttributes[0].replaceAll("/", "-"), DateTimeFormatter.ISO_DATE));
-                    // TODO:  ???
-                    event.setTime(LocalTime.parse(eventAttributes[1], DateTimeFormatter.ISO_LOCAL_TIME));
-                    event.setNameOfEvent(eventAttributes[2]);
-                    randomOwner.makeOwner(event);
-                }
-                empdtil.close();
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
-            log.info("DB Loader -> Loading events -> " + eventRepository.findAll().size() + " records");
-            log.info("DB Loader -> Loading events -> end");
-        }
-    }
 
 }

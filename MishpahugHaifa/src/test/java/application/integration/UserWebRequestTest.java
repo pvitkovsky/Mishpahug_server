@@ -1,7 +1,9 @@
 package application.integration;
 
-import application.entities.UserEntity;
-import application.repositories.UserRepository;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Collection;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,15 +17,14 @@ import org.springframework.http.client.HttpComponentsAsyncClientHttpRequestFacto
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Collection;
-
-import static org.junit.Assert.assertTrue;
+import application.entities.UserEntity;
+import application.repositories.UserRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class UserWebRequestTest {
 
-    private final UserEntity ALYSSA = new UserEntity();
+    private final UserEntity ALYSSA = new UserEntity("Alyssa", "p_hacker@sicp.edu");
     @Autowired
     UserRepository userRepo;
     @LocalServerPort
@@ -32,7 +33,6 @@ public class UserWebRequestTest {
 
     @Before
     public void buildEntities() {
-        ALYSSA.setEMail("p_hacker@sicp.edu");
         restTemplate.setRequestFactory(new HttpComponentsAsyncClientHttpRequestFactory());
     }
 

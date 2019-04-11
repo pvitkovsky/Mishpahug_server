@@ -1,12 +1,11 @@
 package application.relations.user_event;
 
-import application.entities.EventEntity;
-import application.entities.SubscriptionEntity;
-import application.entities.UserEntity;
-import application.entities.values.FeedBackValue;
-import application.repositories.EventRepository;
-import application.repositories.SubscriptionRepository;
-import application.repositories.UserRepository;
+import static org.junit.Assert.assertEquals;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,71 +15,65 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-
-import static org.junit.Assert.assertEquals;
+import application.entities.EventEntity;
+import application.entities.SubscriptionEntity;
+import application.entities.UserEntity;
+import application.entities.values.FeedBackValue;
+import application.repositories.EventRepository;
+import application.repositories.SubscriptionRepository;
+import application.repositories.UserRepository;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @ActiveProfiles("test")
 @Transactional
 public class UserEventGuestFeedbackTest {
+	
+	private final UserEntity ALYSSA = new UserEntity("Alyssa", "p_hacker@sicp.edu");
+	private final UserEntity BEN = new UserEntity("Ben", "bitdiddle@sicp.edu");
+	private final LocalDate TDATE = LocalDate.of(2190, 1, 1);
+	private final LocalTime TTIME = LocalTime.of(23, 59);
+	private EventEntity GUESTING;
+	private SubscriptionEntity AGUESTING; 
+	private final FeedBackValue ABFEEDBACK = new FeedBackValue();
+	
+	@Autowired
+	UserRepository userRepo;
 
-    private final UserEntity ALYSSA = new UserEntity();
-    private final UserEntity BEN = new UserEntity();
-    private final EventEntity GUESTING = new EventEntity();
-    private final SubscriptionEntity AGUESTING = new SubscriptionEntity();
-    private final FeedBackValue ABFEEDBACK = new FeedBackValue();
-    private final LocalDate TDATE = LocalDate.of(2190, 1, 1);
-    private final LocalTime TTIME = LocalTime.of(23, 59);
-    private final String TNAME = "TESTING";
+	@Autowired
+	EventRepository eventRepo;
 
-    @Autowired
-    UserRepository userRepo;
+	@Autowired
+	SubscriptionRepository eventGuestRepo;
+	
+	@Before
+	public void buildEntities() {
+		userRepo.save(BEN);
+		userRepo.save(ALYSSA); 
+		GUESTING = new EventEntity(BEN, TDATE, TTIME);
+		eventRepo.save(GUESTING);	
+		AGUESTING = new SubscriptionEntity(ALYSSA, GUESTING);	
+		ABFEEDBACK.setComment("Nice event");
+		ABFEEDBACK.setDateTime(LocalDateTime.now());
+		ABFEEDBACK.setRating(5);
+	}
 
-    @Autowired
-    EventRepository eventRepo;
+	@Test
+	public void onSubsctiptionSaveReadFeedback() {
+		
+		AGUESTING.setFeedback(ABFEEDBACK);
+		eventGuestRepo.save(AGUESTING);
+	
+		EventEntity savedE = eventRepo.findById(GUESTING.getId()).get();
+		SubscriptionEntity savedSubcsrEvent = savedE.getSubscriptions().iterator().next();
+		FeedBackValue savedFB = savedSubcsrEvent.getFeedback();
+		assertEquals(savedFB, ABFEEDBACK);
 
-    @Autowired
-    SubscriptionRepository eventGuestRepo;
-
-    @Before
-    public void buildEntities() {
-        ALYSSA.setEMail("p_hacker@sicp.edu");
-        BEN.setEMail("bitdiddle@sicp.edu");
-        GUESTING.setDate(TDATE);
-        GUESTING.setTime(TTIME);
-        GUESTING.setNameOfEvent(TNAME);
-        ABFEEDBACK.setComment("Nice event");
-        ABFEEDBACK.setDateTime(LocalDateTime.now());
-        ABFEEDBACK.setRating(5);
-    }
-
-    @Test
-    public void onSubsctiptionSaveReadFeedback() {
-
-        BEN.makeOwner(GUESTING);
-        userRepo.save(BEN);
-        userRepo.save(ALYSSA);
-        AGUESTING.subscribe(ALYSSA, GUESTING);
-        AGUESTING.setFeedback(ABFEEDBACK);
-        eventGuestRepo.save(AGUESTING);
-
-        EventEntity savedE = eventRepo.findById(GUESTING.getId()).get();
-        SubscriptionEntity savedSubcsrEvent = savedE.getSubscriptions().iterator().next();
-        FeedBackValue savedFB = savedSubcsrEvent.getFeedback();
-        assertEquals(savedFB, ABFEEDBACK);
-
-    }
-
-//
+	}
+	
 //	@Test
 //	public void addFeedbackWithoutSubscription() {
-//		
-//		
-//
+//		//TODO: argument that can't add feedback without subscription;
 //	}
 
 

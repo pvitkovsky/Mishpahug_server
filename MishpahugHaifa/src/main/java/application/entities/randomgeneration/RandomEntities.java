@@ -27,9 +27,10 @@ public class RandomEntities {
     }
 
     public static UserEntity randomUserEntity() {
-        return UserEntity.builder() //TODO: email
-                .eMail(randomEmail())
-                .build();
+    	return UserEntity.builder()
+    			.userName(randomNickNameFromSet())
+    			.eMail(randomEmail())
+    			.build();
     }
 
 

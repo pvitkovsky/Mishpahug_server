@@ -33,10 +33,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
             jpaQuery.setParameter(map.getKey(), map.getValue());
         }
         UserEntity tempResult = (UserEntity) jpaQuery.getResultList().get(0);
-        if (data.containsKey("username")) {
-            tempResult.setUserName(data.get("username"));
-        }
-        if (data.containsKey("firstname")) {
+        if (data.containsKey("firstname")){
             tempResult.setFirstName(data.get("firstname"));
         }
         if (data.containsKey("lastname")) {

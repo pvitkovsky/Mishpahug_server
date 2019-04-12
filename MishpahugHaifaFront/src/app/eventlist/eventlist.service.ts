@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Injectable()
 export class EventlistService{
@@ -7,6 +7,7 @@ export class EventlistService{
 
     }
     getEvents(){
-      return this.http.get("/event/");
+      const headers = new HttpHeaders({'Authorization': 'not null Authorization'});
+      return this.http.get("/event/",{headers});
 }
 }

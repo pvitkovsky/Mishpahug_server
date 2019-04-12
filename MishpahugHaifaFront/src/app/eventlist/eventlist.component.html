@@ -1,3 +1,11 @@
-<p>
-  eventlist works!
-</p>
+<table>
+  <tr>
+    <th ngFor="let k of keys">{{k}}</th>
+  </tr>
+  <tr ngFor="let event of events">
+    <td ngFor="let k of keys">
+      {{event[k]}}
+    </td>
+  </tr>
+</table>
+

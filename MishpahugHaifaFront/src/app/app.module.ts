@@ -28,3 +28,4 @@ import {EventlistService} from './eventlist/eventlist.service';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+

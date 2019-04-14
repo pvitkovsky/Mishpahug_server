@@ -10,6 +10,7 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
+
 # Package Files #
 *.jar
 *.war
@@ -27,3 +28,5 @@
 /MishpahugHaifa/.project
 /MishpahugHaifa/target
 /.idea
+MishpahugHaifaFront/node_modules/*
+

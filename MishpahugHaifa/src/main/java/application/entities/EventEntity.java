@@ -125,7 +125,6 @@ public class EventEntity {
 	 * @param time
 	 */
 	public EventEntity(UserEntity owner, @NotNull LocalDate date, @NotNull LocalTime time) {
-		super();
 		this.date = date;
 		this.time = time;
 		// Is very dependent on the order of statements here; or hashcode will be messed
@@ -152,17 +151,21 @@ public class EventEntity {
 	/**
 	 * Checks the correct state of all bidirectional relations in this entity
 	 */
-	public void checkEventIntegrity() {
+	public Boolean checkEventIntegrity() {
+		Boolean rez = true;
 		if (!userEntityOwner.getEventEntityOwner().contains(this)) {
+			rez = false;
 			throw new IllegalStateException(
 					"Event has user set as owner, but not present in the user's collection of owned events");
 		}
 		for (SubscriptionEntity subscription : this.getSubscriptions()) {
 			if (!subscription.getEvent().equals(this)) {
+				rez = false;
 				throw new IllegalStateException(
 						"Event has a subscription that points to another event : " + subscription);
 			}
 		}
+		return rez;
 	}
 
 	/**

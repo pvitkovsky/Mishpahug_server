@@ -81,17 +81,11 @@ public class UserEntity {
 	private String userName;
 
 	@Column(name = "Encryted_Password", length = 128)
-	@Setter(AccessLevel.NONE)
 	/*
 	 * @JsonInclude(Include.NON_NULL) on class or @JsonInclude(Include.NON_NULL)
 	 * here to prevent this from being serialized as null
 	 */
 	private String encrytedPassword;
-
-	//TODO: why setter here?
-	public void setEncrytedPassword(String encrytedPassword) {
-		this.encrytedPassword = encrytedPassword;
-	}
 	
 	@Column(name = "dateofbirth")
 	@DateTimeFormat(iso = ISO.DATE)

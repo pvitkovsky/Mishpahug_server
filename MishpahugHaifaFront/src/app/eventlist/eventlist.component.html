@@ -1,11 +1,12 @@
-<table>
+<table class="tablemain" border="2px" >
   <tr>
-    <th ngFor="let k of keys">{{k}}</th>
+    <td class="tdh" *ngFor="let k of keys">{{k}}</td>
   </tr>
-  <tr ngFor="let event of events">
-    <td ngFor="let k of keys">
+  <tr class="trh" *ngFor="let event of events">
+    <td class="tdv" *ngFor="let k of keys">
       {{event[k]}}
     </td>
   </tr>
+
 </table>
 

@@ -19,6 +19,8 @@ import com.querydsl.core.types.Predicate;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.http.HttpHeaders;
@@ -30,6 +32,7 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(value = "/user")
 public class UserController implements IUserController {
 
@@ -77,7 +80,7 @@ public class UserController implements IUserController {
         UserSession userSessionOld = userSessionRepository.findByUserEntityAndIpAndUserAgentAndIsValidTrue(loginDTO.getUsername(),
                 request.getRemoteAddr(),
                 httpHeaders.get("user-agent").get(0));
-        if (userSessionOld != null) {
+        if (userSessionOld != null && userSessionOld.getLocalTime() == LocalTime.now()/* && userSessionOld.getLocalDate() == LocalDate.now()*/) {
             userSessionOld.setToken(UUID.randomUUID().toString());
             userSessionOld.setLocalDate(DateTime.now().toLocalDate());
             userSessionOld.setLocalTime(DateTime.now().toLocalTime());

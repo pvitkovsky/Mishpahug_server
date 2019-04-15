@@ -9,20 +9,20 @@ export class AuthenticationService {
 
     login(username: string, password: string) {
 
-        return this.http.post<any>('/api/authenticate', { username: username, password: password })
+        return this.http.post<any>('http://localhost:8080/user/login', { username: username, password: password })
             .map(user => {
-                // login successful if there's a jwt token in the response
+                console.log("Login -> " + user.token);
                 if (user && user.token) {
-                    // store user details and jwt token in local storage to keep user logged in between page refreshes
                     localStorage.setItem('currentUser', JSON.stringify(user));
                 }
-                console.log("Login -> " + user);
                 return user;
             });
     }
 
     logout() {
         // remove user from local storage to log user out
+        const headers = new HttpHeaders({'Authorization': JSON.stringify(localStorage.getItem('currentUser'))});
+        this.http.post<any>('http://localhost:8080/user/logout', null,{headers});
         localStorage.removeItem('currentUser');
     }
 }

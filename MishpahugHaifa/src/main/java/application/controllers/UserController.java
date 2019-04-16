@@ -105,8 +105,6 @@ public class UserController implements IUserController {
     @PostMapping(value = "/logout")
     public void logout(@RequestHeader(name = "Authorization", required = false) String token) {
         UserSession userSession = userSessionRepository.findByTokenAndIsValidTrue(token);
-        log.info("UserController -> LogOut -> Token -> " + token);
-        log.info("UserController -> LogOut -> Session -> " + userSession);
         userSession.setIsValid(false);
         userSessionRepository.save(userSession);
     }

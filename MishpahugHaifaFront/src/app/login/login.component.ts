@@ -30,21 +30,15 @@ export class LoginComponent implements OnInit {
 
     login() {
         this.loading = true;
-        if (localStorage.getItem('currentUser') == null){
-            this.authenticationService.login(this.model.username, this.model.password)
-                .subscribe(
-                    data => {
-                        this.router.navigate([this.returnUrl]);
-                    },
-                    error => {
-                        this.alertService.error(error);
-                        console.log(error);
-                        this.loading = false;
-                    });
-        }
-        else {
-            this.authenticationService.logout();
-        }
-
+        this.authenticationService.login(this.model.username, this.model.password)
+            .subscribe(
+                data => {
+                    this.router.navigate([this.returnUrl]);
+                },
+                error => {
+                    this.alertService.error(error);
+                    console.log(error);
+                    this.loading = false;
+                });
     }
 }

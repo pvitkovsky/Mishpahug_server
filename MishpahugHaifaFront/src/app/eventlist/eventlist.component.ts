@@ -4,8 +4,7 @@ import {EventlistService} from './eventlist.service';
 @Component({
   selector: 'app-eventlist',
   templateUrl: './eventlist.component.html',
-  styleUrls: ['./eventlist.component.scss',
-                ]
+  styleUrls: ['./eventlist.component.scss']
 })
 export class EventlistComponent implements OnInit {
   @Input() array;

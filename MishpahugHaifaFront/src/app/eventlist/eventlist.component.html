@@ -1,26 +1,10 @@
 <table class="tablemain" border="2px" >
   <tr>
-    <td>id</td>
-
-    <td>date</td>
-
-    <td>time</td>
-
-    <td>name</td>
+    <td class="tdh" *ngFor="let k of keys">{{k}}</td>
   </tr>
-
   <tr class="trh" *ngFor="let event of events">
-    <td>
-      {{event.id}}
-    </td>
-    <td>
-      {{event.date}}
-    </td>
-    <td>
-      {{event.time}}
-    </td>
-    <td>
-      {{event.nameOfEvent}}
+    <td class="tdv" *ngFor="let k of keys">
+      {{event[k]}}
     </td>
   </tr>
 

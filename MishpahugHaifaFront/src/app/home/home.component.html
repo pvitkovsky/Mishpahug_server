@@ -1,10 +1,34 @@
-﻿<h1>Hi {{currentUser.firstName}}!</h1>
-<p>You're logged in with Angular 6!!</p>
-<h3>All registered users:</h3>
-<ul>
-    <li *ngFor="let user of users">
-        {{user.username}} ({{user.firstName}} {{user.lastName}})
-        - <a (click)="deleteUser(user.id)" class="text-danger">Delete</a>
-    </li>
-</ul>
-<p><a [routerLink]="['/login']">Logout</a></p>
+<div class="container">
+    <div class="events">
+        <div class="centered">
+            <app-eventlist></app-eventlist>
+        </div>
+    </div>
+    <div class="ads">
+        <div class="centered">
+            <app-footer></app-footer>
+        </div>
+    </div>
+    <div class="header">
+        <div class="centered">
+            <app-header></app-header>
+        </div>
+    </div>
+    <div class="loginform">
+        <h1>Hi {{currentUser.firstName}}!</h1>
+        <p>You're logged in with Angular 2/5!!</p>
+        <h3>All registered users:</h3>
+        <ul>
+            <li *ngFor="let user of users">
+                {{user.username}} ({{user.firstName}} {{user.lastName}})
+                - <a (click)="deleteUser(user.id)">Delete</a>
+            </li>
+        </ul>
+        <p><a [routerLink]="['/login']">Logout</a></p>
+    </div>
+    <div class="calendar">
+        <div class="centered">
+            <app-calendarlist></app-calendarlist>
+        </div>
+    </div>
+</div>

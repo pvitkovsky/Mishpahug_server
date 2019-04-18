@@ -80,7 +80,7 @@ public class UserController implements IUserController {
         UserSession userSessionOld = userSessionRepository.findByUserEntityAndIpAndUserAgentAndIsValidTrue(loginDTO.getUsername(),
                 request.getRemoteAddr(),
                 httpHeaders.get("user-agent").get(0));
-        if (userSessionOld != null && userSessionOld.getLocalTime() == LocalTime.now()/* && userSessionOld.getLocalDate() == LocalDate.now()*/) {
+        if (userSessionOld != null /*&& userSessionOld.getLocalTime() == LocalTime.now() && userSessionOld.getLocalDate() == LocalDate.now()*/) {
             userSessionOld.setToken(UUID.randomUUID().toString());
             userSessionOld.setLocalDate(DateTime.now().toLocalDate());
             userSessionOld.setLocalTime(DateTime.now().toLocalTime());

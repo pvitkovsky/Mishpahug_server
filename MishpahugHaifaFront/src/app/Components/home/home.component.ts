@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { User } from '../_models/index';
-import { UserService } from '../_services/index';
+import { User } from '../../Models/index';
+import { UserService } from '../../Services/index';
 
 @Component({
     templateUrl: 'home.component.html',

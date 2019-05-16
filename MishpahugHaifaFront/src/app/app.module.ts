@@ -18,7 +18,6 @@ import { routing }        from './app.routing';
 import { AlertComponent } from './Directives/index';
 import { AuthGuard } from './Guards/index';
 import { JwtInterceptor } from './Helpers/index';
-import { fakeBackendProvider } from './Helpers/index'; // used to create fake backend
 import { AlertService, AuthenticationService, UserService } from './Services/index';
 
 
@@ -51,9 +50,6 @@ import { AlertService, AuthenticationService, UserService } from './Services/ind
             useClass: JwtInterceptor,
             multi: true
         },
-
-        // provider used to create fake backend
-        fakeBackendProvider
     ],
     bootstrap: [AppComponent]
 })

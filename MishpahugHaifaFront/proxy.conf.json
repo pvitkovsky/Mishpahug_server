@@ -1,6 +1,6 @@
 {
-  "/*/*": {
-    "target": "http://localhost:8080",
+  "/event/": {
+    "target": "http://localhost:8080/event",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true

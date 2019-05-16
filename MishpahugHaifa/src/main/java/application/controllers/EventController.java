@@ -19,7 +19,7 @@ import java.util.HashMap;
 
 @Slf4j
 @RestController
-@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(value = "/event")
 public class EventController implements IEventController {
 

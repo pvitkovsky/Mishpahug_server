@@ -32,7 +32,7 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
-@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(value = "/user")
 public class UserController implements IUserController {
 
@@ -104,7 +104,9 @@ public class UserController implements IUserController {
     @Override
     @PostMapping(value = "/logout")
     public void logout(@RequestHeader(name = "Authorization", required = false) String token) {
+        if (token == null) throw new RuntimeException("Token is NULL");
         UserSession userSession = userSessionRepository.findByTokenAndIsValidTrue(token);
+        if (userSession == null)  throw new RuntimeException("Token is incorrect");
         userSession.setIsValid(false);
         userSessionRepository.save(userSession);
     }

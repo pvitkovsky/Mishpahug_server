@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -260,8 +261,12 @@ public class EventEntity {
 	 * Removes all subscriptions when deleting event; not needed - if an event is
 	 * deleted, @PreRemove on EventGuestRelation does this;
 	 */
+	/*
+	 * Unable to remove while iterated. Had to include collection copy to fix this. 
+	 */
 	private void unsubscribeAll() {
-		subscriptions.forEach(SubscriptionEntity::nullifyForRemoval);
+		Set<SubscriptionEntity> removeSubs = new CopyOnWriteArraySet<>(subscriptions);
+		removeSubs.forEach(SubscriptionEntity::nullifyForRemoval); 
 	}
 
 	public void convertEventDTO(EventDTO data) {

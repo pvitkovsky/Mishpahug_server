@@ -3,7 +3,9 @@ package application.entities;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
@@ -286,10 +288,16 @@ public class UserEntity {
 	 * Unsubscribes user from all subscribed events; unsubscribes others from this
 	 * user's owned event; this must be done only before final deletion;
 	 */
+	/*
+	 * Unable to remove while iterated. Had to include collection copy to fix this. 
+	 */
 	private void unsubscribeEventsAndSubscriptions() {
 		
-		subscriptions.forEach(SubscriptionEntity::nullifyForRemoval); // TODO: fix me pls;
-		eventItemsOwner.forEach(EventEntity::nullifyForRemoval);
+		Set<SubscriptionEntity> removeSubs = new CopyOnWriteArraySet<>(subscriptions);
+		Set<EventEntity> removeEvents = new CopyOnWriteArraySet<>(eventItemsOwner);
+		removeSubs.forEach(SubscriptionEntity::nullifyForRemoval); 
+		removeEvents.forEach(EventEntity::nullifyForRemoval);
+		
 	}
 
 	/**

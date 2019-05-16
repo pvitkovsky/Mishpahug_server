@@ -1,15 +1,5 @@
 package application.configurations;
 
-import application.entities.*;
-import application.entities.LogsOnEvent.ActionsOnEvent;
-import application.repositories.*;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
-
-import javax.transaction.Transactional;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,6 +11,39 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
+import javax.transaction.Transactional;
+
+import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
+
+import application.entities.AddressEntity;
+import application.entities.CityEntity;
+import application.entities.CountryEntity;
+import application.entities.EventEntity;
+import application.entities.GenderEntity;
+import application.entities.KitchenTypeEntity;
+import application.entities.LogsOnEvent;
+import application.entities.LogsOnEvent.ActionsOnEvent;
+import application.entities.MaritalStatusEntity;
+import application.entities.ReligionEntity;
+import application.entities.SubscriptionEntity;
+import application.entities.UserEntity;
+import application.repositories.AddressRepository;
+import application.repositories.CityRepository;
+import application.repositories.CountryRepository;
+import application.repositories.EventRepository;
+import application.repositories.GenderRepository;
+import application.repositories.KichenTypeRepository;
+import application.repositories.LogsDataRepository;
+import application.repositories.MaritalStatusRepository;
+import application.repositories.ReligionRepository;
+import application.repositories.SubscriptionRepository;
+import application.repositories.UserRepository;
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Load the production DB with integration test data; TODO: make it a Spring
  * profile
@@ -28,8 +51,12 @@ import java.util.Random;
 @Slf4j
 @Component
 @Transactional
+//@Profile("dbTest")
 public class DB_test_loader implements CommandLineRunner {
 
+	@Autowired
+	Environment env;
+	
 	@Autowired
 	UserRepository userRepository;
 	@Autowired
@@ -52,7 +79,7 @@ public class DB_test_loader implements CommandLineRunner {
 	KichenTypeRepository kichenTypeRepository;
 	@Autowired
 	LogsDataRepository logsDataRepository;
-	
+
 	
 
 	@Override
@@ -72,48 +99,49 @@ public class DB_test_loader implements CommandLineRunner {
 
 	private void loadTest(MPHEntity entity) {
 
+		String testFolder = env.getProperty("database-test-folder");
 		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-		InputStream is = classloader.getResourceAsStream(entity.dataFile());
-		BufferedReader empdtil = new BufferedReader(new InputStreamReader(is));
+		InputStream is = classloader.getResourceAsStream(testFolder + "/" + entity.dataFile());
+		BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
 		switch (entity) {
 		case USER: {
-			UserLoader loader = new UserLoader(empdtil);
+			UserLoader loader = new UserLoader(br);
 			loader.load();
 			break;
 		}
 		case EVENT: {
-			EventLoader loader = new EventLoader(empdtil);
+			EventLoader loader = new EventLoader(br);
 			loader.load();
 			break;
 		}
 		case CITY: {
-			CityLoader loader = new CityLoader(empdtil);
+			CityLoader loader = new CityLoader(br);
 			loader.load();
 			break;
 		}
 		case KICHENTYPES: {
-			KichenTypeLoader loader = new KichenTypeLoader(empdtil);
+			KichenTypeLoader loader = new KichenTypeLoader(br);
 			loader.load();
 			break;
 		}
 		case ADDRESS: {
-			AddressLoader loader = new AddressLoader(empdtil);
+			AddressLoader loader = new AddressLoader(br);
 			loader.load();
 			break;
 		}
 		case RELIGION: {
-			ReligionLoader loader = new ReligionLoader(empdtil);
+			ReligionLoader loader = new ReligionLoader(br);
 			loader.load();
 			break;
 		}
 		case GENDER: {
-			GenderLoader loader = new GenderLoader(empdtil);
+			GenderLoader loader = new GenderLoader(br);
 			loader.load();
 			break;
 		}
 		case MARRIAGE: {
-			MaritalStatusLoader loader = new MaritalStatusLoader(empdtil);
+			MaritalStatusLoader loader = new MaritalStatusLoader(br);
 			loader.load();
 			break;
 		}
@@ -217,10 +245,10 @@ public class DB_test_loader implements CommandLineRunner {
 	 * Loads users
 	 */
 	private class UserLoader {
-		BufferedReader empdtil;
+		BufferedReader br;
 
-		public UserLoader(BufferedReader empdtil) {
-			this.empdtil = empdtil;
+		public UserLoader(BufferedReader br) {
+			this.br = br;
 		}
 
 		void load() {
@@ -238,7 +266,7 @@ public class DB_test_loader implements CommandLineRunner {
 				// need
 				// https://stackoverflow.com/questions/49595852/deleteall-in-repository-randomly-causes-constraintviolationexception
 				String detail;
-				while ((detail = empdtil.readLine()) != null) {
+				while ((detail = br.readLine()) != null) {
 					String[] data = detail.split("!");
 					UserEntity user = new UserEntity(data[0].split("@")[0], data[0]);
 					user.setFirstName(data[1]);
@@ -255,7 +283,7 @@ public class DB_test_loader implements CommandLineRunner {
 					user.setMaritalStatus(maritalStatusEntityList.get(rr.nextInt(maritalStatusEntityList.size() - 1)));
 					userRepository.save(user);
 				}
-				empdtil.close();
+				br.close();
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}
@@ -265,10 +293,10 @@ public class DB_test_loader implements CommandLineRunner {
 	 * Loads address
 	 */
 	private class AddressLoader {
-		BufferedReader empdtil;
+		BufferedReader br;
 
-		public AddressLoader(BufferedReader empdtil) {
-			this.empdtil = empdtil;
+		public AddressLoader(BufferedReader br) {
+			this.br = br;
 		}
 
 		void load() {
@@ -280,7 +308,7 @@ public class DB_test_loader implements CommandLineRunner {
 				Random rr = new Random();
 				Integer cityEntityListSize = cityEntityList.size() - 1;
 				String detail;
-				while ((detail = empdtil.readLine()) != null) {
+				while ((detail = br.readLine()) != null) {
 					AddressEntity addressEntity = new AddressEntity();
 					addressEntity.setStreet(detail);
 					addressEntity.setBuilding(rr.nextInt(100));
@@ -288,7 +316,7 @@ public class DB_test_loader implements CommandLineRunner {
 					cityEntityList.get(rr.nextInt(cityEntityListSize)).addAddress(addressEntity);
 
 				}
-				empdtil.close();
+				br.close();
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}
@@ -298,10 +326,10 @@ public class DB_test_loader implements CommandLineRunner {
 	 * Loads city
 	 */
 	private class CityLoader {
-		BufferedReader empdtil;
+		BufferedReader br;
 
-		public CityLoader(BufferedReader empdtil) {
-			this.empdtil = empdtil;
+		public CityLoader(BufferedReader br) {
+			this.br = br;
 		}
 
 		void load() {
@@ -320,13 +348,13 @@ public class DB_test_loader implements CommandLineRunner {
 				CountryEntity countryEntity = new CountryEntity();
 				countryEntity.setName("Israel");
 				countryRepository.save(countryEntity);
-				while ((detail = empdtil.readLine()) != null) {
+				while ((detail = br.readLine()) != null) {
 					CityEntity cityEntity = new CityEntity();
 					cityEntity.setName(detail);
 					countryEntity.addCity(cityEntity);
 					// no need to save city explicitly, as its save is cascaded from Country;
 				}
-				empdtil.close();// .
+				br.close();// .
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}
@@ -336,10 +364,10 @@ public class DB_test_loader implements CommandLineRunner {
 	 * Loads kichentype
 	 */
 	private class KichenTypeLoader {
-		BufferedReader empdtil;
+		BufferedReader br;
 
-		public KichenTypeLoader(BufferedReader empdtil) {
-			this.empdtil = empdtil;
+		public KichenTypeLoader(BufferedReader br) {
+			this.br = br;
 		}
 
 		void load() {
@@ -357,12 +385,12 @@ public class DB_test_loader implements CommandLineRunner {
 				// do we need flush here?
 				// need
 				String detail;
-				while ((detail = empdtil.readLine()) != null) {
+				while ((detail = br.readLine()) != null) {
 					KitchenTypeEntity kichenTypeEntity = new KitchenTypeEntity();
 					kichenTypeEntity.setName(detail);
 					kichenTypeRepository.save(kichenTypeEntity);
 				}
-				empdtil.close();
+				br.close();
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}
@@ -372,10 +400,10 @@ public class DB_test_loader implements CommandLineRunner {
 	 * Loads Religion
 	 */
 	private class ReligionLoader {
-		BufferedReader empdtil;
+		BufferedReader br;
 
-		public ReligionLoader(BufferedReader empdtil) {
-			this.empdtil = empdtil;
+		public ReligionLoader(BufferedReader br) {
+			this.br = br;
 		}
 
 		void load() {
@@ -389,12 +417,12 @@ public class DB_test_loader implements CommandLineRunner {
 				// do we need flush here?
 				// need
 				String detail;
-				while ((detail = empdtil.readLine()) != null) {
+				while ((detail = br.readLine()) != null) {
 					ReligionEntity religionEntity = new ReligionEntity();
 					religionEntity.setName(detail);
 					religionRepository.save(religionEntity);
 				}
-				empdtil.close();
+				br.close();
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}
@@ -404,10 +432,10 @@ public class DB_test_loader implements CommandLineRunner {
 	 * Loads gender
 	 */
 	private class GenderLoader {
-		BufferedReader empdtil;
+		BufferedReader br;
 
-		public GenderLoader(BufferedReader empdtil) {
-			this.empdtil = empdtil;
+		public GenderLoader(BufferedReader br) {
+			this.br = br;
 		}
 		
 		void load() {
@@ -421,12 +449,12 @@ public class DB_test_loader implements CommandLineRunner {
 				//do we need flush here?
 				// need
 				String detail;
-				while ((detail = empdtil.readLine()) != null) {
+				while ((detail = br.readLine()) != null) {
 					GenderEntity genderEntity = new GenderEntity();
 					genderEntity.setName(detail);
 					genderRepository.save(genderEntity);
 				}
-				empdtil.close();
+				br.close();
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}
@@ -436,10 +464,10 @@ public class DB_test_loader implements CommandLineRunner {
 	 * Loads maritalstatus
 	 */
 	private class MaritalStatusLoader {
-		BufferedReader empdtil;
+		BufferedReader br;
 
-		public MaritalStatusLoader(BufferedReader empdtil) {
-			this.empdtil = empdtil;
+		public MaritalStatusLoader(BufferedReader br) {
+			this.br = br;
 		}
 
 		void load() {
@@ -453,12 +481,12 @@ public class DB_test_loader implements CommandLineRunner {
 				//do we need flush here?
 				// need
 				String detail;
-				while ((detail = empdtil.readLine()) != null) {
+				while ((detail = br.readLine()) != null) {
 					MaritalStatusEntity maritalStatusEntity = new MaritalStatusEntity();
 					maritalStatusEntity.setName(detail);
 					maritalStatusRepository.save(maritalStatusEntity);
 				}
-				empdtil.close();
+				br.close();
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}
@@ -467,10 +495,10 @@ public class DB_test_loader implements CommandLineRunner {
 
 
 	/*private class HolidayLoader {
-		BufferedReader empdtil;
+		BufferedReader br;
 
-		public HolidayLoader(BufferedReader empdtil) {
-			this.empdtil = empdtil;
+		public HolidayLoader(BufferedReader br) {
+			this.br = br;
 		}
 
 		void load() {
@@ -493,9 +521,9 @@ public class DB_test_loader implements CommandLineRunner {
 	 * Loads events and sets owners randomly
 	 */
 	private class EventLoader {
-		BufferedReader empdtil;
-		public EventLoader(BufferedReader empdtil) {
-			this.empdtil = empdtil;
+		BufferedReader br;
+		public EventLoader(BufferedReader br) {
+			this.br = br;
 		}
 		
 		void load() {
@@ -510,13 +538,13 @@ public class DB_test_loader implements CommandLineRunner {
 				List<UserEntity> userEntityList = userRepository.findAll();
 				Integer userEntityListCount = userEntityList.size() - 1;
 				Random r = new Random();
-				while ((detail = empdtil.readLine()) != null) {
+				while ((detail = br.readLine()) != null) {
 					UserEntity randomOwner = userEntityList.get(r.nextInt(userEntityListCount));
 					String[] eventAttributes = detail.split(",");
 					EventEntity event = new EventEntity(randomOwner, LocalDate.parse(eventAttributes[0].replaceAll("/", "-"), DateTimeFormatter.ISO_DATE), LocalTime.parse(eventAttributes[1], DateTimeFormatter.ISO_LOCAL_TIME));
 					event.setNameOfEvent(eventAttributes[2]);
 				}
-				empdtil.close();
+				br.close();
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}

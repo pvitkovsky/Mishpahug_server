@@ -9,7 +9,7 @@ export class EventlistService{
     }
     getEvents(){
       const headers = new HttpHeaders({'Authorization': 'not null Authorization'});
-      return this.http.get("http://localhost:8080/event/",{headers}).pipe(
+      return this.http.get("api/event/",{headers}).pipe(
         map((res: any) => {
               console.log(res);
               return res;

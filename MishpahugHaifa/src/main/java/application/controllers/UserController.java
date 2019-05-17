@@ -80,7 +80,10 @@ public class UserController implements IUserController {
         UserSession userSessionOld = userSessionRepository.findByUserEntityAndIpAndUserAgentAndIsValidTrue(loginDTO.getUsername(),
                 request.getRemoteAddr(),
                 httpHeaders.get("user-agent").get(0));
-        if (userSessionOld != null /*&& userSessionOld.getLocalTime() == LocalTime.now() && userSessionOld.getLocalDate() == LocalDate.now()*/) {
+        httpHeaders.forEach((key, value) -> {
+            log.info("User Controller -> headers -> " + String.format("Header '%s' = %s", key, value));
+        });
+        if (userSessionOld != null) {
             userSessionOld.setToken(UUID.randomUUID().toString());
             userSessionOld.setLocalDate(DateTime.now().toLocalDate());
             userSessionOld.setLocalTime(DateTime.now().toLocalTime());
@@ -156,7 +159,7 @@ public class UserController implements IUserController {
      * @see application.controllers.intarfaces.IUserController#setDataFromForm(application.dto.UserDTO)
      */
     @Override
-    @PostMapping(value = "/addPage1")
+    @PostMapping(value = "/addPage")
     public void setDataFromForm(@RequestBody UserDTO data) throws ExceptionMishpaha {
         UserEntity userEntity = new UserEntity(data);
         userModel.add(userEntity);
@@ -166,7 +169,7 @@ public class UserController implements IUserController {
      * @see application.controllers.intarfaces.IUserController#setDataFromFormDetail(application.dto.UserDTODetail, java.lang.String)
      */
     @Override
-    @PostMapping(value = "/addPage2")
+    @PutMapping(value = "/addPage")
     public void setDataFromFormDetail(@RequestBody UserDTODetail data,
                                       @RequestParam(name = "username") String userName) throws ExceptionMishpaha {
         UserEntity userEntity = userModel.getByName(userName);

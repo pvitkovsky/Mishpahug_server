@@ -1,0 +1,366 @@
+[
+            {
+                "name": "Tu Bishvat",
+                "description": "Tu B'Shevat is the 15th day of the Jewish month of Shevat and is the birthday for trees that bear fruit or nuts.",
+                "date": "2019-01-21",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "March Equinox",
+                "description": " ",
+                "date": "2019-03-20",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Ta'anit Esther (Fast of Esther)",
+                "description": " ",
+                "date": "2019-03-20",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Erev Purim",
+                "description": " ",
+                "date": "2019-03-20",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Purim (Tel Aviv)",
+                "description": "Purim is a Jewish holiday to celebrate the deliverance of the Jewish people from a plot to kill all of them during the Persian empire, as told in the scroll of Esther.",
+                "date": "2019-03-21",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Shushan Purim (Jerusalem)",
+                "description": " ",
+                "date": "2019-03-22",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Yom HaAliyah",
+                "description": " ",
+                "date": "2019-04-15",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Erev Pesach",
+                "description": " ",
+                "date": "2019-04-19",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Pesach I (First day of Passover)",
+                "description": "During Passover, the Jewish people remember the liberation of the Israelites from slavery, their exodus from Egypt, and that their first-born children were spared during the 10th plague, as told in the Haggadah.",
+                "date": "2019-04-20",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Pesach II (Passover)",
+                "description": " ",
+                "date": "2019-04-21",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Pesach III (Passover)",
+                "description": " ",
+                "date": "2019-04-22",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Pesach IV (Passover)",
+                "description": " ",
+                "date": "2019-04-23",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Pesach V (Passover)",
+                "description": " ",
+                "date": "2019-04-24",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Pesach VI (Passover)",
+                "description": " ",
+                "date": "2019-04-25",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Pesach VII (Last day of Passover)",
+                "description": "The last day of Passover marks the end of the Passover period, which lasts for seven or eight days.",
+                "date": "2019-04-26",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Yom HaShoah/Holocaust Memorial Day",
+                "description": "Yom HaShoah is a Jewish day of remembrance for the lives and the heroism of the six million Jewish people who died in the Holocaust in the years leading up to and during World War II.",
+                "date": "2019-05-02",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Yom HaZikaron (Memorial Day)",
+                "description": " ",
+                "date": "2019-05-08",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Yom HaAtzmaut (Independence Day)",
+                "description": "Israel's Independence Day, also known as Yom Ha'atzmaut, marks the anniversary of the Declaration of Independence of Israel.",
+                "date": "2019-05-09",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Lag B'Omer",
+                "description": "Lag B'Omer (Lag Ba'Omer, Lag La'omer, Lag L'Omer) is the 33rd day of the Counting of the Omer, which is a period of 49 days between the Jewish holidays of Passover and Shavuot.",
+                "date": "2019-05-23",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Yom Yerushalayim (Jerusalem Day)",
+                "description": "Yom Yerushalayim (Jerusalem Day) is the anniversary of Jerusalem's reunification.",
+                "date": "2019-06-02",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Erev Shavuot",
+                "description": " ",
+                "date": "2019-06-08",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Shavuot (Pentecost)",
+                "description": "Shavuot, sometimes known as the Festival of the Weeks, is a Jewish holiday to mark the end of the Counting of the Omer and the anniversary of the day when Jewish people received the Torah.",
+                "date": "2019-06-09",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "June Solstice",
+                "description": " ",
+                "date": "2019-06-21",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Fast of Shiva Asar B'Tammuz",
+                "description": "The 17th day of the Jewish month of Tammuz is a day of mourning to mark the anniversary of five calamities that befell the Jewish people. It is known as the Fast of Shiva Asar B'Tammuz.",
+                "date": "2019-07-21",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Erev Tisha B'Av",
+                "description": " ",
+                "date": "2019-08-10",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Tisha B'Av",
+                "description": "Tisha B' Av is a Jewish day of prayer and fasting. It is observed on the ninth day of the month of Av in the Jewish calendar. It commemorate the anniversary of five calamities, including the destruction of the First Temple and the Second Temple.",
+                "date": "2019-08-11",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "September Equinox",
+                "description": " ",
+                "date": "2019-09-23",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Erev Rosh Hashana",
+                "description": " ",
+                "date": "2019-09-29",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Rosh Hashana (New Year)",
+                "description": "Rosh Hashana, commonly known as the Jewish New Year, is the first day of Tishrei, the seventh month in the Hebrew calendar.",
+                "date": "2019-09-30",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Rosh Hashana II (New Year day 2)",
+                "description": " ",
+                "date": "2019-10-01",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Tzom Gedaliah",
+                "description": " ",
+                "date": "2019-10-02",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Erev Yom Kippur",
+                "description": " ",
+                "date": "2019-10-08",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Yom Kippur",
+                "description": "Yom Kippur (Day of Atonement) is an important Jewish holiday that centers on the themes of atonement and repentance.",
+                "date": "2019-10-09",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Erev Sukkot",
+                "description": " ",
+                "date": "2019-10-13",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Sukkot I",
+                "description": "The first day of Sukkot marks the start of the Sukkot festival, celebrated among Jewish communities worldwide.",
+                "date": "2019-10-14",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Sukkot II",
+                "description": " ",
+                "date": "2019-10-15",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Sukkot III",
+                "description": " ",
+                "date": "2019-10-16",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Sukkot IV",
+                "description": " ",
+                "date": "2019-10-17",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Sukkot V",
+                "description": " ",
+                "date": "2019-10-18",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Sukkot VI",
+                "description": " ",
+                "date": "2019-10-19",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Sukkot VII/Hoshanah Rabah",
+                "description": "The last day of Sukkot marks the end of the Sukkot festival, celebrated among Jewish communities worldwide.",
+                "date": "2019-10-20",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Shmini Atzeret/Simchat Torah",
+                "description": " ",
+                "date": "2019-10-21",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Yom HaAliyah School Observance",
+                "description": " ",
+                "date": "2019-11-05",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "December Solstice",
+                "description": " ",
+                "date": "2019-12-22",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Hanukkah I (Holiday of lights)",
+                "description": "Hanukkah, also known as Chanukah or the Festival of Lights, is celebrated for 8 days between the 25th day of the month of Kislev to the second day of Tevet in the Hebrew calendar.",
+                "date": "2019-12-23",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Hanukkah II",
+                "description": " ",
+                "date": "2019-12-24",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Hanukkah III",
+                "description": " ",
+                "date": "2019-12-25",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Hanukkah IV",
+                "description": " ",
+                "date": "2019-12-26",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Hanukkah V",
+                "description": " ",
+                "date": "2019-12-27",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Hanukkah VI/Rosh Chodesh Tevet",
+                "description": " ",
+                "date": "2019-12-28",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Hanukkah VII",
+                "description": " ",
+                "date": "2019-12-29",
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Hanukkah VIII",
+                "description": "Hanukkah, also known as Chanukah or the Festival of Lights, is celebrated for eight days between the 25th day of the month of Kislev to the second day of Tevet in the Hebrew calendar.",
+                "date": "iso": "2019-12-30",
+                "locations": "All",
+                "states": "All"
+            }
+        ]

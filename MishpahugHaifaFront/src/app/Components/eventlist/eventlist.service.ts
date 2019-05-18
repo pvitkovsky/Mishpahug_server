@@ -11,7 +11,6 @@ export class EventlistService{
       const headers = new HttpHeaders({'Authorization': 'not null Authorization'});
       return this.http.get("api/event/",{headers}).pipe(
         map((res: any) => {
-              console.log(res);
               return res;
           }
         )

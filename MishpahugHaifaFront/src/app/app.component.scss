@@ -1,11 +1,10 @@
 
 .container{
-  width: 90vw; height:90vh;
-
+  width: 95vw; height:95vh;
   display: grid;
-  grid-template-columns: 27% auto 40%;
-  grid-template-rows: 10% 25% 20% 5% auto 10%;
-  grid-gap: 2vh 2vw;
+  grid-template-columns: 25% auto 40%;
+  grid-template-rows: 10% 10% 10% 5% 10% 10% 5% auto 10%;
+  grid-gap: 0.5vh 0.5vw;
 }
 
 .container > div {
@@ -18,7 +17,7 @@
   transform: translate(-50%, -50%)}
 
 .header {grid-area: 1/1/2/4;}
-.ads{grid-area: 6/1/7/4;}
-.events{grid-area: 2/2/6/4;}
+.ads{grid-area: 9/1/10/4;}
+.events{grid-area: 2/2/9/4;}
 .loginform{grid-area: 2/1/6/2; }
-.calendar{grid-area: 3/1/6/2;}
+.calendar{grid-area: 6/1/9/2;}

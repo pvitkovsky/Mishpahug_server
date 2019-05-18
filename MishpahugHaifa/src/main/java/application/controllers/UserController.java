@@ -121,6 +121,7 @@ public class UserController implements IUserController {
     @Override
     @PostMapping(value = "/register")
     public void add(@RequestBody UserDTO userDTO) throws ExceptionMishpaha {
+        System.out.println("UserController -> Register -> UserDTO = " + userDTO);
         if (userModel.getByName(userDTO.getUserName()) != null) {
             throw new RuntimeException("Such user already exists");
         }

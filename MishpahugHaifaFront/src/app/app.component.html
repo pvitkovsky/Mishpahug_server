@@ -2,7 +2,10 @@
     <div class="container">
       <div class="events">
         <div class="centered">
-          <app-eventlist></app-eventlist>
+          <!--установить условие вывода данных-->
+          <div *ngIf="false; then thenBlock else elseBlock"></div>
+          <ng-template #thenBlock><app-eventlist></app-eventlist></ng-template>
+          <ng-template #elseBlock>asdasd</ng-template>
         </div>
       </div>
       <div class="ads">

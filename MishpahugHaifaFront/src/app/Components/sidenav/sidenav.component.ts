@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GuiService } from '../../Services/index';
 
 @Component({
   selector: 'app-sidenav',
@@ -10,9 +11,14 @@ export class SidenavComponent implements OnInit {
   events: string[] = [];
   opened: boolean;
 
-  constructor() { }
+  constructor(private guiService: GuiService) { }
 
   ngOnInit() {
+  	this.guiService.sideNavObservable.subscribe(() => {
+      this.opened = !this.opened;
+    })
   }
+
+
 
 }

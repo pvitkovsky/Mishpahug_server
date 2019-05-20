@@ -1,25 +1,9 @@
 <clr-main-container>
-	<header class="header header-3">
-		<div class="branding">
-			<a>
-				<clr-icon shape="bars"></clr-icon> <!--TODO: link to sidenav-->
-				<span class="title">Mishpahug</span>
-			</a>
-		</div>
-		<div class="header-actions">
-			<a class="nav-link nav-icon">
-				<clr-icon shape="logout"></clr-icon>
-			</a>
-		</div>
-	</header>
+    <app-navbar></app-navbar>
 	<div class="content-container">
     <app-sidenav>loading</app-sidenav>
-  		<div class="container">
-			<div class="col-sm-8 col-sm-offset-2">
-				<router-outlet></router-outlet>
-			</div>
-		</div>
-		
+  	<div class="container">
+			<router-outlet></router-outlet>
+	</div>	
 	</div>
-
 </clr-main-container>

@@ -7,14 +7,14 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ClarityModule } from 'clarity-angular';
 
 import { EventlistService} from './Components/eventlist/eventlist.service';
-import { HeaderComponent } from './Components/header/header.component';
+import { NavbarComponent } from './Components/navbar/navbar.component';
 import { FooterComponent } from './Components/footer/footer.component';
 import { EventlistComponent } from './Components/eventlist/eventlist.component';
 import { CalendarlistComponent } from './Components/calendarlist/calendarlist.component';
-import { HomeComponent } from './Components/home/index';
-import { LoginComponent } from './Components/login/index';
-import { RegisterComponent } from './Components/register/index';
-import { SidenavComponent } from './Components/sidenav/index';
+import { HomeComponent } from './Components/home/home.component';
+import { LoginComponent } from './Components/login/login.component';
+import { RegisterComponent } from './Components/register/register.component';
+import { SidenavComponent } from './Components/sidenav/sidenav.component';
 
 import { AppComponent }  from './app.component';
 import { MainRouter }        from './app.routing';
@@ -40,14 +40,15 @@ import { AlertService, AuthenticationService, UserService } from './Services/ind
     declarations: [
         AppComponent,
         AlertComponent,
-        HeaderComponent,
+        NavbarComponent,
         FooterComponent,
         EventlistComponent,
         CalendarlistComponent,
         HomeComponent,
         LoginComponent,
         RegisterComponent,
-        SidenavComponent
+        SidenavComponent,
+        NavbarComponent
     ],
     providers: [
         EventlistService,

@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { GuiService } from '../../Services/index';
+import { GuiService, AuthenticationService } from '../../Services/index';
 
 @Component({
   selector: 'app-navbar',
@@ -7,8 +7,9 @@ import { GuiService } from '../../Services/index';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-
-  constructor(private guiService: GuiService) { 
+  //TODO: consider merging this with app.component
+   
+  constructor(private guiService: GuiService, private authService: AuthenticationService ) { 
   }
 
   ngOnInit() {
@@ -16,6 +17,10 @@ export class NavbarComponent implements OnInit {
 
   sideMenu() {
      this.guiService.toggleSideNav();
+  }
+
+  get loggedIn(){
+    return this.authService.loggedIn();
   }
 
 }

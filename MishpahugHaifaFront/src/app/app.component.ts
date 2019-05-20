@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GuiService } from './Services/index';
+import { GuiService, AuthenticationService } from './Services/index';
 
 @Component({
     selector: 'app',
@@ -11,11 +11,15 @@ export class AppComponent implements OnInit {
 
 opened: boolean;
 
-  constructor(private guiService: GuiService) { }
+  constructor(private guiService: GuiService, private authService: AuthenticationService) { }
 
   ngOnInit() {
   	this.guiService.sideNavObservable.subscribe(() => {
       this.opened = !this.opened;
     })
+  }
+
+  get loggedIn(){
+    return this.authService.loggedIn();
   }
 }

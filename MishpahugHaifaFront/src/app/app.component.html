@@ -1,7 +1,7 @@
 <clr-main-container>
 	<app-navbar class="top-menu"></app-navbar>
 	<mat-sidenav-container class="sidenav-container">
-		<mat-sidenav #sidenav mode="side" [(opened)]="opened" class="sidenav-menu"> <!--TODO: render if logged in-->
+		<mat-sidenav *ngIf='loggedIn' #sidenav mode="side" [(opened)]="opened" class="sidenav-menu">
 			<div> Menu </div>
 		</mat-sidenav>
 		<mat-sidenav-content> 

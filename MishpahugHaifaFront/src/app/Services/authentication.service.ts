@@ -29,4 +29,12 @@ export class AuthenticationService {
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
     }
+
+    loggedIn() {
+       if(localStorage.getItem('currentUser')){
+           return true;
+       }
+       return false; 
+    }
+
 }

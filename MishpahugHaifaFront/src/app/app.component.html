@@ -1,9 +1,14 @@
 <clr-main-container>
-    <app-navbar></app-navbar>
-	<div class="content-container">
-    <app-sidenav>loading</app-sidenav>
-  	<div class="container">
-			<router-outlet></router-outlet>
-	</div>	
-	</div>
+	<app-navbar class="top-menu"></app-navbar>
+	<mat-sidenav-container class="sidenav-container">
+		<mat-sidenav #sidenav mode="side" [(opened)]="opened" class="sidenav-menu"> <!--TODO: render if logged in-->
+			<div> Menu </div>
+		</mat-sidenav>
+		<mat-sidenav-content> 
+			<div class="container">
+				<router-outlet></router-outlet>
+			</div>	
+		</mat-sidenav-content>
+
+	</mat-sidenav-container>
 </clr-main-container>

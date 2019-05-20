@@ -1,0 +1,21 @@
+
+.top-menu{
+}
+
+.sidenav-container {
+  position: absolute;
+  top: 60px; 
+  /* TODO: automatic top offset with top menu;
+  */
+  bottom: 60px;
+  left: 0;
+  right: 0;
+}
+
+.sidenav-menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  background: rgba(0, 0, 0, 0.01);
+}

@@ -14,7 +14,6 @@ import { CalendarlistComponent } from './Components/calendarlist/calendarlist.co
 import { HomeComponent } from './Components/home/home.component';
 import { LoginComponent } from './Components/login/login.component';
 import { RegisterComponent } from './Components/register/register.component';
-import { SidenavComponent } from './Components/sidenav/sidenav.component';
 
 import { AppComponent }  from './app.component';
 import { MainRouter }        from './app.routing';
@@ -22,7 +21,7 @@ import { MainRouter }        from './app.routing';
 import { AlertComponent } from './Directives/index';
 import { AuthGuard } from './Guards/index';
 import { JwtInterceptor } from './Helpers/index';
-import { AlertService, AuthenticationService, UserService } from './Services/index';
+import { AlertService, AuthenticationService, UserService, GuiService } from './Services/index';
 
 
 
@@ -47,7 +46,6 @@ import { AlertService, AuthenticationService, UserService } from './Services/ind
         HomeComponent,
         LoginComponent,
         RegisterComponent,
-        SidenavComponent,
         NavbarComponent
     ],
     providers: [

@@ -27,10 +27,15 @@
               "src/assets"
             ],
             "styles": [
+	      "../MishpahugHaifaFront/node_modules/clarity-icons/clarity-icons.min.css",
+              "../MishpahugHaifaFront/node_modules/clarity-ui/clarity-ui.min.css",
               "src/styles.scss"
             ],
-            "scripts": [],
-            "es5BrowserSupport": true
+            "scripts": [   
+              "../MishpahugHaifaFront/node_modules/clarity-icons/clarity-icons.min.js"
+            ],
+            "es5BrowserSupport": true,
+            "_comment": "TODO: why need to write path here?"
           },
           "configurations": {
             "production": {

@@ -10,6 +10,7 @@ export class AuthenticationService {
     login(username: string, password: string) {
         return this.http.post<any>('api/user/login', { username: username, password: password })
             .map(user => {
+            	//TODO: pls fake backend ii to skip login
                 // login successful if there's a jwt token in the response
                 if (user && user.token) {
                     console.log("login successful");

@@ -2,6 +2,7 @@ import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }    from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ClarityModule } from 'clarity-angular';
 
 import { EventlistService} from './Components/eventlist/eventlist.service';
 import { HeaderComponent } from './Components/header/header.component';
@@ -13,7 +14,7 @@ import { LoginComponent } from './Components/login/index';
 import { RegisterComponent } from './Components/register/index';
 
 import { AppComponent }  from './app.component';
-import { routing }        from './app.routing';
+import { MainRouter }        from './app.routing';
 
 import { AlertComponent } from './Directives/index';
 import { AuthGuard } from './Guards/index';
@@ -26,7 +27,8 @@ import { AlertService, AuthenticationService, UserService } from './Services/ind
         BrowserModule,
         FormsModule,
         HttpClientModule,
-        routing
+        ClarityModule.forRoot(),
+        MainRouter
     ],
     declarations: [
         AppComponent,

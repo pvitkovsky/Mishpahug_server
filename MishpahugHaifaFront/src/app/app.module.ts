@@ -2,6 +2,8 @@ import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }    from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MatSidenavModule, MatCheckboxModule } from '@angular/material';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ClarityModule } from 'clarity-angular';
 
 import { EventlistService} from './Components/eventlist/eventlist.service';
@@ -12,6 +14,7 @@ import { CalendarlistComponent } from './Components/calendarlist/calendarlist.co
 import { HomeComponent } from './Components/home/index';
 import { LoginComponent } from './Components/login/index';
 import { RegisterComponent } from './Components/register/index';
+import { SidenavComponent } from './Components/sidenav/index';
 
 import { AppComponent }  from './app.component';
 import { MainRouter }        from './app.routing';
@@ -22,13 +25,17 @@ import { JwtInterceptor } from './Helpers/index';
 import { AlertService, AuthenticationService, UserService } from './Services/index';
 
 
+
 @NgModule({
     imports: [
         BrowserModule,
         FormsModule,
         HttpClientModule,
+        NoopAnimationsModule,
+        MatSidenavModule,
+        MatCheckboxModule,
         ClarityModule.forRoot(),
-        MainRouter
+        MainRouter,
     ],
     declarations: [
         AppComponent,
@@ -39,7 +46,8 @@ import { AlertService, AuthenticationService, UserService } from './Services/ind
         CalendarlistComponent,
         HomeComponent,
         LoginComponent,
-        RegisterComponent
+        RegisterComponent,
+        SidenavComponent
     ],
     providers: [
         EventlistService,

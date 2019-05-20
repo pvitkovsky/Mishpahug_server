@@ -34,8 +34,7 @@
             "scripts": [   
               "../MishpahugHaifaFront/node_modules/clarity-icons/clarity-icons.min.js"
             ],
-            "es5BrowserSupport": true,
-            "_comment": "TODO: why need to write path here?"
+            "es5BrowserSupport": true
           },
           "configurations": {
             "production": {

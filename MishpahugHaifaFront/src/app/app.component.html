@@ -3,6 +3,8 @@
 	<mat-sidenav-container class="sidenav-container">
 		<mat-sidenav *ngIf='loggedIn' #sidenav mode="side" [(opened)]="opened" class="sidenav-menu">
 			<div> Menu </div>
+			<a class="nav-link" [routerLink]="['/eventlist']"> Events <br> </a> 
+			<a class="nav-link" [routerLink]="['/profile']"> Profile <br> </a>
 		</mat-sidenav>
 		<mat-sidenav-content> 
 			<div class="container">

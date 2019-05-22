@@ -31,10 +31,14 @@ export class AuthenticationService {
     }
 
     loggedIn() {
-       if(localStorage.getItem('currentUser')){
+       if(this.currentUser()){
            return true;
        }
        return false; 
+    }
+
+    currentUser(){
+        return localStorage.getItem('currentUser');
     }
 
 }

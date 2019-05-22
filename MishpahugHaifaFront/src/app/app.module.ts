@@ -2,9 +2,11 @@ import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }    from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { MatSidenavModule, MatCheckboxModule } from '@angular/material';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ClarityModule } from 'clarity-angular';
+import { MatSidenavModule, MatCheckboxModule } from '@angular/material';
+import { MatInputModule } from '@angular/material/input';
+import { MatCardModule} from '@angular/material/card';
 
 import { EventlistService} from './Components/eventlist/eventlist.service';
 import { NavbarComponent } from './Components/navbar/navbar.component';
@@ -14,6 +16,7 @@ import { CalendarlistComponent } from './Components/calendarlist/calendarlist.co
 import { HomeComponent } from './Components/home/home.component';
 import { LoginComponent } from './Components/login/login.component';
 import { RegisterComponent } from './Components/register/register.component';
+import { ProfileComponent } from './Components/profile/profile.component';
 
 import { AppComponent }  from './app.component';
 import { MainRouter }        from './app.routing';
@@ -31,10 +34,12 @@ import { AlertService, AuthenticationService, UserService, GuiService } from './
         FormsModule,
         HttpClientModule,
         NoopAnimationsModule,
-        MatSidenavModule,
-        MatCheckboxModule,
         ClarityModule.forRoot(),
         MainRouter,
+        MatSidenavModule,
+        MatCheckboxModule,
+        MatInputModule,
+        MatCardModule
     ],
     declarations: [
         AppComponent,
@@ -46,7 +51,8 @@ import { AlertService, AuthenticationService, UserService, GuiService } from './
         HomeComponent,
         LoginComponent,
         RegisterComponent,
-        NavbarComponent
+        NavbarComponent,
+        ProfileComponent
     ],
     providers: [
         EventlistService,

@@ -11,10 +11,9 @@ export class EventlistComponent implements OnInit {
   @Output() output = new EventEmitter();
   events = [];
   keys = [];
-  constructor(private EventServeice: EventlistService) { }
-
+  constructor(private EventService: EventlistService) { }
   ngOnInit() {
-    this.EventServeice.getEvents().subscribe((response) => {
+    this.EventService.getEvents().subscribe((response) => {
      this.keys = Object.keys(response[0]);
       for (let event in response) {
        for (let key in this.keys) {
@@ -22,7 +21,6 @@ export class EventlistComponent implements OnInit {
         }
         this.events.push(response[event]);
       }
-
     });
   }
 }

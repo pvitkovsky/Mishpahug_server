@@ -2,23 +2,27 @@ import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }    from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MatSidenavModule, MatCheckboxModule } from '@angular/material';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { ClarityModule } from 'clarity-angular';
 
 import { EventlistService} from './Components/eventlist/eventlist.service';
-import { HeaderComponent } from './Components/header/header.component';
+import { NavbarComponent } from './Components/navbar/navbar.component';
 import { FooterComponent } from './Components/footer/footer.component';
 import { EventlistComponent } from './Components/eventlist/eventlist.component';
 import { CalendarlistComponent } from './Components/calendarlist/calendarlist.component';
-import { HomeComponent } from './Components/home/index';
-import { LoginComponent } from './Components/login/index';
-import { RegisterComponent } from './Components/register/index';
+import { HomeComponent } from './Components/home/home.component';
+import { LoginComponent } from './Components/login/login.component';
+import { RegisterComponent } from './Components/register/register.component';
 
 import { AppComponent }  from './app.component';
-import { routing }        from './app.routing';
+import { MainRouter }        from './app.routing';
 
 import { AlertComponent } from './Directives/index';
 import { AuthGuard } from './Guards/index';
 import { JwtInterceptor } from './Helpers/index';
-import { AlertService, AuthenticationService, UserService } from './Services/index';
+import { AlertService, AuthenticationService, UserService, GuiService } from './Services/index';
+
 
 
 @NgModule({
@@ -26,18 +30,23 @@ import { AlertService, AuthenticationService, UserService } from './Services/ind
         BrowserModule,
         FormsModule,
         HttpClientModule,
-        routing
+        NoopAnimationsModule,
+        MatSidenavModule,
+        MatCheckboxModule,
+        ClarityModule.forRoot(),
+        MainRouter,
     ],
     declarations: [
         AppComponent,
         AlertComponent,
-        HeaderComponent,
+        NavbarComponent,
         FooterComponent,
         EventlistComponent,
         CalendarlistComponent,
         HomeComponent,
         LoginComponent,
-        RegisterComponent
+        RegisterComponent,
+        NavbarComponent
     ],
     providers: [
         EventlistService,

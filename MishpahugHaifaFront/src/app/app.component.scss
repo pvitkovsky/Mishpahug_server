@@ -1,23 +1,20 @@
-
-.container{
-  width: 95vw; height:95vh;
-  display: grid;
-  grid-template-columns: 25% auto 15%;
-  grid-template-rows: 10% 10% 10% 5% 10% 10% 5% auto 10%;
-  grid-gap: 0.5vh 0.5vw;
+.top-menu{
 }
 
-.container > div {
-  position: relative;
-  box-shadow: 0.5vh 0.5vh 1.5vh 0 rgba(0,0,0, 0.2);
+.sidenav-container {
+  position: absolute;
+  top: 60px; 
+  /* TODO: automatic top offset with top menu;
+  */
+  bottom: 60px;
+  left: 0;
+  right: 0;
 }
 
-.centered{position: absolute;
-  left: 50%; top: 50%;
-  transform: translate(-50%, -50%)}
-
-.header {grid-area: 1/1/2/4;}
-.ads{grid-area: 9/1/10/4;}
-.events{grid-area: 2/2/9/3;}
-.loginform{grid-area: 2/1/6/2; }
-.calendar{grid-area: 6/1/9/2;}
+.sidenav-menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  background: rgba(0, 0, 0, 0.01);
+}

@@ -1,30 +1,13 @@
-
-    <div class="container">
-      <div class="events">
-        <div class="centered">
-          <!--установить условие вывода данных  -->
-          <div *ngIf="true; then thenBlock else elseBlock"></div>
-          <ng-template #thenBlock><app-eventlist></app-eventlist></ng-template>
-          <ng-template #elseBlock>asdasd</ng-template>
-        </div>
-      </div>
-      <div class="ads">
-        <div class="centered">
-          <app-footer></app-footer>
-        </div>
-      </div>
-      <div class="header">
-        <div class="centered">
-          <app-header></app-header>
-        </div>
-      </div>
-      <div class="loginform">
-            <!--<alert></alert>-->
-            <router-outlet></router-outlet>
-      </div>
-      <div class="calendar">
-        <div class="centered">
-          <app-calendarlist></app-calendarlist>
-        </div>
-      </div>
-    </div>
+<clr-main-container>
+	<app-navbar class="top-menu"></app-navbar>
+	<mat-sidenav-container class="sidenav-container">
+		<mat-sidenav *ngIf='loggedIn' #sidenav mode="side" [(opened)]="opened" class="sidenav-menu">
+			<div> Menu </div>
+		</mat-sidenav>
+		<mat-sidenav-content> 
+			<div class="container">
+				<router-outlet></router-outlet>
+			</div>	
+		</mat-sidenav-content>
+	</mat-sidenav-container>
+</clr-main-container>

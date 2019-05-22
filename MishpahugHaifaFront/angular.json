@@ -27,9 +27,13 @@
               "src/assets"
             ],
             "styles": [
+	      "../MishpahugHaifaFront/node_modules/clarity-icons/clarity-icons.min.css",
+              "../MishpahugHaifaFront/node_modules/clarity-ui/clarity-ui.min.css",
               "src/styles.scss"
             ],
-            "scripts": [],
+            "scripts": [   
+              "../MishpahugHaifaFront/node_modules/clarity-icons/clarity-icons.min.js"
+            ],
             "es5BrowserSupport": true
           },
           "configurations": {

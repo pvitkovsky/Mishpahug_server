@@ -19,11 +19,11 @@ export class ProfileComponent implements OnInit {
 
 
   ngOnInit() {
-  	this.user = JSON.parse(this.authService.currentUser());
+  	this.user = JSON.parse(this.authService.currentUser());//TODO: returns token; make it return the user object
   }
 
   test(){
-  	console.log(this.user);
+  	console.log(this.user); 
   }
 
 }

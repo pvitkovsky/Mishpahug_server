@@ -10,12 +10,10 @@ export class AuthenticationService {
     login(username: string, password: string) {
         return this.http.post<any>('api/user/login', { username: username, password: password })
             .map(user => {
-            	//TODO: pls fake backend ii to skip login
-                // login successful if there's a jwt token in the response
+            	//TODO: JSONServer fake backend ii to skip login
                 if (user && user.token) {
                     console.log("login successful");
-                    // store user details and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', JSON.stringify(user));
+                    localStorage.setItem('currentUserToken', JSON.stringify(user));
                 } else {
                     console.log("login failed");
 
@@ -26,8 +24,7 @@ export class AuthenticationService {
     }
 
     logout() {
-        // remove user from local storage to log user out
-        localStorage.removeItem('currentUser');
+        localStorage.removeItem('currentUserToken');//TODO: logout on the backend
     }
 
     loggedIn() {
@@ -37,8 +34,8 @@ export class AuthenticationService {
        return false; 
     }
 
-    currentUser(){
-        return localStorage.getItem('currentUser');
+    currentUser(){ //TODO: make this return a user object, maybe from user service. definitely not a token. 
+        return localStorage.getItem('currentUserToken');
     }
 
 }

@@ -174,11 +174,11 @@ public class UserEntity {
 	}
 	
 	public UserEntity(UserDTO data) {
-		this(data.getUserName(), data.getEMail());
+		this(data.getUserName(), data.getUserName() + "@gmail.com");
 		this.setFirstName(data.getFirstName());
 		this.setLastName(data.getLastName());
-		this.setPhoneNumber(data.getPhoneNumber());
-		this.setDateOfBirth(data.getDayOfBirth());
+		this.setPhoneNumber("123123123");
+		this.setDateOfBirth(LocalDate.of(2019, 03, 4));
 		this.setEncrytedPassword(data.getEncrytedPassword());
 	}
 	

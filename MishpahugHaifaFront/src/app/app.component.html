@@ -1,9 +1,13 @@
-
-    <div class="jumbotron">
-        <div class="container">
-            <div class="col-sm-8 col-sm-offset-2">
-                <alert></alert>
-                <router-outlet></router-outlet>
-            </div>
-        </div>
-    </div>
+<clr-main-container>
+	<app-navbar class="top-menu"></app-navbar>
+	<mat-sidenav-container class="sidenav-container">
+		<mat-sidenav *ngIf='loggedIn' #sidenav mode="side" [(opened)]="opened" class="sidenav-menu">
+			<div> Menu </div>
+		</mat-sidenav>
+		<mat-sidenav-content> 
+			<div class="container">
+				<router-outlet></router-outlet>
+			</div>	
+		</mat-sidenav-content>
+	</mat-sidenav-container>
+</clr-main-container>

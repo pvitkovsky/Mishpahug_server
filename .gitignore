@@ -22,12 +22,12 @@
 *.iml
 
 # User defined ignore
-/MishpahugHaifa/.idea
-/MishpahugHaifa/.settings
-/MishpahugHaifa/.classpath
-/MishpahugHaifa/.project
-/MishpahugHaifa/target
-/.idea
+MishpahugHaifa/.idea
+MishpahugHaifa/.settings
+MishpahugHaifa/.classpath
+MishpahugHaifa/.project
+MishpahugHaifa/target
+
+MishpahugHaifaFront/.idea
 MishpahugHaifaFront/node_modules/*
 
-MishpahugHaifaFront/.idea/workspace.xml

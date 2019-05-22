@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -64,6 +65,12 @@ public class UserController implements IUserController {
     @GetMapping(value = "/{id}")
     public UserEntity get(@PathVariable(value = "id") Integer id) throws ExceptionMishpaha {
         return userModel.getById(id);
+    }
+
+    @Override
+    @GetMapping(value = "/all")
+    public List<UserEntity> getall() throws ExceptionMishpaha {
+        return userModel.getAll();
     }
 
     @Override
@@ -117,6 +124,7 @@ public class UserController implements IUserController {
     @Override
     @PostMapping(value = "/register")
     public void add(@RequestBody UserDTO userDTO) throws ExceptionMishpaha {
+        System.out.println("UserController -> Register -> UserDTO = " + userDTO);
         if (userModel.getByName(userDTO.getUserName()) != null) {
             throw new RuntimeException("Such user already exists");
         }

@@ -3,12 +3,14 @@ package application.dto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class UserDTO {
     private String firstName;
 

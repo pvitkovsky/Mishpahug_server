@@ -17,7 +17,7 @@ public interface IGenderController {
     @DeleteMapping(value = "/{id}")
     void delete(@PathVariable(name = "id") Integer id) throws ExceptionMishpaha;
 
-    @DeleteMappingng(value = "/")
+    @DeleteMapping(value = "/")
     void delete();
 
     @GetMapping(value = "/")

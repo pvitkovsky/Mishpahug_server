@@ -39,7 +39,7 @@ public class UserModel implements IUserModel {
     }
 
     @Override
-    public UserEntity getByName(String name) {
+    public UserEntity getByUserName(String name) {
         return userRepository.findByUserName(name);
     }
 

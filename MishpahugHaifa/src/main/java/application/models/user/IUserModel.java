@@ -16,7 +16,7 @@ public interface IUserModel {
 
     public UserEntity getById(Integer userId) throws ExceptionMishpaha;
 
-    public UserEntity getByName(String name) throws ExceptionMishpaha;
+    public UserEntity getByUserName(String name) throws ExceptionMishpaha;
 
     public UserEntity add(UserEntity data) throws ExceptionMishpaha;
 

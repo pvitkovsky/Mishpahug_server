@@ -23,7 +23,7 @@ public class UserSession {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String userEntity;
+    private String userName;
 
     @Column(name = "token", nullable = false)
     private String token;

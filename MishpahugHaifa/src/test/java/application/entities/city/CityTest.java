@@ -20,10 +20,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest(showSql = false)
+@DataJpaTest(showSql = true)
 @ActiveProfiles("test")
 @Transactional
 public class CityTest {
@@ -71,12 +72,16 @@ public class CityTest {
     @Test
     public void remove() {
         System.out.println("REMOVE");
-        for (CityEntity ce : cityRepository.findAll()) {
+        List<CityEntity> cities = cityRepository.findAll();
+        for (CityEntity ce : cities) {
             System.out.println(ce);
-        }
-        Integer index = 3;
-        cityRepository.deleteById(index);
-        assertTrue(cityRepository.findAll().size() == citiesCount - 1);
+        } 
+        countryRepository.getByName("Israel").removeCity(cityRepository.findById(cities.get(0).getId()).get());
+        /* cityRepository.deleteById(cities.get(0).getId()); 
+        // city is really managed on the Country side. nice entity-relation design!
+        */
+        cityRepository.flush();
+        assertEquals(cityRepository.count(), citiesCount - 1);
     }
 
     public void addCountry() {

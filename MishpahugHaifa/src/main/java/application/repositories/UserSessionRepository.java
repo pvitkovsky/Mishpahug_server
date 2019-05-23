@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface UserSessionRepository extends JpaRepository<UserSession, Integer> {
     public UserSession findByTokenAndIsValidTrue(String token);
 
-    public UserSession findByUserEntityAndIpAndUserAgentAndIsValidTrue(String username, String address, String agent);
+    public UserSession findByUserNameAndIpAndUserAgentAndIsValidTrue(String userName, String address, String agent);
 }

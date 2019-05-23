@@ -1,10 +1,36 @@
 package application.controllers;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.codec.digest.DigestUtils;
+import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.querydsl.binding.QuerydslPredicate;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.querydsl.core.types.Predicate;
+
 import application.controllers.intarfaces.IUserController;
 import application.dto.LoginDTO;
 import application.dto.LoginResponse;
 import application.dto.UserDTO;
-import application.dto.UserDTODetail;
 import application.entities.UserEntity;
 import application.entities.UserSession;
 import application.exceptions.ExceptionMishpaha;
@@ -15,21 +41,7 @@ import application.models.marriagestatus.IMaritalStatusModel;
 import application.models.religion.IReligionModel;
 import application.models.user.IUserModel;
 import application.repositories.UserSessionRepository;
-import com.querydsl.core.types.Predicate;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.querydsl.binding.QuerydslPredicate;
-import org.springframework.http.HttpHeaders;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -63,10 +75,20 @@ public class UserController implements IUserController {
      */
     @Override
     @GetMapping(value = "/{id}")
-    public UserEntity get(@PathVariable(value = "id") Integer id) throws ExceptionMishpaha {
-        return userModel.getById(id);
+    public UserDTO get(@PathVariable(value = "id") Integer id) throws ExceptionMishpaha {
+        return new UserDTO(userModel.getById(id));
     }
 
+    /* (non-Javadoc)
+     * @see application.controllers.intarfaces.IUserController#get(java.lang.Integer)
+     */
+    @Override
+    @GetMapping(value = "/current")
+    public UserDTO getByToken(@RequestBody String token) throws ExceptionMishpaha {
+    	UserSession session = userSessionRepository.findByTokenAndIsValidTrue(token);
+    	return new UserDTO(userModel.getByUserName(session.getUserName()));//return new UserDTO(userModel);
+    }
+    
     @Override
     @GetMapping(value = "/all")
     public List<UserEntity> getall() throws ExceptionMishpaha {
@@ -84,7 +106,7 @@ public class UserController implements IUserController {
         if (userEntity == null) {
             throw new RuntimeException("Incorrect password or username");
         }
-        UserSession userSessionOld = userSessionRepository.findByUserEntityAndIpAndUserAgentAndIsValidTrue(loginDTO.getUsername(),
+        UserSession userSessionOld = userSessionRepository.findByUserNameAndIpAndUserAgentAndIsValidTrue(loginDTO.getUsername(),
                 request.getRemoteAddr(),
                 httpHeaders.get("user-agent").get(0));
         httpHeaders.forEach((key, value) -> {
@@ -99,7 +121,7 @@ public class UserController implements IUserController {
             return new LoginResponse(userSessionOld.getToken());
         }
         UserSession userSessionNew = UserSession.builder()
-                .userEntity(userEntity.getUserName())
+                .userName(userEntity.getUserName())
                 .token(UUID.randomUUID().toString())
                 .ip(request.getRemoteAddr())
                 .userAgent(httpHeaders.get("user-agent").get(0))
@@ -125,10 +147,10 @@ public class UserController implements IUserController {
     @PostMapping(value = "/register")
     public void add(@RequestBody UserDTO userDTO) throws ExceptionMishpaha {
         System.out.println("UserController -> Register -> UserDTO = " + userDTO);
-        if (userModel.getByName(userDTO.getUserName()) != null) {
+        if (userModel.getByUserName(userDTO.getUserName()) != null) {
             throw new RuntimeException("Such user already exists");
         }
-        if (!userDTO.getEncrytedPassword().equals(userDTO.getConfirmedPassword())) {
+        if (!userDTO.getEncryptedPassword().equals(userDTO.getConfirmedPassword())) {
             throw new RuntimeException("Passwords do not match");
         }
         UserEntity userEntity = new UserEntity(userDTO);
@@ -140,9 +162,9 @@ public class UserController implements IUserController {
      */
     @Override
     @PutMapping(value = "/{id}")
-    public UserEntity update(@RequestBody HashMap<String, String> data,
+    public UserDTO update(@RequestBody HashMap<String, String> data,
                              @PathVariable(value = "id") Integer id) throws ExceptionMishpaha {
-        return userModel.update(id, data);
+        return new UserDTO(userModel.update(id, data));
     }
 
     /* (non-Javadoc)
@@ -150,8 +172,8 @@ public class UserController implements IUserController {
      */
     @Override
     @DeleteMapping(value = "/{id}")
-    public UserEntity delete(@PathVariable(value = "id") Integer id) throws ExceptionMishpaha {
-        return userModel.deleteByID(id);
+    public UserDTO delete(@PathVariable(value = "id") Integer id) throws ExceptionMishpaha {
+        return new UserDTO(userModel.deleteByID(id));
     }
 
     /* (non-Javadoc)
@@ -159,7 +181,7 @@ public class UserController implements IUserController {
      */
     @Override
     @DeleteMapping(value = "/")
-    public void delete() throws ExceptionMishpaha {
+    public void deleteAll() throws ExceptionMishpaha {
         userModel.deleteAll();
     }
 
@@ -167,7 +189,7 @@ public class UserController implements IUserController {
      * @see application.controllers.intarfaces.IUserController#setDataFromForm(application.dto.UserDTO)
      */
     @Override
-    @PostMapping(value = "/addPage")
+    @PostMapping(value = "/addPage") //TODO: not-restful name; better is viewPage1
     public void setDataFromForm(@RequestBody UserDTO data) throws ExceptionMishpaha {
         UserEntity userEntity = new UserEntity(data);
         userModel.add(userEntity);
@@ -177,10 +199,10 @@ public class UserController implements IUserController {
      * @see application.controllers.intarfaces.IUserController#setDataFromFormDetail(application.dto.UserDTODetail, java.lang.String)
      */
     @Override
-    @PutMapping(value = "/addPage")
-    public void setDataFromFormDetail(@RequestBody UserDTODetail data,
+    @PutMapping(value = "/addPage") //TODO: not-restful name; better is viewPage2
+    public void setDataFromFormDetail(@RequestBody UserDTO data,
                                       @RequestParam(name = "username") String userName) throws ExceptionMishpaha {
-        UserEntity userEntity = userModel.getByName(userName);
+        UserEntity userEntity = userModel.getByUserName(userName);
         userEntity.setGender(genderModel.getByName(data.getGender()));
         userEntity.setMaritalStatus(maritalStatusModel.getByName(data.getMaritalStatus()));
         userEntity.setReligion(religionModel.getByName(data.getReligion()));

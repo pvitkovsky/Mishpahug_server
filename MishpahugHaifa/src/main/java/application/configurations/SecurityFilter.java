@@ -49,7 +49,7 @@ public class SecurityFilter extends OncePerRequestFilter {
             if (userSession != null) {
                 log.info("Security Filter -> token is valid");
 
-                String usernameForController = userSession.getUserEntity();
+                String usernameForController = userSession.getUserName();
 
                 if (usernameForController == null) {
                     usernameForController = "no name";

@@ -179,7 +179,7 @@ public class UserEntity {
 		this.setLastName(data.getLastName());
 		this.setPhoneNumber("123123123");
 		this.setDateOfBirth(LocalDate.of(2019, 03, 4));
-		this.setEncrytedPassword(data.getEncrytedPassword());
+		this.setEncrytedPassword(data.getEncryptedPassword());
 	}
 	
 	/**

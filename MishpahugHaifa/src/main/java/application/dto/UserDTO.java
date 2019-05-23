@@ -7,6 +7,8 @@ import lombok.ToString;
 
 import java.time.LocalDate;
 
+import application.entities.UserEntity;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,8 +26,30 @@ public class UserDTO {
 
     private LocalDate dayOfBirth;
 
-    private String encrytedPassword;//????
+    private String gender;
+    
+    private String kichenType;
+    
+    private String religion;
+    
+    private String maritalStatus;
+    
+    private String encryptedPassword;
 
-    private String confirmedPassword;//????
+    private String confirmedPassword;
+
+    public UserDTO(UserEntity user) {
+    	super();
+    	this.firstName = user.getFirstName();
+    	this.lastName = user.getLastName();
+    	this.phoneNumber = user.getPhoneNumber();
+    	this.eMail = user.getEMail();
+    	this.userName = user.getUserName();
+    	this.dayOfBirth = user.getDateOfBirth();
+    	this.gender = user.getGender().toString();
+    	this.kichenType = user.getKitchenType().toString();
+    	this.religion = user.getReligion().toString();
+    	this.maritalStatus = user.getMaritalStatus().toString();
+    }
 
 }

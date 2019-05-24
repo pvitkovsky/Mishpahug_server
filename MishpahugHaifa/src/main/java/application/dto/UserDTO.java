@@ -14,6 +14,9 @@ import application.entities.UserEntity;
 @NoArgsConstructor
 @ToString
 public class UserDTO {
+     
+    private Integer id; 
+    
     private String firstName;
 
     private String lastName;
@@ -40,6 +43,7 @@ public class UserDTO {
 
     public UserDTO(UserEntity user) {
     	super();
+        this.id = user.getId();
     	this.firstName = user.getFirstName();
     	this.lastName = user.getLastName();
     	this.phoneNumber = user.getPhoneNumber();

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { User } from '../../Models/index';
+import { UserDetail } from '../../Models/index';
 import { UserService } from '../../Services/index';
 
 @Component({
@@ -9,8 +9,8 @@ import { UserService } from '../../Services/index';
 })
 
 export class HomeComponent implements OnInit {
-    currentUser: User;
-    users: User[] = [];
+    currentUser: UserDetail;
+    users: UserDetail[] = [];
 
     constructor(private userService: UserService) {
         this.currentUser = JSON.parse(localStorage.getItem('currentUser'));

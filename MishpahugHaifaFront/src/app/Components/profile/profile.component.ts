@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthenticationService } from '../../Services/index';
-import { User } from '../../Models/user';
+import { AuthenticationService, UserService } from '../../Services/index';
+import { UserDetail } from '../../Models/index';
+
 
 @Component({
   selector: 'app-profile',
@@ -10,18 +11,19 @@ import { User } from '../../Models/user';
 })
 export class ProfileComponent implements OnInit {
   
-  user: any; //TODO: typed user please
+  userDetail: UserDetail; //TODO: typed user please
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private authService: AuthenticationService) { }
+    private authService: AuthenticationService,
+    private userService: UserService) { }
 
 
   ngOnInit() {
   	this.authService.currentUser().subscribe(
                 data => {
-                    this.user = data;
+                    this.userDetail = data;
                 },
                 error => {
   
@@ -29,7 +31,12 @@ export class ProfileComponent implements OnInit {
   }
 
   test(){
-  	console.log(this.user); 
+  	console.log(this.userDetail); 
+  }
+
+  save(){
+  	this.userDetail.lastName = this.userDetail.lastName + " updated ";
+  	this.userService.update(this.userDetail);
   }
 
 }

@@ -1,11 +1,8 @@
 <div>
   <form *ngIf="user">
     <mat-card>
-      <mat-card-header>Edit Customer</mat-card-header>
+      <mat-card-header>Edit Profile</mat-card-header>
       <mat-card-content>
-      	<mat-form-field>  <!--TODO: remove, this is only for tests-->
-          <input name='login' matInput placeholder='Login' [(ngModel)]="user.username"> 
-        </mat-form-field>
         <mat-form-field>
           <input name='first-name' matInput placeholder='First Name'>
         </mat-form-field>

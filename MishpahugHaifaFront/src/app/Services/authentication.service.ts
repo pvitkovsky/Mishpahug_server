@@ -9,17 +9,18 @@ export class AuthenticationService {
 
     login(username: string, password: string) {
         return this.http.post<any>('api/user/login', { username: username, password: password })
-            .map(user => {
+            .map(loginResponse => {
+            	console.log(loginResponse + ' and token ' + loginResponse.token);
             	//TODO: JSONServer fake backend ii to skip login
-                if (user && user.token) {
+                if (loginResponse && loginResponse.token) {
                     console.log("login successful");
-                    localStorage.setItem('currentUserToken', JSON.stringify(user));
+                    localStorage.setItem('currentUserToken', JSON.stringify(loginResponse));
                 } else {
                     console.log("login failed");
 
                 }
 
-                return user;
+                return loginResponse;
             });
     }
 
@@ -28,14 +29,21 @@ export class AuthenticationService {
     }
 
     loggedIn() {
-       if(this.currentUser()){
+       if(localStorage.getItem('currentUserToken')){
            return true;
        }
        return false; 
     }
 
-    currentUser(){ //TODO: make this return a user object, maybe from user service. definitely not a token. 
-        return localStorage.getItem('currentUserToken');
+    currentUser(){  
+        return this.http.get<any>('api/user/current')
+            .map((user : any) => {
+                if (user) {            
+                } else {
+                  //TODO: error handling   
+                }
+                return user;
+            });
     }
 
 }

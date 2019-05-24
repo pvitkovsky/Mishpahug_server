@@ -16,9 +16,6 @@ export class EventlistComponent implements OnInit {
     this.EventService.getEvents().subscribe((response) => {
      this.keys = Object.keys(response[0]);
       for (let event in response) {
-       for (let key in this.keys) {
-              console.log(response[event][this.keys[key]]);
-        }
         this.events.push(response[event]);
       }
     });

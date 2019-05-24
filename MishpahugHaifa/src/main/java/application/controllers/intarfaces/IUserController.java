@@ -21,9 +21,9 @@ import application.exceptions.ExceptionMishpaha;
 
 public interface IUserController {
 
-	UserDTO getByToken(String token) throws ExceptionMishpaha;
-	
 	UserDTO get(Integer id) throws ExceptionMishpaha;
+	
+	UserDTO getByToken(HttpServletRequest request) throws ExceptionMishpaha;
 
     @GetMapping(value = "/all")
     List<UserEntity> getall() throws ExceptionMishpaha;

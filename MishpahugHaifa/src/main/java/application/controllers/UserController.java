@@ -84,7 +84,8 @@ public class UserController implements IUserController {
      */
     @Override
     @GetMapping(value = "/current")
-    public UserDTO getByToken(@RequestBody String token) throws ExceptionMishpaha {
+    public UserDTO getByToken(HttpServletRequest request) throws ExceptionMishpaha {
+    	String token = request.getHeader("Authorization");
     	UserSession session = userSessionRepository.findByTokenAndIsValidTrue(token);
     	return new UserDTO(userModel.getByUserName(session.getUserName()));//return new UserDTO(userModel);
     }

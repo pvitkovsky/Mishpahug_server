@@ -10,7 +10,7 @@ import { User } from '../../Models/user';
 })
 export class ProfileComponent implements OnInit {
   
-  user: User;
+  user: any; //TODO: typed user please
 
   constructor(
     private router: Router,
@@ -19,7 +19,13 @@ export class ProfileComponent implements OnInit {
 
 
   ngOnInit() {
-  	this.user = JSON.parse(this.authService.currentUser());//TODO: returns token; make it return the user object
+  	this.authService.currentUser().subscribe(
+                data => {
+                    this.user = data;
+                },
+                error => {
+  
+                });
   }
 
   test(){

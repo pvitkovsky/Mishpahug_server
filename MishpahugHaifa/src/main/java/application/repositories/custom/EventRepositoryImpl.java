@@ -31,7 +31,7 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
 		if (data.containsKey("status")) {
 			tempResult.changeStatus(data.get("status"));
 		}
-
+		
 		return tempResult;
 	}
 }

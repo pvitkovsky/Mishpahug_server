@@ -1,4 +1,4 @@
-package application.controllers.intarfaces;
+package application.controllers.interfaces;
 
 import application.entities.AddressEntity;
 import application.exceptions.ExceptionMishpaha;

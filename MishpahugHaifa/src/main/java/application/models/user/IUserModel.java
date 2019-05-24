@@ -1,5 +1,6 @@
 package application.models.user;
 
+import application.dto.UserDTO;
 import application.entities.UserEntity;
 import application.exceptions.ExceptionMishpaha;
 import com.querydsl.core.types.Predicate;
@@ -20,7 +21,7 @@ public interface IUserModel {
 
     public UserEntity add(UserEntity data) throws ExceptionMishpaha;
 
-    public UserEntity update(Integer userId, HashMap<String, String> data) throws ExceptionMishpaha;
+    public UserEntity update(UserDTO data) throws ExceptionMishpaha;
 
     public UserEntity deleteByID(Integer userId) throws ExceptionMishpaha;
 
@@ -31,5 +32,6 @@ public interface IUserModel {
     public UserEntity deactivateByID(Integer userId) throws ExceptionMishpaha;
 
     public UserEntity prepareForDeletionByID(Integer userId) throws ExceptionMishpaha;
+
 
 }

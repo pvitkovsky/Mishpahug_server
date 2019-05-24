@@ -11,7 +11,7 @@ import { UserDetail } from '../../Models/index';
 })
 export class ProfileComponent implements OnInit {
   
-  userDetail: UserDetail; //TODO: typed user please
+  userDetail: UserDetail; //TODO: rename to UserDTO?
 
   constructor(
     private router: Router,
@@ -30,13 +30,25 @@ export class ProfileComponent implements OnInit {
                 });
   }
 
-  test(){
-  	console.log(this.userDetail); 
+  save(){
+  	this.userService.update(this.userDetail).subscribe(
+                data => {
+                    this.userDetail = data;
+                },
+                error => {
+  
+                });
   }
 
-  save(){
-  	this.userDetail.lastName = this.userDetail.lastName + " updated ";
-  	this.userService.update(this.userDetail);
-  }
+    cancel(){
+  	this.userService.getById(this.userDetail.id).subscribe(
+                data => {
+                    this.userDetail = data;
+                },
+                error => {
+  
+                });
+ 	 }
+
 
 }

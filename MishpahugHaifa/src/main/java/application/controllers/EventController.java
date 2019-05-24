@@ -1,6 +1,6 @@
 package application.controllers;
 
-import application.controllers.intarfaces.IEventController;
+import application.controllers.interfaces.IEventController;
 import application.dto.EventDTO;
 import application.entities.EventEntity;
 import application.exceptions.ExceptionMishpaha;

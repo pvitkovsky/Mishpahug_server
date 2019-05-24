@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.querydsl.core.types.Predicate;
 
-import application.controllers.intarfaces.IUserController;
+import application.controllers.interfaces.IUserController;
 import application.dto.LoginDTO;
 import application.dto.LoginResponse;
 import application.dto.UserDTO;
@@ -161,11 +161,15 @@ public class UserController implements IUserController {
     /* (non-Javadoc)
      * @see application.controllers.intarfaces.IUserController#update(java.util.HashMap, java.lang.Integer)
      */
+    //TODO: difficult choice between allowing and not allowing to update UserName; in addition: UserDTO can have null ID;  
     @Override
     @PutMapping(value = "/{id}")
-    public UserDTO update(@RequestBody HashMap<String, String> data,
+    public UserDTO update(@RequestBody UserDTO userDTO,
                              @PathVariable(value = "id") Integer id) throws ExceptionMishpaha {
-        return new UserDTO(userModel.update(id, data));
+    	if(userDTO.getId() != id) {
+    		throw new ExceptionMishpaha("Id in the UserDTO differs from the id in the path", null);
+    	} 
+        return new UserDTO(userModel.update(userDTO));
     }
 
     /* (non-Javadoc)

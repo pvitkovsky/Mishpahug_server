@@ -1,4 +1,4 @@
-package application.controllers.intarfaces;
+package application.controllers.interfaces;
 
 import application.entities.MaritalStatusEntity;
 import application.exceptions.ExceptionMishpaha;

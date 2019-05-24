@@ -1,5 +1,6 @@
 package application.models.user;
 
+import application.dto.UserDTO;
 import application.entities.UserEntity;
 import application.exceptions.ExceptionMishpaha;
 import application.repositories.UserRepository;
@@ -48,21 +49,15 @@ public class UserModel implements IUserModel {
         return userRepository.save(data);
     }
 
-    /*
-     * keys for update nickname firstname lastname email address.build address.city
-     * address.apartment address.street telephone
-     */
-    /*
-     * нужно протестировать не уверен в работе кода между !!!. проверен вариант
-     * зактнуть логику в сущноть... не подойдет, так как нужен поиск города по имени
-     */
     @Override
-    public UserEntity update(Integer userId, HashMap<String, String> data) throws ExceptionMishpaha {
-        try {
-            UserEntity user = userRepository.getOne(userId);
-            return userRepository.update(user, data);
+    public UserEntity update(UserDTO userDTO) throws ExceptionMishpaha {
+        
+    	try {
+            UserEntity user = userRepository.getOne(userDTO.getId());
+            user.updateFromDTO(userDTO);	
+            return user;
         } catch (Exception e) {
-            throw new ExceptionMishpaha("Error! Not found user with id " + userId, null);
+            throw new ExceptionMishpaha("Error! Not found user with id " + userDTO.getId(), null);
         }
     }
 

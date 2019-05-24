@@ -1,6 +1,6 @@
 package application.controllers;
 
-import application.controllers.intarfaces.IKichenTypeController;
+import application.controllers.interfaces.IKichenTypeController;
 import application.entities.KitchenTypeEntity;
 import application.exceptions.ExceptionMishpaha;
 import application.models.kichentype.IKichenTypeModel;

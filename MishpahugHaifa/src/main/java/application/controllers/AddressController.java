@@ -1,6 +1,6 @@
 package application.controllers;
 
-import application.controllers.intarfaces.IAddressController;
+import application.controllers.interfaces.IAddressController;
 import application.entities.AddressEntity;
 import application.exceptions.ExceptionMishpaha;
 import application.models.address.IAddressModel;

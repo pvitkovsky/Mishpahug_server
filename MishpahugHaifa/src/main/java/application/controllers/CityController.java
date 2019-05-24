@@ -1,6 +1,6 @@
 package application.controllers;
 
-import application.controllers.intarfaces.ICityController;
+import application.controllers.interfaces.ICityController;
 import application.entities.CityEntity;
 import application.exceptions.ExceptionMishpaha;
 import application.models.city.ICityModel;

@@ -1,6 +1,6 @@
 package application.controllers;
 
-import application.controllers.intarfaces.IReligionController;
+import application.controllers.interfaces.IReligionController;
 import application.entities.ReligionEntity;
 import application.exceptions.ExceptionMishpaha;
 import application.models.religion.IReligionModel;

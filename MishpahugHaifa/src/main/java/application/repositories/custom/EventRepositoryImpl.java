@@ -13,8 +13,9 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
     @PersistenceContext
     private EntityManager entityManager;
 
-	@Override
+	@Override 
 	public EventEntity update(EventEntity event, Map<String, String> data) {
+		//TODO: make this work / replace with another working solution; as of now this just takes a result from the database and changes some fields in the result;  
 		StringBuilder query = new StringBuilder();
 		Map<String, Integer> parameters = new HashMap<>();
 		query.append("select e from EventEntity e where Id = :eventId ");
@@ -23,7 +24,7 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
 		for (Map.Entry<String, Integer> map : parameters.entrySet()) {
 			jpaQuery.setParameter(map.getKey(), map.getValue());
 		}
-		EventEntity tempResult = (EventEntity) jpaQuery.getResultList().get(0);
+		EventEntity tempResult = (EventEntity) jpaQuery.getResultList().get(0); //this is not an update method
 		if (data.containsKey("nameofevent")) {
 			tempResult.setNameOfEvent(data.get("nameofevent"));
 		}

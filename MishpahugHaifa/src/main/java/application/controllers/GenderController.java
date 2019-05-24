@@ -1,6 +1,6 @@
 package application.controllers;
 
-import application.controllers.intarfaces.IGenderController;
+import application.controllers.interfaces.IGenderController;
 import application.entities.GenderEntity;
 import application.exceptions.ExceptionMishpaha;
 import application.models.gender.IGenderModel;

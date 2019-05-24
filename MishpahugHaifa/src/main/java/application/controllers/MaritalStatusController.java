@@ -1,6 +1,6 @@
 package application.controllers;
 
-import application.controllers.intarfaces.IMaritalStatusController;
+import application.controllers.interfaces.IMaritalStatusController;
 import application.entities.MaritalStatusEntity;
 import application.exceptions.ExceptionMishpaha;
 import application.models.marriagestatus.IMaritalStatusModel;

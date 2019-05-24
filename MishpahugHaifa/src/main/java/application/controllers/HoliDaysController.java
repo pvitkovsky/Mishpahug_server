@@ -1,6 +1,6 @@
 package application.controllers;
 
-import application.controllers.intarfaces.IHoliDaysController;
+import application.controllers.interfaces.IHoliDaysController;
 import application.dto.forholiday.HolidayDTO;
 import application.entities.HoliDayEntity;
 import application.models.holyday.IHolyDayModel;

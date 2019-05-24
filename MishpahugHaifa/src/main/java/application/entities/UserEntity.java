@@ -177,9 +177,40 @@ public class UserEntity {
 		this(data.getUserName(), data.getUserName() + "@gmail.com");
 		this.setFirstName(data.getFirstName());
 		this.setLastName(data.getLastName());
-		this.setPhoneNumber("123123123");
-		this.setDateOfBirth(LocalDate.of(2019, 03, 4));
 		this.setEncrytedPassword(data.getEncryptedPassword());
+	}
+	
+	/**
+	 * Updating user based on DTO. 
+	 * @param userDTO
+	 * @return false if userDTO doesn't match this user's Id or Username, or if nothing was updated. 
+	 */
+	public boolean updateFromDTO(UserDTO userDTO) {
+		boolean res = false; 		
+		if(userDTO.getId() != this.id){
+			return res;
+		}
+		//TODO: do we need UserName validation?
+		//TODO: skip if equals;		
+		if(userDTO.getFirstName() != null  ) {
+			this.setFirstName(userDTO.getFirstName()); 
+			res = true;
+		}
+		
+		if(userDTO.getLastName() != null) {
+			this.setLastName(userDTO.getLastName()); 
+			res = true;
+		}
+		if(userDTO.getPhoneNumber() != null) {
+			this.setPhoneNumber(userDTO.getPhoneNumber()); 
+			res = true;
+		}
+		if(userDTO.getEMail() != null) {
+			this.setEMail(userDTO.getEMail()); 
+			res = true;
+		}
+		//TODO: other fields 
+		return res;
 	}
 	
 	/**

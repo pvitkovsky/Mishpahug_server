@@ -1,27 +1,29 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
 import { UserDetail } from '../Models/index';
+import { Observable, throwError } from 'rxjs';
 
 @Injectable()
 export class UserService {
     constructor(private http: HttpClient) { }
 
     getAll() {
-        return this.http.get<UserDetail[]>('/api/user/');
+        return this.http.get<UserDetail[]>('/api/user/');//TODO: error handling
     }
 
-    getById(id: number) {
-        return this.http.get('/api/user/' + id);
+    getById(id: number) : Observable<UserDetail> {
+        return this.http.get<UserDetail>('/api/user/' + id);
     }
 
     create(userDetail: UserDetail) {
         return this.http.post('/api/user/register', userDetail);
     }
 
-    update(userDetail: UserDetail) {
-        
-        return this.http.put('/api/user/' + userDetail.id, userDetail); //TODO: dto into HashMap <String, String> for update() on backend;
+    update(userDetail: UserDetail) : Observable<UserDetail>{
+        return this.http.put<UserDetail>('/api/user/' + userDetail.id, userDetail)
+          .pipe(
+            //TODO: error handling
+          );
     }
 
     delete(id: number) {

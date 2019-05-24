@@ -50,10 +50,9 @@ public class UserDTO {
     	this.eMail = user.getEMail();
     	this.userName = user.getUserName();
     	this.dayOfBirth = user.getDateOfBirth();
-    	this.gender = user.getGender().toString();
-    	this.kichenType = user.getKitchenType().toString();
-    	this.religion = user.getReligion().toString();
-    	this.maritalStatus = user.getMaritalStatus().toString();
+    	this.gender = user.getGender() == null ? "" : user.getGender().toString();
+    	this.kichenType = user.getKitchenType()== null ? "" : user.getKitchenType().toString();
+    	this.religion = user.getReligion()== null ? "" : user.getReligion().toString();
+    	this.maritalStatus = user.getMaritalStatus()== null ? "" : user.getMaritalStatus().toString();
     }
-
 }

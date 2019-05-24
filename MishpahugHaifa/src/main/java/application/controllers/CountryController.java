@@ -1,6 +1,6 @@
 package application.controllers;
 
-import application.controllers.intarfaces.ICountryController;
+import application.controllers.interfaces.ICountryController;
 import application.entities.CountryEntity;
 import application.models.country.ICountryModel;
 import lombok.extern.slf4j.Slf4j;

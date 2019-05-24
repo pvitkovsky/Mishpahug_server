@@ -1,4 +1,4 @@
-package application.controllers.intarfaces;
+package application.controllers.interfaces;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +32,7 @@ public interface IUserController {
     
     void add(UserDTO userDTO) throws ExceptionMishpaha;
 
-    UserDTO update(HashMap<String, String> data, Integer id) throws ExceptionMishpaha;
+    UserDTO update(UserDTO userDTO, Integer id) throws ExceptionMishpaha;
 
     UserDTO delete(Integer id) throws ExceptionMishpaha;
 	

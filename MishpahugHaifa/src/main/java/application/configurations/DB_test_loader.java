@@ -51,7 +51,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 @Transactional
-//@Profile("dbTest")
 public class DB_test_loader implements CommandLineRunner {
 
 	@Autowired
@@ -99,9 +98,12 @@ public class DB_test_loader implements CommandLineRunner {
 
 	private void loadTest(MPHEntity entity) {
 
-		String testFolder = env.getProperty("database-test-folder");
+		String testFolder = "short-datafiles";
+		//String testFolder = env.getProperty("database-test-folder"); 
+		//TODO: why Spring has stopped reading application.properties from UserWebRequestTest?
 		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
 		InputStream is = classloader.getResourceAsStream(testFolder + "/" + entity.dataFile());
+		//System.out.println(testFolder + "/" + entity.dataFile());
 		BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
 		switch (entity) {

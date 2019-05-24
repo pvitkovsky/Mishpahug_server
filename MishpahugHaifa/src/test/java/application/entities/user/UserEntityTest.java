@@ -84,36 +84,8 @@ public class UserEntityTest {
 		assertEquals(userRepo.findByUserName("Alyssa"), ALYSSA);
 	}
 	
-	@Test(expected = InvalidDataAccessApiUsageException.class)
-	public void savedUserChangeStatusWithIllegalStringThrows() {
-		
-		AUPDATE.put("status", "foo");
-		userRepo.update(ALYSSA, AUPDATE);
-	}
 
-	@Test
-	public void savedUserChangeStatusWithLegalStringWorks() {
-		
-		assertTrue(ALYSSA.isEnabled());
-		
-		AUPDATE.put("status", "DEACTIVATED");
-		userRepo.update(ALYSSA, AUPDATE);
-		assertFalse(ALYSSA.isEnabled());
-		AUPDATE.clear();
-	
-		AUPDATE.put("status", "ACTIVE");
-		userRepo.update(ALYSSA, AUPDATE);
-		assertTrue(ALYSSA.isEnabled());
-		AUPDATE.clear();
-		
-		AUPDATE.put("status", "PENDINGFORDELETION");
-		userRepo.update(ALYSSA, AUPDATE);
-		assertTrue(ALYSSA.isPendingForDeletion());
-		AUPDATE.clear();
-		
-		userRepo.delete(ALYSSA);
-		assertEquals(userRepo.count(), 0);
-	}	
+
 
 	@Test(expected = InvalidDataAccessApiUsageException.class)
 	public void onUserDeleteWithoutQueueThrows() {

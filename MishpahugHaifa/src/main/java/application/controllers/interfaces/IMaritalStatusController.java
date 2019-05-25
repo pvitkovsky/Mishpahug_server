@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IMaritalStatusController {
     @GetMapping(value = "/")
-    List<MaritalStatusEntity> get();
+    List<String> get();
 
     @GetMapping(value = "/{id}")
     MaritalStatusEntity get(@PathVariable(name = "id") Integer id);

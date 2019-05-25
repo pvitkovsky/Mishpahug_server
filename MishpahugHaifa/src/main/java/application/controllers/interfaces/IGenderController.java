@@ -21,11 +21,11 @@ public interface IGenderController {
     void delete();
 
     @GetMapping(value = "/")
-    List<GenderEntity> get();
+    List<String> get();
 
     @GetMapping(value = "/name/{name}")
     GenderEntity get(@PathVariable(name = "name") String name);
 
     @GetMapping(value = "/{id}")
-    GenderEntity get(@PathVariable(name = "id") Integer id);
+    String get(@PathVariable(name = "id") Integer id);
 }

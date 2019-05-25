@@ -26,7 +26,7 @@ public interface IUserController {
 	UserDTO getByToken(HttpServletRequest request) throws ExceptionMishpaha;
 
     @GetMapping(value = "/all")
-    List<UserEntity> getall() throws ExceptionMishpaha;
+    public List<UserDTO> getall() throws ExceptionMishpaha;
 
     Iterable<UserEntity> findAllByWebQuerydsl(Predicate predicate);
     

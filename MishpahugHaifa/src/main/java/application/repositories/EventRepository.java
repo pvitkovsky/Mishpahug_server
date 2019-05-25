@@ -2,7 +2,6 @@ package application.repositories;
 
 import application.entities.EventEntity;
 import application.entities.QEventEntity;
-import application.repositories.custom.EventRepositoryCustom;
 import com.querydsl.core.types.dsl.StringPath;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +17,8 @@ import java.util.Optional;
 
 //TODO: disallow/hide DELETE;
 public interface EventRepository extends JpaRepository<EventEntity, Integer>,
-        QuerydslPredicateExecutor<EventEntity>, QuerydslBinderCustomizer<QEventEntity>,
-        EventRepositoryCustom {
+        QuerydslPredicateExecutor<EventEntity>, QuerydslBinderCustomizer<QEventEntity>
+        {
 
     Logger log = LoggerFactory.getLogger(EventRepository.class);
 

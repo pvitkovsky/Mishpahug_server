@@ -4,6 +4,7 @@ import application.controllers.interfaces.IGenderController;
 import application.entities.GenderEntity;
 import application.exceptions.ExceptionMishpaha;
 import application.models.gender.IGenderModel;
+import application.utils.Converter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -45,9 +46,8 @@ public class GenderController implements IGenderController {
 
     @Override
     @GetMapping(value = "/")
-    public List<GenderEntity> get() {
-        return genderModel.getAll();
-
+    public List<String> get() {
+        return Converter.GenderstoStringList(genderModel.getAll());
     }
 
     @Override
@@ -59,8 +59,8 @@ public class GenderController implements IGenderController {
 
     @Override
     @GetMapping(value = "/{id}")
-    public GenderEntity get(@PathVariable(name = "id") Integer id) {
-        return genderModel.getById(id);
+    public String get(@PathVariable(name = "id") Integer id) {
+        return genderModel.getById(id).getName();
 
     }
 

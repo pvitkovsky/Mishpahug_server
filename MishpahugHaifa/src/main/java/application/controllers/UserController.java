@@ -1,11 +1,11 @@
 package application.controllers;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import application.utils.Converter;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,8 +92,8 @@ public class UserController implements IUserController {
     
     @Override
     @GetMapping(value = "/all")
-    public List<UserEntity> getall() throws ExceptionMishpaha {
-        return userModel.getAll();
+    public List<UserDTO> getall() throws ExceptionMishpaha {
+        return Converter.userDTOListFromEntities(userModel.getAll());
     }
 
     @Override
@@ -154,7 +154,7 @@ public class UserController implements IUserController {
         if (!userDTO.getEncryptedPassword().equals(userDTO.getConfirmedPassword())) {
             throw new RuntimeException("Passwords do not match");
         }
-        UserEntity userEntity = new UserEntity(userDTO);
+        UserEntity userEntity = Converter.entityFromDTO(userDTO);
         userModel.add(userEntity);
     }
 
@@ -196,7 +196,7 @@ public class UserController implements IUserController {
     @Override
     @PostMapping(value = "/addPage") //TODO: not-restful name; better is viewPage1
     public void setDataFromForm(@RequestBody UserDTO data) throws ExceptionMishpaha {
-        UserEntity userEntity = new UserEntity(data);
+        UserEntity userEntity = Converter.entityFromDTO(data);
         userModel.add(userEntity);
     }
 

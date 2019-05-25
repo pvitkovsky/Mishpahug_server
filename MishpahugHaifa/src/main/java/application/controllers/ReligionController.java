@@ -4,6 +4,7 @@ import application.controllers.interfaces.IReligionController;
 import application.entities.ReligionEntity;
 import application.exceptions.ExceptionMishpaha;
 import application.models.religion.IReligionModel;
+import application.utils.Converter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +21,8 @@ public class ReligionController implements IReligionController {
 
     @Override
     @GetMapping(value = "/")
-    public List<ReligionEntity> get() {
-        return religionModel.getAll();
-
+    public List<String> get() {
+        return Converter.ReligionstoStringList(religionModel.getAll());
     }
 
     @Override

@@ -4,6 +4,7 @@ import application.controllers.interfaces.IMaritalStatusController;
 import application.entities.MaritalStatusEntity;
 import application.exceptions.ExceptionMishpaha;
 import application.models.marriagestatus.IMaritalStatusModel;
+import application.utils.Converter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +21,8 @@ public class MaritalStatusController implements IMaritalStatusController {
 
     @Override
     @GetMapping(value = "/")
-    public List<MaritalStatusEntity> get() {
-        return maritalStatusModel.getAll();
+    public List<String> get() {
+        return Converter.MaritalStatusetoStringList(maritalStatusModel.getAll());
     }
 
     @Override

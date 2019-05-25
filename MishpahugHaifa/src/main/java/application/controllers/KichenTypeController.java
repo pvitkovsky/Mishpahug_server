@@ -4,6 +4,7 @@ import application.controllers.interfaces.IKichenTypeController;
 import application.entities.KitchenTypeEntity;
 import application.exceptions.ExceptionMishpaha;
 import application.models.kichentype.IKichenTypeModel;
+import application.utils.Converter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -45,14 +46,14 @@ public class KichenTypeController implements IKichenTypeController {
 
     @Override
     @GetMapping(value = "/")
-    public List<KitchenTypeEntity> get(@RequestBody(required = false) String data) {
-        return kichenTypeModel.getAll();
+    public List<String> get() {
+        return Converter.kitchenTypestoStringList(kichenTypeModel.getAll());
     }
 
     @Override
     @GetMapping(value = "/{id}")
-    public KitchenTypeEntity get(@PathVariable(name = "id", required = false) Integer id) {
-        return kichenTypeModel.getById(id);
+    public String get(@PathVariable(name = "id", required = false) Integer id) {
+        return kichenTypeModel.getById(id).getName();
     }
 
 }

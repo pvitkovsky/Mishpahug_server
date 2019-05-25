@@ -2,6 +2,7 @@ package application.integration;
 
 import static org.junit.Assert.assertEquals;
 
+import application.utils.Converter;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,7 +37,7 @@ public class LoginWebRequestTest {
     	alyssaDTO.setUserName("Alyssa");
     	alyssaDTO.setEncryptedPassword("1337");
     	alyssaDTO.setConfirmedPassword("1337");
-    	ALYSSA = new UserEntity(alyssaDTO);
+    	ALYSSA = Converter.entityFromDTO(alyssaDTO);
         restTemplate.setRequestFactory(new HttpComponentsAsyncClientHttpRequestFactory());
     }
 

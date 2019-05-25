@@ -21,8 +21,8 @@ public interface IKichenTypeController {
     void delete(@PathVariable(name = "id") Integer id);
 
     @GetMapping(value = "/")
-    List<KitchenTypeEntity> get(@RequestBody(required = false) String data);
+    List<String> get();
 
     @GetMapping(value = "/{id}")
-    KitchenTypeEntity get(@PathVariable(name = "id", required = false) Integer id);
+    String get(@PathVariable(name = "id", required = false) Integer id);
 }

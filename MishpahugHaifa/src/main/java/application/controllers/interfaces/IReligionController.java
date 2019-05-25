@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IReligionController {
     @GetMapping(value = "/")
-    List<ReligionEntity> get();
+    List<String> get();
 
     @GetMapping(value = "/{id}")
     ReligionEntity get(@PathVariable(name = "id") Integer id);

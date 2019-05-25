@@ -173,13 +173,6 @@ public class UserEntity {
 		this.eMail = email;
 	}
 	
-	public UserEntity(UserDTO data) {
-		this(data.getUserName(), data.getUserName() + "@gmail.com");
-		this.setFirstName(data.getFirstName());
-		this.setLastName(data.getLastName());
-		this.setEncrytedPassword(data.getEncryptedPassword());
-	}
-	
 	/**
 	 * Updating user based on DTO. 
 	 * @param userDTO

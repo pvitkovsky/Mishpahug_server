@@ -54,7 +54,8 @@ public class UserModel implements IUserModel {
         
     	try {
             UserEntity user = userRepository.getOne(userDTO.getId());
-            user.updateFromDTO(userDTO);	
+            user.updateFromDTO(userDTO);
+            userRepository.save(user);
             return user;
         } catch (Exception e) {
             throw new ExceptionMishpaha("Error! Not found user with id " + userDTO.getId(), null);

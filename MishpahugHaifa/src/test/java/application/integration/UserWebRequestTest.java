@@ -5,8 +5,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
 
-import javax.transaction.Transactional;
-
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.Before;
 import org.junit.Test;

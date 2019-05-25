@@ -1,11 +1,12 @@
 package application.models.city;
 
+import java.util.List;
+
+import com.querydsl.core.types.Predicate;
+
 import application.entities.CityEntity;
 import application.entities.CountryEntity;
 import application.exceptions.ExceptionMishpaha;
-import com.querydsl.core.types.Predicate;
-
-import java.util.List;
 
 public interface ICityModel {
     public CityEntity getById(Integer id) throws ExceptionMishpaha;

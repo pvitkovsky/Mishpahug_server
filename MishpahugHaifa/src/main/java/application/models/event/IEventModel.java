@@ -1,13 +1,14 @@
 package application.models.event;
 
-import application.entities.EventEntity;
-import application.entities.UserEntity;
-import application.exceptions.ExceptionMishpaha;
-import com.querydsl.core.types.Predicate;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+
+import com.querydsl.core.types.Predicate;
+
+import application.entities.EventEntity;
+import application.entities.UserEntity;
+import application.exceptions.ExceptionMishpaha;
 
 public interface IEventModel {
     public List<EventEntity> getAll();

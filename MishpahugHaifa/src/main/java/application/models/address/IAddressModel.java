@@ -1,11 +1,12 @@
 package application.models.address;
 
-import application.entities.AddressEntity;
-import application.exceptions.ExceptionMishpaha;
-import com.querydsl.core.types.Predicate;
-
 import java.util.HashMap;
 import java.util.List;
+
+import com.querydsl.core.types.Predicate;
+
+import application.entities.AddressEntity;
+import application.exceptions.ExceptionMishpaha;
 
 public interface IAddressModel {
     public AddressEntity getById(Integer id);

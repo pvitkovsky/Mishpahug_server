@@ -1,13 +1,16 @@
 package application.models.logsdata;
 
-import application.entities.LogsDataEntity;
-import application.repositories.LogsDataRepository;
-import com.querydsl.core.types.Predicate;
+import java.util.List;
+
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.List;
+import com.querydsl.core.types.Predicate;
+
+import application.entities.LogsDataEntity;
+import application.repositories.LogsDataRepository;
 
 @Service
 @Transactional

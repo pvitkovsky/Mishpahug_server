@@ -1,13 +1,15 @@
 package application.models.marriagestatus;
 
-import application.entities.MaritalStatusEntity;
-import application.exceptions.ExceptionMishpaha;
-import application.repositories.MaritalStatusRepository;
+import java.util.List;
+
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.List;
+import application.entities.MaritalStatusEntity;
+import application.exceptions.ExceptionMishpaha;
+import application.repositories.MaritalStatusRepository;
 
 @Service
 @Transactional

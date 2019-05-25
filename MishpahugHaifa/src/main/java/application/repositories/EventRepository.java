@@ -1,8 +1,10 @@
 package application.repositories;
 
-import application.entities.EventEntity;
-import application.entities.QEventEntity;
-import com.querydsl.core.types.dsl.StringPath;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,10 +12,10 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import com.querydsl.core.types.dsl.StringPath;
+
+import application.entities.EventEntity;
+import application.entities.QEventEntity;
 
 //TODO: disallow/hide DELETE;
 public interface EventRepository extends JpaRepository<EventEntity, Integer>,

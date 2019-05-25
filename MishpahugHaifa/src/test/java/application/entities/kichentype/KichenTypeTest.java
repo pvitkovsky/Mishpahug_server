@@ -1,7 +1,5 @@
 package application.entities.kichentype;
 
-import application.entities.KitchenTypeEntity;
-import application.repositories.KichenTypeRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,6 +8,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+
+import application.entities.KitchenTypeEntity;
+import application.repositories.KichenTypeRepository;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest

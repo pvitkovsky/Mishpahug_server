@@ -1,8 +1,8 @@
 package application.models.kichentype;
 
-import application.entities.KitchenTypeEntity;
-
 import java.util.List;
+
+import application.entities.KitchenTypeEntity;
 
 public interface IKichenTypeModel {
     public KitchenTypeEntity getById(Integer id);

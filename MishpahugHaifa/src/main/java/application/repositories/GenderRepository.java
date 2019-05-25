@@ -1,7 +1,8 @@
 package application.repositories;
 
-import application.entities.GenderEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import application.entities.GenderEntity;
 
 public interface GenderRepository extends JpaRepository<GenderEntity, Integer> {
     public GenderEntity getByName(String name);

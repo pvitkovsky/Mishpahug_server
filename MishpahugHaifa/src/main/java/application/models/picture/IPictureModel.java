@@ -1,8 +1,8 @@
 package application.models.picture;
 
-import application.entities.values.PictureValue;
-
 import java.sql.Blob;
+
+import application.entities.values.PictureValue;
 
 public interface IPictureModel {
     public PictureValue add(PictureValue data);

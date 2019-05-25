@@ -1,12 +1,12 @@
 package application.models.user;
 
+import java.util.List;
+
+import com.querydsl.core.types.Predicate;
+
 import application.dto.UserDTO;
 import application.entities.UserEntity;
 import application.exceptions.ExceptionMishpaha;
-import com.querydsl.core.types.Predicate;
-
-import java.util.HashMap;
-import java.util.List;
 
 public interface IUserModel {
     UserEntity getByUsernameAndPassword(String username, String password);

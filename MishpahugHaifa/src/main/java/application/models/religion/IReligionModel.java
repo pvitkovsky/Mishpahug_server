@@ -1,9 +1,9 @@
 package application.models.religion;
 
+import java.util.List;
+
 import application.entities.ReligionEntity;
 import application.exceptions.ExceptionMishpaha;
-
-import java.util.List;
 
 public interface IReligionModel {
     public ReligionEntity getById(Integer id);

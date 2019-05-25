@@ -1,8 +1,8 @@
 package application.models.country;
 
-import application.entities.CountryEntity;
-
 import java.util.List;
+
+import application.entities.CountryEntity;
 
 public interface ICountryModel {
     public CountryEntity getById(Integer id);

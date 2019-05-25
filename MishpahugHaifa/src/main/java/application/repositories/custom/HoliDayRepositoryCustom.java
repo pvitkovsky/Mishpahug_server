@@ -1,8 +1,8 @@
 package application.repositories.custom;
 
-import application.entities.HoliDayEntity;
-
 import java.util.List;
+
+import application.entities.HoliDayEntity;
 
 public interface HoliDayRepositoryCustom {
     public List<HoliDayEntity> loadFromServer();

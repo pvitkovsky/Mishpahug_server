@@ -1,10 +1,5 @@
 package application.models.user;
 
-import application.entities.UserEntity;
-import application.repositories.CityRepository;
-import application.repositories.CountryRepository;
-import application.repositories.KichenTypeRepository;
-import application.repositories.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +10,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import application.entities.UserEntity;
+import application.repositories.CityRepository;
+import application.repositories.CountryRepository;
+import application.repositories.KichenTypeRepository;
+import application.repositories.UserRepository;
 
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")

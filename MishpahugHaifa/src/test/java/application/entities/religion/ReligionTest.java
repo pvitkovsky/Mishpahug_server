@@ -1,8 +1,8 @@
 package application.entities.religion;
 
 
-import application.entities.ReligionEntity;
-import application.repositories.ReligionRepository;
+import java.util.Random;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +12,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Random;
+import application.entities.ReligionEntity;
+import application.repositories.ReligionRepository;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest

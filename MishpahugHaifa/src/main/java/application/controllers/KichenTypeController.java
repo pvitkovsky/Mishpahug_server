@@ -1,15 +1,24 @@
 package application.controllers;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import application.controllers.interfaces.IKichenTypeController;
 import application.entities.KitchenTypeEntity;
 import application.exceptions.ExceptionMishpaha;
 import application.models.kichentype.IKichenTypeModel;
-import application.utils.Converter;
+import application.utils.IConverter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -17,7 +26,7 @@ import java.util.List;
 public class KichenTypeController implements IKichenTypeController {
     @Autowired
     IKichenTypeModel kichenTypeModel;
-
+    
     @Override
     @PostMapping(value = "/")
     public void post(@RequestBody KitchenTypeEntity data) throws ExceptionMishpaha {
@@ -47,7 +56,7 @@ public class KichenTypeController implements IKichenTypeController {
     @Override
     @GetMapping(value = "/")
     public List<String> get() {
-        return Converter.kitchenTypestoStringList(kichenTypeModel.getAll());
+        return IConverter.PropertyToStringList(kichenTypeModel.getAll());
     }
 
     @Override

@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
-import application.utils.Converter;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +40,7 @@ import application.models.marriagestatus.IMaritalStatusModel;
 import application.models.religion.IReligionModel;
 import application.models.user.IUserModel;
 import application.repositories.UserSessionRepository;
+import application.utils.IConverter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -50,19 +50,22 @@ import lombok.extern.slf4j.Slf4j;
 public class UserController implements IUserController {
 
     @Autowired
+    IUserModel userModel;
+    
+    @Autowired
+    UserSessionRepository userSessionRepository;
+    
+    @Autowired
+    IConverter<UserEntity, UserDTO> converter;
+    
+    @Autowired
     IReligionModel religionModel;
 
     @Autowired
     IKichenTypeModel kichenTypeModel;
 
     @Autowired
-    IUserModel userModel;
-
-    @Autowired
     IGenderModel genderModel;
-
-    @Autowired
-    UserSessionRepository userSessionRepository;
 
     @Autowired
     IMaritalStatusModel maritalStatusModel;
@@ -87,9 +90,14 @@ public class UserController implements IUserController {
     public UserDTO getByToken(HttpServletRequest request) throws ExceptionMishpaha {
     	String token = request.getHeader("Authorization");
     	UserSession session = userSessionRepository.findByTokenAndIsValidTrue(token);
-    	return new UserDTO(userModel.getByUserName(session.getUserName()));//return new UserDTO(userModel);
+    	return new UserDTO(userModel.getByUserName(session.getUserName())); //TODO: converter here?
     }
-
+    
+    @Override
+    @GetMapping(value = "/all")
+    public List<UserDTO> getall() throws ExceptionMishpaha {
+        return converter.DTOListFromEntities(userModel.getAll());
+    }
 
     @Override
     @PostMapping(value = "/login")
@@ -143,13 +151,14 @@ public class UserController implements IUserController {
     @PostMapping(value = "/register")
     public void add(@RequestBody UserDTO userDTO) throws ExceptionMishpaha {
         System.out.println("UserController -> Register -> UserDTO = " + userDTO);
-        if (userModel.getByUserName(userDTO.getUserName()) != null) {
-            throw new RuntimeException("Such user already exists");
-        }
-        if (!userDTO.getEncryptedPassword().equals(userDTO.getConfirmedPassword())) {
-            throw new RuntimeException("Passwords do not match");
-        }
-        UserEntity userEntity = Converter.entityFromDTO(userDTO);
+      // if (userModel.getByUserName(userDTO.getUserName()) != null) {
+      //      throw new RuntimeException("Such user already exists");
+       // }
+      //  if (!userDTO.getEncryptedPassword().equals(userDTO.getConfirmedPassword())) {
+       //     throw new RuntimeException("Passwords do not match");
+       // }
+        UserEntity userEntity = converter.entityFromDTO(userDTO);
+        System.out.println(userEntity);
         userModel.add(userEntity);
     }
 
@@ -191,7 +200,7 @@ public class UserController implements IUserController {
     @Override
     @PostMapping(value = "/addPage") //TODO: not-restful name; better is viewPage1
     public void setDataFromForm(@RequestBody UserDTO data) throws ExceptionMishpaha {
-        UserEntity userEntity = Converter.entityFromDTO(data);
+        UserEntity userEntity = converter.entityFromDTO(data);
         userModel.add(userEntity);
     }
 

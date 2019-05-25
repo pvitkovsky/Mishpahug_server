@@ -1,14 +1,15 @@
 package application.entities.values;
 
+import java.sql.Blob;
+import java.util.Objects;
+
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import java.sql.Blob;
-import java.util.Objects;
 
 @NoArgsConstructor
 @AllArgsConstructor

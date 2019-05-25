@@ -1,7 +1,8 @@
 package application.entities.Address;
 
-import application.entities.AddressEntity;
-import application.repositories.*;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,8 +12,12 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import application.entities.AddressEntity;
+import application.repositories.AddressRepository;
+import application.repositories.CityRepository;
+import application.repositories.CountryRepository;
+import application.repositories.GenderRepository;
+import application.repositories.UserRepository;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest

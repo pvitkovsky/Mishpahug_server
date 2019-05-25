@@ -1,4 +1,4 @@
-package application.utils;
+package application.utils.converter;
 
 import application.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;

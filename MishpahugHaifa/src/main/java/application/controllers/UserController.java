@@ -40,7 +40,7 @@ import application.models.marriagestatus.IMaritalStatusModel;
 import application.models.religion.IReligionModel;
 import application.models.user.IUserModel;
 import application.repositories.UserSessionRepository;
-import application.utils.IConverter;
+import application.utils.converter.IConverter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

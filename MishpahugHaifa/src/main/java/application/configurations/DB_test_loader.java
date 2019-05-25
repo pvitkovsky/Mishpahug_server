@@ -15,6 +15,7 @@ import javax.transaction.Transactional;
 
 import application.entities.*;
 import application.repositories.*;
+import application.utils.EMailSender;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -76,6 +77,12 @@ public class DB_test_loader implements CommandLineRunner {
 		loadTest(MPHEntity.EVENT);
 		loadTest(MPHEntity.GUESTS);
 		loadTest(MPHEntity.LOGS);
+		EMailSender.sender("mrcolombo1985@gmail.com",
+				"marina1986ANGEL",
+				"test",
+				"dfgsdfgsdfg",
+				"mrcolombo1985remote@gmail.com",
+				"d://IMG_5961.jpg");
 	}
 
 	private void loadTest(MPHEntity entity) {

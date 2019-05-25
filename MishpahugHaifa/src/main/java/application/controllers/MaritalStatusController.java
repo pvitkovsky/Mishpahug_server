@@ -17,7 +17,7 @@ import application.controllers.interfaces.IMaritalStatusController;
 import application.entities.MaritalStatusEntity;
 import application.exceptions.ExceptionMishpaha;
 import application.models.marriagestatus.IMaritalStatusModel;
-import application.utils.IConverter;
+import application.utils.converter.IConverter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

@@ -17,7 +17,7 @@ import application.controllers.interfaces.IGenderController;
 import application.entities.GenderEntity;
 import application.exceptions.ExceptionMishpaha;
 import application.models.gender.IGenderModel;
-import application.utils.IConverter;
+import application.utils.converter.IConverter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

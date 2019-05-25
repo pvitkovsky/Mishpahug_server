@@ -17,7 +17,7 @@ import application.controllers.interfaces.IKichenTypeController;
 import application.entities.KitchenTypeEntity;
 import application.exceptions.ExceptionMishpaha;
 import application.models.kichentype.IKichenTypeModel;
-import application.utils.IConverter;
+import application.utils.converter.IConverter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

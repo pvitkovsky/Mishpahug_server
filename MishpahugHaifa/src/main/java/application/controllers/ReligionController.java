@@ -17,7 +17,7 @@ import application.controllers.interfaces.IReligionController;
 import application.entities.ReligionEntity;
 import application.exceptions.ExceptionMishpaha;
 import application.models.religion.IReligionModel;
-import application.utils.IConverter;
+import application.utils.converter.IConverter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

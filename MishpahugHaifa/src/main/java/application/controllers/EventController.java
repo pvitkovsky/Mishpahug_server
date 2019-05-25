@@ -4,9 +4,7 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
-import application.dto.UserDTO;
-import application.entities.UserEntity;
-import application.utils.IConverter;
+import application.utils.converter.IConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.http.HttpHeaders;
@@ -31,15 +29,8 @@ import application.exceptions.ExceptionMishpaha;
 import application.models.event.IEventModel;
 import application.models.holyday.IHolyDayModel;
 import application.models.kichentype.IKichenTypeModel;
-import com.querydsl.core.types.Predicate;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.querydsl.binding.QuerydslPredicate;
-import org.springframework.http.HttpHeaders;
-import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.List;
 
 @Slf4j

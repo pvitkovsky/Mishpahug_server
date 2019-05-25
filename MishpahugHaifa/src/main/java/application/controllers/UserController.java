@@ -227,7 +227,7 @@ public class UserController implements IUserController {
     @ResponseBody
     public List<UserDTO> findAllByWebQuerydsl(
             @QuerydslPredicate(root = UserEntity.class) Predicate predicate) {
-        return Converter.userDTOListFromEntities(userModel.getAll(predicate));
+        return converter.DTOListFromEntities(userModel.getAll(predicate));
     }
 
 }

@@ -4,6 +4,9 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
+import application.dto.UserDTO;
+import application.entities.UserEntity;
+import application.utils.IConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.http.HttpHeaders;
@@ -28,7 +31,6 @@ import application.exceptions.ExceptionMishpaha;
 import application.models.event.IEventModel;
 import application.models.holyday.IHolyDayModel;
 import application.models.kichentype.IKichenTypeModel;
-import application.utils.Converter;
 import com.querydsl.core.types.Predicate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +52,9 @@ public class EventController implements IEventController {
     IEventModel eventModel;
 
     @Autowired
+    IConverter<EventEntity, EventDTO> converter;
+
+    @Autowired
     IHolyDayModel holyDayModel;
 
     @Autowired
@@ -67,7 +72,7 @@ public class EventController implements IEventController {
             HttpServletRequest request) {
         log.info("EventController -> findAllByWebQuerydsl -> Headers -> " + httpHeaders);
         log.info("EventController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
-        return Converter.eventDTOListFromEntities(eventModel.getAll(predicate));
+        return converter.DTOListFromEntities(eventModel.getAll(predicate));
     }
 
     /* (non-Javadoc)

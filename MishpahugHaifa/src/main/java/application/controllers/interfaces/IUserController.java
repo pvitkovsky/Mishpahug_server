@@ -38,12 +38,12 @@ public interface IUserController {
     void setDataFromForm(UserDTO data) throws ExceptionMishpaha;
 
     void setDataFromFormDetail(UserDTO data, String userName) throws ExceptionMishpaha;
-    
-    @PostMapping(value = "/login")
+
+    List<UserDTO> getall() throws ExceptionMishpaha;
+
     LoginResponse login(@RequestBody LoginDTO loginDTO, @RequestHeader HttpHeaders httpHeaders,
                         HttpServletRequest request);
-    
-    @PostMapping(value = "/logout")
+
     void logout(@RequestHeader(name = "Authorization", required = false) String token);
 
 }

@@ -11,7 +11,7 @@ import application.entities.UserEntity;
 @Service
 public class UserConverter extends ConverterBase implements IConverter<UserEntity, UserDTO> {
 
-	public List<UserDTO> DTOListFromEntities(List<UserEntity> data) {
+	public List<UserDTO> DTOListFromEntities(Iterable<UserEntity> data) {
 		List<UserDTO> res = new ArrayList<>();
 		for (UserEntity x : data) {
 			res.add(new UserDTO(x));

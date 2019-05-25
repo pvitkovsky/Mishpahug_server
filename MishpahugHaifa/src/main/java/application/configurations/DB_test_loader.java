@@ -130,6 +130,13 @@ public class DB_test_loader implements CommandLineRunner {
 			loader.load();
 			break;
 		}
+		
+		case RELIGION: {
+			ReligionLoader loader = new ReligionLoader(br);
+			loader.load();
+			break;
+		}
+		
 		case GUESTS: {
 			eventGuestRepository.deleteAll();
 			Integer randomUserRange = userRepository.findAll().size() - 1;
@@ -262,15 +269,15 @@ public class DB_test_loader implements CommandLineRunner {
 					user.setFirstName(data[1]);
 					user.setLastName(data[2]);
 					user.setDateOfBirth(LocalDate.parse(data[3]));
-					Random rr = new Random();
-					user.setPhoneNumber(data[4]+ rr.nextInt(9)+ rr.nextInt(9)+ rr.nextInt(9)+ rr.nextInt(9)+ rr.nextInt(9)+ rr.nextInt(9)+ rr.nextInt(9));
+					Random ran = new Random();
+					user.setPhoneNumber(data[4]+ ran.nextInt(9)+ ran.nextInt(9)+ ran.nextInt(9)+ ran.nextInt(9)+ ran.nextInt(9)+ ran.nextInt(9)+ ran.nextInt(9));
 					user.setEncrytedPassword(DigestUtils.md5Hex(data[0].split("@")[0]));
 					user.activate();
-					user.setGender(genderEntityList.get(rr.nextInt(genderEntityList.size() - 1)));
-					user.setReligion(religionEntityList.get(rr.nextInt(religionEntityList.size() - 1)));
-					user.setAddressEntity(addressEntityList.get(rr.nextInt(addressEntityList.size() - 1)));
-					user.setKitchenType(kitchenTypeEntityList.get(rr.nextInt(kitchenTypeEntityList.size() - 1)));
-					user.setMaritalStatus(maritalStatusEntityList.get(rr.nextInt(maritalStatusEntityList.size() - 1)));
+					user.setGender(genderEntityList.get(ran.nextInt(genderEntityList.size() - 1)));
+					user.setReligion(religionEntityList.get(ran.nextInt(religionEntityList.size() - 1)));
+					user.setAddressEntity(addressEntityList.get(ran.nextInt(addressEntityList.size() - 1)));
+					user.setKitchenType(kitchenTypeEntityList.get(ran.nextInt(kitchenTypeEntityList.size() - 1)));
+					user.setMaritalStatus(maritalStatusEntityList.get(ran.nextInt(maritalStatusEntityList.size() - 1)));
 					userRepository.save(user);
 				}
 				br.close();

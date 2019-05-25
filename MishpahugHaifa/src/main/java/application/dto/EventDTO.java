@@ -16,6 +16,7 @@ import lombok.ToString;
 @NoArgsConstructor
 
 public class EventDTO {
+    private Integer id;
     private LocalDate date;
     private LocalTime time;
     private String nameOfEvent;
@@ -30,6 +31,8 @@ public class EventDTO {
 
 
     public EventDTO(EventEntity eventEntity) {
+        super();
+        this.id = eventEntity.getId();
         this.addressCountry = eventEntity.getAddressEntity() == null ? "" : eventEntity.getAddressEntity().getCityEntity().getCountryEntity().getName();
         this.addressCity = eventEntity.getAddressEntity() == null ? "" : eventEntity.getAddressEntity().getCityEntity().getName();
         this.addressStreet = eventEntity.getAddressEntity() == null ? "" : eventEntity.getAddressEntity().getStreet();

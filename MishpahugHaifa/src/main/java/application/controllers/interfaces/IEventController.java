@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 public interface IEventController {
 
-    Iterable<EventEntity> findAllByWebQuerydsl(Predicate predicate, @RequestHeader HttpHeaders httpHeaders,
+    Iterable<EventDTO> findAllByWebQuerydsl(Predicate predicate, @RequestHeader HttpHeaders httpHeaders,
                                                HttpServletRequest request);
 
     EventEntity findAll(Integer id, @RequestHeader HttpHeaders httpHeaders,

@@ -17,7 +17,6 @@ import java.util.Set;
 })
 @Getter
 @Setter
-@ToString(exclude = "addressEntities")
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"name", "countryEntity"})
@@ -83,4 +82,8 @@ public class CityEntity {
         addressEntities.clear();
     }
 
+    @Override
+    public String toString() {
+        return name  + "," + countryEntity.getName();
+    }
 }

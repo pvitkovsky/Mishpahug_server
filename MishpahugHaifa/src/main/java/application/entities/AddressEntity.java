@@ -13,7 +13,6 @@ import javax.validation.constraints.Size;
 })
 @Getter
 @Setter
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"cityEntity", "street", "building", "apartment"})
@@ -39,4 +38,9 @@ public class AddressEntity {
 
     @Column(name = "apartment")
     private Integer apartment;
+
+    @Override
+    public String toString() {
+        return  cityEntity + "," + street + "," + building + "," + apartment;
+    }
 }

@@ -89,12 +89,7 @@ public class UserController implements IUserController {
     	UserSession session = userSessionRepository.findByTokenAndIsValidTrue(token);
     	return new UserDTO(userModel.getByUserName(session.getUserName()));//return new UserDTO(userModel);
     }
-    
-    @Override
-    @GetMapping(value = "/all")
-    public List<UserDTO> getall() throws ExceptionMishpaha {
-        return Converter.userDTOListFromEntities(userModel.getAll());
-    }
+
 
     @Override
     @PostMapping(value = "/login")
@@ -221,9 +216,9 @@ public class UserController implements IUserController {
     @Override
     @RequestMapping(method = RequestMethod.GET, value = "/")
     @ResponseBody
-    public Iterable<UserEntity> findAllByWebQuerydsl(
+    public List<UserDTO> findAllByWebQuerydsl(
             @QuerydslPredicate(root = UserEntity.class) Predicate predicate) {
-        return userModel.getAll(predicate);
+        return Converter.userDTOListFromEntities(userModel.getAll(predicate));
     }
 
 }

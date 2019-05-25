@@ -50,9 +50,10 @@ public class UserDTO {
     	this.eMail = user.getEMail();
     	this.userName = user.getUserName();
     	this.dayOfBirth = user.getDateOfBirth();
-    	this.gender = user.getGender() == null ? "" : user.getGender().toString();
-    	this.kichenType = user.getKitchenType()== null ? "" : user.getKitchenType().toString();
-    	this.religion = user.getReligion()== null ? "" : user.getReligion().toString();
-    	this.maritalStatus = user.getMaritalStatus()== null ? "" : user.getMaritalStatus().toString();
+    	this.gender = user.getGender() == null ? "" : user.getGender().getName();
+    	this.kichenType = user.getKitchenType()== null ? "" : user.getKitchenType().getName();
+    	this.religion = user.getReligion()== null ? "" : user.getReligion().getName();
+    	this.maritalStatus = user.getMaritalStatus()== null ? "" : user.getMaritalStatus().getName();
+    	this.confirmedPassword = user.getEncrytedPassword();
     }
 }

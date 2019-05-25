@@ -7,6 +7,7 @@ import application.exceptions.ExceptionMishpaha;
 import application.models.event.IEventModel;
 import application.models.holyday.IHolyDayModel;
 import application.models.kichentype.IKichenTypeModel;
+import application.utils.Converter;
 import com.querydsl.core.types.Predicate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -38,13 +40,13 @@ public class EventController implements IEventController {
     @Override
     @RequestMapping(method = RequestMethod.GET, value = "/")
     @ResponseBody
-    public Iterable<EventEntity> findAllByWebQuerydsl(
+    public List<EventDTO> findAllByWebQuerydsl(
             @QuerydslPredicate(root = EventEntity.class) Predicate predicate
             , @RequestHeader HttpHeaders httpHeaders,
             HttpServletRequest request) {
         log.info("EventController -> findAllByWebQuerydsl -> Headers -> " + httpHeaders);
         log.info("EventController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
-        return eventModel.getAll(predicate);
+        return Converter.eventDTOListFromEntities(eventModel.getAll(predicate));
     }
 
     /* (non-Javadoc)

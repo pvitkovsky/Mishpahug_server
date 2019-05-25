@@ -13,35 +13,15 @@ import java.util.Random;
 
 import javax.transaction.Transactional;
 
+import application.entities.*;
+import application.repositories.*;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import application.entities.AddressEntity;
-import application.entities.CityEntity;
-import application.entities.CountryEntity;
-import application.entities.EventEntity;
-import application.entities.GenderEntity;
-import application.entities.KitchenTypeEntity;
-import application.entities.LogsOnEvent;
 import application.entities.LogsOnEvent.ActionsOnEvent;
-import application.entities.MaritalStatusEntity;
-import application.entities.ReligionEntity;
-import application.entities.SubscriptionEntity;
-import application.entities.UserEntity;
-import application.repositories.AddressRepository;
-import application.repositories.CityRepository;
-import application.repositories.CountryRepository;
-import application.repositories.EventRepository;
-import application.repositories.GenderRepository;
-import application.repositories.KichenTypeRepository;
-import application.repositories.LogsDataRepository;
-import application.repositories.MaritalStatusRepository;
-import application.repositories.ReligionRepository;
-import application.repositories.SubscriptionRepository;
-import application.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -78,6 +58,8 @@ public class DB_test_loader implements CommandLineRunner {
 	KichenTypeRepository kichenTypeRepository;
 	@Autowired
 	LogsDataRepository logsDataRepository;
+	@Autowired
+	HolyDayRepository holyDayRepository;
 
 	
 
@@ -89,7 +71,7 @@ public class DB_test_loader implements CommandLineRunner {
 		loadTest(MPHEntity.MARRIAGE);
 		loadTest(MPHEntity.ADDRESS);
 		loadTest(MPHEntity.GENDER);
-
+		loadTest(MPHEntity.HOLIDAYS);
 		loadTest(MPHEntity.USER);
 		loadTest(MPHEntity.EVENT);
 		loadTest(MPHEntity.GUESTS);
@@ -103,8 +85,9 @@ public class DB_test_loader implements CommandLineRunner {
 		//TODO: why Spring has stopped reading application.properties from UserWebRequestTest?
 		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
 		InputStream is = classloader.getResourceAsStream(testFolder + "/" + entity.dataFile());
-		//System.out.println(testFolder + "/" + entity.dataFile());
-		BufferedReader br = new BufferedReader(new InputStreamReader(is));
+		log.info(" loadTest => " + testFolder + "/" + entity.dataFile() + " / " + is);
+		InputStreamReader inputStreamReader = new InputStreamReader(is);
+		BufferedReader br = new BufferedReader(inputStreamReader);
 
 		switch (entity) {
 		case USER: {
@@ -132,8 +115,8 @@ public class DB_test_loader implements CommandLineRunner {
 			loader.load();
 			break;
 		}
-		case RELIGION: {
-			ReligionLoader loader = new ReligionLoader(br);
+		case HOLIDAYS: {
+			HoliDaysLoader loader = new HoliDaysLoader(br);
 			loader.load();
 			break;
 		}
@@ -235,6 +218,11 @@ public class DB_test_loader implements CommandLineRunner {
 				return "data_blank.csv";
 			}
 		},
+		HOLIDAYS {
+			public String dataFile() {
+				return "holidays.csv";
+			}
+		},
 		LOGS {
 			public String dataFile() {
 				return "data_blank.csv";
@@ -291,6 +279,37 @@ public class DB_test_loader implements CommandLineRunner {
 			}
 		}
 	}
+
+	/**
+	 * Loads ds
+	 */
+	private class HoliDaysLoader {
+		BufferedReader br;
+
+		public HoliDaysLoader(BufferedReader br) {
+			this.br = br;
+		}
+
+		void load() {
+			try {
+				String detail;
+				while ((detail = br.readLine()) != null) {
+					String[] data = detail.split("/");
+					String[] types = data[3].split("!");
+					String[] dateSplit = data[2].split("-");
+					HoliDayEntity holiDayEntity = new HoliDayEntity();
+					holiDayEntity.setName(data[0]);
+					holiDayEntity.setDate(LocalDate.of(Integer.getInteger(dateSplit[0]),Integer.getInteger(dateSplit[1]),Integer.getInteger(dateSplit[2])));
+					holiDayEntity.setDescription(data[1]);
+					holyDayRepository.save(holiDayEntity);
+				}
+				br.close();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+
 	/**
 	 * Loads address
 	 */
@@ -536,6 +555,10 @@ public class DB_test_loader implements CommandLineRunner {
 				eventRepository.flush();
 				//do we need flush here?
 				//need
+				List<AddressEntity> addressEntityList = addressRepository.findAll();
+				Integer addressEntityListCount = addressEntityList.size() - 1;
+				List<HoliDayEntity> holiDayEntityList = holyDayRepository.findAll();
+				Integer holiDayEntityListCount = holiDayEntityList.size() - 1;
 				String detail;
 				List<UserEntity> userEntityList = userRepository.findAll();
 				Integer userEntityListCount = userEntityList.size() - 1;
@@ -545,6 +568,8 @@ public class DB_test_loader implements CommandLineRunner {
 					String[] eventAttributes = detail.split(",");
 					EventEntity event = new EventEntity(randomOwner, LocalDate.parse(eventAttributes[0].replaceAll("/", "-"), DateTimeFormatter.ISO_DATE), LocalTime.parse(eventAttributes[1], DateTimeFormatter.ISO_LOCAL_TIME));
 					event.setNameOfEvent(eventAttributes[2]);
+					event.setHoliDay(holiDayEntityList.get(r.nextInt(holiDayEntityListCount)));
+					event.setAddressEntity(addressEntityList.get(r.nextInt(addressEntityListCount)));
 				}
 				br.close();
 			} catch (IOException e) {

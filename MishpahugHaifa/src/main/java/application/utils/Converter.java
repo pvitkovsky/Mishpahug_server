@@ -1,5 +1,6 @@
 package application.utils;
 
+import application.dto.EventDTO;
 import application.dto.UserDTO;
 import application.entities.*;
 import application.repositories.GenderRepository;
@@ -31,6 +32,24 @@ public class Converter {
         List<UserDTO> res = new ArrayList<>();
         for (UserEntity x:data
              ) {
+            res.add(new UserDTO(x));
+        }
+        return res;
+    }
+
+    public static List<EventDTO> eventDTOListFromEntities(Iterable<EventEntity> data){
+        List<EventDTO> res = new ArrayList<>();
+        for (EventEntity x:data
+             ) {
+            res.add(new EventDTO(x));
+        }
+        return res;
+    }
+
+    public static List<UserDTO> userDTOListFromEntities(Iterable<UserEntity> data){
+        List<UserDTO> res = new ArrayList<>();
+        for (UserEntity x:data
+        ) {
             res.add(new UserDTO(x));
         }
         return res;
@@ -85,4 +104,6 @@ public class Converter {
         res.setMaritalStatus(maritalStatusRepository.getByName(data.getMaritalStatus()));
         return res;
     }
+
+
 }

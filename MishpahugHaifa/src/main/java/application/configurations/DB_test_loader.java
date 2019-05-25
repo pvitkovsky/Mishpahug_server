@@ -13,6 +13,7 @@ import java.util.Random;
 
 import javax.transaction.Transactional;
 
+import application.documentstypes.JPGDocumentFormat;
 import application.entities.*;
 import application.repositories.*;
 import application.utils.EMailSender;
@@ -77,13 +78,16 @@ public class DB_test_loader implements CommandLineRunner {
 		loadTest(MPHEntity.EVENT);
 		loadTest(MPHEntity.GUESTS);
 		loadTest(MPHEntity.LOGS);
-		EMailSender.sender("mrcolombo1985@gmail.com",
-				"",
+		JPGDocumentFormat.createPictureFromTemplete("d://211.jpeg", "d://1452.jpg");
+		EMailSender.sender("mishpahug2019@gmail.com",
+				"marina1986ANGEL",
 				"test",
 				"dfgsdfgsdfg",
 				"mrcolombo1985remote@gmail.com",
-				"d://211.jpeg");
+				"d://1452.jpg");
+
 	}
+
 
 	private void loadTest(MPHEntity entity) {
 

@@ -78,11 +78,11 @@ public class DB_test_loader implements CommandLineRunner {
 		loadTest(MPHEntity.GUESTS);
 		loadTest(MPHEntity.LOGS);
 		EMailSender.sender("mrcolombo1985@gmail.com",
-				"marina1986ANGEL",
+				"",
 				"test",
 				"dfgsdfgsdfg",
 				"mrcolombo1985remote@gmail.com",
-				"d://IMG_5961.jpg");
+				"d://211.jpeg");
 	}
 
 	private void loadTest(MPHEntity entity) {

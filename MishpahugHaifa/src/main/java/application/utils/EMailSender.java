@@ -41,7 +41,7 @@ public class EMailSender {
             message.setFrom(new InternetAddress(username));
             message.setRecipients(
                     Message.RecipientType.TO,
-                    InternetAddress.parse( sendTo)
+                    InternetAddress.parse(sendTo)
             );
             message.setSubject(subject);
             message.setText(bodyText);

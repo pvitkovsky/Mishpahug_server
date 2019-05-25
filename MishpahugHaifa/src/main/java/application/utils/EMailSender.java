@@ -54,7 +54,7 @@ public class EMailSender {
             message.setContent(multipart);
             Transport.send(message);
 
-            log.info("Sender => Completed");
+            log.info("Sender => Sent to " + sendTo + " => Completed");
 
         } catch (MessagingException e) {
             e.printStackTrace();

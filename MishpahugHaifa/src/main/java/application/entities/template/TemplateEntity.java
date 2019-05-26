@@ -38,4 +38,6 @@ public class TemplateEntity {
     @Builder.Default
     private Set<XYTextValue> Items = new HashSet<>();
 
+    public TemplateEntity() {
+    }
 }

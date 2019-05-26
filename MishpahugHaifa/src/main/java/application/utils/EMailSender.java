@@ -1,8 +1,6 @@
 package application.utils;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import javax.activation.DataHandler;
@@ -54,7 +52,7 @@ public class EMailSender {
             message.setContent(multipart);
             Transport.send(message);
 
-            log.info("Sender => Sent to " + sendTo + " => Completed");
+            log.info("Sender => Sent to " + sendTo + "attachment = " + attachment + " => Completed");
 
         } catch (MessagingException e) {
             e.printStackTrace();

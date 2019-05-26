@@ -1,5 +1,21 @@
 package application.configurations;
 
+import application.documentstypes.JPGDocumentFormat;
+import application.entities.*;
+import application.entities.LogsOnEvent.ActionsOnEvent;
+import application.entities.template.TemplateEntity;
+import application.entities.template.XYTextValue;
+import application.repositories.*;
+import application.repositories.template.TemplateRepository;
+import application.utils.EMailSender;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
+
+import javax.transaction.Transactional;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,24 +23,7 @@ import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collection;
-import java.util.List;
-import java.util.Random;
-
-import javax.transaction.Transactional;
-
-import application.documentstypes.JPGDocumentFormat;
-import application.entities.*;
-import application.repositories.*;
-import application.utils.EMailSender;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Component;
-
-import application.entities.LogsOnEvent.ActionsOnEvent;
-import lombok.extern.slf4j.Slf4j;
+import java.util.*;
 
 /**
  * Load the production DB with integration test data; TODO: make it a Spring
@@ -62,6 +61,8 @@ public class DB_test_loader implements CommandLineRunner {
 	LogsDataRepository logsDataRepository;
 	@Autowired
 	HolyDayRepository holyDayRepository;
+	@Autowired
+	TemplateRepository templateRepository;
 
 	
 
@@ -78,13 +79,19 @@ public class DB_test_loader implements CommandLineRunner {
 		loadTest(MPHEntity.EVENT);
 		loadTest(MPHEntity.GUESTS);
 		loadTest(MPHEntity.LOGS);
-		JPGDocumentFormat.createPictureFromTemplete("d://211.jpeg", "d://1452.jpg");
-		EMailSender.sender("mishpahug2019@gmail.com",
-				"marina1986ANGEL",
-				"test",
-				"dfgsdfgsdfg",
-				"mrcolombo1985remote@gmail.com",
-				"d://1452.jpg");
+		TemplateLoader loader = new TemplateLoader();
+		loader.load();
+		List<TemplateEntity> templateEntities = templateRepository.findAll();
+		for (TemplateEntity x:templateEntities
+			 ) {
+			JPGDocumentFormat.createPictureFromTemplete("d://211.jpeg", "d://" + x.getName() + ".jpg", x);
+			EMailSender.sender("mishpahug2019@gmail.com",
+					"marina1986ANGEL",
+					"test",
+					"dfgsdfgsdfg",
+					"mrcolombo1985remote@gmail.com",
+					"d://" + x.getName() + ".jpg");
+		}
 
 	}
 
@@ -362,6 +369,33 @@ public class DB_test_loader implements CommandLineRunner {
 			}
 		}
 	}
+
+	/**
+	 * Loads Template
+	 */
+	private class TemplateLoader {
+		BufferedReader br;
+
+		public TemplateLoader() {
+		}
+
+		void load() {
+			for (int i = 0; i < 10; i++) {
+				TemplateEntity templateEntity = new TemplateEntity();
+				templateEntity.setName("item" + i);
+				templateEntity.setPicture("n/a");
+				Random r = new Random();
+				Set<XYTextValue> data = new HashSet<>();
+				for (int j = 0; j < 128; j++) {
+					XYTextValue xyTextValue = new XYTextValue(50 * (r.nextInt(31) + 1),50 * (r.nextInt(18) + 1),16, "point" + j);
+					data.add(xyTextValue);
+				}
+				templateEntity.setItems(data);
+				templateRepository.save(templateEntity);
+			}
+		}
+	}
+
 	/**
 	 * Loads city
 	 */

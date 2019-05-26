@@ -20,6 +20,9 @@ public class XYTextValue {
     @Column(name = "y")
     private Integer y;
 
-    @Column(name = "test")
+    @Column(name = "size")
+    private Integer size;
+
+    @Column(name = "text")
     private String text;
 }

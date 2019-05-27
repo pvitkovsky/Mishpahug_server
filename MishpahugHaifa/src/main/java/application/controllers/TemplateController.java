@@ -47,4 +47,6 @@ public class TemplateController implements ITemplateController {
     public void removeall(){
         templateModel.clear();
     }
+
+    
 }

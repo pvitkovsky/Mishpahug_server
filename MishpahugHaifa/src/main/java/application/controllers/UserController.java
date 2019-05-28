@@ -73,6 +73,9 @@ public class UserController implements IUserController {
     @Autowired
     IHolyDayModel holyDayModel;
 
+    
+    //TODO: owners by event; guests by event; 
+    
     /* (non-Javadoc)
      * @see application.controllers.intarfaces.IUserController#get(java.lang.Integer)
      */

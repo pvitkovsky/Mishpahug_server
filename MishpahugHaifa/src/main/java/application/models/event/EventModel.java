@@ -47,12 +47,23 @@ public class EventModel implements IEventModel {
 		return eventRepository.findAll();
 	}
 
+
+	//TODO: owned events by user; owner by event; 
+	
 	@Override
-	public Set<EventEntity> getAllByUser(Integer userId) {
+	public Set<EventEntity> getAllByUser(Integer userId) {//TODO: rename to getSubscriptionsByUser
 		UserEntity userEntity = userRepository.getOne(userId);
 		Set<SubscriptionEntity> subscriptions = userEntity.getSubscriptions();
 		return subscriptions.stream().map(s -> s.getEvent()).collect(Collectors.toSet());
 	}
+	
+	@Override
+	public Set<UserEntity> getAllSubscribed(Integer eventId) {//TODO: rename to get GuestsByEvent
+		EventEntity eventEntity = eventRepository.getOne(eventId);
+		Set<SubscriptionEntity> subscriptions = eventEntity.getSubscriptions();
+		return subscriptions.stream().map(s -> s.getGuest()).collect(Collectors.toSet());
+	}
+
 
 	@Override
 	public EventEntity add(EventEntity data) { //would throw if no user is in data's owner field;
@@ -69,14 +80,7 @@ public class EventModel implements IEventModel {
 			throw new ExceptionMishpaha("Error! Not found event with id " + eventId, null);
 		}
 	}
-
-	@Override
-	public Set<UserEntity> getAllSubscribed(Integer eventId) {
-		EventEntity eventEntity = eventRepository.getOne(eventId);
-		Set<SubscriptionEntity> subscriptions = eventEntity.getSubscriptions();
-		return subscriptions.stream().map(s -> s.getGuest()).collect(Collectors.toSet());
-	}
-
+	
 	@Override
 	public EventEntity delete(Integer eventId) throws ExceptionMishpaha { //throws if not in deletion queue
 		try {

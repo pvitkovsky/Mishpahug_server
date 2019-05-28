@@ -51,6 +51,9 @@ public class EventController implements IEventController {
     @Autowired
     IKichenTypeModel kichenTypeModel;
 
+    
+    //TODO:  events by owner;  events by subcscriber; check that no wrapping is done;  
+    
     /* (non-Javadoc)
      * @see application.controllers.intarfaces.IEventController#findAllByWebQuerydsl(com.querydsl.core.types.Predicate)
      */

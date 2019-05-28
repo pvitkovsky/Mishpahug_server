@@ -14,15 +14,14 @@ export class EventService {
     //TODO: all events, events by subscriber, subscribers by event; 
     //TODO: filter by date, holiday, confession, food; 
 
-    // getEvents(){
-    //   const headers = new HttpHeaders({'Authorization': 'not null Authorization'});
-    //   return this.http.get("api/event/",{headers}).pipe( 
-    //     map((res: any) => {
-    //           return res;
-    //       }
-    //     )
-    //   );
-    // }
+    getEvents(){
+      const headers = new HttpHeaders({'Authorization': 'not null Authorization'});
+      return this.http.get("api/event/",{headers}) 
+        map((res: any) => {
+              return res;
+          }
+        );
+    }
 
     // getEventsByGuest(UserDetail guest){      
     //   return this.http.get("api/event/?" + ).pipe( 

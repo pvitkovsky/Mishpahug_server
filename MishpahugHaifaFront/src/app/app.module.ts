@@ -8,7 +8,6 @@ import { MatSidenavModule, MatCheckboxModule } from '@angular/material';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule} from '@angular/material/card';
 
-import { EventlistService} from './Components/eventlist/eventlist.service';
 import { NavbarComponent } from './Components/navbar/navbar.component';
 import { FooterComponent } from './Components/footer/footer.component';
 import { EventlistComponent } from './Components/eventlist/eventlist.component';
@@ -24,7 +23,7 @@ import { MainRouter }        from './app.routing';
 import { AlertComponent } from './Directives/index';
 import { AuthGuard } from './Guards/index';
 import { JwtInterceptor } from './Helpers/index';
-import { AlertService, AuthenticationService, UserService, GuiService } from './Services/index';
+import { AlertService, AuthenticationService, GuiService, UserService, EventService  } from './Services/index';
 
 
 
@@ -55,7 +54,6 @@ import { AlertService, AuthenticationService, UserService, GuiService } from './
         ProfileComponent
     ],
     providers: [
-        EventlistService,
         AuthGuard,
         AlertService,
         AuthenticationService,
@@ -65,6 +63,7 @@ import { AlertService, AuthenticationService, UserService, GuiService } from './
             useClass: JwtInterceptor,
             multi: true
         },
+        EventService
     ],
     bootstrap: [AppComponent]
 })

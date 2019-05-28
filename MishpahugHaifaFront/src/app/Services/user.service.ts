@@ -21,25 +21,18 @@ export class UserService {
     }
 
     update(userDetail: UserDetail) : Observable<UserDetail>{
-        return this.http.put<UserDetail>('/api/user/' + userDetail.id, userDetail)
-          .pipe(
-            //TODO: error handling
-          );
+        return this.http.put<UserDetail>('/api/user/' + userDetail.id, userDetail);
     }
 
     delete(id: number) {
         return this.http.delete('/api/user/' + id);
     }
 
-    current() : any { //TODO: make UserDetail type work; make this work
-        this.authService.currentUser().subscribe(
-                data => {
-                    return data;
-                },
-                error => {
-                    return new UserDetail();
-                });
+    current() : Observable<UserDetail> { //TODO: make UserDetail type work; make this work
+        return this.authService.currentUser();
     }
 
-    //TODO: loggedIn from AuthSerice
+    loggedIn() :  boolean {
+        return this.authService.loggedIn();
+    }
 }

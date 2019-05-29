@@ -41,7 +41,6 @@ public interface IUserController {
 
     void setDataFromFormDetail(UserDTO data, String userName) throws ExceptionMishpaha;
 
-    @GetMapping(value = "/entity")
     List<EventEntity> getEventsByToken(HttpServletRequest request) throws ExceptionMishpaha;
 
     List<UserDTO> getall() throws ExceptionMishpaha;

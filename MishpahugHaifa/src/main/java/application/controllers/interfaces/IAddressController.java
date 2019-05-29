@@ -12,18 +12,13 @@ import application.entities.AddressEntity;
 import application.exceptions.ExceptionMishpaha;
 
 public interface IAddressController {
-    @PostMapping(value = "/")
-    void post(@RequestBody AddressEntity data) throws ExceptionMishpaha;
+    public void post(@RequestBody AddressEntity data) throws ExceptionMishpaha;
 
-    @DeleteMapping(value = "/")
-    void delete();
+    public void delete();
 
-    @DeleteMapping(value = "/{id}")
-    void delete(@PathVariable(name = "id") Integer id) throws ExceptionMishpaha;
+    public void delete(@PathVariable(name = "id") Integer id) throws ExceptionMishpaha;
 
-    @GetMapping(value = "/")
-    List<AddressEntity> get() throws ExceptionMishpaha;
+    public List<AddressEntity> get() throws ExceptionMishpaha;
 
-    @GetMapping(value = "/{id}")
-    AddressEntity get(@PathVariable(name = "id") Integer id) throws ExceptionMishpaha;
+    public AddressEntity get(@PathVariable(name = "id") Integer id) throws ExceptionMishpaha;
 }

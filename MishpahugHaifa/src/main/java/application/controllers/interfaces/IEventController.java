@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import application.entities.UserEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,13 +24,14 @@ public interface IEventController {
     /* (non-Javadoc)
      * @see application.controllers.intarfaces.IEventController#findAll(java.lang.Integer)
      */
-    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
-    @ResponseBody
     EventEntity findById(@PathVariable(name = "id") Integer id
             , @RequestHeader HttpHeaders httpHeaders,
                          HttpServletRequest request) throws ExceptionMishpaha;
 
-    @PostMapping(value = "/byowner/{ownerusername}")
+    List<UserEntity> findGestByEventId(@PathVariable(name = "id") Integer id
+            , @RequestHeader HttpHeaders httpHeaders,
+                                       HttpServletRequest request) throws ExceptionMishpaha;
+
     List<EventDTO> getByOwner(@PathVariable(value = "ownerusername") String ownerusername);
 
     EventEntity setDataFromForm(EventDTO data);

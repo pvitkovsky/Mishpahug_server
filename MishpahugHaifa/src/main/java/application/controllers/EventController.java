@@ -1,10 +1,13 @@
 package application.controllers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
 import application.dto.UserDTO;
+import application.entities.SubscriptionEntity;
+import application.entities.UserEntity;
 import application.utils.converter.IConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
@@ -23,6 +26,7 @@ import application.models.kichentype.IKichenTypeModel;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @RestController
@@ -72,6 +76,23 @@ public class EventController implements IEventController {
         log.info("EventController -> findAllByWebQuerydsl -> Headers -> " + httpHeaders);
         log.info("EventController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         return eventModel.getById(id);
+    }
+
+    @Override
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
+    @ResponseBody
+    public List<UserEntity> findGestByEventId(@PathVariable(name = "id") Integer id
+            , @RequestHeader HttpHeaders httpHeaders,
+                                              HttpServletRequest request) throws ExceptionMishpaha {
+        log.info("EventController -> findAllByWebQuerydsl -> Headers -> " + httpHeaders);
+        log.info("EventController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        Set<SubscriptionEntity> subscriptionEntityList = eventModel.getById(id).getSubscriptions();
+        List<UserEntity> userEntityList = new ArrayList<>();
+        for (SubscriptionEntity x:subscriptionEntityList
+             ) {
+            userEntityList.add(x.getGuest());
+        }
+        return userEntityList;
     }
 
     @Override

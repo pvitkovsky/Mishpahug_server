@@ -38,10 +38,6 @@ export class AuthenticationService {
     currentUser(){  
         return this.http.get<any>('api/user/current')
             .map((user : any) => {
-                if (user) {            
-                } else {
-                  //TODO: error handling   
-                }
                 return user;
             });
     }

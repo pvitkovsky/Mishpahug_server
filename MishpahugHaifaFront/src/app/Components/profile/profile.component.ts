@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthenticationService, UserService } from '../../Services/index';
+import { UserService } from '../../Services/index';
 import { UserDetail } from '../../Models/index';
 
 
@@ -16,17 +16,17 @@ export class ProfileComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private authService: AuthenticationService,
     private userService: UserService) { }
 
 
   ngOnInit() {
-  	this.authService.currentUser().subscribe(
+  	//this.userDetail = this.userService.current();
+    this.userService.current().subscribe( //TODO: into UserService please;
                 data => {
                     this.userDetail = data;
                 },
                 error => {
-  
+                    
                 });
   }
 

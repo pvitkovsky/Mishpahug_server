@@ -2,9 +2,14 @@
 	<app-navbar class="top-menu"></app-navbar>
 	<mat-sidenav-container class="sidenav-container">
 		<mat-sidenav *ngIf='loggedIn' #sidenav mode="side" [(opened)]="opened" class="sidenav-menu">
-			<div> Menu </div>
+			<div> {{userDetail?.firstName}} {{userDetail?.lastName}} </div>
 			<a class="nav-link" [routerLink]="['/eventlist']"> Events <br> </a> 
+			<a class="nav-link" > Notice <br> </a> 
+			<a class="nav-link" > Calendar <br> </a> 
+			<a class="nav-link" > Participation <br> </a> 
+			<a class="nav-link" > My Events <br> </a> 
 			<a class="nav-link" [routerLink]="['/profile']"> Profile <br> </a>
+			<a class="nav-link" > Log out <br> </a> 
 		</mat-sidenav>
 		<mat-sidenav-content> 
 			<div class="container">

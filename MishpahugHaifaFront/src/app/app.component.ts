@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { GuiService, AuthenticationService } from './Services/index';
+import { GuiService, UserService } from './Services/index';
+import { UserDetail } from './Models/index';
 
 @Component({
     selector: 'app',
@@ -9,17 +10,24 @@ import { GuiService, AuthenticationService } from './Services/index';
 
 export class AppComponent implements OnInit {
 
-opened: boolean;
+  userDetail: UserDetail;
+  opened: boolean;
 
-  constructor(private guiService: GuiService, private authService: AuthenticationService) { }
+  constructor(private guiService: GuiService, private userService: UserService) { }
 
   ngOnInit() {
   	this.guiService.sideNavObservable.subscribe(() => {
       this.opened = !this.opened;
-    })
+    });
+    this.userService.current().subscribe(
+                data => {
+                    this.userDetail = data;
+                },
+                error => {
+                });
   }
 
   get loggedIn(){
-    return this.authService.loggedIn();
+    return this.userService.loggedIn();
   }
 }

@@ -79,7 +79,7 @@ public class DB_test_loader implements CommandLineRunner {
 		loadTest(MPHEntity.EVENT);
 		loadTest(MPHEntity.GUESTS);
 		loadTest(MPHEntity.LOGS);
-		TemplateLoader loader = new TemplateLoader();
+	/* 	TemplateLoader loader = new TemplateLoader(); TODO: doesn't work on P.V. machine; prettify; 
 		loader.load();
 		List<TemplateEntity> templateEntities = templateRepository.findAll();
 		/*for (TemplateEntity x:templateEntities
@@ -92,7 +92,6 @@ public class DB_test_loader implements CommandLineRunner {
 					"mrcolombo1985remote@gmail.com",
 					"d://" + x.getName() + ".jpg");
 		}*/
-
 	}
 
 

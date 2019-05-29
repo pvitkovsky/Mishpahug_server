@@ -32,6 +32,7 @@ import java.util.*;
 @Slf4j
 @Component
 @Transactional
+
 public class DB_test_loader implements CommandLineRunner {
 
 	@Autowired
@@ -39,28 +40,40 @@ public class DB_test_loader implements CommandLineRunner {
 	
 	@Autowired
 	UserRepository userRepository;
+
 	@Autowired
 	EventRepository eventRepository;
+
 	@Autowired
 	SubscriptionRepository eventGuestRepository;
+
 	@Autowired
 	CityRepository cityRepository;
+
 	@Autowired
 	CountryRepository countryRepository;
+
 	@Autowired
 	MaritalStatusRepository maritalStatusRepository;
+
 	@Autowired
 	GenderRepository genderRepository;
+
 	@Autowired
 	AddressRepository addressRepository;
+
 	@Autowired
 	ReligionRepository religionRepository;
+
 	@Autowired
 	KichenTypeRepository kichenTypeRepository;
+
 	@Autowired
 	LogsDataRepository logsDataRepository;
+
 	@Autowired
 	HolyDayRepository holyDayRepository;
+
 	@Autowired
 	TemplateRepository templateRepository;
 
@@ -185,6 +198,7 @@ public class DB_test_loader implements CommandLineRunner {
 				logUE.setEventTarget(randomEventTarget);
 				logUE.setAction(ActionsOnEvent.EVENT_VIEW);
 				logUE.setTime(TTIME);
+				log.info("LOGS => " + logUE);
 				logsDataRepository.save(logUE);
 			}
 			
@@ -292,6 +306,7 @@ public class DB_test_loader implements CommandLineRunner {
 					user.setAddressEntity(addressEntityList.get(ran.nextInt(addressEntityList.size() - 1)));
 					user.setKitchenType(kitchenTypeEntityList.get(ran.nextInt(kitchenTypeEntityList.size() - 1)));
 					user.setMaritalStatus(maritalStatusEntityList.get(ran.nextInt(maritalStatusEntityList.size() - 1)));
+					log.info("UserLoader => " + user);
 					userRepository.save(user);
 				}
 				log.info("UserLoader => In repository " + userRepository.findAll().size() + " records");
@@ -324,6 +339,7 @@ public class DB_test_loader implements CommandLineRunner {
 					LocalDate localDate = LocalDate.of(Integer.parseInt(dateSplit[0]),Integer.parseInt(dateSplit[1]),Integer.parseInt(dateSplit[2]));
 					holiDayEntity.setDate(localDate);
 					holiDayEntity.setDescription(data[1]);
+					log.info("HolidayLoader => " + holiDayEntity);
 					holyDayRepository.save(holiDayEntity);
 				}
 				log.info("HolidaysLoader => In repository " + holyDayRepository.findAll().size() + " records");
@@ -462,6 +478,7 @@ public class DB_test_loader implements CommandLineRunner {
 				while ((detail = br.readLine()) != null) {
 					KitchenTypeEntity kichenTypeEntity = new KitchenTypeEntity();
 					kichenTypeEntity.setName(detail);
+					log.info("KichenTypeLoader => " + kichenTypeEntity);
 					kichenTypeRepository.save(kichenTypeEntity);
 				}
 				log.info("KitchenTypeLoader => In repository " + kichenTypeRepository.findAll().size() + " records");
@@ -495,6 +512,7 @@ public class DB_test_loader implements CommandLineRunner {
 				while ((detail = br.readLine()) != null) {
 					ReligionEntity religionEntity = new ReligionEntity();
 					religionEntity.setName(detail);
+					log.info("ReligionLoader => " + religionEntity);
 					religionRepository.save(religionEntity);
 				}
 				log.info("ReligionLoader => In repository " + religionRepository.findAll().size() + " records");
@@ -528,6 +546,7 @@ public class DB_test_loader implements CommandLineRunner {
 				while ((detail = br.readLine()) != null) {
 					GenderEntity genderEntity = new GenderEntity();
 					genderEntity.setName(detail);
+					log.info("GenderLoader => " + genderEntity);
 					genderRepository.save(genderEntity);
 				}
 				log.info("GenderLoader => In repository " + genderRepository.findAll().size() + " records");
@@ -627,6 +646,7 @@ public class DB_test_loader implements CommandLineRunner {
 					event.setNameOfEvent(eventAttributes[2]);
 					event.setHoliDay(holiDayEntityList.get(r.nextInt(holiDayEntityListCount)));
 					event.setAddressEntity(addressEntityList.get(r.nextInt(addressEntityListCount)));
+					log.info("EventLoader => " + event);
 				}
 				br.close();
 				log.info("EventLoader => In repository " + eventRepository.findAll().size() + " records");

@@ -79,7 +79,7 @@ public class EventController implements IEventController {
     }
 
     @Override
-    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
+    @RequestMapping(method = RequestMethod.GET, value = "/gestbyevent/{id}")
     @ResponseBody
     public List<UserEntity> findGestByEventId(@PathVariable(name = "id") Integer id
             , @RequestHeader HttpHeaders httpHeaders,

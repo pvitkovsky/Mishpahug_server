@@ -22,10 +22,11 @@ public interface EventRepository extends JpaRepository<EventEntity, Integer>,
         QuerydslPredicateExecutor<EventEntity>, QuerydslBinderCustomizer<QEventEntity>
         {
 
+
     Logger log = LoggerFactory.getLogger(EventRepository.class);
 
     public EventEntity getByNameOfEvent(String name);
-
+    public List<EventEntity> getByUserEntityOwner_UserName(String userName);
     @Override
     default public void customize(QuerydslBindings bindings, QEventEntity root) {
         log.debug("EventRepository -> customize-> bindings = " + root.toString());

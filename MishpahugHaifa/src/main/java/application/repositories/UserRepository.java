@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
@@ -14,7 +15,6 @@ import com.querydsl.core.types.dsl.StringPath;
 
 import application.entities.QUserEntity;
 import application.entities.UserEntity;
-
 
 public interface UserRepository extends JpaRepository<UserEntity, Integer>,
         QuerydslPredicateExecutor<UserEntity>, QuerydslBinderCustomizer<QUserEntity>{

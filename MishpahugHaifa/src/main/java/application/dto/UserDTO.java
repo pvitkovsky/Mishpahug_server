@@ -1,7 +1,9 @@
 package application.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import application.entities.EventEntity;
 import application.entities.UserEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,6 +42,8 @@ public class UserDTO {
 
     private String confirmedPassword;
 
+    private List<String> subscriptions;
+
     public UserDTO(UserEntity user) {
     	super();
         this.id = user.getId();
@@ -54,5 +58,6 @@ public class UserDTO {
     	this.religion = user.getReligion()== null ? "" : user.getReligion().getName();
     	this.maritalStatus = user.getMaritalStatus()== null ? "" : user.getMaritalStatus().getName();
     	this.confirmedPassword = user.getEncrytedPassword();
+
     }
 }

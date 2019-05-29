@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import application.entities.EventEntity;
+import application.entities.SubscriptionEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,6 +40,9 @@ public interface IUserController {
     void setDataFromForm(UserDTO data) throws ExceptionMishpaha;
 
     void setDataFromFormDetail(UserDTO data, String userName) throws ExceptionMishpaha;
+
+    @GetMapping(value = "/entity")
+    List<EventEntity> getEventsByToken(HttpServletRequest request) throws ExceptionMishpaha;
 
     List<UserDTO> getall() throws ExceptionMishpaha;
 

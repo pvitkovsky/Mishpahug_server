@@ -23,6 +23,6 @@ public interface SubscriptionRepository extends JpaRepository<SubscriptionEntity
 	@Query("SELECT s.event FROM SubscriptionEntity s WHERE s.guest = :guest")    
 	public List<EventEntity> getEventsForGuest(@Param(value = "guest") UserEntity guest); 
 
-	public List<EventEntity> findByGuest(UserEntity guest); //TODO: converter; 
+	public List<SubscriptionEntity> findByGuest(UserEntity guest); //TODO: converter;
 
 }

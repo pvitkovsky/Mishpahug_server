@@ -51,10 +51,10 @@ public class SubscriptionEntity {
 		private static final long serialVersionUID = 1L;
 
 		@Column(name = "GUEST_ID")
-		protected Integer userGuestId;
+		public Integer userGuestId;
 
 		@Column(name = "EVENT_ID")
-		protected Integer eventId;
+		public Integer eventId;
 
 		/**
 		 * Extra constructor for type safety;
@@ -67,7 +67,7 @@ public class SubscriptionEntity {
 	}
 
 	@EmbeddedId
-	protected EventGuestId id = new EventGuestId();
+	public EventGuestId id = new EventGuestId();
 
 	@ManyToOne // TODO: cascading
 	@JoinColumn(name = "GUEST_ID", insertable = false, updatable = false) // relation column names should match with

@@ -82,7 +82,7 @@ public class DB_test_loader implements CommandLineRunner {
 		TemplateLoader loader = new TemplateLoader();
 		loader.load();
 		List<TemplateEntity> templateEntities = templateRepository.findAll();
-		for (TemplateEntity x:templateEntities
+		/*for (TemplateEntity x:templateEntities
 			 ) {
 			JPGDocumentFormat.createPictureFromTemplete("d://211.jpeg", "d://" + x.getName() + ".jpg", x);
 			EMailSender.sender("mishpahug2019@gmail.com",
@@ -91,7 +91,7 @@ public class DB_test_loader implements CommandLineRunner {
 					"dfgsdfgsdfg",
 					"mrcolombo1985remote@gmail.com",
 					"d://" + x.getName() + ".jpg");
-		}
+		}*/
 
 	}
 

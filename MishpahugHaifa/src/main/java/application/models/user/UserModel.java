@@ -21,6 +21,8 @@ public class UserModel implements IUserModel {
     @Autowired
     UserRepository userRepository;
 
+
+
     @Override
     public UserEntity getByUsernameAndPassword(String username, String password) {
         return userRepository.findByUserNameAndAndEncrytedPassword(username, password);

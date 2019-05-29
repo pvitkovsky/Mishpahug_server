@@ -48,5 +48,5 @@ public class TemplateController implements ITemplateController {
         templateModel.clear();
     }
 
-    
+
 }

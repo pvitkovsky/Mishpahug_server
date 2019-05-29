@@ -1,10 +1,14 @@
 package application.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import application.entities.EventEntity;
+import application.entities.SubscriptionEntity;
+import application.models.feedback.IFeedBackModel;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +58,9 @@ public class UserController implements IUserController {
     
     @Autowired
     UserSessionRepository userSessionRepository;
+
+    @Autowired
+    IFeedBackModel feedBackModel;
     
     @Autowired
     IConverter<UserEntity, UserDTO> converter;
@@ -89,13 +96,28 @@ public class UserController implements IUserController {
      * @see application.controllers.intarfaces.IUserController#get(java.lang.Integer)
      */
     @Override
-    @GetMapping(value = "/current")
+    @GetMapping(value = "/profile")
     public UserDTO getByToken(HttpServletRequest request) throws ExceptionMishpaha {
     	String token = request.getHeader("Authorization");
     	UserSession session = userSessionRepository.findByTokenAndIsValidTrue(token);
     	return new UserDTO(userModel.getByUserName(session.getUserName())); //TODO: converter here?
     }
-    
+
+    @Override
+    @GetMapping(value = "/profilesubscribes")
+    public List<EventEntity> getEventsByToken(HttpServletRequest request) throws ExceptionMishpaha {
+        String token = request.getHeader("Authorization");
+        UserSession session = userSessionRepository.findByTokenAndIsValidTrue(token);
+        List<SubscriptionEntity> subscriptionEntityList = feedBackModel.getEventsForGuest(userModel.getByUserName(session.getUserName()));
+        List<EventEntity> eventEntities = new ArrayList<>();
+        for (SubscriptionEntity x:subscriptionEntityList
+             ) {
+            eventEntities.add(x.getEvent());
+        }
+        return eventEntities; //TODO: converter here?
+    }
+
+
     @Override
     @GetMapping(value = "/all")
     public List<UserDTO> getall() throws ExceptionMishpaha {

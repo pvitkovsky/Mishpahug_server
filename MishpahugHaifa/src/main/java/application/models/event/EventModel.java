@@ -64,6 +64,11 @@ public class EventModel implements IEventModel {
 		return subscriptions.stream().map(s -> s.getGuest()).collect(Collectors.toSet());
 	}
 
+	@Override
+	public List<EventEntity> getByOwner(String ownerUserName){
+		return eventRepository.getByUserEntityOwner_UserName(ownerUserName);
+	}
+
 
 	@Override
 	public EventEntity add(EventEntity data) { //would throw if no user is in data's owner field;

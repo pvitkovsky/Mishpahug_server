@@ -15,6 +15,8 @@ public interface IEventModel {
 
     public Set<EventEntity> getAllByUser(Integer userId); //TODO: owned or subscribed events here?
 
+    List<EventEntity> getByOwner(String ownerUserName);
+
     public EventEntity add(EventEntity data); // Should not allow duplicated events;
 
     public EventEntity update(Integer eventId, HashMap<String, String> data) throws ExceptionMishpaha;

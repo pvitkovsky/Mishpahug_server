@@ -4,21 +4,12 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
+import application.dto.UserDTO;
 import application.utils.converter.IConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.http.HttpHeaders;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.querydsl.core.types.Predicate;
 
@@ -75,12 +66,18 @@ public class EventController implements IEventController {
     @Override
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     @ResponseBody
-    public EventEntity findAll(@PathVariable(name = "id") Integer id
+    public EventEntity findById(@PathVariable(name = "id") Integer id
             , @RequestHeader HttpHeaders httpHeaders,
-                               HttpServletRequest request) throws ExceptionMishpaha {
+                                HttpServletRequest request) throws ExceptionMishpaha {
         log.info("EventController -> findAllByWebQuerydsl -> Headers -> " + httpHeaders);
         log.info("EventController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         return eventModel.getById(id);
+    }
+
+    @Override
+    @GetMapping(value = "/byowner/{ownerusername}")
+    public List<EventDTO> getByOwner(@PathVariable(value = "ownerusername") String ownerusername){
+        return converter.DTOListFromEntities(eventModel.getByOwner(ownerusername));
     }
 
 

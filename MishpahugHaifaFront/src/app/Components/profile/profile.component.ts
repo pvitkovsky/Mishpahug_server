@@ -12,8 +12,8 @@ import { UserDetail } from '../../Models/index';
 export class ProfileComponent implements OnInit, OnDestroy { //  TODO: onDestroy bc we have subscriptions here;
 	loggedInUserId: number;
 	renderedUserId: number;
-	renderedUserDetail: UserDetail; // TODO: rename to UserDTO?
-	canEdit : boolean = false; // TODO: should always reflect 
+	renderedUserDetail: UserDetail; // TODO: rename to UserDetail to UserDTO?
+	canEdit : boolean = false; // TODO: should always reflect the state of the component. Function?
 
 	constructor(
 		private router: Router,
@@ -36,7 +36,7 @@ export class ProfileComponent implements OnInit, OnDestroy { //  TODO: onDestroy
 							this.renderedUserId = parseInt(val[0].path, 10);
 						}
 						this.canEdit = (this.renderedUserId === this.loggedInUserId);
-						this.userService.getById(this.renderedUserId).subscribe( // TODO: limit the app to selecting only the active ID;
+						this.userService.getById(this.renderedUserId).subscribe(
 							userDetail => { //TODO: change subscribe into storing UserDetail on login; see above;
 							    console.log('Received user detail' + userDetail) 
 								this.renderedUserDetail = userDetail;

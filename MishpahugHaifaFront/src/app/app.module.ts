@@ -9,10 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule} from '@angular/material/card';
 
 import { NavbarComponent } from './Components/navbar/navbar.component';
-import { FooterComponent } from './Components/footer/footer.component';
 import { EventlistComponent } from './Components/eventlist/eventlist.component';
-import { CalendarlistComponent } from './Components/calendarlist/calendarlist.component';
-import { HomeComponent } from './Components/home/home.component';
 import { LoginComponent } from './Components/login/login.component';
 import { RegisterComponent } from './Components/register/register.component';
 import { ProfileComponent } from './Components/profile/profile.component';
@@ -44,10 +41,7 @@ import { AlertService, AuthenticationService, GuiService, UserService, EventServ
         AppComponent,
         AlertComponent,
         NavbarComponent,
-        FooterComponent,
         EventlistComponent,
-        CalendarlistComponent,
-        HomeComponent,
         LoginComponent,
         RegisterComponent,
         NavbarComponent,

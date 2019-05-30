@@ -96,7 +96,7 @@ public class UserController implements IUserController {
      * @see application.controllers.intarfaces.IUserController#get(java.lang.Integer)
      */
     @Override
-    @GetMapping(value = "/profile")
+    @GetMapping(value = "/current")
     public UserDTO getByToken(HttpServletRequest request) throws ExceptionMishpaha {
     	String token = request.getHeader("Authorization");
     	UserSession session = userSessionRepository.findByTokenAndIsValidTrue(token);
@@ -104,15 +104,15 @@ public class UserController implements IUserController {
     }
 
     @Override
-    @GetMapping(value = "/profilesubscribes")
+    @GetMapping(value = "/currentsubscribes")
     public List<EventEntity> getEventsByToken(HttpServletRequest request) throws ExceptionMishpaha {
         String token = request.getHeader("Authorization");
         UserSession session = userSessionRepository.findByTokenAndIsValidTrue(token);
-        List<SubscriptionEntity> subscriptionEntityList = feedBackModel.getEventsForGuest(userModel.getByUserName(session.getUserName()));
+        List<SubscriptionEntity> subscriptionEntityList = feedBackModel.getEventsForGuest(userModel.getByUserName(session.getUserName())); 
+        // what feedBackModel has to do with this request? Expected class EventModel or SubscriptionModel 
         List<EventEntity> eventEntities = new ArrayList<>();
-        for (SubscriptionEntity x:subscriptionEntityList
-             ) {
-            eventEntities.add(x.getEvent());
+        for (SubscriptionEntity x:subscriptionEntityList) {
+            eventEntities.add(x.getEvent()); //TODO: improve performance 
         }
         return eventEntities; //TODO: converter here?
     }

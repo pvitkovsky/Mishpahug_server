@@ -2,7 +2,7 @@
 	<app-navbar class="top-menu"></app-navbar>
 	<mat-sidenav-container class="sidenav-container">
 		<mat-sidenav *ngIf='loggedIn' #sidenav mode="side" [(opened)]="opened" class="sidenav-menu">
-			<div> {{userDetail?.firstName}} {{userDetail?.lastName}} </div>
+			<div> {{userDetail?.firstName}} {{userDetail?.lastName}} </div> <!--//TODO: can ask from UserService::current-->
 			<a class="nav-link" [routerLink]="['/eventlist']"> Events <br> </a> 
 			<a class="nav-link" > Notice <br> </a> 
 			<a class="nav-link" > Calendar <br> </a> 

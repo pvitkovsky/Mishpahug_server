@@ -5,7 +5,7 @@ import { AlertService, AuthenticationService } from '../../Services/index';
 
 @Component({
     templateUrl: 'login.component.html',
-    styleUrls: ['../home/home.component.css']
+    styleUrls: ['login.component.scss']
 
 })
 

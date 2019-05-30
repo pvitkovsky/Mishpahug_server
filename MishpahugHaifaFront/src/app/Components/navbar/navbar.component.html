@@ -1,11 +1,11 @@
 	<header class="header header-3">
 		<div class="branding">
-			<clr-icon *ngIf='loggedIn' shape="bars" (click)="sideMenu()" class ="hamburger"></clr-icon> <!--TODO: render if logged in-->
+			<clr-icon *ngIf='loggedIn' shape="bars" (click)="sideMenu()" class ="hamburger"></clr-icon>
 			<span class="title">Mishpahug</span> <!--TODO: link to Home-->
 		</div>
 		<div class="header-actions">
 			<a *ngIf='loggedIn' class="nav-link nav-icon" [routerLink]="['/login']">
-				<clr-icon shape="logout"></clr-icon> <!--TODO: link to Logout-->
+				<clr-icon shape="logout"></clr-icon> 
 			</a>
 		</div>
 	</header>

@@ -11,9 +11,9 @@ const appRoutes: Routes = [
     { path: '', component: EventlistComponent, canActivate: [AuthGuard] },
     { path: 'login', component: LoginComponent }, //TODO: into the dialog box;
     { path: 'register', component: RegisterComponent }, //TODO: into the dialog box;
-    { path: 'profile', children: [ // TODO: redirect into my profile
-      { path: '', component: ProfileComponent, canActivate: [AuthGuard]  },
-    //  { path: ':id', component: ProfileComponent, canActivate: [AuthGuard]  }, // TODO: query server for other profile
+    { path: 'profile', children: [ 
+      { path: '', component: ProfileComponent, canActivate: [AuthGuard]  }, // TODO: redirect into logged in user profile
+      { path: ':id', component: ProfileComponent, canActivate: [AuthGuard]  }, 
     ]},
     { path: '**', redirectTo: '' }
 ];

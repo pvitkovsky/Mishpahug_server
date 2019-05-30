@@ -29,7 +29,7 @@ export class UserService {
         return this.http.delete('/api/user/' + id);
     }
 
-    current() : Observable<UserDetail> { //TODO: make UserDetail type work; make this work
+    current() : Observable<UserDetail> { //TODO: make UserDetail type work; make service memorise on auth;
         return this.authService.currentUser();
     }
 

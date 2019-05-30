@@ -46,15 +46,16 @@ public class SubscriptionEntity {
 	@AllArgsConstructor
 	@EqualsAndHashCode
 	@ToString
+	@Getter
 	public static class EventGuestId implements Serializable {
 
 		private static final long serialVersionUID = 1L;
 
 		@Column(name = "GUEST_ID")
-		public Integer userGuestId;
+		private Integer userGuestId;
 
 		@Column(name = "EVENT_ID")
-		public Integer eventId;
+		private Integer eventId;
 
 		/**
 		 * Extra constructor for type safety;
@@ -67,7 +68,8 @@ public class SubscriptionEntity {
 	}
 
 	@EmbeddedId
-	public EventGuestId id = new EventGuestId();
+	@Setter(AccessLevel.NONE)
+	private EventGuestId id = new EventGuestId();
 
 	@ManyToOne // TODO: cascading
 	@JoinColumn(name = "GUEST_ID", insertable = false, updatable = false) // relation column names should match with

@@ -52,7 +52,7 @@ public class ConverterTest {
 		 * Somehow the test config doesn't see the IConverter beans
 		 */
 		for (String name : context.getBeanDefinitionNames()) {
-			System.out.println(name);
+			//System.out.println(name);
 		}
 //        userRepo.save(ALYSSA);
 //        assertEquals(userRepo.findById(ALYSSA.getId()), ALYSSA);

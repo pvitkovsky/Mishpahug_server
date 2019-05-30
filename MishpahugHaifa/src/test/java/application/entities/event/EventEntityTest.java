@@ -75,8 +75,8 @@ public class EventEntityTest {
 	@Test(expected = InvalidDataAccessApiUsageException.class)
 	public void savedEventChangeStatusWithIllegalStringThrows() {
 
-		TUPDATE.put("status", "foo");
-		//eventRepo.update(TESTING, TUPDATE);
+		TESTING.changeStatus("foo");
+
 	}
 
 	/**
@@ -98,25 +98,17 @@ public class EventEntityTest {
 
 		assertTrue(TESTING.isDue());
 		
-		TUPDATE.put("status", "DEACTIVATED");
-		//eventRepo.update(TESTING, TUPDATE);
+		TESTING.changeStatus("DEACTIVATED");
 		assertTrue(TESTING.isDeactivated());
-		TUPDATE.clear();
 		
-		TUPDATE.put("status", "ACTIVE");
-		//eventRepo.update(TESTING, TUPDATE);
+                TESTING.changeStatus("ACTIVE");
 		assertTrue(TESTING.isDue());
-		TUPDATE.clear();
-		
-		TUPDATE.put("status", "CANCELED");
-		//eventRepo.update(TESTING, TUPDATE);
+
+                TESTING.changeStatus("CANCELED");		
 		assertTrue(TESTING.isCanceled());
-		TUPDATE.clear();
-		
-		TUPDATE.put("status", "PENDINGFORDELETION");
-		//eventRepo.update(TESTING, TUPDATE);
+
+                TESTING.changeStatus("PENDINGFORDELETION");		
 		assertTrue(TESTING.isPendingForDeletion());
-		TUPDATE.clear();
 		
 		eventRepo.delete(TESTING); 
 		assertEquals(eventRepo.count(), 0);

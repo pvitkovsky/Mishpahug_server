@@ -80,6 +80,7 @@ public class EventModel implements IEventModel {
 		try {
 			EventEntity eventEntity = eventRepository.getOne(eventId);
 			//TODO
+			eventEntity.update(data);
 			return eventRepository.save(eventEntity);
 		} catch (Exception e) {
 			throw new ExceptionMishpaha("Error! Not found event with id " + eventId, null);

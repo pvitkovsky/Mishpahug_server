@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -198,6 +199,15 @@ public class EventEntity {
 	// TODO: consider embedded business key with its own methods;
 	public String toEventUniqueDescription() {
 		return this.nameOfEvent + " " + this.date.toString() + " " + this.time.toString();
+	}
+
+	/** Update data from HashSet **/
+
+	public void update(HashMap<String, String> data){
+		if (data.containsKey("nameOfEvent")) {
+			log.info("EventEntity -> Update -> nameOfEvent");
+			this.nameOfEvent = data.get("nameOfEvent");
+		}
 	}
 
 	/**

@@ -7,10 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import application.entities.EventEntity;
 import application.entities.SubscriptionEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.*;
 
 import com.querydsl.core.types.Predicate;
 
@@ -42,6 +39,10 @@ public interface IUserController {
     void setDataFromFormDetail(UserDTO data, String userName) throws ExceptionMishpaha;
 
     List<EventEntity> getEventsByToken(HttpServletRequest request) throws ExceptionMishpaha;
+
+    @GetMapping(value = "/{id}/ubscribes")
+    // TODO спрятать строки кода в одну из моделей?
+    List<EventEntity> getEventsById(@PathVariable(value = "id") Integer id) throws ExceptionMishpaha;
 
     List<UserDTO> getall() throws ExceptionMishpaha;
 

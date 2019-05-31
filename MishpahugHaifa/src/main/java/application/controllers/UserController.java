@@ -118,6 +118,20 @@ public class UserController implements IUserController {
         return eventEntities; //TODO: converter here? не сейчас
     }
 
+    @Override
+    @GetMapping(value = "/{id}/subscribes")
+    // TODO спрятать строки кода в одну из моделей?
+    public List<EventEntity> getEventsById(@PathVariable(value = "id") Integer id) throws ExceptionMishpaha {
+        List<SubscriptionEntity> subscriptionEntityList = feedBackModel.getEventsForGuest(userModel.getById(id));
+        // what feedBackModel has to do with this request? Expected class EventModel or SubscriptionModel
+        List<EventEntity> eventEntities = new ArrayList<>();
+        for (SubscriptionEntity x:subscriptionEntityList) {
+            eventEntities.add(x.getEvent()); //TODO: improve performance
+        }
+        return eventEntities; //TODO: converter here? не сейчас
+    }
+
+
 
     @Override
     @GetMapping(value = "/all")

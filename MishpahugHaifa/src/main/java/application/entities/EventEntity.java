@@ -205,8 +205,16 @@ public class EventEntity {
 
 	public void update(HashMap<String, String> data){
 		if (data.containsKey("nameOfEvent")) {
-			log.info("EventEntity -> Update -> nameOfEvent");
+			log.info("EventEntity -> Update -> nameOfEvent -> new name = " + data.get("nameOfEvent"));
 			this.nameOfEvent = data.get("nameOfEvent");
+		}
+		if (data.containsKey("date")) {
+			log.info("EventEntity -> Update -> Date -> new date = " + data.get("date"));
+			this.date = LocalDate.parse(data.get("date"));
+		}
+		if (data.containsKey("time")) {
+			log.info("EventEntity -> Update -> Time -> new time = " + data.get("time"));
+			this.time = LocalTime.parse(data.get("time"));
 		}
 	}
 

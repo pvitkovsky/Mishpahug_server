@@ -105,6 +105,7 @@ public class UserController implements IUserController {
 
     @Override
     @GetMapping(value = "/currentsubscribes")
+    // TODO спрятать строки кода в одну из моделей?
     public List<EventEntity> getEventsByToken(HttpServletRequest request) throws ExceptionMishpaha {
         String token = request.getHeader("Authorization");
         UserSession session = userSessionRepository.findByTokenAndIsValidTrue(token);
@@ -114,7 +115,7 @@ public class UserController implements IUserController {
         for (SubscriptionEntity x:subscriptionEntityList) {
             eventEntities.add(x.getEvent()); //TODO: improve performance 
         }
-        return eventEntities; //TODO: converter here?
+        return eventEntities; //TODO: converter here? не сейчас
     }
 
 

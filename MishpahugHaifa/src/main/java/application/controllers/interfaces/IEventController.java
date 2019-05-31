@@ -32,14 +32,24 @@ public interface IEventController {
             , @RequestHeader HttpHeaders httpHeaders,
                                        HttpServletRequest request) throws ExceptionMishpaha;
 
-    List<EventDTO> getByOwner(@PathVariable(value = "ownerusername") String ownerusername);
+    List<EventDTO> getByOwner(@PathVariable(value = "ownerusername"
+    ) String ownerusername,
+                              @RequestHeader HttpHeaders httpHeaders,
+                              HttpServletRequest request);
 
-    EventEntity setDataFromForm(EventDTO data);
+    EventEntity setDataFromForm(EventDTO data,
+                                @RequestHeader HttpHeaders httpHeaders,
+                                HttpServletRequest request);
 
-    EventEntity updateDataFromForm(HashMap<String, String> data, Integer id) throws ExceptionMishpaha;
+    EventEntity updateDataFromForm(HashMap<String, String> data, Integer id,
+                                   @RequestHeader HttpHeaders httpHeaders,
+                                   HttpServletRequest request) throws ExceptionMishpaha;
 
-    EventEntity delete(Integer id) throws ExceptionMishpaha;
+    EventEntity delete(Integer id,
+                       @RequestHeader HttpHeaders httpHeaders,
+                       HttpServletRequest request) throws ExceptionMishpaha;
 
-    void delete() throws ExceptionMishpaha;
+    void delete(@RequestHeader HttpHeaders httpHeaders,
+                HttpServletRequest request) throws ExceptionMishpaha;
 
 }

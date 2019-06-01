@@ -50,10 +50,9 @@ public class EventController implements IEventController {
     @Override
     @RequestMapping(method = RequestMethod.GET, value = "/")
     @ResponseBody
-    public List<EventDTO> findAllByWebQuerydsl(
-            @QuerydslPredicate(root = EventEntity.class) Predicate predicate
+    public List<EventDTO> findAllByWebQuerydsl(@QuerydslPredicate(root = EventEntity.class) Predicate predicate
             , @RequestHeader HttpHeaders httpHeaders,
-            HttpServletRequest request) {
+                                               HttpServletRequest request) {
         httpHeaders.forEach((key,value) -> log.info("EventController -> findAllByWebQuerydsl -> Headers -> " + key + " = " + value));
         log.info("EventController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         return converter.DTOListFromEntities(eventModel.getAll(predicate));
@@ -79,7 +78,6 @@ public class EventController implements IEventController {
     public List<UserEntity> findGestByEventId(@PathVariable(name = "id") Integer id
             , @RequestHeader HttpHeaders httpHeaders,
                                               HttpServletRequest request) throws ExceptionMishpaha {
-
         httpHeaders.forEach((key,value) -> log.info("EventController -> findGestByEventId{" + id + "} -> Headers -> " + key + " = " + value));
         log.info("EventController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         Set<SubscriptionEntity> subscriptionEntityList = eventModel.getById(id).getSubscriptions();

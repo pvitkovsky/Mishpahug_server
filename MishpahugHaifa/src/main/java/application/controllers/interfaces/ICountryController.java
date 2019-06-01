@@ -1,28 +1,39 @@
 package application.controllers.interfaces;
 
+import application.entities.CountryEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import application.entities.CountryEntity;
-
 public interface ICountryController {
-    void post(@RequestBody CountryEntity data);
+    @PostMapping(value = "/")
+    void post(@RequestBody CountryEntity data
+            , @RequestHeader HttpHeaders httpHeaders,
+              HttpServletRequest request);
 
+    @PutMapping(value = "/")
     void post(@RequestParam(name = "id") Integer id,
-              @RequestParam(name = "name") String name);
+              @RequestParam(name = "name") String name
+            , @RequestHeader HttpHeaders httpHeaders,
+              HttpServletRequest request);
 
-    void delete();
+    @DeleteMapping(value = "/")
+    void delete(@RequestHeader HttpHeaders httpHeaders,
+                HttpServletRequest request);
 
-    void delete(@PathVariable(name = "id") Integer id);
+    @DeleteMapping(value = "/{id}")
+    void delete(@PathVariable(name = "id") Integer id
+            , @RequestHeader HttpHeaders httpHeaders,
+                HttpServletRequest request);
 
-    List<CountryEntity> get();
+    @GetMapping(value = "/")
+    List<CountryEntity> get(@RequestHeader HttpHeaders httpHeaders,
+                            HttpServletRequest request);
 
-    CountryEntity get(@PathVariable(name = "id") Integer id);
+    @GetMapping(value = "/{id}")
+    CountryEntity get(@PathVariable(name = "id") Integer id
+            , @RequestHeader HttpHeaders httpHeaders,
+                      HttpServletRequest request);
 }

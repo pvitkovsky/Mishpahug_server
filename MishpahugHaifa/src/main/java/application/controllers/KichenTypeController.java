@@ -28,9 +28,9 @@ public class KichenTypeController implements IKichenTypeController {
                      @RequestHeader HttpHeaders httpHeaders,
                      HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
-            log.info("KichenTypeController -> put -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("KichenTypeController -> post -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("KichenTypeController -> put -> Remote IP -> " + request.getRemoteAddr());
+        log.info("KichenTypeController -> post -> Remote IP -> " + request.getRemoteAddr());
         kichenTypeModel.add(data);
     }
 

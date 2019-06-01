@@ -28,9 +28,9 @@ public class AddressController implements IAddressController {
                      @RequestHeader HttpHeaders httpHeaders,
                      HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
-            log.info("AddressController -> put -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("AddressController -> post -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("AddressController -> put -> Remote IP -> " + request.getRemoteAddr());
+        log.info("AddressController -> post -> Remote IP -> " + request.getRemoteAddr());
         addressModel.add(data);
     }
 

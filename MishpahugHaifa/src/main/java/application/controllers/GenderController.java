@@ -28,9 +28,9 @@ public class GenderController implements IGenderController {
                      @RequestHeader HttpHeaders httpHeaders,
                      HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
-            log.info("GenderController > put -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("GenderController > post -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("GenderController -> put -> Remote IP -> " + request.getRemoteAddr());
+        log.info("GenderController -> post -> Remote IP -> " + request.getRemoteAddr());
         genderModel.add(data);
     }
 

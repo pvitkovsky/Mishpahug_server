@@ -28,7 +28,7 @@ public class AddressController implements IAddressController {
                      @RequestHeader HttpHeaders httpHeaders,
                      HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
-            log.info("AddressController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("AddressController -> post -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
         log.info("AddressController -> post -> Remote IP -> " + request.getRemoteAddr());
         addressModel.add(data);
@@ -39,7 +39,7 @@ public class AddressController implements IAddressController {
     public void delete(@RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
-            log.info("AddressController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("AddressController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
         log.info("AddressController -> delete -> Remote IP -> " + request.getRemoteAddr());
         addressModel.deleteAll();
@@ -51,7 +51,7 @@ public class AddressController implements IAddressController {
                        @RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
-            log.info("AddressController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("AddressController -> delete{" + id + "} -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
         log.info("AddressController -> delete{" + id + "} -> Remote IP -> " + request.getRemoteAddr());
         addressModel.deleteByID(id);
@@ -62,7 +62,7 @@ public class AddressController implements IAddressController {
     public List<AddressEntity> get(@RequestHeader HttpHeaders httpHeaders,
                                    HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
-            log.info("AddressController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("AddressController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
         log.info("AddressController -> get -> Remote IP -> " + request.getRemoteAddr());
         return addressModel.getAll();
@@ -74,7 +74,7 @@ public class AddressController implements IAddressController {
                              @RequestHeader HttpHeaders httpHeaders,
                              HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
-            log.info("AddressController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("AddressController -> get{" + id + "} -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
         log.info("AddressController -> get{" + id + "} -> Remote IP -> " + request.getRemoteAddr());
         return addressModel.getById(id);

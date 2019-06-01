@@ -5,16 +5,16 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import application.utils.converter.Updates;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.querydsl.core.types.Predicate;
 
-import application.dto.UserDTO;
 import application.entities.UserEntity;
 import application.exceptions.ExceptionMishpaha;
 import application.repositories.UserRepository;
+import application.utils.converter.IUpdates;
+import application.utils.converter.Updates;
 
 @Service
 @Transactional
@@ -22,8 +22,9 @@ public class UserModel implements IUserModel {
 
     @Autowired
     UserRepository userRepository;
-
-
+    
+    @Autowired
+    IUpdates updates; 
 
     @Override
     public UserEntity getByUsernameAndPassword(String username, String password) {
@@ -60,7 +61,6 @@ public class UserModel implements IUserModel {
                              HashMap<String, String> data) throws ExceptionMishpaha {
             UserEntity user = userRepository.getOne(userId);
             if (user == null) throw new RuntimeException("User with id = " + userId + " not found");
-            Updates updates = new Updates();
             updates.updateUser(user, data);
             userRepository.save(user);
             return user;

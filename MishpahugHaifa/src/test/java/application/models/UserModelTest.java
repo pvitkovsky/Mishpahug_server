@@ -1,4 +1,4 @@
-package application.models.user;
+package application.models;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,10 +12,13 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import application.entities.UserEntity;
+import application.models.user.IUserModel;
+import application.models.user.UserModel;
 import application.repositories.CityRepository;
 import application.repositories.CountryRepository;
 import application.repositories.KichenTypeRepository;
 import application.repositories.UserRepository;
+import application.utils.converter.IUpdates;
 
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
@@ -31,6 +34,8 @@ public class UserModelTest {
     CountryRepository countryRepository;
     @MockBean
     KichenTypeRepository kichenTypeRepository;
+	@MockBean
+	IUpdates updates;
     @Autowired
     private IUserModel userModel;
 

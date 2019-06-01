@@ -19,21 +19,25 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "kichentype", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"name"})})
+@Table(name = "kichentype", uniqueConstraints = { @UniqueConstraint(columnNames = { "name" }) })
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(of = {"name"})
+@EqualsAndHashCode(of = { "name" })
 @ToString
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class KitchenTypeEntity implements NamedProperty {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 
-    @Column(name = "name")
-    private String name;
+	@Column(name = "name")
+	private String name;
+
+	public KitchenTypeEntity(String name) {
+		super();
+		this.name = name;
+	}
 
 }

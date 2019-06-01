@@ -1,6 +1,9 @@
 package application.entities.religion;
 
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
 import java.util.Random;
 
 import org.junit.Before;
@@ -23,10 +26,11 @@ public class ReligionTest {
     @Autowired
     ReligionRepository religionRepository;
     private ReligionEntity religionEntity;
-    private String[] data = {"Christianity", "Judaism", "Atheism", "Buddhism", "Hare Krishnas", "Sikhism", "Confucianism", "Sikhism", "Zoroastrianism"};
+    private String[] data = {"Christianity", "Judaism", "Atheism", "Buddhism", "Hare Krishnas", "Sikhism", "Confucianism", "Zoroastrianism"};
     private String[] dataForFindByNameTest = {"hi", "ni", "fi", "ei"};
     private ReligionEntity testReligion;
-
+    private static Random gen = new Random();
+    
     @Before
     public void load() {
         for (int i = 0; i < data.length; i++) {
@@ -36,42 +40,61 @@ public class ReligionTest {
         }
     }
 
+    /**
+     * The Id range changes on each test; need to calculate it for all test where we do something by ID; 
+     */
+	private Integer getRandomIndex() {
+		int minId = Integer.MAX_VALUE; 
+    	int maxId = Integer.MIN_VALUE;
+    	Iterable<ReligionEntity> religions = religionRepository.findAll();
+    	for(ReligionEntity religion : religions) {
+    		int thisID = religion.getId();
+    		if(thisID < minId) {minId = thisID;}
+    		if(thisID > maxId) {maxId = thisID;}
+    		
+    	}    
+        Integer index = minId +  gen.nextInt(maxId - minId);
+		return index;
+	}
+	
     @Test
     public void loadTest() {
-        System.out.println(religionRepository.findAll());
+    	assertEquals(religionRepository.count(), data.length);
     }
 
     @Test
-    public void getById() {
-        Random r = new Random();
-        Integer index = r.nextInt(data.length - 1);
-        System.out.println(religionRepository.findById(index));
+    public void getById() { 
+    	Integer index = getRandomIndex();
+        testReligion = religionRepository.findById(index).get(); 
+        assertFalse(testReligion == null);
     }
 
     @Test
-    public void getByName() {
-        System.out.println(religionRepository.getByName("test"));
-        System.out.println(religionRepository.getByName("Buddhism"));
+    public void getByName() { //TODO: fix me
         for (int i = 0; i < dataForFindByNameTest.length; i++) {
+        	System.out.println(dataForFindByNameTest[i]);
             testReligion = religionRepository.getByName(dataForFindByNameTest[i]);
-            System.out.println(dataForFindByNameTest[i] + " included on " + testReligion);
+            System.out.println(religionRepository.findAll());
+            System.out.println(testReligion);
+            assertFalse(testReligion == null);
         }
     }
 
     @Test
     public void update() {
-        Integer index = 5;
-        religionEntity = religionRepository.getOne(index);
+    	Integer index = getRandomIndex();
+    	religionEntity = religionRepository.getOne(index);
+        assertFalse(religionEntity == null);
         religionEntity.setName("testtest");
         religionRepository.save(religionEntity);
-        System.out.println(religionRepository.findById(index));
+        assertEquals(religionEntity.getName(),  "testtest");
     }
 
     @Test
     public void remove() {
-        Integer index = 4;
-        System.out.println("Size of repository = " + religionRepository.findAll().size());
+    	long size = religionRepository.count();
+    	Integer index = gen.nextInt((int) size);
         religionRepository.deleteById(index);
-        System.out.println("Size of repository = " + religionRepository.findAll().size());
+        assertEquals(religionRepository.count(), size-1);
     }
 }

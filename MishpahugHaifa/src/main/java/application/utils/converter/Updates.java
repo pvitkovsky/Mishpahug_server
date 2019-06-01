@@ -1,22 +1,34 @@
 package application.utils.converter;
 
+import java.util.HashMap;
+
+import org.springframework.stereotype.Service;
+
 import application.entities.EventEntity;
 import application.entities.GenderEntity;
 import application.entities.KitchenTypeEntity;
 import application.entities.UserEntity;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.HashMap;
 @Slf4j
-public class Updates extends ConverterBase {
-    public static void updateEvent(EventEntity eventEntity, HashMap<String, String> data){
-        if (data.containsKey("nameOfEvent")) {
-            log.info("Updates -> eventUpdate -> nameOfEvent -> new name = " + data.get("nameOfEvent"));
-            eventEntity.setNameOfEvent(data.get("nameOfEvent"));
-        }
-    }
+@Service
+public class Updates extends ConverterBase implements IUpdates {
+	
+	@Override
+	public void updateEvent(EventEntity eventEntity, HashMap<String, String> data) {
+		if (data.containsKey("nameOfEvent")) { // TODO: naming convention for update fields;
+			log.info("Updates -> eventUpdate -> nameOfEvent -> new name = " + data.get("nameOfEvent"));
+			eventEntity.setNameOfEvent(data.get("nameOfEvent"));
+		}
+	}
 
-    public void updateUser(UserEntity userEntity, HashMap<String, String> data){
+	@Override
+	public void updateUser(UserEntity userEntity, HashMap<String, String> data){
+    	System.out.println(data);
+    	 if (data.containsKey("firstname")) { //TODO: naming convention for update fields;
+             log.info("UserConverter -> Update -> firstname -> new firstname = " + data.get("firstname"));
+             userEntity.setFirstName(data.get("firstname"));//TODO отправка поддтверждения по почте
+         }
         if (data.containsKey("email")) {
             log.info("UserConverter -> Update -> email -> new email = " + data.get("email"));
             userEntity.setEMail(data.get("email"));//TODO отправка поддтверждения по почте

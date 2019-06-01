@@ -29,7 +29,7 @@ public class LogsDataController implements ILogsDataController {
                                                         ,@RequestHeader HttpHeaders httpHeaders,
                                                          HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
-            log.info("LogsDataController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("LogsDataController -> findAllByWebQuerydsl -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
         log.info("LogsDataController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         return logsModel.getAll(predicate);
@@ -43,7 +43,7 @@ public class LogsDataController implements ILogsDataController {
                       ,@RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
-            log.info("LogsDataController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("LogsDataController -> findAllByWebQuerydsl -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
         log.info("LogsDataController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         logsModel.delete(predicate);

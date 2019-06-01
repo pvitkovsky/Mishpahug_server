@@ -2,20 +2,17 @@ package application.controllers;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import application.controllers.interfaces.IHoliDaysController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.bind.annotation.*;
+
 import application.dto.forholiday.HolidayDTO;
 import application.entities.HoliDayEntity;
 import application.models.holyday.IHolyDayModel;
 import lombok.extern.slf4j.Slf4j;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @RestController
@@ -27,7 +24,9 @@ public class HoliDaysController implements IHoliDaysController {
 
     @Override
     @PostMapping(value = "/")
-    public void post(@RequestBody HolidayDTO[] data) {
+    public void post(@RequestBody HolidayDTO[] data
+                    ,@RequestHeader HttpHeaders httpHeaders,
+                     HttpServletRequest request) {
         for (HolidayDTO s : data) {
             System.out.println(s);
             holyDayModel.updateFromServer(s);
@@ -37,25 +36,31 @@ public class HoliDaysController implements IHoliDaysController {
 
     @Override
     @DeleteMapping(value = "/")
-    public void delete() {
+    public void delete(@RequestHeader HttpHeaders httpHeaders,
+                       HttpServletRequest request) {
         holyDayModel.deleteAll();
     }
 
     @Override
     @DeleteMapping(value = "/{id}")
-    public void delete(@PathVariable(name = "id") Integer id) {
+    public void delete(@PathVariable(name = "id") Integer id
+                      ,@RequestHeader HttpHeaders httpHeaders,
+                       HttpServletRequest request) {
         holyDayModel.deleteByID(id);
     }
 
     @Override
     @GetMapping(value = "/")
-    public List<HoliDayEntity> get() {
+    public List<HoliDayEntity> get(@RequestHeader HttpHeaders httpHeaders,
+                                   HttpServletRequest request) {
         return holyDayModel.getAll();
     }
 
     @Override
     @GetMapping(value = "/{id}")
-    public HoliDayEntity get(@PathVariable(name = "id") Integer id) {
+    public HoliDayEntity get(@PathVariable(name = "id") Integer id
+                            ,@RequestHeader HttpHeaders httpHeaders,
+                             HttpServletRequest request) {
         return holyDayModel.getById(id);
     }
 }

@@ -90,8 +90,8 @@ public class UserController implements IUserController {
      */
     @Override
     @GetMapping(value = "/{id}")
-    public UserDTO get(@PathVariable(value = "id") Integer id
-                      ,@RequestHeader HttpHeaders httpHeaders,
+    public UserDTO get(@PathVariable(value = "id") Integer id,
+                       @RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request) throws ExceptionMishpaha {
         return new UserDTO(userModel.getById(id));
     }
@@ -101,8 +101,8 @@ public class UserController implements IUserController {
      */
     @Override
     @GetMapping(value = "/current")
-    public UserDTO getByToken(HttpServletRequest request
-                             ,@RequestHeader HttpHeaders httpHeaders) throws ExceptionMishpaha {
+    public UserDTO getByToken(HttpServletRequest request,
+                              @RequestHeader HttpHeaders httpHeaders) throws ExceptionMishpaha {
     	String token = request.getHeader("Authorization");
     	UserSession session = userSessionRepository.findByTokenAndIsValidTrue(token);
     	return new UserDTO(userModel.getByUserName(session.getUserName())); //TODO: converter here?
@@ -127,8 +127,8 @@ public class UserController implements IUserController {
     @Override
     @GetMapping(value = "/{id}/subscribes")
     // TODO спрятать строки кода в одну из моделей?
-    public List<EventEntity> getEventsById(@PathVariable(value = "id") Integer id
-                                          ,@RequestHeader HttpHeaders httpHeaders,
+    public List<EventEntity> getEventsById(@PathVariable(value = "id") Integer id,
+                                           @RequestHeader HttpHeaders httpHeaders,
                                            HttpServletRequest request) throws ExceptionMishpaha {
         List<SubscriptionEntity> subscriptionEntityList = feedBackModel.getEventsForGuest(userModel.getById(id));
         // what feedBackModel has to do with this request? Expected class EventModel or SubscriptionModel
@@ -199,8 +199,8 @@ public class UserController implements IUserController {
 
     @Override
     @PostMapping(value = "/register")
-    public void add(@RequestBody UserDTO userDTO
-                   ,@RequestHeader HttpHeaders httpHeaders,
+    public void add(@RequestBody UserDTO userDTO,
+                    @RequestHeader HttpHeaders httpHeaders,
                     HttpServletRequest request) throws ExceptionMishpaha {
         System.out.println("UserController -> Register -> UserDTO = " + userDTO);
        if (userModel.getByUserName(userDTO.getUserName()) != null) {
@@ -233,8 +233,8 @@ public class UserController implements IUserController {
      */
     @Override
     @DeleteMapping(value = "/{id}")
-    public UserDTO delete(@PathVariable(value = "id") Integer id
-                         ,@RequestHeader HttpHeaders httpHeaders,
+    public UserDTO delete(@PathVariable(value = "id") Integer id,
+                          @RequestHeader HttpHeaders httpHeaders,
                           HttpServletRequest request) throws ExceptionMishpaha {
         return new UserDTO(userModel.deleteByID(id));
     }
@@ -254,8 +254,8 @@ public class UserController implements IUserController {
      */
     @Override
     @PostMapping(value = "/addPage") //TODO: not-restful name; better is viewPage1
-    public void setDataFromForm(@RequestBody UserDTO data
-                               ,@RequestHeader HttpHeaders httpHeaders,
+    public void setDataFromForm(@RequestBody UserDTO data,
+                                @RequestHeader HttpHeaders httpHeaders,
                                 HttpServletRequest request) throws ExceptionMishpaha {
         UserEntity userEntity = converter.entityFromDTO(data);
         userModel.add(userEntity);
@@ -267,8 +267,8 @@ public class UserController implements IUserController {
     @Override
     @PutMapping(value = "/addPage") //TODO: not-restful name; better is viewPage2
     public void setDataFromFormDetail(@RequestBody UserDTO data,
-                                      @RequestParam(name = "username") String userName
-                                     ,@RequestHeader HttpHeaders httpHeaders,
+                                      @RequestParam(name = "username") String userName,
+                                      @RequestHeader HttpHeaders httpHeaders,
                                       HttpServletRequest request) throws ExceptionMishpaha {
         UserEntity userEntity = userModel.getByUserName(userName);
         userEntity.setGender(genderModel.getByName(data.getGender()));
@@ -284,8 +284,8 @@ public class UserController implements IUserController {
     @Override
     @RequestMapping(method = RequestMethod.GET, value = "/")
     @ResponseBody
-    public List<UserDTO> findAllByWebQuerydsl(@QuerydslPredicate(root = UserEntity.class) Predicate predicate
-                                             ,@RequestHeader HttpHeaders httpHeaders,
+    public List<UserDTO> findAllByWebQuerydsl(@QuerydslPredicate(root = UserEntity.class) Predicate predicate,
+                                              @RequestHeader HttpHeaders httpHeaders,
                                               HttpServletRequest request) {
         return converter.DTOListFromEntities(userModel.getAll(predicate));
     }

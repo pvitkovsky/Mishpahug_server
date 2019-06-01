@@ -1,14 +1,18 @@
 package application.utils.converter;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import application.entities.AddressEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import application.dto.EventDTO;
 import application.entities.EventEntity;
-
+@Slf4j
 @Service
 public class EventConverter extends ConverterBase implements IConverter<EventEntity, EventDTO> {
 

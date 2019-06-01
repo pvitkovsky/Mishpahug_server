@@ -1,6 +1,7 @@
 package application.controllers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import application.entities.EventEntity;
 import application.entities.SubscriptionEntity;
 import application.models.feedback.IFeedBackModel;
+import application.utils.converter.UserConverter;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +32,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.querydsl.core.types.Predicate;
 
-import application.controllers.interfaces.IUserController;
 import application.dto.LoginDTO;
 import application.dto.LoginResponse;
 import application.dto.UserDTO;
@@ -51,7 +52,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(value = "/user")
-public class UserController implements IUserController {
+public class UserController implements application.controllers.interfaces.IUserController {
 
     @Autowired
     IUserModel userModel;
@@ -205,15 +206,17 @@ public class UserController implements IUserController {
     /* (non-Javadoc)
      * @see application.controllers.intarfaces.IUserController#update(java.util.HashMap, java.lang.Integer)
      */
-    //TODO: difficult choice between allowing and not allowing to update UserName; in addition: UserDTO can have null ID;  
+    //TODO: difficult choice between allowing and not allowing to update UserName; in addition: UserDTO can have null ID;
+
     @Override
     @PutMapping(value = "/{id}")
-    public UserDTO update(@RequestBody UserDTO userDTO,
-                             @PathVariable(value = "id") Integer id) throws ExceptionMishpaha {
-    	if(userDTO.getId() != id) {
-    		throw new ExceptionMishpaha("Id in the UserDTO differs from the id in the path", null);
-    	} 
-        return new UserDTO(userModel.update(userDTO));
+    public UserDTO update(@RequestBody HashMap<String, String> data,
+                          @PathVariable(value = "id") Integer id,
+                          @RequestHeader HttpHeaders httpHeaders,
+                          HttpServletRequest request) throws ExceptionMishpaha {
+        UserEntity userEntity = userModel.getById(id);
+
+        return new UserDTO(userEntity);
     }
 
     /* (non-Javadoc)

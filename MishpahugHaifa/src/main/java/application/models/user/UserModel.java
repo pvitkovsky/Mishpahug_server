@@ -1,9 +1,11 @@
 package application.models.user;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
+import application.utils.converter.Updates;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,16 +56,14 @@ public class UserModel implements IUserModel {
     }
 
     @Override
-    public UserEntity update(UserDTO userDTO) throws ExceptionMishpaha {
-        
-    	try {
-            UserEntity user = userRepository.getOne(userDTO.getId());
-            user.updateFromDTO(userDTO);
+    public UserEntity update(Integer userId,
+                             HashMap<String, String> data) throws ExceptionMishpaha {
+            UserEntity user = userRepository.getOne(userId);
+            if (user == null) throw new RuntimeException("User with id = " + userId + " not found");
+            Updates updates = new Updates();
+            updates.updateUser(user, data);
             userRepository.save(user);
             return user;
-        } catch (Exception e) {
-            throw new ExceptionMishpaha("Error! Not found user with id " + userDTO.getId(), null);
-        }
     }
 
     /**
@@ -72,6 +72,7 @@ public class UserModel implements IUserModel {
     @Override
     public UserEntity deleteByID(Integer userId) {
         UserEntity usr = userRepository.getOne(userId);
+        if (usr == null) throw new RuntimeException("User with id = " + userId + " not found");
         usr.putIntoDeletionQueue();
         userRepository.deleteById(userId);
         return usr;
@@ -96,8 +97,9 @@ public class UserModel implements IUserModel {
      * Activates the user, activating all his "deactivated" events and subscriptions;
      */
     @Override
-    public UserEntity activateByID(Integer userId) throws ExceptionMishpaha {
+    public UserEntity activateByID(Integer userId) {
         UserEntity usr = userRepository.getOne(userId);
+        if (usr == null) throw new RuntimeException("User with id = " + userId + " not found");
         usr.activate();
         return usr;
     }
@@ -106,8 +108,9 @@ public class UserModel implements IUserModel {
      * Deactivates the user, all his events and subscriptions;
      */
     @Override
-    public UserEntity deactivateByID(Integer userId) throws ExceptionMishpaha {
+    public UserEntity deactivateByID(Integer userId) {
         UserEntity usr = userRepository.getOne(userId);
+        if (usr == null) throw new RuntimeException("User with id = " + userId + " not found");
         usr.deactivate();
         return usr;
     }
@@ -116,8 +119,9 @@ public class UserModel implements IUserModel {
      * Puts the user into deletion queue;
      */
     @Override
-    public UserEntity prepareForDeletionByID(Integer userId) throws ExceptionMishpaha {
+    public UserEntity prepareForDeletionByID(Integer userId) {
         UserEntity usr = userRepository.getOne(userId);
+        if (usr == null) throw new RuntimeException("User with id = " + userId + " not found");
         usr.putIntoDeletionQueue();
         return null;
     }

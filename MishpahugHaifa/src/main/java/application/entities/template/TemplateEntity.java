@@ -35,7 +35,6 @@ public class TemplateEntity {
     @ElementCollection
     @CollectionTable
     @Column(name = "items")
-    @Builder.Default
     private Set<XYTextValue> Items = new HashSet<>();
 
     public TemplateEntity() {

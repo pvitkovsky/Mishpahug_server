@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
+import application.utils.converter.EventConverter;
+import application.utils.converter.Updates;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -76,11 +78,13 @@ public class EventModel implements IEventModel {
 	}
 
 	@Override
-	public EventEntity update(Integer eventId, HashMap<String, String> data) throws ExceptionMishpaha {
+	public EventEntity update(Integer eventId,
+							  HashMap<String, String> data) throws ExceptionMishpaha {
 		try {
 			EventEntity eventEntity = eventRepository.getOne(eventId);
 			//TODO
-			eventEntity.update(data);
+			Updates.updateEvent(eventEntity,
+								  data);
 			return eventRepository.save(eventEntity);
 		} catch (Exception e) {
 			throw new ExceptionMishpaha("Error! Not found event with id " + eventId, null);

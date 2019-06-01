@@ -1,5 +1,6 @@
 package application.models.user;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.querydsl.core.types.Predicate;
@@ -21,7 +22,8 @@ public interface IUserModel {
 
     public UserEntity add(UserEntity data) throws ExceptionMishpaha;
 
-    public UserEntity update(UserDTO data) throws ExceptionMishpaha;
+    public UserEntity update(Integer userId,
+                             HashMap<String, String> data) throws ExceptionMishpaha;
 
     public UserEntity deleteByID(Integer userId) throws ExceptionMishpaha;
 

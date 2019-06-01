@@ -1,13 +1,16 @@
 package application.utils.converter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import application.entities.GenderEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import application.dto.UserDTO;
 import application.entities.UserEntity;
-
+@Slf4j
 @Service
 public class UserConverter extends ConverterBase implements IConverter<UserEntity, UserDTO> {
 

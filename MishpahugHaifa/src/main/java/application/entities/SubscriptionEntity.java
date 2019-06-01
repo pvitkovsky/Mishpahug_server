@@ -34,7 +34,7 @@ import lombok.extern.slf4j.Slf4j;
  * must be set manually;
  */
 @NoArgsConstructor
-@EqualsAndHashCode(of = {"userGuest", "event"})
+//@EqualsAndHashCode(of = {"userGuest", "event"})
 @Entity
 @Table(name = "user_event_guest", uniqueConstraints = {@UniqueConstraint(columnNames = {"GUEST_ID", "EVENT_ID"})})
 @ToString

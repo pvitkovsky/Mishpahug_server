@@ -9,32 +9,16 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface IKichenTypeController {
-    @PostMapping(value = "/")
-    void post(@RequestBody KitchenTypeEntity data
-            , @RequestHeader HttpHeaders httpHeaders,
-              HttpServletRequest request) throws ExceptionMishpaha;
 
-    @PutMapping(value = "/")
-    void put(@RequestParam(name = "id") Integer id,
-             @RequestParam(name = "name") String name
-            , @RequestHeader HttpHeaders httpHeaders,
-             HttpServletRequest request);
+	void post(KitchenTypeEntity data, HttpHeaders httpHeaders, HttpServletRequest request) throws ExceptionMishpaha;
 
-    @DeleteMapping(value = "/")
-    void delete(@RequestHeader HttpHeaders httpHeaders,
-                HttpServletRequest request);
+	void put(Integer id, String name, HttpHeaders httpHeaders, HttpServletRequest request);
 
-    @DeleteMapping(value = "/{id}")
-    void delete(@PathVariable(name = "id") Integer id
-            , @RequestHeader HttpHeaders httpHeaders,
-                HttpServletRequest request);
+	void delete(HttpHeaders httpHeaders, HttpServletRequest request);
 
-    @GetMapping(value = "/")
-    List<String> get(@RequestHeader HttpHeaders httpHeaders,
-                     HttpServletRequest request);
+	void delete(Integer id, HttpHeaders httpHeaders, HttpServletRequest request);
 
-    @GetMapping(value = "/{id}")
-    String get(@PathVariable(name = "id", required = false) Integer id
-            , @RequestHeader HttpHeaders httpHeaders,
-               HttpServletRequest request);
+	List<String> get(HttpHeaders httpHeaders, HttpServletRequest request);
+
+	String get(Integer id, HttpHeaders httpHeaders, HttpServletRequest request);
 }

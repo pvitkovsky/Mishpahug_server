@@ -9,26 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface IAddressController {
-    @PostMapping(value = "/")
-    void post(@RequestBody AddressEntity data
-            , @RequestHeader HttpHeaders httpHeaders,
-              HttpServletRequest request) throws ExceptionMishpaha;
 
-    @DeleteMapping(value = "/")
-    void delete(@RequestHeader HttpHeaders httpHeaders,
-                HttpServletRequest request);
+	void post(AddressEntity data, HttpHeaders httpHeaders, HttpServletRequest request) throws ExceptionMishpaha;
 
-    @DeleteMapping(value = "/{id}")
-    void delete(@PathVariable(name = "id") Integer id
-            , @RequestHeader HttpHeaders httpHeaders,
-                HttpServletRequest request) throws ExceptionMishpaha;
+	void delete(HttpHeaders httpHeaders, HttpServletRequest request);
 
-    @GetMapping(value = "/")
-    List<AddressEntity> get(@RequestHeader HttpHeaders httpHeaders,
-                            HttpServletRequest request) throws ExceptionMishpaha;
+	void delete(Integer id, HttpHeaders httpHeaders, HttpServletRequest request) throws ExceptionMishpaha;
 
-    @GetMapping(value = "/{id}")
-    AddressEntity get(@PathVariable(name = "id") Integer id
-            , @RequestHeader HttpHeaders httpHeaders,
-                      HttpServletRequest request) throws ExceptionMishpaha;
+	List<AddressEntity> get(HttpHeaders httpHeaders, HttpServletRequest request) throws ExceptionMishpaha;
+
+	AddressEntity get(Integer id, HttpHeaders httpHeaders, HttpServletRequest request) throws ExceptionMishpaha;
 }

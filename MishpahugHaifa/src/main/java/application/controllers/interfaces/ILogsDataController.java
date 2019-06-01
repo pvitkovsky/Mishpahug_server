@@ -9,15 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 public interface ILogsDataController {
-    @RequestMapping(method = RequestMethod.GET, value = "/")
-    @ResponseBody
-    Iterable<LogsDataEntity> findAllByWebQuerydsl(@QuerydslPredicate(root = LogsDataEntity.class) Predicate predicate
-            , @RequestHeader HttpHeaders httpHeaders,
-                                                  HttpServletRequest request);
 
-    @DeleteMapping(value = "/")
-                                                         //TODO: test;
-    void delete(@QuerydslPredicate(root = LogsDataEntity.class) Predicate predicate
-            , @RequestHeader HttpHeaders httpHeaders,
-                HttpServletRequest request);
+	Iterable<LogsDataEntity> findAllByWebQuerydsl(Predicate predicate, HttpHeaders httpHeaders,
+			HttpServletRequest request);
+
+	// TODO: test;
+	void delete(Predicate predicate, HttpHeaders httpHeaders, HttpServletRequest request);
 }

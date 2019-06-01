@@ -9,26 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface IHoliDaysController {
-    @PostMapping(value = "/")
-    void post(@RequestBody HolidayDTO[] data
-            , @RequestHeader HttpHeaders httpHeaders,
-              HttpServletRequest request);
 
-    @DeleteMapping(value = "/")
-    void delete(@RequestHeader HttpHeaders httpHeaders,
-                HttpServletRequest request);
+	void post(HolidayDTO[] data, HttpHeaders httpHeaders, HttpServletRequest request);
 
-    @DeleteMapping(value = "/{id}")
-    void delete(@PathVariable(name = "id") Integer id
-            , @RequestHeader HttpHeaders httpHeaders,
-                HttpServletRequest request);
+	void delete(HttpHeaders httpHeaders, HttpServletRequest request);
 
-    @GetMapping(value = "/")
-    List<HoliDayEntity> get(@RequestHeader HttpHeaders httpHeaders,
-                            HttpServletRequest request);
+	void delete(Integer id, HttpHeaders httpHeaders, HttpServletRequest request);
 
-    @GetMapping(value = "/{id}")
-    HoliDayEntity get(@PathVariable(name = "id") Integer id
-            , @RequestHeader HttpHeaders httpHeaders,
-                      HttpServletRequest request);
+	List<HoliDayEntity> get(HttpHeaders httpHeaders, HttpServletRequest request);
+
+	HoliDayEntity get(Integer id, HttpHeaders httpHeaders, HttpServletRequest request);
 }

@@ -9,32 +9,16 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface IReligionController {
-    @GetMapping(value = "/")
-    List<String> get(@RequestHeader HttpHeaders httpHeaders,
-                     HttpServletRequest request);
 
-    @GetMapping(value = "/{id}")
-    ReligionEntity get(@PathVariable(name = "id") Integer id
-            , @RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request);
+	List<String> get(HttpHeaders httpHeaders, HttpServletRequest request);
 
-    @PostMapping(value = "/")
-    void post(@RequestBody ReligionEntity data
-            , @RequestHeader HttpHeaders httpHeaders,
-              HttpServletRequest request);
+	ReligionEntity get(Integer id, HttpHeaders httpHeaders, HttpServletRequest request);
 
-    @PutMapping(value = "/")
-    void put(@RequestParam(name = "id") Integer id,
-             @RequestParam(name = "name") String name
-            , @RequestHeader HttpHeaders httpHeaders,
-             HttpServletRequest request) throws ExceptionMishpaha;
+	void post(ReligionEntity data, HttpHeaders httpHeaders, HttpServletRequest request);
 
-    @DeleteMapping(value = "/")
-    void delete(@RequestHeader HttpHeaders httpHeaders,
-                HttpServletRequest request);
+	void put(Integer id, String name, HttpHeaders httpHeaders, HttpServletRequest request) throws ExceptionMishpaha;
 
-    @DeleteMapping(value = "/{id}")
-    void delete(@PathVariable(name = "id") Integer id
-            , @RequestHeader HttpHeaders httpHeaders,
-                HttpServletRequest request) throws ExceptionMishpaha;
+	void delete(HttpHeaders httpHeaders, HttpServletRequest request);
+
+	void delete(Integer id, HttpHeaders httpHeaders, HttpServletRequest request) throws ExceptionMishpaha;
 }

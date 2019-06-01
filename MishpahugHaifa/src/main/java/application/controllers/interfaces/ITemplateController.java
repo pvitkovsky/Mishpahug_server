@@ -9,26 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface ITemplateController {
-    @GetMapping(value = "/{name}")
-    TemplateEntity get(@PathVariable(value = "name") String name
-            , @RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request) throws ExceptionMishpaha;
 
-    @GetMapping(value = "/")
-    List<TemplateEntity> getall(@RequestHeader HttpHeaders httpHeaders,
-                                HttpServletRequest request) throws ExceptionMishpaha;
+	TemplateEntity get(String name, HttpHeaders httpHeaders, HttpServletRequest request) throws ExceptionMishpaha;
 
-    @PostMapping(value = "/")
-    TemplateEntity post(@RequestBody TemplateEntity templateEntity
-            , @RequestHeader HttpHeaders httpHeaders,
-                        HttpServletRequest request);
+	List<TemplateEntity> getall(HttpHeaders httpHeaders, HttpServletRequest request) throws ExceptionMishpaha;
 
-    @DeleteMapping(value = "/{name}")
-    void remove(@PathVariable(value = "name") String name
-            , @RequestHeader HttpHeaders httpHeaders,
-                HttpServletRequest request);
+	TemplateEntity post(TemplateEntity templateEntity, HttpHeaders httpHeaders, HttpServletRequest request);
 
-    @DeleteMapping(value = "/")
-    void removeall(@RequestHeader HttpHeaders httpHeaders,
-                   HttpServletRequest request);
+	void remove(String name, HttpHeaders httpHeaders, HttpServletRequest request);
+
+	void removeall(HttpHeaders httpHeaders, HttpServletRequest request);
 }

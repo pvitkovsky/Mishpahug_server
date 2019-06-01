@@ -54,7 +54,7 @@ public class EventController implements IEventController {
             , @RequestHeader HttpHeaders httpHeaders,
                                                HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
-            log.info("EventController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("EventController -> findAllByWebQuerydsl -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
         log.info("EventController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         return converter.DTOListFromEntities(eventModel.getAll(predicate));
@@ -70,9 +70,9 @@ public class EventController implements IEventController {
             , @RequestHeader HttpHeaders httpHeaders,
                                 HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
-            log.info("EventController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("EventController -> findById -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("EventController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("EventController -> findById -> Remote IP -> " + request.getRemoteAddr());
         return eventModel.getById(id);
     }
 
@@ -83,9 +83,9 @@ public class EventController implements IEventController {
             , @RequestHeader HttpHeaders httpHeaders,
                                               HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
-            log.info("EventController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("EventController -> findGestByEventId -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("EventController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("EventController -> findGestByEventId -> Remote IP -> " + request.getRemoteAddr());
         Set<SubscriptionEntity> subscriptionEntityList = eventModel.getById(id).getSubscriptions();
         List<UserEntity> userEntityList = new ArrayList<>();
         for (SubscriptionEntity x:subscriptionEntityList
@@ -101,9 +101,9 @@ public class EventController implements IEventController {
                                      @RequestHeader HttpHeaders httpHeaders,
                                      HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
-            log.info("EventController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("EventController -> getByOwner -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("EventController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("EventController -> getByOwner -> Remote IP -> " + request.getRemoteAddr());
         return converter.DTOListFromEntities(eventModel.getByOwner(ownerusername));
     }
 
@@ -121,9 +121,9 @@ public class EventController implements IEventController {
         eventEntity.setKitchenType(kichenTypeModel.getByName(data.getKichenType()));
         eventEntity.setHoliDay(holyDayModel.getByName(data.getHoliday()));
         httpHeaders.forEach((key, value) -> {
-            log.info("EventController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("EventController -> setDataFromForm -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("EventController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("EventController -> setDataFromForm -> Remote IP -> " + request.getRemoteAddr());
         return eventModel.add(eventEntity);
     }
 
@@ -137,9 +137,12 @@ public class EventController implements IEventController {
                                           @RequestHeader HttpHeaders httpHeaders,
                                           HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
-            log.info("EventController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("EventController -> updateDataFromForm -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("EventController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        data.forEach((key, value) -> {
+            log.info("EventController -> updateDataFromForm -> data -> " + String.format("data '%s' = %s", key, value));
+        });
+        log.info("EventController -> updateDataFromForm -> Remote IP -> " + request.getRemoteAddr());
         return eventModel.update(id, data);
     }
 
@@ -153,9 +156,9 @@ public class EventController implements IEventController {
                               HttpServletRequest request) throws ExceptionMishpaha {
         eventModel.getById(id).putIntoDeletionQueue();
         httpHeaders.forEach((key, value) -> {
-            log.info("EventController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("EventController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("EventController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("EventController -> delete -> Remote IP -> " + request.getRemoteAddr());
         return eventModel.delete(id);
     }
 
@@ -167,9 +170,9 @@ public class EventController implements IEventController {
     public void delete(@RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
-            log.info("EventController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("EventController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("EventController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("EventController -> delete -> Remote IP -> " + request.getRemoteAddr());
         eventModel.getAll().forEach(EventEntity::putIntoDeletionQueue);
         eventModel.deleteAll();
     }

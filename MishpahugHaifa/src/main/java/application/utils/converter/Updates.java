@@ -2,6 +2,7 @@ package application.utils.converter;
 
 import application.entities.EventEntity;
 import application.entities.GenderEntity;
+import application.entities.KitchenTypeEntity;
 import application.entities.UserEntity;
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,6 +25,11 @@ public class Updates extends ConverterBase {
             log.info("UserConverter -> Update -> gender -> new gender = " + data.get("gender"));
             GenderEntity genderEntity = genderRepository.getByName(data.get("gender"));
             userEntity.setGender(genderEntity);
+        }
+        if (data.containsKey("kitchentype")) {
+            log.info("UserConverter -> Update -> kitchentype -> new kitchentype = " + data.get("kitchentype"));
+            KitchenTypeEntity kitchenTypeEntity = kichenTypeRepository.getByName(data.get("kitchentype"));
+            userEntity.setKitchenType(kitchenTypeEntity);
         }
         
         //TODO остальные поля

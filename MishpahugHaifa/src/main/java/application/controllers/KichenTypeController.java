@@ -28,9 +28,9 @@ public class KichenTypeController implements IKichenTypeController {
                      @RequestHeader HttpHeaders httpHeaders,
                      HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
-            log.info("KichenTypeController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("KichenTypeController -> post -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("KichenTypeController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("KichenTypeController -> post -> Remote IP -> " + request.getRemoteAddr());
         kichenTypeModel.add(data);
     }
 
@@ -41,9 +41,9 @@ public class KichenTypeController implements IKichenTypeController {
                     @RequestHeader HttpHeaders httpHeaders,
                     HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
-            log.info("KichenTypeController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("KichenTypeController  -> put -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("KichenTypeController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("KichenTypeController -> put -> Remote IP -> " + request.getRemoteAddr());
         kichenTypeModel.updateName(id, name);
     }
 
@@ -52,9 +52,9 @@ public class KichenTypeController implements IKichenTypeController {
     public void delete(@RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
-            log.info("KichenTypeController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("KichenTypeController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("KichenTypeController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("KichenTypeController -> delete -> Remote IP -> " + request.getRemoteAddr());
         kichenTypeModel.deleteAll();
     }
 
@@ -64,9 +64,9 @@ public class KichenTypeController implements IKichenTypeController {
                        @RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
-            log.info("KichenTypeController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("KichenTypeController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("KichenTypeController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("KichenTypeController -> delete -> Remote IP -> " + request.getRemoteAddr());
         kichenTypeModel.deleteByID(id);
     }
 
@@ -76,9 +76,9 @@ public class KichenTypeController implements IKichenTypeController {
     public List<String> get(@RequestHeader HttpHeaders httpHeaders,
                             HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
-            log.info("KichenTypeController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("KichenTypeController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("KichenTypeController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("KichenTypeController -> get -> Remote IP -> " + request.getRemoteAddr());
         return IConverter.PropertyToStringList(kichenTypeModel.getAll());
     }
 
@@ -88,9 +88,9 @@ public class KichenTypeController implements IKichenTypeController {
                       @RequestHeader HttpHeaders httpHeaders,
                       HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
-            log.info("KichenTypeController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("KichenTypeController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("KichenTypeController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("KichenTypeController -> get -> Remote IP -> " + request.getRemoteAddr());
         return kichenTypeModel.getById(id).getName();
     }
 

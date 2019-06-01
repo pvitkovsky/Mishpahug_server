@@ -28,9 +28,9 @@ public class MaritalStatusController implements IMaritalStatusController {
     public List<String> get(@RequestHeader HttpHeaders httpHeaders,
                             HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
-        log.info("MaritalStatusController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        log.info("MaritalStatusController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("MaritalStatusController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("MaritalStatusController -> get -> Remote IP -> " + request.getRemoteAddr());
         return IConverter.PropertyToStringList(maritalStatusModel.getAll());
     }
 
@@ -40,9 +40,9 @@ public class MaritalStatusController implements IMaritalStatusController {
                                    @RequestHeader HttpHeaders httpHeaders,
                                    HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
-        log.info("MaritalStatusController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        log.info("MaritalStatusController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("MaritalStatusController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("MaritalStatusController -> get -> Remote IP -> " + request.getRemoteAddr());
         System.out.println(maritalStatusModel.getById(id));
         return maritalStatusModel.getById(id);
     }
@@ -53,9 +53,9 @@ public class MaritalStatusController implements IMaritalStatusController {
                      @RequestHeader HttpHeaders httpHeaders,
                      HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
-        log.info("MaritalStatusController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        log.info("MaritalStatusController -> post -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("MaritalStatusController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("MaritalStatusController -> post -> Remote IP -> " + request.getRemoteAddr());
         maritalStatusModel.add(data);
     }
 
@@ -66,9 +66,9 @@ public class MaritalStatusController implements IMaritalStatusController {
                     @RequestHeader HttpHeaders httpHeaders,
                     HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
-        log.info("MaritalStatusController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        log.info("MaritalStatusController -> put -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("MaritalStatusController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("MaritalStatusController -> put -> Remote IP -> " + request.getRemoteAddr());
         maritalStatusModel.updateName(id, name);
     }
 
@@ -77,9 +77,9 @@ public class MaritalStatusController implements IMaritalStatusController {
     public void delete(@RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
-        log.info("MaritalStatusController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        log.info("MaritalStatusController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("MaritalStatusController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("MaritalStatusController -> delete -> Remote IP -> " + request.getRemoteAddr());
         maritalStatusModel.deleteAll();
     }
 
@@ -89,9 +89,9 @@ public class MaritalStatusController implements IMaritalStatusController {
                        @RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
-        log.info("MaritalStatusController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        log.info("MaritalStatusController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("MaritalStatusController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("MaritalStatusController -> delete -> Remote IP -> " + request.getRemoteAddr());
         maritalStatusModel.deleteByID(id);
     }
 }

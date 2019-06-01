@@ -215,7 +215,7 @@ public class UserController implements application.controllers.interfaces.IUserC
                           @RequestHeader HttpHeaders httpHeaders,
                           HttpServletRequest request) throws ExceptionMishpaha {
         UserEntity userEntity = userModel.getById(id);
-
+        userModel.update(id, data);
         return new UserDTO(userEntity);
     }
 

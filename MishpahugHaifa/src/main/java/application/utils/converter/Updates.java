@@ -31,7 +31,7 @@ public class Updates extends ConverterBase {
             KitchenTypeEntity kitchenTypeEntity = kichenTypeRepository.getByName(data.get("kitchentype"));
             userEntity.setKitchenType(kitchenTypeEntity);
         }
-        
+
         //TODO остальные поля
 
     }

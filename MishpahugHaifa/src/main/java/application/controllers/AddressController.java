@@ -24,9 +24,13 @@ public class AddressController implements IAddressController {
 
     @Override
     @PostMapping(value = "/")
-    public void post(@RequestBody AddressEntity data
-                    ,@RequestHeader HttpHeaders httpHeaders,
+    public void post(@RequestBody AddressEntity data,
+                     @RequestHeader HttpHeaders httpHeaders,
                      HttpServletRequest request) throws ExceptionMishpaha {
+        httpHeaders.forEach((key, value) -> {
+            log.info("AddressController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        });
+        log.info("AddressController -> post -> Remote IP -> " + request.getRemoteAddr());
         addressModel.add(data);
     }
 
@@ -34,14 +38,22 @@ public class AddressController implements IAddressController {
     @DeleteMapping(value = "/")
     public void delete(@RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request) {
+        httpHeaders.forEach((key, value) -> {
+            log.info("AddressController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        });
+        log.info("AddressController -> delete -> Remote IP -> " + request.getRemoteAddr());
         addressModel.deleteAll();
     }
 
     @Override
     @DeleteMapping(value = "/{id}")
-    public void delete(@PathVariable(name = "id") Integer id
-                      ,@RequestHeader HttpHeaders httpHeaders,
+    public void delete(@PathVariable(name = "id") Integer id,
+                       @RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request) throws ExceptionMishpaha {
+        httpHeaders.forEach((key, value) -> {
+            log.info("AddressController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        });
+        log.info("AddressController -> delete{" + id + "} -> Remote IP -> " + request.getRemoteAddr());
         addressModel.deleteByID(id);
     }
 
@@ -49,14 +61,22 @@ public class AddressController implements IAddressController {
     @GetMapping(value = "/")
     public List<AddressEntity> get(@RequestHeader HttpHeaders httpHeaders,
                                    HttpServletRequest request) throws ExceptionMishpaha {
+        httpHeaders.forEach((key, value) -> {
+            log.info("AddressController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        });
+        log.info("AddressController -> get -> Remote IP -> " + request.getRemoteAddr());
         return addressModel.getAll();
     }
 
     @Override
     @GetMapping(value = "/{id}")
-    public AddressEntity get(@PathVariable(name = "id") Integer id
-                            ,@RequestHeader HttpHeaders httpHeaders,
+    public AddressEntity get(@PathVariable(name = "id") Integer id,
+                             @RequestHeader HttpHeaders httpHeaders,
                              HttpServletRequest request) throws ExceptionMishpaha {
+        httpHeaders.forEach((key, value) -> {
+            log.info("AddressController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        });
+        log.info("AddressController -> get{" + id + "} -> Remote IP -> " + request.getRemoteAddr());
         return addressModel.getById(id);
     }
 }

@@ -24,9 +24,13 @@ public class HoliDaysController implements IHoliDaysController {
 
     @Override
     @PostMapping(value = "/")
-    public void post(@RequestBody HolidayDTO[] data
-                    ,@RequestHeader HttpHeaders httpHeaders,
+    public void post(@RequestBody HolidayDTO[] data,
+                     @RequestHeader HttpHeaders httpHeaders,
                      HttpServletRequest request) {
+        httpHeaders.forEach((key, value) -> {
+            log.info("HoliDaysController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        });
+        log.info("HoliDaysController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         for (HolidayDTO s : data) {
             System.out.println(s);
             holyDayModel.updateFromServer(s);
@@ -38,14 +42,22 @@ public class HoliDaysController implements IHoliDaysController {
     @DeleteMapping(value = "/")
     public void delete(@RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request) {
+        httpHeaders.forEach((key, value) -> {
+            log.info("HoliDaysController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        });
+        log.info("HoliDaysController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         holyDayModel.deleteAll();
     }
 
     @Override
     @DeleteMapping(value = "/{id}")
-    public void delete(@PathVariable(name = "id") Integer id
-                      ,@RequestHeader HttpHeaders httpHeaders,
+    public void delete(@PathVariable(name = "id") Integer id,
+                       @RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request) {
+        httpHeaders.forEach((key, value) -> {
+            log.info("HoliDaysController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        });
+        log.info("HoliDaysController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         holyDayModel.deleteByID(id);
     }
 
@@ -53,14 +65,22 @@ public class HoliDaysController implements IHoliDaysController {
     @GetMapping(value = "/")
     public List<HoliDayEntity> get(@RequestHeader HttpHeaders httpHeaders,
                                    HttpServletRequest request) {
+        httpHeaders.forEach((key, value) -> {
+            log.info("HoliDaysController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        });
+        log.info("HoliDaysController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         return holyDayModel.getAll();
     }
 
     @Override
     @GetMapping(value = "/{id}")
-    public HoliDayEntity get(@PathVariable(name = "id") Integer id
-                            ,@RequestHeader HttpHeaders httpHeaders,
+    public HoliDayEntity get(@PathVariable(name = "id") Integer id,
+                             @RequestHeader HttpHeaders httpHeaders,
                              HttpServletRequest request) {
+        httpHeaders.forEach((key, value) -> {
+            log.info("HoliDaysController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        });
+        log.info("HoliDaysController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         return holyDayModel.getById(id);
     }
 }

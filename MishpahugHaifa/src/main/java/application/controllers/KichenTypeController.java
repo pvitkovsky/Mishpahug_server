@@ -24,18 +24,26 @@ public class KichenTypeController implements IKichenTypeController {
     
     @Override
     @PostMapping(value = "/")
-    public void post(@RequestBody KitchenTypeEntity data
-                    ,@RequestHeader HttpHeaders httpHeaders,
+    public void post(@RequestBody KitchenTypeEntity data,
+                     @RequestHeader HttpHeaders httpHeaders,
                      HttpServletRequest request) throws ExceptionMishpaha {
+        httpHeaders.forEach((key, value) -> {
+            log.info("KichenTypeController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        });
+        log.info("KichenTypeController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         kichenTypeModel.add(data);
     }
 
     @Override
     @PutMapping(value = "/")
     public void put(@RequestParam(name = "id") Integer id,
-                    @RequestParam(name = "name") String name
-                   ,@RequestHeader HttpHeaders httpHeaders,
+                    @RequestParam(name = "name") String name,
+                    @RequestHeader HttpHeaders httpHeaders,
                     HttpServletRequest request) {
+        httpHeaders.forEach((key, value) -> {
+            log.info("KichenTypeController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        });
+        log.info("KichenTypeController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         kichenTypeModel.updateName(id, name);
     }
 
@@ -43,14 +51,22 @@ public class KichenTypeController implements IKichenTypeController {
     @DeleteMapping(value = "/")
     public void delete(@RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request) {
+        httpHeaders.forEach((key, value) -> {
+            log.info("KichenTypeController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        });
+        log.info("KichenTypeController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         kichenTypeModel.deleteAll();
     }
 
     @Override
     @DeleteMapping(value = "/{id}")
-    public void delete(@PathVariable(name = "id") Integer id
-                      ,@RequestHeader HttpHeaders httpHeaders,
+    public void delete(@PathVariable(name = "id") Integer id,
+                       @RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request) {
+        httpHeaders.forEach((key, value) -> {
+            log.info("KichenTypeController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        });
+        log.info("KichenTypeController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         kichenTypeModel.deleteByID(id);
     }
 
@@ -59,14 +75,22 @@ public class KichenTypeController implements IKichenTypeController {
     @GetMapping(value = "/")
     public List<String> get(@RequestHeader HttpHeaders httpHeaders,
                             HttpServletRequest request) {
+        httpHeaders.forEach((key, value) -> {
+            log.info("KichenTypeController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        });
+        log.info("KichenTypeController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         return IConverter.PropertyToStringList(kichenTypeModel.getAll());
     }
 
     @Override
     @GetMapping(value = "/{id}")
-    public String get(@PathVariable(name = "id", required = false) Integer id
-                     ,@RequestHeader HttpHeaders httpHeaders,
+    public String get(@PathVariable(name = "id", required = false) Integer id,
+                      @RequestHeader HttpHeaders httpHeaders,
                       HttpServletRequest request) {
+        httpHeaders.forEach((key, value) -> {
+            log.info("KichenTypeController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        });
+        log.info("KichenTypeController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         return kichenTypeModel.getById(id).getName();
     }
 

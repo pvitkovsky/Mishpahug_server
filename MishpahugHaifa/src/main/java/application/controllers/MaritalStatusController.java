@@ -27,32 +27,48 @@ public class MaritalStatusController implements IMaritalStatusController {
     @GetMapping(value = "/")
     public List<String> get(@RequestHeader HttpHeaders httpHeaders,
                             HttpServletRequest request) {
+        httpHeaders.forEach((key, value) -> {
+        log.info("MaritalStatusController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        });
+        log.info("MaritalStatusController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         return IConverter.PropertyToStringList(maritalStatusModel.getAll());
     }
 
     @Override
     @GetMapping(value = "/{id}")
-    public MaritalStatusEntity get(@PathVariable(name = "id") Integer id
-            , @RequestHeader HttpHeaders httpHeaders,
+    public MaritalStatusEntity get(@PathVariable(name = "id") Integer id,
+                                   @RequestHeader HttpHeaders httpHeaders,
                                    HttpServletRequest request) {
+        httpHeaders.forEach((key, value) -> {
+        log.info("MaritalStatusController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        });
+        log.info("MaritalStatusController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         System.out.println(maritalStatusModel.getById(id));
         return maritalStatusModel.getById(id);
     }
 
     @Override
     @PostMapping(value = "/")
-    public void post(@RequestBody MaritalStatusEntity data
-            , @RequestHeader HttpHeaders httpHeaders,
+    public void post(@RequestBody MaritalStatusEntity data,
+                     @RequestHeader HttpHeaders httpHeaders,
                      HttpServletRequest request) throws ExceptionMishpaha {
+        httpHeaders.forEach((key, value) -> {
+        log.info("MaritalStatusController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        });
+        log.info("MaritalStatusController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         maritalStatusModel.add(data);
     }
 
     @Override
     @PutMapping(value = "/")
     public void put(@RequestParam(name = "id") Integer id,
-                    @RequestParam(name = "name") String name
-            , @RequestHeader HttpHeaders httpHeaders,
+                    @RequestParam(name = "name") String name,
+                    @RequestHeader HttpHeaders httpHeaders,
                     HttpServletRequest request) throws ExceptionMishpaha {
+        httpHeaders.forEach((key, value) -> {
+        log.info("MaritalStatusController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        });
+        log.info("MaritalStatusController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         maritalStatusModel.updateName(id, name);
     }
 
@@ -60,14 +76,22 @@ public class MaritalStatusController implements IMaritalStatusController {
     @DeleteMapping(value = "/")
     public void delete(@RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request) throws ExceptionMishpaha {
+        httpHeaders.forEach((key, value) -> {
+        log.info("MaritalStatusController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        });
+        log.info("MaritalStatusController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         maritalStatusModel.deleteAll();
     }
 
     @Override
     @DeleteMapping(value = "/{id}")
-    public void delete(@PathVariable(name = "id") Integer id
-            , @RequestHeader HttpHeaders httpHeaders,
+    public void delete(@PathVariable(name = "id") Integer id,
+                       @RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request) throws ExceptionMishpaha {
+        httpHeaders.forEach((key, value) -> {
+        log.info("MaritalStatusController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        });
+        log.info("MaritalStatusController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         maritalStatusModel.deleteByID(id);
     }
 }

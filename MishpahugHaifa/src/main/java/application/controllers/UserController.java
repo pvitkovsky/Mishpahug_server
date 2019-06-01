@@ -104,6 +104,8 @@ public class UserController implements IUserController {
     public UserDTO getByToken(HttpServletRequest request,
                               @RequestHeader HttpHeaders httpHeaders) throws ExceptionMishpaha {
     	String token = request.getHeader("Authorization");
+        httpHeaders.forEach((key,value) -> log.info("UserController -> findAllByWebQuerydsl -> Headers -> " + key + " = " + value));
+        log.info("UserController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
     	UserSession session = userSessionRepository.findByTokenAndIsValidTrue(token);
     	return new UserDTO(userModel.getByUserName(session.getUserName())); //TODO: converter here?
     }
@@ -114,6 +116,8 @@ public class UserController implements IUserController {
     public List<EventEntity> getEventsByToken(HttpServletRequest request,
                                               @RequestHeader HttpHeaders httpHeaders) throws ExceptionMishpaha {
         String token = request.getHeader("Authorization");
+        httpHeaders.forEach((key,value) -> log.info("UserController -> findAllByWebQuerydsl -> Headers -> " + key + " = " + value));
+        log.info("UserController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         UserSession session = userSessionRepository.findByTokenAndIsValidTrue(token);
         List<SubscriptionEntity> subscriptionEntityList = feedBackModel.getEventsForGuest(userModel.getByUserName(session.getUserName())); 
         // what feedBackModel has to do with this request? Expected class EventModel or SubscriptionModel 
@@ -130,6 +134,8 @@ public class UserController implements IUserController {
     public List<EventEntity> getEventsById(@PathVariable(value = "id") Integer id,
                                            @RequestHeader HttpHeaders httpHeaders,
                                            HttpServletRequest request) throws ExceptionMishpaha {
+        httpHeaders.forEach((key,value) -> log.info("UserController -> findAllByWebQuerydsl -> Headers -> " + key + " = " + value));
+        log.info("UserController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         List<SubscriptionEntity> subscriptionEntityList = feedBackModel.getEventsForGuest(userModel.getById(id));
         // what feedBackModel has to do with this request? Expected class EventModel or SubscriptionModel
         List<EventEntity> eventEntities = new ArrayList<>();
@@ -145,6 +151,8 @@ public class UserController implements IUserController {
     @GetMapping(value = "/all")
     public List<UserDTO> getall(@RequestHeader HttpHeaders httpHeaders,
                                 HttpServletRequest request) throws ExceptionMishpaha {
+        httpHeaders.forEach((key,value) -> log.info("UserController -> findAllByWebQuerydsl -> Headers -> " + key + " = " + value));
+        log.info("UserController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         return converter.DTOListFromEntities(userModel.getAll());
     }
 
@@ -153,9 +161,10 @@ public class UserController implements IUserController {
     public LoginResponse login(@RequestBody LoginDTO loginDTO,
                                @RequestHeader HttpHeaders httpHeaders,
                                HttpServletRequest request) {
-        log.info("User Controller -> Headers -> " + httpHeaders.get("user-agent"));
-        log.info("User Controller -> Remote IP Address -> " + request.getRemoteAddr());
-
+        httpHeaders.forEach((key, value) -> {
+            log.info("UserController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        });
+        log.info("UserController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         UserEntity userEntity = userModel.getByUsernameAndPassword(loginDTO.getUsername(), DigestUtils.md5Hex(loginDTO.getPassword()));
         if (userEntity == null) {
             throw new RuntimeException("Incorrect password or username");
@@ -163,9 +172,6 @@ public class UserController implements IUserController {
         UserSession userSessionOld = userSessionRepository.findByUserNameAndIpAndUserAgentAndIsValidTrue(loginDTO.getUsername(),
                 request.getRemoteAddr(),
                 httpHeaders.get("user-agent").get(0));
-        httpHeaders.forEach((key, value) -> {
-            log.info("User Controller -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
         if (userSessionOld != null) {
             userSessionOld.setToken(UUID.randomUUID().toString());
             userSessionOld.setLocalDate(DateTime.now().toLocalDate());
@@ -202,6 +208,10 @@ public class UserController implements IUserController {
     public void add(@RequestBody UserDTO userDTO,
                     @RequestHeader HttpHeaders httpHeaders,
                     HttpServletRequest request) throws ExceptionMishpaha {
+        httpHeaders.forEach((key, value) -> {
+            log.info("UserController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        });
+        log.info("UserController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         System.out.println("UserController -> Register -> UserDTO = " + userDTO);
        if (userModel.getByUserName(userDTO.getUserName()) != null) {
              throw new UsernameNotFoundException("Error");
@@ -223,6 +233,10 @@ public class UserController implements IUserController {
                           @PathVariable(value = "id") Integer id,
                           @RequestHeader HttpHeaders httpHeaders,
                           HttpServletRequest request) throws ExceptionMishpaha {
+        httpHeaders.forEach((key, value) -> {
+            log.info("UserController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        });
+        log.info("UserController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         UserEntity userEntity = userModel.getById(id);
         userModel.update(id, data);
         return new UserDTO(userEntity);
@@ -236,6 +250,10 @@ public class UserController implements IUserController {
     public UserDTO delete(@PathVariable(value = "id") Integer id,
                           @RequestHeader HttpHeaders httpHeaders,
                           HttpServletRequest request) throws ExceptionMishpaha {
+        httpHeaders.forEach((key, value) -> {
+            log.info("UserController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        });
+        log.info("UserController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         return new UserDTO(userModel.deleteByID(id));
     }
 
@@ -246,6 +264,10 @@ public class UserController implements IUserController {
     @DeleteMapping(value = "/")
     public void deleteAll(@RequestHeader HttpHeaders httpHeaders,
                           HttpServletRequest request) throws ExceptionMishpaha {
+        httpHeaders.forEach((key, value) -> {
+            log.info("UserController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        });
+        log.info("UserController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         userModel.deleteAll();
     }
 
@@ -257,6 +279,10 @@ public class UserController implements IUserController {
     public void setDataFromForm(@RequestBody UserDTO data,
                                 @RequestHeader HttpHeaders httpHeaders,
                                 HttpServletRequest request) throws ExceptionMishpaha {
+        httpHeaders.forEach((key, value) -> {
+            log.info("UserController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        });
+        log.info("UserController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         UserEntity userEntity = converter.entityFromDTO(data);
         userModel.add(userEntity);
     }
@@ -270,6 +296,10 @@ public class UserController implements IUserController {
                                       @RequestParam(name = "username") String userName,
                                       @RequestHeader HttpHeaders httpHeaders,
                                       HttpServletRequest request) throws ExceptionMishpaha {
+        httpHeaders.forEach((key, value) -> {
+            log.info("UserController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        });
+        log.info("UserController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         UserEntity userEntity = userModel.getByUserName(userName);
         userEntity.setGender(genderModel.getByName(data.getGender()));
         userEntity.setMaritalStatus(maritalStatusModel.getByName(data.getMaritalStatus()));
@@ -287,6 +317,10 @@ public class UserController implements IUserController {
     public List<UserDTO> findAllByWebQuerydsl(@QuerydslPredicate(root = UserEntity.class) Predicate predicate,
                                               @RequestHeader HttpHeaders httpHeaders,
                                               HttpServletRequest request) {
+        httpHeaders.forEach((key, value) -> {
+            log.info("UserController -> headers -> " + String.format("Header '%s' = %s", key, value));
+        });
+        log.info("UserController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         return converter.DTOListFromEntities(userModel.getAll(predicate));
     }
 

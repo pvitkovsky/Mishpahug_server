@@ -108,9 +108,9 @@ public class UserController implements IUserController {
         // what feedBackModel has to do with this request? Expected class EventModel or SubscriptionModel 
         List<EventEntity> eventEntities = new ArrayList<>();
         for (SubscriptionEntity x:subscriptionEntityList) {
-            eventEntities.add(x.getEvent()); //TODO: improve performance 
+            eventEntities.add(x.getEvent());
         }
-        return eventEntities; //TODO: converter here? не сейчас
+        return eventEntities;
     }
 
     @Override
@@ -125,9 +125,9 @@ public class UserController implements IUserController {
         // what feedBackModel has to do with this request? Expected class EventModel or SubscriptionModel
         List<EventEntity> eventEntities = new ArrayList<>();
         for (SubscriptionEntity x:subscriptionEntityList) {
-            eventEntities.add(x.getEvent()); //TODO: improve performance
+            eventEntities.add(x.getEvent());
         }
-        return eventEntities; //TODO: converter here? не сейчас
+        return eventEntities;
     }
 
 

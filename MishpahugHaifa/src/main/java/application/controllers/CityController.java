@@ -28,9 +28,9 @@ public class CityController implements ICityController {
                      @RequestHeader HttpHeaders httpHeaders,
                      HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
-            log.info("CityController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("CityController -> post -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("CityController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("CityController -> post -> Remote IP -> " + request.getRemoteAddr());
         cityModel.add(data);
     }
 
@@ -41,9 +41,9 @@ public class CityController implements ICityController {
                     @RequestHeader HttpHeaders httpHeaders,
                     HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
-            log.info("CityController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("CityController -> put -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("CityController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("CityController -> put -> Remote IP -> " + request.getRemoteAddr());
         cityModel.updateName(id, name);
     }
 
@@ -52,9 +52,9 @@ public class CityController implements ICityController {
     public void delete(@RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
-            log.info("CityController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("CityController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("CityController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("CityController -> delete -> Remote IP -> " + request.getRemoteAddr());
         cityModel.deleteAll();
     }
 
@@ -64,9 +64,9 @@ public class CityController implements ICityController {
                        @RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
-            log.info("CityController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("CityController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("CityController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("CityController -> delete -> Remote IP -> " + request.getRemoteAddr());
         cityModel.deleteByID(id);
     }
 
@@ -77,7 +77,7 @@ public class CityController implements ICityController {
                                                      @RequestHeader HttpHeaders httpHeaders,
                                                      HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
-            log.info("CityController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("CityController -> findAllByWebQuerydsl -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
         log.info("CityController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         return cityModel.getAll(predicate);
@@ -89,9 +89,9 @@ public class CityController implements ICityController {
                           @RequestHeader HttpHeaders httpHeaders,
                           HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
-            log.info("CityController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("CityController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("CityController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("CityController -> get -> Remote IP -> " + request.getRemoteAddr());
         return cityModel.getById(id);
     }
 

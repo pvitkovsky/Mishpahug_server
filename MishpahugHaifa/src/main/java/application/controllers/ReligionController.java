@@ -28,9 +28,9 @@ public class ReligionController implements IReligionController {
     public List<String> get(@RequestHeader HttpHeaders httpHeaders,
                             HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
-            log.info("ReligionController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("ReligionController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("ReligionController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("ReligionController -> get -> Remote IP -> " + request.getRemoteAddr());
         return IConverter.PropertyToStringList(religionModel.getAll());
     }
 
@@ -40,9 +40,9 @@ public class ReligionController implements IReligionController {
             , @RequestHeader HttpHeaders httpHeaders,
                               HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
-            log.info("ReligionController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("ReligionController -> getbyid -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("ReligionController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("ReligionController -> getbyid -> Remote IP -> " + request.getRemoteAddr());
         return religionModel.getById(id);
 
     }
@@ -53,9 +53,9 @@ public class ReligionController implements IReligionController {
             , @RequestHeader HttpHeaders httpHeaders,
                      HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
-            log.info("ReligionController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("ReligionController -> post -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("ReligionController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("ReligionController -> post -> Remote IP -> " + request.getRemoteAddr());
         religionModel.add(data);
 
     }
@@ -67,9 +67,9 @@ public class ReligionController implements IReligionController {
             , @RequestHeader HttpHeaders httpHeaders,
                     HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
-            log.info("ReligionController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("ReligionController -> put -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("ReligionController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("ReligionController -> put -> Remote IP -> " + request.getRemoteAddr());
         religionModel.updateName(id, name);
     }
 
@@ -78,9 +78,9 @@ public class ReligionController implements IReligionController {
     public void delete(@RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
-            log.info("ReligionController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("ReligionController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("ReligionController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("ReligionController -> delete -> Remote IP -> " + request.getRemoteAddr());
         religionModel.deleteAll();
     }
 
@@ -90,9 +90,9 @@ public class ReligionController implements IReligionController {
             , @RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
-            log.info("ReligionController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("ReligionController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("ReligionController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("ReligionController -> delete -> Remote IP -> " + request.getRemoteAddr());
         religionModel.deleteByID(id);
     }
 

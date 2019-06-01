@@ -1,8 +1,14 @@
 package application.documentstypes;
 
+import application.entities.EventEntity;
+import application.entities.UserEntity;
 import application.entities.template.TemplateEntity;
 import application.entities.template.XYTextValue;
+import application.exceptions.ExceptionMishpaha;
+import application.models.event.IEventModel;
+import application.models.user.IUserModel;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
@@ -14,8 +20,13 @@ import java.io.IOException;
 @Service
 @Slf4j
 public class JPGDocumentFormat {
+    @Autowired
+    IEventModel eventModel;
+    @Autowired
+    IUserModel userModel;
 
-    public static void createInvitationFromTemplate(String template,
+
+    public void createInvitationFromTemplate(String template,
                                                     String toFile,
                                                     TemplateEntity templateEntity,
                                                     Integer eventId,
@@ -28,13 +39,29 @@ public class JPGDocumentFormat {
             g.setFont(new Font("Gabriola", 1,xyTextValue.getSize()));
             String[] textData = xyTextValue.getText().split(".");
             String textForPrint = "n/a";
-            if (textData.length < 2) throw new RuntimeException("Error to template");
+            if (textData.length < 2) throw new RuntimeException("Internal error to template");
             if (textData[0].equals("event"))
             {
                 //TODO
+                try {
+                    UserEntity userEntity = userModel.getById(userId);
+                    textForPrint = userEntity.fieldByName(textData[1]);
+                    log.info("createPictureFromTemplate => userentity{" + userId + "} => data for print " + textData[1] + " > value = " + textForPrint);
+                } catch (ExceptionMishpaha exceptionMishpaha) {
+                    exceptionMishpaha.printStackTrace();
+                }
+
             }
             if (textData[0].equals("user"))
             {
+                try {
+                    EventEntity eventEntity = eventModel.getById(eventId);
+                    textForPrint = eventEntity.fieldByName(textData[1]);
+                    log.info("createPictureFromTemplate => evententity{" + eventId + "} => data for print " + textData[1] + " > value = " + textForPrint);
+
+                } catch (ExceptionMishpaha exceptionMishpaha) {
+                    exceptionMishpaha.printStackTrace();
+                }
                 //TODO
             }
             g.drawString(textForPrint, xyTextValue.getX(), xyTextValue.getY());

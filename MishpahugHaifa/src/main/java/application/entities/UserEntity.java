@@ -171,6 +171,17 @@ public class UserEntity {
 		this.userName = userName;
 		this.eMail = email;
 	}
+
+	public String fieldByName(String fieldName){
+		String res = "n/a";
+		switch (fieldName){
+			case "userName":
+				res = this.userName;
+				break;
+
+		}
+		return res;
+	}
 	
 //	/**
 //	 * Updating user based on DTO. 

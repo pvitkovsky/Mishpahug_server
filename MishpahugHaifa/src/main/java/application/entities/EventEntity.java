@@ -369,4 +369,15 @@ public class EventEntity {
 		newStatus.change(this);
 	}
 
+	public String fieldByName(String fieldName){
+		String res = "n/a";
+		switch (fieldName){
+			case "name":
+				res = this.nameOfEvent;
+				break;
+
+		}
+		return res;
+	}
+
 }

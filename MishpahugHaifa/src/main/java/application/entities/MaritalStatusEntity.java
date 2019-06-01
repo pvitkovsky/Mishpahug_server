@@ -35,4 +35,9 @@ public class MaritalStatusEntity implements NamedProperty {
     @Column(name = "name")
     private String name;
 
+	public MaritalStatusEntity(String name) {
+		super();
+		this.name = name;
+	}
+
 }

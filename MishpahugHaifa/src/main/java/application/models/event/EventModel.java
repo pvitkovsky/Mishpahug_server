@@ -9,6 +9,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 import application.utils.converter.EventConverter;
+import application.utils.converter.IUpdates;
 import application.utils.converter.Updates;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,55 +45,53 @@ public class EventModel implements IEventModel {
 	@Autowired
 	HolyDayRepository holyDayRepository;
 
+	@Autowired
+	IUpdates updates;
+
 	@Override
 	public List<EventEntity> getAll() {
 		return eventRepository.findAll();
 	}
 
+	// TODO: owned events by user; owner by event;
 
-	//TODO: owned events by user; owner by event; 
-	
 	@Override
-	public Set<EventEntity> getAllByUser(Integer userId) {//TODO: rename to getSubscriptionsByUser
+	public Set<EventEntity> getAllByUser(Integer userId) {// TODO: rename to getSubscriptionsByUser
 		UserEntity userEntity = userRepository.getOne(userId);
 		Set<SubscriptionEntity> subscriptions = userEntity.getSubscriptions();
 		return subscriptions.stream().map(s -> s.getEvent()).collect(Collectors.toSet());
 	}
-	
+
 	@Override
-	public Set<UserEntity> getAllSubscribed(Integer eventId) {//TODO: rename to get GuestsByEvent
+	public Set<UserEntity> getAllSubscribed(Integer eventId) {// TODO: rename to get GuestsByEvent
 		EventEntity eventEntity = eventRepository.getOne(eventId);
 		Set<SubscriptionEntity> subscriptions = eventEntity.getSubscriptions();
 		return subscriptions.stream().map(s -> s.getGuest()).collect(Collectors.toSet());
 	}
 
 	@Override
-	public List<EventEntity> getByOwner(String ownerUserName){
+	public List<EventEntity> getByOwner(String ownerUserName) {
 		return eventRepository.getByUserEntityOwner_UserName(ownerUserName);
 	}
 
-
 	@Override
-	public EventEntity add(EventEntity data) { //would throw if no user is in data's owner field;
+	public EventEntity add(EventEntity data) { // would throw if no user is in data's owner field;
 		return eventRepository.save(data);
 	}
 
 	@Override
-	public EventEntity update(Integer eventId,
-							  HashMap<String, String> data) throws ExceptionMishpaha {
+	public EventEntity update(Integer eventId, HashMap<String, String> data) throws ExceptionMishpaha {
 		try {
 			EventEntity eventEntity = eventRepository.getOne(eventId);
-			//TODO
-			Updates.updateEvent(eventEntity,
-								  data);
+			updates.updateEvent(eventEntity, data);
 			return eventRepository.save(eventEntity);
 		} catch (Exception e) {
 			throw new ExceptionMishpaha("Error! Not found event with id " + eventId, null);
 		}
 	}
-	
+
 	@Override
-	public EventEntity delete(Integer eventId) throws ExceptionMishpaha { //throws if not in deletion queue
+	public EventEntity delete(Integer eventId) throws ExceptionMishpaha { // throws if not in deletion queue
 		try {
 			EventEntity eventEntity = eventRepository.getOne(eventId);
 			eventRepository.delete(eventEntity);
@@ -104,7 +103,7 @@ public class EventModel implements IEventModel {
 
 	@Override
 	public void deleteAll() throws ExceptionMishpaha {
-		eventRepository.deleteAll();  //throws if not in deletion queue
+		eventRepository.deleteAll(); // throws if not in deletion queue
 	}
 
 	@Override
@@ -128,20 +127,20 @@ public class EventModel implements IEventModel {
 
 	@Override
 	public EventEntity subscribe(Integer eventId, Integer userId) throws ExceptionMishpaha {
-		Subscription subscription = new Subscription(eventId, userId);
-		return subscription.subscribe();
+		SubscriptionHandler handler = new SubscriptionHandler(eventId, userId);
+		return handler.subscribe();
 	}
 
 	@Override
 	public EventEntity unsubscribe(Integer eventId, Integer userId) throws ExceptionMishpaha {
-		Subscription subscription = new Subscription(eventId, userId);
-		return subscription.unsubscribe();
+		SubscriptionHandler handler = new SubscriptionHandler(eventId, userId);
+		return handler.unsubscribe();
 	}
 
 	@Override
 	public EventEntity deactivateSubscription(Integer eventId, Integer userId) throws ExceptionMishpaha {
-		Subscription subscription = new Subscription(eventId, userId);
-		return subscription.deactivate();
+		SubscriptionHandler handler = new SubscriptionHandler(eventId, userId);
+		return handler.deactivate();
 	}
 
 	/**
@@ -149,14 +148,14 @@ public class EventModel implements IEventModel {
 	 */
 	// TODO: refactor into Subscription model pls
 	// TODO: integer arguments design issue; test;
-	private class Subscription {
+	private class SubscriptionHandler {
 		final private Integer eventId;
 		final private Integer userId;
 		private EventEntity eventEntity;
 		private UserEntity userEntity;
 		private SubscriptionEntity subscription;
 
-		private Subscription(Integer eventId, Integer userId) throws ExceptionMishpaha {
+		private SubscriptionHandler(Integer eventId, Integer userId) throws ExceptionMishpaha {
 			this.eventId = eventId;
 			this.userId = userId;
 			load();
@@ -201,6 +200,7 @@ public class EventModel implements IEventModel {
 		}
 
 		EventEntity unsubscribe() {
+			subscription.putIntoDeletionQueue();
 			subscription.nullifyForRemoval(); // cascaded, no need to explicitly delete;
 			return eventEntity;
 		}

@@ -1,4 +1,4 @@
-package application.entities.Address;
+package application.entities.address;
 
 import java.util.ArrayList;
 import java.util.List;

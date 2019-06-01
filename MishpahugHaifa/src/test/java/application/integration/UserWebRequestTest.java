@@ -4,8 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,7 +42,6 @@ public class UserWebRequestTest {
     @Autowired
     UserRepository userRepo;
     
-    
     @LocalServerPort
     private int port;
     private RestTemplate restTemplate = new RestTemplate();
@@ -47,6 +49,7 @@ public class UserWebRequestTest {
     @Before
     public void buildEntities() { //TODO: save token manually instead of doing login;
     	
+    	System.out.println("Alyssa " + ALYSSA);
     	ALYSSA.setEncrytedPassword(DigestUtils.md5Hex(ALYSSA.getUserName()));
     	userRepo.save(ALYSSA);
     	userRepo.flush();
@@ -59,6 +62,12 @@ public class UserWebRequestTest {
                 }).getBody().getToken();
         headers.add("Authorization", token);
         headers.setContentType(MediaType.APPLICATION_JSON);
+    }
+    
+    @After
+    public void tearDown() {
+    	ALYSSA.putIntoDeletionQueue();
+    	userRepo.delete(ALYSSA);
     }
 
     @Test
@@ -77,10 +86,9 @@ public class UserWebRequestTest {
     public void updateAllShouldReturnUpdatedUser() throws Exception {
        
     	String updatedFirstName = "Alyssa_Updated";
-    	UserDTO updateDTO = new UserDTO();
-    	updateDTO.setId(ALYSSA.getId());
-    	updateDTO.setFirstName(updatedFirstName);
-        HttpEntity<UserDTO> updateRequest = new HttpEntity<>(updateDTO, headers);
+    	Map<String,String> updateMap = new HashMap<>();
+    	updateMap.put("firstname", updatedFirstName);
+        HttpEntity<Map<String,String>> updateRequest = new HttpEntity<>(updateMap, headers);
         UserDTO updated = this.restTemplate.exchange("http://localhost:" + port + "/user/" + ALYSSA.getId(), HttpMethod.PUT,
         		updateRequest,
                 new ParameterizedTypeReference<UserDTO>() {

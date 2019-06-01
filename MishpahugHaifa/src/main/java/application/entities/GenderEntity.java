@@ -36,4 +36,9 @@ public class GenderEntity implements NamedProperty {
 
     @Column(name = "name")
     private String name;
+
+	public GenderEntity(String name) {
+		super();
+		this.name = name;
+	}
 }

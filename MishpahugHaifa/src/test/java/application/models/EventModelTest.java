@@ -1,4 +1,4 @@
-package application.models.user;
+package application.models;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -33,6 +33,7 @@ import application.repositories.KichenTypeRepository;
 import application.repositories.ReligionRepository;
 import application.repositories.SubscriptionRepository;
 import application.repositories.UserRepository;
+import application.utils.converter.IUpdates;
 
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
@@ -46,6 +47,7 @@ public class EventModelTest {
 		}
 	}
 
+
 	@MockBean
 	EventRepository eventRepo;
 	@MockBean
@@ -58,14 +60,15 @@ public class EventModelTest {
 	KichenTypeRepository kichenTypeRepo;
 	@MockBean
 	HolyDayRepository holyDayRepo;
-
+	@MockBean
+	IUpdates updates;
 	
 	@Autowired
 	private IEventModel eventModel;
 	
 
-	private final UserEntity ALYSSA = new UserEntity();
-	private final UserEntity BEN = new UserEntity();
+	private final UserEntity ALYSSA = new UserEntity("Alyssa", "p_hacker@sicp.edu" );
+	private final UserEntity BEN = new UserEntity("Ben", "bitdiddle@sicp.edu");
 	private final LocalDate TDATE = LocalDate.of(2190, 1, 1);
 	private final LocalTime TTIME = LocalTime.of(23, 59);
 	private EventEntity GUESTING;
@@ -76,9 +79,7 @@ public class EventModelTest {
 	
 	@Before
 	public void buildEntities() {
-		
-		ALYSSA.setEMail("p_hacker@sicp.edu");
-		BEN.setEMail("bitdiddle@sicp.edu");
+	
 		userRepo.save(BEN);
 		userRepo.save(ALYSSA);		
 		GUESTING = new EventEntity(BEN, TDATE, TTIME);

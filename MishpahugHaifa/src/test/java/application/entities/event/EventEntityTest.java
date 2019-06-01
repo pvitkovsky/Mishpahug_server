@@ -72,7 +72,7 @@ public class EventEntityTest {
 	
 	}
 
-	@Test(expected = InvalidDataAccessApiUsageException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void savedEventChangeStatusWithIllegalStringThrows() {
 
 		TESTING.changeStatus("foo");

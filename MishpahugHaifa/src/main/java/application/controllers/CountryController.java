@@ -23,25 +23,25 @@ public class CountryController implements ICountryController {
     @Override
     @PostMapping(value = "/")
     public void post(@RequestBody CountryEntity data
-                    ,@RequestHeader HttpHeaders httpHeaders,
-                     HttpServletRequest request) {
+                    , @RequestHeader HttpHeaders httpHeaders,
+                    HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
-            log.info("CountryController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("CountryController -> post -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("CountryController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("CountryController -> post -> Remote IP -> " + request.getRemoteAddr());
         countryModel.addCountry(data);
     }
 
     @Override
     @PutMapping(value = "/")
-    public void post(@RequestParam(name = "id") Integer id,
-                     @RequestParam(name = "name") String name
-                    ,@RequestHeader HttpHeaders httpHeaders,
-                     HttpServletRequest request) {
+    public void put(@RequestParam(name = "id") Integer id,
+                    @RequestParam(name = "name") String name
+                    , @RequestHeader HttpHeaders httpHeaders,
+                    HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
-            log.info("CountryController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("CountryController -> put{"+ id +"} -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("CountryController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("CountryController -> put{" + id + "} -> Remote IP -> " + request.getRemoteAddr());
         countryModel.updateName(id, name);
     }
 
@@ -50,9 +50,9 @@ public class CountryController implements ICountryController {
     public void delete(@RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
-            log.info("CountryController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("CountryController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("CountryController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("CountryController -> delete -> Remote IP -> " + request.getRemoteAddr());
         countryModel.deleteAll();
     }
 
@@ -62,9 +62,9 @@ public class CountryController implements ICountryController {
                       ,@RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
-            log.info("CountryController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("CountryController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("CountryController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("CountryController -> delete -> Remote IP -> " + request.getRemoteAddr());
         countryModel.deleteByID(id);
     }
 
@@ -73,9 +73,9 @@ public class CountryController implements ICountryController {
     public List<CountryEntity> get(@RequestHeader HttpHeaders httpHeaders,
                                    HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
-            log.info("CountryController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("CountryController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("CountryController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("CountryController -> get -> Remote IP -> " + request.getRemoteAddr());
         return countryModel.getAll();
     }
 
@@ -85,9 +85,9 @@ public class CountryController implements ICountryController {
                             ,@RequestHeader HttpHeaders httpHeaders,
                              HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
-            log.info("CountryController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("CountryController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("CountryController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("CountryController -> get -> Remote IP -> " + request.getRemoteAddr());
         return countryModel.getById(id);
     }
 

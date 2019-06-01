@@ -53,9 +53,9 @@ public class MaritalStatusController implements IMaritalStatusController {
                      @RequestHeader HttpHeaders httpHeaders,
                      HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
-        log.info("MaritalStatusController -> post -> headers -> " + String.format("Header '%s' = %s", key, value));
+        log.info("MaritalStatusController -> put -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("MaritalStatusController -> post -> Remote IP -> " + request.getRemoteAddr());
+        log.info("MaritalStatusController -> put -> Remote IP -> " + request.getRemoteAddr());
         maritalStatusModel.add(data);
     }
 

@@ -28,9 +28,9 @@ public class HoliDaysController implements IHoliDaysController {
                      @RequestHeader HttpHeaders httpHeaders,
                      HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
-            log.info("HoliDaysController -> post -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("HoliDaysController -> put -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("HoliDaysController -> post -> Remote IP -> " + request.getRemoteAddr());
+        log.info("HoliDaysController -> put -> Remote IP -> " + request.getRemoteAddr());
         for (HolidayDTO s : data) {
             System.out.println(s);
             holyDayModel.updateFromServer(s);

@@ -50,9 +50,9 @@ public class TemplateController implements ITemplateController {
             , @RequestHeader HttpHeaders httpHeaders,
                                HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
-            log.info("ReligionController -> post -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("ReligionController -> put -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("ReligionController -> post -> Remote IP -> " + request.getRemoteAddr());
+        log.info("ReligionController -> put -> Remote IP -> " + request.getRemoteAddr());
         return templateModel.add(templateEntity);
     }
     @Override

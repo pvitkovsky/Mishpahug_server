@@ -11,7 +11,7 @@ public interface ICountryController {
 
 	void post(CountryEntity data, HttpHeaders httpHeaders, HttpServletRequest request);
 
-	void post(Integer id, String name, HttpHeaders httpHeaders, HttpServletRequest request);
+	void put(Integer id, String name, HttpHeaders httpHeaders, HttpServletRequest request);
 
 	void delete(HttpHeaders httpHeaders, HttpServletRequest request);
 

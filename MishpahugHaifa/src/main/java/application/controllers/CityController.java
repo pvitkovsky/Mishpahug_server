@@ -28,9 +28,9 @@ public class CityController implements ICityController {
                      @RequestHeader HttpHeaders httpHeaders,
                      HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
-            log.info("CityController -> post -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("CityController -> put -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("CityController -> post -> Remote IP -> " + request.getRemoteAddr());
+        log.info("CityController -> put -> Remote IP -> " + request.getRemoteAddr());
         cityModel.add(data);
     }
 

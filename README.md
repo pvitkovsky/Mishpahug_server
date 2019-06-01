@@ -2,10 +2,10 @@
 Appointment scheduling application
 
 Installation and startup:
-1. Preparation;\
-   Ensure that you have Java, Maven and Node;\
-   Ensure MySQL is running on port 3306;\
-   Select any folder and open the terminal;\
+1. Preparation;
+   Ensure that you have Java, Maven and Node;
+   Ensure MySQL is running on port 3306;
+   Select any folder and open the terminal;
 2. In the terminal:
    git clone\
    cd MishpahugHaifa\

@@ -375,7 +375,7 @@ public class EventEntity {
 			case "name":
 				res = this.nameOfEvent;
 				break;
-
+				//TODO
 		}
 		return res;
 	}

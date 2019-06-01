@@ -18,13 +18,14 @@ public class Updates extends ConverterBase {
     public void updateUser(UserEntity userEntity, HashMap<String, String> data){
         if (data.containsKey("email")) {
             log.info("UserConverter -> Update -> email -> new email = " + data.get("email"));
-            userEntity.setEMail(data.get("email"));
+            userEntity.setEMail(data.get("email"));//TODO отправка поддтверждения по почте
         }
         if (data.containsKey("gender")) {
             log.info("UserConverter -> Update -> gender -> new gender = " + data.get("gender"));
             GenderEntity genderEntity = genderRepository.getByName(data.get("gender"));
             userEntity.setGender(genderEntity);
         }
+        
         //TODO остальные поля
 
     }

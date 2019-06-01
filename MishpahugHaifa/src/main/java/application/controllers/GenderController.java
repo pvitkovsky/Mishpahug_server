@@ -28,9 +28,9 @@ public class GenderController implements IGenderController {
                      @RequestHeader HttpHeaders httpHeaders,
                      HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
-            log.info("GenderController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("GenderController > post -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("GenderController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("GenderController -> post -> Remote IP -> " + request.getRemoteAddr());
         genderModel.add(data);
     }
 
@@ -41,9 +41,9 @@ public class GenderController implements IGenderController {
                     @RequestHeader HttpHeaders httpHeaders,
                     HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
-            log.info("GenderController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("GenderController -> put -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("GenderController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("GenderController -> put -> Remote IP -> " + request.getRemoteAddr());
         genderModel.updateName(id, name);
     }
 
@@ -53,9 +53,9 @@ public class GenderController implements IGenderController {
                        @RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
-            log.info("GenderController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("GenderController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("GenderController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("GenderController -> delete -> Remote IP -> " + request.getRemoteAddr());
         genderModel.deleteByID(id);
     }
 
@@ -64,9 +64,9 @@ public class GenderController implements IGenderController {
     public void delete(@RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
-            log.info("GenderController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("GenderController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("GenderController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("GenderController -> delete -> Remote IP -> " + request.getRemoteAddr());
         genderModel.deleteAll();
 
     }
@@ -76,9 +76,9 @@ public class GenderController implements IGenderController {
     public List<String> get(@RequestHeader HttpHeaders httpHeaders,
                             HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
-            log.info("GenderController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("GenderController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("GenderController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("GenderController -> get -> Remote IP -> " + request.getRemoteAddr());
         return IConverter.PropertyToStringList(genderModel.getAll());
     }
 
@@ -88,9 +88,9 @@ public class GenderController implements IGenderController {
                             @RequestHeader HttpHeaders httpHeaders,
                             HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
-            log.info("GenderController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("GenderController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("GenderController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("GenderController -> get -> Remote IP -> " + request.getRemoteAddr());
         return genderModel.getByName(name);
 
     }
@@ -101,9 +101,9 @@ public class GenderController implements IGenderController {
                       @RequestHeader HttpHeaders httpHeaders,
                       HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
-            log.info("GenderController -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("GenderController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("GenderController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("GenderController -> get -> Remote IP -> " + request.getRemoteAddr());
         return genderModel.getById(id).getName();
 
     }

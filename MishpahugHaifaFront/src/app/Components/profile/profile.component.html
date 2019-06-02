@@ -4,6 +4,9 @@
       <mat-card-header>Edit Profile</mat-card-header>
       <mat-card-content>
         <mat-form-field>
+          <input name='user-name' matInput placeholder='User Name' [(ngModel)]="renderedUserDetail.userName">
+        </mat-form-field>
+        <mat-form-field>
           <input name='first-name' matInput placeholder='First Name' [(ngModel)]="renderedUserDetail.firstName">
         </mat-form-field>
         <mat-form-field>

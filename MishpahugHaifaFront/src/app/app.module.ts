@@ -10,7 +10,6 @@ import { MatCardModule} from '@angular/material/card';
 
 import { NavbarComponent } from './Components/navbar/navbar.component';
 import { EventListComponent } from './Components/eventlist/eventlist.component';
-import { MyEventListComponent } from './Components/myeventlist/myeventlist.component';
 import { LoginComponent } from './Components/login/login.component';
 import { RegisterComponent } from './Components/register/register.component';
 import { ProfileComponent } from './Components/profile/profile.component';
@@ -47,7 +46,6 @@ import { AlertService, AuthenticationService, GuiService, UserService, EventServ
         RegisterComponent,
         NavbarComponent,
         ProfileComponent,
-        MyEventListComponent
     ],
     providers: [
         AuthGuard,

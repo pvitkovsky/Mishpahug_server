@@ -130,17 +130,6 @@ public class UserController implements IUserController {
         return eventEntities;
     }
 
-
-
-    @Override
-    @GetMapping(value = "/all")
-    public List<UserDTO> getall(@RequestHeader HttpHeaders httpHeaders,
-                                HttpServletRequest request) throws ExceptionMishpaha {
-        httpHeaders.forEach((key,value) -> log.info("UserController -> getall -> Headers -> " + key + " = " + value));
-        log.info("UserController -> getall -> Remote IP -> " + request.getRemoteAddr());
-        return converter.DTOListFromEntities(userModel.getAll());
-    }
-
     @Override
     @PostMapping(value = "/login")
     public LoginResponse login(@RequestBody LoginDTO loginDTO,
@@ -297,7 +286,7 @@ public class UserController implements IUserController {
     }
 
     /* (non-Javadoc)
-     * @see application.controllers.intarfaces.IUserController#findAllByWebQuerydsl(com.querydsl.core.types.Predicate)
+     * @see application.controllers.intarfaces.IUserController#get(com.querydsl.core.types.Predicate)
      */
     @Override
     @RequestMapping(method = RequestMethod.GET, value = "/")
@@ -306,9 +295,9 @@ public class UserController implements IUserController {
                                               @RequestHeader HttpHeaders httpHeaders,
                                               HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
-            log.info("UserController -> findAllByWebQuerydsl -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("UserController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("UserController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("UserController -> get -> Remote IP -> " + request.getRemoteAddr());
         return converter.DTOListFromEntities(userModel.getAll(predicate));
     }
 

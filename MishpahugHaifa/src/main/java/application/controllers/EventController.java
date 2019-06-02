@@ -45,7 +45,7 @@ public class EventController implements IEventController {
     //TODO:  events by owner;  events by subcscriber; check that no wrapping is done;  
     
     /* (non-Javadoc)
-     * @see application.controllers.intarfaces.IEventController#findAllByWebQuerydsl(com.querydsl.core.types.Predicate)
+     * @see application.controllers.intarfaces.IEventController#get(com.querydsl.core.types.Predicate)
      */
     @Override
     @RequestMapping(method = RequestMethod.GET, value = "/")
@@ -54,9 +54,9 @@ public class EventController implements IEventController {
             , @RequestHeader HttpHeaders httpHeaders,
                                                HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
-            log.info("EventController -> findAllByWebQuerydsl -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("EventController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("EventController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("EventController -> get -> Remote IP -> " + request.getRemoteAddr());
         return converter.DTOListFromEntities(eventModel.getAll(predicate));
     }
 
@@ -76,16 +76,15 @@ public class EventController implements IEventController {
         return eventModel.getById(id);
     }
 
-    @Override
     @RequestMapping(method = RequestMethod.GET, value = "/{id}/guests")
     @ResponseBody
-    public List<UserEntity> findGestByEventId(@PathVariable(name = "id") Integer id
+    public List<UserEntity> findGuestByEventId(@PathVariable(name = "id") Integer id
             , @RequestHeader HttpHeaders httpHeaders,
-                                              HttpServletRequest request) throws ExceptionMishpaha {
+                                               HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
-            log.info("EventController -> findGestByEventId -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("EventController -> findGuestByEventId -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("EventController -> findGestByEventId -> Remote IP -> " + request.getRemoteAddr());
+        log.info("EventController -> findGuestByEventId -> Remote IP -> " + request.getRemoteAddr());
         Set<SubscriptionEntity> subscriptionEntityList = eventModel.getById(id).getSubscriptions();
         List<UserEntity> userEntityList = new ArrayList<>();
         for (SubscriptionEntity x:subscriptionEntityList

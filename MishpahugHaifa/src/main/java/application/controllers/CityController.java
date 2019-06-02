@@ -70,16 +70,15 @@ public class CityController implements ICityController {
         cityModel.deleteByID(id);
     }
 
-    @Override
     @RequestMapping(method = RequestMethod.GET, value = "/")
     @ResponseBody
-    public Iterable<CityEntity> findAllByWebQuerydsl(@QuerydslPredicate(root = CityEntity.class) Predicate predicate,
-                                                     @RequestHeader HttpHeaders httpHeaders,
-                                                     HttpServletRequest request) {
+    public Iterable<CityEntity> get(@QuerydslPredicate(root = CityEntity.class) Predicate predicate,
+                                    @RequestHeader HttpHeaders httpHeaders,
+                                    HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
-            log.info("CityController -> findAllByWebQuerydsl -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("CityController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("CityController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("CityController -> get -> Remote IP -> " + request.getRemoteAddr());
         return cityModel.getAll(predicate);
     }
 

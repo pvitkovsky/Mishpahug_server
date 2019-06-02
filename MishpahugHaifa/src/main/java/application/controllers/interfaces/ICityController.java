@@ -19,7 +19,7 @@ public interface ICityController {
 
 	void delete(Integer id, HttpHeaders httpHeaders, HttpServletRequest request) throws ExceptionMishpaha;
 
-	Iterable<CityEntity> findAllByWebQuerydsl(Predicate predicate, HttpHeaders httpHeaders, HttpServletRequest request);
+	Iterable<CityEntity> get(Predicate predicate, HttpHeaders httpHeaders, HttpServletRequest request);
 
 	CityEntity get(Integer id, HttpHeaders httpHeaders, HttpServletRequest request) throws ExceptionMishpaha;
 }

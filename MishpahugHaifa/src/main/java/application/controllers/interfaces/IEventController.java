@@ -19,7 +19,7 @@ public interface IEventController {
 
 	EventEntity findById(Integer id, HttpHeaders httpHeaders, HttpServletRequest request) throws ExceptionMishpaha;
 
-	List<UserEntity> findGestByEventId(Integer id, HttpHeaders httpHeaders, HttpServletRequest request)
+	List<UserEntity> findGuestByEventId(Integer id, HttpHeaders httpHeaders, HttpServletRequest request)
 			throws ExceptionMishpaha;
 
 	List<EventDTO> getByOwner(String ownerusername, HttpHeaders httpHeaders, HttpServletRequest request);

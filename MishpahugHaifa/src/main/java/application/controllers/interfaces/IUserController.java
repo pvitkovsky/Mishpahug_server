@@ -29,8 +29,6 @@ public interface IUserController {
 	List<EventEntity> getEventsById(Integer id, HttpHeaders httpHeaders, HttpServletRequest request)
 			throws ExceptionMishpaha;
 
-	List<UserDTO> getall(HttpHeaders httpHeaders, HttpServletRequest request) throws ExceptionMishpaha;
-
 	LoginResponse login(LoginDTO loginDTO, HttpHeaders httpHeaders, HttpServletRequest request);
 
 	void logout(String token);

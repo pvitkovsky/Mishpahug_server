@@ -31,6 +31,7 @@ export class ProfileComponent implements OnInit, OnDestroy { //  TODO: onDestroy
 						if(!val[0]) {
 							console.log('rendered user id ' + this.loggedInUserId)
 							this.renderedUserId = this.loggedInUserId;
+							this.router.navigate(['profile', this.loggedInUserId])
 						} else {
 							console.log('rendered user id ' + val[0].path)
 							this.renderedUserId = parseInt(val[0].path, 10);

@@ -13,7 +13,7 @@ export class UserService {
     }
 
     getById(id: number) : Observable<UserDetail> {
-        console.log('incoming to servie user id' + id);
+        //console.log('incoming to servie user id' + id);
         return this.http.get<UserDetail>('/api/user/' + id);
     }
 

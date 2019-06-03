@@ -14,3 +14,7 @@ Installation and startup:
    npm install\
    npm start\
 3. Open browser and go to localhost:8080
+   use the user's email before the @ part from 
+   /MishpahugHaifa/src/main/resources/short-datafiles/data_user.csv/
+   for the login/password 
+   

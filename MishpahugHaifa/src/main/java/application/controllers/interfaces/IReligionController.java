@@ -20,5 +20,5 @@ public interface IReligionController {
 
 	void delete(HttpHeaders httpHeaders, HttpServletRequest request);
 
-	void delete(Integer id, HttpHeaders httpHeaders, HttpServletRequest request) throws ExceptionMishpaha;
+	void delete(String name, HttpHeaders httpHeaders, HttpServletRequest request) throws ExceptionMishpaha;
 }

@@ -22,7 +22,7 @@ public interface IReligionModel {
 
     public ReligionEntity getByName(String name);
 
-    public void remove(Integer id);
+    public void deleteByName(String name);
 
     public ReligionEntity update(Integer religionId, String newName);
 }

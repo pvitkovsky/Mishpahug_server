@@ -1,6 +1,7 @@
 package application.controllers;
 
 import application.controllers.interfaces.IUserController;
+import application.dto.EventDTO;
 import application.dto.LoginDTO;
 import application.dto.LoginResponse;
 import application.dto.UserDTO;
@@ -51,6 +52,9 @@ public class UserController implements IUserController {
     
     @Autowired
     IConverter<UserEntity, UserDTO> converter;
+
+    @Autowired
+    IConverter<EventEntity, EventDTO> converterEvent;
     
     @Autowired
     IReligionModel religionModel;
@@ -98,7 +102,7 @@ public class UserController implements IUserController {
     @Override
     @GetMapping(value = "/currentsubscribes")
     // TODO спрятать строки кода в одну из моделей?
-    public List<EventEntity> getEventsByToken(HttpServletRequest request,
+    public List<EventDTO> getEventsByToken(HttpServletRequest request,
                                               @RequestHeader HttpHeaders httpHeaders) throws ExceptionMishpaha {
         String token = request.getHeader("Authorization");
         httpHeaders.forEach((key,value) -> log.info("UserController -> currentsubscribes -> Headers -> " + key + " = " + value));
@@ -110,13 +114,13 @@ public class UserController implements IUserController {
         for (SubscriptionEntity x:subscriptionEntityList) {
             eventEntities.add(x.getEvent());
         }
-        return eventEntities;
+        return converterEvent.DTOListFromEntities(eventEntities);
     }
 
     @Override
     @GetMapping(value = "/{id}/subscribes")
     // TODO спрятать строки кода в одну из моделей?
-    public List<EventEntity> getEventsById(@PathVariable(value = "id") Integer id,
+    public List<EventDTO> getEventsById(@PathVariable(value = "id") Integer id,
                                            @RequestHeader HttpHeaders httpHeaders,
                                            HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key,value) -> log.info("UserController -> getEventsById user with id = " + id + " -> Headers -> " + key + " = " + value));
@@ -127,7 +131,7 @@ public class UserController implements IUserController {
         for (SubscriptionEntity x:subscriptionEntityList) {
             eventEntities.add(x.getEvent());
         }
-        return eventEntities;
+        return converterEvent.DTOListFromEntities(eventEntities);
     }
 
     @Override

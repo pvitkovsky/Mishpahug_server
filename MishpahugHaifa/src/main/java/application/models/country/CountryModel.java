@@ -27,8 +27,8 @@ public class CountryModel implements ICountryModel {
     }
 
     @Override
-    public void deleteByID(Integer id) {
-        countryRepository.deleteById(id);
+    public void deleteByName(String name) {
+        countryRepository.deleteByName(name);
     }
 
     @Override

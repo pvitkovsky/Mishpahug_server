@@ -35,11 +35,9 @@ public class MaritalStatusModel implements IMaritalStatusModel {
     }
 
     @Override
-    public MaritalStatusEntity deleteByID(Integer id) throws ExceptionMishpaha {
+    public void deleteByName(String name) throws ExceptionMishpaha {
         try {
-            MaritalStatusEntity maritalStatusEntity = maritalStatusRepository.getOne(id);
-            maritalStatusRepository.deleteById(id);
-            return maritalStatusEntity;
+            maritalStatusRepository.deleteByName(name);
         } catch (Exception e) {
             throw new ExceptionMishpaha(this.getClass().toString(), e);
         }

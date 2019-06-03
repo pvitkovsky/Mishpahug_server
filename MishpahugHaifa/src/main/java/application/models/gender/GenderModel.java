@@ -29,11 +29,9 @@ public class GenderModel implements IGenderModel {
     }
 
     @Override
-    public GenderEntity deleteByID(Integer id) throws ExceptionMishpaha {
+    public void deleteByName(String name) throws ExceptionMishpaha {
         try {
-            GenderEntity cityEntity = genderRepository.getOne(id);
-            genderRepository.deleteById(id);
-            return cityEntity;
+            genderRepository.deleteByName(name);
         } catch (Exception e) {
             throw new ExceptionMishpaha(this.getClass().toString(), e);
         }

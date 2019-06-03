@@ -16,7 +16,16 @@ import application.entities.EventEntity;
 @Service
 public class EventConverter extends ConverterBase implements IConverter<EventEntity, EventDTO> {
 
-	public List<EventDTO> DTOListFromEntities(Iterable<EventEntity> data) {
+	public List<EventDTO> DTOListFromEntities(List<EventEntity> data) {
+
+		List<EventDTO> res = new ArrayList<>();
+		for (EventEntity x : data) {
+			res.add(new EventDTO(x));
+		}
+		return res;
+
+	}
+public List<EventDTO> DTOListFromEntities(Iterable<EventEntity> data) {
 
 		List<EventDTO> res = new ArrayList<>();
 		for (EventEntity x : data) {

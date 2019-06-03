@@ -85,15 +85,15 @@ public class ReligionController implements IReligionController {
     }
 
     @Override
-    @DeleteMapping(value = "/{id}")
-    public void delete(@PathVariable(name = "id") Integer id
+    @DeleteMapping(value = "/{name}")
+    public void delete(@PathVariable(name = "name") String name
             , @RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
             log.info("ReligionController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
         log.info("ReligionController -> delete -> Remote IP -> " + request.getRemoteAddr());
-        religionModel.deleteByID(id);
+        religionModel.deleteByName(name);
     }
 
 }

@@ -1,6 +1,7 @@
 package application.controllers.interfaces;
 
 import application.dto.EventDTO;
+import application.dto.UserDTO;
 import application.entities.EventEntity;
 import application.entities.UserEntity;
 import application.exceptions.ExceptionMishpaha;
@@ -17,19 +18,19 @@ public interface IEventController {
 
 	List<EventDTO> findAllByWebQuerydsl(Predicate predicate, HttpHeaders httpHeaders, HttpServletRequest request);
 
-	EventEntity findById(Integer id, HttpHeaders httpHeaders, HttpServletRequest request) throws ExceptionMishpaha;
+	EventDTO findById(Integer id, HttpHeaders httpHeaders, HttpServletRequest request) throws ExceptionMishpaha;
 
-	List<UserEntity> findGuestByEventId(Integer id, HttpHeaders httpHeaders, HttpServletRequest request)
+	List<UserDTO> findGuestByEventId(Integer id, HttpHeaders httpHeaders, HttpServletRequest request)
 			throws ExceptionMishpaha;
 
 	List<EventDTO> getByOwner(String ownerusername, HttpHeaders httpHeaders, HttpServletRequest request);
 
-	EventEntity setDataFromForm(EventDTO data, HttpHeaders httpHeaders, HttpServletRequest request);
+	EventDTO setDataFromForm(EventDTO data, HttpHeaders httpHeaders, HttpServletRequest request);
 
-	EventEntity updateDataFromForm(HashMap<String, String> data, Integer id, HttpHeaders httpHeaders,
+	EventDTO updateDataFromForm(HashMap<String, String> data, Integer id, HttpHeaders httpHeaders,
 			HttpServletRequest request) throws ExceptionMishpaha;
 
-	EventEntity delete(Integer id, HttpHeaders httpHeaders, HttpServletRequest request) throws ExceptionMishpaha;
+	void delete(Integer id, HttpHeaders httpHeaders, HttpServletRequest request) throws ExceptionMishpaha;
 
 	void delete(HttpHeaders httpHeaders, HttpServletRequest request) throws ExceptionMishpaha;
 }

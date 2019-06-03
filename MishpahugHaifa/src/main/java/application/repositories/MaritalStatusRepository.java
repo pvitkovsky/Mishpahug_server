@@ -6,4 +6,5 @@ import application.entities.MaritalStatusEntity;
 
 public interface MaritalStatusRepository extends JpaRepository<MaritalStatusEntity, Integer> {
     public MaritalStatusEntity getByName(String name);
+    public void deleteByName(String name);
 }

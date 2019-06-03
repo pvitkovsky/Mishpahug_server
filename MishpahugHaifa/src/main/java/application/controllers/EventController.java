@@ -2,6 +2,7 @@ package application.controllers;
 
 import application.controllers.interfaces.IEventController;
 import application.dto.EventDTO;
+import application.dto.UserDTO;
 import application.entities.EventEntity;
 import application.entities.SubscriptionEntity;
 import application.entities.UserEntity;
@@ -36,6 +37,9 @@ public class EventController implements IEventController {
     IConverter<EventEntity, EventDTO> converter;
 
     @Autowired
+    IConverter<UserEntity, UserDTO> converterUser;
+
+    @Autowired
     IHolyDayModel holyDayModel;
 
     @Autowired
@@ -66,19 +70,19 @@ public class EventController implements IEventController {
     @Override
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     @ResponseBody
-    public EventEntity findById(@PathVariable(name = "id") Integer id
+    public EventDTO findById(@PathVariable(name = "id") Integer id
             , @RequestHeader HttpHeaders httpHeaders,
                                 HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
             log.info("EventController -> findById -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
         log.info("EventController -> findById -> Remote IP -> " + request.getRemoteAddr());
-        return eventModel.getById(id);
+        return new EventDTO(eventModel.getById(id));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}/guests")
     @ResponseBody
-    public List<UserEntity> findGuestByEventId(@PathVariable(name = "id") Integer id
+    public List<UserDTO> findGuestByEventId(@PathVariable(name = "id") Integer id
             , @RequestHeader HttpHeaders httpHeaders,
                                                HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
@@ -91,7 +95,7 @@ public class EventController implements IEventController {
              ) {
             userEntityList.add(x.getGuest());
         }
-        return userEntityList;
+        return converterUser.DTOListFromEntities(userEntityList);
     }
 
     @Override
@@ -112,7 +116,7 @@ public class EventController implements IEventController {
      */
     @Override
     @PostMapping(value = "/")
-    public EventEntity setDataFromForm(@RequestBody EventDTO data,
+    public EventDTO setDataFromForm(@RequestBody EventDTO data,
                                        @RequestHeader HttpHeaders httpHeaders,
                                        HttpServletRequest request) {
         EventEntity eventEntity = new EventEntity();
@@ -123,7 +127,7 @@ public class EventController implements IEventController {
             log.info("EventController -> setDataFromForm -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
         log.info("EventController -> setDataFromForm -> Remote IP -> " + request.getRemoteAddr());
-        return eventModel.add(eventEntity);
+        return new EventDTO(eventModel.add(eventEntity));
     }
 
     /* (non-Javadoc)
@@ -131,7 +135,7 @@ public class EventController implements IEventController {
      */
     @Override
     @PutMapping(value = "/{id}")
-    public EventEntity updateDataFromForm(@RequestBody HashMap<String, String> data,
+    public EventDTO updateDataFromForm(@RequestBody HashMap<String, String> data,
                                           @PathVariable(value = "id") Integer id,
                                           @RequestHeader HttpHeaders httpHeaders,
                                           HttpServletRequest request) throws ExceptionMishpaha {
@@ -142,7 +146,7 @@ public class EventController implements IEventController {
             log.info("EventController -> updateDataFromForm -> data -> " + String.format("data '%s' = %s", key, value));
         });
         log.info("EventController -> updateDataFromForm -> Remote IP -> " + request.getRemoteAddr());
-        return eventModel.update(id, data);
+        return new EventDTO(eventModel.update(id, data));
     }
 
     /* (non-Javadoc)
@@ -150,7 +154,7 @@ public class EventController implements IEventController {
      */
     @Override
     @DeleteMapping(value = "/{id}")
-    public EventEntity delete(@PathVariable(value = "id") Integer id,
+    public void delete(@PathVariable(value = "id") Integer id,
                               @RequestHeader HttpHeaders httpHeaders,
                               HttpServletRequest request) throws ExceptionMishpaha {
         eventModel.getById(id).putIntoDeletionQueue();
@@ -158,7 +162,7 @@ public class EventController implements IEventController {
             log.info("EventController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
         log.info("EventController -> delete -> Remote IP -> " + request.getRemoteAddr());
-        return eventModel.delete(id);
+        eventModel.delete(id);
     }
 
     /* (non-Javadoc)

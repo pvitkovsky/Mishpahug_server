@@ -9,6 +9,8 @@ import com.querydsl.core.types.Predicate;
 import application.entities.CityEntity;
 import application.exceptions.ExceptionMishpaha;
 
+import java.util.List;
+
 public interface ICityController {
 
 	void post(CityEntity data, HttpHeaders httpHeaders, HttpServletRequest request) throws ExceptionMishpaha;
@@ -17,9 +19,9 @@ public interface ICityController {
 
 	void delete(HttpHeaders httpHeaders, HttpServletRequest request);
 
-	void delete(Integer id, HttpHeaders httpHeaders, HttpServletRequest request) throws ExceptionMishpaha;
+	void delete(String name, HttpHeaders httpHeaders, HttpServletRequest request) throws ExceptionMishpaha;
 
-	Iterable<CityEntity> get(Predicate predicate, HttpHeaders httpHeaders, HttpServletRequest request);
+	List<String> get(Predicate predicate, HttpHeaders httpHeaders, HttpServletRequest request);
 
-	CityEntity get(Integer id, HttpHeaders httpHeaders, HttpServletRequest request) throws ExceptionMishpaha;
+	String get(Integer id, HttpHeaders httpHeaders, HttpServletRequest request) throws ExceptionMishpaha;
 }

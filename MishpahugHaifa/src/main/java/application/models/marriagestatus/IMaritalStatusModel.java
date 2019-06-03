@@ -13,7 +13,7 @@ public interface IMaritalStatusModel {
 
     MaritalStatusEntity getById(Integer id);
 
-    MaritalStatusEntity deleteByID(Integer id) throws ExceptionMishpaha;
+    void deleteByName(String name) throws ExceptionMishpaha;
 
     void deleteAll();
 

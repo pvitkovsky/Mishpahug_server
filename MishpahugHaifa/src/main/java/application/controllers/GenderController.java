@@ -48,15 +48,15 @@ public class GenderController implements IGenderController {
     }
 
     @Override
-    @DeleteMapping(value = "/{id}")
-    public void delete(@PathVariable(name = "id") Integer id,
+    @DeleteMapping(value = "/{name}")
+    public void delete(@PathVariable(name = "name") String name,
                        @RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
             log.info("GenderController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
         log.info("GenderController -> delete -> Remote IP -> " + request.getRemoteAddr());
-        genderModel.deleteByID(id);
+        genderModel.deleteByName(name);
     }
 
     @Override

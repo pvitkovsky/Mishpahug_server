@@ -14,6 +14,8 @@ import application.models.city.ICityModel;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -59,39 +61,42 @@ public class CityController implements ICityController {
     }
 
     @Override
-    @DeleteMapping(value = "/{id}")
-    public void delete(@PathVariable(name = "id") Integer id,
+    @DeleteMapping(value = "/{name}")
+    public void delete(@PathVariable(name = "name") String name,
                        @RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
             log.info("CityController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
         log.info("CityController -> delete -> Remote IP -> " + request.getRemoteAddr());
-        cityModel.deleteByID(id);
+        cityModel.deleteByName(name);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/")
     @ResponseBody
-    public Iterable<CityEntity> get(@QuerydslPredicate(root = CityEntity.class) Predicate predicate,
-                                    @RequestHeader HttpHeaders httpHeaders,
-                                    HttpServletRequest request) {
+    public List<String> get(@QuerydslPredicate(root = CityEntity.class) Predicate predicate,
+                                @RequestHeader HttpHeaders httpHeaders,
+                                HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
             log.info("CityController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
         log.info("CityController -> get -> Remote IP -> " + request.getRemoteAddr());
-        return cityModel.getAll(predicate);
+        Iterable<CityEntity> cityEntityList = cityModel.getAll(predicate);
+        List<String> res = new ArrayList<>();
+        cityEntityList.forEach(item -> res.add(item.getName()));
+        return res;
     }
 
     @Override
     @GetMapping(value = "/{id}")
-    public CityEntity get(@PathVariable(name = "id") Integer id,
+    public String get(@PathVariable(name = "id") Integer id,
                           @RequestHeader HttpHeaders httpHeaders,
                           HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
             log.info("CityController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
         log.info("CityController -> get -> Remote IP -> " + request.getRemoteAddr());
-        return cityModel.getById(id);
+        return cityModel.getById(id).getName();
     }
 
 }

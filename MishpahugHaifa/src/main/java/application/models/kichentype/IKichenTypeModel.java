@@ -9,7 +9,7 @@ public interface IKichenTypeModel {
 
     KitchenTypeEntity updateName(Integer id, String name);
 
-    void deleteByID(Integer id);
+    void deleteByName(String name);
 
     void deleteAll();
 

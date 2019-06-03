@@ -76,8 +76,8 @@ public class ReligionModel implements IReligionModel {
     }
 
     @Override
-    public void remove(Integer id) {
-        religionRepository.deleteById(id);
+    public void deleteByName(String name) {
+        religionRepository.deleteByName(name);
     }
 
     @Override

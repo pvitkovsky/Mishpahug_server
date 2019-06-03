@@ -16,7 +16,5 @@ public interface IAddressController {
 
 	void delete(Integer id, HttpHeaders httpHeaders, HttpServletRequest request) throws ExceptionMishpaha;
 
-	List<AddressEntity> get(HttpHeaders httpHeaders, HttpServletRequest request) throws ExceptionMishpaha;
-
-	AddressEntity get(Integer id, HttpHeaders httpHeaders, HttpServletRequest request) throws ExceptionMishpaha;
+	String get(Integer id, HttpHeaders httpHeaders, HttpServletRequest request) throws ExceptionMishpaha;
 }

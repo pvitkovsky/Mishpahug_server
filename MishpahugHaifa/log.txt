@@ -1,0 +1,2162 @@
+[INFO] Scanning for projects...
+[WARNING] 
+[WARNING] Some problems were encountered while building the effective model for mishpahughaifa:mishpahughaifa:jar:1.0.1-SNAPSHOT
+[WARNING] 'dependencies.dependency.(groupId:artifactId:type:classifier)' must be unique: org.springframework.boot:spring-boot-starter-test:jar -> duplicate declaration of version (?) @ line 166, column 21
+[WARNING] 'dependencies.dependency.(groupId:artifactId:type:classifier)' must be unique: org.springframework.data:spring-data-commons:jar -> duplicate declaration of version (?) @ line 176, column 21
+[WARNING] 'dependencies.dependency.(groupId:artifactId:type:classifier)' must be unique: org.springframework.data:spring-data-commons:jar -> duplicate declaration of version (?) @ line 180, column 21
+[WARNING] 'dependencies.dependency.(groupId:artifactId:type:classifier)' must be unique: org.springframework.data:spring-data-commons:jar -> duplicate declaration of version (?) @ line 184, column 21
+[WARNING] 
+[WARNING] It is highly recommended to fix these problems because they threaten the stability of your build.
+[WARNING] 
+[WARNING] For this reason, future Maven versions might no longer support building such malformed projects.
+[WARNING] 
+[INFO] 
+[INFO] -------------------< mishpahughaifa:mishpahughaifa >--------------------
+[INFO] Building mishpahughaifa 1.0.1-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- apt-maven-plugin:1.1.3:process (default) @ mishpahughaifa ---
+[INFO] 
+[INFO] --- maven-resources-plugin:3.0.1:resources (default-resources) @ mishpahughaifa ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] Copying 22 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.7.0:compile (default-compile) @ mishpahughaifa ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 139 source files to C:\Mishpahug_server\Mishpahug_server\MishpahugHaifa\target\classes
+[INFO] /C:/Mishpahug_server/Mishpahug_server/MishpahugHaifa/src/main/java/application/models/AppRoleDAO.java: C:\Mishpahug_server\Mishpahug_server\MishpahugHaifa\src\main\java\application\models\AppRoleDAO.java uses unchecked or unsafe operations.
+[INFO] /C:/Mishpahug_server/Mishpahug_server/MishpahugHaifa/src/main/java/application/models/AppRoleDAO.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- maven-resources-plugin:3.0.1:testResources (default-testResources) @ mishpahughaifa ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 6 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.7.0:testCompile (default-testCompile) @ mishpahughaifa ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 17 source files to C:\Mishpahug_server\Mishpahug_server\MishpahugHaifa\target\test-classes
+[INFO] /C:/Mishpahug_server/Mishpahug_server/MishpahugHaifa/src/test/java/application/integration/UserWebRequestTest.java: C:\Mishpahug_server\Mishpahug_server\MishpahugHaifa\src\test\java\application\integration\UserWebRequestTest.java uses or overrides a deprecated API.
+[INFO] /C:/Mishpahug_server/Mishpahug_server/MishpahugHaifa/src/test/java/application/integration/UserWebRequestTest.java: Recompile with -Xlint:deprecation for details.
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.21.0:test (default-test) @ mishpahughaifa ---
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running application.entities.address.AddressTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::        (v2.0.1.RELEASE)
+
+Hibernate: drop table address if exists
+Hibernate: drop table app_role if exists
+Hibernate: drop table cities if exists
+Hibernate: drop table country if exists
+Hibernate: drop table eventlist if exists
+Hibernate: drop table gender if exists
+Hibernate: drop table holyday if exists
+Hibernate: drop table kichentype if exists
+Hibernate: drop table logs_on_event if exists
+Hibernate: drop table logs_on_user if exists
+Hibernate: drop table marriage_status if exists
+Hibernate: drop table religion if exists
+Hibernate: drop table template if exists
+Hibernate: drop table template_entity_items if exists
+Hibernate: drop table user if exists
+Hibernate: drop table user_event_guest if exists
+Hibernate: drop table user_role if exists
+Hibernate: drop table user_session if exists
+Hibernate: drop table user_entity_picture_items if exists
+Hibernate: drop sequence if exists hibernate_sequence
+Hibernate: drop sequence if exists logs_data_entity_id_seq
+Hibernate: create sequence hibernate_sequence start with 1 increment by 1
+Hibernate: create sequence logs_data_entity_id_seq start with 1 increment by 50
+Hibernate: create table address (id integer generated by default as identity, apartment integer, building integer, street varchar(128), city_of_address integer not null, primary key (id))
+Hibernate: create table app_role (role_id bigint not null, role_name varchar(30) not null, primary key (role_id))
+Hibernate: create table cities (id integer generated by default as identity, name varchar(255), country_of_city integer not null, primary key (id))
+Hibernate: create table country (id integer generated by default as identity, name varchar(255), primary key (id))
+Hibernate: create table eventlist (id integer generated by default as identity, date date not null, name_of_event varchar(255), status varchar(255), time time not null, address_entity_id integer, holi_day_id integer, kitchen_type_id integer, user_owner integer not null, primary key (id))
+Hibernate: create table gender (id integer generated by default as identity, name varchar(255), primary key (id))
+Hibernate: create table holyday (id integer generated by default as identity, date date, description varchar(255), name varchar(255), religion_entity_id integer, primary key (id))
+Hibernate: create table kichentype (id integer generated by default as identity, name varchar(255), primary key (id))
+Hibernate: create table logs_on_event (id bigint not null, date date not null, text_description varchar(255), time time not null, user_actor integer not null, action_on_event integer not null, event_target_id integer, primary key (id))
+Hibernate: create table logs_on_user (id bigint not null, date date not null, text_description varchar(255), time time not null, user_actor integer not null, action_on_user integer not null, user_target_user_id integer, primary key (id))
+Hibernate: create table marriage_status (id integer generated by default as identity, name varchar(255), primary key (id))
+Hibernate: create table religion (id integer generated by default as identity, name varchar(255), primary key (id))
+Hibernate: create table template (id integer generated by default as identity, description varchar(255), name varchar(255), picture varchar(255), primary key (id))
+Hibernate: create table template_entity_items (template_entity_id integer not null, size integer, text varchar(255), x integer, y integer)
+Hibernate: create table user (user_id integer generated by default as identity, dateofbirth date, email varchar(255) not null, encryted_password varchar(128), firstname varchar(255), lastname varchar(255), phonenumber varchar(255), status varchar(255), username varchar(36) not null, address_entity_id integer, gender_id integer, kitchen_type_id integer, marital_status_id integer, religion_id integer, primary key (user_id))
+Hibernate: create table user_event_guest (event_id integer not null, guest_id integer not null, comment varchar(255), date_time timestamp, rating integer, status varchar(255), primary key (event_id, guest_id))
+Hibernate: create table user_role (id bigint not null, user_id integer not null, role_id bigint not null, primary key (id))
+Hibernate: create table user_session (id integer generated by default as identity, ip varchar(255) not null, is_valid boolean not null, date binary(255) not null, time binary(255) not null, token varchar(255) not null, useragent varchar(255) not null, user_name varchar(255), primary key (id))
+Hibernate: create table user_entity_picture_items (user_entity_user_id integer not null, data blob)
+Hibernate: alter table address add constraint UKkm376nm5ikay7kq7ai58hqee0 unique (city_of_address, street, building, apartment)
+Hibernate: alter table app_role add constraint APP_ROLE_UK unique (role_name)
+Hibernate: alter table cities add constraint UK7wtd822jwpd879emkc57xi441 unique (name, country_of_city)
+Hibernate: alter table country add constraint UKllidyp77h6xkeokpbmoy710d4 unique (name)
+Hibernate: alter table eventlist add constraint UKpko8nosk76p22cu9sq6hrlmmp unique (user_owner, date, time)
+Hibernate: alter table gender add constraint UKjdyxf8c9k9656frmqjb67cgo3 unique (name)
+Hibernate: alter table holyday add constraint UKsdg6bop2eajgam4g23058jes0 unique (name)
+Hibernate: alter table kichentype add constraint UK8ij3nwmu0gy37ivcolgp9188a unique (name)
+Hibernate: alter table marriage_status add constraint UKf1jmxp56lgj9bgtx1s3bg1fy2 unique (name)
+Hibernate: alter table religion add constraint UKra13dxctce8waokisi0kqxpm1 unique (name)
+Hibernate: alter table template add constraint UKmc6r7feujo1wdd6vw5esv4jba unique (name)
+Hibernate: alter table user add constraint UKob8kqyqqgmefl0aco34akdtpe unique (email)
+Hibernate: alter table user add constraint UKsb8bbouer5wak8vyiiy4pf2bx unique (username)
+Hibernate: alter table user_role add constraint USER_ROLE_UK unique (user_id, role_id)
+Hibernate: alter table address add constraint FKay5rn8nuonf2jf99ykaypkff6 foreign key (city_of_address) references cities
+Hibernate: alter table cities add constraint FKi2rrhk3xc1vvipsagl7rwiwu5 foreign key (country_of_city) references country
+Hibernate: alter table eventlist add constraint FKsls4ie9gh5uqv07hcv63eaxry foreign key (address_entity_id) references address
+Hibernate: alter table eventlist add constraint FKde5umv5jgj4jc71gqobukknjt foreign key (holi_day_id) references holyday
+Hibernate: alter table eventlist add constraint FK8v0icbe8u7rfd7rmk70o7opn3 foreign key (kitchen_type_id) references kichentype
+Hibernate: alter table eventlist add constraint FK45st5y0g8ouc99km0dm0e3sh2 foreign key (user_owner) references user
+Hibernate: alter table holyday add constraint FK2xwe4mv7qinuild23sr51tfmr foreign key (religion_entity_id) references religion
+Hibernate: alter table logs_on_event add constraint FKk4yi7qoglwtc3d0g8ir4puldx foreign key (event_target_id) references eventlist
+Hibernate: alter table logs_on_event add constraint FK_6jm067m4u2sf5dlgjllu4i2bi foreign key (user_actor) references user
+Hibernate: alter table logs_on_user add constraint FKb3xryh3wmx7eooh5pjj0qss28 foreign key (user_target_user_id) references user
+Hibernate: alter table logs_on_user add constraint FK_ilxahui6syfeufnx2vd7c2o2h foreign key (user_actor) references user
+Hibernate: alter table template_entity_items add constraint FK1ouhu4ixxhw5lsfndwg1oq3ty foreign key (template_entity_id) references template
+Hibernate: alter table user add constraint FKgp3voe3gkf9wp4puinjb1wpgl foreign key (address_entity_id) references address
+Hibernate: alter table user add constraint FKcbf93j56y7t2tyhunb4neewva foreign key (gender_id) references gender
+Hibernate: alter table user add constraint FKomiff38fts4r2xuktfbf38c76 foreign key (kitchen_type_id) references kichentype
+Hibernate: alter table user add constraint FK879ih7wq8rcp5x2p7s38oicxl foreign key (marital_status_id) references marriage_status
+Hibernate: alter table user add constraint FKhqwod6g4qr6t5pvu4dcohbq4b foreign key (religion_id) references religion
+Hibernate: alter table user_event_guest add constraint FK8aaaxd88yyqrlfhesqojjf3ve foreign key (event_id) references eventlist
+Hibernate: alter table user_event_guest add constraint FKaf212yoeof4bmt9dw7n7d9qe4 foreign key (guest_id) references user
+Hibernate: alter table user_role add constraint FK859n2jvi8ivhui0rl0esws6o foreign key (user_id) references user
+Hibernate: alter table user_role add constraint FKp6m37g6n6c288s096400uw8fw foreign key (role_id) references app_role
+Hibernate: alter table user_entity_picture_items add constraint FKbs8fiu975mugg2ds3js7fgro7 foreign key (user_entity_user_id) references user
+Hibernate: select addressent0_.id as id1_0_, addressent0_.apartment as apartmen2_0_, addressent0_.building as building3_0_, addressent0_.city_of_address as city_of_5_0_, addressent0_.street as street4_0_ from address addressent0_
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 28.259 s - in application.entities.address.AddressTest
+[INFO] Running application.entities.city.CityTest
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+REMOVE
+Hibernate: select cityentity0_.id as id1_2_, cityentity0_.country_of_city as country_3_2_, cityentity0_.name as name2_2_ from cities cityentity0_
+Korazim,Israel
+Lehavim,Israel
+Liman,Israel
+Livnim,Israel
+Maon,Israel
+Ma'agalim,Israel
+Ma'ale Amos,Israel
+Ma'anit,Israel
+Masua,Israel
+Matan,Israel
+Menora,Israel
+Menuha,Israel
+Mitzpa,Israel
+Mitav,Israel
+Moreshet,Israel
+Naan,Israel
+Naham,Israel
+Neve Ilan,Israel
+Nir Oz,Israel
+Beit Nir,Israel
+Ben Ami,Israel
+Beniya,Israel
+Berosh,Israel
+Biriya,Israel
+Buq'ata,Israel
+Ein Gev,Israel
+Ein HaEmek,Israel
+Eli-Ad,Israel
+Ezer,Israel
+Gan Haim,Israel
+Ganei Tal,Israel
+Gan Or,Israel
+Gezer,Israel
+Geva,Israel
+Gevat,Israel
+Gia,Israel
+Gonen,Israel
+Hamra,Israel
+Hanita,Israel
+Hirut,Israel
+Hila,Israel
+Holit,Israel
+Ibim,Israel
+Idan,Israel
+Kadima,Israel
+Jat,Israel
+Kavri,Israel
+Kelil,Israel
+Kfar Blum,Israel
+Kfar Rut,Israel
+Kfar Yabetz,Israel
+Nirit,Israel
+Noam,Israel
+Nofeh,Israel
+Noga,Israel
+Noomi,Israel
+Nurit,Israel
+Ora,Israel
+Paran,Israel
+Orot,Israel
+Patish,Israel
+Rinatia,Israel
+Samar,Israel
+Senir,Israel
+Sha'ar HaAmakim,Israel
+Shaked,Israel
+Shoham,Israel
+Shezor,Israel
+Tene,Israel
+Timrat,Israel
+Tzufim,Israel
+Tzukim,Israel
+Arraba,Israel
+Yashi,Israel
+Yated,Israel
+Yizre'el,Israel
+Almagor,Israel
+Aluma,Israel
+Misgav Am,Israel
+Afik,Israel
+Shima,Israel
+Tzofit,Israel
+Naharia,Israel
+Havashla,Israel
+Lavon,Israel
+Lakish,Israel
+Nein,Israel
+Bine,Israel
+Berha,Israel
+Dekel,Israel
+Efal,Israel
+El'ad,Israel
+Eli,Israel
+Erez,Israel
+Evron,Israel
+Ganei Am,Israel
+Gizmo,Israel
+Gizo,Israel
+Hosen,Israel
+Keshet,Israel
+Rimonim,Israel
+Hibernate: select countryent0_.id as id1_3_, countryent0_.name as name2_3_ from country countryent0_ where countryent0_.name=?
+Hibernate: delete from cities where id=?
+Hibernate: select count(*) as col_0_0_ from cities cityentity0_
+Hibernate: select cityentity0_.id as id1_2_, cityentity0_.country_of_city as country_3_2_, cityentity0_.name as name2_2_ from cities cityentity0_
+Hibernate: select countryent0_.id as id1_3_, countryent0_.name as name2_3_ from country countryent0_
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: select cityentity0_.id as id1_2_, cityentity0_.country_of_city as country_3_2_, cityentity0_.name as name2_2_ from cities cityentity0_
+Hibernate: select cityentity0_.id as id1_2_, cityentity0_.country_of_city as country_3_2_, cityentity0_.name as name2_2_ from cities cityentity0_
+Hibernate: update cities set country_of_city=?, name=? where id=?
+Hibernate: select cityentity0_.id as id1_2_, cityentity0_.country_of_city as country_3_2_, cityentity0_.name as name2_2_ from cities cityentity0_ where cityentity0_.name=?
+Hibernate: select cityentity0_.id as id1_2_, cityentity0_.country_of_city as country_3_2_, cityentity0_.name as name2_2_ from cities cityentity0_
+Hibernate: select countryent0_.id as id1_3_, countryent0_.name as name2_3_ from country countryent0_
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+Hibernate: insert into cities (id, country_of_city, name) values (null, ?, ?)
+CHECKSIZE
+Hibernate: select cityentity0_.id as id1_2_, cityentity0_.country_of_city as country_3_2_, cityentity0_.name as name2_2_ from cities cityentity0_
+Korazim,Israel
+Lehavim,Israel
+Liman,Israel
+Livnim,Israel
+Maon,Israel
+Ma'agalim,Israel
+Ma'ale Amos,Israel
+Ma'anit,Israel
+Masua,Israel
+Matan,Israel
+Menora,Israel
+Menuha,Israel
+Mitzpa,Israel
+Mitav,Israel
+Moreshet,Israel
+Naan,Israel
+Naham,Israel
+Neve Ilan,Israel
+Nir Oz,Israel
+Beit Nir,Israel
+Ben Ami,Israel
+Beniya,Israel
+Berosh,Israel
+Biriya,Israel
+Buq'ata,Israel
+Ein Gev,Israel
+Ein HaEmek,Israel
+Eli-Ad,Israel
+Ezer,Israel
+Gan Haim,Israel
+Ganei Tal,Israel
+Gan Or,Israel
+Gezer,Israel
+Geva,Israel
+Gevat,Israel
+Gia,Israel
+Gonen,Israel
+Hamra,Israel
+Hanita,Israel
+Hirut,Israel
+Hila,Israel
+Holit,Israel
+Ibim,Israel
+Idan,Israel
+Kadima,Israel
+Jat,Israel
+Kavri,Israel
+Kelil,Israel
+Kfar Blum,Israel
+Kfar Rut,Israel
+Kfar Yabetz,Israel
+Nirit,Israel
+Noam,Israel
+Nofeh,Israel
+Noga,Israel
+Noomi,Israel
+Nurit,Israel
+Ora,Israel
+Paran,Israel
+Orot,Israel
+Patish,Israel
+Rinatia,Israel
+Samar,Israel
+Senir,Israel
+Sha'ar HaAmakim,Israel
+Shaked,Israel
+Shoham,Israel
+Shezor,Israel
+Tene,Israel
+Timrat,Israel
+Tzufim,Israel
+Tzukim,Israel
+Arraba,Israel
+Yashi,Israel
+Yated,Israel
+Yizre'el,Israel
+Almagor,Israel
+Aluma,Israel
+Misgav Am,Israel
+Afik,Israel
+Shima,Israel
+Tzofit,Israel
+Naharia,Israel
+Havashla,Israel
+Lavon,Israel
+Lakish,Israel
+Nein,Israel
+Bine,Israel
+Berha,Israel
+Dekel,Israel
+Efal,Israel
+El'ad,Israel
+Eli,Israel
+Erez,Israel
+Evron,Israel
+Ganei Am,Israel
+Gizmo,Israel
+Gizo,Israel
+Hosen,Israel
+Keshet,Israel
+Rimonim,Israel
+Hibernate: select cityentity0_.id as id1_2_, cityentity0_.country_of_city as country_3_2_, cityentity0_.name as name2_2_ from cities cityentity0_
+Hibernate: select cityentity0_.id as id1_2_, cityentity0_.country_of_city as country_3_2_, cityentity0_.name as name2_2_ from cities cityentity0_
+Hibernate: select countryent0_.id as id1_3_, countryent0_.name as name2_3_ from country countryent0_
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.39 s - in application.entities.city.CityTest
+[INFO] Running application.entities.country.CountryTest
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: select count(*) as col_0_0_ from country countryent0_
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: select count(*) as col_0_0_ from country countryent0_
+Hibernate: select countryent0_.id as id1_3_, countryent0_.name as name2_3_ from country countryent0_
+Hibernate: delete from country where id=?
+Hibernate: select count(*) as col_0_0_ from country countryent0_
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: select countryent0_.id as id1_3_, countryent0_.name as name2_3_ from country countryent0_
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: select countryent0_.id as id1_3_, countryent0_.name as name2_3_ from country countryent0_
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: insert into country (id, name) values (null, ?)
+Hibernate: select countryent0_.id as id1_3_, countryent0_.name as name2_3_ from country countryent0_ where countryent0_.name=?
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.515 s - in application.entities.country.CountryTest
+[INFO] Running application.entities.event.EventEntityTest
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into eventlist (id, address_entity_id, date, holi_day_id, kitchen_type_id, name_of_event, status, time, user_owner) values (null, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into eventlist (id, address_entity_id, date, holi_day_id, kitchen_type_id, name_of_event, status, time, user_owner) values (null, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into eventlist (id, address_entity_id, date, holi_day_id, kitchen_type_id, name_of_event, status, time, user_owner) values (null, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: select count(*) as col_0_0_ from eventlist evententit0_
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into eventlist (id, address_entity_id, date, holi_day_id, kitchen_type_id, name_of_event, status, time, user_owner) values (null, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: select count(*) as col_0_0_ from eventlist evententit0_ where evententit0_.id=?
+Hibernate: select count(*) as col_0_0_ from eventlist evententit0_
+Hibernate: delete from eventlist where id=?
+Hibernate: select count(*) as col_0_0_ from eventlist evententit0_ where evententit0_.id=?
+Hibernate: select count(*) as col_0_0_ from eventlist evententit0_
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into eventlist (id, address_entity_id, date, holi_day_id, kitchen_type_id, name_of_event, status, time, user_owner) values (null, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into eventlist (id, address_entity_id, date, holi_day_id, kitchen_type_id, name_of_event, status, time, user_owner) values (null, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into eventlist (id, address_entity_id, date, holi_day_id, kitchen_type_id, name_of_event, status, time, user_owner) values (null, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into eventlist (id, address_entity_id, date, holi_day_id, kitchen_type_id, name_of_event, status, time, user_owner) values (null, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: delete from eventlist where id=?
+Hibernate: select count(*) as col_0_0_ from eventlist evententit0_
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.44 s - in application.entities.event.EventEntityTest
+[INFO] Running application.entities.kichentype.KichenTypeTest
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: select kitchentyp0_.id as id1_7_, kitchentyp0_.name as name2_7_ from kichentype kitchentyp0_
+Hibernate: delete from kichentype where id=?
+Hibernate: select count(*) as col_0_0_ from kichentype kitchentyp0_
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: select kitchentyp0_.id as id1_7_, kitchentyp0_.name as name2_7_ from kichentype kitchentyp0_
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: select kitchentyp0_.id as id1_7_, kitchentyp0_.name as name2_7_ from kichentype kitchentyp0_
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: select kitchentyp0_.id as id1_7_, kitchentyp0_.name as name2_7_ from kichentype kitchentyp0_ where kitchentyp0_.name=?
+Hibernate: select kitchentyp0_.id as id1_7_, kitchentyp0_.name as name2_7_ from kichentype kitchentyp0_ where kitchentyp0_.name=?
+Hibernate: select kitchentyp0_.id as id1_7_, kitchentyp0_.name as name2_7_ from kichentype kitchentyp0_ where kitchentyp0_.name=?
+Hibernate: select kitchentyp0_.id as id1_7_, kitchentyp0_.name as name2_7_ from kichentype kitchentyp0_ where kitchentyp0_.name=?
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: insert into kichentype (id, name) values (null, ?)
+Hibernate: select count(*) as col_0_0_ from kichentype kitchentyp0_
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.303 s - in application.entities.kichentype.KichenTypeTest
+[INFO] Running application.entities.religion.ReligionTest
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: select count(*) as col_0_0_ from religion religionen0_
+Hibernate: delete from religion where id=?
+Hibernate: select count(*) as col_0_0_ from religion religionen0_
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: select religionen0_.id as id1_12_, religionen0_.name as name2_12_ from religion religionen0_
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: select religionen0_.id as id1_12_, religionen0_.name as name2_12_ from religion religionen0_
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+hi
+Hibernate: select religionen0_.id as id1_12_, religionen0_.name as name2_12_ from religion religionen0_ where religionen0_.name=?
+Hibernate: select religionen0_.id as id1_12_, religionen0_.name as name2_12_ from religion religionen0_
+[ReligionEntity(id=25, name=Christianity), ReligionEntity(id=26, name=Judaism), ReligionEntity(id=27, name=Atheism), ReligionEntity(id=28, name=Buddhism), ReligionEntity(id=29, name=Hare Krishnas), ReligionEntity(id=30, name=Sikhism), ReligionEntity(id=31, name=Confucianism), ReligionEntity(id=32, name=Zoroastrianism)]
+null
+ni
+Hibernate: select religionen0_.id as id1_12_, religionen0_.name as name2_12_ from religion religionen0_ where religionen0_.name=?
+Hibernate: select religionen0_.id as id1_12_, religionen0_.name as name2_12_ from religion religionen0_
+[ReligionEntity(id=25, name=Christianity), ReligionEntity(id=26, name=Judaism), ReligionEntity(id=27, name=Atheism), ReligionEntity(id=28, name=Buddhism), ReligionEntity(id=29, name=Hare Krishnas), ReligionEntity(id=30, name=Sikhism), ReligionEntity(id=31, name=Confucianism), ReligionEntity(id=32, name=Zoroastrianism)]
+null
+fi
+Hibernate: select religionen0_.id as id1_12_, religionen0_.name as name2_12_ from religion religionen0_ where religionen0_.name=?
+Hibernate: select religionen0_.id as id1_12_, religionen0_.name as name2_12_ from religion religionen0_
+[ReligionEntity(id=25, name=Christianity), ReligionEntity(id=26, name=Judaism), ReligionEntity(id=27, name=Atheism), ReligionEntity(id=28, name=Buddhism), ReligionEntity(id=29, name=Hare Krishnas), ReligionEntity(id=30, name=Sikhism), ReligionEntity(id=31, name=Confucianism), ReligionEntity(id=32, name=Zoroastrianism)]
+null
+ei
+Hibernate: select religionen0_.id as id1_12_, religionen0_.name as name2_12_ from religion religionen0_ where religionen0_.name=?
+Hibernate: select religionen0_.id as id1_12_, religionen0_.name as name2_12_ from religion religionen0_
+[ReligionEntity(id=25, name=Christianity), ReligionEntity(id=26, name=Judaism), ReligionEntity(id=27, name=Atheism), ReligionEntity(id=28, name=Buddhism), ReligionEntity(id=29, name=Hare Krishnas), ReligionEntity(id=30, name=Sikhism), ReligionEntity(id=31, name=Confucianism), ReligionEntity(id=32, name=Zoroastrianism)]
+null
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: insert into religion (id, name) values (null, ?)
+Hibernate: select count(*) as col_0_0_ from religion religionen0_
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.324 s - in application.entities.religion.ReligionTest
+[INFO] Running application.entities.user.UserEntityTest
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: delete from user where user_id=?
+Hibernate: select count(*) as col_0_0_ from user userentity0_
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: update user set address_entity_id=?, dateofbirth=?, email=?, encryted_password=?, firstname=?, gender_id=?, kitchen_type_id=?, lastname=?, marital_status_id=?, phonenumber=?, religion_id=?, status=?, username=? where user_id=?
+Hibernate: select userentity0_.user_id as user_id1_15_, userentity0_.address_entity_id as address10_15_, userentity0_.dateofbirth as dateofbi2_15_, userentity0_.email as email3_15_, userentity0_.encryted_password as encryted4_15_, userentity0_.firstname as firstnam5_15_, userentity0_.gender_id as gender_11_15_, userentity0_.kitchen_type_id as kitchen12_15_, userentity0_.lastname as lastname6_15_, userentity0_.marital_status_id as marital13_15_, userentity0_.phonenumber as phonenum7_15_, userentity0_.religion_id as religio14_15_, userentity0_.status as status8_15_, userentity0_.username as username9_15_ from user userentity0_ where userentity0_.username=?
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.278 s - in application.entities.user.UserEntityTest
+[INFO] Running application.integration.ConverterTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.086 s - in application.integration.ConverterTest
+[INFO] Running application.integration.UserWebRequestTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::        (v2.0.1.RELEASE)
+
+Alyssa UserEntity(id=null, firstName=null, lastName=null, phoneNumber=null, eMail=p_hacker@sicp.edu, userName=Alyssa, encrytedPassword=null, dateOfBirth=null, status=ACTIVE, maritalStatus=null, gender=null, kitchenType=null, religion=null, addressEntity=null)
+{firstname=Alyssa_Updated}
+Alyssa UserEntity(id=null, firstName=null, lastName=null, phoneNumber=null, eMail=p_hacker@sicp.edu, userName=Alyssa, encrytedPassword=null, dateOfBirth=null, status=ACTIVE, maritalStatus=null, gender=null, kitchenType=null, religion=null, addressEntity=null)
+Alyssa UserEntity(id=null, firstName=null, lastName=null, phoneNumber=null, eMail=p_hacker@sicp.edu, userName=Alyssa, encrytedPassword=null, dateOfBirth=null, status=ACTIVE, maritalStatus=null, gender=null, kitchenType=null, religion=null, addressEntity=null)
+Between dates filter >>>
+user : UserEntity(id=2, firstName=David, lastName=Zingerman, phoneNumber=0532108452, eMail=rbulcock1@istockphoto.com, userName=rbulcock1, encrytedPassword=null, dateOfBirth=null, status=ACTIVE, maritalStatus=MaritalStatusEntity(id=null, name=Married), gender=GenderEntity(id=null, name=female), kitchenType=null, religion=ReligionEntity(id=null, name=Eastern and Oriental Orthodoxy), addressEntity=null)
+user : UserEntity(id=4, firstName=Dmitriy, lastName=Sokolov, phoneNumber=0531113374, eMail=pdecarlo3@nbcnews.com, userName=pdecarlo3, encrytedPassword=null, dateOfBirth=null, status=ACTIVE, maritalStatus=MaritalStatusEntity(id=null, name=Married), gender=GenderEntity(id=null, name=female), kitchenType=null, religion=ReligionEntity(id=null, name=Gnosticism), addressEntity=null)
+user : UserEntity(id=7, firstName=Alexander, lastName=Perelman, phoneNumber=0538512720, eMail=ndiver6@independent.co.uk, userName=ndiver6, encrytedPassword=null, dateOfBirth=null, status=ACTIVE, maritalStatus=MaritalStatusEntity(id=null, name=Widowed), gender=GenderEntity(id=null, name=female), kitchenType=null, religion=ReligionEntity(id=null, name=Bábism), addressEntity=null)
+user : UserEntity(id=9, firstName=Andrey, lastName=Sidorov, phoneNumber=0538250633, eMail=bcotmore8@opensource.org, userName=bcotmore8, encrytedPassword=null, dateOfBirth=null, status=ACTIVE, maritalStatus=MaritalStatusEntity(id=null, name=Married), gender=GenderEntity(id=null, name=female), kitchenType=null, religion=ReligionEntity(id=null, name=Restorationism), addressEntity=null)
+user : UserEntity(id=10, firstName=Masha, lastName=Petrman, phoneNumber=0536657356, eMail=mdesaur9@flickr.com, userName=mdesaur9, encrytedPassword=null, dateOfBirth=null, status=ACTIVE, maritalStatus=MaritalStatusEntity(id=null, name=Widowed), gender=GenderEntity(id=null, name=female), kitchenType=null, religion=ReligionEntity(id=null, name=Rastafari movement), addressEntity=null)
+user : UserEntity(id=12, firstName=David, lastName=Zingerman, phoneNumber=0534801883, eMail=rbulcock11@istockphoto.com, userName=rbulcock11, encrytedPassword=null, dateOfBirth=null, status=ACTIVE, maritalStatus=MaritalStatusEntity(id=null, name=Separated), gender=GenderEntity(id=null, name=female), kitchenType=null, religion=ReligionEntity(id=null, name=Buddhism), addressEntity=null)
+user : UserEntity(id=14, firstName=Dmitriy, lastName=Somanov, phoneNumber=0538742221, eMail=pdecarlo33@nbcnews.com, userName=pdecarlo33, encrytedPassword=null, dateOfBirth=null, status=ACTIVE, maritalStatus=MaritalStatusEntity(id=null, name=Married), gender=GenderEntity(id=null, name=male), kitchenType=null, religion=ReligionEntity(id=null, name=Catholicism), addressEntity=null)
+user : UserEntity(id=17, firstName=Alexander, lastName=Ivanov, phoneNumber=0535431313, eMail=ndive4r6@independent.co.uk, userName=ndive4r6, encrytedPassword=null, dateOfBirth=null, status=ACTIVE, maritalStatus=MaritalStatusEntity(id=null, name=Divorced), gender=GenderEntity(id=null, name=male), kitchenType=null, religion=ReligionEntity(id=null, name=Sabians), addressEntity=null)
+user : UserEntity(id=19, firstName=Andrey, lastName=Sidorov, phoneNumber=0534420822, eMail=bcot1more8@opensource.org, userName=bcot1more8, encrytedPassword=null, dateOfBirth=null, status=ACTIVE, maritalStatus=MaritalStatusEntity(id=null, name=Married), gender=GenderEntity(id=null, name=male), kitchenType=null, religion=ReligionEntity(id=null, name=Restorationism), addressEntity=null)
+user : UserEntity(id=20, firstName=Masha, lastName=Petrman, phoneNumber=0536203675, eMail=mdes32aur9@flickr.com, userName=mdes32aur9, encrytedPassword=null, dateOfBirth=null, status=ACTIVE, maritalStatus=MaritalStatusEntity(id=null, name=Married), gender=GenderEntity(id=null, name=female), kitchenType=null, religion=ReligionEntity(id=null, name=Eastern and Oriental Orthodoxy), addressEntity=null)
+lastname *man* filter >>>
+user : UserEntity(id=2, firstName=David, lastName=Zingerman, phoneNumber=0532108452, eMail=rbulcock1@istockphoto.com, userName=rbulcock1, encrytedPassword=null, dateOfBirth=null, status=ACTIVE, maritalStatus=MaritalStatusEntity(id=null, name=Married), gender=GenderEntity(id=null, name=female), kitchenType=null, religion=ReligionEntity(id=null, name=Eastern and Oriental Orthodoxy), addressEntity=null)
+user : UserEntity(id=7, firstName=Alexander, lastName=Perelman, phoneNumber=0538512720, eMail=ndiver6@independent.co.uk, userName=ndiver6, encrytedPassword=null, dateOfBirth=null, status=ACTIVE, maritalStatus=MaritalStatusEntity(id=null, name=Widowed), gender=GenderEntity(id=null, name=female), kitchenType=null, religion=ReligionEntity(id=null, name=Bábism), addressEntity=null)
+user : UserEntity(id=10, firstName=Masha, lastName=Petrman, phoneNumber=0536657356, eMail=mdesaur9@flickr.com, userName=mdesaur9, encrytedPassword=null, dateOfBirth=null, status=ACTIVE, maritalStatus=MaritalStatusEntity(id=null, name=Widowed), gender=GenderEntity(id=null, name=female), kitchenType=null, religion=ReligionEntity(id=null, name=Rastafari movement), addressEntity=null)
+user : UserEntity(id=12, firstName=David, lastName=Zingerman, phoneNumber=0534801883, eMail=rbulcock11@istockphoto.com, userName=rbulcock11, encrytedPassword=null, dateOfBirth=null, status=ACTIVE, maritalStatus=MaritalStatusEntity(id=null, name=Separated), gender=GenderEntity(id=null, name=female), kitchenType=null, religion=ReligionEntity(id=null, name=Buddhism), addressEntity=null)
+user : UserEntity(id=14, firstName=Dmitriy, lastName=Somanov, phoneNumber=0538742221, eMail=pdecarlo33@nbcnews.com, userName=pdecarlo33, encrytedPassword=null, dateOfBirth=null, status=ACTIVE, maritalStatus=MaritalStatusEntity(id=null, name=Married), gender=GenderEntity(id=null, name=male), kitchenType=null, religion=ReligionEntity(id=null, name=Catholicism), addressEntity=null)
+user : UserEntity(id=20, firstName=Masha, lastName=Petrman, phoneNumber=0536203675, eMail=mdes32aur9@flickr.com, userName=mdes32aur9, encrytedPassword=null, dateOfBirth=null, status=ACTIVE, maritalStatus=MaritalStatusEntity(id=null, name=Married), gender=GenderEntity(id=null, name=female), kitchenType=null, religion=ReligionEntity(id=null, name=Eastern and Oriental Orthodoxy), addressEntity=null)
+lastname *man* and between dates filter >>>
+user : UserEntity(id=2, firstName=David, lastName=Zingerman, phoneNumber=0532108452, eMail=rbulcock1@istockphoto.com, userName=rbulcock1, encrytedPassword=null, dateOfBirth=null, status=ACTIVE, maritalStatus=MaritalStatusEntity(id=null, name=Married), gender=GenderEntity(id=null, name=female), kitchenType=null, religion=ReligionEntity(id=null, name=Eastern and Oriental Orthodoxy), addressEntity=null)
+user : UserEntity(id=7, firstName=Alexander, lastName=Perelman, phoneNumber=0538512720, eMail=ndiver6@independent.co.uk, userName=ndiver6, encrytedPassword=null, dateOfBirth=null, status=ACTIVE, maritalStatus=MaritalStatusEntity(id=null, name=Widowed), gender=GenderEntity(id=null, name=female), kitchenType=null, religion=ReligionEntity(id=null, name=Bábism), addressEntity=null)
+user : UserEntity(id=10, firstName=Masha, lastName=Petrman, phoneNumber=0536657356, eMail=mdesaur9@flickr.com, userName=mdesaur9, encrytedPassword=null, dateOfBirth=null, status=ACTIVE, maritalStatus=MaritalStatusEntity(id=null, name=Widowed), gender=GenderEntity(id=null, name=female), kitchenType=null, religion=ReligionEntity(id=null, name=Rastafari movement), addressEntity=null)
+user : UserEntity(id=12, firstName=David, lastName=Zingerman, phoneNumber=0534801883, eMail=rbulcock11@istockphoto.com, userName=rbulcock11, encrytedPassword=null, dateOfBirth=null, status=ACTIVE, maritalStatus=MaritalStatusEntity(id=null, name=Separated), gender=GenderEntity(id=null, name=female), kitchenType=null, religion=ReligionEntity(id=null, name=Buddhism), addressEntity=null)
+user : UserEntity(id=14, firstName=Dmitriy, lastName=Somanov, phoneNumber=0538742221, eMail=pdecarlo33@nbcnews.com, userName=pdecarlo33, encrytedPassword=null, dateOfBirth=null, status=ACTIVE, maritalStatus=MaritalStatusEntity(id=null, name=Married), gender=GenderEntity(id=null, name=male), kitchenType=null, religion=ReligionEntity(id=null, name=Catholicism), addressEntity=null)
+user : UserEntity(id=20, firstName=Masha, lastName=Petrman, phoneNumber=0536203675, eMail=mdes32aur9@flickr.com, userName=mdes32aur9, encrytedPassword=null, dateOfBirth=null, status=ACTIVE, maritalStatus=MaritalStatusEntity(id=null, name=Married), gender=GenderEntity(id=null, name=female), kitchenType=null, religion=ReligionEntity(id=null, name=Eastern and Oriental Orthodoxy), addressEntity=null)
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 25.222 s - in application.integration.UserWebRequestTest
+[INFO] Running application.models.EventModelTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.711 s - in application.models.EventModelTest
+[INFO] Running application.models.UserModelTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.898 s - in application.models.UserModelTest
+[INFO] Running application.relations.logs_user.LogsUserTest
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into eventlist (id, address_entity_id, date, holi_day_id, kitchen_type_id, name_of_event, status, time, user_owner) values (null, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: call next value for logs_data_entity_id_seq
+Hibernate: call next value for logs_data_entity_id_seq
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.078 s - in application.relations.logs_user.LogsUserTest
+[INFO] Running application.relations.user_event.UserEventGuestFeedbackTest
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into eventlist (id, address_entity_id, date, holi_day_id, kitchen_type_id, name_of_event, status, time, user_owner) values (null, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: select subscripti0_.event_id as event_id1_16_0_, subscripti0_.guest_id as guest_id2_16_0_, subscripti0_.comment as comment3_16_0_, subscripti0_.date_time as date_tim4_16_0_, subscripti0_.rating as rating5_16_0_, subscripti0_.status as status6_16_0_ from user_event_guest subscripti0_ where subscripti0_.event_id=? and subscripti0_.guest_id=?
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.069 s - in application.relations.user_event.UserEventGuestFeedbackTest
+[INFO] Running application.relations.user_event.UserEventGuestTest
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into eventlist (id, address_entity_id, date, holi_day_id, kitchen_type_id, name_of_event, status, time, user_owner) values (null, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into eventlist (id, address_entity_id, date, holi_day_id, kitchen_type_id, name_of_event, status, time, user_owner) values (null, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into user_event_guest (comment, date_time, rating, status, event_id, guest_id) values (?, ?, ?, ?, ?, ?)
+Hibernate: select userentity1_.user_id as user_id1_15_, userentity1_.address_entity_id as address10_15_, userentity1_.dateofbirth as dateofbi2_15_, userentity1_.email as email3_15_, userentity1_.encryted_password as encryted4_15_, userentity1_.firstname as firstnam5_15_, userentity1_.gender_id as gender_11_15_, userentity1_.kitchen_type_id as kitchen12_15_, userentity1_.lastname as lastname6_15_, userentity1_.marital_status_id as marital13_15_, userentity1_.phonenumber as phonenum7_15_, userentity1_.religion_id as religio14_15_, userentity1_.status as status8_15_, userentity1_.username as username9_15_ from user_event_guest subscripti0_ inner join user userentity1_ on subscripti0_.guest_id=userentity1_.user_id where subscripti0_.event_id=?
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into eventlist (id, address_entity_id, date, holi_day_id, kitchen_type_id, name_of_event, status, time, user_owner) values (null, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into user_event_guest (comment, date_time, rating, status, event_id, guest_id) values (?, ?, ?, ?, ?, ?)
+Hibernate: select evententit1_.id as id1_4_, evententit1_.address_entity_id as address_6_4_, evententit1_.date as date2_4_, evententit1_.holi_day_id as holi_day7_4_, evententit1_.kitchen_type_id as kitchen_8_4_, evententit1_.name_of_event as name_of_3_4_, evententit1_.status as status4_4_, evententit1_.time as time5_4_, evententit1_.user_owner as user_own9_4_ from user_event_guest subscripti0_ inner join eventlist evententit1_ on subscripti0_.event_id=evententit1_.id where subscripti0_.guest_id=?
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into eventlist (id, address_entity_id, date, holi_day_id, kitchen_type_id, name_of_event, status, time, user_owner) values (null, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into user_event_guest (comment, date_time, rating, status, event_id, guest_id) values (?, ?, ?, ?, ?, ?)
+Hibernate: select count(*) as col_0_0_ from user_event_guest subscripti0_ where subscripti0_.event_id=? and subscripti0_.guest_id=?
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into eventlist (id, address_entity_id, date, holi_day_id, kitchen_type_id, name_of_event, status, time, user_owner) values (null, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: select count(*) as col_0_0_ from user userentity0_ where userentity0_.user_id=?
+Hibernate: select count(*) as col_0_0_ from user userentity0_ where userentity0_.user_id=?
+Hibernate: delete from eventlist where id=?
+Hibernate: select count(*) as col_0_0_ from eventlist evententit0_
+Hibernate: select count(*) as col_0_0_ from user_event_guest subscripti0_
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into eventlist (id, address_entity_id, date, holi_day_id, kitchen_type_id, name_of_event, status, time, user_owner) values (null, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: delete from user where user_id=?
+Hibernate: select count(*) as col_0_0_ from eventlist evententit0_ where evententit0_.id=?
+Hibernate: select count(*) as col_0_0_ from user userentity0_ where userentity0_.user_id=?
+Hibernate: select count(*) as col_0_0_ from user_event_guest subscripti0_ where subscripti0_.event_id=? and subscripti0_.guest_id=?
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.193 s - in application.relations.user_event.UserEventGuestTest
+[INFO] Running application.relations.user_event.UserEventOwnerTest
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into eventlist (id, address_entity_id, date, holi_day_id, kitchen_type_id, name_of_event, status, time, user_owner) values (null, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into eventlist (id, address_entity_id, date, holi_day_id, kitchen_type_id, name_of_event, status, time, user_owner) values (null, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into user_event_guest (comment, date_time, rating, status, event_id, guest_id) values (?, ?, ?, ?, ?, ?)
+Hibernate: insert into user_event_guest (comment, date_time, rating, status, event_id, guest_id) values (?, ?, ?, ?, ?, ?)
+Hibernate: select count(*) as col_0_0_ from user_event_guest subscripti0_ where subscripti0_.event_id=? and subscripti0_.guest_id=?
+Hibernate: select count(*) as col_0_0_ from user_event_guest subscripti0_ where subscripti0_.event_id=? and subscripti0_.guest_id=?
+Hibernate: delete from user_event_guest where event_id=? and guest_id=?
+Hibernate: delete from eventlist where id=?
+Hibernate: delete from user_event_guest where event_id=? and guest_id=?
+Hibernate: delete from user where user_id=?
+Hibernate: select count(*) as col_0_0_ from user userentity0_
+Hibernate: select count(*) as col_0_0_ from eventlist evententit0_
+Hibernate: select count(*) as col_0_0_ from user userentity0_ where userentity0_.user_id=?
+Hibernate: select count(*) as col_0_0_ from eventlist evententit0_ where evententit0_.id=?
+Hibernate: select count(*) as col_0_0_ from user_event_guest subscripti0_ where subscripti0_.event_id=? and subscripti0_.guest_id=?
+Hibernate: select count(*) as col_0_0_ from user userentity0_ where userentity0_.user_id=?
+Hibernate: select count(*) as col_0_0_ from eventlist evententit0_ where evententit0_.id=?
+Hibernate: select count(*) as col_0_0_ from user_event_guest subscripti0_ where subscripti0_.event_id=? and subscripti0_.guest_id=?
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into eventlist (id, address_entity_id, date, holi_day_id, kitchen_type_id, name_of_event, status, time, user_owner) values (null, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into eventlist (id, address_entity_id, date, holi_day_id, kitchen_type_id, name_of_event, status, time, user_owner) values (null, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: select count(*) as col_0_0_ from user userentity0_ where userentity0_.user_id=?
+Hibernate: insert into user_event_guest (comment, date_time, rating, status, event_id, guest_id) values (?, ?, ?, ?, ?, ?)
+Hibernate: insert into user_event_guest (comment, date_time, rating, status, event_id, guest_id) values (?, ?, ?, ?, ?, ?)
+Hibernate: select count(*) as col_0_0_ from eventlist evententit0_ where evententit0_.id=?
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into eventlist (id, address_entity_id, date, holi_day_id, kitchen_type_id, name_of_event, status, time, user_owner) values (null, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: insert into eventlist (id, address_entity_id, date, holi_day_id, kitchen_type_id, name_of_event, status, time, user_owner) values (null, ?, ?, ?, ?, ?, ?, ?, ?)
+UserEntity(id=39, firstName=null, lastName=null, phoneNumber=null, eMail=p_hacker@sicp.edu, userName=Alyssa, encrytedPassword=null, dateOfBirth=null, status=ACTIVE, maritalStatus=null, gender=null, kitchenType=null, religion=null, addressEntity=null)
+EventEntity(id=22, date=2190-01-01, time=23:59, nameOfEvent=null, kitchenType=null, holiDay=null, status=ACTIVE)
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.064 s - in application.relations.user_event.UserEventOwnerTest
+Hibernate: drop table address if exists
+Hibernate: drop table app_role if exists
+Hibernate: drop table cities if exists
+Hibernate: drop table country if exists
+Hibernate: drop table eventlist if exists
+Hibernate: drop table gender if exists
+Hibernate: drop table holyday if exists
+Hibernate: drop table kichentype if exists
+Hibernate: drop table logs_on_event if exists
+Hibernate: drop table logs_on_user if exists
+Hibernate: drop table marriage_status if exists
+Hibernate: drop table religion if exists
+Hibernate: drop table template if exists
+Hibernate: drop table template_entity_items if exists
+Hibernate: drop table user if exists
+Hibernate: drop table user_event_guest if exists
+Hibernate: drop table user_role if exists
+Hibernate: drop table user_session if exists
+Hibernate: drop table user_entity_picture_items if exists
+Hibernate: drop sequence if exists hibernate_sequence
+Hibernate: drop sequence if exists logs_data_entity_id_seq
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 53, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  02:26 min
+[INFO] Finished at: 2019-06-03T19:26:38+03:00
+[INFO] ------------------------------------------------------------------------

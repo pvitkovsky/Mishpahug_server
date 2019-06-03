@@ -1,6 +1,8 @@
 import { Routes, RouterModule } from '@angular/router';
 
 import { EventListComponent } from './Components/eventlist/eventlist.component';
+import { EventsGeneralComponent } from './Components/eventlist/eventsgeneral/eventsgeneral.component';
+import { EventsByOwnerComponent } from './Components/eventlist/eventsbyowner/eventsbyowner.component';
 
 import { LoginComponent } from './Components/login/login.component';
 import { RegisterComponent } from './Components/register/register.component';
@@ -27,7 +29,7 @@ const appRoutes: Routes = [{
             path: ':id',
             children: [{
                 path: 'events', //TODO: better checking in the component; tied to the last segment...
-                component: EventListComponent
+                component: EventsByOwnerComponent
             }, ]
         }, ]
     },
@@ -46,11 +48,11 @@ const appRoutes: Routes = [{
         ]
     },
     {
-        path: 'eventlist',
-        component: EventListComponent
+        path: 'all-events',
+        component: EventsGeneralComponent
     },
     {
-        path: 'myeventlist',
+        path: 'my-events',
         component: EventListComponent,
         canActivate: [AuthGuard]
     },

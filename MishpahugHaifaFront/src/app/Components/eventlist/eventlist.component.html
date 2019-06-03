@@ -1,13 +1,8 @@
-np<table class="mdl-grid" ><!-- TODO: material design table https://github.com/angular/components/issues/5927#issuecomment-317016960-->
-  <tr>
-    <td class="mdl-cell mdl-cell--3-col" *ngFor="let k of keys">{{k}}</td>
-  </tr>
-  <tr class="mdl-cell mdl-cell--12-col" *ngFor="let event of events">
-    <td class="mdl-cell mdl-cell--3-col" *ngFor="let k of keys">
-      {{event[k]}}
-    </td>
-  </tr>
+<app-eventsgeneral *ngIf="renderEvents === 'ALL'"></app-eventsgeneral>
+<app-eventsbyowner *ngIf="renderEvents === 'OWNER'"></app-eventsbyowner>
+<app-eventsbyguest *ngIf="renderEvents === 'GUEST'"></app-eventsbyguest>
 
-</table>
 
-<div *ngIf = '!eventsExist'> You have not created any events yet.. </div>
+<p *ngIf="renderEvents === 'ALL'">ALL</p>
+<p *ngIf="renderEvents === 'OWNER'">OWNER</p>
+<p *ngIf="renderEvents === 'GUEST'">GUEST</p>

@@ -81,6 +81,8 @@ public class DB_test_loader implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+		log.error("HELLO!!!Err");
+		log.warn("Hello!!!Warn");
 		loadTest(MPHEntity.CITY);
 		loadTest(MPHEntity.RELIGION);
 		loadTest(MPHEntity.KICHENTYPES);

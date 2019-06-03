@@ -89,12 +89,4 @@ public class ReligionTest {
         religionRepository.save(religionEntity);
         assertEquals(religionEntity.getName(),  "testtest");
     }
-
-    @Test
-    public void remove() {
-    	long size = religionRepository.count();
-    	Integer index = gen.nextInt((int) size);
-        religionRepository.deleteById(index);
-        assertEquals(religionRepository.count(), size-1);
-    }
 }

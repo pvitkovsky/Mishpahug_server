@@ -76,8 +76,8 @@ public class KichenTypeTest {
     @Test 
     public void getByName() { //TODO: fix me please
         for (int i = 0; i < dataForFindByNameTest.length; i++) {
-            testKichenType = kichenTypeRepository.getByName(dataForFindByNameTest[i]);
-            //assertTrue(testKichenType != null);
+            testKichenType = kichenTypeRepository.getByName(data[i]);
+            assertTrue(testKichenType != null);
         }
     }
 

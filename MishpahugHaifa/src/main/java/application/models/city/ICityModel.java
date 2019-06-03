@@ -17,6 +17,8 @@ public interface ICityModel {
 
     public CityEntity deleteByID(Integer id) throws ExceptionMishpaha;
 
+    void deleteByName(String name) throws ExceptionMishpaha;
+
     public void deleteAll();
 
     public List<CityEntity> getAll() throws ExceptionMishpaha;

@@ -1,5 +1,6 @@
 package application.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import application.controllers.interfaces.ICountryController;
@@ -70,25 +71,28 @@ public class CountryController implements ICountryController {
 
     @Override
     @GetMapping(value = "/")
-    public List<CountryEntity> get(@RequestHeader HttpHeaders httpHeaders,
+    public List<String> get(@RequestHeader HttpHeaders httpHeaders,
                                    HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
             log.info("CountryController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
         log.info("CountryController -> get -> Remote IP -> " + request.getRemoteAddr());
-        return countryModel.getAll();
+        List<String> res = new ArrayList<>();
+        List<CountryEntity> countryEntityList = countryModel.getAll();
+        countryEntityList.forEach(item->res.add(item.getName()));
+        return res;
     }
 
     @Override
     @GetMapping(value = "/{id}")
-    public CountryEntity get(@PathVariable(name = "id") Integer id
+    public String get(@PathVariable(name = "id") Integer id
                             ,@RequestHeader HttpHeaders httpHeaders,
                              HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
             log.info("CountryController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
         log.info("CountryController -> get -> Remote IP -> " + request.getRemoteAddr());
-        return countryModel.getById(id);
+        return countryModel.getById(id).getName();
     }
 
 }

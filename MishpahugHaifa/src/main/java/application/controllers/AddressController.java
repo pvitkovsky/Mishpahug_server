@@ -58,25 +58,14 @@ public class AddressController implements IAddressController {
     }
 
     @Override
-    @GetMapping(value = "/")
-    public List<AddressEntity> get(@RequestHeader HttpHeaders httpHeaders,
-                                   HttpServletRequest request) throws ExceptionMishpaha {
-        httpHeaders.forEach((key, value) -> {
-            log.info("AddressController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("AddressController -> get -> Remote IP -> " + request.getRemoteAddr());
-        return addressModel.getAll();
-    }
-
-    @Override
     @GetMapping(value = "/{id}")
-    public AddressEntity get(@PathVariable(name = "id") Integer id,
+    public String get(@PathVariable(name = "id") Integer id,
                              @RequestHeader HttpHeaders httpHeaders,
                              HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
             log.info("AddressController -> get{" + id + "} -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
         log.info("AddressController -> get{" + id + "} -> Remote IP -> " + request.getRemoteAddr());
-        return addressModel.getById(id);
+        return addressModel.getById(id).toString();
     }
 }

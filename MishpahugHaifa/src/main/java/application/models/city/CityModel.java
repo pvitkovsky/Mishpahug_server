@@ -55,6 +55,15 @@ public class CityModel implements ICityModel {
         }
     }
 
+@Override
+    public void deleteByName(String name) throws ExceptionMishpaha {
+        try {
+            cityRepository.deleteByName(name);
+        } catch (Exception e) {
+            throw new ExceptionMishpaha(this.getClass().toString(), e);
+        }
+    }
+
     @Override
     public void deleteAll() {
         cityRepository.deleteAll();

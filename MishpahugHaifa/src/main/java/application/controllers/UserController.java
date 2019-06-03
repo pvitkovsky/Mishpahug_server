@@ -1,5 +1,6 @@
 package application.controllers;
 
+import application.controllers.interfaces.IUserController;
 import application.dto.EventDTO;
 import application.dto.LoginDTO;
 import application.dto.LoginResponse;

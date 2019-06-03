@@ -1,34 +1,29 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { EventDetail } from '../Models/index';
+import { EventDetail, EventFilter } from '../Models/index';
 import { Observable, throwError } from 'rxjs';
 import { AuthenticationService} from "./authentication.service"
 import { map } from 'rxjs/operators';
 
+/*
+* Fires requests to the EventController
+*
+*/
 @Injectable()
 export class EventService {
-    constructor(private http: HttpClient){
+  constructor(private http: HttpClient){
 
+  }
+
+  getEvents (filter? : EventFilter ) : Observable<EventDetail[]> {
+    var connectionString = 'api/event/'; 
+    if(filter){
+      connectionString += filter.eventRelation + filter.appendUserDetail();  
     }
-
-    //TODO: all events, events by subscriber, subscribers by event; 
-    //TODO: filter by date, holiday, confession, food; 
-
-    getEvents(){
-      const headers = new HttpHeaders({'Authorization': 'not null Authorization'});
-      return this.http.get<EventDetail[]>("api/event/",{headers}) 
-        map((res: EventDetail[]) => { 
-              return res;
-          }
-        );
-    }
-
-    getEventsByOwner(ownerUserName : string){
-      return this.http.get<EventDetail[]>("api/event/byowner/" + ownerUserName); 
-        map((res: EventDetail[]) => { 
-              return res;
-          }
-        );
-    }
+    //console.log("connecting with connection string " + connectionString)
+    var res : Observable<EventDetail[]> = this.http.get<EventDetail[]>(connectionString);
+    //console.log("Request " + res);
+    return res;
+  }
 
 }

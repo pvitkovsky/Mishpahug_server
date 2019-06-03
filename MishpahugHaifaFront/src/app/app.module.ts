@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule} from '@angular/material/card';
 
 import { NavbarComponent } from './Components/navbar/navbar.component';
-import { EventListComponent } from './Components/eventlist/eventlist.component';
+import { EventListModule } from './Components/eventlist/eventlist.module';
 import { LoginComponent } from './Components/login/login.component';
 import { RegisterComponent } from './Components/register/register.component';
 import { ProfileComponent } from './Components/profile/profile.component';
@@ -35,13 +35,13 @@ import { AlertService, AuthenticationService, GuiService, UserService, EventServ
         MatSidenavModule,
         MatCheckboxModule,
         MatInputModule,
-        MatCardModule
+        MatCardModule,
+        EventListModule
     ],
     declarations: [
         AppComponent,
         AlertComponent,
         NavbarComponent,
-        EventListComponent,
         LoginComponent,
         RegisterComponent,
         NavbarComponent,

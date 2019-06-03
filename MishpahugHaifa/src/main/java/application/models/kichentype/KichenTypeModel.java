@@ -30,8 +30,8 @@ public class KichenTypeModel implements IKichenTypeModel {
     }
 
     @Override
-    public void deleteByID(Integer id) {
-        kichenTypeRepository.deleteById(id);
+    public void deleteByName(String name) {
+        kichenTypeRepository.deleteByName(name);
     }
 
     @Override

@@ -6,5 +6,6 @@ import application.entities.KitchenTypeEntity;
 
 public interface KichenTypeRepository extends JpaRepository<KitchenTypeEntity, Integer> {
     public KitchenTypeEntity getByName(String name);
+    public void deleteByName(String name);
 }
 

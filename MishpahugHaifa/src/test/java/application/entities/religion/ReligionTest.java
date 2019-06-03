@@ -71,12 +71,12 @@ public class ReligionTest {
 
     @Test
     public void getByName() { //TODO: fix me
-        for (int i = 0; i < dataForFindByNameTest.length; i++) {
-        	System.out.println(dataForFindByNameTest[i]);
-            testReligion = religionRepository.getByName(dataForFindByNameTest[i]);
+        for (int i = 0; i < data.length; i++) {
+        	System.out.println(data[i]);
+            testReligion = religionRepository.getByName(data[i]);
             System.out.println(religionRepository.findAll());
             System.out.println(testReligion);
-            //assertFalse(testReligion == null);
+            assertFalse(testReligion == null);
         }
     }
 

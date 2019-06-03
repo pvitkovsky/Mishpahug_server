@@ -26,6 +26,7 @@ public class EventDTO {
     private Integer addressApartment;
     private String holiday;
     private String holidayDescription;
+    private String owner;
     private String kichenType;
 
 
@@ -41,8 +42,9 @@ public class EventDTO {
         this.time = eventEntity.getTime();
         this.nameOfEvent = eventEntity.getNameOfEvent();
         this.holiday = eventEntity.getHoliDay() ==null ? "" : eventEntity.getHoliDay().getName();
-        this.holidayDescription =eventEntity.getHoliDay() ==null ? "" : eventEntity.getHoliDay().getDescription();
-        this.kichenType =eventEntity.getKitchenType() ==null ? "" : eventEntity.getKitchenType().getName();
+        this.holidayDescription = eventEntity.getHoliDay() ==null ? "" : eventEntity.getHoliDay().getDescription();
+        this.kichenType = eventEntity.getKitchenType() ==null ? "" : eventEntity.getKitchenType().getName();
+        this.owner = eventEntity.getUserEntityOwner().getUserName();
 
     }
 }

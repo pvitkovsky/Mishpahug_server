@@ -9,7 +9,7 @@ public interface ICountryModel {
 
     public CountryEntity addCountry(CountryEntity data);
 
-    public void deleteByID(Integer id);
+    public void deleteByName(String name);
 
     public void deleteAll();
 

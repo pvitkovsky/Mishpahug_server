@@ -58,15 +58,15 @@ public class CountryController implements ICountryController {
     }
 
     @Override
-    @DeleteMapping(value = "/{id}")
-    public void delete(@PathVariable(name = "id") Integer id
+    @DeleteMapping(value = "/{name}")
+    public void delete(@PathVariable(name = "name") String name
                       ,@RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
             log.info("CountryController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
         log.info("CountryController -> delete -> Remote IP -> " + request.getRemoteAddr());
-        countryModel.deleteByID(id);
+        countryModel.deleteByName(name);
     }
 
     @Override

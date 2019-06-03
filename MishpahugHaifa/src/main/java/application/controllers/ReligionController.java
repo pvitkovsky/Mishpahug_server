@@ -36,8 +36,8 @@ public class ReligionController implements IReligionController {
 
     @Override
     @GetMapping(value = "/{id}")
-    public ReligionEntity get(@PathVariable(name = "id") Integer id
-            , @RequestHeader HttpHeaders httpHeaders,
+    public ReligionEntity get(@PathVariable(name = "id") Integer id,
+                              @RequestHeader HttpHeaders httpHeaders,
                               HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
             log.info("ReligionController -> getbyid -> headers -> " + String.format("Header '%s' = %s", key, value));
@@ -49,8 +49,8 @@ public class ReligionController implements IReligionController {
 
     @Override
     @PostMapping(value = "/")
-    public void post(@RequestBody ReligionEntity data
-            , @RequestHeader HttpHeaders httpHeaders,
+    public void post(@RequestBody ReligionEntity data,
+                     @RequestHeader HttpHeaders httpHeaders,
                      HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
             log.info("ReligionController -> post -> headers -> " + String.format("Header '%s' = %s", key, value));
@@ -63,8 +63,8 @@ public class ReligionController implements IReligionController {
     @Override
     @PutMapping(value = "/")
     public void put(@RequestParam(name = "id") Integer id,
-                    @RequestParam(name = "name") String name
-            , @RequestHeader HttpHeaders httpHeaders,
+                    @RequestParam(name = "name") String name,
+                    @RequestHeader HttpHeaders httpHeaders,
                     HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
             log.info("ReligionController -> put -> headers -> " + String.format("Header '%s' = %s", key, value));
@@ -86,8 +86,8 @@ public class ReligionController implements IReligionController {
 
     @Override
     @DeleteMapping(value = "/{name}")
-    public void delete(@PathVariable(name = "name") String name
-            , @RequestHeader HttpHeaders httpHeaders,
+    public void delete(@PathVariable(name = "name") String name,
+                       @RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
             log.info("ReligionController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));

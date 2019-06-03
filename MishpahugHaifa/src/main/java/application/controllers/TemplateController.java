@@ -23,8 +23,8 @@ public class TemplateController implements ITemplateController {
 
     @Override
     @GetMapping(value = "/{name}")
-    public TemplateEntity get(@PathVariable(value = "name") String name
-            , @RequestHeader HttpHeaders httpHeaders,
+    public TemplateEntity get(@PathVariable(value = "name") String name,
+                              @RequestHeader HttpHeaders httpHeaders,
                               HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("ReligionController -> getbyname -> headers -> " + String.format("Header '%s' = %s", key, value));
@@ -46,8 +46,8 @@ public class TemplateController implements ITemplateController {
 
     @Override
     @PostMapping(value = "/")
-    public TemplateEntity post(@RequestBody TemplateEntity templateEntity
-            , @RequestHeader HttpHeaders httpHeaders,
+    public TemplateEntity post(@RequestBody TemplateEntity templateEntity,
+                               @RequestHeader HttpHeaders httpHeaders,
                                HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("ReligionController -> post -> headers -> " + String.format("Header '%s' = %s", key, value));
@@ -57,8 +57,8 @@ public class TemplateController implements ITemplateController {
     }
     @Override
     @DeleteMapping(value = "/{name}")
-    public void remove(@PathVariable(value = "name") String name
-            , @RequestHeader HttpHeaders httpHeaders,
+    public void remove(@PathVariable(value = "name") String name,
+                       @RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("ReligionController -> remove -> headers -> " + String.format("Header '%s' = %s", key, value));

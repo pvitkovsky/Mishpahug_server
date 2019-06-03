@@ -60,8 +60,8 @@ public class AddressController implements IAddressController {
     @Override
     @GetMapping(value = "/{id}")
     public String get(@PathVariable(name = "id") Integer id,
-                             @RequestHeader HttpHeaders httpHeaders,
-                             HttpServletRequest request) throws ExceptionMishpaha {
+                      @RequestHeader HttpHeaders httpHeaders,
+                      HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
             log.info("AddressController -> get{" + id + "} -> headers -> " + String.format("Header '%s' = %s", key, value));
         });

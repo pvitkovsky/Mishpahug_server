@@ -103,7 +103,7 @@ public class UserController implements IUserController {
     @GetMapping(value = "/currentsubscribes")
     // TODO спрятать строки кода в одну из моделей?
     public List<EventDTO> getEventsByToken(HttpServletRequest request,
-                                              @RequestHeader HttpHeaders httpHeaders) throws ExceptionMishpaha {
+                                           @RequestHeader HttpHeaders httpHeaders) throws ExceptionMishpaha {
         String token = request.getHeader("Authorization");
         httpHeaders.forEach((key,value) -> log.info("UserController -> currentsubscribes -> Headers -> " + key + " = " + value));
         log.info("UserController -> currentsubscribes -> Remote IP -> " + request.getRemoteAddr());
@@ -121,8 +121,8 @@ public class UserController implements IUserController {
     @GetMapping(value = "/{id}/subscribes")
     // TODO спрятать строки кода в одну из моделей?
     public List<EventDTO> getEventsById(@PathVariable(value = "id") Integer id,
-                                           @RequestHeader HttpHeaders httpHeaders,
-                                           HttpServletRequest request) throws ExceptionMishpaha {
+                                        @RequestHeader HttpHeaders httpHeaders,
+                                        HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key,value) -> log.info("UserController -> getEventsById user with id = " + id + " -> Headers -> " + key + " = " + value));
         log.info("UserController -> getEventsById user with id = " + id + " -> Remote IP -> " + request.getRemoteAddr());
         List<SubscriptionEntity> subscriptionEntityList = feedBackModel.getEventsForGuest(userModel.getById(id));

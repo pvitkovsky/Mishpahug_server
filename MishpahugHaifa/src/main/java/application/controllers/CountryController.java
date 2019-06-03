@@ -23,9 +23,9 @@ public class CountryController implements ICountryController {
 
     @Override
     @PostMapping(value = "/")
-    public void post(@RequestBody CountryEntity data
-                    , @RequestHeader HttpHeaders httpHeaders,
-                    HttpServletRequest request) {
+    public void post(@RequestBody CountryEntity data,
+                     @RequestHeader HttpHeaders httpHeaders,
+                     HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
             log.info("CountryController -> post -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -36,8 +36,8 @@ public class CountryController implements ICountryController {
     @Override
     @PutMapping(value = "/")
     public void put(@RequestParam(name = "id") Integer id,
-                    @RequestParam(name = "name") String name
-                    , @RequestHeader HttpHeaders httpHeaders,
+                    @RequestParam(name = "name") String name,
+                    @RequestHeader HttpHeaders httpHeaders,
                     HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
             log.info("CountryController -> put{"+ id +"} -> headers -> " + String.format("Header '%s' = %s", key, value));
@@ -59,8 +59,8 @@ public class CountryController implements ICountryController {
 
     @Override
     @DeleteMapping(value = "/{name}")
-    public void delete(@PathVariable(name = "name") String name
-                      ,@RequestHeader HttpHeaders httpHeaders,
+    public void delete(@PathVariable(name = "name") String name,
+                       @RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
             log.info("CountryController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
@@ -72,7 +72,7 @@ public class CountryController implements ICountryController {
     @Override
     @GetMapping(value = "/")
     public List<String> get(@RequestHeader HttpHeaders httpHeaders,
-                                   HttpServletRequest request) {
+                            HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
             log.info("CountryController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -85,9 +85,9 @@ public class CountryController implements ICountryController {
 
     @Override
     @GetMapping(value = "/{id}")
-    public String get(@PathVariable(name = "id") Integer id
-                            ,@RequestHeader HttpHeaders httpHeaders,
-                             HttpServletRequest request) {
+    public String get(@PathVariable(name = "id") Integer id,
+                      @RequestHeader HttpHeaders httpHeaders,
+                      HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
             log.info("CountryController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });

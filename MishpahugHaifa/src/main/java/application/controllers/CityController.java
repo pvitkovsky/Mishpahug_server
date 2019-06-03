@@ -75,8 +75,8 @@ public class CityController implements ICityController {
     @RequestMapping(method = RequestMethod.GET, value = "/")
     @ResponseBody
     public List<String> get(@QuerydslPredicate(root = CityEntity.class) Predicate predicate,
-                                @RequestHeader HttpHeaders httpHeaders,
-                                HttpServletRequest request) {
+                            @RequestHeader HttpHeaders httpHeaders,
+                            HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
             log.info("CityController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -90,8 +90,8 @@ public class CityController implements ICityController {
     @Override
     @GetMapping(value = "/{id}")
     public String get(@PathVariable(name = "id") Integer id,
-                          @RequestHeader HttpHeaders httpHeaders,
-                          HttpServletRequest request) throws ExceptionMishpaha {
+                      @RequestHeader HttpHeaders httpHeaders,
+                      HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
             log.info("CityController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });

@@ -54,8 +54,8 @@ public class EventController implements IEventController {
     @Override
     @RequestMapping(method = RequestMethod.GET, value = "/")
     @ResponseBody
-    public List<EventDTO> findAllByWebQuerydsl(@QuerydslPredicate(root = EventEntity.class) Predicate predicate
-            , @RequestHeader HttpHeaders httpHeaders,
+    public List<EventDTO> findAllByWebQuerydsl(@QuerydslPredicate(root = EventEntity.class) Predicate predicate,
+                                               @RequestHeader HttpHeaders httpHeaders,
                                                HttpServletRequest request) {
         httpHeaders.forEach((key, value) -> {
             log.info("EventController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
@@ -70,9 +70,9 @@ public class EventController implements IEventController {
     @Override
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     @ResponseBody
-    public EventDTO findById(@PathVariable(name = "id") Integer id
-            , @RequestHeader HttpHeaders httpHeaders,
-                                HttpServletRequest request) throws ExceptionMishpaha {
+    public EventDTO findById(@PathVariable(name = "id") Integer id,
+                             @RequestHeader HttpHeaders httpHeaders,
+                             HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
             log.info("EventController -> findById -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -82,9 +82,9 @@ public class EventController implements IEventController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}/guests")
     @ResponseBody
-    public List<UserDTO> findGuestByEventId(@PathVariable(name = "id") Integer id
-            , @RequestHeader HttpHeaders httpHeaders,
-                                               HttpServletRequest request) throws ExceptionMishpaha {
+    public List<UserDTO> findGuestByEventId(@PathVariable(name = "id") Integer id,
+                                            @RequestHeader HttpHeaders httpHeaders,
+                                            HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
             log.info("EventController -> findGuestByEventId -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -117,8 +117,8 @@ public class EventController implements IEventController {
     @Override
     @PostMapping(value = "/")
     public EventDTO setDataFromForm(@RequestBody EventDTO data,
-                                       @RequestHeader HttpHeaders httpHeaders,
-                                       HttpServletRequest request) {
+                                    @RequestHeader HttpHeaders httpHeaders,
+                                    HttpServletRequest request) {
         EventEntity eventEntity = new EventEntity();
         eventEntity.convertEventDTO(data);
         eventEntity.setKitchenType(kichenTypeModel.getByName(data.getKichenType()));
@@ -136,9 +136,9 @@ public class EventController implements IEventController {
     @Override
     @PutMapping(value = "/{id}")
     public EventDTO updateDataFromForm(@RequestBody HashMap<String, String> data,
-                                          @PathVariable(value = "id") Integer id,
-                                          @RequestHeader HttpHeaders httpHeaders,
-                                          HttpServletRequest request) throws ExceptionMishpaha {
+                                       @PathVariable(value = "id") Integer id,
+                                       @RequestHeader HttpHeaders httpHeaders,
+                                       HttpServletRequest request) throws ExceptionMishpaha {
         httpHeaders.forEach((key, value) -> {
             log.info("EventController -> updateDataFromForm -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -155,8 +155,8 @@ public class EventController implements IEventController {
     @Override
     @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable(value = "id") Integer id,
-                              @RequestHeader HttpHeaders httpHeaders,
-                              HttpServletRequest request) throws ExceptionMishpaha {
+                       @RequestHeader HttpHeaders httpHeaders,
+                       HttpServletRequest request) throws ExceptionMishpaha {
         eventModel.getById(id).putIntoDeletionQueue();
         httpHeaders.forEach((key, value) -> {
             log.info("EventController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));

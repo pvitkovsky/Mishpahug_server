@@ -1,5 +1,6 @@
 package application.controllers.interfaces;
 
+import application.dto.EventDTO;
 import application.dto.LoginDTO;
 import application.dto.LoginResponse;
 import application.dto.UserDTO;
@@ -22,11 +23,11 @@ public interface IUserController {
 	UserDTO getByToken(HttpServletRequest request, HttpHeaders httpHeaders) throws ExceptionMishpaha;
 
 	// TODO спрятать строки кода в одну из моделей?
-	List<EventEntity> getEventsByToken(HttpServletRequest request, @RequestHeader HttpHeaders httpHeaders)
+	List<EventDTO> getEventsByToken(HttpServletRequest request, @RequestHeader HttpHeaders httpHeaders)
 			throws ExceptionMishpaha;
 
 	// TODO спрятать строки кода в одну из моделей?
-	List<EventEntity> getEventsById(Integer id, HttpHeaders httpHeaders, HttpServletRequest request)
+	List<EventDTO> getEventsById(Integer id, HttpHeaders httpHeaders, HttpServletRequest request)
 			throws ExceptionMishpaha;
 
 	LoginResponse login(LoginDTO loginDTO, HttpHeaders httpHeaders, HttpServletRequest request);

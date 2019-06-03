@@ -44,7 +44,7 @@ public class EventDTO {
         this.holiday = eventEntity.getHoliDay() ==null ? "" : eventEntity.getHoliDay().getName();
         this.holidayDescription = eventEntity.getHoliDay() ==null ? "" : eventEntity.getHoliDay().getDescription();
         this.kichenType = eventEntity.getKitchenType() ==null ? "" : eventEntity.getKitchenType().getName();
-        this.owner = eventEntity.getUserEntityOwner().getUserName();
+        this.owner = eventEntity.getUserEntityOwner().getId().toString();
 
     }
 }

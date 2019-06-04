@@ -27,7 +27,6 @@ public class KichenTypeTest {
     @Autowired
     KichenTypeRepository kichenTypeRepository;
     private String[] data = {"kosher milk", "kosher meat", "kosher fur", "non - kosher milk", "non - kosher meat", "non - kosher fur", "n/a"};
-    private String[] dataForFindByNameTest = {"non", "iii", "kosher", "fur"};
     private KitchenTypeEntity testKichenType;
     private static Random gen = new Random();
     
@@ -74,7 +73,7 @@ public class KichenTypeTest {
     }
 
     @Test 
-    public void getByName() { //TODO: fix me please
+    public void getByName() { 
         for (int i = 0; i < data.length; i++) {
             testKichenType = kichenTypeRepository.getByName(data[i]);
             assertTrue(testKichenType != null);

@@ -16,6 +16,7 @@ import com.querydsl.core.types.dsl.StringPath;
 
 import application.entities.EventEntity;
 import application.entities.QEventEntity;
+import application.entities.QSubscriptionEntity;
 
 //TODO: disallow/hide DELETE;
 public interface EventRepository extends JpaRepository<EventEntity, Integer>,
@@ -27,6 +28,7 @@ public interface EventRepository extends JpaRepository<EventEntity, Integer>,
 
     public EventEntity getByNameOfEvent(String name);
     public List<EventEntity> getByUserEntityOwner_UserName(String userName);
+    
     @Override
     default public void customize(QuerydslBindings bindings, QEventEntity root) {
         log.debug("EventRepository -> customize-> bindings = " + root.toString());
@@ -55,6 +57,20 @@ public interface EventRepository extends JpaRepository<EventEntity, Integer>,
             log.debug("EventRepository -> customize-> path = " + path);
             List<? extends String> NamesOfCities = new ArrayList<>(value);
             return Optional.of(path.contains(NamesOfCities.get(0)));
+        });
+
+        bindings.bind(root.userEntityOwner.userName).all((path, value) -> {
+            log.debug("EventRepository -> customize-> value = " + value);
+            log.debug("EventRepository -> customize-> path = " + path);
+            List<? extends String> OwnerUserNames= new ArrayList<>(value);
+            return Optional.of(path.contains(OwnerUserNames.get(0))); //Why get(0)?
+        });
+        
+        bindings.bind(root.subscriptions.any().guest.userName).all((path, value) -> {
+            log.debug("EventRepository -> customize-> value = " + value);
+            log.debug("EventRepository -> customize-> path = " + path);
+            List<? extends String> GuestUserNames= new ArrayList<>(value);
+            return Optional.of(path.contains(GuestUserNames.get(0))); //Why get(0)?
         });
 
 

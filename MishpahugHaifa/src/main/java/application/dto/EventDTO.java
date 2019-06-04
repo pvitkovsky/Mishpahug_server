@@ -1,13 +1,15 @@
 package application.dto;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import application.entities.EventEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.time.LocalDate;
-import java.time.LocalTime;
 
 @ToString
 @Getter
@@ -28,6 +30,7 @@ public class EventDTO {
     private String holidayDescription;
     private String owner;
     private String kichenType;
+    private List<String> guests; 
 
 
     public EventDTO(EventEntity eventEntity) {
@@ -44,7 +47,8 @@ public class EventDTO {
         this.holiday = eventEntity.getHoliDay() ==null ? "" : eventEntity.getHoliDay().getName();
         this.holidayDescription = eventEntity.getHoliDay() ==null ? "" : eventEntity.getHoliDay().getDescription();
         this.kichenType = eventEntity.getKitchenType() ==null ? "" : eventEntity.getKitchenType().getName();
-        this.owner = eventEntity.getUserEntityOwner().getId().toString();
+        this.owner = eventEntity.getUserEntityOwner().getId().toString() + " " + eventEntity.getUserEntityOwner().getUserName().toString() ;
+        this.guests = eventEntity.getSubscriptions().stream().map(s -> s.getGuest().getId() + " " + s.getGuest().getUserName()).collect(Collectors.toList());
 
     }
 }

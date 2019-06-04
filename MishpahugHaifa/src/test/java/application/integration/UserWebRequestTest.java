@@ -123,7 +123,12 @@ public class UserWebRequestTest {
                 }).getBody();
         users.forEach((data) -> System.out.println("user : " + data));
         assertTrue(users.size() > 0);
+        System.out.println("marital status: divorced filter >>>");
+        users = this.restTemplate.exchange("http://localhost:" + port + "/user/?maritalStatus.name=Divorced", HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<Collection<UserEntity>>() {
+                }).getBody();
+        users.forEach((data) -> System.out.println("user : " + data));
+        assertTrue(users.size() > 0);
     }
-    
-    //TODO: login test please
 }

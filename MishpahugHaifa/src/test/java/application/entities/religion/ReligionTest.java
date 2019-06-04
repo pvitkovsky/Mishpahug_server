@@ -27,7 +27,6 @@ public class ReligionTest {
     ReligionRepository religionRepository;
     private ReligionEntity religionEntity;
     private String[] data = {"Christianity", "Judaism", "Atheism", "Buddhism", "Hare Krishnas", "Sikhism", "Confucianism", "Zoroastrianism"};
-    private String[] dataForFindByNameTest = {"hi", "ni", "fi", "ei"};
     private ReligionEntity testReligion;
     private static Random gen = new Random();
     
@@ -70,12 +69,9 @@ public class ReligionTest {
     }
 
     @Test
-    public void getByName() { //TODO: fix me
+    public void getByName() {
         for (int i = 0; i < data.length; i++) {
-        	System.out.println(data[i]);
             testReligion = religionRepository.getByName(data[i]);
-            System.out.println(religionRepository.findAll());
-            System.out.println(testReligion);
             assertFalse(testReligion == null);
         }
     }

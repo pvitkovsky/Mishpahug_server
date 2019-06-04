@@ -30,6 +30,7 @@ export class UserService {
     }
 
     current() : Observable<UserDetail> { //TODO: make UserDetail type work; make service memorise on auth;
+        //console.log("call to UserService.current()" + this.authService.currentUser());
         return this.authService.currentUser();
     }
 

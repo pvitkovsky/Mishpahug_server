@@ -8,7 +8,7 @@ import { EventListService } from '../eventlist.service'
 	templateUrl: './eventsrenderer.component.html',
 	styleUrls: ['./eventsrenderer.component.scss']
 })
-export class EventsRendererComponent implements OnChanges {
+export class EventsRendererComponent implements OnInit, OnChanges {
 
 	@Input() childEventList : EventDetail[];
 	events = [];
@@ -17,6 +17,9 @@ export class EventsRendererComponent implements OnChanges {
 
 	constructor() { }
 
+ 	ngOnInit(){
+ 		this.childEventList = [];
+ 	}
 
 	ngOnChanges(changes: SimpleChanges) { //TODO: remove error on start
 		// only run when property "data" changed

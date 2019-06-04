@@ -1,42 +1,43 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, } from '@angular/router';
+import { UserService  } from  '../../Services/index';
+import { UserDetail } from  '../../Models/index';
 import { filter } from 'rxjs/operators'
 
 export enum RenderEvents {
-    ALL = 'ALL',
-    OWNER = 'OWNER',
-    GUEST = 'GUEST'
+	ALL = 'ALL',
+	OWNER = 'OWNER',
+	GUEST = 'GUEST'
 }
 
 @Component({
-  selector: 'app-eventlist',
-  templateUrl: './eventlist.component.html',
-  styleUrls: ['./eventlist.component.scss']
+	selector: 'app-eventlist',
+	templateUrl: './eventlist.component.html',
+	styleUrls: ['./eventlist.component.scss']
 })
-export class EventListComponent implements OnInit {
+export class EventListComponent implements OnInit{
 
-  renderEvents : RenderEvents; 
+	childEventList : RenderEvents = RenderEvents.ALL;
+	loggedInUserId : number;
 
-  constructor(private router: Router, private route: ActivatedRoute) { }
-  
-  ngOnInit() {
-//     this.route.url
-//     .pipe(filter(result => Object.keys(result).length  > 0))
-//     .subscribe(urlSegment => {
-//       var lastUrlPart = urlSegment[Math.max(0, urlSegment.length-1)].path
-//       if(lastUrlPart == "all-events"){
-//         this.renderEvents = RenderEvents.ALL;
-//       } 
-//       if(lastUrlPart == "my-events"){
-//         this.renderEvents = RenderEvents.OWNER;
-// //        this.router.navigate(['user', this.loggedInUserId, 'events'])
-//       }
-//       if(lastUrlPart == "my-subscriptions"){
-//         this.renderEvents = RenderEvents.GUEST;
-//       }
-//     });
-    this.renderEvents = RenderEvents.ALL; //TODO: routing
-    //console.log(this.renderEvents);
-  }
+	constructor(private route: ActivatedRoute, private router: Router, private userService: UserService) {}
+
+	ngOnInit(){
+		
+
+		this.route.queryParams.subscribe(params => {
+			//console.log("EventList before " +  this.childEventList);
+			let render = params['render'];
+			if(render){ 
+				//console.log("Incoming " + render);
+				this.childEventList = render;
+				//TODO : navigation onto secured path when rendering Owner and GUEST
+				// this.userService.current().subscribe(userDetail => this.router.navigate(['user', userDetail.id, 'events']));				
+			}
+			//console.log("EventList after " + this.childEventList);
+		});
+	}
+
+
 }
 

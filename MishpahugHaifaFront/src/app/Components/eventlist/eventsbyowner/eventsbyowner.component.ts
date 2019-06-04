@@ -4,18 +4,22 @@ import { EventDetail } from '../../../Models/index';
 import { EventListService } from '../eventlist.service'
 
 @Component({
-  selector: 'app-eventsbyowner',
-  templateUrl: './eventsbyowner.component.html',
-  styleUrls: ['./eventsbyowner.component.scss']
+	selector: 'app-eventsbyowner',
+	templateUrl: './eventsbyowner.component.html',
+	styleUrls: ['./eventsbyowner.component.scss']
 })
 export class EventsByOwnerComponent implements OnInit {
 
-  eventList : EventDetail[]
-  
-  constructor(private eventListService : EventListService) { }
+	eventList : EventDetail[]
 
-  ngOnInit() {
-  	this.eventListService.getEventsOwner().subscribe((res) => this.eventList = res);
-  }
+	constructor(private eventListService : EventListService) { }
+
+	ngOnInit() {
+		this.eventListService.getEventsOwner().subscribe((res) => {
+		//	console.log("Owner component events " + res);
+			res.subscribe(events =>  this.eventList = events);
+		//	console.log("General component events " + this.eventList)
+		});
+	}
 
 }

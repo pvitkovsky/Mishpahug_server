@@ -18,7 +18,7 @@ export class EventService {
   getEvents (filter? : EventFilter ) : Observable<EventDetail[]> {
     var connectionString = 'api/event/'; 
     if(filter){
-      connectionString += filter.eventRelation + filter.appendUserDetail();  
+      connectionString += filter.eventRelation + filter.appendUserDetail();  // user details do not succeed in getting to the filter in time; 
     }
     //console.log("connecting with connection string " + connectionString)
     var res : Observable<EventDetail[]> = this.http.get<EventDetail[]>(connectionString);

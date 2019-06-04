@@ -18,23 +18,28 @@ export enum EventRelation {
 */
 export class EventFilter {
 
+    private userDetail: UserDetail;
+
     constructor(public eventStatus: EventStatus, public eventRelation: EventRelation, userDetail ? : UserDetail){
         this.eventStatus = eventStatus;
         this.eventRelation = eventRelation;
         if(userDetail){
             this.userDetail = userDetail;
         }
-        //console.log("Arrived userDetail in constructor of Filter " + this.loggedInUserDetail)
+        //console.log("Arrived userDetail in constructor of Filter " + this.userDetail)
     }
 
-    private userDetail: UserDetail;
+    
 
     appendUserDetail() : string {
         switch (this.eventRelation) {
             case EventRelation.ALL:
             return '';
-            default:
-            return this.userDetail.userName;
+            default:{
+                return this.userDetail.userName;
+                // return (this.userDetail) ? this.userDetail.userName : '' ;    
+            }
+            
         }
 
     }

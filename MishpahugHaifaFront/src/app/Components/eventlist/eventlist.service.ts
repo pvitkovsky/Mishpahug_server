@@ -3,6 +3,7 @@ import { EventService } from '../../Services/index';
 import { UserService } from '../../Services/index';
 import { UserDetail, EventDetail, EventFilter, EventStatus, EventRelation } from  '../../Models/index';
 import { filter } from 'rxjs/operators'
+import { switchMap } from 'rxjs/operators';
 import { Observable } from "rxjs/Rx"
 
 @Injectable({ 
@@ -13,24 +14,9 @@ import { Observable } from "rxjs/Rx"
 * Static factory for the requests to EventController
 *
 */
-export class EventListService implements OnInit{ // static factory of request parameters for the event service
+export class EventListService { // static factory of request parameters for the event service
 
-	loggedInUserId: number;
-	loggedInUserName : string;
-	loggedInUserDetail : UserDetail; 
-
-	constructor(private eventService: EventService, private userService: UserService) { }
-
-
-	ngOnInit(){ //TODO: won't work if not logged in - no UserDetail;
-		this.userService.current().subscribe(
-			userDetail => { 
-//				console.log('eventlist service : current user id ' + userDetail.id)
-				this.loggedInUserId = userDetail.id;
-				this.loggedInUserName = userDetail.userName;
-				this.loggedInUserDetail = userDetail;
-			});
-//		console.log("Arrived userDetail " + this.loggedInUserDetail)
+	constructor(private eventService: EventService, private userService: UserService) {
 	}
 
 	private getEvents(eventFilter : EventFilter) : Observable<EventDetail[]>  {
@@ -47,7 +33,7 @@ export class EventListService implements OnInit{ // static factory of request pa
 	}
 
 	private  getFilterOwner(userDetail : UserDetail) : EventFilter {
-		return new EventFilter(EventStatus.ALL, EventRelation.OWNER, userDetail);
+		return new EventFilter(EventStatus.ALL, EventRelation.OWNER, userDetail); 
 	}
 
 	private getFilterGuest(userDetail : UserDetail) : EventFilter {
@@ -58,12 +44,20 @@ export class EventListService implements OnInit{ // static factory of request pa
 		return this.getEvents(this.getFilterGeneral());
 	}
 
-	getEventsOwner() : Observable<EventDetail[]> {
-		return this.getEvents(this.getFilterOwner(this.loggedInUserDetail));
+	getEventsOwner() : Observable<Observable<EventDetail[]>> { //TODO: get rid of double Observable - make switchMap work
+		return this.userService.current().map(
+			userDetail => this.getEvents(this.getFilterOwner(userDetail)).map(
+				eventList => eventList
+				)
+			)
 	}
 
-	getEventsGuest() : Observable<EventDetail[]> {
-		return this.getEvents(this.getFilterGuest(this.loggedInUserDetail));
+	getEventsGuest() : Observable<Observable<EventDetail[]>> { //TODO: get rid of double Observable - make switchMap work
+		return this.userService.current().map(
+			userDetail => this.getEvents(this.getFilterGuest(userDetail)).map(
+				eventList => eventList
+				)
+			)
 	}
 
 

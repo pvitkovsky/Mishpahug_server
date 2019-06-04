@@ -81,8 +81,6 @@ public class DB_test_loader implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		log.error("HELLO!!!Err");
-		log.warn("Hello!!!Warn");
 		loadTest(MPHEntity.CITY);
 		loadTest(MPHEntity.RELIGION);
 		loadTest(MPHEntity.KICHENTYPES);
@@ -94,12 +92,13 @@ public class DB_test_loader implements CommandLineRunner {
 		loadTest(MPHEntity.EVENT);
 		loadTest(MPHEntity.GUESTS);
 		loadTest(MPHEntity.LOGS);
-	/* 	TemplateLoader loader = new TemplateLoader(); TODO: doesn't work on P.V. machine; prettify; 
+		TemplateLoader loader = new TemplateLoader();
 		loader.load();
-		List<TemplateEntity> templateEntities = templateRepository.findAll();
-		/*for (TemplateEntity x:templateEntities
+		/*List<TemplateEntity> templateEntities = templateRepository.findAll();
+		for (TemplateEntity x:templateEntities
 			 ) {
-			JPGDocumentFormat.createPictureFromTemplete("d://211.jpeg", "d://" + x.getName() + ".jpg", x);
+			JPGDocumentFormat jpgDocumentFormat = new JPGDocumentFormat();
+			jpgDocumentFormat.createInvitationFromTemplate("d://211.jpeg", "d://" + x.getName() + ".jpg", "fontname", 8, x, 1 , 1);
 			EMailSender.sender("mishpahug2019@gmail.com",
 					"marina1986ANGEL",
 					"test",
@@ -404,7 +403,7 @@ public class DB_test_loader implements CommandLineRunner {
 				Random r = new Random();
 				Set<XYTextValue> data = new HashSet<>();
 				for (int j = 0; j < 128; j++) {
-					XYTextValue xyTextValue = new XYTextValue(50 * (r.nextInt(31) + 1),50 * (r.nextInt(18) + 1),16, "point" + j);
+					XYTextValue xyTextValue = new XYTextValue(50 * (r.nextInt(31) + 1),50 * (r.nextInt(18) + 1),16, "user.firstname");
 					data.add(xyTextValue);
 				}
 				templateEntity.setItems(data);

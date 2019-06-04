@@ -15,7 +15,10 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
 
 @Service
 @Slf4j
@@ -25,20 +28,33 @@ public class JPGDocumentFormat {
     @Autowired
     IUserModel userModel;
 
+    private static Font getFont(String name, int size) {
+        try {
+            InputStream in = new FileInputStream(name);
+            Font font = Font.createFont(Font.TRUETYPE_FONT, in);
+            return font.deriveFont((float)size);
+        } catch (Exception e) {
+            log.info("getFont -> " + e.getMessage());
+            return null;
+        }
+    }
 
     public void createInvitationFromTemplate(String template,
-                                                    String toFile,
-                                                    TemplateEntity templateEntity,
-                                                    Integer eventId,
-                                                    Integer userId) throws IOException {
+                                             String toFile,
+                                             String fontname,
+                                             Integer fontsize,
+                                             TemplateEntity templateEntity,
+                                             Integer eventId,
+                                             Integer userId) throws IOException {
         BufferedImage myPicture = ImageIO.read(new File(template));
         Graphics2D g = (Graphics2D) myPicture.getGraphics();
         g.setStroke(new BasicStroke(3));
         g.setColor(Color.BLUE);
         templateEntity.getItems().forEach((XYTextValue xyTextValue) -> {
-            g.setFont(new Font("Gabriola", 1,xyTextValue.getSize()));
+            g.setFont(getFont(fontname, fontsize));
             String[] textData = xyTextValue.getText().split(".");
             String textForPrint = "n/a";
+            log.info("createInvitationFromTemplate -> " + Arrays.toString(textData));
             if (textData.length < 2) throw new RuntimeException("Internal error to template");
             if (textData[0].equals("event"))
             {
@@ -48,7 +64,7 @@ public class JPGDocumentFormat {
                     textForPrint = userEntity.fieldByName(textData[1]);
                     log.info("createPictureFromTemplate => userentity{" + userId + "} => data for print " + textData[1] + " > value = " + textForPrint);
                 } catch (ExceptionMishpaha exceptionMishpaha) {
-                    exceptionMishpaha.printStackTrace();
+                    log.info("createInvitationFromTemplate -> " + exceptionMishpaha.getMessage());
                 }
 
             }

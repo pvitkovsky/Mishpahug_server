@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-
     <property name="HOME_LOG" value="logs/current.log"/>
     <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -8,30 +7,26 @@
             <Pattern>%d %-4relative [%thread] %-5level %logger{35} - %msg%n</Pattern>
         </encoder>
     </appender>
-
     <appender name="FILE-ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${HOME_LOG}</file>
-
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>logs/archived/%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <!-- each archived file, size max 10MB -->
-            <maxFileSize>1MB</maxFileSize>
+            <fileNamePattern>logs/archived/%d{yyyy/MM/dd/HHmmss,SSS}_%i.log</fileNamePattern>
+            <!-- each archived file, size max 32MB -->
+            <maxFileSize>2MB</maxFileSize>
             <!-- total size of all archive files, if total size > 20GB,
 				it will delete old archived file -->
-            <totalSizeCap>20GB</totalSizeCap>
-            <!-- 60 days to keep -->
-            <maxHistory>60</maxHistory>
+            <totalSizeCap>8GB</totalSizeCap>
+            <!-- 180 days to keep -->
+            <maxHistory>180</maxHistory>
         </rollingPolicy>
 
         <encoder>
             <pattern>%d %p %c{1.} [%t] %m%n</pattern>
         </encoder>
     </appender>
-
     <root level="info">
         <appender-ref ref="FILE-ROLLING"/>
         <appender-ref ref="consoleAppender"/>
 
     </root>
-
 </configuration>

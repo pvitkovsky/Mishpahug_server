@@ -104,7 +104,8 @@ public class GenderController implements IGenderController {
             log.info("GenderController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
         log.info("GenderController -> get -> Remote IP -> " + request.getRemoteAddr());
-        return genderModel.getById(id).getName();
+        GenderEntity genderEntity = genderModel.getById(id);
+        return genderEntity.getName();
 
     }
 

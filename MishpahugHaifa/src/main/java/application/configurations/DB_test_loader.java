@@ -403,7 +403,7 @@ public class DB_test_loader implements CommandLineRunner {
 				Random r = new Random();
 				Set<XYTextValue> data = new HashSet<>();
 				for (int j = 0; j < 128; j++) {
-					XYTextValue xyTextValue = new XYTextValue(50 * (r.nextInt(31) + 1),50 * (r.nextInt(18) + 1),16, "user.firstname");
+					XYTextValue xyTextValue = new XYTextValue(50 * (r.nextInt(31) + 1),50 * (r.nextInt(18) + 1),16, "user!firstname");
 					data.add(xyTextValue);
 				}
 				templateEntity.setItems(data);

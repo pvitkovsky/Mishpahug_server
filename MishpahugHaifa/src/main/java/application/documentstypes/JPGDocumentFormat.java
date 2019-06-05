@@ -52,11 +52,12 @@ public class JPGDocumentFormat {
         g.setColor(Color.BLUE);
         templateEntity.getItems().forEach((XYTextValue xyTextValue) -> {
             g.setFont(getFont(fontname, fontsize));
-            String[] textData = xyTextValue.getText().split(".");
+            log.info("createInvitationFromTemplate -> " + xyTextValue.getText());
+            String[] textData = xyTextValue.getText().split("!");
             String textForPrint = "n/a";
             log.info("createInvitationFromTemplate -> " + Arrays.toString(textData));
             if (textData.length < 2) throw new RuntimeException("Internal error to template");
-            if (textData[0].equals("event"))
+            if (textData[0].equals("user"))
             {
                 //TODO
                 try {
@@ -68,7 +69,7 @@ public class JPGDocumentFormat {
                 }
 
             }
-            if (textData[0].equals("user"))
+            if (textData[0].equals("event"))
             {
                 try {
                     EventEntity eventEntity = eventModel.getById(eventId);
@@ -80,6 +81,7 @@ public class JPGDocumentFormat {
                 }
                 //TODO
             }
+            log.info("createInvitationFromTemplate -> textForPrint = " + textForPrint);
             g.drawString(textForPrint, xyTextValue.getX(), xyTextValue.getY());
         });
         ImageIO.write(myPicture, "jpg", new File(toFile));

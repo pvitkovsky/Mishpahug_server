@@ -15,7 +15,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @NoArgsConstructor
-
 public class EventDTO {
     private Integer id;
     private LocalDate date;

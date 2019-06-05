@@ -199,7 +199,7 @@ public class DB_test_loader implements CommandLineRunner {
 				logUE.setEventTarget(randomEventTarget);
 				logUE.setAction(ActionsOnEvent.EVENT_VIEW);
 				logUE.setTime(TTIME);
-				log.info("LOGS => " + logUE);
+				log.info("DBLoadTest -> LOGS -> " + logUE);
 				logsDataRepository.save(logUE);
 			}
 			
@@ -307,10 +307,10 @@ public class DB_test_loader implements CommandLineRunner {
 					user.setAddressEntity(addressEntityList.get(ran.nextInt(addressEntityList.size() - 1)));
 					user.setKitchenType(kitchenTypeEntityList.get(ran.nextInt(kitchenTypeEntityList.size() - 1)));
 					user.setMaritalStatus(maritalStatusEntityList.get(ran.nextInt(maritalStatusEntityList.size() - 1)));
-					log.info("UserLoader => " + user);
+					log.info("DBLoadTest -> UserLoader -> userentity = " + user);
 					userRepository.save(user);
 				}
-				log.info("UserLoader => In repository " + userRepository.findAll().size() + " records");
+				log.info("DBLoadTest -> UserLoader -> In repository " + userRepository.findAll().size() + " records");
 				br.close();
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
@@ -340,10 +340,10 @@ public class DB_test_loader implements CommandLineRunner {
 					LocalDate localDate = LocalDate.of(Integer.parseInt(dateSplit[0]),Integer.parseInt(dateSplit[1]),Integer.parseInt(dateSplit[2]));
 					holiDayEntity.setDate(localDate);
 					holiDayEntity.setDescription(data[1]);
-					log.info("HolidayLoader => " + holiDayEntity);
+					log.info("DBLoadTest -> HolidayLoader -> holidayentity = " + holiDayEntity);
 					holyDayRepository.save(holiDayEntity);
 				}
-				log.info("HolidaysLoader => In repository " + holyDayRepository.findAll().size() + " records");
+				log.info("DBLoadTest -> HolidaysLoader -> In repository " + holyDayRepository.findAll().size() + " records");
 				br.close();
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
@@ -378,7 +378,7 @@ public class DB_test_loader implements CommandLineRunner {
 					cityEntityList.get(rr.nextInt(cityEntityListSize)).addAddress(addressEntity);
 
 				}
-				log.info("AddressLoader => In repository " + addressRepository.findAll().size() + " records");
+				log.info("DBLoadTest -> AddressLoader -> In repository " + addressRepository.findAll().size() + " records");
 				br.close();
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
@@ -407,6 +407,7 @@ public class DB_test_loader implements CommandLineRunner {
 					data.add(xyTextValue);
 				}
 				templateEntity.setItems(data);
+				log.info("DBLoadTest -> TemplateLoader -> templateEntity = " + templateEntity);
 				templateRepository.save(templateEntity);
 			}
 		}
@@ -444,7 +445,7 @@ public class DB_test_loader implements CommandLineRunner {
 					countryEntity.addCity(cityEntity);
 					// no need to save city explicitly, as its save is cascaded from Country;
 				}
-				log.info("CityLoader => In repository " + cityRepository.findAll().size() + " records");
+				log.info("DBLoadTest -> CityLoader -> In repository " + cityRepository.findAll().size() + " records");
 				br.close();
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
@@ -479,10 +480,10 @@ public class DB_test_loader implements CommandLineRunner {
 				while ((detail = br.readLine()) != null) {
 					KitchenTypeEntity kichenTypeEntity = new KitchenTypeEntity();
 					kichenTypeEntity.setName(detail);
-					log.info("KichenTypeLoader => " + kichenTypeEntity);
+					log.info("DBLoadTest -> KichenTypeLoader -> kichenentity = " + kichenTypeEntity);
 					kichenTypeRepository.save(kichenTypeEntity);
 				}
-				log.info("KitchenTypeLoader => In repository " + kichenTypeRepository.findAll().size() + " records");
+				log.info("DBLoadTest -> KitchenTypeLoader -> In repository " + kichenTypeRepository.findAll().size() + " records");
 				br.close();
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
@@ -513,10 +514,10 @@ public class DB_test_loader implements CommandLineRunner {
 				while ((detail = br.readLine()) != null) {
 					ReligionEntity religionEntity = new ReligionEntity();
 					religionEntity.setName(detail);
-					log.info("ReligionLoader => " + religionEntity);
+					log.info("DBLoadTest -> ReligionLoader -> " + religionEntity);
 					religionRepository.save(religionEntity);
 				}
-				log.info("ReligionLoader => In repository " + religionRepository.findAll().size() + " records");
+				log.info("DBLoadTest -> ReligionLoader -> In repository " + religionRepository.findAll().size() + " records");
 				br.close();
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
@@ -547,10 +548,10 @@ public class DB_test_loader implements CommandLineRunner {
 				while ((detail = br.readLine()) != null) {
 					GenderEntity genderEntity = new GenderEntity();
 					genderEntity.setName(detail);
-					log.info("GenderLoader => " + genderEntity);
+					log.info("DBLoadTest -> GenderLoader -> " + genderEntity);
 					genderRepository.save(genderEntity);
 				}
-				log.info("GenderLoader => In repository " + genderRepository.findAll().size() + " records");
+				log.info("DBLoadTest -> GenderLoader -> In repository " + genderRepository.findAll().size() + " records");
 				br.close();
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
@@ -583,7 +584,7 @@ public class DB_test_loader implements CommandLineRunner {
 					maritalStatusEntity.setName(detail);
 					maritalStatusRepository.save(maritalStatusEntity);
 				}
-				log.info("MaritalStatusLoader => In repository " + maritalStatusRepository.findAll().size() + " records");
+				log.info("DBLoadTest -> MaritalStatusLoader -> In repository " + maritalStatusRepository.findAll().size() + " records");
 				br.close();
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
@@ -647,10 +648,10 @@ public class DB_test_loader implements CommandLineRunner {
 					event.setNameOfEvent(eventAttributes[2]);
 					event.setHoliDay(holiDayEntityList.get(r.nextInt(holiDayEntityListCount)));
 					event.setAddressEntity(addressEntityList.get(r.nextInt(addressEntityListCount)));
-					log.info("EventLoader => " + event);
+					log.info("DBLoadTest -> EventLoader -> " + event);
 				}
 				br.close();
-				log.info("EventLoader => In repository " + eventRepository.findAll().size() + " records");
+				log.info("DBLoadTest -> EventLoader -> In repository " + eventRepository.findAll().size() + " records");
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}

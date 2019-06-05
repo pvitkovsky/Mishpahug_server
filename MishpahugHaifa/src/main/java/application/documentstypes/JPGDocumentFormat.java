@@ -63,7 +63,7 @@ public class JPGDocumentFormat {
                 try {
                     UserEntity userEntity = userModel.getById(userId);
                     textForPrint = userEntity.fieldByName(textData[1]);
-                    log.info("createPictureFromTemplate => userentity{" + userId + "} => data for print " + textData[1] + " > value = " + textForPrint);
+                    log.info("createPictureFromTemplate -> userentity{" + userId + "} => data for print " + textData[1] + " > value = " + textForPrint);
                 } catch (ExceptionMishpaha exceptionMishpaha) {
                     log.info("createInvitationFromTemplate -> " + exceptionMishpaha.getMessage());
                 }
@@ -74,7 +74,7 @@ public class JPGDocumentFormat {
                 try {
                     EventEntity eventEntity = eventModel.getById(eventId);
                     textForPrint = eventEntity.fieldByName(textData[1]);
-                    log.info("createPictureFromTemplate => evententity{" + eventId + "} => data for print " + textData[1] + " > value = " + textForPrint);
+                    log.info("createPictureFromTemplate -> evententity{" + eventId + "} => data for print " + textData[1] + " > value = " + textForPrint);
 
                 } catch (ExceptionMishpaha exceptionMishpaha) {
                     exceptionMishpaha.printStackTrace();
@@ -85,7 +85,7 @@ public class JPGDocumentFormat {
             g.drawString(textForPrint, xyTextValue.getX(), xyTextValue.getY());
         });
         ImageIO.write(myPicture, "jpg", new File(toFile));
-        log.info("createPictureFromTemplate => file of template is " + template + " > Save to file " + toFile + " > completed");
+        log.info("createPictureFromTemplate -> file of template is " + template + " > Save to file " + toFile + " > completed");
     }
 
 }

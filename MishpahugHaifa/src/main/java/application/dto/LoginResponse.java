@@ -9,7 +9,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-
 public class LoginResponse {
     private String token;
 }

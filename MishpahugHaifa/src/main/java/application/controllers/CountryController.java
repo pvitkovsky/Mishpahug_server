@@ -91,7 +91,7 @@ public class CountryController implements ICountryController {
         httpHeaders.forEach((key, value) -> {
             log.info("CountryController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("CountryController -> get -> Remote IP -> " + request.getRemoteAddr());
+        log.info("CountryController -> get{" + id + "} -> Remote IP -> " + request.getRemoteAddr());
         return countryModel.getById(id).getName();
     }
 

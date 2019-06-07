@@ -21,10 +21,9 @@ export class EventsRendererComponent implements OnInit, OnChanges {
  		this.childEventList = [];
  	}
 
-	ngOnChanges(changes: SimpleChanges) { //TODO: remove error on start
-		// only run when property "data" changed
-		if (changes['childEventList']) {
-			this.keys = Object.keys(this.childEventList[0]); //TODO: DRY;
+	ngOnChanges(changes: SimpleChanges) { 	
+		if (changes['childEventList'] && this.childEventList !== undefined) { //TODO: something passes undefined. find out what
+			this.keys = Object.keys(this.childEventList[0]); 
 			for (let event in this.childEventList) {
 				this.events.push(this.childEventList[event]);
 			}

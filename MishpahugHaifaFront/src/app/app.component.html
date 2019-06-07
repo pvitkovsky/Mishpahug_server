@@ -3,11 +3,11 @@
 	<mat-sidenav-container class="sidenav-container">
 		<mat-sidenav *ngIf='loggedIn' #sidenav mode="side" [(opened)]="opened" class="sidenav-menu">
 			<div> {{userDetail?.firstName}} {{userDetail?.lastName}} </div> <!--//TODO: can ask from UserService::current-->
-			<a class="nav-link" [routerLink]="['/events']" [queryParams]="{'render':'ALL'}" > Events <br> </a> 
+			<a class="nav-link" [routerLink]="['events']" [queryParams]="{'render':'ALL'}" > Events <br> </a> 
 			<a class="nav-link" > Notice <br> </a> 
 			<a class="nav-link" > Calendar <br> </a> 
 			<a class="nav-link" > Participation <br> </a> 
-			<a class="nav-link" [routerLink]="['/events']" [queryParams]="{'render':'OWNER'}"> My Events <br> </a> 
+			<a class="nav-link" [routerLink]="['events']" [queryParams]="{'render':'OWNER'}"> My Events <br> </a> 
 			<a class="nav-link" [routerLink]="['profile']"> Profile <br> </a>
 			<a class="nav-link" > Log out <br> </a> 
 		</mat-sidenav>

@@ -1,7 +1,7 @@
 package application.controllers;
 
 import application.controllers.interfaces.IAddressController;
-import application.exceptions.NotFoundGenderWithIDException;
+import application.exceptions.EntityExistsDException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +24,7 @@ public class AddressController implements IAddressController {
     @PostMapping(value = "/")
     public void post(@RequestBody AddressEntity data,
                      @RequestHeader HttpHeaders httpHeaders,
-                     HttpServletRequest request) throws NotFoundGenderWithIDException {
+                     HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("AddressController -> post -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -35,7 +35,7 @@ public class AddressController implements IAddressController {
     @Override
     @DeleteMapping(value = "/")
     public void delete(@RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request) {
+                       HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("AddressController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -47,7 +47,7 @@ public class AddressController implements IAddressController {
     @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable(name = "id") Integer id,
                        @RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request) throws NotFoundGenderWithIDException {
+                       HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("AddressController -> delete{" + id + "} -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -59,7 +59,7 @@ public class AddressController implements IAddressController {
     @GetMapping(value = "/{id}")
     public String get(@PathVariable(name = "id") Integer id,
                       @RequestHeader HttpHeaders httpHeaders,
-                      HttpServletRequest request) throws NotFoundGenderWithIDException {
+                      HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("AddressController -> get{" + id + "} -> headers -> " + String.format("Header '%s' = %s", key, value));
         });

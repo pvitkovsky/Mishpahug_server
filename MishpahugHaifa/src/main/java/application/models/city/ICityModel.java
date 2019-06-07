@@ -2,7 +2,6 @@ package application.models.city;
 
 import java.util.List;
 
-import application.exceptions.NotFoundGenderWithIDException;
 import com.querydsl.core.types.Predicate;
 
 import application.entities.CityEntity;

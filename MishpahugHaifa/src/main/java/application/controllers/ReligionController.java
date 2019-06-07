@@ -3,7 +3,7 @@ package application.controllers;
 import java.util.List;
 
 import application.controllers.interfaces.IReligionController;
-import application.exceptions.NotFoundGenderWithIDException;
+import application.exceptions.EntityExistsDException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +26,7 @@ public class ReligionController implements IReligionController {
     @Override
     @GetMapping(value = "/")
     public List<String> get(@RequestHeader HttpHeaders httpHeaders,
-                            HttpServletRequest request) {
+                            HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("ReligionController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -38,7 +38,7 @@ public class ReligionController implements IReligionController {
     @GetMapping(value = "/{id}")
     public ReligionEntity get(@PathVariable(name = "id") Integer id,
                               @RequestHeader HttpHeaders httpHeaders,
-                              HttpServletRequest request) {
+                              HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("ReligionController -> getbyid -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -51,7 +51,7 @@ public class ReligionController implements IReligionController {
     @PostMapping(value = "/")
     public void post(@RequestBody ReligionEntity data,
                      @RequestHeader HttpHeaders httpHeaders,
-                     HttpServletRequest request) {
+                     HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("ReligionController -> post -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -65,7 +65,7 @@ public class ReligionController implements IReligionController {
     public void put(@RequestParam(name = "id") Integer id,
                     @RequestParam(name = "name") String name,
                     @RequestHeader HttpHeaders httpHeaders,
-                    HttpServletRequest request) throws NotFoundGenderWithIDException {
+                    HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("ReligionController -> put -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -76,7 +76,7 @@ public class ReligionController implements IReligionController {
     @Override
     @DeleteMapping(value = "/")
     public void delete(@RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request) {
+                       HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("ReligionController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -88,7 +88,7 @@ public class ReligionController implements IReligionController {
     @DeleteMapping(value = "/{name}")
     public void delete(@PathVariable(name = "name") String name,
                        @RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request) throws NotFoundGenderWithIDException {
+                       HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("ReligionController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });

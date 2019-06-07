@@ -3,8 +3,7 @@ package application.controllers;
 import java.util.List;
 
 import application.controllers.interfaces.IGenderController;
-import application.exceptions.IncorrectGenderException;
-import application.exceptions.NotFoundGenderWithIDException;
+import application.exceptions.EntityExistsDException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
@@ -28,12 +27,11 @@ public class GenderController implements IGenderController {
     @PostMapping(value = "/")
     public void post(@RequestBody GenderEntity data,
                      @RequestHeader HttpHeaders httpHeaders,
-                     HttpServletRequest request) throws NotFoundGenderWithIDException {
+                     HttpServletRequest request) throws EntityExistsDException{
         httpHeaders.forEach((key, value) -> {
             log.info("GenderController > post -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
         log.info("GenderController -> post -> Remote IP -> " + request.getRemoteAddr());
-        if (genderModel.add(data).getName() == null) throw new IncorrectGenderException("");
     }
 
     @Override
@@ -41,7 +39,7 @@ public class GenderController implements IGenderController {
     public void put(@RequestParam(name = "id") Integer id,
                     @RequestParam(name = "name") String name,
                     @RequestHeader HttpHeaders httpHeaders,
-                    HttpServletRequest request) throws NotFoundGenderWithIDException {
+                    HttpServletRequest request) throws EntityExistsDException{
         httpHeaders.forEach((key, value) -> {
             log.info("GenderController -> put -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -53,7 +51,7 @@ public class GenderController implements IGenderController {
     @DeleteMapping(value = "/{name}")
     public void delete(@PathVariable(name = "name") String name,
                        @RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request) throws NotFoundGenderWithIDException {
+                       HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("GenderController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -64,7 +62,7 @@ public class GenderController implements IGenderController {
     @Override
     @DeleteMapping(value = "/")
     public void delete(@RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request) {
+                       HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("GenderController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -76,7 +74,7 @@ public class GenderController implements IGenderController {
     @Override
     @GetMapping(value = "/")
     public List<String> get(@RequestHeader HttpHeaders httpHeaders,
-                            HttpServletRequest request) {
+                            HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("GenderController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -88,7 +86,7 @@ public class GenderController implements IGenderController {
     @GetMapping(value = "/name/{name}")
     public GenderEntity get(@PathVariable(name = "name") String name,
                             @RequestHeader HttpHeaders httpHeaders,
-                            HttpServletRequest request) {
+                            HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("GenderController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -101,7 +99,7 @@ public class GenderController implements IGenderController {
     @GetMapping(value = "/{id}")
     public String get(@PathVariable(name = "id") Integer id,
                       @RequestHeader HttpHeaders httpHeaders,
-                      HttpServletRequest request) {
+                      HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("GenderController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -110,7 +108,7 @@ public class GenderController implements IGenderController {
         try {
             return genderEntity.getName();
         } catch (EntityNotFoundException e) {
-            throw new NotFoundGenderWithIDException("");
+            throw new EntityExistsDException("");
         }
 
     }

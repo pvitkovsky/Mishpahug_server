@@ -27,7 +27,7 @@ public class LogsDataController implements ILogsDataController {
     @ResponseBody
     public Iterable<LogsDataEntity> findAllByWebQuerydsl(@QuerydslPredicate(root = LogsDataEntity.class) Predicate predicate,
                                                          @RequestHeader HttpHeaders httpHeaders,
-                                                         HttpServletRequest request) {
+                                                         HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("LogsDataController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -41,7 +41,7 @@ public class LogsDataController implements ILogsDataController {
     //TODO: test;
     public void delete(@QuerydslPredicate(root = LogsDataEntity.class) Predicate predicate,
                        @RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request) {
+                       HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("LogsDataController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });

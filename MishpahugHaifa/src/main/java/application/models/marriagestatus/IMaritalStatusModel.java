@@ -3,7 +3,6 @@ package application.models.marriagestatus;
 import java.util.List;
 
 import application.entities.MaritalStatusEntity;
-import application.exceptions.NotFoundGenderWithIDException;
 
 public interface IMaritalStatusModel {
     public MaritalStatusEntity getByName(String name);

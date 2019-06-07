@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import application.exceptions.NotFoundGenderWithIDException;
+import application.exceptions.EntityExistsDException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +26,7 @@ public class CityModel implements ICityModel {
         try {
             return cityRepository.getOne(id);
         } catch (Exception e) {
-            throw new NotFoundGenderWithIDException("Error");
+            throw new EntityExistsDException("Error");
         }
     }
 
@@ -35,7 +35,7 @@ public class CityModel implements ICityModel {
         try {
             return cityRepository.saveAndFlush(data);
         } catch (Exception e) {
-            throw new NotFoundGenderWithIDException("Error");
+            throw new EntityExistsDException("Error");
         }
     }
 
@@ -51,7 +51,7 @@ public class CityModel implements ICityModel {
             cityRepository.deleteById(id);
             return cityEntity;
         } catch (Exception e) {
-            throw new NotFoundGenderWithIDException("Error");
+            throw new EntityExistsDException("Error");
         }
     }
 
@@ -60,7 +60,7 @@ public class CityModel implements ICityModel {
         try {
             cityRepository.deleteByName(name);
         } catch (Exception e) {
-            throw new NotFoundGenderWithIDException("Error");
+            throw new EntityExistsDException("Error");
         }
     }
 

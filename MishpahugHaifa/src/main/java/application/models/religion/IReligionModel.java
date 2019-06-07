@@ -3,7 +3,6 @@ package application.models.religion;
 import java.util.List;
 
 import application.entities.ReligionEntity;
-import application.exceptions.NotFoundGenderWithIDException;
 
 public interface IReligionModel {
     public ReligionEntity getById(Integer id);

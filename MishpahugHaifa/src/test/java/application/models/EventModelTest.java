@@ -9,7 +9,7 @@ import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 
-import application.exceptions.NotFoundGenderWithIDException;
+import application.exceptions.EntityExistsDException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -143,7 +143,7 @@ public class EventModelTest {
 			assertEquals(eventModel.subscribe(GUESTING.getId(), ALYSSA.getId()), GUESTING);
 			assertTrue(ALYSSA.getSubscriptions().contains(subAtoG));
 			assertTrue(GUESTING.getSubscriptions().contains(subAtoG));
-		} catch (NotFoundGenderWithIDException e) {
+		} catch (EntityExistsDException e) {
 			e.printStackTrace();
 		}
 	}
@@ -176,7 +176,7 @@ public class EventModelTest {
 			subAtoG = subscriptionsRepo.getOne(idAG); 
 			assertFalse(ALYSSA.getSubscriptions().contains(subAtoG));
 			assertFalse(GUESTING.getSubscriptions().contains(subAtoG));
-		} catch (NotFoundGenderWithIDException e) {
+		} catch (EntityExistsDException e) {
 			e.printStackTrace();
 		}
 	}

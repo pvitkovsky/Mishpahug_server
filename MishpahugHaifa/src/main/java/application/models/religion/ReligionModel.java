@@ -4,11 +4,11 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import application.exceptions.NotFoundGenderWithIDException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import application.entities.ReligionEntity;
-import application.exceptions.ExceptionMishpaha;
 import application.repositories.ReligionRepository;
 
 @Service
@@ -34,24 +34,24 @@ public class ReligionModel implements IReligionModel {
     }
 
     @Override
-    public ReligionEntity updateName(Integer id, String name) throws ExceptionMishpaha {
+    public ReligionEntity updateName(Integer id, String name){
         try {
             ReligionEntity cityEntity = religionRepository.getOne(id);
             cityEntity.setName(name);
             return religionRepository.saveAndFlush(cityEntity);
         } catch (Exception e) {
-            throw new ExceptionMishpaha(this.getClass().toString(), e);
+            throw new NotFoundGenderWithIDException("Error");
         }
     }
 
     @Override
-    public ReligionEntity deleteByID(Integer id) throws ExceptionMishpaha {
+    public ReligionEntity deleteByID(Integer id){
         try {
             ReligionEntity cityEntity = religionRepository.getOne(id);
             religionRepository.deleteById(id);
             return cityEntity;
         } catch (Exception e) {
-            throw new ExceptionMishpaha(this.getClass().toString(), e);
+            throw new NotFoundGenderWithIDException("Error");
         }
     }
 

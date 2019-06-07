@@ -1,16 +1,15 @@
 package application.controllers.interfaces;
 
 import application.entities.KitchenTypeEntity;
-import application.exceptions.ExceptionMishpaha;
+import application.exceptions.NotFoundGenderWithIDException;
 import org.springframework.http.HttpHeaders;
-import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface IKichenTypeController {
 
-	void post(KitchenTypeEntity data, HttpHeaders httpHeaders, HttpServletRequest request) throws ExceptionMishpaha;
+	void post(KitchenTypeEntity data, HttpHeaders httpHeaders, HttpServletRequest request) throws NotFoundGenderWithIDException;
 
 	void put(Integer id, String name, HttpHeaders httpHeaders, HttpServletRequest request);
 

@@ -9,6 +9,7 @@ import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import application.exceptions.NotFoundGenderWithIDException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +25,6 @@ import application.entities.EventEntity;
 import application.entities.SubscriptionEntity;
 import application.entities.SubscriptionEntity.EventGuestId;
 import application.entities.UserEntity;
-import application.exceptions.ExceptionMishpaha;
 import application.models.event.EventModel;
 import application.models.event.IEventModel;
 import application.repositories.EventRepository;
@@ -143,7 +143,7 @@ public class EventModelTest {
 			assertEquals(eventModel.subscribe(GUESTING.getId(), ALYSSA.getId()), GUESTING);
 			assertTrue(ALYSSA.getSubscriptions().contains(subAtoG));
 			assertTrue(GUESTING.getSubscriptions().contains(subAtoG));
-		} catch (ExceptionMishpaha e) {
+		} catch (NotFoundGenderWithIDException e) {
 			e.printStackTrace();
 		}
 	}
@@ -176,7 +176,7 @@ public class EventModelTest {
 			subAtoG = subscriptionsRepo.getOne(idAG); 
 			assertFalse(ALYSSA.getSubscriptions().contains(subAtoG));
 			assertFalse(GUESTING.getSubscriptions().contains(subAtoG));
-		} catch (ExceptionMishpaha e) {
+		} catch (NotFoundGenderWithIDException e) {
 			e.printStackTrace();
 		}
 	}

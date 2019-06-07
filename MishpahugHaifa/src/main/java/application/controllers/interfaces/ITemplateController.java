@@ -1,18 +1,17 @@
 package application.controllers.interfaces;
 
 import application.entities.template.TemplateEntity;
-import application.exceptions.ExceptionMishpaha;
+import application.exceptions.NotFoundGenderWithIDException;
 import org.springframework.http.HttpHeaders;
-import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface ITemplateController {
 
-	TemplateEntity get(String name, HttpHeaders httpHeaders, HttpServletRequest request) throws ExceptionMishpaha;
+	TemplateEntity get(String name, HttpHeaders httpHeaders, HttpServletRequest request) throws NotFoundGenderWithIDException;
 
-	List<TemplateEntity> getall(HttpHeaders httpHeaders, HttpServletRequest request) throws ExceptionMishpaha;
+	List<TemplateEntity> getall(HttpHeaders httpHeaders, HttpServletRequest request) throws NotFoundGenderWithIDException;
 
 	TemplateEntity post(TemplateEntity templateEntity, HttpHeaders httpHeaders, HttpServletRequest request);
 

@@ -3,37 +3,36 @@ package application.models.user;
 import java.util.HashMap;
 import java.util.List;
 
+import application.exceptions.NotFoundGenderWithIDException;
 import com.querydsl.core.types.Predicate;
 
-import application.dto.UserDTO;
 import application.entities.UserEntity;
-import application.exceptions.ExceptionMishpaha;
 
 public interface IUserModel {
     UserEntity getByUsernameAndPassword(String username, String password);
 
-    public List<UserEntity> getAll() throws ExceptionMishpaha;
+    public List<UserEntity> getAll();
 
     public Iterable<UserEntity> getAll(Predicate predicate);
 
-    public UserEntity getById(Integer userId) throws ExceptionMishpaha;
+    public UserEntity getById(Integer userId);
 
-    public UserEntity getByUserName(String name) throws ExceptionMishpaha;
+    public UserEntity getByUserName(String name);
 
-    public UserEntity add(UserEntity data) throws ExceptionMishpaha;
+    public UserEntity add(UserEntity data);
 
     public UserEntity update(Integer userId,
-                             HashMap<String, String> data) throws ExceptionMishpaha;
+                             HashMap<String, String> data);
 
-    public UserEntity deleteByID(Integer userId) throws ExceptionMishpaha;
+    public UserEntity deleteByID(Integer userId);
 
-    public List<UserEntity> deleteAll() throws ExceptionMishpaha;
+    public List<UserEntity> deleteAll();
 
-    public UserEntity activateByID(Integer userId) throws ExceptionMishpaha;
+    public UserEntity activateByID(Integer userId);
 
-    public UserEntity deactivateByID(Integer userId) throws ExceptionMishpaha;
+    public UserEntity deactivateByID(Integer userId);
 
-    public UserEntity prepareForDeletionByID(Integer userId) throws ExceptionMishpaha;
+    public UserEntity prepareForDeletionByID(Integer userId);
 
 
 }

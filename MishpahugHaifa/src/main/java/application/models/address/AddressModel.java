@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import application.exceptions.NotFoundGenderWithIDException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,6 @@ import com.querydsl.core.types.Predicate;
 
 import application.entities.AddressEntity;
 import application.entities.CityEntity;
-import application.exceptions.ExceptionMishpaha;
 import application.repositories.AddressRepository;
 import application.repositories.CityRepository;
 
@@ -48,13 +48,13 @@ public class AddressModel implements IAddressModel {
     }
 
     @Override
-    public AddressEntity deleteByID(Integer id) throws ExceptionMishpaha {
+    public AddressEntity deleteByID(Integer id){
         try {
             AddressEntity cityEntity = addressRepository.getOne(id);
             addressRepository.deleteById(id);
             return cityEntity;
         } catch (Exception e) {
-            throw new ExceptionMishpaha(this.getClass().toString(), e);
+            throw new NotFoundGenderWithIDException("Error");
         }
     }
 
@@ -85,7 +85,7 @@ public class AddressModel implements IAddressModel {
             addressRepository.deleteById(id);
             return addressRepository.getOne(id);
         } else {
-            new ExceptionMishpaha("Error! Index is a negatite", null);
+            new NotFoundGenderWithIDException("Error");
             return null;
         }
 

@@ -2,7 +2,6 @@ package application.controllers;
 
 import application.controllers.interfaces.ITemplateController;
 import application.entities.template.TemplateEntity;
-import application.exceptions.ExceptionMishpaha;
 import application.models.template.ITemplateModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

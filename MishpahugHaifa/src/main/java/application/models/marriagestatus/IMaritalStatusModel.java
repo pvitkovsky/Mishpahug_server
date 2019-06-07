@@ -3,7 +3,7 @@ package application.models.marriagestatus;
 import java.util.List;
 
 import application.entities.MaritalStatusEntity;
-import application.exceptions.ExceptionMishpaha;
+import application.exceptions.NotFoundGenderWithIDException;
 
 public interface IMaritalStatusModel {
     public MaritalStatusEntity getByName(String name);
@@ -13,11 +13,11 @@ public interface IMaritalStatusModel {
 
     MaritalStatusEntity getById(Integer id);
 
-    void deleteByName(String name) throws ExceptionMishpaha;
+    void deleteByName(String name);
 
     void deleteAll();
 
-    MaritalStatusEntity updateName(Integer id, String name) throws ExceptionMishpaha;
+    MaritalStatusEntity updateName(Integer id, String name);
 
-    MaritalStatusEntity add(MaritalStatusEntity data) throws ExceptionMishpaha;
+    MaritalStatusEntity add(MaritalStatusEntity data);
 }

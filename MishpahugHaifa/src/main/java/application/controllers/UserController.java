@@ -9,7 +9,7 @@ import application.entities.EventEntity;
 import application.entities.SubscriptionEntity;
 import application.entities.UserEntity;
 import application.entities.UserSession;
-import application.exceptions.ExceptionMishpaha;
+import application.exceptions.NotFoundGenderWithIDException;
 import application.models.feedback.IFeedBackModel;
 import application.models.gender.IGenderModel;
 import application.models.holyday.IHolyDayModel;
@@ -81,7 +81,7 @@ public class UserController implements IUserController {
     @GetMapping(value = "/{id}")
     public UserDTO get(@PathVariable(value = "id") Integer id,
                        @RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request) throws ExceptionMishpaha {
+                       HttpServletRequest request) throws NotFoundGenderWithIDException {
         return new UserDTO(userModel.getById(id));
     }
 
@@ -91,7 +91,7 @@ public class UserController implements IUserController {
     @Override
     @GetMapping(value = "/current")
     public UserDTO getByToken(HttpServletRequest request,
-                              @RequestHeader HttpHeaders httpHeaders) throws ExceptionMishpaha {
+                              @RequestHeader HttpHeaders httpHeaders) throws NotFoundGenderWithIDException {
     	String token = request.getHeader("Authorization");
         httpHeaders.forEach((key,value) -> log.info("UserController -> currentprofile -> Headers -> " + key + " = " + value));
         log.info("UserController -> currentprofile -> Remote IP -> " + request.getRemoteAddr());
@@ -103,7 +103,7 @@ public class UserController implements IUserController {
     @GetMapping(value = "/currentsubscribes")
     // TODO спрятать строки кода в одну из моделей?
     public List<EventDTO> getEventsByToken(HttpServletRequest request,
-                                           @RequestHeader HttpHeaders httpHeaders) throws ExceptionMishpaha {
+                                           @RequestHeader HttpHeaders httpHeaders) throws NotFoundGenderWithIDException {
         String token = request.getHeader("Authorization");
         httpHeaders.forEach((key,value) -> log.info("UserController -> currentsubscribes -> Headers -> " + key + " = " + value));
         log.info("UserController -> currentsubscribes -> Remote IP -> " + request.getRemoteAddr());
@@ -122,7 +122,7 @@ public class UserController implements IUserController {
     // TODO спрятать строки кода в одну из моделей?
     public List<EventDTO> getEventsById(@PathVariable(value = "id") Integer id,
                                         @RequestHeader HttpHeaders httpHeaders,
-                                        HttpServletRequest request) throws ExceptionMishpaha {
+                                        HttpServletRequest request) throws NotFoundGenderWithIDException {
         httpHeaders.forEach((key,value) -> log.info("UserController -> getEventsById user with id = " + id + " -> Headers -> " + key + " = " + value));
         log.info("UserController -> getEventsById user with id = " + id + " -> Remote IP -> " + request.getRemoteAddr());
         List<SubscriptionEntity> subscriptionEntityList = feedBackModel.getEventsForGuest(userModel.getById(id));
@@ -185,7 +185,7 @@ public class UserController implements IUserController {
     @PostMapping(value = "/register")
     public void add(@RequestBody UserDTO userDTO,
                     @RequestHeader HttpHeaders httpHeaders,
-                    HttpServletRequest request) throws ExceptionMishpaha {
+                    HttpServletRequest request) throws NotFoundGenderWithIDException {
         httpHeaders.forEach((key, value) -> {
             log.info("UserController -> headers -> register -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -210,7 +210,7 @@ public class UserController implements IUserController {
     public UserDTO update(@RequestBody HashMap<String, String> data,
                           @PathVariable(value = "id") Integer id,
                           @RequestHeader HttpHeaders httpHeaders,
-                          HttpServletRequest request) throws ExceptionMishpaha {
+                          HttpServletRequest request) throws NotFoundGenderWithIDException {
         httpHeaders.forEach((key, value) -> {
             log.info("UserController -> update -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -230,7 +230,7 @@ public class UserController implements IUserController {
     @DeleteMapping(value = "/{id}")
     public UserDTO delete(@PathVariable(value = "id") Integer id,
                           @RequestHeader HttpHeaders httpHeaders,
-                          HttpServletRequest request) throws ExceptionMishpaha {
+                          HttpServletRequest request) throws NotFoundGenderWithIDException {
         httpHeaders.forEach((key, value) -> {
             log.info("UserController -> delete{" + id + "} -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -244,7 +244,7 @@ public class UserController implements IUserController {
     @Override
     @DeleteMapping(value = "/")
     public void deleteAll(@RequestHeader HttpHeaders httpHeaders,
-                          HttpServletRequest request) throws ExceptionMishpaha {
+                          HttpServletRequest request) throws NotFoundGenderWithIDException {
         httpHeaders.forEach((key, value) -> {
             log.info("UserController -> deleteAll -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -259,7 +259,7 @@ public class UserController implements IUserController {
     @PostMapping(value = "/addPage") //TODO: not-restful name; better is viewPage1
     public void setDataFromForm(@RequestBody UserDTO data,
                                 @RequestHeader HttpHeaders httpHeaders,
-                                HttpServletRequest request) throws ExceptionMishpaha {
+                                HttpServletRequest request) throws NotFoundGenderWithIDException {
         httpHeaders.forEach((key, value) -> {
             log.info("UserController -> setDataFromForm -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -276,7 +276,7 @@ public class UserController implements IUserController {
     public void setDataFromFormDetail(@RequestBody UserDTO data,
                                       @RequestParam(name = "username") String userName,
                                       @RequestHeader HttpHeaders httpHeaders,
-                                      HttpServletRequest request) throws ExceptionMishpaha {
+                                      HttpServletRequest request) throws NotFoundGenderWithIDException {
         httpHeaders.forEach((key, value) -> {
             log.info("UserController -> setDataFromFormDetail -> headers -> " + String.format("Header '%s' = %s", key, value));
         });

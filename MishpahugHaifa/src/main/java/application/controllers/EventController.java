@@ -6,7 +6,7 @@ import application.dto.UserDTO;
 import application.entities.EventEntity;
 import application.entities.SubscriptionEntity;
 import application.entities.UserEntity;
-import application.exceptions.ExceptionMishpaha;
+import application.exceptions.NotFoundGenderWithIDException;
 import application.models.event.IEventModel;
 import application.models.holyday.IHolyDayModel;
 import application.models.kichentype.IKichenTypeModel;
@@ -72,7 +72,7 @@ public class EventController implements IEventController {
     @ResponseBody
     public EventDTO findById(@PathVariable(name = "id") Integer id,
                              @RequestHeader HttpHeaders httpHeaders,
-                             HttpServletRequest request) throws ExceptionMishpaha {
+                             HttpServletRequest request) throws NotFoundGenderWithIDException {
         httpHeaders.forEach((key, value) -> {
             log.info("EventController -> findById -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -84,7 +84,7 @@ public class EventController implements IEventController {
     @ResponseBody
     public List<UserDTO> findGuestByEventId(@PathVariable(name = "id") Integer id,
                                             @RequestHeader HttpHeaders httpHeaders,
-                                            HttpServletRequest request) throws ExceptionMishpaha {
+                                            HttpServletRequest request) throws NotFoundGenderWithIDException {
         httpHeaders.forEach((key, value) -> {
             log.info("EventController -> findGuestByEventId -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -138,7 +138,7 @@ public class EventController implements IEventController {
     public EventDTO updateDataFromForm(@RequestBody HashMap<String, String> data,
                                        @PathVariable(value = "id") Integer id,
                                        @RequestHeader HttpHeaders httpHeaders,
-                                       HttpServletRequest request) throws ExceptionMishpaha {
+                                       HttpServletRequest request) throws NotFoundGenderWithIDException {
         httpHeaders.forEach((key, value) -> {
             log.info("EventController -> updateDataFromForm -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -156,7 +156,7 @@ public class EventController implements IEventController {
     @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable(value = "id") Integer id,
                        @RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request) throws ExceptionMishpaha {
+                       HttpServletRequest request) throws NotFoundGenderWithIDException {
         eventModel.getById(id).putIntoDeletionQueue();
         httpHeaders.forEach((key, value) -> {
             log.info("EventController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
@@ -171,7 +171,7 @@ public class EventController implements IEventController {
     @Override
     @DeleteMapping(value = "/")
     public void delete(@RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request) throws ExceptionMishpaha {
+                       HttpServletRequest request) throws NotFoundGenderWithIDException {
         httpHeaders.forEach((key, value) -> {
             log.info("EventController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });

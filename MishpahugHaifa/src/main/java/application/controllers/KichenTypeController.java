@@ -3,12 +3,12 @@ package application.controllers;
 import java.util.List;
 
 import application.controllers.interfaces.IKichenTypeController;
+import application.exceptions.NotFoundGenderWithIDException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import application.entities.KitchenTypeEntity;
-import application.exceptions.ExceptionMishpaha;
 import application.models.kichentype.IKichenTypeModel;
 import application.utils.converter.IConverter;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,7 @@ public class KichenTypeController implements IKichenTypeController {
     @PostMapping(value = "/")
     public void post(@RequestBody KitchenTypeEntity data,
                      @RequestHeader HttpHeaders httpHeaders,
-                     HttpServletRequest request) throws ExceptionMishpaha {
+                     HttpServletRequest request) throws NotFoundGenderWithIDException {
         httpHeaders.forEach((key, value) -> {
             log.info("KichenTypeController -> post -> headers -> " + String.format("Header '%s' = %s", key, value));
         });

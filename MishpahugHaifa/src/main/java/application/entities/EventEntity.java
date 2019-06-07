@@ -48,7 +48,7 @@ import lombok.extern.slf4j.Slf4j;
 @Setter
 @Slf4j
 @NoArgsConstructor
-@EqualsAndHashCode(of = { "date", "time", }) // business key;
+@EqualsAndHashCode(of = {"user_owner", "date", "time"}) // business key;
 @ToString(exclude = { "userEntityOwner", "addressEntity", "subscriptions" })
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class EventEntity {

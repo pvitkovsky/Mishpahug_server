@@ -5,16 +5,15 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import application.exceptions.NotFoundGenderWithIDException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.querydsl.core.types.Predicate;
 
 import application.entities.UserEntity;
-import application.exceptions.ExceptionMishpaha;
 import application.repositories.UserRepository;
 import application.utils.converter.IUpdates;
-import application.utils.converter.Updates;
 
 @Service
 @Transactional
@@ -58,7 +57,7 @@ public class UserModel implements IUserModel {
 
     @Override
     public UserEntity update(Integer userId,
-                             HashMap<String, String> data) throws ExceptionMishpaha {
+                             HashMap<String, String> data){
             UserEntity user = userRepository.getOne(userId);
             if (user == null) throw new RuntimeException("User with id = " + userId + " not found");
             updates.updateUser(user, data);

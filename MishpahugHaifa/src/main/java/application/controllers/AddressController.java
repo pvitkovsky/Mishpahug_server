@@ -1,14 +1,12 @@
 package application.controllers;
 
-import java.util.List;
-
 import application.controllers.interfaces.IAddressController;
+import application.exceptions.NotFoundGenderWithIDException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import application.entities.AddressEntity;
-import application.exceptions.ExceptionMishpaha;
 import application.models.address.IAddressModel;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,7 +24,7 @@ public class AddressController implements IAddressController {
     @PostMapping(value = "/")
     public void post(@RequestBody AddressEntity data,
                      @RequestHeader HttpHeaders httpHeaders,
-                     HttpServletRequest request) throws ExceptionMishpaha {
+                     HttpServletRequest request) throws NotFoundGenderWithIDException {
         httpHeaders.forEach((key, value) -> {
             log.info("AddressController -> post -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -49,7 +47,7 @@ public class AddressController implements IAddressController {
     @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable(name = "id") Integer id,
                        @RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request) throws ExceptionMishpaha {
+                       HttpServletRequest request) throws NotFoundGenderWithIDException {
         httpHeaders.forEach((key, value) -> {
             log.info("AddressController -> delete{" + id + "} -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -61,7 +59,7 @@ public class AddressController implements IAddressController {
     @GetMapping(value = "/{id}")
     public String get(@PathVariable(name = "id") Integer id,
                       @RequestHeader HttpHeaders httpHeaders,
-                      HttpServletRequest request) throws ExceptionMishpaha {
+                      HttpServletRequest request) throws NotFoundGenderWithIDException {
         httpHeaders.forEach((key, value) -> {
             log.info("AddressController -> get{" + id + "} -> headers -> " + String.format("Header '%s' = %s", key, value));
         });

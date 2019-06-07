@@ -3,7 +3,7 @@ package application.models.religion;
 import java.util.List;
 
 import application.entities.ReligionEntity;
-import application.exceptions.ExceptionMishpaha;
+import application.exceptions.NotFoundGenderWithIDException;
 
 public interface IReligionModel {
     public ReligionEntity getById(Integer id);
@@ -12,9 +12,9 @@ public interface IReligionModel {
 
     public ReligionEntity add(ReligionEntity data);
 
-    public ReligionEntity updateName(Integer id, String name) throws ExceptionMishpaha;
+    public ReligionEntity updateName(Integer id, String name);
 
-    public ReligionEntity deleteByID(Integer id) throws ExceptionMishpaha;
+    public ReligionEntity deleteByID(Integer id);
 
     public void deleteAll();
 

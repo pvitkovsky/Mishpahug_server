@@ -4,11 +4,11 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import application.exceptions.NotFoundGenderWithIDException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import application.entities.MaritalStatusEntity;
-import application.exceptions.ExceptionMishpaha;
 import application.repositories.MaritalStatusRepository;
 
 @Service
@@ -35,11 +35,11 @@ public class MaritalStatusModel implements IMaritalStatusModel {
     }
 
     @Override
-    public void deleteByName(String name) throws ExceptionMishpaha {
+    public void deleteByName(String name){
         try {
             maritalStatusRepository.deleteByName(name);
         } catch (Exception e) {
-            throw new ExceptionMishpaha(this.getClass().toString(), e);
+            throw new NotFoundGenderWithIDException("Error");
         }
     }
 
@@ -49,22 +49,22 @@ public class MaritalStatusModel implements IMaritalStatusModel {
     }
 
     @Override
-    public MaritalStatusEntity updateName(Integer id, String name) throws ExceptionMishpaha {
+    public MaritalStatusEntity updateName(Integer id, String name){
         try {
             MaritalStatusEntity maritalStatusEntity = maritalStatusRepository.getOne(id);
             maritalStatusEntity.setName(name);
             return maritalStatusRepository.saveAndFlush(maritalStatusEntity);
         } catch (Exception e) {
-            throw new ExceptionMishpaha(this.getClass().toString(), e);
+            throw new NotFoundGenderWithIDException("Error");
         }
     }
 
     @Override
-    public MaritalStatusEntity add(MaritalStatusEntity data) throws ExceptionMishpaha {
+    public MaritalStatusEntity add(MaritalStatusEntity data){
         try {
             return maritalStatusRepository.saveAndFlush(data);
         } catch (Exception e) {
-            throw new ExceptionMishpaha(this.getClass().toString(), e);
+            throw new NotFoundGenderWithIDException("Error");
         }
     }
 

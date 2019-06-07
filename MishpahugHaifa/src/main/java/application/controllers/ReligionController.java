@@ -3,12 +3,12 @@ package application.controllers;
 import java.util.List;
 
 import application.controllers.interfaces.IReligionController;
+import application.exceptions.NotFoundGenderWithIDException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import application.entities.ReligionEntity;
-import application.exceptions.ExceptionMishpaha;
 import application.models.religion.IReligionModel;
 import application.utils.converter.IConverter;
 import lombok.extern.slf4j.Slf4j;
@@ -65,7 +65,7 @@ public class ReligionController implements IReligionController {
     public void put(@RequestParam(name = "id") Integer id,
                     @RequestParam(name = "name") String name,
                     @RequestHeader HttpHeaders httpHeaders,
-                    HttpServletRequest request) throws ExceptionMishpaha {
+                    HttpServletRequest request) throws NotFoundGenderWithIDException {
         httpHeaders.forEach((key, value) -> {
             log.info("ReligionController -> put -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -88,7 +88,7 @@ public class ReligionController implements IReligionController {
     @DeleteMapping(value = "/{name}")
     public void delete(@PathVariable(name = "name") String name,
                        @RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request) throws ExceptionMishpaha {
+                       HttpServletRequest request) throws NotFoundGenderWithIDException {
         httpHeaders.forEach((key, value) -> {
             log.info("ReligionController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });

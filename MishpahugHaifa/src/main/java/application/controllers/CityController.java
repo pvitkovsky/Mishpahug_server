@@ -1,6 +1,7 @@
 package application.controllers;
 
 import application.controllers.interfaces.ICityController;
+import application.exceptions.NotFoundGenderWithIDException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.http.HttpHeaders;
@@ -9,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import com.querydsl.core.types.Predicate;
 
 import application.entities.CityEntity;
-import application.exceptions.ExceptionMishpaha;
 import application.models.city.ICityModel;
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,7 +28,7 @@ public class CityController implements ICityController {
     @PostMapping(value = "/")
     public void post(@RequestBody CityEntity data,
                      @RequestHeader HttpHeaders httpHeaders,
-                     HttpServletRequest request) throws ExceptionMishpaha {
+                     HttpServletRequest request) throws NotFoundGenderWithIDException {
         httpHeaders.forEach((key, value) -> {
             log.info("CityController -> put -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -41,7 +41,7 @@ public class CityController implements ICityController {
     public void put(@RequestParam(name = "id") Integer id,
                     @RequestParam(name = "name") String name,
                     @RequestHeader HttpHeaders httpHeaders,
-                    HttpServletRequest request) throws ExceptionMishpaha {
+                    HttpServletRequest request) throws NotFoundGenderWithIDException {
         httpHeaders.forEach((key, value) -> {
             log.info("CityController -> put -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -64,7 +64,7 @@ public class CityController implements ICityController {
     @DeleteMapping(value = "/{name}")
     public void delete(@PathVariable(name = "name") String name,
                        @RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request) throws ExceptionMishpaha {
+                       HttpServletRequest request) throws NotFoundGenderWithIDException {
         httpHeaders.forEach((key, value) -> {
             log.info("CityController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -91,7 +91,7 @@ public class CityController implements ICityController {
     @GetMapping(value = "/{id}")
     public String get(@PathVariable(name = "id") Integer id,
                       @RequestHeader HttpHeaders httpHeaders,
-                      HttpServletRequest request) throws ExceptionMishpaha {
+                      HttpServletRequest request) throws NotFoundGenderWithIDException {
         httpHeaders.forEach((key, value) -> {
             log.info("CityController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });

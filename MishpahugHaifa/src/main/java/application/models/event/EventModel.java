@@ -8,9 +8,8 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
-import application.utils.converter.EventConverter;
+import application.exceptions.NotFoundGenderWithIDException;
 import application.utils.converter.IUpdates;
-import application.utils.converter.Updates;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +19,6 @@ import application.entities.EventEntity;
 import application.entities.SubscriptionEntity;
 import application.entities.SubscriptionEntity.EventGuestId;
 import application.entities.UserEntity;
-import application.exceptions.ExceptionMishpaha;
 import application.repositories.EventRepository;
 import application.repositories.HolyDayRepository;
 import application.repositories.KichenTypeRepository;
@@ -80,38 +78,38 @@ public class EventModel implements IEventModel {
 	}
 
 	@Override
-	public EventEntity update(Integer eventId, HashMap<String, String> data) throws ExceptionMishpaha {
+	public EventEntity update(Integer eventId, HashMap<String, String> data){
 		try {
 			EventEntity eventEntity = eventRepository.getOne(eventId);
 			updates.updateEvent(eventEntity, data);
 			return eventRepository.save(eventEntity);
 		} catch (Exception e) {
-			throw new ExceptionMishpaha("Error! Not found event with id " + eventId, null);
+			throw new NotFoundGenderWithIDException("Error");
 		}
 	}
 
 	@Override
-	public EventEntity delete(Integer eventId) throws ExceptionMishpaha { // throws if not in deletion queue
+	public EventEntity delete(Integer eventId){ // throws if not in deletion queue
 		try {
 			EventEntity eventEntity = eventRepository.getOne(eventId);
 			eventRepository.delete(eventEntity);
 			return eventEntity;
 		} catch (EntityNotFoundException e) {
-			throw new ExceptionMishpaha("Error! Not found event with id " + eventId, null);
+			throw new NotFoundGenderWithIDException("Error");
 		}
 	}
 
 	@Override
-	public void deleteAll() throws ExceptionMishpaha {
+	public void deleteAll(){
 		eventRepository.deleteAll(); // throws if not in deletion queue
 	}
 
 	@Override
-	public EventEntity getById(Integer id) throws ExceptionMishpaha {
+	public EventEntity getById(Integer id){
 		try {
 			return eventRepository.getOne(id);
 		} catch (EntityNotFoundException e) {
-			throw new ExceptionMishpaha("Error! Not found event with id " + id, null);
+			throw new NotFoundGenderWithIDException("Error");
 		}
 	}
 
@@ -126,19 +124,19 @@ public class EventModel implements IEventModel {
 	}
 
 	@Override
-	public EventEntity subscribe(Integer eventId, Integer userId) throws ExceptionMishpaha {
+	public EventEntity subscribe(Integer eventId, Integer userId){
 		SubscriptionHandler handler = new SubscriptionHandler(eventId, userId);
 		return handler.subscribe();
 	}
 
 	@Override
-	public EventEntity unsubscribe(Integer eventId, Integer userId) throws ExceptionMishpaha {
+	public EventEntity unsubscribe(Integer eventId, Integer userId){
 		SubscriptionHandler handler = new SubscriptionHandler(eventId, userId);
 		return handler.unsubscribe();
 	}
 
 	@Override
-	public EventEntity deactivateSubscription(Integer eventId, Integer userId) throws ExceptionMishpaha {
+	public EventEntity deactivateSubscription(Integer eventId, Integer userId){
 		SubscriptionHandler handler = new SubscriptionHandler(eventId, userId);
 		return handler.deactivate();
 	}
@@ -155,22 +153,22 @@ public class EventModel implements IEventModel {
 		private UserEntity userEntity;
 		private SubscriptionEntity subscription;
 
-		private SubscriptionHandler(Integer eventId, Integer userId) throws ExceptionMishpaha {
+		private SubscriptionHandler(Integer eventId, Integer userId){
 			this.eventId = eventId;
 			this.userId = userId;
 			load();
 		}
 
-		private void load() throws ExceptionMishpaha {
+		private void load(){
 			try {
 				eventEntity = eventRepository.getOne(eventId);
 			} catch (EntityNotFoundException e) {
-				throw new ExceptionMishpaha("Error! Not found event with id " + eventId, null);
+				throw new NotFoundGenderWithIDException("Error");
 			}
 			try {
 				userEntity = userRepository.getOne(userId);
 			} catch (Exception e) {
-				throw new ExceptionMishpaha("Error! Not found user with id " + userId, null);
+				throw new NotFoundGenderWithIDException("Error");
 			}
 			EventGuestId subscriptionKey = new EventGuestId(userEntity.getId(), eventEntity.getId());
 			if (!subscriptionsRepository.existsById(subscriptionKey)) {

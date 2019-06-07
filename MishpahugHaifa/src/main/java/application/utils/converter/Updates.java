@@ -19,6 +19,8 @@ public class Updates extends ConverterBase implements IUpdates {
 		if (data.containsKey("nameOfEvent")) { // TODO: naming convention for update fields;
 			log.info("Updates -> eventUpdate -> nameOfEvent -> new name = " + data.get("nameOfEvent"));
 			eventEntity.setNameOfEvent(data.get("nameOfEvent"));
+			// не меняется дата, время и владелец
+            //меняются кухня, имя, адрес
 		}
 	}
 

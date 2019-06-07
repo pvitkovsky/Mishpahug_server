@@ -2,32 +2,32 @@ package application.models.city;
 
 import java.util.List;
 
+import application.exceptions.NotFoundGenderWithIDException;
 import com.querydsl.core.types.Predicate;
 
 import application.entities.CityEntity;
 import application.entities.CountryEntity;
-import application.exceptions.ExceptionMishpaha;
 
 public interface ICityModel {
-    public CityEntity getById(Integer id) throws ExceptionMishpaha;
+    public CityEntity getById(Integer id);
 
-    public CityEntity add(CityEntity data) throws ExceptionMishpaha;
+    public CityEntity add(CityEntity data);
 
     Iterable<CityEntity> getAll(Predicate predicate);
 
-    public CityEntity deleteByID(Integer id) throws ExceptionMishpaha;
+    public CityEntity deleteByID(Integer id);
 
-    void deleteByName(String name) throws ExceptionMishpaha;
+    void deleteByName(String name);
 
     public void deleteAll();
 
-    public List<CityEntity> getAll() throws ExceptionMishpaha;
+    public List<CityEntity> getAll();
 
-    public CityEntity updateName(Integer id, String name) throws ExceptionMishpaha;
+    public CityEntity updateName(Integer id, String name);
 
-    public CountryEntity getCountryByCity(Integer countryId) throws ExceptionMishpaha;
+    public CountryEntity getCountryByCity(Integer countryId);
 
-    public CityEntity getByName(String name) throws ExceptionMishpaha;
+    public CityEntity getByName(String name);
 
-    public List<CityEntity> addFromList(List<String> data, CountryEntity countryEntity) throws ExceptionMishpaha;
+    public List<CityEntity> addFromList(List<String> data, CountryEntity countryEntity);
 }

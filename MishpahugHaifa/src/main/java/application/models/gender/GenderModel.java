@@ -4,11 +4,11 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import application.exceptions.NotFoundGenderWithIDException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import application.entities.GenderEntity;
-import application.exceptions.ExceptionMishpaha;
 import application.repositories.GenderRepository;
 
 @Service
@@ -29,11 +29,11 @@ public class GenderModel implements IGenderModel {
     }
 
     @Override
-    public void deleteByName(String name) throws ExceptionMishpaha {
+    public void deleteByName(String name) {
         try {
             genderRepository.deleteByName(name);
         } catch (Exception e) {
-            throw new ExceptionMishpaha(this.getClass().toString(), e);
+            throw new NotFoundGenderWithIDException("Error");
         }
     }
 
@@ -44,22 +44,22 @@ public class GenderModel implements IGenderModel {
 
 
     @Override
-    public GenderEntity add(GenderEntity data) throws ExceptionMishpaha {
+    public GenderEntity add(GenderEntity data) throws NotFoundGenderWithIDException {
         try {
             return genderRepository.saveAndFlush(data);
         } catch (Exception e) {
-            throw new ExceptionMishpaha(this.getClass().toString(), e);
+            throw new NotFoundGenderWithIDException("Error");
         }
     }
 
     @Override
-    public GenderEntity updateName(Integer id, String name) throws ExceptionMishpaha {
+    public GenderEntity updateName(Integer id, String name) throws NotFoundGenderWithIDException {
         try {
             GenderEntity cityEntity = genderRepository.getOne(id);
             cityEntity.setName(name);
             return genderRepository.saveAndFlush(cityEntity);
         } catch (Exception e) {
-            throw new ExceptionMishpaha(this.getClass().toString(), e);
+            throw new NotFoundGenderWithIDException("Error");
         }
     }
 

@@ -33,7 +33,7 @@ import application.repositories.UserRepository;
 @DataJpaTest
 @ActiveProfiles("test")
 @Transactional
-public class 32EventEntityTest {
+public class EventEntityTest {
 
 	private final UserEntity ALYSSA = new UserEntity("Alyssa", "p_hacker@sicp.edu");
 	private final LocalDate TDATE = LocalDate.now().plusYears(20);
@@ -54,7 +54,7 @@ public class 32EventEntityTest {
 		eventRepo.save(TESTING); // TODO: where is cascade?!
 	}
 
-	@Test(expected = DataIntegrityViolationException.class)w
+	@Test(expected = DataIntegrityViolationException.class)
 	public void givenDuplicateEventsSaveAndGetException() {
 		
 		EventEntity TESTINGDUPLICATE = new EventEntity(ALYSSA, TDATE, TTIME);

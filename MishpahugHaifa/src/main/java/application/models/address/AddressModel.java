@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import application.exceptions.NotFoundAddressWithIDException;
 import application.exceptions.NotFoundGenderWithIDException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,7 +55,7 @@ public class AddressModel implements IAddressModel {
             addressRepository.deleteById(id);
             return cityEntity;
         } catch (Exception e) {
-            throw new NotFoundGenderWithIDException("Error");
+            throw new NotFoundAddressWithIDException("Error");
         }
     }
 
@@ -85,7 +86,7 @@ public class AddressModel implements IAddressModel {
             addressRepository.deleteById(id);
             return addressRepository.getOne(id);
         } else {
-            new NotFoundGenderWithIDException("Error");
+            new NotFoundAddressWithIDException("Error");
             return null;
         }
 

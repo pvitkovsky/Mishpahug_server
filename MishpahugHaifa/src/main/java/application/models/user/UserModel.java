@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import application.exceptions.NotFoundGenderWithIDException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.querydsl.core.types.Predicate;
@@ -59,7 +60,7 @@ public class UserModel implements IUserModel {
     public UserEntity update(Integer userId,
                              HashMap<String, String> data){
             UserEntity user = userRepository.getOne(userId);
-            if (user == null) throw new RuntimeException("User with id = " + userId + " not found");
+            if (user == null) throw new UsernameNotFoundException("User with id = " + userId + " not found");
             updates.updateUser(user, data);
             userRepository.save(user);
             return user;
@@ -71,7 +72,7 @@ public class UserModel implements IUserModel {
     @Override
     public UserEntity deleteByID(Integer userId) {
         UserEntity usr = userRepository.getOne(userId);
-        if (usr == null) throw new RuntimeException("User with id = " + userId + " not found");
+        if (usr == null) throw new UsernameNotFoundException("User with id = " + userId + " not found");
         usr.putIntoDeletionQueue();
         userRepository.deleteById(userId);
         return usr;
@@ -98,7 +99,7 @@ public class UserModel implements IUserModel {
     @Override
     public UserEntity activateByID(Integer userId) {
         UserEntity usr = userRepository.getOne(userId);
-        if (usr == null) throw new RuntimeException("User with id = " + userId + " not found");
+        if (usr == null) throw new UsernameNotFoundException("User with id = " + userId + " not found");
         usr.activate();
         return usr;
     }
@@ -109,7 +110,7 @@ public class UserModel implements IUserModel {
     @Override
     public UserEntity deactivateByID(Integer userId) {
         UserEntity usr = userRepository.getOne(userId);
-        if (usr == null) throw new RuntimeException("User with id = " + userId + " not found");
+        if (usr == null) throw new UsernameNotFoundException("User with id = " + userId + " not found");
         usr.deactivate();
         return usr;
     }
@@ -120,7 +121,7 @@ public class UserModel implements IUserModel {
     @Override
     public UserEntity prepareForDeletionByID(Integer userId) {
         UserEntity usr = userRepository.getOne(userId);
-        if (usr == null) throw new RuntimeException("User with id = " + userId + " not found");
+        if (usr == null) throw new UsernameNotFoundException("User with id = " + userId + " not found");
         usr.putIntoDeletionQueue();
         return null;
     }

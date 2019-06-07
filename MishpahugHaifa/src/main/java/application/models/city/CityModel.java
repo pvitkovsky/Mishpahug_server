@@ -71,45 +71,28 @@ public class CityModel implements ICityModel {
 
     @Override
     public List<CityEntity> getAll(){
-        try {
             return cityRepository.findAll();
-        } catch (Exception e) {
-            throw new NotFoundGenderWithIDException("Error");
-        }
     }
 
     @Override
     public CityEntity updateName(Integer id, String name){
-        try {
             CityEntity cityEntity = getById(id);
             cityEntity.setName(name);
             return cityRepository.saveAndFlush(cityEntity);
-        } catch (Exception e) {
-            throw new NotFoundGenderWithIDException("Error");
-        }
     }
 
     @Override
     public CountryEntity getCountryByCity(Integer id){
-        try {
             return cityRepository.getOne(id).getCountryEntity();
-        } catch (Exception e) {
-            throw new NotFoundGenderWithIDException("Error");
-        }
     }
 
     @Override
     public CityEntity getByName(String name){
-        try {
             return cityRepository.getByName(name);
-        } catch (Exception e) {
-            throw new NotFoundGenderWithIDException("Error");
-        }
     }
 
     @Override
     public List<CityEntity> addFromList(List<String> data, CountryEntity countryEntity){
-        try {
             List<CityEntity> result = new ArrayList<>();
             for (String z : data) {
                 CityEntity city = new CityEntity();
@@ -117,11 +100,7 @@ public class CityModel implements ICityModel {
                 countryEntity.addCity(city);
                 cityRepository.save(city);
                 result.add(city);
-
             }
             return result;
-        } catch (Exception e) {
-            throw new NotFoundGenderWithIDException("Error");
-        }
     }
 }

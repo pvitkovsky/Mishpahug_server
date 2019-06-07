@@ -35,24 +35,16 @@ public class ReligionModel implements IReligionModel {
 
     @Override
     public ReligionEntity updateName(Integer id, String name){
-        try {
-            ReligionEntity cityEntity = religionRepository.getOne(id);
-            cityEntity.setName(name);
-            return religionRepository.saveAndFlush(cityEntity);
-        } catch (Exception e) {
-            throw new NotFoundGenderWithIDException("Error");
-        }
+        ReligionEntity cityEntity = religionRepository.getOne(id);
+        cityEntity.setName(name);
+        return religionRepository.saveAndFlush(cityEntity);
     }
 
     @Override
     public ReligionEntity deleteByID(Integer id){
-        try {
-            ReligionEntity cityEntity = religionRepository.getOne(id);
-            religionRepository.deleteById(id);
-            return cityEntity;
-        } catch (Exception e) {
-            throw new NotFoundGenderWithIDException("Error");
-        }
+        ReligionEntity cityEntity = religionRepository.getOne(id);
+        religionRepository.deleteById(id);
+        return cityEntity;
     }
 
     @Override

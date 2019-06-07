@@ -36,11 +36,7 @@ public class MaritalStatusModel implements IMaritalStatusModel {
 
     @Override
     public void deleteByName(String name){
-        try {
-            maritalStatusRepository.deleteByName(name);
-        } catch (Exception e) {
-            throw new NotFoundGenderWithIDException("Error");
-        }
+        maritalStatusRepository.deleteByName(name);
     }
 
     @Override
@@ -50,22 +46,14 @@ public class MaritalStatusModel implements IMaritalStatusModel {
 
     @Override
     public MaritalStatusEntity updateName(Integer id, String name){
-        try {
-            MaritalStatusEntity maritalStatusEntity = maritalStatusRepository.getOne(id);
-            maritalStatusEntity.setName(name);
-            return maritalStatusRepository.saveAndFlush(maritalStatusEntity);
-        } catch (Exception e) {
-            throw new NotFoundGenderWithIDException("Error");
-        }
+        MaritalStatusEntity maritalStatusEntity = maritalStatusRepository.getOne(id);
+        maritalStatusEntity.setName(name);
+        return maritalStatusRepository.saveAndFlush(maritalStatusEntity);
     }
 
     @Override
     public MaritalStatusEntity add(MaritalStatusEntity data){
-        try {
-            return maritalStatusRepository.saveAndFlush(data);
-        } catch (Exception e) {
-            throw new NotFoundGenderWithIDException("Error");
-        }
+        return maritalStatusRepository.saveAndFlush(data);
     }
 
 }

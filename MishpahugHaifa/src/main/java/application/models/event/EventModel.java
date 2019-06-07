@@ -79,24 +79,16 @@ public class EventModel implements IEventModel {
 
 	@Override
 	public EventEntity update(Integer eventId, HashMap<String, String> data){
-		try {
-			EventEntity eventEntity = eventRepository.getOne(eventId);
-			updates.updateEvent(eventEntity, data);
-			return eventRepository.save(eventEntity);
-		} catch (Exception e) {
-			throw new NotFoundGenderWithIDException("Error");
-		}
+		EventEntity eventEntity = eventRepository.getOne(eventId);
+		updates.updateEvent(eventEntity, data);
+		return eventRepository.save(eventEntity);
 	}
 
 	@Override
 	public EventEntity delete(Integer eventId){ // throws if not in deletion queue
-		try {
-			EventEntity eventEntity = eventRepository.getOne(eventId);
-			eventRepository.delete(eventEntity);
-			return eventEntity;
-		} catch (EntityNotFoundException e) {
-			throw new NotFoundGenderWithIDException("Error");
-		}
+		EventEntity eventEntity = eventRepository.getOne(eventId);
+		eventRepository.delete(eventEntity);
+		return eventEntity;
 	}
 
 	@Override
@@ -106,11 +98,7 @@ public class EventModel implements IEventModel {
 
 	@Override
 	public EventEntity getById(Integer id){
-		try {
-			return eventRepository.getOne(id);
-		} catch (EntityNotFoundException e) {
-			throw new NotFoundGenderWithIDException("Error");
-		}
+		return eventRepository.getOne(id);
 	}
 
 	@Override
@@ -160,16 +148,8 @@ public class EventModel implements IEventModel {
 		}
 
 		private void load(){
-			try {
-				eventEntity = eventRepository.getOne(eventId);
-			} catch (EntityNotFoundException e) {
-				throw new NotFoundGenderWithIDException("Error");
-			}
-			try {
-				userEntity = userRepository.getOne(userId);
-			} catch (Exception e) {
-				throw new NotFoundGenderWithIDException("Error");
-			}
+			eventEntity = eventRepository.getOne(eventId);
+			userEntity = userRepository.getOne(userId);
 			EventGuestId subscriptionKey = new EventGuestId(userEntity.getId(), eventEntity.getId());
 			if (!subscriptionsRepository.existsById(subscriptionKey)) {
 				subscription = new SubscriptionEntity();

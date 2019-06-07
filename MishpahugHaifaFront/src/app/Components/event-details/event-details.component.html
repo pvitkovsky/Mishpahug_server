@@ -1,3 +1,37 @@
-<p>
-  event-details works!
-</p>
+<div>
+	<form *ngIf="renderedEventDetail">
+		<mat-card>
+			<mat-card-header>Edit Event</mat-card-header>
+			<mat-card-content>
+				<mat-form-field>
+					<input name='event-name' matInput placeholder='Name of Event' [(ngModel)]="renderedUserDetail.userName">
+				</mat-form-field>
+				<mat-form-field>
+					<input name='address-city' matInput placeholder='City' [(ngModel)]="renderedUserDetail.firstName">
+				</mat-form-field>
+				<mat-form-field>
+					<input name='address-street' matInput placeholder='Street' [(ngModel)]="renderedUserDetail.firstName">
+				</mat-form-field>
+				<mat-form-field>
+					<input name='address-building' matInput placeholder='Building' [(ngModel)]="renderedUserDetail.firstName">
+				</mat-form-field>
+				<mat-form-field>
+					<input name='address-apartament' matInput placeholder='Apartament' [(ngModel)]="renderedUserDetail.firstName">
+				</mat-form-field>
+				<mat-form-field>
+					<input name='address-apartament' matInput placeholder='Holiday' [(ngModel)]="renderedUserDetail.firstName">
+				</mat-form-field>
+				<mat-form-field>
+					<input name='address-apartament' matInput placeholder='Kitchen' [(ngModel)]="renderedUserDetail.firstName">
+				</mat-form-field>
+				<!--TODO: date selectors -->
+				<!--TODO: dropdown lists with validation. can I ask for ngModel = "options.option"?-->
+			</mat-card-content>
+			<mat-card-actions *ngIf="canEdit">
+				<button type='button' mat-button (click)="save()">Save</button>
+				<button type='button' mat-button (click)="cancel()">Cancel</button>
+			</mat-card-actions>
+		</mat-card>
+	</form>
+</div>
+

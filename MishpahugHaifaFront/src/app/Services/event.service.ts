@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { EventDetail, EventFilter } from '../Models/index';
-import { Observable, throwError } from 'rxjs';
-import { AuthenticationService} from "./authentication.service"
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
+const eventConnectionString =  'api/event/';
 /*
 * Fires requests to the EventController
 *
@@ -16,9 +15,9 @@ export class EventService {
   }
 
   getEvents (filter? : EventFilter ) : Observable<EventDetail[]> {
-    var connectionString = 'api/event/'; 
+    var connectionString = eventConnectionString; 
     if(filter){
-      connectionString += filter.eventRelation + filter.appendUserDetail();  // user details do not succeed in getting to the filter in time; 
+      connectionString += filter.eventRelation + filter.appendUserDetail();  
     }
     //console.log("connecting with connection string " + connectionString)
     var res : Observable<EventDetail[]> = this.http.get<EventDetail[]>(connectionString);

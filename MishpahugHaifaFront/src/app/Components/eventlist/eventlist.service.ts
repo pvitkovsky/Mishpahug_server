@@ -3,7 +3,7 @@ import { EventService } from '../../Services/index';
 import { UserService } from '../../Services/index';
 import { UserDetail, EventDetail, EventFilter, EventStatus, EventRelation } from  '../../Models/index';
 import { filter } from 'rxjs/operators'
-import { switchMap } from 'rxjs/operators';
+import { switchMap, mergeMap } from 'rxjs/operators';
 import { Observable } from "rxjs/Rx"
 
 @Injectable({ 
@@ -49,6 +49,14 @@ export class EventListService { // static factory of request parameters for the 
 			userDetail => this.getEvents(this.getFilterOwner(userDetail)).map(
 				eventList => eventList
 				)
+			)
+	}
+
+	getEventsOwnerFlat() : Observable<EventDetail[]> { //TODO: test and spread this
+		return this.userService.current().pipe(mergeMap(
+			userDetail => this.getEvents(this.getFilterOwner(userDetail)).map(
+				eventList => eventList
+				))
 			)
 	}
 

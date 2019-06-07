@@ -15,9 +15,9 @@ export class EventsByOwnerComponent implements OnInit {
 	constructor(private eventListService : EventListService) { }
 
 	ngOnInit() {
-		this.eventListService.getEventsOwner().subscribe((res) => {
+		this.eventListService.getEventsOwnerFlat().subscribe((res) => {
 		//	console.log("Owner component events " + res);
-			res.subscribe(events =>  this.eventList = events);
+			this.eventList = res;
 		//	console.log("General component events " + this.eventList)
 		});
 	}

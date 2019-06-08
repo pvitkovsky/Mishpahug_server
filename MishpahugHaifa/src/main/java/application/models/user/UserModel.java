@@ -72,12 +72,10 @@ public class UserModel implements IUserModel {
      */
     @Override
     public UserEntity deleteByID(Integer userId) {
-        UserEntity usr = userRepository.getOne(userId);
-        try {
-            usr.putIntoDeletionQueue();
-        } catch (EntityNotFoundException e) {
+        if (userRepository.findAll().size() - 1 < userId)
             throw new NotFoundEntityException("");
-        }
+        UserEntity usr = userRepository.getOne(userId);
+            usr.putIntoDeletionQueue();
         userRepository.deleteById(userId);
         return usr;
     }

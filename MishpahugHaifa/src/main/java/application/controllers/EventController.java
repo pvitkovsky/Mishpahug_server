@@ -138,7 +138,7 @@ public class EventController implements IEventController {
     public EventDTO updateDataFromForm(@RequestBody HashMap<String, String> data,
                                        @PathVariable(value = "id") Integer id,
                                        @RequestHeader HttpHeaders httpHeaders,
-                                       HttpServletRequest request) throws EntityExistsDException{
+                                       HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("EventController -> updateDataFromForm -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -156,7 +156,7 @@ public class EventController implements IEventController {
     @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable(value = "id") Integer id,
                        @RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request) throws EntityExistsDException{
+                       HttpServletRequest request){
         eventModel.getById(id).putIntoDeletionQueue();
         httpHeaders.forEach((key, value) -> {
             log.info("EventController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
@@ -171,7 +171,7 @@ public class EventController implements IEventController {
     @Override
     @DeleteMapping(value = "/")
     public void delete(@RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request) throws EntityExistsDException{
+                       HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("EventController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });

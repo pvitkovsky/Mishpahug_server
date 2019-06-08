@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.querydsl.core.types.Predicate;
 
 import application.entities.UserEntity;
+import application.exceptions.NotFoundEntityException;
 import application.repositories.UserRepository;
 import application.utils.converter.IUpdates;
 
@@ -75,7 +76,7 @@ public class UserModel implements IUserModel {
         try {
             usr.putIntoDeletionQueue();
         } catch (EntityNotFoundException e) {
-            throw new NotFoundUserWithIDException("");
+            throw new NotFoundEntityException("");
         }
         userRepository.deleteById(userId);
         return usr;
@@ -102,7 +103,7 @@ public class UserModel implements IUserModel {
     @Override
     public UserEntity activateByID(Integer userId) {
         UserEntity usr = userRepository.getOne(userId);
-        if (usr == null) throw new NotFoundUserWithIDException("User with id = " + userId + " not found");
+        if (usr == null) throw new NotFoundEntityException("User with id = " + userId + " not found");
         usr.activate();
         return usr;
     }
@@ -113,7 +114,7 @@ public class UserModel implements IUserModel {
     @Override
     public UserEntity deactivateByID(Integer userId) {
         UserEntity usr = userRepository.getOne(userId);
-        if (usr == null) throw new NotFoundUserWithIDException("User with id = " + userId + " not found");
+        if (usr == null) throw new NotFoundEntityException("User with id = " + userId + " not found");
         usr.deactivate();
         return usr;
     }
@@ -124,7 +125,7 @@ public class UserModel implements IUserModel {
     @Override
     public UserEntity prepareForDeletionByID(Integer userId) {
         UserEntity usr = userRepository.getOne(userId);
-        if (usr == null) throw new NotFoundUserWithIDException("User with id = " + userId + " not found");
+        if (usr == null) throw new NotFoundEntityException("User with id = " + userId + " not found");
         usr.putIntoDeletionQueue();
         return null;
     }

@@ -101,34 +101,34 @@ public class UserWebRequestTest {
     
 
     @Test
-    public void testFiltring() {
+    public void testFiltring() { //TODO: stable data w/o randoms, asserts
         System.out.println("Between dates filter >>>");
         Collection<UserEntity> users = this.restTemplate.exchange("http://localhost:" + port + "/user/?dateOfBirth=1980-01-01&dateOfBirth=2000-01-01", HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<Collection<UserEntity>>() {
                 }).getBody();
-        users.forEach((data) -> System.out.println("user : " + data));
+        //users.forEach((data) -> System.out.println("user : " + data));
         assertTrue(users.size() > 1);
-        System.out.println("lastname *man* filter >>>");
+        // System.out.println("lastname *man* filter >>>");
         users = this.restTemplate.exchange("http://localhost:" + port + "/user/?lastName=man", HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<Collection<UserEntity>>() {
                 }).getBody();
-        users.forEach((data) -> System.out.println("user : " + data));
+        //users.forEach((data) -> System.out.println("user : " + data));
         assertTrue(users.size() > 0);
-        System.out.println("lastname *man* and between dates filter >>>");
+        // System.out.println("lastname *man* and between dates filter >>>");
         users = this.restTemplate.exchange("http://localhost:" + port + "/user/?lastName=man&dateOfBirth=1980-01-01&dateOfBirth=2000-01-01", HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<Collection<UserEntity>>() {
                 }).getBody();
-        users.forEach((data) -> System.out.println("user : " + data));
+        //users.forEach((data) -> System.out.println("user : " + data));
         assertTrue(users.size() > 0);
-        System.out.println("marital status: divorced filter >>>");
+        // System.out.println("marital status: divorced filter >>>");
         users = this.restTemplate.exchange("http://localhost:" + port + "/user/?maritalStatus.name=Divorced", HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<Collection<UserEntity>>() {
                 }).getBody();
-        users.forEach((data) -> System.out.println("user : " + data));
+        //users.forEach((data) -> System.out.println("user : " + data));
         assertTrue(users.size() > 0);
     }
 }

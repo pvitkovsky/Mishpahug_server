@@ -25,7 +25,7 @@ import application.repositories.CityRepository;
 import application.repositories.CountryRepository;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest(showSql = true)
+@DataJpaTest
 @ActiveProfiles("test")
 @Transactional
 public class CityTest {
@@ -54,10 +54,6 @@ public class CityTest {
 
     @Test
     public void checkSize() {
-        System.out.println("CHECKSIZE");
-        for (CityEntity ce : cityRepository.findAll()) {
-            System.out.println(ce);
-        }
         assertTrue(cityRepository.findAll().size() == citiesCount);
     }
 
@@ -72,11 +68,8 @@ public class CityTest {
 
     @Test
     public void remove() {
-        System.out.println("REMOVE");
+        //System.out.println("REMOVE");
         List<CityEntity> cities = cityRepository.findAll();
-        for (CityEntity ce : cities) {
-            System.out.println(ce);
-        } 
         countryRepository.getByName("Israel").removeCity(cityRepository.findById(cities.get(0).getId()).get());
         /* cityRepository.deleteById(cities.get(0).getId()); 
         // city is really managed on the Country side. nice entity-relation design!

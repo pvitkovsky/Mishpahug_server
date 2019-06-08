@@ -27,7 +27,7 @@ public class GenderController implements IGenderController {
     @PostMapping(value = "/")
     public void post(@RequestBody GenderEntity data,
                      @RequestHeader HttpHeaders httpHeaders,
-                     HttpServletRequest request) throws EntityExistsDException{
+                     HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("GenderController > post -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -39,7 +39,7 @@ public class GenderController implements IGenderController {
     public void put(@RequestParam(name = "id") Integer id,
                     @RequestParam(name = "name") String name,
                     @RequestHeader HttpHeaders httpHeaders,
-                    HttpServletRequest request) throws EntityExistsDException{
+                    HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("GenderController -> put -> headers -> " + String.format("Header '%s' = %s", key, value));
         });

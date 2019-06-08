@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import application.exceptions.NotFoundGenderWithIDException;
 import com.querydsl.core.types.Predicate;
 
 import application.entities.EventEntity;

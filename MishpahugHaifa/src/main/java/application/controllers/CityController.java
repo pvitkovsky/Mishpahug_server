@@ -1,7 +1,7 @@
 package application.controllers;
 
 import application.controllers.interfaces.ICityController;
-import application.exceptions.NotFoundGenderWithIDException;
+import application.exceptions.EntityExistsDException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.http.HttpHeaders;
@@ -28,7 +28,7 @@ public class CityController implements ICityController {
     @PostMapping(value = "/")
     public void post(@RequestBody CityEntity data,
                      @RequestHeader HttpHeaders httpHeaders,
-                     HttpServletRequest request) throws NotFoundGenderWithIDException {
+                     HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("CityController -> put -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -41,7 +41,7 @@ public class CityController implements ICityController {
     public void put(@RequestParam(name = "id") Integer id,
                     @RequestParam(name = "name") String name,
                     @RequestHeader HttpHeaders httpHeaders,
-                    HttpServletRequest request) throws NotFoundGenderWithIDException {
+                    HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("CityController -> put -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -52,7 +52,7 @@ public class CityController implements ICityController {
     @Override
     @DeleteMapping(value = "/")
     public void delete(@RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request) {
+                       HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("CityController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -64,7 +64,7 @@ public class CityController implements ICityController {
     @DeleteMapping(value = "/{name}")
     public void delete(@PathVariable(name = "name") String name,
                        @RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request) throws NotFoundGenderWithIDException {
+                       HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("CityController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -76,7 +76,7 @@ public class CityController implements ICityController {
     @ResponseBody
     public List<String> get(@QuerydslPredicate(root = CityEntity.class) Predicate predicate,
                             @RequestHeader HttpHeaders httpHeaders,
-                            HttpServletRequest request) {
+                            HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("CityController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -91,7 +91,7 @@ public class CityController implements ICityController {
     @GetMapping(value = "/{id}")
     public String get(@PathVariable(name = "id") Integer id,
                       @RequestHeader HttpHeaders httpHeaders,
-                      HttpServletRequest request) throws NotFoundGenderWithIDException {
+                      HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("CityController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });

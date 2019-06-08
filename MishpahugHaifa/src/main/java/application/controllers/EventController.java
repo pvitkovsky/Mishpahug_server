@@ -6,7 +6,7 @@ import application.dto.UserDTO;
 import application.entities.EventEntity;
 import application.entities.SubscriptionEntity;
 import application.entities.UserEntity;
-import application.exceptions.NotFoundGenderWithIDException;
+import application.exceptions.EntityExistsDException;
 import application.models.event.IEventModel;
 import application.models.holyday.IHolyDayModel;
 import application.models.kichentype.IKichenTypeModel;
@@ -56,7 +56,7 @@ public class EventController implements IEventController {
     @ResponseBody
     public List<EventDTO> findAllByWebQuerydsl(@QuerydslPredicate(root = EventEntity.class) Predicate predicate,
                                                @RequestHeader HttpHeaders httpHeaders,
-                                               HttpServletRequest request) {
+                                               HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("EventController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -72,7 +72,7 @@ public class EventController implements IEventController {
     @ResponseBody
     public EventDTO findById(@PathVariable(name = "id") Integer id,
                              @RequestHeader HttpHeaders httpHeaders,
-                             HttpServletRequest request) throws NotFoundGenderWithIDException {
+                             HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("EventController -> findById -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -84,7 +84,7 @@ public class EventController implements IEventController {
     @ResponseBody
     public List<UserDTO> findGuestByEventId(@PathVariable(name = "id") Integer id,
                                             @RequestHeader HttpHeaders httpHeaders,
-                                            HttpServletRequest request) throws NotFoundGenderWithIDException {
+                                            HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("EventController -> findGuestByEventId -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -118,7 +118,7 @@ public class EventController implements IEventController {
     @PostMapping(value = "/")
     public EventDTO setDataFromForm(@RequestBody EventDTO data,
                                     @RequestHeader HttpHeaders httpHeaders,
-                                    HttpServletRequest request) {
+                                    HttpServletRequest request){
         EventEntity eventEntity = new EventEntity();
         eventEntity.convertEventDTO(data);
         eventEntity.setKitchenType(kichenTypeModel.getByName(data.getKichenType()));
@@ -138,7 +138,7 @@ public class EventController implements IEventController {
     public EventDTO updateDataFromForm(@RequestBody HashMap<String, String> data,
                                        @PathVariable(value = "id") Integer id,
                                        @RequestHeader HttpHeaders httpHeaders,
-                                       HttpServletRequest request) throws NotFoundGenderWithIDException {
+                                       HttpServletRequest request) throws EntityExistsDException{
         httpHeaders.forEach((key, value) -> {
             log.info("EventController -> updateDataFromForm -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -156,7 +156,7 @@ public class EventController implements IEventController {
     @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable(value = "id") Integer id,
                        @RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request) throws NotFoundGenderWithIDException {
+                       HttpServletRequest request) throws EntityExistsDException{
         eventModel.getById(id).putIntoDeletionQueue();
         httpHeaders.forEach((key, value) -> {
             log.info("EventController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
@@ -171,7 +171,7 @@ public class EventController implements IEventController {
     @Override
     @DeleteMapping(value = "/")
     public void delete(@RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request) throws NotFoundGenderWithIDException {
+                       HttpServletRequest request) throws EntityExistsDException{
         httpHeaders.forEach((key, value) -> {
             log.info("EventController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });

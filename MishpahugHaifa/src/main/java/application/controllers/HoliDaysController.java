@@ -26,7 +26,7 @@ public class HoliDaysController implements IHoliDaysController {
     @PostMapping(value = "/")
     public void post(@RequestBody HolidayDTO[] data,
                      @RequestHeader HttpHeaders httpHeaders,
-                     HttpServletRequest request) {
+                     HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("HoliDaysController -> post -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -41,7 +41,7 @@ public class HoliDaysController implements IHoliDaysController {
     @Override
     @DeleteMapping(value = "/")
     public void delete(@RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request) {
+                       HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("HoliDaysController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -53,7 +53,7 @@ public class HoliDaysController implements IHoliDaysController {
     @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable(name = "id") Integer id,
                        @RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request) {
+                       HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("HoliDaysController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -64,7 +64,7 @@ public class HoliDaysController implements IHoliDaysController {
     @Override
     @GetMapping(value = "/")
     public List<HoliDayEntity> get(@RequestHeader HttpHeaders httpHeaders,
-                                   HttpServletRequest request) {
+                                   HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("HoliDaysController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -76,7 +76,7 @@ public class HoliDaysController implements IHoliDaysController {
     @GetMapping(value = "/{id}")
     public HoliDayEntity get(@PathVariable(name = "id") Integer id,
                              @RequestHeader HttpHeaders httpHeaders,
-                             HttpServletRequest request) {
+                             HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("HoliDaysController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });

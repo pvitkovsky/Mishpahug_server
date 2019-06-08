@@ -3,7 +3,7 @@ package application.controllers;
 import java.util.List;
 
 import application.controllers.interfaces.IMaritalStatusController;
-import application.exceptions.NotFoundGenderWithIDException;
+import application.exceptions.EntityExistsDException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +26,7 @@ public class MaritalStatusController implements IMaritalStatusController {
     @Override
     @GetMapping(value = "/")
     public List<String> get(@RequestHeader HttpHeaders httpHeaders,
-                            HttpServletRequest request) {
+                            HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
         log.info("MaritalStatusController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -38,7 +38,7 @@ public class MaritalStatusController implements IMaritalStatusController {
     @GetMapping(value = "/{id}")
     public MaritalStatusEntity get(@PathVariable(name = "id") Integer id,
                                    @RequestHeader HttpHeaders httpHeaders,
-                                   HttpServletRequest request) {
+                                   HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
         log.info("MaritalStatusController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -51,7 +51,7 @@ public class MaritalStatusController implements IMaritalStatusController {
     @PostMapping(value = "/")
     public void post(@RequestBody MaritalStatusEntity data,
                      @RequestHeader HttpHeaders httpHeaders,
-                     HttpServletRequest request) throws NotFoundGenderWithIDException {
+                     HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
         log.info("MaritalStatusController -> post -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -64,7 +64,7 @@ public class MaritalStatusController implements IMaritalStatusController {
     public void put(@RequestParam(name = "id") Integer id,
                     @RequestParam(name = "name") String name,
                     @RequestHeader HttpHeaders httpHeaders,
-                    HttpServletRequest request) throws NotFoundGenderWithIDException {
+                    HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
         log.info("MaritalStatusController -> put -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -75,7 +75,7 @@ public class MaritalStatusController implements IMaritalStatusController {
     @Override
     @DeleteMapping(value = "/")
     public void delete(@RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request) throws NotFoundGenderWithIDException {
+                       HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
         log.info("MaritalStatusController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -87,7 +87,7 @@ public class MaritalStatusController implements IMaritalStatusController {
     @DeleteMapping(value = "/{name}")
     public void delete(@PathVariable(name = "name") String name,
                        @RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request) throws NotFoundGenderWithIDException {
+                       HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
         log.info("MaritalStatusController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });

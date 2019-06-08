@@ -3,7 +3,7 @@ package application.controllers;
 import java.util.List;
 
 import application.controllers.interfaces.IKichenTypeController;
-import application.exceptions.NotFoundGenderWithIDException;
+import application.exceptions.EntityExistsDException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +26,7 @@ public class KichenTypeController implements IKichenTypeController {
     @PostMapping(value = "/")
     public void post(@RequestBody KitchenTypeEntity data,
                      @RequestHeader HttpHeaders httpHeaders,
-                     HttpServletRequest request) throws NotFoundGenderWithIDException {
+                     HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("KichenTypeController -> post -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -39,7 +39,7 @@ public class KichenTypeController implements IKichenTypeController {
     public void put(@RequestParam(name = "id") Integer id,
                     @RequestParam(name = "name") String name,
                     @RequestHeader HttpHeaders httpHeaders,
-                    HttpServletRequest request) {
+                    HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("KichenTypeController  -> put -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -50,7 +50,7 @@ public class KichenTypeController implements IKichenTypeController {
     @Override
     @DeleteMapping(value = "/")
     public void delete(@RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request) {
+                       HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("KichenTypeController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -62,7 +62,7 @@ public class KichenTypeController implements IKichenTypeController {
     @DeleteMapping(value = "/{name}")
     public void delete(@PathVariable(name = "name") String name,
                        @RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request) {
+                       HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("KichenTypeController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -74,7 +74,7 @@ public class KichenTypeController implements IKichenTypeController {
     @Override
     @GetMapping(value = "/")
     public List<String> get(@RequestHeader HttpHeaders httpHeaders,
-                            HttpServletRequest request) {
+                            HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("KichenTypeController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -86,7 +86,7 @@ public class KichenTypeController implements IKichenTypeController {
     @GetMapping(value = "/{id}")
     public String get(@PathVariable(name = "id", required = false) Integer id,
                       @RequestHeader HttpHeaders httpHeaders,
-                      HttpServletRequest request) {
+                      HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
             log.info("KichenTypeController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });

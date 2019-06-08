@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import application.exceptions.NotFoundGenderWithIDException;
+import application.exceptions.EntityExistsDException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,12 +40,12 @@ public class GenderModel implements IGenderModel {
 
 
     @Override
-    public GenderEntity add(GenderEntity data) throws NotFoundGenderWithIDException {
+    public GenderEntity add(GenderEntity data) throws EntityExistsDException {
         return genderRepository.saveAndFlush(data);
     }
 
     @Override
-    public GenderEntity updateName(Integer id, String name) throws NotFoundGenderWithIDException {
+    public GenderEntity updateName(Integer id, String name) throws EntityExistsDException {
          GenderEntity cityEntity = genderRepository.getOne(id);
          cityEntity.setName(name);
          return genderRepository.saveAndFlush(cityEntity);

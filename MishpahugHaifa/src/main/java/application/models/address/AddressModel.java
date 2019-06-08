@@ -27,11 +27,13 @@ public class AddressModel implements IAddressModel {
 
     @Override
     public AddressEntity getById(Integer id) {
+        if (!addressRepository.existsById(id)) throw new NotFoundEntityException("");
         return addressRepository.getOne(id);
     }
 
     @Override
     public AddressEntity update(HashMap<String, String> data, Integer id) {
+        if (!addressRepository.existsById(id)) throw new NotFoundEntityException("");
         AddressEntity addressEntity = addressRepository.getOne(id);
         if (data.containsKey("build"))
             addressEntity.setBuilding(Integer.getInteger(data.get("build")));
@@ -49,13 +51,10 @@ public class AddressModel implements IAddressModel {
 
     @Override
     public AddressEntity deleteByID(Integer id){
-        try {
+        if (!addressRepository.existsById(id)) throw new NotFoundEntityException("");
             AddressEntity cityEntity = addressRepository.getOne(id);
             addressRepository.deleteById(id);
             return cityEntity;
-        } catch (Exception e) {
-            throw new NotFoundEntityException("Error");
-        }
     }
 
     @Override
@@ -65,6 +64,7 @@ public class AddressModel implements IAddressModel {
 
     @Override
     public AddressEntity add(AddressEntity data) {
+        //if (!addressRepository.exist) throw new NotFoundEntityException("");
         return addressRepository.save(data);
     }
 
@@ -82,10 +82,11 @@ public class AddressModel implements IAddressModel {
     @Override
     public AddressEntity remove(Integer id) {
         if (id >= 0) {
+            if (!addressRepository.existsById(id)) throw new NotFoundEntityException("");
             addressRepository.deleteById(id);
             return addressRepository.getOne(id);
         } else {
-            new NotFoundEntityException("Error");
+            new NotFoundEntityException("");
             return null;
         }
 

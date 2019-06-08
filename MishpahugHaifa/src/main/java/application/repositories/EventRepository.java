@@ -1,10 +1,12 @@
 package application.repositories;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import application.entities.UserEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -28,6 +30,7 @@ public interface EventRepository extends JpaRepository<EventEntity, Integer>,
 
     public EventEntity getByNameOfEvent(String name);
     public List<EventEntity> getByUserEntityOwner_UserName(String userName);
+    public Boolean existsByDateAndTimeAndUserEntityOwner(LocalDate date, LocalTime time, UserEntity owner);
     
     @Override
     default public void customize(QuerydslBindings bindings, QEventEntity root) {

@@ -60,11 +60,11 @@ public class UserModel implements IUserModel {
     @Override
     public UserEntity update(Integer userId,
                              HashMap<String, String> data){
-            UserEntity user = userRepository.getOne(userId);
-            if (user == null) throw new UsernameNotFoundException("User with id = " + userId + " not found");
-            updates.updateUser(user, data);
-            userRepository.save(user);
-            return user;
+        if (!userRepository.existsById(userId)) throw new NotFoundEntityException("");
+        UserEntity user = userRepository.getOne(userId);
+        updates.updateUser(user, data);
+        userRepository.save(user);
+        return user;
     }
 
     /**
@@ -72,8 +72,7 @@ public class UserModel implements IUserModel {
      */
     @Override
     public UserEntity deleteByID(Integer userId) {
-        if (userRepository.findAll().size() - 1 < userId)
-            throw new NotFoundEntityException("");
+        if (!userRepository.existsById(userId)) throw new NotFoundEntityException("");
         UserEntity usr = userRepository.getOne(userId);
             usr.putIntoDeletionQueue();
         userRepository.deleteById(userId);
@@ -100,8 +99,8 @@ public class UserModel implements IUserModel {
      */
     @Override
     public UserEntity activateByID(Integer userId) {
+        if (!userRepository.existsById(userId)) throw new NotFoundEntityException("");
         UserEntity usr = userRepository.getOne(userId);
-        if (usr == null) throw new NotFoundEntityException("User with id = " + userId + " not found");
         usr.activate();
         return usr;
     }
@@ -111,8 +110,8 @@ public class UserModel implements IUserModel {
      */
     @Override
     public UserEntity deactivateByID(Integer userId) {
+        if (!userRepository.existsById(userId)) throw new NotFoundEntityException("");
         UserEntity usr = userRepository.getOne(userId);
-        if (usr == null) throw new NotFoundEntityException("User with id = " + userId + " not found");
         usr.deactivate();
         return usr;
     }
@@ -122,8 +121,8 @@ public class UserModel implements IUserModel {
      */
     @Override
     public UserEntity prepareForDeletionByID(Integer userId) {
+        if (!userRepository.existsById(userId)) throw new NotFoundEntityException("");
         UserEntity usr = userRepository.getOne(userId);
-        if (usr == null) throw new NotFoundEntityException("User with id = " + userId + " not found");
         usr.putIntoDeletionQueue();
         return null;
     }

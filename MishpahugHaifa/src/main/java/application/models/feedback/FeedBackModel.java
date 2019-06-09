@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import application.entities.EventEntity;
 import application.entities.SubscriptionEntity;
+import application.exceptions.NotFoundEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,7 @@ public class FeedBackModel implements IFeedBackModel {
 
     @Override
     public Map<Integer, FeedBackValue> getAllByEvent(Integer eventId) {
+        if (!eventRepository.existsById(eventId)) throw new NotFoundEntityException("");
         return null; //TODO: proper feedback please;
     }
 
@@ -51,6 +53,8 @@ public class FeedBackModel implements IFeedBackModel {
 
     @Override
     public void removeAllByEvent(Integer eventId) {
+        if (!eventRepository.existsById(eventId)) throw new NotFoundEntityException("");
+        //TODO
     }
 
     @Override

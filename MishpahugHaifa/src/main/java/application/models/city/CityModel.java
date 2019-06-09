@@ -6,6 +6,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import application.exceptions.EntityExistsDException;
+import application.exceptions.NotFoundEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,20 +24,13 @@ public class CityModel implements ICityModel {
 
     @Override
     public CityEntity getById(Integer id){
-        try {
+        if (!cityRepository.existsById(id)) throw new NotFoundEntityException("");
             return cityRepository.getOne(id);
-        } catch (Exception e) {
-            throw new EntityExistsDException("Error");
-        }
     }
 
     @Override
     public CityEntity add(CityEntity data){
-        try {
             return cityRepository.saveAndFlush(data);
-        } catch (Exception e) {
-            throw new EntityExistsDException("Error");
-        }
     }
 
     @Override
@@ -46,22 +40,15 @@ public class CityModel implements ICityModel {
 
     @Override
     public CityEntity deleteByID(Integer id){
-        try {
+        if (!cityRepository.existsById(id)) throw new NotFoundEntityException("");
             CityEntity cityEntity = cityRepository.getOne(id);
             cityRepository.deleteById(id);
             return cityEntity;
-        } catch (Exception e) {
-            throw new EntityExistsDException("Error");
-        }
     }
 
 @Override
     public void deleteByName(String name){
-        try {
             cityRepository.deleteByName(name);
-        } catch (Exception e) {
-            throw new EntityExistsDException("Error");
-        }
     }
 
     @Override
@@ -76,6 +63,7 @@ public class CityModel implements ICityModel {
 
     @Override
     public CityEntity updateName(Integer id, String name){
+        if (!cityRepository.existsById(id)) throw new NotFoundEntityException("");
             CityEntity cityEntity = getById(id);
             cityEntity.setName(name);
             return cityRepository.saveAndFlush(cityEntity);
@@ -83,6 +71,7 @@ public class CityModel implements ICityModel {
 
     @Override
     public CountryEntity getCountryByCity(Integer id){
+        if (!cityRepository.existsById(id)) throw new NotFoundEntityException("");
             return cityRepository.getOne(id).getCountryEntity();
     }
 

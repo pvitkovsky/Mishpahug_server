@@ -25,6 +25,7 @@ public class GenderModel implements IGenderModel {
 
     @Override
     public GenderEntity getById(Integer id) {
+
         return genderRepository.getOne(id);
     }
 

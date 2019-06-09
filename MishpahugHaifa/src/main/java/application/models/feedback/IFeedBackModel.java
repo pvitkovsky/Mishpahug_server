@@ -16,7 +16,7 @@ public interface IFeedBackModel {
 
     public Map<Integer, FeedBackValue> getAllByUser(UserEntity userEntity);
 
-    public void removeAllByUser(UserEntity userEntity);
+    public void removeAllByUser(Integer userId);
 
     public void removeAllByEvent(Integer eventId);
 

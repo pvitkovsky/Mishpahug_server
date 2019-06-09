@@ -51,13 +51,15 @@ public class FeedBackModel implements IFeedBackModel {
     }
 
     @Override
-    public void removeAllByUser(UserEntity userEntity) {
+    public void removeAllByUser(Integer userId) {
+        feedBackRepository.removeById_UserGuestId(userId);
         //TODO: proper feedback please;
     }
 
     @Override
     public void removeAllByEvent(Integer eventId) {
         if (!eventRepository.existsById(eventId)) throw new NotFoundEntityException("");
+        feedBackRepository.removeById_EventId(eventId);
         //TODO
     }
 

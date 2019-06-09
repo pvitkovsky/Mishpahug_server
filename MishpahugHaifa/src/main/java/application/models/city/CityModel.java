@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import application.exceptions.EntityExistsDException;
+import application.exceptions.EntityExistsException;
 import application.exceptions.NotFoundEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,6 +48,7 @@ public class CityModel implements ICityModel {
 
 @Override
     public void deleteByName(String name){
+        if (!cityRepository.existsByName(name)) throw new NotFoundEntityException("");
             cityRepository.deleteByName(name);
     }
 
@@ -64,6 +65,7 @@ public class CityModel implements ICityModel {
     @Override
     public CityEntity updateName(Integer id, String name){
         if (!cityRepository.existsById(id)) throw new NotFoundEntityException("");
+        if (cityRepository.existsByName(name)) throw new EntityExistsException("");
             CityEntity cityEntity = getById(id);
             cityEntity.setName(name);
             return cityRepository.saveAndFlush(cityEntity);
@@ -82,14 +84,17 @@ public class CityModel implements ICityModel {
 
     @Override
     public List<CityEntity> addFromList(List<String> data, CountryEntity countryEntity){
-            List<CityEntity> result = new ArrayList<>();
-            for (String z : data) {
+        List<CityEntity> result = new ArrayList<>();
+        for (String z : data) {
+            if (!cityRepository.existsByName(z))
+            {
                 CityEntity city = new CityEntity();
                 city.setName(z);
                 countryEntity.addCity(city);
                 cityRepository.save(city);
                 result.add(city);
             }
-            return result;
+        }
+        return result;
     }
 }

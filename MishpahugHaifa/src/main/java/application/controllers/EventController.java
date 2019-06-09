@@ -6,7 +6,6 @@ import application.dto.UserDTO;
 import application.entities.EventEntity;
 import application.entities.SubscriptionEntity;
 import application.entities.UserEntity;
-import application.exceptions.EntityExistsDException;
 import application.models.event.IEventModel;
 import application.models.holyday.IHolyDayModel;
 import application.models.kichentype.IKichenTypeModel;

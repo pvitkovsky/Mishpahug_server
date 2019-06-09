@@ -3,7 +3,7 @@ package application.controllers;
 import java.util.List;
 
 import application.controllers.interfaces.IGenderController;
-import application.exceptions.EntityExistsDException;
+import application.exceptions.EntityExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
@@ -105,12 +105,7 @@ public class GenderController implements IGenderController {
         });
         log.info("GenderController -> get -> Remote IP -> " + request.getRemoteAddr());
         GenderEntity genderEntity = genderModel.getById(id);
-        try {
-            return genderEntity.getName();
-        } catch (EntityNotFoundException e) {
-            throw new EntityExistsDException("");
-        }
-
+        return genderEntity.getName();
     }
 
 }

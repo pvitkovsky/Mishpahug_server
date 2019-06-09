@@ -1,7 +1,6 @@
 package application.controllers;
 
 import application.controllers.interfaces.IAddressController;
-import application.exceptions.EntityExistsDException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;

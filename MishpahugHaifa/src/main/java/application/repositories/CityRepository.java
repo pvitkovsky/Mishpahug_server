@@ -18,6 +18,7 @@ public interface CityRepository extends JpaRepository<CityEntity, Integer>,
         QuerydslPredicateExecutor<CityEntity>, QuerydslBinderCustomizer<QCityEntity> {
     public CityEntity getByName(String name);
     public void deleteByName(String name);
+    public Boolean existsByName(String name);
 
 
     @Override

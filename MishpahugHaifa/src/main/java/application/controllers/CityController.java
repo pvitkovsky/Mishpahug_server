@@ -1,7 +1,6 @@
 package application.controllers;
 
 import application.controllers.interfaces.ICityController;
-import application.exceptions.EntityExistsDException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.http.HttpHeaders;

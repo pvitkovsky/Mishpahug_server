@@ -3,20 +3,19 @@ package application.models.gender;
 import java.util.List;
 
 import application.entities.GenderEntity;
-import application.exceptions.EntityExistsDException;
 
 public interface IGenderModel {
     public GenderEntity getByName(String name);
 
     GenderEntity getById(Integer id);
 
-    void deleteByName(String name) throws EntityExistsDException;
+    void deleteByName(String name);
 
     void deleteAll();
 
-    GenderEntity add(GenderEntity data) throws EntityExistsDException;
+    GenderEntity add(GenderEntity data);
 
-    GenderEntity updateName(Integer id, String name) throws EntityExistsDException;
+    GenderEntity updateName(Integer id, String name);
 
     public List<GenderEntity> getAll();
     //TODO

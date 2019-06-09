@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
-import application.exceptions.EntityExistsDException;
+import application.exceptions.EntityExistsException;
 import application.exceptions.NotFoundEntityException;
 import application.utils.converter.IUpdates;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,7 +77,7 @@ public class EventModel implements IEventModel {
 	@Override
 	public EventEntity add(EventEntity data) { // would throw if no user is in data's owner field;
 		if (eventRepository.existsByDateAndTimeAndUserEntityOwner(data.getDate(),data.getTime(), data.getUserEntityOwner()))
-			throw new EntityExistsDException("");
+			throw new EntityExistsException("");
 		return eventRepository.save(data);
 	}
 

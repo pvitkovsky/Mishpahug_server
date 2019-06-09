@@ -2,7 +2,6 @@ package application.controllers.interfaces;
 
 import application.dto.EventDTO;
 import application.dto.UserDTO;
-import application.exceptions.EntityExistsDException;
 import com.querydsl.core.types.Predicate;
 import org.springframework.http.HttpHeaders;
 

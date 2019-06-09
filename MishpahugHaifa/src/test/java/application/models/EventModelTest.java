@@ -9,7 +9,6 @@ import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 
-import application.exceptions.EntityExistsDException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -139,13 +138,9 @@ public class EventModelTest {
 		Mockito.when(userRepo.getOne(ALYSSA.getId())).thenReturn(ALYSSA);
 		Mockito.when(userRepo.getOne(BEN.getId())).thenReturn(BEN);
 
-		try {
 			assertEquals(eventModel.subscribe(GUESTING.getId(), ALYSSA.getId()), GUESTING);
 			assertTrue(ALYSSA.getSubscriptions().contains(subAtoG));
 			assertTrue(GUESTING.getSubscriptions().contains(subAtoG));
-		} catch (EntityExistsDException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	
@@ -170,15 +165,11 @@ public class EventModelTest {
 		Mockito.when(userRepo.getOne(BEN.getId())).thenReturn(BEN);
 		Mockito.when(subscriptionsRepo.existsById(idAG)).thenReturn(true);
 		
-		try {
 			assertEquals(eventModel.unsubscribe(GUESTING.getId(), ALYSSA.getId()), GUESTING);
 			Mockito.when(subscriptionsRepo.getOne(idAG)).thenReturn(AGUESTING);
 			subAtoG = subscriptionsRepo.getOne(idAG); 
 			assertFalse(ALYSSA.getSubscriptions().contains(subAtoG));
 			assertFalse(GUESTING.getSubscriptions().contains(subAtoG));
-		} catch (EntityExistsDException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	//TODO: tests on deactivate and cancel pls

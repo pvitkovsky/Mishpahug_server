@@ -2,7 +2,6 @@ package application.controllers.interfaces;
 
 import javax.servlet.http.HttpServletRequest;
 
-import application.exceptions.EntityExistsDException;
 import org.springframework.http.HttpHeaders;
 
 import com.querydsl.core.types.Predicate;

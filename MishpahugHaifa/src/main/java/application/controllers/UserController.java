@@ -9,7 +9,6 @@ import application.entities.EventEntity;
 import application.entities.SubscriptionEntity;
 import application.entities.UserEntity;
 import application.entities.UserSession;
-import application.exceptions.EntityExistsDException;
 import application.models.feedback.IFeedBackModel;
 import application.models.gender.IGenderModel;
 import application.models.holyday.IHolyDayModel;

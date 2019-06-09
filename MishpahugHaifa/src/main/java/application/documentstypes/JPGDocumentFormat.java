@@ -4,7 +4,6 @@ import application.entities.EventEntity;
 import application.entities.UserEntity;
 import application.entities.template.TemplateEntity;
 import application.entities.template.XYTextValue;
-import application.exceptions.EntityExistsDException;
 import application.models.event.IEventModel;
 import application.models.user.IUserModel;
 import lombok.extern.slf4j.Slf4j;
@@ -60,26 +59,15 @@ public class JPGDocumentFormat {
             if (textData[0].equals("user"))
             {
                 //TODO
-                try {
                     UserEntity userEntity = userModel.getById(userId);
                     textForPrint = userEntity.fieldByName(textData[1]);
                     log.info("createPictureFromTemplate -> userentity{" + userId + "} => data for print " + textData[1] + " > value = " + textForPrint);
-                } catch (EntityExistsDException exceptionMishpaha) {
-                    log.info("createInvitationFromTemplate -> " + exceptionMishpaha.getMessage());
-                }
-
             }
             if (textData[0].equals("event"))
             {
-                try {
                     EventEntity eventEntity = eventModel.getById(eventId);
                     textForPrint = eventEntity.fieldByName(textData[1]);
                     log.info("createPictureFromTemplate -> evententity{" + eventId + "} => data for print " + textData[1] + " > value = " + textForPrint);
-
-                } catch (EntityExistsDException exceptionMishpaha) {
-                    exceptionMishpaha.printStackTrace();
-                }
-                //TODO
             }
             log.info("createInvitationFromTemplate -> textForPrint = " + textForPrint);
             g.drawString(textForPrint, xyTextValue.getX(), xyTextValue.getY());

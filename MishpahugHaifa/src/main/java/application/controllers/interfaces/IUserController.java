@@ -4,7 +4,6 @@ import application.dto.EventDTO;
 import application.dto.LoginDTO;
 import application.dto.LoginResponse;
 import application.dto.UserDTO;
-import application.exceptions.EntityExistsDException;
 import com.querydsl.core.types.Predicate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;

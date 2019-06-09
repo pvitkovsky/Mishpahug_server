@@ -5,6 +5,7 @@ import application.entities.*;
 import application.entities.LogsOnEvent.ActionsOnEvent;
 import application.entities.template.TemplateEntity;
 import application.entities.template.XYTextValue;
+import application.entities.values.FeedBackValue;
 import application.repositories.*;
 import application.repositories.template.TemplateRepository;
 import application.utils.EMailSender;
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -108,6 +110,22 @@ public class DB_test_loader implements CommandLineRunner {
 		}*/
 	}
 
+	public String genText() {
+
+		int leftLimit = 97; // letter 'a'
+		int rightLimit = 122; // letter 'z'
+		int targetStringLength = 10;
+		Random random = new Random();
+		StringBuilder buffer = new StringBuilder(targetStringLength);
+		for (int i = 0; i < targetStringLength; i++) {
+			int randomLimitedInt = leftLimit + (int)
+					(random.nextFloat() * (rightLimit - leftLimit + 1));
+			buffer.append((char) randomLimitedInt);
+		}
+		String generatedString = buffer.toString();
+
+		return generatedString;
+	}
 
 	private void loadTest(MPHEntity entity) {
 
@@ -169,10 +187,19 @@ public class DB_test_loader implements CommandLineRunner {
 			eventGuestRepository.deleteAll();
 			Integer randomUserRange = userRepository.findAll().size() - 1;
 			Random gen = new Random();
-			UserEntity randomGuest = userRepository.findAll().get(gen.nextInt(randomUserRange));
 			for (EventEntity event : eventRepository.findAll()) {
+				UserEntity randomGuest = userRepository.findAll().get(gen.nextInt(randomUserRange));
 				if (!event.getUserEntityOwner().equals(randomGuest)) {
 					SubscriptionEntity subscription = new SubscriptionEntity(randomGuest, event);
+					FeedBackValue feedBackValue = new FeedBackValue();
+					feedBackValue.setComment(genText());
+					feedBackValue.setRating(gen.nextInt(10));
+					feedBackValue.setDateTime(LocalDateTime.of(2000 + gen.nextInt(20),
+															 1 + gen.nextInt(11),
+							                            1 + gen.nextInt(29),
+																1 + gen.nextInt(23),
+																1 + gen.nextInt(58)));
+					subscription.setFeedback(feedBackValue);
 				}
 			}
 			break;

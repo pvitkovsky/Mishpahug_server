@@ -34,8 +34,8 @@ public class SubscriptionController {
     @GetMapping(value = "/")
     public Map<Integer, FeedBackValue> get(@RequestHeader HttpHeaders httpHeaders,
                                            HttpServletRequest request,
-                                           @RequestParam(name = "userid") Integer userId,
-                                           @RequestParam(name = "eventid") Integer eventId){
+                                           @RequestParam(name = "userid", required = false) Integer userId,
+                                           @RequestParam(name = "eventid", required = false) Integer eventId){
         httpHeaders.forEach((key, value) -> {
             log.info("SubscriptionController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });

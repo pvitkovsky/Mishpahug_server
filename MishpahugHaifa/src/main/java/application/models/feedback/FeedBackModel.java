@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 import application.entities.EventEntity;
 import application.entities.SubscriptionEntity;
 import application.exceptions.NotFoundEntityException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ import application.repositories.UserRepository;
 
 @Service
 @Transactional
+@Slf4j
 public class FeedBackModel implements IFeedBackModel {
 
     @Autowired
@@ -35,22 +37,37 @@ public class FeedBackModel implements IFeedBackModel {
     public Map<Integer, FeedBackValue> getAllByEvent(Integer eventId) {
         if (!eventRepository.existsById(eventId)) throw new NotFoundEntityException("");
         Map<Integer, FeedBackValue> res = new HashMap<>();
-        List<SubscriptionEntity> subscriptionEntityList = feedBackRepository.findByEvent(eventRepository.getOne(eventId));
-        subscriptionEntityList.forEach(item -> res.put(item.getFeedback().hashCode(),item.getFeedback()));
-        return null; //TODO: proper feedback please;
+        List<SubscriptionEntity> subscriptionEntityList = feedBackRepository.findByEvent_Id(eventId);
+        //if (subscriptionEntityList != null) subscriptionEntityList.forEach(item -> res.put(item.getFeedback().hashCode(),item.getFeedback()));
+        log.info("" + subscriptionEntityList);
+        Integer z = 0;
+        for (SubscriptionEntity x:subscriptionEntityList){
+            FeedBackValue value = x.getFeedback();
+            res.put(z,value);
+            z++;
+        }
+        log.info("" + subscriptionEntityList);
+        return res; //TODO: proper feedback please;
     }
 
     @Override
     public List<SubscriptionEntity> getEventsForGuest(UserEntity userEntity){
-        return feedBackRepository.findByGuest(userEntity);
+        return feedBackRepository.findByGuest_Id(userEntity.getId());
     }
 
     @Override
     public Map<Integer, FeedBackValue> getAllByUser(Integer userId) {
         Map<Integer, FeedBackValue> res = new HashMap<>();
-        List<SubscriptionEntity> subscriptionEntityList = feedBackRepository.findByGuest(userRepository.getOne(userId));
-        subscriptionEntityList.forEach(item -> res.put(item.getFeedback().hashCode(),item.getFeedback()));
-        return null; //TODO: proper feedback please;
+        List<SubscriptionEntity> subscriptionEntityList = feedBackRepository.findByGuest_Id(userId);
+        //if (subscriptionEntityList != null) subscriptionEntityList.forEach(item -> res.put(item.getFeedback().hashCode(),item.getFeedback()));
+        log.info("" + subscriptionEntityList);
+        Integer z = 0;
+        for (SubscriptionEntity x:subscriptionEntityList){
+            FeedBackValue value = x.getFeedback();
+            res.put(z,value);
+            z++;
+        }
+        return res; //TODO: proper feedback please;
     }
 
     @Override

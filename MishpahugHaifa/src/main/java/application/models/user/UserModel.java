@@ -78,7 +78,7 @@ public class UserModel implements IUserModel {
         userRepository.deleteById(userId);
         return usr;
     }
-    
+
     /**
      * Deletes all users skipping checks
      */

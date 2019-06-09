@@ -78,8 +78,7 @@ public class UserModel implements IUserModel {
         userRepository.deleteById(userId);
         return usr;
     }
-
-
+    
     /**
      * Deletes all users skipping checks
      */
@@ -92,7 +91,6 @@ public class UserModel implements IUserModel {
         userRepository.deleteAll();
         return all;
     }
-
 
     /**
      * Activates the user, activating all his "deactivated" events and subscriptions;
@@ -126,6 +124,4 @@ public class UserModel implements IUserModel {
         usr.putIntoDeletionQueue();
         return null;
     }
-
-
 }

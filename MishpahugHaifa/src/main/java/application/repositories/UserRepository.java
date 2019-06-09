@@ -22,6 +22,9 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer>,
     public UserEntity findByUserNameAndAndEncrytedPassword(String username, String password);
 
     public UserEntity findByUserName(String userName);
+    public Boolean existsByUserName(String userName);
+    public Boolean existsByUserNameAndEMail(String userName, String email);
+
 
     @Override
     default public void customize(QuerydslBindings bindings, QUserEntity root) {

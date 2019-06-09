@@ -1,6 +1,8 @@
 package application.models.template;
 
 import application.entities.template.TemplateEntity;
+import application.exceptions.EntityExistsException;
+import application.exceptions.NotFoundEntityException;
 import application.repositories.template.TemplateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,7 @@ public class TemlateModel implements ITemplateModel {
 
     @Override
     public TemplateEntity getByName(String name) {
+        if (!templateRepository.existsByName(name)) throw new NotFoundEntityException("");
         return templateRepository.getByName(name);
     }
 
@@ -27,16 +30,13 @@ public class TemlateModel implements ITemplateModel {
 
     @Override
     public void remove(String name) {
+        if (!templateRepository.existsByName(name)) throw new NotFoundEntityException("");
         templateRepository.removeByName(name);
     }
 
     @Override
-    public void removedata(String name) {
-        //TODO
-    }
-
-    @Override
     public void update(String oldName, String newName) {
+        if (templateRepository.existsByName(newName)) throw new EntityExistsException("");
         TemplateEntity templateEntity = templateRepository.getByName(oldName);
         templateRepository.removeByName(oldName);
         templateEntity.setName(newName);

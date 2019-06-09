@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
+import application.exceptions.EntityExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -44,16 +45,19 @@ public class UserModel implements IUserModel {
 
     @Override
     public UserEntity getById(Integer userId) {
+        if (!userRepository.existsById(userId)) throw new NotFoundEntityException("");
         return userRepository.getOne(userId);
     }
 
     @Override
     public UserEntity getByUserName(String name) {
+        if (!userRepository.existsByUserName(name)) throw new NotFoundEntityException("");
         return userRepository.findByUserName(name);
     }
 
     @Override
     public UserEntity add(UserEntity data) {
+        if (userRepository.existsByUserNameAndEMail(data.getUserName(), data.getEMail())) throw new EntityExistsException("");
         return userRepository.save(data);
     }
 
@@ -63,6 +67,7 @@ public class UserModel implements IUserModel {
         if (!userRepository.existsById(userId)) throw new NotFoundEntityException("");
         UserEntity user = userRepository.getOne(userId);
         updates.updateUser(user, data);
+        if (userRepository.existsByUserNameAndEMail(user.getUserName(), user.getEMail())) throw new EntityExistsException("");
         userRepository.save(user);
         return user;
     }

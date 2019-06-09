@@ -7,4 +7,5 @@ import application.entities.ReligionEntity;
 public interface ReligionRepository extends JpaRepository<ReligionEntity, Integer> {
     public ReligionEntity getByName(String name);
     public void deleteByName(String name);
+    public Boolean existsByName(String name);
 }

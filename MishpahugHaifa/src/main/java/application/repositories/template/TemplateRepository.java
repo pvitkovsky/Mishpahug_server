@@ -7,4 +7,5 @@ public interface TemplateRepository extends JpaRepository<TemplateEntity, Intege
     public TemplateEntity getByName(String name);
     //TODO удаление записи по координатам
     public void removeByName(String name);
+    public Boolean existsByName(String name);
 }

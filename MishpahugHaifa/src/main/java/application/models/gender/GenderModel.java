@@ -1,12 +1,11 @@
 package application.models.gender;
 
 import java.util.List;
-
 import javax.transaction.Transactional;
-
+import application.exceptions.EntityExistsException;
+import application.exceptions.NotFoundEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import application.entities.GenderEntity;
 import application.repositories.GenderRepository;
 
@@ -24,7 +23,7 @@ public class GenderModel implements IGenderModel {
 
     @Override
     public GenderEntity getById(Integer id) {
-
+        if (!genderRepository.existsById(id)) throw new NotFoundEntityException("");
         return genderRepository.getOne(id);
     }
 
@@ -46,6 +45,8 @@ public class GenderModel implements IGenderModel {
 
     @Override
     public GenderEntity updateName(Integer id, String name){
+        if (!genderRepository.existsById(id)) throw new NotFoundEntityException("");
+        if (!genderRepository.existsByName(name)) throw new EntityExistsException("");
          GenderEntity cityEntity = genderRepository.getOne(id);
          cityEntity.setName(name);
          return genderRepository.saveAndFlush(cityEntity);

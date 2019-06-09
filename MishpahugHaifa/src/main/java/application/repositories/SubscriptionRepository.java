@@ -17,7 +17,7 @@ public interface SubscriptionRepository extends JpaRepository<SubscriptionEntity
 	@Query("SELECT s.guest FROM SubscriptionEntity s WHERE s.event = :event")    
 	public List<UserEntity> getGuestsForEvent (@Param(value = "event") EventEntity event); 
 	
-	public List<UserEntity> findByEvent(EventEntity event); //TODO: converter; реальзовать в модели
+	public List<SubscriptionEntity> findByEvent(EventEntity event); //TODO: converter; реальзовать в модели
 
 
 	@Query("SELECT s.event FROM SubscriptionEntity s WHERE s.guest = :guest")    

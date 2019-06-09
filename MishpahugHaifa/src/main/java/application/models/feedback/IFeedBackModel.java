@@ -14,7 +14,7 @@ public interface IFeedBackModel {
 
     List<SubscriptionEntity> getEventsForGuest(UserEntity userEntity);
 
-    public Map<Integer, FeedBackValue> getAllByUser(UserEntity userEntity);
+    public Map<Integer, FeedBackValue> getAllByUser(Integer userId);
 
     public void removeAllByUser(Integer userId);
 

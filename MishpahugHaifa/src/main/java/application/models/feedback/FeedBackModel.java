@@ -34,6 +34,9 @@ public class FeedBackModel implements IFeedBackModel {
     @Override
     public Map<Integer, FeedBackValue> getAllByEvent(Integer eventId) {
         if (!eventRepository.existsById(eventId)) throw new NotFoundEntityException("");
+        Map<Integer, FeedBackValue> res = new HashMap<>();
+        List<SubscriptionEntity> subscriptionEntityList = feedBackRepository.findByEvent(eventRepository.getOne(eventId));
+        subscriptionEntityList.forEach(item -> res.put(item.getFeedback().hashCode(),item.getFeedback()));
         return null; //TODO: proper feedback please;
     }
 
@@ -43,9 +46,9 @@ public class FeedBackModel implements IFeedBackModel {
     }
 
     @Override
-    public Map<Integer, FeedBackValue> getAllByUser(UserEntity userEntity) {
+    public Map<Integer, FeedBackValue> getAllByUser(Integer userId) {
         Map<Integer, FeedBackValue> res = new HashMap<>();
-        List<SubscriptionEntity> subscriptionEntityList = feedBackRepository.findByGuest(userEntity);
+        List<SubscriptionEntity> subscriptionEntityList = feedBackRepository.findByGuest(userRepository.getOne(userId));
         subscriptionEntityList.forEach(item -> res.put(item.getFeedback().hashCode(),item.getFeedback()));
         return null; //TODO: proper feedback please;
     }

@@ -1,5 +1,6 @@
 package application.models.feedback;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -43,6 +44,9 @@ public class FeedBackModel implements IFeedBackModel {
 
     @Override
     public Map<Integer, FeedBackValue> getAllByUser(UserEntity userEntity) {
+        Map<Integer, FeedBackValue> res = new HashMap<>();
+        List<SubscriptionEntity> subscriptionEntityList = feedBackRepository.findByGuest(userEntity);
+        subscriptionEntityList.forEach(item -> res.put(item.getFeedback().hashCode(),item.getFeedback()));
         return null; //TODO: proper feedback please;
     }
 

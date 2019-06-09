@@ -1,10 +1,14 @@
 package application.entities.user;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolationException;
 
 import org.junit.Before;
@@ -60,6 +64,14 @@ public class UserEntityTest {
 		userRepo.save(ALYSSADUPLICATE);
 	}
 
+	@Test(expected = EntityNotFoundException.class)
+	public void getNonExistentEntityAndGetException() {	
+		List<Integer> validIds = userRepo.findAll().stream().map(v -> v.getId()).collect(Collectors.toList());
+		validIds.sort((n, m) -> - n + m); // descending order
+		Integer invalidId = validIds.get(0) + 1;
+		userRepo.getOne(invalidId).deactivate(); // need to mutate or produce to trigger lazy load; syso println would work too;
+	}
+	
 	@Test(expected = DataIntegrityViolationException.class)
 	public void givenDuplicateUsersByNameSaveAndGetException() {
 		userRepo.save(UserEntity.builder().userName("A").eMail("a@dot.com").build());

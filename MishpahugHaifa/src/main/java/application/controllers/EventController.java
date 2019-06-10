@@ -11,12 +11,14 @@ import application.models.holyday.IHolyDayModel;
 import application.models.kichentype.IKichenTypeModel;
 import application.utils.converter.IConverter;
 import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.Visitor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,9 +59,9 @@ public class EventController implements IEventController {
                                                @RequestHeader HttpHeaders httpHeaders,
                                                HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
-            log.info("EventController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("EventController -> findAllByWebQuerydsl -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("EventController -> get -> Remote IP -> " + request.getRemoteAddr());
+        log.info("EventController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         return converter.DTOListFromEntities(eventModel.getAll(predicate));
     }
 
@@ -175,7 +177,24 @@ public class EventController implements IEventController {
             log.info("EventController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
         log.info("EventController -> delete -> Remote IP -> " + request.getRemoteAddr());
-        eventModel.getAll().forEach(EventEntity::putIntoDeletionQueue);
+        Predicate predicate = new Predicate() {
+            @Override
+            public Predicate not() {
+                return null;
+            }
+
+            @Nullable
+            @Override
+            public <R, C> R accept(Visitor<R, C> v, @Nullable C context) {
+                return null;
+            }
+
+            @Override
+            public Class<? extends Boolean> getType() {
+                return null;
+            }
+        };
+        eventModel.getAll(predicate).forEach(EventEntity::putIntoDeletionQueue);
         eventModel.deleteAll();
     }
 }

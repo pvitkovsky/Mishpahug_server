@@ -27,7 +27,7 @@ import lombok.ToString;
 @Entity
 @Builder
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Table(name = "user_session")
+@Table(name = "usersession")
 public class UserSession {
 
     @Id

@@ -298,9 +298,9 @@ public class UserController implements IUserController {
                                               @RequestHeader HttpHeaders httpHeaders,
                                               HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
-            log.info("UserController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("UserController -> findAllByWebQuerydsl -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("UserController -> get -> Remote IP -> " + request.getRemoteAddr());
+        log.info("UserController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
         return converter.DTOListFromEntities(userModel.getAll(predicate));
     }
 

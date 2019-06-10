@@ -69,11 +69,6 @@ public class AddressModel implements IAddressModel {
     }
 
     @Override
-    public List<AddressEntity> getAll() {
-        return addressRepository.findAll();
-    }
-
-    @Override
     public Iterable<AddressEntity> getAll(Predicate predicate) {
         return addressRepository.findAll(predicate);
     }

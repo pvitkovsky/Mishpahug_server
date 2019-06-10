@@ -20,8 +20,6 @@ public interface ICityModel {
 
     public void deleteAll();
 
-    public List<CityEntity> getAll();
-
     public CityEntity updateName(Integer id, String name);
 
     public CountryEntity getCountryByCity(Integer countryId);

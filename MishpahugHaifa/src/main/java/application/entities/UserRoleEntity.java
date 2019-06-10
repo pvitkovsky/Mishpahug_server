@@ -20,7 +20,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "User_Role", //
+@Table(name = "userrole", //
         uniqueConstraints = { //
                 @UniqueConstraint(name = "USER_ROLE_UK", columnNames = {"User_Id", "Role_Id"})})
 public class UserRoleEntity {

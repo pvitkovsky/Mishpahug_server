@@ -34,11 +34,6 @@ public class UserModel implements IUserModel {
     }
 
     @Override
-    public List<UserEntity> getAll() {
-        return userRepository.findAll();
-    }
-
-    @Override
     public Iterable<UserEntity> getAll(Predicate predicate) {
         return userRepository.findAll(predicate);
     }

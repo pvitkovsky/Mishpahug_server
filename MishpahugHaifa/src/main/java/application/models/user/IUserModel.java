@@ -10,8 +10,6 @@ import application.entities.UserEntity;
 public interface IUserModel {
     UserEntity getByUsernameAndPassword(String username, String password);
 
-    public List<UserEntity> getAll();
-
     public Iterable<UserEntity> getAll(Predicate predicate);
 
     public UserEntity getById(Integer userId);

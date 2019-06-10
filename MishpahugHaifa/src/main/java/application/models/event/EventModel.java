@@ -46,11 +46,6 @@ public class EventModel implements IEventModel {
 	@Autowired
 	IUpdates updates;
 
-	@Override
-	public List<EventEntity> getAll() {
-		return eventRepository.findAll();
-	}
-
 	// TODO: owned events by user; owner by event;
 
 	@Override

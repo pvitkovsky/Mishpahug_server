@@ -9,16 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 
-/*
- * Convention for the AOP to work:
- * HttpHeaders is the first argument, HttpServletRequest is the second
- */
 public interface IEventController {
-	List<EventDTO> findAllByWebQuerydsl(HttpHeaders httpHeaders, HttpServletRequest request, Predicate predicate);
-	EventDTO findById(HttpHeaders httpHeaders, HttpServletRequest request, Integer id);
-	List<UserDTO> findGuestByEventId(HttpHeaders httpHeaders, HttpServletRequest request, Integer id);
-	EventDTO setDataFromForm(HttpHeaders httpHeaders, HttpServletRequest request, EventDTO data);
-	EventDTO updateDataFromForm(HttpHeaders httpHeaders, HttpServletRequest request, HashMap<String, String> data, Integer id);
-	void delete(HttpHeaders httpHeaders, HttpServletRequest request, Integer id);
+	List<EventDTO> findAllByWebQuerydsl(Predicate predicate, HttpHeaders httpHeaders, HttpServletRequest request);
+	EventDTO findById(Integer id, HttpHeaders httpHeaders, HttpServletRequest request);
+	List<UserDTO> findGuestByEventId(Integer id, HttpHeaders httpHeaders, HttpServletRequest request);
+	List<EventDTO> getByOwner(String ownerusername, HttpHeaders httpHeaders, HttpServletRequest request);
+	EventDTO setDataFromForm(EventDTO data, HttpHeaders httpHeaders, HttpServletRequest request);
+	EventDTO updateDataFromForm(HashMap<String, String> data, Integer id, HttpHeaders httpHeaders, HttpServletRequest request);
+	void delete(Integer id, HttpHeaders httpHeaders, HttpServletRequest request);
 	void delete(HttpHeaders httpHeaders, HttpServletRequest request);
 }

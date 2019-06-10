@@ -59,12 +59,11 @@ public class EventController implements IEventController {
                                                @RequestHeader HttpHeaders httpHeaders,
                                                HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
-<<<<<<< HEAD
-<<<<<<< HEAD
+
             log.info("EventController -> findAllByWebQuerydsl -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
         log.info("EventController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
-=======
+
             log.info("EventController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
         log.info("EventController -> get -> Remote IP -> " + request.getRemoteAddr());
@@ -216,10 +215,8 @@ public class EventController implements IEventController {
         eventModel.getAll().forEach(EventEntity::putIntoDeletionQueue);
         eventModel.deleteAll();
     }
->>>>>>> parent of 395ebff... Preparation of controllers for the aspect-oriented refactoring
 =======
         eventModel.getAll().forEach(EventEntity::putIntoDeletionQueue);
         eventModel.deleteAll();
     }
->>>>>>> parent of 395ebff... Preparation of controllers for the aspect-oriented refactoring
 }

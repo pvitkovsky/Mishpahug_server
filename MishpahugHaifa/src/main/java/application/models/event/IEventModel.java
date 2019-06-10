@@ -10,6 +10,7 @@ import application.entities.EventEntity;
 import application.entities.UserEntity;
 
 public interface IEventModel {
+
     public Set<EventEntity> getAllByUser(Integer userId); //TODO: owned or subscribed events here?
 
     List<EventEntity> getByOwner(String ownerUserName);

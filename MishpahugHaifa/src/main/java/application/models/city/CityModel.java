@@ -58,6 +58,11 @@ public class CityModel implements ICityModel {
     }
 
     @Override
+    public List<CityEntity> getAll(){
+            return cityRepository.findAll();
+    }
+
+    @Override
     public CityEntity updateName(Integer id, String name){
         if (!cityRepository.existsById(id)) throw new NotFoundEntityException("");
         if (cityRepository.existsByName(name)) throw new EntityExistsException("");

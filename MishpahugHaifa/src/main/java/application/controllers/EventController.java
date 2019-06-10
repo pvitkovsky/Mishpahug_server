@@ -46,9 +46,9 @@ public class EventController implements IEventController {
     @Autowired
     IKichenTypeModel kichenTypeModel;
 
-
-    //TODO:  events by owner;  events by subcscriber; check that no wrapping is done;
-
+    
+    //TODO:  events by owner;  events by subcscriber; check that no wrapping is done;  
+    
     /* (non-Javadoc)
      * @see application.controllers.intarfaces.IEventController#get(com.querydsl.core.types.Predicate)
      */
@@ -59,9 +59,9 @@ public class EventController implements IEventController {
                                                @RequestHeader HttpHeaders httpHeaders,
                                                HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
-            log.info("EventController -> findAllByWebQuerydsl -> headers -> " + String.format("Header '%s' = %s", key, value));
+            log.info("EventController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
-        log.info("EventController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+        log.info("EventController -> get -> Remote IP -> " + request.getRemoteAddr());
         return converter.DTOListFromEntities(eventModel.getAll(predicate));
     }
 
@@ -93,7 +93,7 @@ public class EventController implements IEventController {
         Set<SubscriptionEntity> subscriptionEntityList = eventModel.getById(id).getSubscriptions();
         List<UserEntity> userEntityList = new ArrayList<>();
         for (SubscriptionEntity x:subscriptionEntityList
-        ) {
+             ) {
             userEntityList.add(x.getGuest());
         }
         return converterUser.DTOListFromEntities(userEntityList);

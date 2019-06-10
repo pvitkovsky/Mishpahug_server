@@ -18,6 +18,8 @@ public interface IAddressModel {
 
     public AddressEntity add(AddressEntity data);
 
+    public List<AddressEntity> getAll();
+
     public Iterable<AddressEntity> getAll(Predicate predicate);
 
     public AddressEntity remove(Integer id);

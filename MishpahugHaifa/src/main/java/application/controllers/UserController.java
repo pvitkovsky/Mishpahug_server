@@ -299,9 +299,15 @@ public class UserController implements IUserController {
                                               HttpServletRequest request){
         httpHeaders.forEach((key, value) -> {
 <<<<<<< HEAD
+<<<<<<< HEAD
             log.info("UserController -> findAllByWebQuerydsl -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
         log.info("UserController -> findAllByWebQuerydsl -> Remote IP -> " + request.getRemoteAddr());
+=======
+            log.info("UserController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
+        });
+        log.info("UserController -> get -> Remote IP -> " + request.getRemoteAddr());
+>>>>>>> parent of 395ebff... Preparation of controllers for the aspect-oriented refactoring
 =======
             log.info("UserController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });

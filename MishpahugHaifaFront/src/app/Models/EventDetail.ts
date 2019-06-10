@@ -11,6 +11,8 @@ export class EventDetail {
      addressApartment : number;
      holiday : string;
      holidayDescription : string;
-     kichenType : string;
+     religion: string;
+     kitchen : string;
+
      
 }

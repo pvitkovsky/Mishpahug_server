@@ -5,8 +5,8 @@
 	<tr class="mdl-cell mdl-cell--12-col" *ngFor="let event of events">
 
 		<td class="mdl-cell mdl-cell--3-col" *ngFor="let k of keys">
-			<!--<a routerLink="['detail']" [queryParams]="{'id':event.id}"> //TODO: why this didn't work?-->
-		    <a routerLink="/detail/{{event.id}}">
+      <!--<a routerLink="['detail']" [queryParams]="{'id':event.id}"> //TODO: why this didn't work?-->
+      <a [routerLink]="['/detail/', event.id]"><!--//TODO: direct input to the child component?-->
 				{{event[k]}}
 			</a>
 		</td>

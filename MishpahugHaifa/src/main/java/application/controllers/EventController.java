@@ -197,4 +197,5 @@ public class EventController implements IEventController {
         eventModel.getAll(predicate).forEach(EventEntity::putIntoDeletionQueue);
         eventModel.deleteAll();
     }
+	
 }

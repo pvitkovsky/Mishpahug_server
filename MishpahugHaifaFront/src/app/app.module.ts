@@ -4,7 +4,7 @@ import { FormsModule }    from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ClarityModule } from 'clarity-angular';
-import { MatSidenavModule, MatCheckboxModule } from '@angular/material';
+import {MatSidenavModule, MatCheckboxModule, MatSelectModule} from '@angular/material';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule} from '@angular/material/card';
 
@@ -26,19 +26,20 @@ import { AlertService, AuthenticationService, GuiService, UserService, EventServ
 
 
 @NgModule({
-    imports: [
-        BrowserModule,
-        FormsModule,
-        HttpClientModule,
-        NoopAnimationsModule,
-        ClarityModule.forRoot(),
-        MainRouter,
-        MatSidenavModule,
-        MatCheckboxModule,
-        MatInputModule,
-        MatCardModule,
-        EventListModule
-    ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpClientModule,
+    NoopAnimationsModule,
+    ClarityModule.forRoot(),
+    MainRouter,
+    MatSidenavModule,
+    MatCheckboxModule,
+    MatInputModule,
+    MatCardModule,
+    EventListModule,
+    MatSelectModule
+  ],
     declarations: [
         AppComponent,
         AlertComponent,

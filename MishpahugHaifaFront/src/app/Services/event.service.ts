@@ -20,9 +20,16 @@ export class EventService {
     if(filter){
       connectionString += filter.eventConnection.valueOf() + filter.appendUserDetail();
     }
-
     //console.log("connecting with connection string " + connectionString)
     var res : Observable<EventDetail[]> = this.http.get<EventDetail[]>(connectionString);
+    //console.log("Request " + res);
+    return res;
+  }
+
+  getEvent(id : number) : Observable<EventDetail>{
+    var connectionString : string = "api/event/"
+    //console.log("connecting with connection string " + connectionString)
+    var res : Observable<EventDetail> = this.http.get<EventDetail>(connectionString + id);
     //console.log("Request " + res);
     return res;
   }

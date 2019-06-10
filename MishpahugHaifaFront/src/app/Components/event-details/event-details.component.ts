@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {ChoicesConnection} from '../../Models';
-import {Choice} from '../../Models/Choices';
+import {ChoicesConnection, EventDetail} from '../../Models';
 import {ChoicesService} from '../../Services/choices.service';
+import {ActivatedRoute} from '@angular/router';
+import {EventService} from '../../Services';
 
 @Component({
   selector: 'app-event-details',
@@ -10,29 +11,36 @@ import {ChoicesService} from '../../Services/choices.service';
 })
 export class EventDetailsComponent implements OnInit {
 
-  choices : Choice[];
+  choices : Map<string, string[]>;
+  eventDetail : EventDetail; //TODO: input via router or as the child component
+  eventId : number;
 
-  constructor(private choicesService : ChoicesService) {
-    this.choices = [];
-
-
+  constructor(private eventService: EventService, private choicesService: ChoicesService, private _route: ActivatedRoute) {
+    this.choices = new Map<string, string[]>();
+    this.eventDetail = new EventDetail();
   }
 
   ngOnInit() {
+    this._route.params.subscribe(params => {
+      this.eventService.getEvent(params['id']).subscribe(
+        eventDetail => this.eventDetail = eventDetail
+      )
+    });
+
     for (let choiceName in ChoicesConnection){
-      console.log('wtf choice name ' + choiceName);
       let typedChoice : keyof typeof ChoicesConnection = choiceName as keyof typeof ChoicesConnection; // getting enum out of string;
       let choiceVariants : string[];
       this.choicesService.getOptions(ChoicesConnection[typedChoice]).subscribe(res => {
         choiceVariants = res
-        console.log('received choice variants ' + choiceVariants);
-        this.choices.push(new Choice(choiceName, choiceVariants));
+        this.choices.set(choiceName, choiceVariants);
       });
     }
-    //TODO: after subscription ends;
-    for(let choice of this.choices){
-      console.log(choice.name + ' ' + choice.variants );
-    }
   }
+
+  showEventDetail(){
+    console.log(this.eventDetail);
+  }
+
+  //TODO: update, etc
 
 }

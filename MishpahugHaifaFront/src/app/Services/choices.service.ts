@@ -18,9 +18,7 @@ export class ChoicesService {
 	}
 
 	getOptions (options: ChoicesConnection) : Observable<string[]> {
-	  console.log('received choice ' + options.valueOf());
 	  let res : Observable<string[]> = this.http.get<string[]>(options.valueOf());
-    console.log('server answered ' + res)
 		return res;
 	}
 

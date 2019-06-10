@@ -29,7 +29,7 @@ const appRoutes: Routes = [{
         path: '**',  //TODO: redirect '' onto Profile and everything else where?
         component: ProfileComponent,
         canActivate: [AuthGuard]
-    }, 
+    },
     {
         path: ':id',
         component: ProfileComponent,
@@ -41,25 +41,9 @@ const appRoutes: Routes = [{
     component: EventListComponent //TODO: guarded and unguarded component based on eventparams
 },
 {
-    path: 'detail',
-     children: [
-     /*{
-        path: '',
-        redirectTo: '',
-        pathMatch: 'full'    
-    }, */
-
-    {
-        path: '**',
-        component: EventDetailsComponent,
-        canActivate: [AuthGuard]
-    },
-          
-    {
-        path: ':id',
-        component: EventDetailsComponent,
-        canActivate: [AuthGuard]
-    }]
+    path: 'detail/:id',
+    component: EventDetailsComponent,
+    canActivate: [AuthGuard]
 },
 {
     path: '**',

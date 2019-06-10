@@ -16,3 +16,5 @@ import { EventsGeneralComponent } from './eventsgeneral/eventsgeneral.component'
   ]
 })
 export class EventListModule { }
+
+//TODO: events by.. and eventsrenderer are in the same space, but they are different. please solve

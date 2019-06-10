@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { EventDetail, EventFilter } from '../Models/index';
+import {EventDetail, EventFilter, EVENTROOT} from '../Models/index';
 import { Observable } from 'rxjs';
 
 const eventConnectionString =  'api/event/';
@@ -10,15 +10,17 @@ const eventConnectionString =  'api/event/';
 */
 @Injectable()
 export class EventService {
-  constructor(private http: HttpClient){
 
+  constructor(private http: HttpClient){
   }
 
   getEvents (filter? : EventFilter ) : Observable<EventDetail[]> {
-    var connectionString = eventConnectionString; 
+
+    var connectionString : string = EVENTROOT;
     if(filter){
-      connectionString += filter.eventRelation + filter.appendUserDetail();  
+      connectionString += filter.eventConnection.valueOf() + filter.appendUserDetail();
     }
+
     //console.log("connecting with connection string " + connectionString)
     var res : Observable<EventDetail[]> = this.http.get<EventDetail[]>(connectionString);
     //console.log("Request " + res);

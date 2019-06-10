@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { GuiService, UserService } from './Services/index';
 import { UserDetail } from './Models/index';
+import {AddressService} from './Services/address.service';
+
 
 @Component({
     selector: 'app',
@@ -13,7 +15,7 @@ export class AppComponent implements OnInit {
   userDetail: UserDetail;
   opened: boolean;
 
-  constructor(private guiService: GuiService, private userService: UserService) { }
+  constructor(private guiService: GuiService, private userService: UserService ) { }
 
   ngOnInit() {
   	this.guiService.sideNavObservable.subscribe(() => {

@@ -1,7 +1,7 @@
 import { Injectable, OnInit } from '@angular/core';
 import { EventService } from '../../Services/index';
 import { UserService } from '../../Services/index';
-import { UserDetail, EventDetail, EventFilter, EventStatus, EventRelation } from  '../../Models/index';
+import { UserDetail, EventDetail, EventFilter, EventStatus, EventConnection} from  '../../Models/index';
 import { filter } from 'rxjs/operators'
 import { switchMap, mergeMap } from 'rxjs/operators';
 import { Observable } from "rxjs/Rx"
@@ -29,44 +29,37 @@ export class EventListService { // static factory of request parameters for the 
 	}
 
 	private getFilterGeneral() : EventFilter {
-		return new EventFilter(EventStatus.ALL, EventRelation.ALL);
+		return new EventFilter(EventStatus.ALL, EventConnection.ALL);
 	}
 
 	private  getFilterOwner(userDetail : UserDetail) : EventFilter {
-		return new EventFilter(EventStatus.ALL, EventRelation.OWNER, userDetail); 
+		return new EventFilter(EventStatus.ALL, EventConnection.OWNER, userDetail);
 	}
 
 	private getFilterGuest(userDetail : UserDetail) : EventFilter {
-		return new EventFilter(EventStatus.ALL, EventRelation.GUEST, userDetail);
+		return new EventFilter(EventStatus.ALL, EventConnection.GUEST, userDetail);
 	}
 
 	getEventsGeneral() : Observable<EventDetail[]> {
 		return this.getEvents(this.getFilterGeneral());
 	}
 
-	getEventsOwner() : Observable<Observable<EventDetail[]>> { //TODO: get rid of double Observable - make switchMap work
-		return this.userService.current().map(
-			userDetail => this.getEvents(this.getFilterOwner(userDetail)).map(
-				eventList => eventList
-				)
-			)
-	}
+	getEventsOwner()  : Observable<EventDetail[]> {
+    return this.userService.current().pipe(mergeMap(
+      userDetail => this.getEvents(this.getFilterOwner(userDetail)).map(
+        eventList => eventList
+      ))
+    )
+  }
 
-	getEventsOwnerFlat() : Observable<EventDetail[]> { //TODO: test and spread this
-		return this.userService.current().pipe(mergeMap(
-			userDetail => this.getEvents(this.getFilterOwner(userDetail)).map(
-				eventList => eventList
-				))
-			)
-	}
 
-	getEventsGuest() : Observable<Observable<EventDetail[]>> { //TODO: get rid of double Observable - make switchMap work
-		return this.userService.current().map(
-			userDetail => this.getEvents(this.getFilterGuest(userDetail)).map(
-				eventList => eventList
-				)
-			)
-	}
+	getEventsGuest() : Observable<EventDetail[]> {
+    return this.userService.current().pipe(mergeMap(
+      userDetail => this.getEvents(this.getFilterGuest(userDetail)).map(
+        eventList => eventList
+      ))
+    )
+  }
 
 
 

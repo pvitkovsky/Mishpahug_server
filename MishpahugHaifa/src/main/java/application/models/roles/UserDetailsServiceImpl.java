@@ -1,4 +1,4 @@
-package application.models;
+package application.models.roles;
 
 import java.util.ArrayList;
 import java.util.List;

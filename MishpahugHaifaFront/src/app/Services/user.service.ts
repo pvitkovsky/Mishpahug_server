@@ -8,6 +8,7 @@ import { AuthenticationService} from "./authentication.service"
 export class UserService {
     constructor(private http: HttpClient, private authService: AuthenticationService) { }
 
+    //TODO: refactor with UserConnection to allow maintainable filtering;
     getAll() {
         return this.http.get<UserDetail[]>('/api/user/');//TODO: error handling
     }

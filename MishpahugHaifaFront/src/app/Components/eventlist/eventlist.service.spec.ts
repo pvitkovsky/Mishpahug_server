@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { EventlistserviceService } from './eventlistservice.service';
+import { EventListService } from './eventlist.service';
 
 describe('EventlistserviceService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: EventlistserviceService = TestBed.get(EventlistserviceService);
+    const service: EventListService = TestBed.get(EventListService);
     expect(service).toBeTruthy();
   });
 });

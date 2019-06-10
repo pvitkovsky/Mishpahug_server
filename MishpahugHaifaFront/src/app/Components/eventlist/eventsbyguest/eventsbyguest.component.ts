@@ -17,7 +17,7 @@ export class EventsByGuestComponent implements OnInit {
  ngOnInit() {
 		this.eventListService.getEventsGuest().subscribe((res) => {
 
-			res.subscribe(events =>  this.eventList = events);
+			 this.eventList = res;
 
 		});
 	}

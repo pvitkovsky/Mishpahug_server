@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-@Slf4j
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(value = "/template")
@@ -25,10 +24,8 @@ public class TemplateController implements ITemplateController {
     public TemplateEntity get(@PathVariable(value = "name") String name,
                               @RequestHeader HttpHeaders httpHeaders,
                               HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-            log.info("ReligionController -> getbyname -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("ReligionController -> getbyname -> Remote IP -> " + request.getRemoteAddr());
+        
+        
         return templateModel.getByName(name);
     }
 
@@ -36,10 +33,8 @@ public class TemplateController implements ITemplateController {
     @GetMapping(value = "/")
     public List<TemplateEntity> getall(@RequestHeader HttpHeaders httpHeaders,
                                        HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-            log.info("ReligionController -> getall -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("ReligionController -> getall -> Remote IP -> " + request.getRemoteAddr());
+        
+        
         return templateModel.getAll();
     }
 
@@ -48,10 +43,8 @@ public class TemplateController implements ITemplateController {
     public TemplateEntity post(@RequestBody TemplateEntity templateEntity,
                                @RequestHeader HttpHeaders httpHeaders,
                                HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-            log.info("ReligionController -> post -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("ReligionController -> post -> Remote IP -> " + request.getRemoteAddr());
+        
+        
         return templateModel.add(templateEntity);
     }
     @Override
@@ -59,10 +52,8 @@ public class TemplateController implements ITemplateController {
     public void remove(@PathVariable(value = "name") String name,
                        @RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-            log.info("ReligionController -> remove -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("ReligionController -> remove -> Remote IP -> " + request.getRemoteAddr());
+        
+        
         templateModel.remove(name);
     }
 
@@ -70,10 +61,8 @@ public class TemplateController implements ITemplateController {
     @DeleteMapping(value = "/")
     public void removeall(@RequestHeader HttpHeaders httpHeaders,
                           HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-            log.info("ReligionController -> removeall -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("ReligionController -> removeall -> Remote IP -> " + request.getRemoteAddr());
+        
+        
         templateModel.clear();
     }
 

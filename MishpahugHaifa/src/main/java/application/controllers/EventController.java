@@ -53,10 +53,6 @@ public class EventController implements IEventController {
 	@ResponseBody
 	public List<EventDTO> findAllByWebQuerydsl(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
 			@QuerydslPredicate(root = EventEntity.class) Predicate predicate) {
-		httpHeaders.forEach((key, value) -> {
-			log.info("EventController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
-		});
-		log.info("EventController -> get -> Remote IP -> " + request.getRemoteAddr());
 		return converter.DTOListFromEntities(eventModel.getAll(predicate));
 	}
 
@@ -65,10 +61,6 @@ public class EventController implements IEventController {
 	@ResponseBody
 	public EventDTO findById(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
 			@PathVariable(name = "id") Integer id) {
-		httpHeaders.forEach((key, value) -> {
-			log.info("EventController -> findById -> headers -> " + String.format("Header '%s' = %s", key, value));
-		});
-		log.info("EventController -> findById -> Remote IP -> " + request.getRemoteAddr());
 		return new EventDTO(eventModel.getById(id));
 	}
 
@@ -77,11 +69,6 @@ public class EventController implements IEventController {
 	@ResponseBody
 	@Override
 	public List<UserDTO> findGuestByEventId(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request, @PathVariable(name = "id") Integer id) {
-		httpHeaders.forEach((key, value) -> {
-			log.info("EventController -> findGuestByEventId -> headers -> "
-					+ String.format("Header '%s' = %s", key, value));
-		});
-		log.info("EventController -> findGuestByEventId -> Remote IP -> " + request.getRemoteAddr());
 		Set<SubscriptionEntity> subscriptionEntityList = eventModel.getById(id).getSubscriptions();
 		List<UserEntity> userEntityList = new ArrayList<>();
 		for (SubscriptionEntity x : subscriptionEntityList) {
@@ -98,11 +85,6 @@ public class EventController implements IEventController {
 		eventEntity.convertEventDTO(data);
 		eventEntity.setKitchenType(kichenTypeModel.getByName(data.getKichenType()));
 		eventEntity.setHoliDay(holyDayModel.getByName(data.getHoliday()));
-		httpHeaders.forEach((key, value) -> {
-			log.info("EventController -> setDataFromForm -> headers -> "
-					+ String.format("Header '%s' = %s", key, value));
-		});
-		log.info("EventController -> setDataFromForm -> Remote IP -> " + request.getRemoteAddr());
 		return new EventDTO(eventModel.add(eventEntity));
 	}
 
@@ -110,14 +92,9 @@ public class EventController implements IEventController {
 	@PutMapping(value = "/{id}")
 	public EventDTO updateDataFromForm(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
 			@RequestBody HashMap<String, String> data, @PathVariable(value = "id") Integer id) {
-		httpHeaders.forEach((key, value) -> {
-			log.info("EventController -> updateDataFromForm -> headers -> "
-					+ String.format("Header '%s' = %s", key, value));
-		});
 		data.forEach((key, value) -> {
 			log.info("EventController -> updateDataFromForm -> data -> " + String.format("data '%s' = %s", key, value));
 		});
-		log.info("EventController -> updateDataFromForm -> Remote IP -> " + request.getRemoteAddr());
 		return new EventDTO(eventModel.update(id, data));
 	}
 
@@ -126,20 +103,12 @@ public class EventController implements IEventController {
 	public void delete(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
 			@PathVariable(value = "id") Integer id) {
 		eventModel.getById(id).putIntoDeletionQueue();
-		httpHeaders.forEach((key, value) -> {
-			log.info("EventController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
-		});
-		log.info("EventController -> delete -> Remote IP -> " + request.getRemoteAddr());
 		eventModel.delete(id);
 	}
 
 	@Override
 	@DeleteMapping(value = "/")
 	public void delete(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request) {
-		httpHeaders.forEach((key, value) -> {
-			log.info("EventController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
-		});
-		log.info("EventController -> delete -> Remote IP -> " + request.getRemoteAddr());
 		Predicate predicate = new Predicate() { 
 			@Override
 			public Predicate not() {

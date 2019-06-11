@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
-@Slf4j
 @RestController
 @RequestMapping(value = "/city")
 public class CityController implements ICityController {
@@ -28,10 +27,8 @@ public class CityController implements ICityController {
     public void post(@RequestBody CityEntity data,
                      @RequestHeader HttpHeaders httpHeaders,
                      HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-            log.info("CityController -> put -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("CityController -> put -> Remote IP -> " + request.getRemoteAddr());
+        
+        
         cityModel.add(data);
     }
 
@@ -41,10 +38,8 @@ public class CityController implements ICityController {
                     @RequestParam(name = "name") String name,
                     @RequestHeader HttpHeaders httpHeaders,
                     HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-            log.info("CityController -> put -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("CityController -> put -> Remote IP -> " + request.getRemoteAddr());
+        
+        
         cityModel.updateName(id, name);
     }
 
@@ -52,10 +47,8 @@ public class CityController implements ICityController {
     @DeleteMapping(value = "/")
     public void delete(@RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-            log.info("CityController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("CityController -> delete -> Remote IP -> " + request.getRemoteAddr());
+        
+        
         cityModel.deleteAll();
     }
 
@@ -64,10 +57,8 @@ public class CityController implements ICityController {
     public void delete(@PathVariable(name = "name") String name,
                        @RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-            log.info("CityController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("CityController -> delete -> Remote IP -> " + request.getRemoteAddr());
+        
+        
         cityModel.deleteByName(name);
     }
 
@@ -76,10 +67,8 @@ public class CityController implements ICityController {
     public List<String> get(@QuerydslPredicate(root = CityEntity.class) Predicate predicate,
                             @RequestHeader HttpHeaders httpHeaders,
                             HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-            log.info("CityController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("CityController -> get -> Remote IP -> " + request.getRemoteAddr());
+        
+        
         Iterable<CityEntity> cityEntityList = cityModel.getAll(predicate);
         List<String> res = new ArrayList<>();
         cityEntityList.forEach(item -> res.add(item.getName()));
@@ -91,10 +80,8 @@ public class CityController implements ICityController {
     public String get(@PathVariable(name = "id") Integer id,
                       @RequestHeader HttpHeaders httpHeaders,
                       HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-            log.info("CityController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("CityController -> get -> Remote IP -> " + request.getRemoteAddr());
+        
+        
         return cityModel.getById(id).getName();
     }
 

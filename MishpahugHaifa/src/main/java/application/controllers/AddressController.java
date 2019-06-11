@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;
 
-@Slf4j
 @RestController
 @RequestMapping(value = "/address")
 public class AddressController implements IAddressController {
@@ -21,13 +20,10 @@ public class AddressController implements IAddressController {
 
     @Override
     @PostMapping(value = "/")
-    public void post(@RequestBody AddressEntity data,
-                     @RequestHeader HttpHeaders httpHeaders,
-                     HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-            log.info("AddressController -> post -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("AddressController -> post -> Remote IP -> " + request.getRemoteAddr());
+    public void post(@RequestHeader HttpHeaders httpHeaders,
+                     HttpServletRequest request, @RequestBody AddressEntity data){
+        
+        
         addressModel.add(data);
     }
 
@@ -35,34 +31,26 @@ public class AddressController implements IAddressController {
     @DeleteMapping(value = "/")
     public void delete(@RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-            log.info("AddressController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("AddressController -> delete -> Remote IP -> " + request.getRemoteAddr());
+        
+        
         addressModel.deleteAll();
     }
 
     @Override
     @DeleteMapping(value = "/{id}")
-    public void delete(@PathVariable(name = "id") Integer id,
-                       @RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-            log.info("AddressController -> delete{" + id + "} -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("AddressController -> delete{" + id + "} -> Remote IP -> " + request.getRemoteAddr());
+    public void delete(@RequestHeader HttpHeaders httpHeaders,
+                       HttpServletRequest request, @PathVariable(name = "id") Integer id){
+        
+        
         addressModel.deleteByID(id);
     }
 
     @Override
     @GetMapping(value = "/{id}")
-    public String get(@PathVariable(name = "id") Integer id,
-                      @RequestHeader HttpHeaders httpHeaders,
-                      HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-            log.info("AddressController -> get{" + id + "} -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("AddressController -> get{" + id + "} -> Remote IP -> " + request.getRemoteAddr());
+    public String get(@RequestHeader HttpHeaders httpHeaders,
+                      HttpServletRequest request, @PathVariable(name = "id") Integer id){
+        
+        
         return addressModel.getById(id).toString();
     }
 }

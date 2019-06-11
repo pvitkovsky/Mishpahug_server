@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;
 
-@Slf4j
 @RestController
 @RequestMapping(value = "/kichentype")
 public class KichenTypeController implements IKichenTypeController {
@@ -26,10 +25,8 @@ public class KichenTypeController implements IKichenTypeController {
     public void post(@RequestBody KitchenTypeEntity data,
                      @RequestHeader HttpHeaders httpHeaders,
                      HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-            log.info("KichenTypeController -> post -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("KichenTypeController -> post -> Remote IP -> " + request.getRemoteAddr());
+        
+        
         kichenTypeModel.add(data);
     }
 
@@ -39,10 +36,8 @@ public class KichenTypeController implements IKichenTypeController {
                     @RequestParam(name = "name") String name,
                     @RequestHeader HttpHeaders httpHeaders,
                     HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-            log.info("KichenTypeController  -> put -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("KichenTypeController -> put -> Remote IP -> " + request.getRemoteAddr());
+        
+        
         kichenTypeModel.updateName(id, name);
     }
 
@@ -50,10 +45,8 @@ public class KichenTypeController implements IKichenTypeController {
     @DeleteMapping(value = "/")
     public void delete(@RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-            log.info("KichenTypeController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("KichenTypeController -> delete -> Remote IP -> " + request.getRemoteAddr());
+        
+        
         kichenTypeModel.deleteAll();
     }
 
@@ -62,10 +55,8 @@ public class KichenTypeController implements IKichenTypeController {
     public void delete(@PathVariable(name = "name") String name,
                        @RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-            log.info("KichenTypeController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("KichenTypeController -> delete -> Remote IP -> " + request.getRemoteAddr());
+        
+        
         kichenTypeModel.deleteByName(name);
     }
 
@@ -74,10 +65,8 @@ public class KichenTypeController implements IKichenTypeController {
     @GetMapping(value = "/")
     public List<String> get(@RequestHeader HttpHeaders httpHeaders,
                             HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-            log.info("KichenTypeController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("KichenTypeController -> get -> Remote IP -> " + request.getRemoteAddr());
+        
+        
         return IConverter.PropertyToStringList(kichenTypeModel.getAll());
     }
 
@@ -86,10 +75,8 @@ public class KichenTypeController implements IKichenTypeController {
     public String get(@PathVariable(name = "id", required = false) Integer id,
                       @RequestHeader HttpHeaders httpHeaders,
                       HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-            log.info("KichenTypeController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("KichenTypeController -> get -> Remote IP -> " + request.getRemoteAddr());
+        
+        
         return kichenTypeModel.getById(id).getName();
     }
 

@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;
 
-@Slf4j
 @RestController
 @RequestMapping(value = "/logs")
 public class LogsDataController implements ILogsDataController {
@@ -28,10 +27,8 @@ public class LogsDataController implements ILogsDataController {
     public Iterable<LogsDataEntity> findAllByWebQuerydsl(@QuerydslPredicate(root = LogsDataEntity.class) Predicate predicate,
                                                          @RequestHeader HttpHeaders httpHeaders,
                                                          HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-            log.info("LogsDataController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("LogsDataController -> get -> Remote IP -> " + request.getRemoteAddr());
+        
+        
         return logsModel.getAll(predicate);
     }
 
@@ -42,10 +39,8 @@ public class LogsDataController implements ILogsDataController {
     public void delete(@QuerydslPredicate(root = LogsDataEntity.class) Predicate predicate,
                        @RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-            log.info("LogsDataController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("LogsDataController -> get -> Remote IP -> " + request.getRemoteAddr());
+        
+        
         logsModel.delete(predicate);
     }
 }

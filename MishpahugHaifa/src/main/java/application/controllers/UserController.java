@@ -72,9 +72,6 @@ public class UserController implements IUserController {
     IHolyDayModel holyDayModel;
 
     
-    //TODO: owners by event; guests by event; 
-    
-    
     @Override
     @GetMapping(value = "/{id}")
     public UserDTO get(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
@@ -179,12 +176,8 @@ public class UserController implements IUserController {
     @Override
     @PutMapping(value = "/{id}")
     public UserDTO update(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
-			@RequestBody HashMap<String, String> data, @PathVariable(value = "id") Integer id) {        httpHeaders.forEach((key, value) -> {
-            log.info("UserController -> update -> data -> " + String.format("data '%s' = %s", key, value));
-        });
-        UserEntity userEntity = userModel.getById(id);
-        userModel.update(id, data);
-        return new UserDTO(userEntity);
+			@RequestBody HashMap<String, String> data, @PathVariable(value = "id") Integer id) {      
+        return new UserDTO(userModel.update(id, data));
     }
 
     

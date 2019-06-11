@@ -49,7 +49,6 @@ public class UserWebRequestTest {
     @Before
     public void buildEntities() { //TODO: save token manually instead of doing login;
     	
-    	System.out.println("Alyssa " + ALYSSA);
     	ALYSSA.setEncrytedPassword(DigestUtils.md5Hex(ALYSSA.getUserName()));
     	userRepo.save(ALYSSA);
     	userRepo.flush();
@@ -83,7 +82,20 @@ public class UserWebRequestTest {
     }
     
     @Test
-    public void updateAllShouldReturnUpdatedUser() throws Exception {
+    public void getByIdShouldReturnUser() throws Exception {
+       
+    	
+    	UserEntity AlyssaHTTP = this.restTemplate.exchange("http://localhost:" + port + "/user/" + ALYSSA.getId(), HttpMethod.GET,
+                new HttpEntity<String>(headers),
+                new ParameterizedTypeReference<UserEntity>() {
+                }).getBody();
+        assertEquals(AlyssaHTTP, ALYSSA);
+        
+
+    }
+    
+    @Test
+    public void updateAllShouldReturnUpdatedUser() throws Exception { //TODO: fix me pls
        
     	String updatedFirstName = "Alyssa_Updated";
     	Map<String,String> updateMap = new HashMap<>();
@@ -95,14 +107,12 @@ public class UserWebRequestTest {
                 }).getBody();
         assertEquals(updated.getFirstName(),updatedFirstName);
         
-        //assertEquals(ALYSSA.getFirstName(), updatedFirstName);
-        //TODO: test against real database record please;
     }
     
 
     @Test
     public void testFiltring() { //TODO: stable data w/o randoms, asserts
-        System.out.println("Between dates filter >>>");
+        //System.out.println("Between dates filter >>>");
         Collection<UserEntity> users = this.restTemplate.exchange("http://localhost:" + port + "/user/?dateOfBirth=1980-01-01&dateOfBirth=2000-01-01", HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<Collection<UserEntity>>() {

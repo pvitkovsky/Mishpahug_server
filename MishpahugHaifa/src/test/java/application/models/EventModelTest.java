@@ -93,9 +93,11 @@ public class EventModelTest {
 
 		Mockito.when(userRepo.save(BEN)).thenReturn(BEN);
 		Mockito.when(userRepo.save(ALYSSA)).thenReturn(ALYSSA);
-		Mockito.when(eventRepo.save(GUESTING)).thenReturn(GUESTING);
-		Mockito.when(subscriptionsRepo.save(AGUESTING)).thenReturn(AGUESTING);
 		Mockito.when(userRepo.getOne(ALYSSA.getId())).thenReturn(ALYSSA);
+		Mockito.when(userRepo.existsById(ALYSSA.getId())).thenReturn(true);
+		Mockito.when(eventRepo.save(GUESTING)).thenReturn(GUESTING);
+		Mockito.when(eventRepo.existsById(GUESTING.getId())).thenReturn(true);
+		Mockito.when(subscriptionsRepo.save(AGUESTING)).thenReturn(AGUESTING);
 		
 		ASUBS.add(GUESTING);
 		
@@ -108,7 +110,9 @@ public class EventModelTest {
 
 		Mockito.when(userRepo.save(BEN)).thenReturn(BEN);
 		Mockito.when(userRepo.save(ALYSSA)).thenReturn(ALYSSA);
+		Mockito.when(userRepo.existsById(ALYSSA.getId())).thenReturn(true);
 		Mockito.when(eventRepo.save(GUESTING)).thenReturn(GUESTING);
+		Mockito.when(eventRepo.existsById(GUESTING.getId())).thenReturn(true);
 		Mockito.when(subscriptionsRepo.save(AGUESTING)).thenReturn(AGUESTING);
 		Mockito.when(eventRepo.getOne(GUESTING.getId())).thenReturn(GUESTING);
 		
@@ -135,12 +139,14 @@ public class EventModelTest {
 		SubscriptionEntity subAtoG = subscriptionsRepo.getOne(idAG); 
 		
 		Mockito.when(eventRepo.getOne(GUESTING.getId())).thenReturn(GUESTING);
+		Mockito.when(eventRepo.existsById(GUESTING.getId())).thenReturn(true);
 		Mockito.when(userRepo.getOne(ALYSSA.getId())).thenReturn(ALYSSA);
 		Mockito.when(userRepo.getOne(BEN.getId())).thenReturn(BEN);
+		Mockito.when(userRepo.existsById(ALYSSA.getId())).thenReturn(true);
 
-			assertEquals(eventModel.subscribe(GUESTING.getId(), ALYSSA.getId()), GUESTING);
-			assertTrue(ALYSSA.getSubscriptions().contains(subAtoG));
-			assertTrue(GUESTING.getSubscriptions().contains(subAtoG));
+		assertEquals(eventModel.subscribe(GUESTING.getId(), ALYSSA.getId()), GUESTING);
+		assertTrue(ALYSSA.getSubscriptions().contains(subAtoG));
+		assertTrue(GUESTING.getSubscriptions().contains(subAtoG));
 	}
 	
 	
@@ -161,15 +167,17 @@ public class EventModelTest {
 		SubscriptionEntity subAtoG = subscriptionsRepo.getOne(idAG); 
 		
 		Mockito.when(eventRepo.getOne(GUESTING.getId())).thenReturn(GUESTING);
+		Mockito.when(eventRepo.existsById(GUESTING.getId())).thenReturn(true);
+		Mockito.when(userRepo.existsById(ALYSSA.getId())).thenReturn(true);
 		Mockito.when(userRepo.getOne(ALYSSA.getId())).thenReturn(ALYSSA);
 		Mockito.when(userRepo.getOne(BEN.getId())).thenReturn(BEN);
 		Mockito.when(subscriptionsRepo.existsById(idAG)).thenReturn(true);
 		
-			assertEquals(eventModel.unsubscribe(GUESTING.getId(), ALYSSA.getId()), GUESTING);
-			Mockito.when(subscriptionsRepo.getOne(idAG)).thenReturn(AGUESTING);
-			subAtoG = subscriptionsRepo.getOne(idAG); 
-			assertFalse(ALYSSA.getSubscriptions().contains(subAtoG));
-			assertFalse(GUESTING.getSubscriptions().contains(subAtoG));
+		assertEquals(eventModel.unsubscribe(GUESTING.getId(), ALYSSA.getId()), GUESTING);
+		Mockito.when(subscriptionsRepo.getOne(idAG)).thenReturn(AGUESTING);
+		subAtoG = subscriptionsRepo.getOne(idAG); 
+		assertFalse(ALYSSA.getSubscriptions().contains(subAtoG));
+		assertFalse(GUESTING.getSubscriptions().contains(subAtoG));
 	}
 	
 	//TODO: tests on deactivate and cancel pls

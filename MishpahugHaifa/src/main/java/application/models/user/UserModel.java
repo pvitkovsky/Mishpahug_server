@@ -59,10 +59,12 @@ public class UserModel implements IUserModel {
     @Override
     public UserEntity update(Integer userId,
                              HashMap<String, String> data){
+    	
         if (!userRepository.existsById(userId)) throw new NotFoundEntityException("");
         UserEntity user = userRepository.getOne(userId);
         updates.updateUser(user, data);
-        if (userRepository.existsByUserNameAndEMail(user.getUserName(), user.getEMail())) throw new EntityExistsException("");
+        // if (userRepository.existsByUserNameAndEMail(user.getUserName(), user.getEMail())) throw new EntityExistsException(""); 
+        // we're trying to update existing user. throwing an exception if it exists will stop our job. 
         userRepository.save(user);
         return user;
     }

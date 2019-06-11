@@ -7,11 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface IGenderController {
-	void post(GenderEntity data, HttpHeaders httpHeaders, HttpServletRequest request);
-	void put(Integer id, String name, HttpHeaders httpHeaders, HttpServletRequest request);
-	void delete(String name, HttpHeaders httpHeaders, HttpServletRequest request);
+	void post(HttpHeaders httpHeaders, HttpServletRequest request, GenderEntity data);
+	void put(HttpHeaders httpHeaders, HttpServletRequest request, Integer id, String name);
+	void delete(HttpHeaders httpHeaders, HttpServletRequest request, String name);
 	void delete(HttpHeaders httpHeaders, HttpServletRequest request);
 	List<String> get(HttpHeaders httpHeaders, HttpServletRequest request);
-	GenderEntity get(String name, HttpHeaders httpHeaders, HttpServletRequest request);
-	String get(Integer id, HttpHeaders httpHeaders, HttpServletRequest request);
+	GenderEntity get(HttpHeaders httpHeaders, HttpServletRequest request, String name);
+	String get(HttpHeaders httpHeaders, HttpServletRequest request, Integer id);
 }

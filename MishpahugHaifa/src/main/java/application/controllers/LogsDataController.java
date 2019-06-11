@@ -24,11 +24,8 @@ public class LogsDataController implements ILogsDataController {
     @Override
     @RequestMapping(method = RequestMethod.GET, value = "/")
     @ResponseBody
-    public Iterable<LogsDataEntity> findAllByWebQuerydsl(@QuerydslPredicate(root = LogsDataEntity.class) Predicate predicate,
-                                                         @RequestHeader HttpHeaders httpHeaders,
-                                                         HttpServletRequest request){
-        
-        
+    public Iterable<LogsDataEntity> findAllByWebQuerydsl(@RequestHeader HttpHeaders httpHeaders,
+                                                         HttpServletRequest request, @QuerydslPredicate(root = LogsDataEntity.class) Predicate predicate){
         return logsModel.getAll(predicate);
     }
 
@@ -36,11 +33,8 @@ public class LogsDataController implements ILogsDataController {
     @Override
     @DeleteMapping(value = "/")
     //TODO: test;
-    public void delete(@QuerydslPredicate(root = LogsDataEntity.class) Predicate predicate,
-                       @RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request){
-        
-        
+    public void delete(@RequestHeader HttpHeaders httpHeaders,
+                       HttpServletRequest request, @QuerydslPredicate(root = LogsDataEntity.class) Predicate predicate){
         logsModel.delete(predicate);
     }
 }

@@ -24,22 +24,18 @@ public class CityController implements ICityController {
 
     @Override
     @PostMapping(value = "/")
-    public void post(@RequestBody CityEntity data,
+    public void post(
                      @RequestHeader HttpHeaders httpHeaders,
-                     HttpServletRequest request){
-        
-        
+                     HttpServletRequest request, @RequestBody CityEntity data){
         cityModel.add(data);
     }
 
     @Override
     @PutMapping(value = "/")
-    public void put(@RequestParam(name = "id") Integer id,
-                    @RequestParam(name = "name") String name,
+    public void put(
                     @RequestHeader HttpHeaders httpHeaders,
-                    HttpServletRequest request){
-        
-        
+                    HttpServletRequest request, @RequestParam(name = "id") Integer id,
+                    @RequestParam(name = "name") String name){
         cityModel.updateName(id, name);
     }
 
@@ -47,28 +43,21 @@ public class CityController implements ICityController {
     @DeleteMapping(value = "/")
     public void delete(@RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request){
-        
-        
         cityModel.deleteAll();
     }
 
     @Override
     @DeleteMapping(value = "/{name}")
-    public void delete(@PathVariable(name = "name") String name,
+    public void delete(
                        @RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request){
-        
-        
+                       HttpServletRequest request, @PathVariable(name = "name") String name){
         cityModel.deleteByName(name);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/")
     @ResponseBody
-    public List<String> get(@QuerydslPredicate(root = CityEntity.class) Predicate predicate,
-                            @RequestHeader HttpHeaders httpHeaders,
-                            HttpServletRequest request){
-        
-        
+    public List<String> get(@RequestHeader HttpHeaders httpHeaders,
+                            HttpServletRequest request, @QuerydslPredicate(root = CityEntity.class) Predicate predicate){
         Iterable<CityEntity> cityEntityList = cityModel.getAll(predicate);
         List<String> res = new ArrayList<>();
         cityEntityList.forEach(item -> res.add(item.getName()));
@@ -77,12 +66,9 @@ public class CityController implements ICityController {
 
     @Override
     @GetMapping(value = "/{id}")
-    public String get(@PathVariable(name = "id") Integer id,
+    public String get(
                       @RequestHeader HttpHeaders httpHeaders,
-                      HttpServletRequest request){
-        
-        
+                      HttpServletRequest request, @PathVariable(name = "id") Integer id){
         return cityModel.getById(id).getName();
     }
-
 }

@@ -25,40 +25,31 @@ public class MaritalStatusController implements IMaritalStatusController {
     @GetMapping(value = "/")
     public List<String> get(@RequestHeader HttpHeaders httpHeaders,
                             HttpServletRequest request){
-        
-        
         return IConverter.PropertyToStringList(maritalStatusModel.getAll());
     }
 
     @Override
     @GetMapping(value = "/{id}")
-    public MaritalStatusEntity get(@PathVariable(name = "id") Integer id,
+    public MaritalStatusEntity get(
                                    @RequestHeader HttpHeaders httpHeaders,
-                                   HttpServletRequest request){
-        
-        
-        System.out.println(maritalStatusModel.getById(id));
+                                   HttpServletRequest request, @PathVariable(name = "id") Integer id){
         return maritalStatusModel.getById(id);
     }
 
     @Override
     @PostMapping(value = "/")
-    public void post(@RequestBody MaritalStatusEntity data,
+    public void post(
                      @RequestHeader HttpHeaders httpHeaders,
-                     HttpServletRequest request){
-        
-        
+                     HttpServletRequest request, @RequestBody MaritalStatusEntity data){
         maritalStatusModel.add(data);
     }
 
     @Override
     @PutMapping(value = "/")
-    public void put(@RequestParam(name = "id") Integer id,
-                    @RequestParam(name = "name") String name,
+    public void put(
                     @RequestHeader HttpHeaders httpHeaders,
-                    HttpServletRequest request){
-        
-        
+                    HttpServletRequest request, @RequestParam(name = "id") Integer id,
+                    @RequestParam(name = "name") String name){
         maritalStatusModel.updateName(id, name);
     }
 
@@ -66,18 +57,14 @@ public class MaritalStatusController implements IMaritalStatusController {
     @DeleteMapping(value = "/")
     public void delete(@RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request){
-        
-        
         maritalStatusModel.deleteAll();
     }
 
     @Override
     @DeleteMapping(value = "/{name}")
-    public void delete(@PathVariable(name = "name") String name,
+    public void delete(
                        @RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request){
-        
-        
+                       HttpServletRequest request, @PathVariable(name = "name") String name){
         maritalStatusModel.deleteByName(name);
     }
 }

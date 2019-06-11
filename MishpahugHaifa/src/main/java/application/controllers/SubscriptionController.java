@@ -22,8 +22,6 @@ public class SubscriptionController {
                        HttpServletRequest request,
                        @RequestParam(name = "userid") Integer userId,
                        @RequestParam(name = "eventid") Integer eventId){
-        
-        
         if (userId != null) feedBackModel.removeAllByUser(userId);
         if (eventId != null) feedBackModel.removeAllByEvent(eventId);
     }
@@ -33,8 +31,6 @@ public class SubscriptionController {
                                            HttpServletRequest request,
                                            @RequestParam(name = "userid", required = false) Integer userId,
                                            @RequestParam(name = "eventid", required = false) Integer eventId){
-        
-        
         if (userId != null) return feedBackModel.getAllByUser(userId);
         if (eventId != null) return feedBackModel.getAllByEvent(eventId);
         return null;

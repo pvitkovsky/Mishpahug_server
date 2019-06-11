@@ -22,20 +22,18 @@ public class CountryController implements ICountryController {
 
     @Override
     @PostMapping(value = "/")
-    public void post(@RequestBody CountryEntity data,
+    public void post(
                      @RequestHeader HttpHeaders httpHeaders,
-                     HttpServletRequest request){
-        
-        
+                     HttpServletRequest request, @RequestBody CountryEntity data){
         countryModel.addCountry(data);
     }
 
     @Override
     @PutMapping(value = "/")
-    public void put(@RequestParam(name = "id") Integer id,
-                    @RequestParam(name = "name") String name,
+    public void put(
                     @RequestHeader HttpHeaders httpHeaders,
-                    HttpServletRequest request){
+                    HttpServletRequest request, @RequestParam(name = "id") Integer id,
+                    @RequestParam(name = "name") String name){
         
         
         countryModel.updateName(id, name);
@@ -52,9 +50,9 @@ public class CountryController implements ICountryController {
 
     @Override
     @DeleteMapping(value = "/{name}")
-    public void delete(@PathVariable(name = "name") String name,
+    public void delete(
                        @RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request){
+                       HttpServletRequest request, @PathVariable(name = "name") String name){
         
         
         countryModel.deleteByName(name);
@@ -74,9 +72,9 @@ public class CountryController implements ICountryController {
 
     @Override
     @GetMapping(value = "/{id}")
-    public String get(@PathVariable(name = "id") Integer id,
+    public String get(
                       @RequestHeader HttpHeaders httpHeaders,
-                      HttpServletRequest request){
+                      HttpServletRequest request, @PathVariable(name = "id") Integer id){
         
         
         return countryModel.getById(id).getName();

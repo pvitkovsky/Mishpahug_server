@@ -25,41 +25,28 @@ public class ReligionController implements IReligionController {
     @GetMapping(value = "/")
     public List<String> get(@RequestHeader HttpHeaders httpHeaders,
                             HttpServletRequest request){
-        
-        
         return IConverter.PropertyToStringList(religionModel.getAll());
     }
 
     @Override
     @GetMapping(value = "/{id}")
-    public ReligionEntity get(@PathVariable(name = "id") Integer id,
-                              @RequestHeader HttpHeaders httpHeaders,
-                              HttpServletRequest request){
-        
-        
+    public ReligionEntity get(@RequestHeader HttpHeaders httpHeaders,
+                              HttpServletRequest request, @PathVariable(name = "id") Integer id){
         return religionModel.getById(id);
-
     }
 
     @Override
     @PostMapping(value = "/")
-    public void post(@RequestBody ReligionEntity data,
-                     @RequestHeader HttpHeaders httpHeaders,
-                     HttpServletRequest request){
-        
-        
+    public void post(@RequestHeader HttpHeaders httpHeaders,
+                     HttpServletRequest request, @RequestBody ReligionEntity data){
         religionModel.add(data);
-
     }
 
     @Override
     @PutMapping(value = "/")
-    public void put(@RequestParam(name = "id") Integer id,
-                    @RequestParam(name = "name") String name,
-                    @RequestHeader HttpHeaders httpHeaders,
-                    HttpServletRequest request){
-        
-        
+    public void put(@RequestHeader HttpHeaders httpHeaders,
+                    HttpServletRequest request, @RequestParam(name = "id") Integer id,
+                    @RequestParam(name = "name") String name){
         religionModel.updateName(id, name);
     }
 
@@ -67,18 +54,13 @@ public class ReligionController implements IReligionController {
     @DeleteMapping(value = "/")
     public void delete(@RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request){
-        
-        
         religionModel.deleteAll();
     }
 
     @Override
     @DeleteMapping(value = "/{name}")
-    public void delete(@PathVariable(name = "name") String name,
-                       @RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request){
-        
-        
+    public void delete(@RequestHeader HttpHeaders httpHeaders,
+                       HttpServletRequest request, @PathVariable(name = "name") String name){
         religionModel.deleteByName(name);
     }
 

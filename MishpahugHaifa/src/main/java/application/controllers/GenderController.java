@@ -24,56 +24,48 @@ public class GenderController implements IGenderController {
 
 	@Override
 	@PostMapping(value = "/")
-	public void post(@RequestBody GenderEntity data, @RequestHeader HttpHeaders httpHeaders,
-			HttpServletRequest request) {
-
+	public void post(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
+			@RequestBody GenderEntity data) {
+		genderModel.add(data);
 	}
 
 	@Override
 	@PutMapping(value = "/")
-	public void put(@RequestParam(name = "id") Integer id, @RequestParam(name = "name") String name,
-			@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request) {
-
+	public void put(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
+			@RequestParam(name = "id") Integer id, @RequestParam(name = "name") String name) {
 		genderModel.updateName(id, name);
 	}
 
 	@Override
 	@DeleteMapping(value = "/{name}")
-	public void delete(@PathVariable(name = "name") String name, @RequestHeader HttpHeaders httpHeaders,
-			HttpServletRequest request) {
-
+	public void delete(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
+			@PathVariable(name = "name") String name) {
 		genderModel.deleteByName(name);
 	}
 
 	@Override
 	@DeleteMapping(value = "/")
 	public void delete(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request) {
-
 		genderModel.deleteAll();
-
 	}
 
 	@Override
 	@GetMapping(value = "/")
 	public List<String> get(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request) {
-
 		return IConverter.PropertyToStringList(genderModel.getAll());
 	}
 
 	@Override
 	@GetMapping(value = "/name/{name}")
-	public GenderEntity get(@PathVariable(name = "name") String name, @RequestHeader HttpHeaders httpHeaders,
-			HttpServletRequest request) {
-
+	public GenderEntity get(@RequestHeader HttpHeaders httpHeaders,
+			HttpServletRequest request, @PathVariable(name = "name") String name) {
 		return genderModel.getByName(name);
-
 	}
 
 	@Override
 	@GetMapping(value = "/{id}")
-	public String get(@PathVariable(name = "id") Integer id, @RequestHeader HttpHeaders httpHeaders,
-			HttpServletRequest request) {
-
+	public String get(@RequestHeader HttpHeaders httpHeaders,
+			HttpServletRequest request, @PathVariable(name = "id") Integer id) {
 		GenderEntity genderEntity = genderModel.getById(id);
 		return genderEntity.getName();
 	}

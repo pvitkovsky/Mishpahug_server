@@ -29,6 +29,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.security.auth.login.FailedLoginException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -117,13 +118,16 @@ public class UserController implements IUserController {
         return converterEvent.DTOListFromEntities(eventEntities);
     }
 
+    /*
+     * Logging and exceptions here remain manual for 
+     */
     @Override
     @PostMapping(value = "/login")
     public LoginResponse login(@RequestHeader HttpHeaders httpHeaders,
-			HttpServletRequest request, @RequestBody LoginDTO loginDTO) {
+			HttpServletRequest request, @RequestBody LoginDTO loginDTO) throws FailedLoginException {
         UserEntity userEntity = userModel.getByUsernameAndPassword(loginDTO.getUsername(), DigestUtils.md5Hex(loginDTO.getPassword()));
         if (userEntity == null) {
-            throw new RuntimeException("Incorrect password or username");
+            throw new FailedLoginException();
         }
         UserSession userSessionOld = userSessionRepository.findByUserNameAndIpAndUserAgentAndIsValidTrue(loginDTO.getUsername(),
                 request.getRemoteAddr(),

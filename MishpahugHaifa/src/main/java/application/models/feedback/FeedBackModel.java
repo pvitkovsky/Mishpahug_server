@@ -6,18 +6,16 @@ import java.util.Map;
 
 import javax.transaction.Transactional;
 
-import application.entities.EventEntity;
-import application.entities.SubscriptionEntity;
-import application.exceptions.NotFoundEntityException;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import application.entities.SubscriptionEntity;
 import application.entities.UserEntity;
 import application.entities.values.FeedBackValue;
 import application.repositories.EventRepository;
 import application.repositories.SubscriptionRepository;
 import application.repositories.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional
@@ -35,7 +33,6 @@ public class FeedBackModel implements IFeedBackModel {
 
     @Override
     public Map<Integer, FeedBackValue> getAllByEvent(Integer eventId) {
-        if (!eventRepository.existsById(eventId)) throw new NotFoundEntityException("");
         Map<Integer, FeedBackValue> res = new HashMap<>();
         List<SubscriptionEntity> subscriptionEntityList = feedBackRepository.findByEvent_Id(eventId);
         //if (subscriptionEntityList != null) subscriptionEntityList.forEach(item -> res.put(item.getFeedback().hashCode(),item.getFeedback()));
@@ -78,7 +75,6 @@ public class FeedBackModel implements IFeedBackModel {
 
     @Override
     public void removeAllByEvent(Integer eventId) {
-        if (!eventRepository.existsById(eventId)) throw new NotFoundEntityException("");
         feedBackRepository.removeById_EventId(eventId);
         //TODO
     }

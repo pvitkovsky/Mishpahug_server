@@ -7,8 +7,6 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
-import application.exceptions.EntityExistsException;
-import application.exceptions.NotFoundEntityException;
 import application.utils.converter.IUpdates;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,7 +48,6 @@ public class EventModel implements IEventModel {
 
 	@Override
 	public Set<EventEntity> getAllByUser(Integer userId) {// TODO: rename to getSubscriptionsByUser
-		if (!userRepository.existsById(userId)) throw new NotFoundEntityException("");
 		UserEntity userEntity = userRepository.getOne(userId);
 		Set<SubscriptionEntity> subscriptions = userEntity.getSubscriptions();
 		return subscriptions.stream().map(s -> s.getEvent()).collect(Collectors.toSet());
@@ -58,7 +55,6 @@ public class EventModel implements IEventModel {
 
 	@Override
 	public Set<UserEntity> getAllSubscribed(Integer eventId) {// TODO: rename to get GuestsByEvent
-		if (!eventRepository.existsById(eventId)) throw new NotFoundEntityException("");
 		EventEntity eventEntity = eventRepository.getOne(eventId);
 		Set<SubscriptionEntity> subscriptions = eventEntity.getSubscriptions();
 		return subscriptions.stream().map(s -> s.getGuest()).collect(Collectors.toSet());
@@ -71,14 +67,11 @@ public class EventModel implements IEventModel {
 
 	@Override
 	public EventEntity add(EventEntity data) { // would throw if no user is in data's owner field;
-		if (eventRepository.existsByDateAndTimeAndUserEntityOwner(data.getDate(),data.getTime(), data.getUserEntityOwner()))
-			throw new EntityExistsException("");
 		return eventRepository.save(data);
 	}
 
 	@Override
 	public EventEntity update(Integer eventId, HashMap<String, String> data){
-		if (!eventRepository.existsById(eventId)) throw new NotFoundEntityException("");
 		EventEntity eventEntity = eventRepository.getOne(eventId);
 		updates.updateEvent(eventEntity, data);
 		return eventRepository.save(eventEntity);
@@ -86,7 +79,6 @@ public class EventModel implements IEventModel {
 
 	@Override
 	public EventEntity delete(Integer eventId){ // throws if not in deletion queue
-		if (!eventRepository.existsById(eventId)) throw new NotFoundEntityException("");
 		EventEntity eventEntity = eventRepository.getOne(eventId);
 		eventRepository.delete(eventEntity);
 		return eventEntity;
@@ -99,7 +91,6 @@ public class EventModel implements IEventModel {
 
 	@Override
 	public EventEntity getById(Integer eventId){
-		if (!eventRepository.existsById(eventId)) throw new NotFoundEntityException("");
 		return eventRepository.getOne(eventId);
 	}
 
@@ -115,24 +106,18 @@ public class EventModel implements IEventModel {
 
 	@Override
 	public EventEntity subscribe(Integer eventId, Integer userId){
-		if (!eventRepository.existsById(eventId)) throw new NotFoundEntityException("");
-		if (!userRepository.existsById(userId)) throw new NotFoundEntityException("");
 		SubscriptionHandler handler = new SubscriptionHandler(eventId, userId);
 		return handler.subscribe();
 	}
 
 	@Override
 	public EventEntity unsubscribe(Integer eventId, Integer userId){
-		if (!eventRepository.existsById(eventId)) throw new NotFoundEntityException("");
-		if (!userRepository.existsById(userId)) throw new NotFoundEntityException("");
 		SubscriptionHandler handler = new SubscriptionHandler(eventId, userId);
 		return handler.unsubscribe();
 	}
 
 	@Override
 	public EventEntity deactivateSubscription(Integer eventId, Integer userId){
-		if (!eventRepository.existsById(eventId)) throw new NotFoundEntityException("");
-		if (!userRepository.existsById(userId)) throw new NotFoundEntityException("");
 		SubscriptionHandler handler = new SubscriptionHandler(eventId, userId);
 		return handler.deactivate();
 	}
@@ -156,8 +141,6 @@ public class EventModel implements IEventModel {
 		}
 
 		private void load(){
-			if (!eventRepository.existsById(eventId)) throw new NotFoundEntityException("");
-			if (!userRepository.existsById(userId)) throw new NotFoundEntityException("");
 			eventEntity = eventRepository.getOne(eventId);
 			userEntity = userRepository.getOne(userId);
 			EventGuestId subscriptionKey = new EventGuestId(userEntity.getId(), eventEntity.getId());

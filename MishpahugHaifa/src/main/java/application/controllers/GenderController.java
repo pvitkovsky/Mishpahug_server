@@ -64,5 +64,4 @@ public class GenderController implements IGenderController {
 		GenderEntity genderEntity = genderModel.getById(id);
 		return genderEntity.getName();
 	}
-
 }

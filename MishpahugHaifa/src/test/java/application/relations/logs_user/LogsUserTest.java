@@ -79,7 +79,7 @@ public class LogsUserTest {
 		LOG_MN.setTime(TTIME);
 	}
 
-	@Test
+	/*@Test
 	public void givenLogSaveAndRetrievedIsEqual() {
 		
 		
@@ -103,6 +103,6 @@ public class LogsUserTest {
 		LogsDataEntity savedULB = logsRepo.getOne(LOG_MN.getId());
 		assertNotEquals(savedULB, LOG_NM);
 		assertEquals(savedULB, LOG_MN);
-	}
+	}*/
 
 }

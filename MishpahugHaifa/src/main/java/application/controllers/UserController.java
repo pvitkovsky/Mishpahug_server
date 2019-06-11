@@ -73,24 +73,18 @@ public class UserController implements IUserController {
     
     //TODO: owners by event; guests by event; 
     
-    /* (non-Javadoc)
-     * @see application.controllers.intarfaces.IUserController#get(java.lang.Integer)
-     */
+    
     @Override
     @GetMapping(value = "/{id}")
-    public UserDTO get(@PathVariable(value = "id") Integer id,
-                       @RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request){
+    public UserDTO get(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
+			@PathVariable(value = "id") Integer id) {
         return new UserDTO(userModel.getById(id));
     }
 
-    /* (non-Javadoc)
-     * @see application.controllers.intarfaces.IUserController#get(java.lang.Integer)
-     */
+    
     @Override
     @GetMapping(value = "/current")
-    public UserDTO getByToken(HttpServletRequest request,
-                              @RequestHeader HttpHeaders httpHeaders){
+    public UserDTO getByToken(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request) {
     	String token = request.getHeader("Authorization");
         httpHeaders.forEach((key,value) -> log.info("UserController -> currentprofile -> Headers -> " + key + " = " + value));
         log.info("UserController -> currentprofile -> Remote IP -> " + request.getRemoteAddr());
@@ -101,8 +95,7 @@ public class UserController implements IUserController {
     @Override
     @GetMapping(value = "/currentsubscribes")
     // TODO спрятать строки кода в одну из моделей?
-    public List<EventDTO> getEventsByToken(HttpServletRequest request,
-                                           @RequestHeader HttpHeaders httpHeaders){
+    public List<EventDTO> getEventsByToken( @RequestHeader HttpHeaders httpHeaders, HttpServletRequest request) {
         String token = request.getHeader("Authorization");
         httpHeaders.forEach((key,value) -> log.info("UserController -> currentsubscribes -> Headers -> " + key + " = " + value));
         log.info("UserController -> currentsubscribes -> Remote IP -> " + request.getRemoteAddr());
@@ -119,9 +112,8 @@ public class UserController implements IUserController {
     @Override
     @GetMapping(value = "/{id}/subscribes")
     // TODO спрятать строки кода в одну из моделей?
-    public List<EventDTO> getEventsById(@PathVariable(value = "id") Integer id,
-                                        @RequestHeader HttpHeaders httpHeaders,
-                                        HttpServletRequest request){
+    public List<EventDTO> getEventsById(@RequestHeader HttpHeaders httpHeaders,
+			HttpServletRequest request, @PathVariable(value = "id") Integer id) {
         httpHeaders.forEach((key,value) -> log.info("UserController -> getEventsById user with id = " + id + " -> Headers -> " + key + " = " + value));
         log.info("UserController -> getEventsById user with id = " + id + " -> Remote IP -> " + request.getRemoteAddr());
         List<SubscriptionEntity> subscriptionEntityList = feedBackModel.getEventsForGuest(userModel.getById(id));
@@ -135,9 +127,8 @@ public class UserController implements IUserController {
 
     @Override
     @PostMapping(value = "/login")
-    public LoginResponse login(@RequestBody LoginDTO loginDTO,
-                               @RequestHeader HttpHeaders httpHeaders,
-                               HttpServletRequest request) {
+    public LoginResponse login(@RequestHeader HttpHeaders httpHeaders,
+			HttpServletRequest request, @RequestBody LoginDTO loginDTO) {
         httpHeaders.forEach((key, value) -> {
             log.info("UserController ->  headers -> login -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -182,9 +173,7 @@ public class UserController implements IUserController {
 
     @Override
     @PostMapping(value = "/register")
-    public void add(@RequestBody UserDTO userDTO,
-                    @RequestHeader HttpHeaders httpHeaders,
-                    HttpServletRequest request){
+    public void add(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request, @RequestBody UserDTO userDTO) {
         httpHeaders.forEach((key, value) -> {
             log.info("UserController -> headers -> register -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -201,16 +190,11 @@ public class UserController implements IUserController {
         userModel.add(userEntity);
     }
 
-    /* (non-Javadoc)
-     * @see application.controllers.intarfaces.IUserController#update(java.util.HashMap, java.lang.Integer)
-     */
+    
     @Override
     @PutMapping(value = "/{id}")
-    public UserDTO update(@RequestBody HashMap<String, String> data,
-                          @PathVariable(value = "id") Integer id,
-                          @RequestHeader HttpHeaders httpHeaders,
-                          HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
+    public UserDTO update(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
+			@RequestBody HashMap<String, String> data, @PathVariable(value = "id") Integer id) {        httpHeaders.forEach((key, value) -> {
             log.info("UserController -> update -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
         data.forEach((key, value) -> {
@@ -222,14 +206,11 @@ public class UserController implements IUserController {
         return new UserDTO(userEntity);
     }
 
-    /* (non-Javadoc)
-     * @see application.controllers.intarfaces.IUserController#delete(java.lang.Integer)
-     */
+    
     @Override
     @DeleteMapping(value = "/{id}")
-    public UserDTO delete(@PathVariable(value = "id") Integer id,
-                          @RequestHeader HttpHeaders httpHeaders,
-                          HttpServletRequest request){
+    public UserDTO delete(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
+			@PathVariable(value = "id") Integer id) {
         httpHeaders.forEach((key, value) -> {
             log.info("UserController -> delete{" + id + "} -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -237,9 +218,7 @@ public class UserController implements IUserController {
         return new UserDTO(userModel.deleteByID(id));
     }
 
-    /* (non-Javadoc)
-     * @see application.controllers.intarfaces.IUserController#delete()
-     */
+    
     @Override
     @DeleteMapping(value = "/")
     public void deleteAll(@RequestHeader HttpHeaders httpHeaders,
@@ -251,14 +230,11 @@ public class UserController implements IUserController {
         userModel.deleteAll();
     }
 
-    /* (non-Javadoc)
-     * @see application.controllers.intarfaces.IUserController#setDataFromForm(application.dto.UserDTO)
-     */
+    
     @Override
-    @PostMapping(value = "/addPage") //TODO: not-restful name; better is viewPage1
-    public void setDataFromForm(@RequestBody UserDTO data,
-                                @RequestHeader HttpHeaders httpHeaders,
-                                HttpServletRequest request){
+    @PostMapping(value = "/addPage") //TODO: probably delete, duplicated with put
+    public void setDataFromForm(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
+			@RequestBody UserDTO data) {
         httpHeaders.forEach((key, value) -> {
             log.info("UserController -> setDataFromForm -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -267,15 +243,11 @@ public class UserController implements IUserController {
         userModel.add(userEntity);
     }
 
-    /* (non-Javadoc)
-     * @see application.controllers.intarfaces.IUserController#setDataFromFormDetail(application.dto.UserDTODetail, java.lang.String)
-     */
+    
     @Override
-    @PutMapping(value = "/addPage") //TODO: not-restful name; better is viewPage2
-    public void setDataFromFormDetail(@RequestBody UserDTO data,
-                                      @RequestParam(name = "username") String userName,
-                                      @RequestHeader HttpHeaders httpHeaders,
-                                      HttpServletRequest request){
+    @PutMapping(value = "/addPage") //TODO: probably delete, duplicated with put
+    public void setDataFromFormDetail(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
+			@RequestBody UserDTO data, @RequestParam(name = "username") String userName) {
         httpHeaders.forEach((key, value) -> {
             log.info("UserController -> setDataFromFormDetail -> headers -> " + String.format("Header '%s' = %s", key, value));
         });
@@ -288,15 +260,12 @@ public class UserController implements IUserController {
         userModel.add(userEntity);
     }
 
-    /* (non-Javadoc)
-     * @see application.controllers.intarfaces.IUserController#get(com.querydsl.core.types.Predicate)
-     */
+    
     @Override
-    @RequestMapping(method = RequestMethod.GET, value = "/")
-    @ResponseBody
-    public List<UserDTO> findAllByWebQuerydsl(@QuerydslPredicate(root = UserEntity.class) Predicate predicate,
-                                              @RequestHeader HttpHeaders httpHeaders,
-                                              HttpServletRequest request){
+	@RequestMapping(method = RequestMethod.GET, value = "/")
+	@ResponseBody
+	public List<UserDTO> findAllByWebQuerydsl(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
+			@QuerydslPredicate(root = UserEntity.class) Predicate predicate) {
         httpHeaders.forEach((key, value) -> {
             log.info("UserController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
         });

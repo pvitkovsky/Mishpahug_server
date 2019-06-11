@@ -1,19 +1,12 @@
 package application.entities.values;
 
-import java.time.LocalDateTime;
+import lombok.*;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.Range;
-
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import java.time.LocalDateTime;
 
 @Embeddable
 @Getter

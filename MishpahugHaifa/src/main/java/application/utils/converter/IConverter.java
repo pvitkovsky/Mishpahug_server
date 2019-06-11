@@ -1,9 +1,9 @@
 package application.utils.converter;
 
+import application.entities.interfaces.NamedProperty;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import application.entities.interfaces.NamedProperty;
 
 public interface IConverter<E, D> { 
 

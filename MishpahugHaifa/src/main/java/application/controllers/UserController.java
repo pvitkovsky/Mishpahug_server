@@ -1,3 +1,4 @@
+
 package application.controllers;
 
 import application.controllers.interfaces.IUserController;
@@ -28,6 +29,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.security.auth.login.FailedLoginException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,9 +73,6 @@ public class UserController implements IUserController {
     IHolyDayModel holyDayModel;
 
     
-    //TODO: owners by event; guests by event; 
-    
-    
     @Override
     @GetMapping(value = "/{id}")
     public UserDTO get(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
@@ -86,9 +85,7 @@ public class UserController implements IUserController {
     @GetMapping(value = "/current")
     public UserDTO getByToken(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request) {
     	String token = request.getHeader("Authorization");
-        httpHeaders.forEach((key,value) -> log.info("UserController -> currentprofile -> Headers -> " + key + " = " + value));
-        log.info("UserController -> currentprofile -> Remote IP -> " + request.getRemoteAddr());
-    	UserSession session = userSessionRepository.findByTokenAndIsValidTrue(token);
+        UserSession session = userSessionRepository.findByTokenAndIsValidTrue(token);
     	return new UserDTO(userModel.getByUserName(session.getUserName())); //TODO: converter here?
     }
 
@@ -97,8 +94,6 @@ public class UserController implements IUserController {
     // TODO спрятать строки кода в одну из моделей?
     public List<EventDTO> getEventsByToken( @RequestHeader HttpHeaders httpHeaders, HttpServletRequest request) {
         String token = request.getHeader("Authorization");
-        httpHeaders.forEach((key,value) -> log.info("UserController -> currentsubscribes -> Headers -> " + key + " = " + value));
-        log.info("UserController -> currentsubscribes -> Remote IP -> " + request.getRemoteAddr());
         UserSession session = userSessionRepository.findByTokenAndIsValidTrue(token);
         List<SubscriptionEntity> subscriptionEntityList = feedBackModel.getEventsForGuest(userModel.getByUserName(session.getUserName())); 
         // what feedBackModel has to do with this request? Expected class EventModel or SubscriptionModel 
@@ -114,8 +109,6 @@ public class UserController implements IUserController {
     // TODO спрятать строки кода в одну из моделей?
     public List<EventDTO> getEventsById(@RequestHeader HttpHeaders httpHeaders,
 			HttpServletRequest request, @PathVariable(value = "id") Integer id) {
-        httpHeaders.forEach((key,value) -> log.info("UserController -> getEventsById user with id = " + id + " -> Headers -> " + key + " = " + value));
-        log.info("UserController -> getEventsById user with id = " + id + " -> Remote IP -> " + request.getRemoteAddr());
         List<SubscriptionEntity> subscriptionEntityList = feedBackModel.getEventsForGuest(userModel.getById(id));
         // what feedBackModel has to do with this request? Expected class EventModel or SubscriptionModel
         List<EventEntity> eventEntities = new ArrayList<>();
@@ -125,17 +118,16 @@ public class UserController implements IUserController {
         return converterEvent.DTOListFromEntities(eventEntities);
     }
 
+    /*
+     * Logging and exceptions here remain manual for 
+     */
     @Override
     @PostMapping(value = "/login")
     public LoginResponse login(@RequestHeader HttpHeaders httpHeaders,
-			HttpServletRequest request, @RequestBody LoginDTO loginDTO) {
-        httpHeaders.forEach((key, value) -> {
-            log.info("UserController ->  headers -> login -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("UserController -> login -> Remote IP -> " + request.getRemoteAddr());
+			HttpServletRequest request, @RequestBody LoginDTO loginDTO) throws FailedLoginException {
         UserEntity userEntity = userModel.getByUsernameAndPassword(loginDTO.getUsername(), DigestUtils.md5Hex(loginDTO.getPassword()));
         if (userEntity == null) {
-            throw new RuntimeException("Incorrect password or username");
+            throw new FailedLoginException();
         }
         UserSession userSessionOld = userSessionRepository.findByUserNameAndIpAndUserAgentAndIsValidTrue(loginDTO.getUsername(),
                 request.getRemoteAddr(),
@@ -174,19 +166,13 @@ public class UserController implements IUserController {
     @Override
     @PostMapping(value = "/register")
     public void add(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request, @RequestBody UserDTO userDTO) {
-        httpHeaders.forEach((key, value) -> {
-            log.info("UserController -> headers -> register -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("UserController -> register -> Remote IP -> " + request.getRemoteAddr());
-        System.out.println("UserController -> Register -> UserDTO = " + userDTO);
-       if (userModel.getByUserName(userDTO.getUserName()) != null) {
+         if (userModel.getByUserName(userDTO.getUserName()) != null) {
              throw new UsernameNotFoundException("Error");
          }
          if (!userDTO.getEncryptedPassword().equals(userDTO.getConfirmedPassword())) {
             throw new RuntimeException("Passwords do not match");
          }
         UserEntity userEntity = converter.entityFromDTO(userDTO);
-        System.out.println(userEntity);
         userModel.add(userEntity);
     }
 
@@ -194,16 +180,8 @@ public class UserController implements IUserController {
     @Override
     @PutMapping(value = "/{id}")
     public UserDTO update(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
-			@RequestBody HashMap<String, String> data, @PathVariable(value = "id") Integer id) {        httpHeaders.forEach((key, value) -> {
-            log.info("UserController -> update -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        data.forEach((key, value) -> {
-            log.info("UserController -> update -> data -> " + String.format("data '%s' = %s", key, value));
-        });
-        log.info("UserController -> update -> Remote IP -> " + request.getRemoteAddr());
-        UserEntity userEntity = userModel.getById(id);
-        userModel.update(id, data);
-        return new UserDTO(userEntity);
+			@RequestBody HashMap<String, String> data, @PathVariable(value = "id") Integer id) {      
+        return new UserDTO(userModel.update(id, data));
     }
 
     
@@ -211,10 +189,6 @@ public class UserController implements IUserController {
     @DeleteMapping(value = "/{id}")
     public UserDTO delete(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
 			@PathVariable(value = "id") Integer id) {
-        httpHeaders.forEach((key, value) -> {
-            log.info("UserController -> delete{" + id + "} -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("UserController -> delete{" + id + "} -> Remote IP -> " + request.getRemoteAddr());
         return new UserDTO(userModel.deleteByID(id));
     }
 
@@ -223,10 +197,6 @@ public class UserController implements IUserController {
     @DeleteMapping(value = "/")
     public void deleteAll(@RequestHeader HttpHeaders httpHeaders,
                           HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-            log.info("UserController -> deleteAll -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("UserController -> deleteAll -> Remote IP -> " + request.getRemoteAddr());
         userModel.deleteAll();
     }
 
@@ -235,10 +205,6 @@ public class UserController implements IUserController {
     @PostMapping(value = "/addPage") //TODO: probably delete, duplicated with put
     public void setDataFromForm(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
 			@RequestBody UserDTO data) {
-        httpHeaders.forEach((key, value) -> {
-            log.info("UserController -> setDataFromForm -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("UserController -> setDataFromForm -> Remote IP -> " + request.getRemoteAddr());
         UserEntity userEntity = converter.entityFromDTO(data);
         userModel.add(userEntity);
     }
@@ -248,10 +214,6 @@ public class UserController implements IUserController {
     @PutMapping(value = "/addPage") //TODO: probably delete, duplicated with put
     public void setDataFromFormDetail(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
 			@RequestBody UserDTO data, @RequestParam(name = "username") String userName) {
-        httpHeaders.forEach((key, value) -> {
-            log.info("UserController -> setDataFromFormDetail -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("UserController -> setDataFromFormDetail -> Remote IP -> " + request.getRemoteAddr());
         UserEntity userEntity = userModel.getByUserName(userName);
         userEntity.setGender(genderModel.getByName(data.getGender()));
         userEntity.setMaritalStatus(maritalStatusModel.getByName(data.getMaritalStatus()));
@@ -266,10 +228,6 @@ public class UserController implements IUserController {
 	@ResponseBody
 	public List<UserDTO> findAllByWebQuerydsl(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
 			@QuerydslPredicate(root = UserEntity.class) Predicate predicate) {
-        httpHeaders.forEach((key, value) -> {
-            log.info("UserController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("UserController -> get -> Remote IP -> " + request.getRemoteAddr());
         return converter.DTOListFromEntities(userModel.getAll(predicate));
     }
 

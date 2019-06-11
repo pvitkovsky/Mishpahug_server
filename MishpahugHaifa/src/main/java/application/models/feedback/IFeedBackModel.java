@@ -1,13 +1,12 @@
 package application.models.feedback;
 
 
-import java.util.List;
-import java.util.Map;
-
-import application.entities.EventEntity;
 import application.entities.SubscriptionEntity;
 import application.entities.UserEntity;
 import application.entities.values.FeedBackValue;
+
+import java.util.List;
+import java.util.Map;
 
 public interface IFeedBackModel {
     public Map<Integer, FeedBackValue> getAllByEvent(Integer eventId);

@@ -1,18 +1,16 @@
 package application.repositories;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
+import application.entities.CityEntity;
+import application.entities.QCityEntity;
+import com.querydsl.core.types.dsl.StringPath;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
 
-import com.querydsl.core.types.dsl.StringPath;
-
-import application.entities.CityEntity;
-import application.entities.QCityEntity;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public interface CityRepository extends JpaRepository<CityEntity, Integer>,
         QuerydslPredicateExecutor<CityEntity>, QuerydslBinderCustomizer<QCityEntity> {

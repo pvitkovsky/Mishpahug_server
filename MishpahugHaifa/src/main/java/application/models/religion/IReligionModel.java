@@ -1,8 +1,8 @@
 package application.models.religion;
 
-import java.util.List;
-
 import application.entities.ReligionEntity;
+
+import java.util.List;
 
 public interface IReligionModel {
     public ReligionEntity getById(Integer id);

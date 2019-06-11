@@ -1,8 +1,8 @@
 package application.models.marriagestatus;
 
-import java.util.List;
-
 import application.entities.MaritalStatusEntity;
+
+import java.util.List;
 
 public interface IMaritalStatusModel {
     public MaritalStatusEntity getByName(String name);

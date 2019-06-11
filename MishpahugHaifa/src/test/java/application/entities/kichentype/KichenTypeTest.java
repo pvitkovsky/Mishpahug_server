@@ -1,10 +1,7 @@
 package application.entities.kichentype;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.util.Random;
-
+import application.entities.KitchenTypeEntity;
+import application.repositories.KichenTypeRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,9 +11,10 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import application.entities.CountryEntity;
-import application.entities.KitchenTypeEntity;
-import application.repositories.KichenTypeRepository;
+import java.util.Random;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest

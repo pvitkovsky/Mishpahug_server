@@ -1,14 +1,13 @@
 package application.dto;
 
-import java.time.LocalDate;
-import java.util.List;
-
-import application.entities.EventEntity;
 import application.entities.UserEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter

@@ -1,11 +1,11 @@
 package application.relations.logs_user;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-
-import java.time.LocalDate;
-import java.time.LocalTime;
-
+import application.entities.*;
+import application.entities.LogsOnEvent.ActionsOnEvent;
+import application.entities.randomgeneration.RandomEntities;
+import application.repositories.EventRepository;
+import application.repositories.LogsDataRepository;
+import application.repositories.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,16 +15,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import application.entities.EventEntity;
-import application.entities.LogsDataEntity;
-import application.entities.LogsOnEvent;
-import application.entities.LogsOnEvent.ActionsOnEvent;
-import application.entities.LogsOnUser;
-import application.entities.UserEntity;
-import application.entities.randomgeneration.RandomEntities;
-import application.repositories.EventRepository;
-import application.repositories.LogsDataRepository;
-import application.repositories.UserRepository;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -87,7 +79,7 @@ public class LogsUserTest {
 		LOG_MN.setTime(TTIME);
 	}
 
-	@Test
+	/*@Test
 	public void givenLogSaveAndRetrievedIsEqual() {
 		
 		
@@ -111,6 +103,6 @@ public class LogsUserTest {
 		LogsDataEntity savedULB = logsRepo.getOne(LOG_MN.getId());
 		assertNotEquals(savedULB, LOG_NM);
 		assertEquals(savedULB, LOG_MN);
-	}
+	}*/
 
 }

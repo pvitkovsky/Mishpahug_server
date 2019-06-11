@@ -1,8 +1,8 @@
 package application.models.gender;
 
-import java.util.List;
-
 import application.entities.GenderEntity;
+
+import java.util.List;
 
 public interface IGenderModel {
     public GenderEntity getByName(String name);

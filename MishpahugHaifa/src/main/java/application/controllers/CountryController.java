@@ -1,20 +1,16 @@
 package application.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import application.controllers.interfaces.ICountryController;
+import application.entities.CountryEntity;
+import application.models.country.ICountryModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
-import application.entities.CountryEntity;
-import application.models.country.ICountryModel;
-import lombok.extern.slf4j.Slf4j;
-
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
-@Slf4j
 @RestController
 @RequestMapping(value = "/country")
 public class CountryController implements ICountryController {
@@ -23,26 +19,20 @@ public class CountryController implements ICountryController {
 
     @Override
     @PostMapping(value = "/")
-    public void post(@RequestBody CountryEntity data,
+    public void post(
                      @RequestHeader HttpHeaders httpHeaders,
-                     HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-            log.info("CountryController -> post -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("CountryController -> post -> Remote IP -> " + request.getRemoteAddr());
+                     HttpServletRequest request, @RequestBody CountryEntity data){
         countryModel.addCountry(data);
     }
 
     @Override
     @PutMapping(value = "/")
-    public void put(@RequestParam(name = "id") Integer id,
-                    @RequestParam(name = "name") String name,
+    public void put(
                     @RequestHeader HttpHeaders httpHeaders,
-                    HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-            log.info("CountryController -> put{"+ id +"} -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("CountryController -> put{" + id + "} -> Remote IP -> " + request.getRemoteAddr());
+                    HttpServletRequest request, @RequestParam(name = "id") Integer id,
+                    @RequestParam(name = "name") String name){
+        
+        
         countryModel.updateName(id, name);
     }
 
@@ -50,22 +40,18 @@ public class CountryController implements ICountryController {
     @DeleteMapping(value = "/")
     public void delete(@RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-            log.info("CountryController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("CountryController -> delete -> Remote IP -> " + request.getRemoteAddr());
+        
+        
         countryModel.deleteAll();
     }
 
     @Override
     @DeleteMapping(value = "/{name}")
-    public void delete(@PathVariable(name = "name") String name,
+    public void delete(
                        @RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-            log.info("CountryController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("CountryController -> delete -> Remote IP -> " + request.getRemoteAddr());
+                       HttpServletRequest request, @PathVariable(name = "name") String name){
+        
+        
         countryModel.deleteByName(name);
     }
 
@@ -73,10 +59,8 @@ public class CountryController implements ICountryController {
     @GetMapping(value = "/")
     public List<String> get(@RequestHeader HttpHeaders httpHeaders,
                             HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-            log.info("CountryController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("CountryController -> get -> Remote IP -> " + request.getRemoteAddr());
+        
+        
         List<String> res = new ArrayList<>();
         List<CountryEntity> countryEntityList = countryModel.getAll();
         countryEntityList.forEach(item->res.add(item.getName()));
@@ -85,13 +69,11 @@ public class CountryController implements ICountryController {
 
     @Override
     @GetMapping(value = "/{id}")
-    public String get(@PathVariable(name = "id") Integer id,
+    public String get(
                       @RequestHeader HttpHeaders httpHeaders,
-                      HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-            log.info("CountryController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("CountryController -> get{" + id + "} -> Remote IP -> " + request.getRemoteAddr());
+                      HttpServletRequest request, @PathVariable(name = "id") Integer id){
+        
+        
         return countryModel.getById(id).getName();
     }
 

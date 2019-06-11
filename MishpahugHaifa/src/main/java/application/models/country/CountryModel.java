@@ -1,15 +1,12 @@
 package application.models.country;
 
-import java.util.List;
-
-import javax.transaction.Transactional;
-
-import application.exceptions.NotFoundEntityException;
+import application.entities.CountryEntity;
+import application.repositories.CountryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import application.entities.CountryEntity;
-import application.repositories.CountryRepository;
+import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -19,7 +16,6 @@ public class CountryModel implements ICountryModel {
 
     @Override
     public CountryEntity getById(Integer id) {
-        if (!countryRepository.existsById(id)) throw new NotFoundEntityException("");
         return countryRepository.getOne(id);
     }
 
@@ -40,7 +36,6 @@ public class CountryModel implements ICountryModel {
 
     @Override
     public CountryEntity updateName(Integer id, String name) {
-        if (!countryRepository.existsById(id)) throw new NotFoundEntityException("");
         CountryEntity countryEntity = countryRepository.getOne(id);
         countryEntity.setName(name);
         return countryRepository.save(countryEntity);

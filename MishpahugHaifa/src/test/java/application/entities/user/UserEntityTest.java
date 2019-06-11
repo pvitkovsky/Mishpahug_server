@@ -1,16 +1,9 @@
 package application.entities.user;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import javax.persistence.EntityNotFoundException;
-import javax.validation.ConstraintViolationException;
-
+import application.entities.AddressEntity;
+import application.entities.UserEntity;
+import application.repositories.AddressRepository;
+import application.repositories.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,10 +15,14 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import application.entities.AddressEntity;
-import application.entities.UserEntity;
-import application.repositories.AddressRepository;
-import application.repositories.UserRepository;
+import javax.persistence.EntityNotFoundException;
+import javax.validation.ConstraintViolationException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import static org.junit.Assert.assertEquals;
 
 
 @RunWith(SpringRunner.class)

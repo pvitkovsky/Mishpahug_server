@@ -1,11 +1,8 @@
 package application.entities.religion;
 
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-
-import java.util.Random;
-
+import application.entities.ReligionEntity;
+import application.repositories.ReligionRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,8 +12,10 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import application.entities.ReligionEntity;
-import application.repositories.ReligionRepository;
+import java.util.Random;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest

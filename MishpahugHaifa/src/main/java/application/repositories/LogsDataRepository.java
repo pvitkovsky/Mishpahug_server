@@ -1,20 +1,18 @@
 package application.repositories;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
+import application.entities.LogsDataEntity;
+import application.entities.QLogsDataEntity;
+import com.querydsl.core.types.dsl.StringPath;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
 
-import com.querydsl.core.types.dsl.StringPath;
-
-import application.entities.LogsDataEntity;
-import application.entities.QLogsDataEntity;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public interface LogsDataRepository extends JpaRepository<LogsDataEntity, Long>,
         QuerydslPredicateExecutor<LogsDataEntity>, QuerydslBinderCustomizer<QLogsDataEntity> {

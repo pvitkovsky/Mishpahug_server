@@ -1,12 +1,10 @@
 package application.integration;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
+import application.dto.LoginDTO;
+import application.dto.LoginResponse;
+import application.dto.UserDTO;
+import application.entities.UserEntity;
+import application.repositories.UserRepository;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -25,11 +23,12 @@ import org.springframework.http.client.HttpComponentsAsyncClientHttpRequestFacto
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
-import application.dto.LoginDTO;
-import application.dto.LoginResponse;
-import application.dto.UserDTO;
-import application.entities.UserEntity;
-import application.repositories.UserRepository;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -49,7 +48,6 @@ public class UserWebRequestTest {
     @Before
     public void buildEntities() { //TODO: save token manually instead of doing login;
     	
-    	System.out.println("Alyssa " + ALYSSA);
     	ALYSSA.setEncrytedPassword(DigestUtils.md5Hex(ALYSSA.getUserName()));
     	userRepo.save(ALYSSA);
     	userRepo.flush();
@@ -83,7 +81,20 @@ public class UserWebRequestTest {
     }
     
     @Test
-    public void updateAllShouldReturnUpdatedUser() throws Exception {
+    public void getByIdShouldReturnUser() throws Exception {
+       
+    	
+    	UserEntity AlyssaHTTP = this.restTemplate.exchange("http://localhost:" + port + "/user/" + ALYSSA.getId(), HttpMethod.GET,
+                new HttpEntity<String>(headers),
+                new ParameterizedTypeReference<UserEntity>() {
+                }).getBody();
+        assertEquals(AlyssaHTTP, ALYSSA);
+        
+
+    }
+    
+    @Test
+    public void updateAllShouldReturnUpdatedUser() throws Exception { //TODO: fix me pls
        
     	String updatedFirstName = "Alyssa_Updated";
     	Map<String,String> updateMap = new HashMap<>();
@@ -95,14 +106,12 @@ public class UserWebRequestTest {
                 }).getBody();
         assertEquals(updated.getFirstName(),updatedFirstName);
         
-        //assertEquals(ALYSSA.getFirstName(), updatedFirstName);
-        //TODO: test against real database record please;
     }
     
 
     @Test
     public void testFiltring() { //TODO: stable data w/o randoms, asserts
-        System.out.println("Between dates filter >>>");
+        //System.out.println("Between dates filter >>>");
         Collection<UserEntity> users = this.restTemplate.exchange("http://localhost:" + port + "/user/?dateOfBirth=1980-01-01&dateOfBirth=2000-01-01", HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<Collection<UserEntity>>() {

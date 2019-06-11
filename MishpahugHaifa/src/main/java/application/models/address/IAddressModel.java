@@ -1,11 +1,10 @@
 package application.models.address;
 
-import java.util.HashMap;
-import java.util.List;
-
+import application.entities.AddressEntity;
 import com.querydsl.core.types.Predicate;
 
-import application.entities.AddressEntity;
+import java.util.HashMap;
+import java.util.List;
 
 public interface IAddressModel {
     public AddressEntity getById(Integer id);

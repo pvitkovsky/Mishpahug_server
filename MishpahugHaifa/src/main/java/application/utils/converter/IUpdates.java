@@ -1,9 +1,9 @@
 package application.utils.converter;
 
-import java.util.HashMap;
-
 import application.entities.EventEntity;
 import application.entities.UserEntity;
+
+import java.util.HashMap;
 
 public interface IUpdates {
 

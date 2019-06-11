@@ -1,20 +1,16 @@
 package application.controllers;
 
-import java.util.List;
-
 import application.controllers.interfaces.IMaritalStatusController;
+import application.entities.MaritalStatusEntity;
+import application.models.marriagestatus.IMaritalStatusModel;
+import application.utils.converter.IConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
-import application.entities.MaritalStatusEntity;
-import application.models.marriagestatus.IMaritalStatusModel;
-import application.utils.converter.IConverter;
-import lombok.extern.slf4j.Slf4j;
-
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
-@Slf4j
 @RestController
 @RequestMapping(value = "/meritalstatus")
 public class MaritalStatusController implements IMaritalStatusController {
@@ -26,48 +22,31 @@ public class MaritalStatusController implements IMaritalStatusController {
     @GetMapping(value = "/")
     public List<String> get(@RequestHeader HttpHeaders httpHeaders,
                             HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-        log.info("MaritalStatusController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("MaritalStatusController -> get -> Remote IP -> " + request.getRemoteAddr());
         return IConverter.PropertyToStringList(maritalStatusModel.getAll());
     }
 
     @Override
     @GetMapping(value = "/{id}")
-    public MaritalStatusEntity get(@PathVariable(name = "id") Integer id,
+    public MaritalStatusEntity get(
                                    @RequestHeader HttpHeaders httpHeaders,
-                                   HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-        log.info("MaritalStatusController -> get -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("MaritalStatusController -> get -> Remote IP -> " + request.getRemoteAddr());
-        System.out.println(maritalStatusModel.getById(id));
+                                   HttpServletRequest request, @PathVariable(name = "id") Integer id){
         return maritalStatusModel.getById(id);
     }
 
     @Override
     @PostMapping(value = "/")
-    public void post(@RequestBody MaritalStatusEntity data,
+    public void post(
                      @RequestHeader HttpHeaders httpHeaders,
-                     HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-        log.info("MaritalStatusController -> post -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("MaritalStatusController -> post -> Remote IP -> " + request.getRemoteAddr());
+                     HttpServletRequest request, @RequestBody MaritalStatusEntity data){
         maritalStatusModel.add(data);
     }
 
     @Override
     @PutMapping(value = "/")
-    public void put(@RequestParam(name = "id") Integer id,
-                    @RequestParam(name = "name") String name,
+    public void put(
                     @RequestHeader HttpHeaders httpHeaders,
-                    HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-        log.info("MaritalStatusController -> put -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("MaritalStatusController -> put -> Remote IP -> " + request.getRemoteAddr());
+                    HttpServletRequest request, @RequestParam(name = "id") Integer id,
+                    @RequestParam(name = "name") String name){
         maritalStatusModel.updateName(id, name);
     }
 
@@ -75,22 +54,14 @@ public class MaritalStatusController implements IMaritalStatusController {
     @DeleteMapping(value = "/")
     public void delete(@RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-        log.info("MaritalStatusController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("MaritalStatusController -> delete -> Remote IP -> " + request.getRemoteAddr());
         maritalStatusModel.deleteAll();
     }
 
     @Override
     @DeleteMapping(value = "/{name}")
-    public void delete(@PathVariable(name = "name") String name,
+    public void delete(
                        @RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request){
-        httpHeaders.forEach((key, value) -> {
-        log.info("MaritalStatusController -> delete -> headers -> " + String.format("Header '%s' = %s", key, value));
-        });
-        log.info("MaritalStatusController -> delete -> Remote IP -> " + request.getRemoteAddr());
+                       HttpServletRequest request, @PathVariable(name = "name") String name){
         maritalStatusModel.deleteByName(name);
     }
 }

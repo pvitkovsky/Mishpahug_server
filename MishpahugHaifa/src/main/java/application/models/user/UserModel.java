@@ -1,22 +1,15 @@
 package application.models.user;
 
-import java.util.HashMap;
-import java.util.List;
-
-import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
-
-import application.exceptions.EntityExistsException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
-
-import com.querydsl.core.types.Predicate;
-
 import application.entities.UserEntity;
-import application.exceptions.NotFoundEntityException;
 import application.repositories.UserRepository;
 import application.utils.converter.IUpdates;
+import com.querydsl.core.types.Predicate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.HashMap;
+import java.util.List;
 
 @Service
 @Transactional
@@ -40,29 +33,26 @@ public class UserModel implements IUserModel {
 
     @Override
     public UserEntity getById(Integer userId) {
-        if (!userRepository.existsById(userId)) throw new NotFoundEntityException("");
         return userRepository.getOne(userId);
     }
 
     @Override
     public UserEntity getByUserName(String name) {
-        if (!userRepository.existsByUserName(name)) throw new NotFoundEntityException("");
         return userRepository.findByUserName(name);
     }
 
     @Override
     public UserEntity add(UserEntity data) {
-        if (userRepository.existsByUserNameAndEMail(data.getUserName(), data.getEMail())) throw new EntityExistsException("");
-        return userRepository.save(data);
+         return userRepository.save(data);
     }
 
     @Override
     public UserEntity update(Integer userId,
                              HashMap<String, String> data){
-        if (!userRepository.existsById(userId)) throw new NotFoundEntityException("");
         UserEntity user = userRepository.getOne(userId);
         updates.updateUser(user, data);
-        if (userRepository.existsByUserNameAndEMail(user.getUserName(), user.getEMail())) throw new EntityExistsException("");
+        // if (userRepository.existsByUserNameAndEMail(user.getUserName(), user.getEMail())) throw new EntityExistsException(""); 
+        // we're trying to update existing user. throwing an exception if it exists will stop our job. 
         userRepository.save(user);
         return user;
     }
@@ -72,9 +62,8 @@ public class UserModel implements IUserModel {
      */
     @Override
     public UserEntity deleteByID(Integer userId) {
-        if (!userRepository.existsById(userId)) throw new NotFoundEntityException("");
         UserEntity usr = userRepository.getOne(userId);
-            usr.putIntoDeletionQueue();
+        usr.putIntoDeletionQueue();
         userRepository.deleteById(userId);
         return usr;
     }
@@ -97,7 +86,6 @@ public class UserModel implements IUserModel {
      */
     @Override
     public UserEntity activateByID(Integer userId) {
-        if (!userRepository.existsById(userId)) throw new NotFoundEntityException("");
         UserEntity usr = userRepository.getOne(userId);
         usr.activate();
         return usr;
@@ -108,7 +96,6 @@ public class UserModel implements IUserModel {
      */
     @Override
     public UserEntity deactivateByID(Integer userId) {
-        if (!userRepository.existsById(userId)) throw new NotFoundEntityException("");
         UserEntity usr = userRepository.getOne(userId);
         usr.deactivate();
         return usr;
@@ -119,7 +106,6 @@ public class UserModel implements IUserModel {
      */
     @Override
     public UserEntity prepareForDeletionByID(Integer userId) {
-        if (!userRepository.existsById(userId)) throw new NotFoundEntityException("");
         UserEntity usr = userRepository.getOne(userId);
         usr.putIntoDeletionQueue();
         return null;

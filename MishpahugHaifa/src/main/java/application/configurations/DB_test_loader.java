@@ -1,6 +1,5 @@
 package application.configurations;
 
-import application.documentstypes.JPGDocumentFormat;
 import application.entities.*;
 import application.entities.LogsOnEvent.ActionsOnEvent;
 import application.entities.template.TemplateEntity;
@@ -8,7 +7,6 @@ import application.entities.template.XYTextValue;
 import application.entities.values.FeedBackValue;
 import application.repositories.*;
 import application.repositories.template.TemplateRepository;
-import application.utils.EMailSender;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -196,7 +194,7 @@ public class DB_test_loader implements CommandLineRunner {
 					feedBackValue.setRating(gen.nextInt(10));
 					feedBackValue.setDateTime(LocalDateTime.of(2000 + gen.nextInt(20),
 															 1 + gen.nextInt(11),
-							                            1 + gen.nextInt(29),
+							                            1 + gen.nextInt(27), // MAX 28 for February
 																1 + gen.nextInt(23),
 																1 + gen.nextInt(58)));
 					subscription.setFeedback(feedBackValue);

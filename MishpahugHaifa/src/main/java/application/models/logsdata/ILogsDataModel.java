@@ -1,10 +1,9 @@
 package application.models.logsdata;
 
-import java.util.List;
-
+import application.entities.LogsDataEntity;
 import com.querydsl.core.types.Predicate;
 
-import application.entities.LogsDataEntity;
+import java.util.List;
 
 public interface ILogsDataModel {
     public LogsDataEntity add(LogsDataEntity data);

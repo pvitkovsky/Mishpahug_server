@@ -1,14 +1,13 @@
 package application.models;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.HashSet;
-import java.util.Set;
-
+import application.entities.EventEntity;
+import application.entities.SubscriptionEntity;
+import application.entities.SubscriptionEntity.EventGuestId;
+import application.entities.UserEntity;
+import application.models.event.EventModel;
+import application.models.event.IEventModel;
+import application.repositories.*;
+import application.utils.converter.IUpdates;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,19 +19,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import application.entities.EventEntity;
-import application.entities.SubscriptionEntity;
-import application.entities.SubscriptionEntity.EventGuestId;
-import application.entities.UserEntity;
-import application.models.event.EventModel;
-import application.models.event.IEventModel;
-import application.repositories.EventRepository;
-import application.repositories.HolyDayRepository;
-import application.repositories.KichenTypeRepository;
-import application.repositories.ReligionRepository;
-import application.repositories.SubscriptionRepository;
-import application.repositories.UserRepository;
-import application.utils.converter.IUpdates;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.HashSet;
+import java.util.Set;
+
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")

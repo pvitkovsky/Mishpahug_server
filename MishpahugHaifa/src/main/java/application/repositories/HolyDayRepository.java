@@ -1,8 +1,7 @@
 package application.repositories;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import application.entities.HoliDayEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface HolyDayRepository extends JpaRepository<HoliDayEntity, Integer>/*, HoliDayRepositoryCustom*/ {
     public HoliDayEntity getByName(String name);

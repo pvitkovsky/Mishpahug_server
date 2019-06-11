@@ -1,14 +1,12 @@
 package application.models.marriagestatus;
 
-import java.util.List;
-
-import javax.transaction.Transactional;
-
+import application.entities.MaritalStatusEntity;
+import application.repositories.MaritalStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import application.entities.MaritalStatusEntity;
-import application.repositories.MaritalStatusRepository;
+import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional

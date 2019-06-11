@@ -1,8 +1,5 @@
 package application.configurations;
 
-import javax.persistence.EntityNotFoundException;
-import javax.security.auth.login.FailedLoginException;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +7,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.util.WebUtils;
+
+import javax.persistence.EntityNotFoundException;
+import javax.security.auth.login.FailedLoginException;
 
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler {

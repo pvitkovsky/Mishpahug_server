@@ -1,19 +1,15 @@
 package application.controllers;
 
-import java.util.List;
-
 import application.controllers.interfaces.IGenderController;
+import application.entities.GenderEntity;
+import application.models.gender.IGenderModel;
+import application.utils.converter.IConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
-import application.entities.GenderEntity;
-import application.models.gender.IGenderModel;
-import application.utils.converter.IConverter;
-import lombok.extern.slf4j.Slf4j;
-
-import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/gender")

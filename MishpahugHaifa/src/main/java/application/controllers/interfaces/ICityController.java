@@ -1,13 +1,10 @@
 package application.controllers.interfaces;
 
-import javax.servlet.http.HttpServletRequest;
-
+import application.entities.CityEntity;
+import com.querydsl.core.types.Predicate;
 import org.springframework.http.HttpHeaders;
 
-import com.querydsl.core.types.Predicate;
-
-import application.entities.CityEntity;
-
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface ICityController {

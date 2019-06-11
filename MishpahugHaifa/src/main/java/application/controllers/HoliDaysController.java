@@ -1,18 +1,15 @@
 package application.controllers;
 
-import java.util.List;
-
 import application.controllers.interfaces.IHoliDaysController;
+import application.dto.forholiday.HolidayDTO;
+import application.entities.HoliDayEntity;
+import application.models.holyday.IHolyDayModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
-import application.dto.forholiday.HolidayDTO;
-import application.entities.HoliDayEntity;
-import application.models.holyday.IHolyDayModel;
-import lombok.extern.slf4j.Slf4j;
-
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/holiday")

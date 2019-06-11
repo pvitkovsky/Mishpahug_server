@@ -1,6 +1,5 @@
 package application.configurations;
 
-import application.documentstypes.JPGDocumentFormat;
 import application.entities.*;
 import application.entities.LogsOnEvent.ActionsOnEvent;
 import application.entities.template.TemplateEntity;
@@ -8,7 +7,6 @@ import application.entities.template.XYTextValue;
 import application.entities.values.FeedBackValue;
 import application.repositories.*;
 import application.repositories.template.TemplateRepository;
-import application.utils.EMailSender;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;

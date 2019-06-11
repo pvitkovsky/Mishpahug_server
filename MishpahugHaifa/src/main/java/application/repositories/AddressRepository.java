@@ -1,18 +1,16 @@
 package application.repositories;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
+import application.entities.AddressEntity;
+import application.entities.QAddressEntity;
+import com.querydsl.core.types.dsl.StringPath;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
 
-import com.querydsl.core.types.dsl.StringPath;
-
-import application.entities.AddressEntity;
-import application.entities.QAddressEntity;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public interface AddressRepository extends JpaRepository<AddressEntity, Integer>,
         QuerydslPredicateExecutor<AddressEntity>,

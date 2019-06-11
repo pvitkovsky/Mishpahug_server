@@ -1,28 +1,20 @@
 package application.models.event;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import javax.transaction.Transactional;
-
-import application.utils.converter.IUpdates;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.querydsl.core.types.Predicate;
-
 import application.entities.EventEntity;
 import application.entities.SubscriptionEntity;
 import application.entities.SubscriptionEntity.EventGuestId;
 import application.entities.UserEntity;
-import application.repositories.EventRepository;
-import application.repositories.HolyDayRepository;
-import application.repositories.KichenTypeRepository;
-import application.repositories.ReligionRepository;
-import application.repositories.SubscriptionRepository;
-import application.repositories.UserRepository;
+import application.repositories.*;
+import application.utils.converter.IUpdates;
+import com.querydsl.core.types.Predicate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional

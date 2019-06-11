@@ -1,18 +1,15 @@
 package application.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import application.controllers.interfaces.ICountryController;
+import application.entities.CountryEntity;
+import application.models.country.ICountryModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
-import application.entities.CountryEntity;
-import application.models.country.ICountryModel;
-import lombok.extern.slf4j.Slf4j;
-
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/country")

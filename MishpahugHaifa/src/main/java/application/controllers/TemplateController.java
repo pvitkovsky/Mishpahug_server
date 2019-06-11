@@ -3,7 +3,6 @@ package application.controllers;
 import application.controllers.interfaces.ITemplateController;
 import application.entities.template.TemplateEntity;
 import application.models.template.ITemplateModel;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;

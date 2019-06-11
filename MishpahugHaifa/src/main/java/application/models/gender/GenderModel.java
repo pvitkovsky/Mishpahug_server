@@ -1,14 +1,12 @@
 package application.models.gender;
 
-import java.util.List;
-
-import javax.transaction.Transactional;
-
+import application.entities.GenderEntity;
+import application.repositories.GenderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import application.entities.GenderEntity;
-import application.repositories.GenderRepository;
+import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional

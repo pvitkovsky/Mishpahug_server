@@ -1,13 +1,11 @@
 package application.controllers;
 
 import application.controllers.interfaces.IAddressController;
+import application.entities.AddressEntity;
+import application.models.address.IAddressModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
-
-import application.entities.AddressEntity;
-import application.models.address.IAddressModel;
-import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;
 

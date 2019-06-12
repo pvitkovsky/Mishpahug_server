@@ -24,7 +24,7 @@
 			<fileNamePattern>logs/archived/%d{yyyy/MM/dd/HHmmss,SSS}_%i.log
 			</fileNamePattern>
 			<!-- each archived file, size max 32MB -->
-			<maxFileSize>2MB</maxFileSize>
+			<maxFileSize>204MB</maxFileSize>
 			<!-- total size of all archive files, if total size > 20GB, it will delete 
 				old archived file -->
 			<totalSizeCap>8GB</totalSizeCap>

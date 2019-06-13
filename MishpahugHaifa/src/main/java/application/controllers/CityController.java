@@ -2,7 +2,7 @@ package application.controllers;
 
 import application.controllers.interfaces.ICityController;
 import application.entities.properties.CityEntity;
-import application.models.city.ICityModel;
+import application.models.properties.city.ICityModel;
 import com.querydsl.core.types.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;

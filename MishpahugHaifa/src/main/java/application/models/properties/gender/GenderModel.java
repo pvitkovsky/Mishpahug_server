@@ -1,4 +1,4 @@
-package application.models.gender;
+package application.models.properties.gender;
 
 import application.entities.properties.GenderEntity;
 import application.repositories.GenderRepository;

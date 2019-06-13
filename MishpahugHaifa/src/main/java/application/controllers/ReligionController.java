@@ -2,7 +2,7 @@ package application.controllers;
 
 import application.controllers.interfaces.IReligionController;
 import application.entities.properties.ReligionEntity;
-import application.models.religion.IReligionModel;
+import application.models.properties.religion.IReligionModel;
 import application.utils.converter.IConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

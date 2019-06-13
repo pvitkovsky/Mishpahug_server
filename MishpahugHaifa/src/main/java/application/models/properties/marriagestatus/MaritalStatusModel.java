@@ -1,4 +1,4 @@
-package application.models.marriagestatus;
+package application.models.properties.marriagestatus;
 
 import application.entities.properties.MaritalStatusEntity;
 import application.repositories.MaritalStatusRepository;

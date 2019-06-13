@@ -92,7 +92,7 @@ public class EventController implements IEventController {
 	public EventDTO updateDataFromForm(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
 			@RequestBody HashMap<String, String> data, @PathVariable(value = "id") Integer id) {
 		data.forEach((key, value) -> {
-			log.info("EventController -> updateDataFromForm -> data -> " + String.format("data '%s' = %s", key, value));
+			log.warn("EventController -> updateDataFromForm -> data -> " + String.format("data '%s' = %s", key, value));
 		});
 		return new EventDTO(eventModel.update(id, data));
 	}

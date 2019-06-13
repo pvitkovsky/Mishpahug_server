@@ -1,4 +1,4 @@
-package application.integration;
+package application.integration.controllers;
 
 import application.dto.EventDTO;
 import application.dto.LoginDTO;
@@ -84,6 +84,21 @@ public class EventWebRequestTest {
 				HttpMethod.GET, null, new ParameterizedTypeReference<Collection<EventDTO>>() {
 				}).getBody();
 		// events_by_guest.forEach((data) -> System.out.println("event : " + data));
+		
+	}
+
+	@Test
+	public void testGuestListByEvent(){
+
+	}
+
+	@Test
+	public void testEventListByGuest(){
+
+	}
+
+	@Test
+	public void testEventListByOwner(){
 		
 	}
 

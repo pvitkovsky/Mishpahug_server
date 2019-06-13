@@ -1,6 +1,6 @@
 package application.entities.kichentype;
 
-import application.entities.KitchenTypeEntity;
+import application.entities.properties.KitchenTypeEntity;
 import application.repositories.KichenTypeRepository;
 import org.junit.Before;
 import org.junit.Test;

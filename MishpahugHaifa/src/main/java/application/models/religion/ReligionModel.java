@@ -1,6 +1,6 @@
 package application.models.religion;
 
-import application.entities.ReligionEntity;
+import application.entities.properties.ReligionEntity;
 import application.repositories.ReligionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

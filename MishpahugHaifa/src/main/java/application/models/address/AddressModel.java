@@ -1,7 +1,7 @@
 package application.models.address;
 
-import application.entities.AddressEntity;
-import application.entities.CityEntity;
+import application.entities.properties.AddressEntity;
+import application.entities.properties.CityEntity;
 import application.repositories.AddressRepository;
 import application.repositories.CityRepository;
 import com.querydsl.core.types.Predicate;

@@ -1,6 +1,6 @@
 package application.repositories;
 
-import application.entities.CountryEntity;
+import application.entities.properties.CountryEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CountryRepository extends JpaRepository<CountryEntity, Integer> {

@@ -1,7 +1,7 @@
 package application.controllers;
 
 import application.controllers.interfaces.IAddressController;
-import application.entities.AddressEntity;
+import application.entities.properties.AddressEntity;
 import application.models.address.IAddressModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

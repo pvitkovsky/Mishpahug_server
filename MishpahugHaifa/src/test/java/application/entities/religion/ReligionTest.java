@@ -1,7 +1,7 @@
 package application.entities.religion;
 
 
-import application.entities.ReligionEntity;
+import application.entities.properties.ReligionEntity;
 import application.repositories.ReligionRepository;
 import org.junit.Before;
 import org.junit.Test;

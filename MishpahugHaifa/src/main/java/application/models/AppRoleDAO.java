@@ -1,6 +1,6 @@
 package application.models;
 
-import application.entities.UserRoleEntity;
+import application.entities.security.UserRoleEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

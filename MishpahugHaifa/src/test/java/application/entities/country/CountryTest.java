@@ -1,6 +1,6 @@
 package application.entities.country;
 
-import application.entities.CountryEntity;
+import application.entities.properties.CountryEntity;
 import application.repositories.CountryRepository;
 import org.junit.Before;
 import org.junit.Test;

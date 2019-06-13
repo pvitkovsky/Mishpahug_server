@@ -1,6 +1,6 @@
 package application.models.religion;
 
-import application.entities.ReligionEntity;
+import application.entities.properties.ReligionEntity;
 
 import java.util.List;
 

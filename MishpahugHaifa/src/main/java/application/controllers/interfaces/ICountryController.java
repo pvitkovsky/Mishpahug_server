@@ -1,6 +1,6 @@
 package application.controllers.interfaces;
 
-import application.entities.CountryEntity;
+import application.entities.properties.CountryEntity;
 import org.springframework.http.HttpHeaders;
 
 import javax.servlet.http.HttpServletRequest;

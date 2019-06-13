@@ -1,6 +1,6 @@
 package application.models.country;
 
-import application.entities.CountryEntity;
+import application.entities.properties.CountryEntity;
 import application.repositories.CountryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

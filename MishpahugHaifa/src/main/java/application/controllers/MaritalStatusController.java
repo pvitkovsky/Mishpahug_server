@@ -1,7 +1,7 @@
 package application.controllers;
 
 import application.controllers.interfaces.IMaritalStatusController;
-import application.entities.MaritalStatusEntity;
+import application.entities.properties.MaritalStatusEntity;
 import application.models.marriagestatus.IMaritalStatusModel;
 import application.utils.converter.IConverter;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package application.controllers.interfaces;
 
-import application.entities.ReligionEntity;
+import application.entities.properties.ReligionEntity;
 import org.springframework.http.HttpHeaders;
 
 import javax.servlet.http.HttpServletRequest;

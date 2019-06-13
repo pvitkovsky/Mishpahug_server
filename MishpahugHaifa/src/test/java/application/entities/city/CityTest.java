@@ -1,7 +1,7 @@
 package application.entities.city;
 
-import application.entities.CityEntity;
-import application.entities.CountryEntity;
+import application.entities.properties.CityEntity;
+import application.entities.properties.CountryEntity;
 import application.repositories.CityRepository;
 import application.repositories.CountryRepository;
 import org.junit.After;

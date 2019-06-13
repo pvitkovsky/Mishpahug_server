@@ -1,6 +1,6 @@
 package application.controllers.interfaces;
 
-import application.entities.MaritalStatusEntity;
+import application.entities.properties.MaritalStatusEntity;
 import org.springframework.http.HttpHeaders;
 
 import javax.servlet.http.HttpServletRequest;

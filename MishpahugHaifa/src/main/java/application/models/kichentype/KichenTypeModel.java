@@ -1,6 +1,6 @@
 package application.models.kichentype;
 
-import application.entities.KitchenTypeEntity;
+import application.entities.properties.KitchenTypeEntity;
 import application.repositories.KichenTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

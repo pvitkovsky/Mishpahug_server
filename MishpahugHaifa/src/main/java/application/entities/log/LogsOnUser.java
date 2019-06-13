@@ -1,5 +1,6 @@
-package application.entities;
+package application.entities.log;
 
+import application.entities.UserEntity;
 import lombok.*;
 
 import javax.persistence.Column;

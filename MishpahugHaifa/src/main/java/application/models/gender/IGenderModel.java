@@ -1,6 +1,6 @@
 package application.models.gender;
 
-import application.entities.GenderEntity;
+import application.entities.properties.GenderEntity;
 
 import java.util.List;
 

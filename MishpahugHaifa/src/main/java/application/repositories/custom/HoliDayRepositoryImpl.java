@@ -1,6 +1,6 @@
 package application.repositories.custom;
 
-import application.entities.HoliDayEntity;
+import application.entities.properties.HoliDayEntity;
 
 import java.util.List;
 

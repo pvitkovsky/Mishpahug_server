@@ -1,7 +1,7 @@
 package application.controllers;
 
 import application.controllers.interfaces.ILogsDataController;
-import application.entities.LogsDataEntity;
+import application.entities.log.LogsDataEntity;
 import application.models.logsdata.ILogsDataModel;
 import com.querydsl.core.types.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;

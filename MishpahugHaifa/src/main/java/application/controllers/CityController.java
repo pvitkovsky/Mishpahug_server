@@ -1,7 +1,7 @@
 package application.controllers;
 
 import application.controllers.interfaces.ICityController;
-import application.entities.CityEntity;
+import application.entities.properties.CityEntity;
 import application.models.city.ICityModel;
 import com.querydsl.core.types.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;

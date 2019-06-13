@@ -1,6 +1,6 @@
 package application.models.address;
 
-import application.entities.AddressEntity;
+import application.entities.properties.AddressEntity;
 import com.querydsl.core.types.Predicate;
 
 import java.util.HashMap;

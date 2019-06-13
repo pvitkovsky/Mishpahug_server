@@ -1,6 +1,6 @@
 package application.models.gender;
 
-import application.entities.GenderEntity;
+import application.entities.properties.GenderEntity;
 import application.repositories.GenderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

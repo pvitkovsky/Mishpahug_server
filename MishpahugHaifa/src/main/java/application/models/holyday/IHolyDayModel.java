@@ -1,7 +1,7 @@
 package application.models.holyday;
 
 import application.dto.forholiday.HolidayDTO;
-import application.entities.HoliDayEntity;
+import application.entities.properties.HoliDayEntity;
 
 import java.util.List;
 

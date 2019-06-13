@@ -1,6 +1,6 @@
 package application.repositories;
 
-import application.entities.GenderEntity;
+import application.entities.properties.GenderEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface GenderRepository extends JpaRepository<GenderEntity, Integer> {

@@ -1,7 +1,9 @@
 package application.configurations;
 
 import application.entities.*;
-import application.entities.LogsOnEvent.ActionsOnEvent;
+import application.entities.log.LogsOnEvent;
+import application.entities.log.LogsOnEvent.ActionsOnEvent;
+import application.entities.properties.*;
 import application.entities.template.TemplateEntity;
 import application.entities.template.XYTextValue;
 import application.entities.values.FeedBackValue;

@@ -1,6 +1,6 @@
 package application.repositories;
 
-import application.entities.UserSession;
+import application.entities.security.UserSession;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserSessionRepository extends JpaRepository<UserSession, Integer> {

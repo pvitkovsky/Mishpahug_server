@@ -1,8 +1,8 @@
 package application.utils.converter;
 
 import application.entities.EventEntity;
-import application.entities.GenderEntity;
-import application.entities.KitchenTypeEntity;
+import application.entities.properties.GenderEntity;
+import application.entities.properties.KitchenTypeEntity;
 import application.entities.UserEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

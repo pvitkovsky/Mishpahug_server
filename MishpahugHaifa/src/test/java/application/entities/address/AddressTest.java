@@ -1,6 +1,6 @@
 package application.entities.address;
 
-import application.entities.AddressEntity;
+import application.entities.properties.AddressEntity;
 import application.repositories.*;
 import org.junit.Before;
 import org.junit.Test;

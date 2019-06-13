@@ -1,5 +1,6 @@
 package application.entities;
 
+import application.entities.properties.*;
 import application.entities.values.PictureValue;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

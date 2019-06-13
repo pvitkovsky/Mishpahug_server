@@ -1,6 +1,9 @@
 package application.entities;
 
 import application.dto.EventDTO;
+import application.entities.properties.AddressEntity;
+import application.entities.properties.HoliDayEntity;
+import application.entities.properties.KitchenTypeEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;

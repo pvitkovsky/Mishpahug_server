@@ -1,6 +1,6 @@
 package application.controllers.interfaces;
 
-import application.entities.GenderEntity;
+import application.entities.properties.GenderEntity;
 import org.springframework.http.HttpHeaders;
 
 import javax.servlet.http.HttpServletRequest;

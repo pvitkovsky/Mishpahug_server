@@ -1,6 +1,6 @@
 package application.repositories;
 
-import application.entities.LogsDataEntity;
+import application.entities.log.LogsDataEntity;
 import application.entities.QLogsDataEntity;
 import com.querydsl.core.types.dsl.StringPath;
 import org.springframework.data.jpa.repository.JpaRepository;

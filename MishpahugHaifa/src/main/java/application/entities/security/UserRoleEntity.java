@@ -1,5 +1,6 @@
-package application.entities;
+package application.entities.security;
 
+import application.entities.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

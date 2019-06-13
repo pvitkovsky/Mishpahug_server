@@ -1,6 +1,6 @@
 package application.entities.user;
 
-import application.entities.AddressEntity;
+import application.entities.properties.AddressEntity;
 import application.entities.UserEntity;
 import application.repositories.AddressRepository;
 import application.repositories.UserRepository;

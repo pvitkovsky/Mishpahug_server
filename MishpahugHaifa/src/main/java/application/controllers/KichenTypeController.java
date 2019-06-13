@@ -1,7 +1,7 @@
 package application.controllers;
 
 import application.controllers.interfaces.IKichenTypeController;
-import application.entities.KitchenTypeEntity;
+import application.entities.properties.KitchenTypeEntity;
 import application.models.kichentype.IKichenTypeModel;
 import application.utils.converter.IConverter;
 import org.springframework.beans.factory.annotation.Autowired;

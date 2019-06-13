@@ -1,6 +1,6 @@
 package application.controllers.interfaces;
 
-import application.entities.LogsDataEntity;
+import application.entities.log.LogsDataEntity;
 import com.querydsl.core.types.Predicate;
 import org.springframework.http.HttpHeaders;
 

@@ -2,7 +2,7 @@ package application.controllers;
 
 import application.controllers.interfaces.IHoliDaysController;
 import application.dto.forholiday.HolidayDTO;
-import application.entities.HoliDayEntity;
+import application.entities.properties.HoliDayEntity;
 import application.models.holyday.IHolyDayModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

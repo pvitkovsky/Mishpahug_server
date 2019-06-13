@@ -1,6 +1,6 @@
 package application.repositories;
 
-import application.entities.CityEntity;
+import application.entities.properties.CityEntity;
 import application.entities.QCityEntity;
 import com.querydsl.core.types.dsl.StringPath;
 import org.springframework.data.jpa.repository.JpaRepository;

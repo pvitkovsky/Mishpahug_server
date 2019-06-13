@@ -1,4 +1,4 @@
- package application.entities;
+ package application.entities.properties;
 
  import application.entities.interfaces.NamedProperty;
  import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

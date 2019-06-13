@@ -1,13 +1,14 @@
 package application.relations.logs_user;
 
 import application.entities.*;
-import application.entities.LogsOnEvent.ActionsOnEvent;
+import application.entities.log.LogsOnEvent;
+import application.entities.log.LogsOnEvent.ActionsOnEvent;
+import application.entities.log.LogsOnUser;
 import application.entities.randomgeneration.RandomEntities;
 import application.repositories.EventRepository;
 import application.repositories.LogsDataRepository;
 import application.repositories.UserRepository;
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

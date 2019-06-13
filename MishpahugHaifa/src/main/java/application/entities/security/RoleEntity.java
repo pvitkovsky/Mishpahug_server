@@ -1,4 +1,4 @@
-package application.entities;
+package application.entities.security;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

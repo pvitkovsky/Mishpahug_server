@@ -1,7 +1,7 @@
 package application.controllers;
 
 import application.controllers.interfaces.IGenderController;
-import application.entities.GenderEntity;
+import application.entities.properties.GenderEntity;
 import application.models.gender.IGenderModel;
 import application.utils.converter.IConverter;
 import org.springframework.beans.factory.annotation.Autowired;

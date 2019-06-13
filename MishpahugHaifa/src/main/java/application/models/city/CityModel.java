@@ -1,7 +1,7 @@
 package application.models.city;
 
-import application.entities.CityEntity;
-import application.entities.CountryEntity;
+import application.entities.properties.CityEntity;
+import application.entities.properties.CountryEntity;
 import application.repositories.CityRepository;
 import com.querydsl.core.types.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;

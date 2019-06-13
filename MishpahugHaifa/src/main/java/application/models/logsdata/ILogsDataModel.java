@@ -1,6 +1,6 @@
 package application.models.logsdata;
 
-import application.entities.LogsDataEntity;
+import application.entities.log.LogsDataEntity;
 import com.querydsl.core.types.Predicate;
 
 import java.util.List;

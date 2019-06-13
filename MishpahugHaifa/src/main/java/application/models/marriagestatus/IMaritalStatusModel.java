@@ -1,6 +1,6 @@
 package application.models.marriagestatus;
 
-import application.entities.MaritalStatusEntity;
+import application.entities.properties.MaritalStatusEntity;
 
 import java.util.List;
 

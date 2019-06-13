@@ -1,6 +1,6 @@
 package application.repositories;
 
-import application.entities.ReligionEntity;
+import application.entities.properties.ReligionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ReligionRepository extends JpaRepository<ReligionEntity, Integer> {

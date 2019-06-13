@@ -1,6 +1,6 @@
 package application.controllers.interfaces;
 
-import application.entities.CityEntity;
+import application.entities.properties.CityEntity;
 import com.querydsl.core.types.Predicate;
 import org.springframework.http.HttpHeaders;
 

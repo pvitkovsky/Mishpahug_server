@@ -1,6 +1,6 @@
 package application.models.marriagestatus;
 
-import application.entities.MaritalStatusEntity;
+import application.entities.properties.MaritalStatusEntity;
 import application.repositories.MaritalStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

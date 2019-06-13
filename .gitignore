@@ -33,3 +33,4 @@ MishpahugHaifaFront/node_modules/*
 
 MishpahugHaifa/src/main/resources/application.properties
 MishpahugHaifa/src/main/resources/logback.xml
+sql.sql

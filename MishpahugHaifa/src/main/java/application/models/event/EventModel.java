@@ -58,6 +58,11 @@ public class EventModel implements IEventModel {
 	}
 
 	@Override
+	public Integer size() { // would throw if no user is in data's owner field;
+		return eventRepository.findAll().size();
+	}
+
+	@Override
 	public EventEntity add(EventEntity data) { // would throw if no user is in data's owner field;
 		return eventRepository.save(data);
 	}

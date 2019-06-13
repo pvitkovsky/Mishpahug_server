@@ -64,7 +64,6 @@ public class EventController implements IEventController {
 		return new EventDTO(eventModel.getById(id));
 	}
 
-
 	@RequestMapping(method = RequestMethod.GET, value = "/{id}/guests")
 	@ResponseBody
 	@Override

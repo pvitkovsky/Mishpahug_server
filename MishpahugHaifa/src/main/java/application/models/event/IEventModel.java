@@ -14,6 +14,8 @@ public interface IEventModel {
 
     List<EventEntity> getByOwner(String ownerUserName);
 
+    Integer size();
+
     public EventEntity add(EventEntity data); // Should not allow duplicated events;
 
     public EventEntity update(Integer eventId, HashMap<String, String> data);

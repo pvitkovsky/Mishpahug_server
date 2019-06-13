@@ -94,13 +94,8 @@ public class Test {
 			responseE = restTemplate.exchange(request, EventDTO.class);
 			log.info("event [3] -> " + responseU.getBody().toString());
 		}
-						/*urn = "/devices/remove?iddev=";
-						request = new RequestEntity(null, POST, new URI(url+urn));
-						responseS = restTemplate.exchange(request, String.class);
 
-                        urn = "/devices/save";
-                        request = new RequestEntity(null, POST, new URI(url+urn));
-                        responseS = restTemplate.exchange(request, String.class);*/
+
 	}
 
 

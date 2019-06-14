@@ -1,5 +1,13 @@
 package application.configurations.dbloader.loaders;
 
+import application.configurations.dbloader.LoaderDependencies;
+import application.entities.EventEntity;
+import application.entities.UserEntity;
+import application.entities.properties.AddressEntity;
+import application.entities.properties.HoliDayEntity;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -7,15 +15,6 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Random;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import application.configurations.dbloader.LoaderDependencies;
-import application.entities.EventEntity;
-import application.entities.UserEntity;
-import application.entities.properties.AddressEntity;
-import application.entities.properties.HoliDayEntity;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Loads events and sets owners randomly

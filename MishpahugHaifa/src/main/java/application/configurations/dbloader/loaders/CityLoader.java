@@ -1,24 +1,21 @@
 package application.configurations.dbloader.loaders;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.util.Collection;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import application.configurations.dbloader.LoaderDependencies;
 import application.entities.EventEntity;
 import application.entities.UserEntity;
 import application.entities.properties.CityEntity;
 import application.entities.properties.CountryEntity;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.Collection;
 
 /**
  * Loads city
  */
 @Slf4j
-@Component
 public class CityLoader implements ILoader {
 	
 	@Autowired 

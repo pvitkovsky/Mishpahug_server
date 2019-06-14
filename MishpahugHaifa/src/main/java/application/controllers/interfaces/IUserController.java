@@ -6,7 +6,6 @@ import application.dto.LoginResponse;
 import application.dto.UserDTO;
 import com.querydsl.core.types.Predicate;
 import org.springframework.http.HttpHeaders;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 

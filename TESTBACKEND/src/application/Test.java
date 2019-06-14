@@ -20,7 +20,7 @@ public class Test {
 	public static final HttpMethod POST = HttpMethod.POST;
 	public static final HttpMethod DELETE = HttpMethod.DELETE;
 
-	public static final String url = "http://10.0.0.8:8080";
+	public static final String url = "http://localhost:8080";
 	public static final RestTemplate restTemplate = new RestTemplate();
 	public static RequestEntity<?> request;
 	public static HttpHeaders headers = new HttpHeaders();

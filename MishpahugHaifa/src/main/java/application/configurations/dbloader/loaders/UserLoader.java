@@ -1,22 +1,17 @@
 package application.configurations.dbloader.loaders;
 
+import application.configurations.dbloader.LoaderDependencies;
+import application.entities.UserEntity;
+import application.entities.properties.*;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Random;
-
-import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import application.configurations.dbloader.LoaderDependencies;
-import application.entities.UserEntity;
-import application.entities.properties.AddressEntity;
-import application.entities.properties.GenderEntity;
-import application.entities.properties.KitchenTypeEntity;
-import application.entities.properties.MaritalStatusEntity;
-import application.entities.properties.ReligionEntity;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Loads users

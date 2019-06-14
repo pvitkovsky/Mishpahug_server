@@ -1,19 +1,18 @@
 package application.configurations.dbloader.loaders;
 
-import java.io.BufferedReader;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.List;
-import java.util.Random;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import application.configurations.dbloader.LoaderDependencies;
 import application.entities.EventEntity;
 import application.entities.UserEntity;
 import application.entities.log.LogsOnEvent;
 import application.entities.log.LogsOnEvent.ActionsOnEvent;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.BufferedReader;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.Random;
 
 @Slf4j
 public class LogsLoader implements ILoader {

@@ -1,17 +1,15 @@
 package application.configurations.dbloader.loaders;
 
-import java.io.BufferedReader;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import application.configurations.dbloader.DB_test_loader_fixed;
 import application.configurations.dbloader.LoaderDependencies;
 import application.entities.template.TemplateEntity;
 import application.entities.template.XYTextValue;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.BufferedReader;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 /**
  * Loads Template

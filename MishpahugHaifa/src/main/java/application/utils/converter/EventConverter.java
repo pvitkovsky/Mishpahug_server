@@ -1,8 +1,8 @@
 package application.utils.converter;
 
 import application.dto.EventDTO;
-import application.entities.properties.AddressEntity;
 import application.entities.EventEntity;
+import application.entities.properties.AddressEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

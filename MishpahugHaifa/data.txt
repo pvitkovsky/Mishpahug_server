@@ -44,12 +44,12 @@
 [INFO]  T E S T S
 [INFO] -------------------------------------------------------
 [INFO] Running application.entities.address.AddressTest
-2019-06-14 07:52:53,131 812  [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [application.entities.address.AddressTest], using SpringBootContextLoader
-2019-06-14 07:52:53,161 842  [main] INFO  o.s.t.c.s.AbstractContextLoader - Could not detect default resource locations for test class [application.entities.address.AddressTest]: no resource found for suffixes {-context.xml, Context.groovy}.
-2019-06-14 07:52:53,164 845  [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [application.entities.address.AddressTest]: AddressTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2019-06-14 07:52:53,905 1586 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration application.MishpohugApplication for test class application.entities.address.AddressTest
-2019-06-14 07:52:53,921 1602 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
-2019-06-14 07:52:54,013 1694 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@21b2e768, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@57250572, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@5609159b, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@2118cddf, org.springframework.test.context.support.DirtiesContextTestExecutionListener@17a7f733, org.springframework.test.context.transaction.TransactionalTestExecutionListener@68567e20, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@76ed1b7c, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@11fc564b, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@394a2528, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@6236eb5f, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@7c1e2a9e, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@fa36558]
+2019-06-14 13:07:25,138 719  [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [application.entities.address.AddressTest], using SpringBootContextLoader
+2019-06-14 13:07:25,169 750  [main] INFO  o.s.t.c.s.AbstractContextLoader - Could not detect default resource locations for test class [application.entities.address.AddressTest]: no resource found for suffixes {-context.xml, Context.groovy}.
+2019-06-14 13:07:25,171 752  [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [application.entities.address.AddressTest]: AddressTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2019-06-14 13:07:25,775 1356 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration application.MishpohugApplication for test class application.entities.address.AddressTest
+2019-06-14 13:07:25,803 1384 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+2019-06-14 13:07:25,890 1471 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@21b2e768, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@57250572, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@5609159b, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@2118cddf, org.springframework.test.context.support.DirtiesContextTestExecutionListener@17a7f733, org.springframework.test.context.transaction.TransactionalTestExecutionListener@68567e20, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@76ed1b7c, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@11fc564b, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@394a2528, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@6236eb5f, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@7c1e2a9e, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@fa36558]
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -59,44 +59,44 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::        (v2.0.1.RELEASE)
 
-2019-06-14 07:53:00,435 8116 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [
+2019-06-14 13:07:32,068 7649 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [
 	name: default
 	...]
-2019-06-14 07:53:00,793 8474 [main] INFO  org.hibernate.Version - HHH000412: Hibernate Core {5.2.16.Final}
-2019-06-14 07:53:00,804 8485 [main] INFO  org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
-2019-06-14 07:53:01,014 8695 [main] INFO  o.h.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
-2019-06-14 07:53:01,564 9245 [main] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
-2019-06-14 07:53:04,023 11704 [main] INFO  o.h.t.s.internal.SchemaCreatorImpl - HHH000476: Executing import script 'org.hibernate.tool.schema.internal.exec.ScriptSourceInputNonExistentImpl@11381415'
-2019-06-14 07:53:06,321 14002 [main] INFO  o.h.h.i.QueryTranslatorFactoryInitiator - HHH000397: Using ASTQueryTranslatorFactory
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 15.752 s - in application.entities.address.AddressTest
+2019-06-14 13:07:32,357 7938 [main] INFO  org.hibernate.Version - HHH000412: Hibernate Core {5.2.16.Final}
+2019-06-14 13:07:32,364 7945 [main] INFO  org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
+2019-06-14 13:07:32,515 8096 [main] INFO  o.h.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2019-06-14 13:07:33,191 8772 [main] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2019-06-14 13:07:35,563 11144 [main] INFO  o.h.t.s.internal.SchemaCreatorImpl - HHH000476: Executing import script 'org.hibernate.tool.schema.internal.exec.ScriptSourceInputNonExistentImpl@11d86b9d'
+2019-06-14 13:07:37,500 13081 [main] INFO  o.h.h.i.QueryTranslatorFactoryInitiator - HHH000397: Using ASTQueryTranslatorFactory
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 14.477 s - in application.entities.address.AddressTest
 [INFO] Running application.entities.city.CityTest
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.957 s - in application.entities.city.CityTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.426 s - in application.entities.city.CityTest
 [INFO] Running application.entities.country.CountryTest
-[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.985 s - in application.entities.country.CountryTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.633 s - in application.entities.country.CountryTest
 [INFO] Running application.entities.event.EventEntityTest
-2019-06-14 07:53:11,130 18811 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 23505, SQLState: 23505
-2019-06-14 07:53:11,135 18816 [main] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - Нарушение уникального индекса или первичного ключа: "UKPKO8NOSK76P22CU9SQ6HRLMMP_INDEX_A ON PUBLIC.EVENTLIST(USER_OWNER, DATE, TIME) VALUES (1, DATE '2039-06-14', TIME '23:59:00', 1)"
+2019-06-14 13:07:41,090 16671 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 23505, SQLState: 23505
+2019-06-14 13:07:41,101 16682 [main] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - Нарушение уникального индекса или первичного ключа: "UKPKO8NOSK76P22CU9SQ6HRLMMP_INDEX_A ON PUBLIC.EVENTLIST(USER_OWNER, DATE, TIME) VALUES (1, DATE '2039-06-14', TIME '23:59:00', 1)"
 Unique index or primary key violation: "UKPKO8NOSK76P22CU9SQ6HRLMMP_INDEX_A ON PUBLIC.EVENTLIST(USER_OWNER, DATE, TIME) VALUES (1, DATE '2039-06-14', TIME '23:59:00', 1)"; SQL statement:
 insert into eventlist (id, address_entity_id, date, holi_day_id, kitchen_type_id, name_of_event, status, time, user_owner) values (null, ?, ?, ?, ?, ?, ?, ?, ?) [23505-197]
-[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.418 s - in application.entities.event.EventEntityTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.397 s - in application.entities.event.EventEntityTest
 [INFO] Running application.entities.kichentype.KichenTypeTest
-[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.204 s - in application.entities.kichentype.KichenTypeTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.145 s - in application.entities.kichentype.KichenTypeTest
 [INFO] Running application.entities.religion.ReligionTest
-[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.17 s - in application.entities.religion.ReligionTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.162 s - in application.entities.religion.ReligionTest
 [INFO] Running application.entities.user.UserEntityTest
-2019-06-14 07:53:12,322 20003 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 23505, SQLState: 23505
-2019-06-14 07:53:12,333 20014 [main] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - Нарушение уникального индекса или первичного ключа: "UKOB8KQYQQGMEFL0ACO34AKDTPE_INDEX_2 ON PUBLIC.USER(EMAIL) VALUES ('p_hacker@sicp.edu', 11)"
+2019-06-14 13:07:42,014 17595 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 23505, SQLState: 23505
+2019-06-14 13:07:42,097 17678 [main] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - Нарушение уникального индекса или первичного ключа: "UKOB8KQYQQGMEFL0ACO34AKDTPE_INDEX_2 ON PUBLIC.USER(EMAIL) VALUES ('p_hacker@sicp.edu', 11)"
 Unique index or primary key violation: "UKOB8KQYQQGMEFL0ACO34AKDTPE_INDEX_2 ON PUBLIC.USER(EMAIL) VALUES ('p_hacker@sicp.edu', 11)"; SQL statement:
 insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) [23505-197]
-2019-06-14 07:53:12,353 20034 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 23505, SQLState: 23505
-2019-06-14 07:53:12,355 20036 [main] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - Нарушение уникального индекса или первичного ключа: "UKOB8KQYQQGMEFL0ACO34AKDTPE_INDEX_2 ON PUBLIC.USER(EMAIL) VALUES ('a@dot.com', 14)"
+2019-06-14 13:07:42,122 17703 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 23505, SQLState: 23505
+2019-06-14 13:07:42,129 17710 [main] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - Нарушение уникального индекса или первичного ключа: "UKOB8KQYQQGMEFL0ACO34AKDTPE_INDEX_2 ON PUBLIC.USER(EMAIL) VALUES ('a@dot.com', 14)"
 Unique index or primary key violation: "UKOB8KQYQQGMEFL0ACO34AKDTPE_INDEX_2 ON PUBLIC.USER(EMAIL) VALUES ('a@dot.com', 14)"; SQL statement:
 insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) [23505-197]
-2019-06-14 07:53:12,416 20097 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 23505, SQLState: 23505
-2019-06-14 07:53:12,435 20116 [main] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - Нарушение уникального индекса или первичного ключа: "UKSB8BBOUER5WAK8VYIIY4PF2BX_INDEX_2 ON PUBLIC.USER(USERNAME) VALUES ('A', 18)"
+2019-06-14 13:07:42,185 17766 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 23505, SQLState: 23505
+2019-06-14 13:07:42,186 17767 [main] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - Нарушение уникального индекса или первичного ключа: "UKSB8BBOUER5WAK8VYIIY4PF2BX_INDEX_2 ON PUBLIC.USER(USERNAME) VALUES ('A', 18)"
 Unique index or primary key violation: "UKSB8BBOUER5WAK8VYIIY4PF2BX_INDEX_2 ON PUBLIC.USER(USERNAME) VALUES ('A', 18)"; SQL statement:
 insert into user (user_id, address_entity_id, dateofbirth, email, encryted_password, firstname, gender_id, kitchen_type_id, lastname, marital_status_id, phonenumber, religion_id, status, username) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) [23505-197]
-[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.34 s - in application.entities.user.UserEntityTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.456 s - in application.entities.user.UserEntityTest
 [INFO] Running application.integration.controllers.EventWebRequestTest
 
   .   ____          _            __ _ _
@@ -107,191 +107,233 @@ insert into user (user_id, address_entity_id, dateofbirth, email, encryted_passw
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::        (v2.0.1.RELEASE)
 
-2019-06-14 07:53:18,920 26601 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-auto-1"]
-2019-06-14 07:53:18,996 26677 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2019-06-14 07:53:19,000 26681 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet Engine: Apache Tomcat/8.5.29
-2019-06-14 07:53:19,111 26792 [localhost-startStop-1] INFO  o.a.c.core.AprLifecycleListener - The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [C:\Program Files\Java\jdk1.8.0_211\jre\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\Docker\Docker\Resources\bin;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\ATI Technologies\ATI.ACE\Core-Static;C:\Program Files\7-Zip;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\110\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\Microsoft SQL Server\120\DTS\Binn\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\nodejs\;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\Сергей\AppData\Local\GitHubDesktop\bin;C:\Users\Сергей\AppData\Roaming\npm;C:\maven\bin;;.]
-2019-06-14 07:53:19,654 27335 [localhost-startStop-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2019-06-14 07:53:21,185 28866 [localhost-startStop-1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2019-06-14 07:53:21,355 29036 [localhost-startStop-1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2019-06-14 07:53:21,920 29601 [localhost-startStop-1] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [
+2019-06-14 13:07:47,057 22638 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-auto-1"]
+2019-06-14 13:07:47,163 22744 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2019-06-14 13:07:47,164 22745 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet Engine: Apache Tomcat/8.5.29
+2019-06-14 13:07:47,414 22995 [localhost-startStop-1] INFO  o.a.c.core.AprLifecycleListener - The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [C:\Program Files\Java\jdk1.8.0_211\jre\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\Docker\Docker\Resources\bin;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\ATI Technologies\ATI.ACE\Core-Static;C:\Program Files\7-Zip;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\110\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\Microsoft SQL Server\120\DTS\Binn\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\nodejs\;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\Сергей\AppData\Local\GitHubDesktop\bin;C:\Users\Сергей\AppData\Roaming\npm;C:\maven\bin;;.]
+2019-06-14 13:07:47,860 23441 [localhost-startStop-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2019-06-14 13:07:49,182 24763 [localhost-startStop-1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2019-06-14 13:07:49,236 24817 [localhost-startStop-1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2019-06-14 13:07:49,574 25155 [localhost-startStop-1] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [
 	name: default
 	...]
-2019-06-14 07:53:22,029 29710 [localhost-startStop-1] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
-2019-06-14 07:53:22,673 30354 [localhost-startStop-1] INFO  o.h.t.s.internal.SchemaCreatorImpl - HHH000476: Executing import script 'org.hibernate.tool.schema.internal.exec.ScriptSourceInputNonExistentImpl@11381415'
-2019-06-14 07:53:23,542 31223 [main] INFO  o.h.h.i.QueryTranslatorFactoryInitiator - HHH000397: Using ASTQueryTranslatorFactory
-2019-06-14 07:53:26,116 33797 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2019-06-14 07:53:29,282 36963 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-auto-1"]
-2019-06-14 07:53:29,349 37030 [main] INFO  o.a.tomcat.util.net.NioSelectorPool - Using a shared selector for servlet write/read
+2019-06-14 13:07:49,684 25265 [localhost-startStop-1] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2019-06-14 13:07:50,152 25733 [localhost-startStop-1] INFO  o.h.t.s.internal.SchemaCreatorImpl - HHH000476: Executing import script 'org.hibernate.tool.schema.internal.exec.ScriptSourceInputNonExistentImpl@11d86b9d'
+2019-06-14 13:07:50,949 26530 [main] INFO  o.h.h.i.QueryTranslatorFactoryInitiator - HHH000397: Using ASTQueryTranslatorFactory
+2019-06-14 13:07:53,285 28866 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2019-06-14 13:07:56,149 31730 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-auto-1"]
+2019-06-14 13:07:56,188 31769 [main] INFO  o.a.tomcat.util.net.NioSelectorPool - Using a shared selector for servlet write/read
+3
+8
+4
+3
+1
+11
+2
+7
+6
+5
+3
+4
+5
+6
+7
+12
+1
+11
+13
+2
+10
+5
+6
+3
+9
+21
+1
+3
+44
+5
+6
+7
+8
+9
+20
+11
+2
+1
+4
+3
 Alyssa UserEntity(id=null, firstName=null, lastName=null, phoneNumber=null, eMail=p_hacker@sicp.edu, userName=Alyssa, encrytedPassword=null, dateOfBirth=null, status=ACTIVE, maritalStatus=null, gender=null, kitchenType=null, religion=null, addressEntity=null)
-2019-06-14 07:53:32,063 39744 [http-nio-auto-1-exec-10] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring FrameworkServlet 'dispatcherServlet'
-2019-06-14 07:53:32,540 40221 [http-nio-auto-1-exec-10] INFO  UserController -> login -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
-2019-06-14 07:53:32,542 40223 [http-nio-auto-1-exec-10] INFO  UserController -> login -> headers -> Header 'content-type' = [application/xml;charset=UTF-8]
-2019-06-14 07:53:32,542 40223 [http-nio-auto-1-exec-10] INFO  UserController -> login -> headers -> Header 'content-length' = [75]
-2019-06-14 07:53:32,542 40223 [http-nio-auto-1-exec-10] INFO  UserController -> login -> headers -> Header 'host' = [localhost:64086]
-2019-06-14 07:53:32,542 40223 [http-nio-auto-1-exec-10] INFO  UserController -> login -> headers -> Header 'connection' = [Keep-Alive]
-2019-06-14 07:53:32,546 40227 [http-nio-auto-1-exec-10] INFO  UserController -> login -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
-2019-06-14 07:53:32,549 40230 [http-nio-auto-1-exec-10] INFO  UserController -> login -> headers -> Header 'accept-encoding' = [gzip,deflate]
-2019-06-14 07:53:32,870 40551 [http-nio-auto-1-exec-9] INFO  EventController -> findGuestByEventId{3} -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
-2019-06-14 07:53:32,871 40552 [http-nio-auto-1-exec-9] INFO  EventController -> findGuestByEventId{3} -> headers -> Header 'authorization' = [0b7de3c4-9c0c-4c2e-95f2-86e95fc5d7df]
-2019-06-14 07:53:32,871 40552 [http-nio-auto-1-exec-9] INFO  EventController -> findGuestByEventId{3} -> headers -> Header 'content-type' = [application/json]
-2019-06-14 07:53:32,871 40552 [http-nio-auto-1-exec-9] INFO  EventController -> findGuestByEventId{3} -> headers -> Header 'host' = [localhost:64086]
-2019-06-14 07:53:32,871 40552 [http-nio-auto-1-exec-9] INFO  EventController -> findGuestByEventId{3} -> headers -> Header 'connection' = [Keep-Alive]
-2019-06-14 07:53:32,871 40552 [http-nio-auto-1-exec-9] INFO  EventController -> findGuestByEventId{3} -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
-2019-06-14 07:53:32,872 40553 [http-nio-auto-1-exec-9] INFO  EventController -> findGuestByEventId{3} -> headers -> Header 'accept-encoding' = [gzip,deflate]
+2019-06-14 13:07:58,352 33933 [http-nio-auto-1-exec-8] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring FrameworkServlet 'dispatcherServlet'
+2019-06-14 13:07:58,781 34362 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
+2019-06-14 13:07:58,781 34362 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'content-type' = [application/xml;charset=UTF-8]
+2019-06-14 13:07:58,782 34363 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'content-length' = [75]
+2019-06-14 13:07:58,782 34363 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'host' = [localhost:51338]
+2019-06-14 13:07:58,782 34363 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'connection' = [Keep-Alive]
+2019-06-14 13:07:58,787 34368 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
+2019-06-14 13:07:58,787 34368 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'accept-encoding' = [gzip,deflate]
+2019-06-14 13:07:59,129 34710 [http-nio-auto-1-exec-2] INFO  EventController -> findGuestByEventId{3} -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
+2019-06-14 13:07:59,130 34711 [http-nio-auto-1-exec-2] INFO  EventController -> findGuestByEventId{3} -> headers -> Header 'authorization' = [283d76b3-c061-47de-afbf-e85f4dc4ccc2]
+2019-06-14 13:07:59,130 34711 [http-nio-auto-1-exec-2] INFO  EventController -> findGuestByEventId{3} -> headers -> Header 'content-type' = [application/json]
+2019-06-14 13:07:59,130 34711 [http-nio-auto-1-exec-2] INFO  EventController -> findGuestByEventId{3} -> headers -> Header 'host' = [localhost:51338]
+2019-06-14 13:07:59,130 34711 [http-nio-auto-1-exec-2] INFO  EventController -> findGuestByEventId{3} -> headers -> Header 'connection' = [Keep-Alive]
+2019-06-14 13:07:59,130 34711 [http-nio-auto-1-exec-2] INFO  EventController -> findGuestByEventId{3} -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
+2019-06-14 13:07:59,130 34711 [http-nio-auto-1-exec-2] INFO  EventController -> findGuestByEventId{3} -> headers -> Header 'accept-encoding' = [gzip,deflate]
 Alyssa UserEntity(id=null, firstName=null, lastName=null, phoneNumber=null, eMail=p_hacker@sicp.edu, userName=Alyssa, encrytedPassword=null, dateOfBirth=null, status=ACTIVE, maritalStatus=null, gender=null, kitchenType=null, religion=null, addressEntity=null)
-2019-06-14 07:53:33,065 40746 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
-2019-06-14 07:53:33,065 40746 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'content-type' = [application/xml;charset=UTF-8]
-2019-06-14 07:53:33,066 40747 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'content-length' = [75]
-2019-06-14 07:53:33,066 40747 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'host' = [localhost:64086]
-2019-06-14 07:53:33,066 40747 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'connection' = [Keep-Alive]
-2019-06-14 07:53:33,066 40747 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
-2019-06-14 07:53:33,066 40747 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'accept-encoding' = [gzip,deflate]
-2019-06-14 07:53:33,184 40865 [http-nio-auto-1-exec-7] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
-2019-06-14 07:53:33,185 40866 [http-nio-auto-1-exec-7] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'authorization' = [9df22269-627a-4f83-bfc7-820b6ae2b8a7]
-2019-06-14 07:53:33,185 40866 [http-nio-auto-1-exec-7] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'content-type' = [application/json]
-2019-06-14 07:53:33,185 40866 [http-nio-auto-1-exec-7] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'host' = [localhost:64086]
-2019-06-14 07:53:33,185 40866 [http-nio-auto-1-exec-7] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'connection' = [Keep-Alive]
-2019-06-14 07:53:33,185 40866 [http-nio-auto-1-exec-7] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
-2019-06-14 07:53:33,185 40866 [http-nio-auto-1-exec-7] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'accept-encoding' = [gzip,deflate]
-2019-06-14 07:53:33,658 41339 [http-nio-auto-1-exec-6] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
-2019-06-14 07:53:33,658 41339 [http-nio-auto-1-exec-6] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'authorization' = [9df22269-627a-4f83-bfc7-820b6ae2b8a7]
-2019-06-14 07:53:33,658 41339 [http-nio-auto-1-exec-6] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'content-type' = [application/json]
-2019-06-14 07:53:33,659 41340 [http-nio-auto-1-exec-6] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'host' = [localhost:64086]
-2019-06-14 07:53:33,659 41340 [http-nio-auto-1-exec-6] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'connection' = [Keep-Alive]
-2019-06-14 07:53:33,659 41340 [http-nio-auto-1-exec-6] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
-2019-06-14 07:53:33,659 41340 [http-nio-auto-1-exec-6] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'accept-encoding' = [gzip,deflate]
-2019-06-14 07:53:33,774 41455 [http-nio-auto-1-exec-5] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
-2019-06-14 07:53:33,775 41456 [http-nio-auto-1-exec-5] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'authorization' = [9df22269-627a-4f83-bfc7-820b6ae2b8a7]
-2019-06-14 07:53:33,775 41456 [http-nio-auto-1-exec-5] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'content-type' = [application/json]
-2019-06-14 07:53:33,775 41456 [http-nio-auto-1-exec-5] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'host' = [localhost:64086]
-2019-06-14 07:53:33,775 41456 [http-nio-auto-1-exec-5] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'connection' = [Keep-Alive]
-2019-06-14 07:53:33,775 41456 [http-nio-auto-1-exec-5] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
-2019-06-14 07:53:33,775 41456 [http-nio-auto-1-exec-5] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'accept-encoding' = [gzip,deflate]
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 21.355 s - in application.integration.controllers.EventWebRequestTest
+2019-06-14 13:07:59,393 34974 [http-nio-auto-1-exec-6] INFO  UserController -> login -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
+2019-06-14 13:07:59,393 34974 [http-nio-auto-1-exec-6] INFO  UserController -> login -> headers -> Header 'content-type' = [application/xml;charset=UTF-8]
+2019-06-14 13:07:59,393 34974 [http-nio-auto-1-exec-6] INFO  UserController -> login -> headers -> Header 'content-length' = [75]
+2019-06-14 13:07:59,393 34974 [http-nio-auto-1-exec-6] INFO  UserController -> login -> headers -> Header 'host' = [localhost:51338]
+2019-06-14 13:07:59,395 34976 [http-nio-auto-1-exec-6] INFO  UserController -> login -> headers -> Header 'connection' = [Keep-Alive]
+2019-06-14 13:07:59,396 34977 [http-nio-auto-1-exec-6] INFO  UserController -> login -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
+2019-06-14 13:07:59,401 34982 [http-nio-auto-1-exec-6] INFO  UserController -> login -> headers -> Header 'accept-encoding' = [gzip,deflate]
+2019-06-14 13:07:59,535 35116 [http-nio-auto-1-exec-3] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
+2019-06-14 13:07:59,535 35116 [http-nio-auto-1-exec-3] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'authorization' = [c7a5f4a6-123c-4c13-8c87-30185d176cc3]
+2019-06-14 13:07:59,535 35116 [http-nio-auto-1-exec-3] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'content-type' = [application/json]
+2019-06-14 13:07:59,535 35116 [http-nio-auto-1-exec-3] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'host' = [localhost:51338]
+2019-06-14 13:07:59,535 35116 [http-nio-auto-1-exec-3] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'connection' = [Keep-Alive]
+2019-06-14 13:07:59,535 35116 [http-nio-auto-1-exec-3] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
+2019-06-14 13:07:59,535 35116 [http-nio-auto-1-exec-3] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'accept-encoding' = [gzip,deflate]
+2019-06-14 13:08:00,126 35707 [http-nio-auto-1-exec-7] WARN  a.repositories.EventRepository - EventRepository -> customize-> value = [a]
+2019-06-14 13:08:00,134 35715 [http-nio-auto-1-exec-7] WARN  a.repositories.EventRepository - EventRepository -> customize-> path = eventEntity.userEntityOwner.userName
+2019-06-14 13:08:00,138 35719 [http-nio-auto-1-exec-7] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
+2019-06-14 13:08:00,139 35720 [http-nio-auto-1-exec-7] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'authorization' = [c7a5f4a6-123c-4c13-8c87-30185d176cc3]
+2019-06-14 13:08:00,139 35720 [http-nio-auto-1-exec-7] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'content-type' = [application/json]
+2019-06-14 13:08:00,139 35720 [http-nio-auto-1-exec-7] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'host' = [localhost:51338]
+2019-06-14 13:08:00,139 35720 [http-nio-auto-1-exec-7] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'connection' = [Keep-Alive]
+2019-06-14 13:08:00,139 35720 [http-nio-auto-1-exec-7] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
+2019-06-14 13:08:00,139 35720 [http-nio-auto-1-exec-7] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'accept-encoding' = [gzip,deflate]
+2019-06-14 13:08:00,985 36566 [http-nio-auto-1-exec-1] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
+2019-06-14 13:08:00,986 36567 [http-nio-auto-1-exec-1] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'authorization' = [c7a5f4a6-123c-4c13-8c87-30185d176cc3]
+2019-06-14 13:08:00,986 36567 [http-nio-auto-1-exec-1] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'content-type' = [application/json]
+2019-06-14 13:08:00,986 36567 [http-nio-auto-1-exec-1] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'host' = [localhost:51338]
+2019-06-14 13:08:00,986 36567 [http-nio-auto-1-exec-1] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'connection' = [Keep-Alive]
+2019-06-14 13:08:00,986 36567 [http-nio-auto-1-exec-1] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
+2019-06-14 13:08:00,986 36567 [http-nio-auto-1-exec-1] INFO  EventController -> findAllByWebQuerydsl -> headers -> Header 'accept-encoding' = [gzip,deflate]
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 19.008 s - in application.integration.controllers.EventWebRequestTest
 [INFO] Running application.integration.controllers.UserWebRequestTest
-2019-06-14 07:53:33,933 41614 [http-nio-auto-1-exec-4] INFO  UserController -> login -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
-2019-06-14 07:53:33,933 41614 [http-nio-auto-1-exec-4] INFO  UserController -> login -> headers -> Header 'content-type' = [application/xml;charset=UTF-8]
-2019-06-14 07:53:33,933 41614 [http-nio-auto-1-exec-4] INFO  UserController -> login -> headers -> Header 'content-length' = [75]
-2019-06-14 07:53:33,933 41614 [http-nio-auto-1-exec-4] INFO  UserController -> login -> headers -> Header 'host' = [localhost:64086]
-2019-06-14 07:53:33,934 41615 [http-nio-auto-1-exec-4] INFO  UserController -> login -> headers -> Header 'connection' = [Keep-Alive]
-2019-06-14 07:53:33,934 41615 [http-nio-auto-1-exec-4] INFO  UserController -> login -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
-2019-06-14 07:53:33,934 41615 [http-nio-auto-1-exec-4] INFO  UserController -> login -> headers -> Header 'accept-encoding' = [gzip,deflate]
-2019-06-14 07:53:34,020 41701 [http-nio-auto-1-exec-3] INFO  UserController -> update{283} -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
-2019-06-14 07:53:34,021 41702 [http-nio-auto-1-exec-3] INFO  UserController -> update{283} -> headers -> Header 'authorization' = [daa1ddf7-ee97-4bd6-907e-ec71fd7030d9]
-2019-06-14 07:53:34,021 41702 [http-nio-auto-1-exec-3] INFO  UserController -> update{283} -> headers -> Header 'content-type' = [application/json]
-2019-06-14 07:53:34,021 41702 [http-nio-auto-1-exec-3] INFO  UserController -> update{283} -> headers -> Header 'content-length' = [30]
-2019-06-14 07:53:34,021 41702 [http-nio-auto-1-exec-3] INFO  UserController -> update{283} -> headers -> Header 'host' = [localhost:64086]
-2019-06-14 07:53:34,023 41704 [http-nio-auto-1-exec-3] INFO  UserController -> update{283} -> headers -> Header 'connection' = [Keep-Alive]
-2019-06-14 07:53:34,023 41704 [http-nio-auto-1-exec-3] INFO  UserController -> update{283} -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
-2019-06-14 07:53:34,027 41708 [http-nio-auto-1-exec-3] INFO  UserController -> update{283} -> headers -> Header 'accept-encoding' = [gzip,deflate]
+2019-06-14 13:08:01,320 36901 [http-nio-auto-1-exec-4] INFO  UserController -> login -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
+2019-06-14 13:08:01,320 36901 [http-nio-auto-1-exec-4] INFO  UserController -> login -> headers -> Header 'content-type' = [application/xml;charset=UTF-8]
+2019-06-14 13:08:01,320 36901 [http-nio-auto-1-exec-4] INFO  UserController -> login -> headers -> Header 'content-length' = [75]
+2019-06-14 13:08:01,320 36901 [http-nio-auto-1-exec-4] INFO  UserController -> login -> headers -> Header 'host' = [localhost:51338]
+2019-06-14 13:08:01,321 36902 [http-nio-auto-1-exec-4] INFO  UserController -> login -> headers -> Header 'connection' = [Keep-Alive]
+2019-06-14 13:08:01,321 36902 [http-nio-auto-1-exec-4] INFO  UserController -> login -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
+2019-06-14 13:08:01,321 36902 [http-nio-auto-1-exec-4] INFO  UserController -> login -> headers -> Header 'accept-encoding' = [gzip,deflate]
+2019-06-14 13:08:01,412 36993 [http-nio-auto-1-exec-10] INFO  UserController -> update{283} -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
+2019-06-14 13:08:01,412 36993 [http-nio-auto-1-exec-10] INFO  UserController -> update{283} -> headers -> Header 'authorization' = [b0362bc6-2fb7-4414-9aa8-03570d4180ef]
+2019-06-14 13:08:01,412 36993 [http-nio-auto-1-exec-10] INFO  UserController -> update{283} -> headers -> Header 'content-type' = [application/json]
+2019-06-14 13:08:01,414 36995 [http-nio-auto-1-exec-10] INFO  UserController -> update{283} -> headers -> Header 'content-length' = [30]
+2019-06-14 13:08:01,414 36995 [http-nio-auto-1-exec-10] INFO  UserController -> update{283} -> headers -> Header 'host' = [localhost:51338]
+2019-06-14 13:08:01,414 36995 [http-nio-auto-1-exec-10] INFO  UserController -> update{283} -> headers -> Header 'connection' = [Keep-Alive]
+2019-06-14 13:08:01,414 36995 [http-nio-auto-1-exec-10] INFO  UserController -> update{283} -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
+2019-06-14 13:08:01,415 36996 [http-nio-auto-1-exec-10] INFO  UserController -> update{283} -> headers -> Header 'accept-encoding' = [gzip,deflate]
 {firstname=Alyssa_Updated}
-2019-06-14 07:53:34,147 41828 [http-nio-auto-1-exec-2] INFO  UserController -> login -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
-2019-06-14 07:53:34,147 41828 [http-nio-auto-1-exec-2] INFO  UserController -> login -> headers -> Header 'content-type' = [application/xml;charset=UTF-8]
-2019-06-14 07:53:34,147 41828 [http-nio-auto-1-exec-2] INFO  UserController -> login -> headers -> Header 'content-length' = [75]
-2019-06-14 07:53:34,147 41828 [http-nio-auto-1-exec-2] INFO  UserController -> login -> headers -> Header 'host' = [localhost:64086]
-2019-06-14 07:53:34,147 41828 [http-nio-auto-1-exec-2] INFO  UserController -> login -> headers -> Header 'connection' = [Keep-Alive]
-2019-06-14 07:53:34,147 41828 [http-nio-auto-1-exec-2] INFO  UserController -> login -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
-2019-06-14 07:53:34,148 41829 [http-nio-auto-1-exec-2] INFO  UserController -> login -> headers -> Header 'accept-encoding' = [gzip,deflate]
-2019-06-14 07:53:34,177 41858 [http-nio-auto-1-exec-1] INFO  UserController -> getEventsById{233} -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
-2019-06-14 07:53:34,177 41858 [http-nio-auto-1-exec-1] INFO  UserController -> getEventsById{233} -> headers -> Header 'authorization' = [41debde4-a517-4aeb-b01c-1f5b31fc5201]
-2019-06-14 07:53:34,177 41858 [http-nio-auto-1-exec-1] INFO  UserController -> getEventsById{233} -> headers -> Header 'content-type' = [application/json]
-2019-06-14 07:53:34,177 41858 [http-nio-auto-1-exec-1] INFO  UserController -> getEventsById{233} -> headers -> Header 'host' = [localhost:64086]
-2019-06-14 07:53:34,177 41858 [http-nio-auto-1-exec-1] INFO  UserController -> getEventsById{233} -> headers -> Header 'connection' = [Keep-Alive]
-2019-06-14 07:53:34,178 41859 [http-nio-auto-1-exec-1] INFO  UserController -> getEventsById{233} -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
-2019-06-14 07:53:34,178 41859 [http-nio-auto-1-exec-1] INFO  UserController -> getEventsById{233} -> headers -> Header 'accept-encoding' = [gzip,deflate]
-[]
-2019-06-14 07:53:34,249 41930 [http-nio-auto-1-exec-10] INFO  UserController -> login -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
-2019-06-14 07:53:34,249 41930 [http-nio-auto-1-exec-10] INFO  UserController -> login -> headers -> Header 'content-type' = [application/xml;charset=UTF-8]
-2019-06-14 07:53:34,250 41931 [http-nio-auto-1-exec-10] INFO  UserController -> login -> headers -> Header 'content-length' = [75]
-2019-06-14 07:53:34,250 41931 [http-nio-auto-1-exec-10] INFO  UserController -> login -> headers -> Header 'host' = [localhost:64086]
-2019-06-14 07:53:34,250 41931 [http-nio-auto-1-exec-10] INFO  UserController -> login -> headers -> Header 'connection' = [Keep-Alive]
-2019-06-14 07:53:34,250 41931 [http-nio-auto-1-exec-10] INFO  UserController -> login -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
-2019-06-14 07:53:34,250 41931 [http-nio-auto-1-exec-10] INFO  UserController -> login -> headers -> Header 'accept-encoding' = [gzip,deflate]
-2019-06-14 07:53:34,287 41968 [http-nio-auto-1-exec-9] INFO  UserController -> getEventsByOwnerId{118} -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
-2019-06-14 07:53:34,287 41968 [http-nio-auto-1-exec-9] INFO  UserController -> getEventsByOwnerId{118} -> headers -> Header 'authorization' = [63ab42c2-ce07-4b5a-9d48-3704f383e8e1]
-2019-06-14 07:53:34,287 41968 [http-nio-auto-1-exec-9] INFO  UserController -> getEventsByOwnerId{118} -> headers -> Header 'content-type' = [application/json]
-2019-06-14 07:53:34,287 41968 [http-nio-auto-1-exec-9] INFO  UserController -> getEventsByOwnerId{118} -> headers -> Header 'host' = [localhost:64086]
-2019-06-14 07:53:34,287 41968 [http-nio-auto-1-exec-9] INFO  UserController -> getEventsByOwnerId{118} -> headers -> Header 'connection' = [Keep-Alive]
-2019-06-14 07:53:34,287 41968 [http-nio-auto-1-exec-9] INFO  UserController -> getEventsByOwnerId{118} -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
-2019-06-14 07:53:34,288 41969 [http-nio-auto-1-exec-9] INFO  UserController -> getEventsByOwnerId{118} -> headers -> Header 'accept-encoding' = [gzip,deflate]
-[]
-2019-06-14 07:53:34,336 42017 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
-2019-06-14 07:53:34,336 42017 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'content-type' = [application/xml;charset=UTF-8]
-2019-06-14 07:53:34,336 42017 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'content-length' = [75]
-2019-06-14 07:53:34,336 42017 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'host' = [localhost:64086]
-2019-06-14 07:53:34,336 42017 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'connection' = [Keep-Alive]
-2019-06-14 07:53:34,337 42018 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
-2019-06-14 07:53:34,337 42018 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'accept-encoding' = [gzip,deflate]
-2019-06-14 07:53:34,452 42133 [http-nio-auto-1-exec-7] INFO  UserController -> get{286} -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
-2019-06-14 07:53:34,452 42133 [http-nio-auto-1-exec-7] INFO  UserController -> get{286} -> headers -> Header 'authorization' = [62596735-1d25-42e4-8e8d-b4aa2bac1dc6]
-2019-06-14 07:53:34,452 42133 [http-nio-auto-1-exec-7] INFO  UserController -> get{286} -> headers -> Header 'content-type' = [application/json]
-2019-06-14 07:53:34,452 42133 [http-nio-auto-1-exec-7] INFO  UserController -> get{286} -> headers -> Header 'host' = [localhost:64086]
-2019-06-14 07:53:34,452 42133 [http-nio-auto-1-exec-7] INFO  UserController -> get{286} -> headers -> Header 'connection' = [Keep-Alive]
-2019-06-14 07:53:34,452 42133 [http-nio-auto-1-exec-7] INFO  UserController -> get{286} -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
-2019-06-14 07:53:34,453 42134 [http-nio-auto-1-exec-7] INFO  UserController -> get{286} -> headers -> Header 'accept-encoding' = [gzip,deflate]
-2019-06-14 07:53:34,497 42178 [http-nio-auto-1-exec-6] INFO  UserController -> login -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
-2019-06-14 07:53:34,497 42178 [http-nio-auto-1-exec-6] INFO  UserController -> login -> headers -> Header 'content-type' = [application/xml;charset=UTF-8]
-2019-06-14 07:53:34,497 42178 [http-nio-auto-1-exec-6] INFO  UserController -> login -> headers -> Header 'content-length' = [75]
-2019-06-14 07:53:34,497 42178 [http-nio-auto-1-exec-6] INFO  UserController -> login -> headers -> Header 'host' = [localhost:64086]
-2019-06-14 07:53:34,498 42179 [http-nio-auto-1-exec-6] INFO  UserController -> login -> headers -> Header 'connection' = [Keep-Alive]
-2019-06-14 07:53:34,498 42179 [http-nio-auto-1-exec-6] INFO  UserController -> login -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
-2019-06-14 07:53:34,498 42179 [http-nio-auto-1-exec-6] INFO  UserController -> login -> headers -> Header 'accept-encoding' = [gzip,deflate]
-2019-06-14 07:53:34,540 42221 [http-nio-auto-1-exec-5] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
-2019-06-14 07:53:34,540 42221 [http-nio-auto-1-exec-5] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'authorization' = [501198b0-0cc5-4367-9176-2ceb708db775]
-2019-06-14 07:53:34,541 42222 [http-nio-auto-1-exec-5] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'content-type' = [application/json]
-2019-06-14 07:53:34,541 42222 [http-nio-auto-1-exec-5] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'host' = [localhost:64086]
-2019-06-14 07:53:34,541 42222 [http-nio-auto-1-exec-5] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'connection' = [Keep-Alive]
-2019-06-14 07:53:34,541 42222 [http-nio-auto-1-exec-5] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
-2019-06-14 07:53:34,541 42222 [http-nio-auto-1-exec-5] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'accept-encoding' = [gzip,deflate]
-2019-06-14 07:53:34,911 42592 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
-2019-06-14 07:53:34,913 42594 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'content-type' = [application/xml;charset=UTF-8]
-2019-06-14 07:53:34,913 42594 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'content-length' = [75]
-2019-06-14 07:53:34,913 42594 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'host' = [localhost:64086]
-2019-06-14 07:53:34,914 42595 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'connection' = [Keep-Alive]
-2019-06-14 07:53:34,914 42595 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
-2019-06-14 07:53:34,914 42595 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'accept-encoding' = [gzip,deflate]
-2019-06-14 07:53:34,942 42623 [http-nio-auto-1-exec-7] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
-2019-06-14 07:53:34,942 42623 [http-nio-auto-1-exec-7] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'host' = [localhost:64086]
-2019-06-14 07:53:34,942 42623 [http-nio-auto-1-exec-7] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'connection' = [Keep-Alive]
-2019-06-14 07:53:34,942 42623 [http-nio-auto-1-exec-7] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
-2019-06-14 07:53:34,942 42623 [http-nio-auto-1-exec-7] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'accept-encoding' = [gzip,deflate]
-2019-06-14 07:53:35,057 42738 [http-nio-auto-1-exec-6] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
-2019-06-14 07:53:35,057 42738 [http-nio-auto-1-exec-6] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'host' = [localhost:64086]
-2019-06-14 07:53:35,057 42738 [http-nio-auto-1-exec-6] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'connection' = [Keep-Alive]
-2019-06-14 07:53:35,057 42738 [http-nio-auto-1-exec-6] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
-2019-06-14 07:53:35,057 42738 [http-nio-auto-1-exec-6] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'accept-encoding' = [gzip,deflate]
-2019-06-14 07:53:35,125 42806 [http-nio-auto-1-exec-6] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
-2019-06-14 07:53:35,126 42807 [http-nio-auto-1-exec-6] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'host' = [localhost:64086]
-2019-06-14 07:53:35,126 42807 [http-nio-auto-1-exec-6] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'connection' = [Keep-Alive]
-2019-06-14 07:53:35,127 42808 [http-nio-auto-1-exec-6] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
-2019-06-14 07:53:35,127 42808 [http-nio-auto-1-exec-6] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'accept-encoding' = [gzip,deflate]
-2019-06-14 07:53:35,179 42860 [http-nio-auto-1-exec-5] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
-2019-06-14 07:53:35,179 42860 [http-nio-auto-1-exec-5] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'host' = [localhost:64086]
-2019-06-14 07:53:35,179 42860 [http-nio-auto-1-exec-5] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'connection' = [Keep-Alive]
-2019-06-14 07:53:35,179 42860 [http-nio-auto-1-exec-5] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
-2019-06-14 07:53:35,179 42860 [http-nio-auto-1-exec-5] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'accept-encoding' = [gzip,deflate]
-[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.247 s - in application.integration.controllers.UserWebRequestTest
+2019-06-14 13:08:01,507 37088 [http-nio-auto-1-exec-9] INFO  UserController -> login -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
+2019-06-14 13:08:01,507 37088 [http-nio-auto-1-exec-9] INFO  UserController -> login -> headers -> Header 'content-type' = [application/xml;charset=UTF-8]
+2019-06-14 13:08:01,507 37088 [http-nio-auto-1-exec-9] INFO  UserController -> login -> headers -> Header 'content-length' = [75]
+2019-06-14 13:08:01,508 37089 [http-nio-auto-1-exec-9] INFO  UserController -> login -> headers -> Header 'host' = [localhost:51338]
+2019-06-14 13:08:01,508 37089 [http-nio-auto-1-exec-9] INFO  UserController -> login -> headers -> Header 'connection' = [Keep-Alive]
+2019-06-14 13:08:01,508 37089 [http-nio-auto-1-exec-9] INFO  UserController -> login -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
+2019-06-14 13:08:01,508 37089 [http-nio-auto-1-exec-9] INFO  UserController -> login -> headers -> Header 'accept-encoding' = [gzip,deflate]
+2019-06-14 13:08:01,541 37122 [http-nio-auto-1-exec-5] INFO  UserController -> getEventsById{5} -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
+2019-06-14 13:08:01,541 37122 [http-nio-auto-1-exec-5] INFO  UserController -> getEventsById{5} -> headers -> Header 'authorization' = [a4a6a268-72f9-44c9-8be4-0c08441a6203]
+2019-06-14 13:08:01,541 37122 [http-nio-auto-1-exec-5] INFO  UserController -> getEventsById{5} -> headers -> Header 'content-type' = [application/json]
+2019-06-14 13:08:01,541 37122 [http-nio-auto-1-exec-5] INFO  UserController -> getEventsById{5} -> headers -> Header 'host' = [localhost:51338]
+2019-06-14 13:08:01,541 37122 [http-nio-auto-1-exec-5] INFO  UserController -> getEventsById{5} -> headers -> Header 'connection' = [Keep-Alive]
+2019-06-14 13:08:01,541 37122 [http-nio-auto-1-exec-5] INFO  UserController -> getEventsById{5} -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
+2019-06-14 13:08:01,541 37122 [http-nio-auto-1-exec-5] INFO  UserController -> getEventsById{5} -> headers -> Header 'accept-encoding' = [gzip,deflate]
+[EventDTO(id=1, date=2015-01-24, time=12:10, nameOfEvent=vehicula condimentum curabitur in, addressCountry=Israel, addressCity=Maon, addressStreet=Anielewicz, addressBuild=89, addressApartment=1, holiday=Erev Purim, holidayDescription=null, kichenType=, ownerId=2, guestIds=[23, 25, 5, 211, 156, 214, 145, 197, 254, 175, 81, 90, 116, 140, 52, 200, 278, 237, 14, 270, 236, 11, 228, 34]), EventDTO(id=8, date=2015-03-07, time=17:45, nameOfEvent=diam cras pellentesque volutpat dui, addressCountry=Israel, addressCity=Shezor, addressStreet=Esther Raab, addressBuild=36, addressApartment=23, holiday=March Equinox, holidayDescription=null, kichenType=, ownerId=4, guestIds=[39, 59, 267, 154, 244, 201, 161, 57, 115, 187, 220, 185, 71, 73, 72, 199, 5, 83, 18, 49, 173, 231, 121]), EventDTO(id=13, date=2014-11-07, time=17:45, nameOfEvent=diam cras pellentesque volutpat dui, addressCountry=Israel, addressCity=Senir, addressStreet=Arbel, addressBuild=35, addressApartment=44, holiday=Ta'anit Esther (Fast of Esther), holidayDescription=null, kichenType=, ownerId=4, guestIds=[24, 226, 227, 245, 202, 155, 36, 209, 102, 225, 5, 48, 111, 187, 148, 193, 238, 1, 90, 87, 136, 77, 44]), EventDTO(id=21, date=2014-03-05, time=10:04, nameOfEvent=sem sed sagittis, addressCountry=Israel, addressCity=Berha, addressStreet=Stone Sprat, addressBuild=19, addressApartment=44, holiday=Tu Bishvat, holidayDescription=Tu B'Shevat is the 15th day of the Jewish month of Shevat and is the birthday for trees that bear fruit or nuts, kichenType=, ownerId=7, guestIds=[198, 89, 213, 122, 56, 149, 120, 80, 201, 257, 156, 171, 244, 154, 61, 217, 135, 104, 10, 5, 225, 216, 190, 239, 73])]
+2019-06-14 13:08:01,685 37266 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
+2019-06-14 13:08:01,685 37266 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'content-type' = [application/xml;charset=UTF-8]
+2019-06-14 13:08:01,685 37266 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'content-length' = [75]
+2019-06-14 13:08:01,685 37266 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'host' = [localhost:51338]
+2019-06-14 13:08:01,685 37266 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'connection' = [Keep-Alive]
+2019-06-14 13:08:01,685 37266 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
+2019-06-14 13:08:01,686 37267 [http-nio-auto-1-exec-8] INFO  UserController -> login -> headers -> Header 'accept-encoding' = [gzip,deflate]
+2019-06-14 13:08:01,721 37302 [http-nio-auto-1-exec-2] INFO  UserController -> getEventsByOwnerId{3} -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
+2019-06-14 13:08:01,722 37303 [http-nio-auto-1-exec-2] INFO  UserController -> getEventsByOwnerId{3} -> headers -> Header 'authorization' = [66bbbeb5-1326-4a2e-835d-8df738fd2103]
+2019-06-14 13:08:01,722 37303 [http-nio-auto-1-exec-2] INFO  UserController -> getEventsByOwnerId{3} -> headers -> Header 'content-type' = [application/json]
+2019-06-14 13:08:01,722 37303 [http-nio-auto-1-exec-2] INFO  UserController -> getEventsByOwnerId{3} -> headers -> Header 'host' = [localhost:51338]
+2019-06-14 13:08:01,722 37303 [http-nio-auto-1-exec-2] INFO  UserController -> getEventsByOwnerId{3} -> headers -> Header 'connection' = [Keep-Alive]
+2019-06-14 13:08:01,722 37303 [http-nio-auto-1-exec-2] INFO  UserController -> getEventsByOwnerId{3} -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
+2019-06-14 13:08:01,723 37304 [http-nio-auto-1-exec-2] INFO  UserController -> getEventsByOwnerId{3} -> headers -> Header 'accept-encoding' = [gzip,deflate]
+[EventDTO(id=7, date=2012-03-26, time=21:49, nameOfEvent=sed lacus morbi sem mauris laoreet ut, addressCountry=Israel, addressCity=Jat, addressStreet=Isser Harel, addressBuild=87, addressApartment=26, holiday=March Equinox, holidayDescription=null, kichenType=, ownerId=3, guestIds=[103, 169, 14, 166, 178, 141, 96, 65, 164, 25, 155, 234, 189, 48, 60, 78, 74, 47, 56, 209, 226, 181]), EventDTO(id=5, date=2017-11-06, time=12:17, nameOfEvent=pulvinar nulla pede ullamcorper augue a suscipit, addressCountry=Israel, addressCity=Hirut, addressStreet=Ussishkin, addressBuild=56, addressApartment=32, holiday=Purim (Tel Aviv), holidayDescription=Purim is a Jewish holiday to celebrate the deliverance of the Jewish people from a plot to kill all of them during the Persian empire, as told in the scroll of Esther, kichenType=, ownerId=3, guestIds=[79, 101, 216, 266, 168, 179, 97, 240, 66, 116, 22, 237, 109, 102, 124, 47, 192, 26, 17, 157, 224, 244, 254]), EventDTO(id=6, date=2019-04-06, time=12:17, nameOfEvent=pulvinar nulla pede ullamcorper augue a suscipit, addressCountry=Israel, addressCity=Orot, addressStreet=Sea area, addressBuild=1, addressApartment=24, holiday=Ta'anit Esther (Fast of Esther), holidayDescription=null, kichenType=, ownerId=3, guestIds=[58, 271, 39, 224, 143, 228, 131, 130, 245, 238, 253, 37, 133, 56, 73, 135, 206, 150, 235, 162, 48, 229, 142, 106])]
+2019-06-14 13:08:01,800 37381 [http-nio-auto-1-exec-6] INFO  UserController -> login -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
+2019-06-14 13:08:01,800 37381 [http-nio-auto-1-exec-6] INFO  UserController -> login -> headers -> Header 'content-type' = [application/xml;charset=UTF-8]
+2019-06-14 13:08:01,801 37382 [http-nio-auto-1-exec-6] INFO  UserController -> login -> headers -> Header 'content-length' = [75]
+2019-06-14 13:08:01,801 37382 [http-nio-auto-1-exec-6] INFO  UserController -> login -> headers -> Header 'host' = [localhost:51338]
+2019-06-14 13:08:01,801 37382 [http-nio-auto-1-exec-6] INFO  UserController -> login -> headers -> Header 'connection' = [Keep-Alive]
+2019-06-14 13:08:01,801 37382 [http-nio-auto-1-exec-6] INFO  UserController -> login -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
+2019-06-14 13:08:01,801 37382 [http-nio-auto-1-exec-6] INFO  UserController -> login -> headers -> Header 'accept-encoding' = [gzip,deflate]
+2019-06-14 13:08:01,895 37476 [http-nio-auto-1-exec-3] INFO  UserController -> get{286} -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
+2019-06-14 13:08:01,895 37476 [http-nio-auto-1-exec-3] INFO  UserController -> get{286} -> headers -> Header 'authorization' = [5d75fa2b-5c18-4494-9624-7964342b1ea1]
+2019-06-14 13:08:01,895 37476 [http-nio-auto-1-exec-3] INFO  UserController -> get{286} -> headers -> Header 'content-type' = [application/json]
+2019-06-14 13:08:01,895 37476 [http-nio-auto-1-exec-3] INFO  UserController -> get{286} -> headers -> Header 'host' = [localhost:51338]
+2019-06-14 13:08:01,895 37476 [http-nio-auto-1-exec-3] INFO  UserController -> get{286} -> headers -> Header 'connection' = [Keep-Alive]
+2019-06-14 13:08:01,895 37476 [http-nio-auto-1-exec-3] INFO  UserController -> get{286} -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
+2019-06-14 13:08:01,896 37477 [http-nio-auto-1-exec-3] INFO  UserController -> get{286} -> headers -> Header 'accept-encoding' = [gzip,deflate]
+2019-06-14 13:08:01,940 37521 [http-nio-auto-1-exec-7] INFO  UserController -> login -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
+2019-06-14 13:08:01,940 37521 [http-nio-auto-1-exec-7] INFO  UserController -> login -> headers -> Header 'content-type' = [application/xml;charset=UTF-8]
+2019-06-14 13:08:01,940 37521 [http-nio-auto-1-exec-7] INFO  UserController -> login -> headers -> Header 'content-length' = [75]
+2019-06-14 13:08:01,940 37521 [http-nio-auto-1-exec-7] INFO  UserController -> login -> headers -> Header 'host' = [localhost:51338]
+2019-06-14 13:08:01,940 37521 [http-nio-auto-1-exec-7] INFO  UserController -> login -> headers -> Header 'connection' = [Keep-Alive]
+2019-06-14 13:08:01,940 37521 [http-nio-auto-1-exec-7] INFO  UserController -> login -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
+2019-06-14 13:08:01,940 37521 [http-nio-auto-1-exec-7] INFO  UserController -> login -> headers -> Header 'accept-encoding' = [gzip,deflate]
+2019-06-14 13:08:01,969 37550 [http-nio-auto-1-exec-1] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
+2019-06-14 13:08:01,970 37551 [http-nio-auto-1-exec-1] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'authorization' = [ebc4ceb7-f142-409e-ae4a-11c0cc3efa71]
+2019-06-14 13:08:01,970 37551 [http-nio-auto-1-exec-1] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'content-type' = [application/json]
+2019-06-14 13:08:01,970 37551 [http-nio-auto-1-exec-1] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'host' = [localhost:51338]
+2019-06-14 13:08:01,970 37551 [http-nio-auto-1-exec-1] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'connection' = [Keep-Alive]
+2019-06-14 13:08:01,970 37551 [http-nio-auto-1-exec-1] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
+2019-06-14 13:08:01,970 37551 [http-nio-auto-1-exec-1] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'accept-encoding' = [gzip,deflate]
+2019-06-14 13:08:02,211 37792 [http-nio-auto-1-exec-4] INFO  UserController -> login -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
+2019-06-14 13:08:02,211 37792 [http-nio-auto-1-exec-4] INFO  UserController -> login -> headers -> Header 'content-type' = [application/xml;charset=UTF-8]
+2019-06-14 13:08:02,211 37792 [http-nio-auto-1-exec-4] INFO  UserController -> login -> headers -> Header 'content-length' = [75]
+2019-06-14 13:08:02,211 37792 [http-nio-auto-1-exec-4] INFO  UserController -> login -> headers -> Header 'host' = [localhost:51338]
+2019-06-14 13:08:02,211 37792 [http-nio-auto-1-exec-4] INFO  UserController -> login -> headers -> Header 'connection' = [Keep-Alive]
+2019-06-14 13:08:02,211 37792 [http-nio-auto-1-exec-4] INFO  UserController -> login -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
+2019-06-14 13:08:02,211 37792 [http-nio-auto-1-exec-4] INFO  UserController -> login -> headers -> Header 'accept-encoding' = [gzip,deflate]
+2019-06-14 13:08:02,242 37823 [http-nio-auto-1-exec-10] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
+2019-06-14 13:08:02,242 37823 [http-nio-auto-1-exec-10] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'host' = [localhost:51338]
+2019-06-14 13:08:02,242 37823 [http-nio-auto-1-exec-10] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'connection' = [Keep-Alive]
+2019-06-14 13:08:02,242 37823 [http-nio-auto-1-exec-10] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
+2019-06-14 13:08:02,242 37823 [http-nio-auto-1-exec-10] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'accept-encoding' = [gzip,deflate]
+2019-06-14 13:08:02,344 37925 [http-nio-auto-1-exec-9] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
+2019-06-14 13:08:02,346 37927 [http-nio-auto-1-exec-9] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'host' = [localhost:51338]
+2019-06-14 13:08:02,346 37927 [http-nio-auto-1-exec-9] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'connection' = [Keep-Alive]
+2019-06-14 13:08:02,346 37927 [http-nio-auto-1-exec-9] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
+2019-06-14 13:08:02,346 37927 [http-nio-auto-1-exec-9] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'accept-encoding' = [gzip,deflate]
+2019-06-14 13:08:02,903 38484 [http-nio-auto-1-exec-8] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
+2019-06-14 13:08:02,903 38484 [http-nio-auto-1-exec-8] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'host' = [localhost:51338]
+2019-06-14 13:08:02,903 38484 [http-nio-auto-1-exec-8] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'connection' = [Keep-Alive]
+2019-06-14 13:08:02,903 38484 [http-nio-auto-1-exec-8] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
+2019-06-14 13:08:02,903 38484 [http-nio-auto-1-exec-8] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'accept-encoding' = [gzip,deflate]
+2019-06-14 13:08:02,944 38525 [http-nio-auto-1-exec-5] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'accept' = [application/xml, text/xml, application/json, application/*+xml, application/*+json]
+2019-06-14 13:08:02,944 38525 [http-nio-auto-1-exec-5] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'host' = [localhost:51338]
+2019-06-14 13:08:02,944 38525 [http-nio-auto-1-exec-5] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'connection' = [Keep-Alive]
+2019-06-14 13:08:02,944 38525 [http-nio-auto-1-exec-5] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'user-agent' = [Apache-HttpClient/4.5.5 (Java/1.8.0_211)]
+2019-06-14 13:08:02,944 38525 [http-nio-auto-1-exec-5] INFO  UserController -> findAllByWebQuerydsl -> headers -> Header 'accept-encoding' = [gzip,deflate]
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.696 s - in application.integration.controllers.UserWebRequestTest
 [INFO] Running application.integration.ConverterTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in application.integration.ConverterTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s - in application.integration.ConverterTest
 [INFO] Running application.models.EventModelTest
-[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.05 s - in application.models.EventModelTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.602 s - in application.models.EventModelTest
 [INFO] Running application.models.UserModelTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.337 s - in application.models.UserModelTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.318 s - in application.models.UserModelTest
 [INFO] Running application.relations.logs_user.LogsUserTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.075 s - in application.relations.logs_user.LogsUserTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.071 s - in application.relations.logs_user.LogsUserTest
 [INFO] Running application.relations.user_event.UserEventGuestFeedbackTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.071 s - in application.relations.user_event.UserEventGuestFeedbackTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.05 s - in application.relations.user_event.UserEventGuestFeedbackTest
 [INFO] Running application.relations.user_event.UserEventGuestTest
-[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.144 s - in application.relations.user_event.UserEventGuestTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.101 s - in application.relations.user_event.UserEventGuestTest
 [INFO] Running application.relations.user_event.UserEventOwnerTest
 UserEntity(id=40, firstName=null, lastName=null, phoneNumber=null, eMail=p_hacker@sicp.edu, userName=Alyssa, encrytedPassword=null, dateOfBirth=null, status=ACTIVE, maritalStatus=null, gender=null, kitchenType=null, religion=null, addressEntity=null)
 EventEntity(id=22, date=2190-01-01, time=23:59, nameOfEvent=null, kitchenType=null, holiDay=null, status=ACTIVE)
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.08 s - in application.relations.user_event.UserEventOwnerTest
-2019-06-14 07:53:38,241 45922 [Thread-5] INFO  o.h.t.s.i.SchemaDropperImpl$DelayedDropActionImpl - HHH000477: Starting delayed drop of schema as part of SessionFactory shut-down'
-2019-06-14 07:53:38,230 45911 [Thread-2] INFO  o.h.t.s.i.SchemaDropperImpl$DelayedDropActionImpl - HHH000477: Starting delayed drop of schema as part of SessionFactory shut-down'
-2019-06-14 07:53:38,363 46044 [Thread-5] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-2019-06-14 07:53:38,388 46069 [Thread-5] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.069 s - in application.relations.user_event.UserEventOwnerTest
+2019-06-14 13:08:05,463 41044 [Thread-5] INFO  o.h.t.s.i.SchemaDropperImpl$DelayedDropActionImpl - HHH000477: Starting delayed drop of schema as part of SessionFactory shut-down'
+2019-06-14 13:08:05,460 41041 [Thread-2] INFO  o.h.t.s.i.SchemaDropperImpl$DelayedDropActionImpl - HHH000477: Starting delayed drop of schema as part of SessionFactory shut-down'
+2019-06-14 13:08:05,528 41109 [Thread-5] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2019-06-14 13:08:05,538 41119 [Thread-5] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
 [INFO] 
 [INFO] Results:
 [INFO] 
@@ -300,6 +342,6 @@ EventEntity(id=22, date=2190-01-01, time=23:59, nameOfEvent=null, kitchenType=nu
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  01:18 min
-[INFO] Finished at: 2019-06-14T07:53:39+03:00
+[INFO] Total time:  01:17 min
+[INFO] Finished at: 2019-06-14T13:08:06+03:00
 [INFO] ------------------------------------------------------------------------

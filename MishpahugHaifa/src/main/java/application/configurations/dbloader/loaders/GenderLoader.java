@@ -1,16 +1,14 @@
 package application.configurations.dbloader.loaders;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.util.Collection;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import application.configurations.dbloader.DB_test_loader_fixed;
 import application.configurations.dbloader.LoaderDependencies;
 import application.entities.UserEntity;
 import application.entities.properties.GenderEntity;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.Collection;
 
 /**
  * Loads gender

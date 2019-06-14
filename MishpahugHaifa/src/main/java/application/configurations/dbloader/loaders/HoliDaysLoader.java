@@ -1,15 +1,13 @@
 package application.configurations.dbloader.loaders;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.time.LocalDate;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import application.configurations.dbloader.DB_test_loader_fixed;
 import application.configurations.dbloader.LoaderDependencies;
 import application.entities.properties.HoliDayEntity;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.time.LocalDate;
 
 /**
  * Loads ds
@@ -25,7 +23,7 @@ public class HoliDaysLoader implements ILoader{
 	public HoliDaysLoader(BufferedReader br) {
 		this.br = br;
 	}
-	
+
 	@Override
 	public void load() {
 		try {

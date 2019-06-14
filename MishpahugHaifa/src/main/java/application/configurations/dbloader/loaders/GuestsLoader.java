@@ -1,13 +1,5 @@
 package application.configurations.dbloader.loaders;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Random;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import application.configurations.dbloader.LoaderDependencies;
 import application.entities.EventEntity;
 import application.entities.SubscriptionEntity;
@@ -15,6 +7,13 @@ import application.entities.UserEntity;
 import application.entities.values.FeedBackValue;
 import application.utils.RandomString;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Random;
 
 /**
  * Loads guests

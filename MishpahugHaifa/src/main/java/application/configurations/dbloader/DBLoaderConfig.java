@@ -1,5 +1,6 @@
 package application.configurations.dbloader;
 
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -9,20 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import application.configurations.dbloader.loaders.AddressLoader;
-import application.configurations.dbloader.loaders.CityLoader;
-import application.configurations.dbloader.loaders.EventLoaderFixed;
-import application.configurations.dbloader.loaders.EventLoaderRandom;
-import application.configurations.dbloader.loaders.GenderLoader;
-import application.configurations.dbloader.loaders.GuestsLoader;
-import application.configurations.dbloader.loaders.HoliDaysLoader;
-import application.configurations.dbloader.loaders.ILoader;
-import application.configurations.dbloader.loaders.KichenTypeLoader;
-import application.configurations.dbloader.loaders.LogsLoader;
-import application.configurations.dbloader.loaders.MaritalStatusLoader;
-import application.configurations.dbloader.loaders.ReligionLoader;
-import application.configurations.dbloader.loaders.TemplateLoader;
-import application.configurations.dbloader.loaders.UserLoader;
+import application.configurations.dbloader.loaders.*;
 
 @Configuration
 public class DBLoaderConfig {

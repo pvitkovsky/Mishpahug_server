@@ -1,6 +1,7 @@
 package application.relations.logs_user;
 
-import application.entities.*;
+import application.entities.EventEntity;
+import application.entities.UserEntity;
 import application.entities.log.LogsDataEntity;
 import application.entities.log.LogsOnEvent;
 import application.entities.log.LogsOnEvent.ActionsOnEvent;
@@ -21,8 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest

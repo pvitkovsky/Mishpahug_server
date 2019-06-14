@@ -1,17 +1,15 @@
 package application.configurations.dbloader.loaders;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.util.List;
-import java.util.Random;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import application.configurations.dbloader.DB_test_loader_fixed;
 import application.configurations.dbloader.LoaderDependencies;
 import application.entities.properties.AddressEntity;
 import application.entities.properties.CityEntity;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Loads address

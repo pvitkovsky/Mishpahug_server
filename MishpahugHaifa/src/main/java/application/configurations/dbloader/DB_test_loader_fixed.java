@@ -1,14 +1,12 @@
 package application.configurations.dbloader;
 
-import javax.transaction.Transactional;
-
+import application.configurations.dbloader.loaders.ILoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import application.configurations.dbloader.loaders.ILoader;
+import javax.transaction.Transactional;
 
 /**
  * Load the production DB with integration test data; TODO: make it a Spring

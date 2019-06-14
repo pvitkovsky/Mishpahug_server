@@ -24,12 +24,12 @@ public class EventDTO {
     private String addressCity;
     private String addressStreet;
     private Integer addressBuild;
-    private Integer addressApartment;
-    private String holiday;
-    private String holidayDescription;
-    private String owner;
+    private Integer addressApartment; 
+    private String holiday; // why do we need 2 fields for this?
+    private String holidayDescription; // why do we need 2 fields for this?
     private String kichenType;
-    private List<String> guests; 
+    private Integer ownerId;
+    private List<Integer> guestIds; 
 
 
     public EventDTO(EventEntity eventEntity) {
@@ -46,8 +46,8 @@ public class EventDTO {
         this.holiday = eventEntity.getHoliDay() ==null ? "" : eventEntity.getHoliDay().getName();
         this.holidayDescription = eventEntity.getHoliDay() ==null ? "" : eventEntity.getHoliDay().getDescription();
         this.kichenType = eventEntity.getKitchenType() ==null ? "" : eventEntity.getKitchenType().getName();
-        this.owner = eventEntity.getUserEntityOwner().getId().toString() + " " + eventEntity.getUserEntityOwner().getUserName().toString() ;
-        this.guests = eventEntity.getSubscriptions().stream().map(s -> s.getGuest().getId() + " " + s.getGuest().getUserName()).collect(Collectors.toList());
-
+        this.ownerId = eventEntity.getUserEntityOwner().getId();
+        this.guestIds = eventEntity.getSubscriptions().stream().map(s -> s.getGuest().getId()).collect(Collectors.toList());
+        
     }
 }

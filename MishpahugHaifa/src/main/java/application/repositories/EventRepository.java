@@ -60,8 +60,8 @@ public interface EventRepository extends JpaRepository<EventEntity, Integer>,
         });
 
         bindings.bind(root.userEntityOwner.userName).all((path, value) -> {
-            log.debug("EventRepository -> customize-> value = " + value);
-            log.debug("EventRepository -> customize-> path = " + path);
+            log.warn("EventRepository -> customize-> value = " + value);
+            log.warn("EventRepository -> customize-> path = " + path);
             List<? extends String> OwnerUserNames= new ArrayList<>(value);
             return Optional.of(path.contains(OwnerUserNames.get(0))); //Why get(0)?
         });

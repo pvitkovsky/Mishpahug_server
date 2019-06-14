@@ -46,7 +46,7 @@ public class DBLoaderConfig {
 		createBufferedReader(MPHEntity.EVENT);
 		return new EventLoaderFixed(bufferedReader);	
 	}
-	
+
 	@Profile("dev-backend")
 	@Bean(name = "eventLoader")
 	public ILoader eventLoaderRandom() {

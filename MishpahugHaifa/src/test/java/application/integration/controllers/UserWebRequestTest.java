@@ -94,7 +94,7 @@ public class UserWebRequestTest {
 
     }
 
-    //TODO: Stable data with working user index pulled from the database; 
+//TODO: Stable data with working user index pulled from the database; 
 //    @Test
 //    public void testEventListByGuest(){
 //        Collection<EventDTO> events = this.restTemplate.exchange("http://localhost:" + port + "/user/{//TODO: normal index}/subscribes", HttpMethod.GET,
@@ -114,6 +114,7 @@ public class UserWebRequestTest {
 //        System.out.println("" + events);
 //        assertTrue(events.size() >= 1);
 //    }
+
 
     @Test
     public void updateAllShouldReturnUpdatedUser() throws Exception { //TODO: fix me pls

@@ -1,8 +1,10 @@
 package application.integration.controllers;
 
+import application.dto.EventDTO;
 import application.dto.LoginDTO;
 import application.dto.LoginResponse;
 import application.dto.UserDTO;
+import application.entities.EventEntity;
 import application.entities.UserEntity;
 import application.repositories.UserRepository;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -92,7 +94,27 @@ public class UserWebRequestTest {
         
 
     }
-    
+
+    @Test
+    public void testEventListByGuest(){
+        Collection<EventDTO> events = this.restTemplate.exchange("http://localhost:" + port + "/user/3/subscribes", HttpMethod.GET,
+                new HttpEntity<String>(headers),
+                new ParameterizedTypeReference<Collection<EventDTO>>() {
+                }).getBody();
+        System.out.println("" + events);
+        assertTrue(events.size() >= 1);
+    }
+
+    @Test
+    public void testEventListByOwner(){
+        Collection<EventDTO> events = this.restTemplate.exchange("http://localhost:" + port + "/user/3/events", HttpMethod.GET,
+                new HttpEntity<String>(headers),
+                new ParameterizedTypeReference<Collection<EventDTO>>() {
+                }).getBody();
+        System.out.println("" + events);
+        assertTrue(events.size() >= 1);
+    }
+
     @Test
     public void updateAllShouldReturnUpdatedUser() throws Exception { //TODO: fix me pls
        
@@ -140,4 +162,6 @@ public class UserWebRequestTest {
         //users.forEach((data) -> System.out.println("user : " + data));
         assertTrue(users.size() > 0);
     }
+
+
 }

@@ -3,6 +3,7 @@ package application.integration.controllers;
 import application.dto.EventDTO;
 import application.dto.LoginDTO;
 import application.dto.LoginResponse;
+import application.dto.UserDTO;
 import application.entities.UserEntity;
 import application.repositories.UserRepository;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -24,6 +25,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collection;
+
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -69,19 +72,23 @@ public class EventWebRequestTest {
 
 		//System.out.println("All events >>>");
 		Collection<EventDTO> events_general = this.restTemplate.exchange("http://localhost:" + port + "/event/",
-				HttpMethod.GET, null, new ParameterizedTypeReference<Collection<EventDTO>>() {
+				HttpMethod.GET, new HttpEntity<String>(headers), new ParameterizedTypeReference<Collection<EventDTO>>() {
 				}).getBody();
 		// events_general.forEach((data) -> System.out.println("event : " + data));
 
 		//System.out.println("Events by owner >>>");
 		Collection<EventDTO> events_by_owner = this.restTemplate.exchange("http://localhost:" + port + "/event/?userEntityOwner.userName=a",
-				HttpMethod.GET, null, new ParameterizedTypeReference<Collection<EventDTO>>() {
+				HttpMethod.GET,
+				new HttpEntity<String>(headers),
+				new ParameterizedTypeReference<Collection<EventDTO>>() {
 				}).getBody();
 		// events_by_owner.forEach((data) -> System.out.println("event : " + data));
 		
 		//System.out.println("Events by guest >>>");
 		Collection<EventDTO> events_by_guest = this.restTemplate.exchange("http://localhost:" + port + "/event/?subscriptions.guest.userName=a",
-				HttpMethod.GET, null, new ParameterizedTypeReference<Collection<EventDTO>>() {
+				HttpMethod.GET,
+				new HttpEntity<String>(headers),
+				new ParameterizedTypeReference<Collection<EventDTO>>() {
 				}).getBody();
 		// events_by_guest.forEach((data) -> System.out.println("event : " + data));
 		
@@ -89,17 +96,13 @@ public class EventWebRequestTest {
 
 	@Test
 	public void testGuestListByEvent(){
-
+		Collection<UserDTO> users = this.restTemplate.exchange("http://localhost:" + port + "/event/3/guests", HttpMethod.GET,
+				new HttpEntity<String>(headers),
+				new ParameterizedTypeReference<Collection<UserDTO>>() {
+				}).getBody();
+		assertTrue(users.size() >= 1);
 	}
 
-	@Test
-	public void testEventListByGuest(){
 
-	}
-
-	@Test
-	public void testEventListByOwner(){
-		
-	}
 
 }

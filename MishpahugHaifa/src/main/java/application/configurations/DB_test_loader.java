@@ -184,24 +184,8 @@ public class DB_test_loader implements CommandLineRunner {
 			break;
 		}
 		case GUESTS: {
-			eventGuestRepository.deleteAll();
-			Integer randomUserRange = userRepository.findAll().size() - 1;
-			Random gen = new Random();
-			for (EventEntity event : eventRepository.findAll()) {
-				UserEntity randomGuest = userRepository.findAll().get(gen.nextInt(randomUserRange));
-				if (!event.getUserEntityOwner().equals(randomGuest)) {
-					SubscriptionEntity subscription = new SubscriptionEntity(randomGuest, event);
-					FeedBackValue feedBackValue = new FeedBackValue();
-					feedBackValue.setComment(genText());
-					feedBackValue.setRating(gen.nextInt(10));
-					feedBackValue.setDateTime(LocalDateTime.of(2000 + gen.nextInt(20),
-															 1 + gen.nextInt(11),
-							                            1 + gen.nextInt(27), // MAX 28 for February
-																1 + gen.nextInt(23),
-																1 + gen.nextInt(58)));
-					subscription.setFeedback(feedBackValue);
-				}
-			}
+			GuestsLoader loader = new GuestsLoader(br);
+			loader.load();
 			break;
 		}
 		//TODO
@@ -371,6 +355,52 @@ public class DB_test_loader implements CommandLineRunner {
 					holyDayRepository.save(holiDayEntity);
 				}
 				log.debug("DBLoadTest -> HolidaysLoader -> In repository " + holyDayRepository.findAll().size() + " records");
+				br.close();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+
+/**
+	 * Loads guests
+	 */
+	private class GuestsLoader {
+		BufferedReader br;
+
+		public GuestsLoader(BufferedReader br) {
+			this.br = br;
+		}
+
+		void load() {
+			try {
+				String detail;
+				eventGuestRepository.deleteAll();
+				Random gen = new Random();
+				HashSet<UserEntity> userEntities = new HashSet<>();
+				while ((detail = br.readLine()) != null) {
+					String[] data = detail.split(",");
+					String[] items = data[1].split(";");
+					for (String x:items) {
+						if (!"".equals(x)) userEntities.add(userRepository.getOne(Integer.parseInt(x) + 1));
+					}
+						EventEntity event = eventRepository.getOne(Integer.parseInt(data[0]) + 1);
+						userEntities.forEach(item ->{
+							if (!event.getUserEntityOwner().equals(item)) {
+								SubscriptionEntity subscription = new SubscriptionEntity(item, event);
+								FeedBackValue feedBackValue = new FeedBackValue();
+								feedBackValue.setComment(genText());
+								feedBackValue.setRating(gen.nextInt(10));
+								feedBackValue.setDateTime(LocalDateTime.of(2000 + gen.nextInt(20),
+										1 + gen.nextInt(11),
+										1 + gen.nextInt(27), // MAX 28 for February
+										1 + gen.nextInt(23),
+										1 + gen.nextInt(58)));
+								subscription.setFeedback(feedBackValue);
+							}
+						});
+				}
+				log.debug("DBLoadTest -> GuestsLoader -> In repository " + eventGuestRepository.findAll().size() + " records");
 				br.close();
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
@@ -666,11 +696,14 @@ public class DB_test_loader implements CommandLineRunner {
 				Integer holiDayEntityListCount = holiDayEntityList.size() - 1;
 				String detail;
 				List<UserEntity> userEntityList = userRepository.findAll();
-				Integer userEntityListCount = userEntityList.size() - 1;
 				Random r = new Random();
 				while ((detail = br.readLine()) != null) {
-					UserEntity randomOwner = userEntityList.get(r.nextInt(userEntityListCount));
 					String[] eventAttributes = detail.split(",");
+//					System.out.println(Arrays.toString(eventAttributes) + " - " + eventAttributes.length + " - " + eventAttributes[3]);
+
+					System.out.println(eventAttributes[3]);
+					Integer index = Integer.parseInt(eventAttributes[3]);
+					UserEntity randomOwner = userEntityList.get(index);
 					EventEntity event = new EventEntity(randomOwner, LocalDate.parse(eventAttributes[0].replaceAll("/", "-"), DateTimeFormatter.ISO_DATE), LocalTime.parse(eventAttributes[1], DateTimeFormatter.ISO_LOCAL_TIME));
 					event.setNameOfEvent(eventAttributes[2]);
 					event.setHoliDay(holiDayEntityList.get(r.nextInt(holiDayEntityListCount)));

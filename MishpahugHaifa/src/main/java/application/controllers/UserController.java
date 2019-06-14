@@ -10,6 +10,7 @@ import application.entities.EventEntity;
 import application.entities.SubscriptionEntity;
 import application.entities.UserEntity;
 import application.entities.security.UserSession;
+import application.models.event.IEventModel;
 import application.models.feedback.IFeedBackModel;
 import application.models.properties.gender.IGenderModel;
 import application.models.properties.holyday.IHolyDayModel;
@@ -50,6 +51,9 @@ public class UserController implements IUserController {
 
     @Autowired
     IFeedBackModel feedBackModel;
+
+    @Autowired
+    IEventModel eventModel;
     
     @Autowired
     IConverter<UserEntity, UserDTO> converter;
@@ -115,6 +119,15 @@ public class UserController implements IUserController {
         for (SubscriptionEntity x:subscriptionEntityList) {
             eventEntities.add(x.getEvent());
         }
+        return converterEvent.DTOListFromEntities(eventEntities);
+    }
+
+    @Override
+    @GetMapping(value = "/{id}/events")
+    // TODO спрятать строки кода в одну из моделей?
+    public List<EventDTO> getEventsByOwnerId(@RequestHeader HttpHeaders httpHeaders,
+                                             HttpServletRequest request, @PathVariable(value = "id") Integer id) {
+        List<EventEntity> eventEntities = eventModel.getByOwner(userModel.getById(id).getUserName());
         return converterEvent.DTOListFromEntities(eventEntities);
     }
 

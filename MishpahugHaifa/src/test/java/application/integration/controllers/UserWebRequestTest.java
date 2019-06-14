@@ -97,7 +97,7 @@ public class UserWebRequestTest {
 //TODO: Stable data with working user index pulled from the database; 
     @Test
     public void testEventListByGuest(){
-        Collection<EventDTO> events = this.restTemplate.exchange("http://localhost:" + port + "/user/{//TODO: normal index}/subscribes", HttpMethod.GET,
+        Collection<EventDTO> events = this.restTemplate.exchange("http://localhost:" + port + "/user/6/subscribes", HttpMethod.GET,
                 new HttpEntity<String>(headers),
                 new ParameterizedTypeReference<Collection<EventDTO>>() {
                 }).getBody();
@@ -107,7 +107,7 @@ public class UserWebRequestTest {
 
     @Test
     public void testEventListByOwner(){
-        Collection<EventDTO> events = this.restTemplate.exchange("http://localhost:" + port + "/user/{//TODO: normal index}/events", HttpMethod.GET,
+        Collection<EventDTO> events = this.restTemplate.exchange("http://localhost:8080/user/12/events", HttpMethod.GET,
                 new HttpEntity<String>(headers),
                 new ParameterizedTypeReference<Collection<EventDTO>>() {
                 }).getBody();

@@ -24,7 +24,7 @@ public class DBLoaderConfig {
 	
 	private void createBufferedReader(MPHEntity entity) {
 		inputStream = classloader.getResourceAsStream(testFolder + "/" + entity.dataFile());
-		inputStreamReader= new InputStreamReader(inputStream);
+		if (inputStream != null) inputStreamReader= new InputStreamReader(inputStream);
 		bufferedReader = new BufferedReader(inputStreamReader);
 	}
 	

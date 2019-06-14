@@ -19,7 +19,7 @@ import application.repositories.UserRepository;
 import application.repositories.template.TemplateRepository;
 
 @Service
-public class LoaderDependencies {
+public class LoaderDependencies { //TODO: stability risk with public access modifier on all repositories;
 	@Autowired
 	public Environment env;
 	

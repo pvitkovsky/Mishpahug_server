@@ -15,6 +15,7 @@ import application.entities.EventEntity;
 import application.entities.UserEntity;
 import application.entities.properties.AddressEntity;
 import application.entities.properties.HoliDayEntity;
+import ch.qos.logback.classic.spi.EventArgUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -47,8 +48,8 @@ public class EventLoaderFixed implements ILoader {
 			List<UserEntity> userEntityList = this.data.userRepository.findAll();
 			Random r = new Random();
 			while ((detail = br.readLine()) != null) {
-				String[] eventAttributes = detail.split(",");
-				Integer index = Integer.parseInt(eventAttributes[3]);
+				String[] eventAttributes = detail.split(",");		
+				Integer index = Integer.parseInt(eventAttributes[3]);	
 				UserEntity owner = userEntityList.get(index);
 				EventEntity event = new EventEntity(owner,
 						LocalDate.parse(eventAttributes[0].replaceAll("/", "-"), DateTimeFormatter.ISO_DATE),
@@ -56,7 +57,7 @@ public class EventLoaderFixed implements ILoader {
 				event.setNameOfEvent(eventAttributes[2]);
 				event.setHoliDay(holiDayEntityList.get(r.nextInt(holiDayEntityListCount)));
 				event.setAddressEntity(addressEntityList.get(r.nextInt(addressEntityListCount)));
-				log.warn("DBLoadTest -> EventLoaderFixed -> " + event);
+				log.debug("DBLoadTest -> EventLoaderFixed -> " + event);
 			}
 			br.close();
 			log.debug("DBLoadTest -> EventLoaderFixed -> In repository " + this.data.eventRepository.findAll().size()

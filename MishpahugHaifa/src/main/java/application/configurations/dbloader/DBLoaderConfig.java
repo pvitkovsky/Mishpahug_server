@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -26,7 +27,8 @@ import application.configurations.dbloader.loaders.UserLoader;
 @Configuration
 public class DBLoaderConfig {
 	
-	String testFolder = "short-datafiles";
+	@Value("${database-test-folder}")
+	String testFolder;
 	ClassLoader classloader = Thread.currentThread().getContextClassLoader();
 	InputStream inputStream;
 	InputStreamReader inputStreamReader;
@@ -50,14 +52,14 @@ public class DBLoaderConfig {
 		return new CityLoader(bufferedReader);	
 	}
 	
-	@Profile("frontend")
+	@Profile("dev-frontend")
 	@Bean(name = "eventLoader")
 	public ILoader eventLoaderFixed() {
 		createBufferedReader(MPHEntity.EVENT);
 		return new EventLoaderFixed(bufferedReader);	
 	}
 	
-	@Profile("backend")
+	@Profile("dev-backend")
 	@Bean(name = "eventLoader")
 	public ILoader eventLoaderRandom() {
 		createBufferedReader(MPHEntity.EVENT);

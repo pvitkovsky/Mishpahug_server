@@ -56,7 +56,7 @@ public class EventLoaderRandom implements ILoader {
 				event.setNameOfEvent(eventAttributes[2]);
 				event.setHoliDay(holiDayEntityList.get(r.nextInt(holiDayEntityListCount)));
 				event.setAddressEntity(addressEntityList.get(r.nextInt(addressEntityListCount)));
-				log.warn("DBLoadTest -> EventLoaderRandom -> " + event);
+				log.debug("DBLoadTest -> EventLoaderRandom -> " + event);
 			}
 			br.close();
 			log.debug("DBLoadTest -> EventLoaderRandom -> In repository " + this.data.eventRepository.findAll().size()

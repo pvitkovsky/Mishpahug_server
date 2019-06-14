@@ -21,7 +21,7 @@ public class HoliDaysLoader implements ILoader{
 	LoaderDependencies data;
 
 	private BufferedReader br;
-
+	
 	public HoliDaysLoader(BufferedReader br) {
 		this.br = br;
 	}

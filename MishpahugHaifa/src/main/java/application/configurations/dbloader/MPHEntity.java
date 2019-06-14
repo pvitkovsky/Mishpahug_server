@@ -49,7 +49,7 @@ public enum MPHEntity {
 	},
 	TEMPLATE {
 		public String dataFile() {
-			return "data_blank.csv";
+			return "data_temp.csv";
 		}
 	},
 	HOLIDAYS {

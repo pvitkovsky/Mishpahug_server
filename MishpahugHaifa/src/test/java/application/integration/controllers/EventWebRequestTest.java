@@ -100,7 +100,7 @@ public class EventWebRequestTest {
 				new HttpEntity<String>(headers),
 				new ParameterizedTypeReference<Collection<UserDTO>>() {
 				}).getBody();
-		assertTrue(users.size() >= 0);
+		assertTrue(users.size() >= 1);
 	}
 
 

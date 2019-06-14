@@ -97,7 +97,7 @@ public class UserWebRequestTest {
 
     @Test
     public void testEventListByGuest(){
-        Collection<EventDTO> events = this.restTemplate.exchange("http://localhost:" + port + "/user/3/subscribes", HttpMethod.GET,
+        Collection<EventDTO> events = this.restTemplate.exchange("http://localhost:" + port + "/user/5/subscribes", HttpMethod.GET,
                 new HttpEntity<String>(headers),
                 new ParameterizedTypeReference<Collection<EventDTO>>() {
                 }).getBody();

@@ -13,10 +13,13 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Random;
 
+import javax.transaction.Transactional;
+
 /**
  * Loads users
  */
 @Slf4j
+@Transactional
 public class UserLoader implements ILoader {
 
 	@Autowired 

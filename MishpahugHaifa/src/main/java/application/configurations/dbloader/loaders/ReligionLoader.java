@@ -10,10 +10,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Collection;
 
+import javax.transaction.Transactional;
+
 /**
  * Loads Religion
  */
 @Slf4j
+@Transactional
 public class ReligionLoader implements ILoader {
 
 	@Autowired 

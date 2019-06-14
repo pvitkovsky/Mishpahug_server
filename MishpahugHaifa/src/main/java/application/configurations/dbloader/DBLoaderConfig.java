@@ -54,6 +54,12 @@ public class DBLoaderConfig {
 		return new EventLoaderRandom (bufferedReader);	
 	}
 	
+	@Bean(name = "eventLoader")
+	public ILoader eventLoaderTest() {
+		createBufferedReader(MPHEntity.EVENT);
+		return new EventLoaderFixed(bufferedReader);	
+	}
+	
 	@Bean(name = "genderLoader")
 	public ILoader genderLoader() {
 		createBufferedReader(MPHEntity.GENDER);

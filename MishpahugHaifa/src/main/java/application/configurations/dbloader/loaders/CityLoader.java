@@ -12,10 +12,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Collection;
 
+import javax.transaction.Transactional;
+
 /**
  * Loads city
  */
 @Slf4j
+@Transactional
 public class CityLoader implements ILoader {
 	
 	@Autowired 

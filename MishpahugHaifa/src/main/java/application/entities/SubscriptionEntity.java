@@ -20,6 +20,10 @@ import java.io.Serializable;
 @Table(name = "user_event_guest", uniqueConstraints = {@UniqueConstraint(columnNames = {"GUEST_ID", "EVENT_ID"})})
 @ToString
 @Slf4j
+/**
+ * Represents a subscription. You shouldn't explicitly save this class, it is managed by cascade from User and Event; 
+ *
+ */
 public class SubscriptionEntity {
 
 	@Embeddable

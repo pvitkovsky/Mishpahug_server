@@ -16,10 +16,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Random;
 
+import javax.transaction.Transactional;
+
 /**
  * Loads events and sets owners randomly
  */
 @Slf4j
+@Transactional
 public class EventLoaderFixed implements ILoader {
 
 	@Autowired

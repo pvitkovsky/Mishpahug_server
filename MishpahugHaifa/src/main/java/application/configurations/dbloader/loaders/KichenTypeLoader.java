@@ -11,10 +11,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Collection;
 
+import javax.transaction.Transactional;
+
 /**
  * Loads kichentype
  */
 @Slf4j
+@Transactional
 public class KichenTypeLoader implements ILoader {
 
 	@Autowired 

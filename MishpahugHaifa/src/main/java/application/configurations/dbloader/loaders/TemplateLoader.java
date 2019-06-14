@@ -11,10 +11,13 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+import javax.transaction.Transactional;
+
 /**
  * Loads Template
  */
 @Slf4j
+@Transactional
 public class TemplateLoader implements ILoader {
 	
 	@Autowired 

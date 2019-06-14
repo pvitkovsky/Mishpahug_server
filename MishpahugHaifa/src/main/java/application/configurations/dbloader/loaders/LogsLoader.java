@@ -14,7 +14,10 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Random;
 
+import javax.transaction.Transactional;
+
 @Slf4j
+@Transactional
 public class LogsLoader implements ILoader {
 
 	@Autowired

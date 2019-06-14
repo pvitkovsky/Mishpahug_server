@@ -9,10 +9,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.time.LocalDate;
 
+import javax.transaction.Transactional;
+
 /**
  * Loads ds
  */
 @Slf4j
+@Transactional
 public class HoliDaysLoader implements ILoader{
 	
 	@Autowired 

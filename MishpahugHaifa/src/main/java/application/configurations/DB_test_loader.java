@@ -377,8 +377,8 @@ public class DB_test_loader implements CommandLineRunner {
 				String detail;
 				eventGuestRepository.deleteAll();
 				Random gen = new Random();
-				HashSet<UserEntity> userEntities = new HashSet<>();
 				while ((detail = br.readLine()) != null) {
+					HashSet<UserEntity> userEntities = new HashSet<>();
 					String[] data = detail.split(",");
 					String[] items = data[1].split(";");
 					for (String x:items) {

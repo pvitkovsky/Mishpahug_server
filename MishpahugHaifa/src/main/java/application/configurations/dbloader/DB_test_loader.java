@@ -14,7 +14,7 @@ import javax.transaction.Transactional;
  */
 @Component
 @Transactional
-public class DB_test_loader_fixed implements CommandLineRunner {
+public class DB_test_loader implements CommandLineRunner {
 
 	@Autowired
 	@Qualifier("cityLoader")

@@ -113,8 +113,5 @@ public class DBLoaderConfig {
 		createBufferedReader(MPHEntity.USER);
 		return new UserLoader(bufferedReader);	
 	}
-	
 
-
-	
 }

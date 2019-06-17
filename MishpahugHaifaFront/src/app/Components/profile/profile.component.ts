@@ -1,8 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {Component, EventEmitter, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute, Router, UrlSegment} from '@angular/router';
 import { UserService } from '../../Services/index';
 import { UserDetail } from '../../Models/index';
-
+import { combineLatest } from "rxjs";
 
 @Component({
 	selector: 'app-profile',
@@ -10,10 +10,12 @@ import { UserDetail } from '../../Models/index';
 	styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit, OnDestroy { //  TODO: onDestroy bc we have subscriptions here;
-	loggedInUserId: number;
-	renderedUserId: number;
-	renderedUserDetail: UserDetail; // TODO: rename to UserDetail to UserDTO?
-	canEdit : boolean = false; // TODO: should always reflect the state of the component. Function?
+
+	renderedUserDetail: UserDetail;
+	canEdit : boolean;
+
+  loggedInUserEmitter: EventEmitter<number> = new EventEmitter();
+  renderedUserEmitter: EventEmitter<number> = new EventEmitter();
 
 	constructor(
 		private router: Router,
@@ -21,32 +23,28 @@ export class ProfileComponent implements OnInit, OnDestroy { //  TODO: onDestroy
 		private userService: UserService) { }
 
 
-	ngOnInit() { //TODO: does this run after relogin? i.e. canEdit relies on this...
-		this.userService.current().subscribe(
-			userDetail => { //TODO: change subscribe into storing UserDetail on login; 
-			//	console.log('current user id ' + userDetail.id)
-				this.loggedInUserId = userDetail.id;
-				this.route.pathFromRoot[2].url.subscribe( // TODO: refactor without magic number;
-					val => { //TODO: can we do this without subscribe? 
-						if(!val[0]) {
-						//	console.log('rendered user id ' + this.loggedInUserId)
-							this.renderedUserId = this.loggedInUserId;
-							this.router.navigate(['profile', this.loggedInUserId])
-						} else {
-						//	console.log('rendered user id ' + val[0].path)
-							this.renderedUserId = parseInt(val[0].path, 10);
-						}
-						this.canEdit = (this.renderedUserId === this.loggedInUserId);
-						this.userService.getById(this.renderedUserId).subscribe(
-							userDetail => { //TODO: change subscribe into storing UserDetail on login; see above;
-						//	    console.log('Received user detail' + userDetail) 
-								this.renderedUserDetail = userDetail;
-							},
-							error => {});
-					},
-					error => {});
-			},
-			error =>{});
+	ngOnInit() {
+
+    this.route.pathFromRoot[2].url.flatMap(val => { // TODO: refactor without magic number (selected user id);
+      if(!val[0]){
+        return this.loggedInUserEmitter.flatMap(loggedInUserId => this.userService.getById(loggedInUserId));
+      } else {
+        return this.userService.getById(parseInt(val[0].path, 10));
+      }
+    }).subscribe(detail => {
+      this.renderedUserDetail = detail
+      this.renderedUserEmitter.emit(detail.id);
+    });
+
+    this.userService.current().subscribe(
+      userDetail => {
+      this.loggedInUserEmitter.emit(userDetail.id);
+    });
+
+    combineLatest(this.loggedInUserEmitter, this.renderedUserEmitter).subscribe(ids => { // TODO: refactor without depreciation;
+      this.canEdit = (ids[0] === ids[1]);
+    });
+
 	}
 
 	ngOnDestroy(): void {

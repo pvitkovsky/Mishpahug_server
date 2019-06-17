@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GuiService, UserService } from './Services/index';
 import { UserDetail } from './Models/index';
-import {AddressService} from './Services/address.service';
 
 
 @Component({

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { UserDetail } from '../Models/index';
+import {EventDetail, UserDetail} from '../Models/index';
 import { Observable } from 'rxjs';
 import { AuthenticationService} from "./authentication.service"
 
@@ -23,7 +23,10 @@ export class UserService {
     }
 
     update(userDetail: UserDetail) : Observable<UserDetail>{
-        return this.http.put<UserDetail>('/api/user/' + userDetail.id, userDetail);
+      // console.log('userDetail ' + JSON.stringify(userDetail));
+      var res : Observable<UserDetail> = this.http.put<UserDetail>('/api/user/' + userDetail.id, userDetail);
+      // console.log('  returned' +  JSON.stringify(res));
+      return res;
     }
 
     delete(id: number) {

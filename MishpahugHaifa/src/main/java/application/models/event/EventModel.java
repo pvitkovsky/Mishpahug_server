@@ -71,7 +71,7 @@ public class EventModel implements IEventModel {
 	public EventEntity update(Integer eventId, HashMap<String, String> data){
 		EventEntity eventEntity = eventRepository.getOne(eventId);
 		updates.updateEvent(eventEntity, data);
-		return eventRepository.save(eventEntity);
+		return eventEntity;
 	}
 
 	@Override

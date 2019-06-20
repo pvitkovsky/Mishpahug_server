@@ -15,8 +15,8 @@ import application.configurations.dbloader.loaders.*;
 @Configuration
 public class DBLoaderConfig {
 	
-	@Value("${database-test-folder}")
-	String testFolder;
+	@Value("${database-test-folder}") //TODO: test context from Eclipse doesn't load this;
+	String testFolder = "short-datafiles";
 	ClassLoader classloader = Thread.currentThread().getContextClassLoader();
 	InputStream inputStream;
 	InputStreamReader inputStreamReader;
@@ -24,8 +24,11 @@ public class DBLoaderConfig {
 	
 	private void createBufferedReader(MPHEntity entity) {
 		inputStream = classloader.getResourceAsStream(testFolder + "/" + entity.dataFile());
-		if (inputStream != null) inputStreamReader= new InputStreamReader(inputStream);
-		bufferedReader = new BufferedReader(inputStreamReader);
+		if (inputStream != null) {
+			inputStreamReader= new InputStreamReader(inputStream);
+			bufferedReader = new BufferedReader(inputStreamReader);
+		}
+		if (bufferedReader == null) throw new IllegalArgumentException();
 	}
 	
 	@Bean(name = "addressLoader")

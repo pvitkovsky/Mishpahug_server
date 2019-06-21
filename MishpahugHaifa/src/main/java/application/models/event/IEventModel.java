@@ -11,9 +11,13 @@ import java.util.Set;
 
 public interface IEventModel {
 
-    public Set<EventEntity> getAllByUser(Integer userId); //TODO: owned or subscribed events here?
-
+	public List<UserEntity> getSubscribedGuests(Integer eventId);
+	
+    public List<EventEntity> getSubscribedEvents(Integer userId); 
+    
     List<EventEntity> getByOwner(String ownerUserName);
+    
+    List<EventEntity> getByOwner(Integer ownerUserId);
 
     Integer size();
 
@@ -21,7 +25,6 @@ public interface IEventModel {
 
     public EventEntity update(Integer eventId, HashMap<String, String> data);
 
-    public Set<UserEntity> getAllSubscribed(Integer eventId);
 
     public EventEntity delete(Integer eventId);
 

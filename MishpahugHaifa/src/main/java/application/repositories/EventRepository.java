@@ -27,7 +27,11 @@ public interface EventRepository extends JpaRepository<EventEntity, Integer>,
     Logger log = LoggerFactory.getLogger(EventRepository.class);
 
     public EventEntity getByNameOfEvent(String name);
+    
     public List<EventEntity> getByUserEntityOwner_UserName(String userName);
+    
+    public List<EventEntity> getByUserEntityOwner_Id(Integer userId);
+    
     public Boolean existsByDateAndTimeAndUserEntityOwner(LocalDate date, LocalTime time, UserEntity owner);
     
     @Override
@@ -53,7 +57,7 @@ public interface EventRepository extends JpaRepository<EventEntity, Integer>,
             return Optional.of(path.contains(OwnerUserNames.get(0))); //Why get(0)?
         });
         
-        bindings.bind(root.subscriptions.any().guest.userName).all((path, value) -> {
+        bindings.bind(root.subscriptions.any().guest.userName).all((path, value) -> { //COUPLING
             log.debug("EventRepository -> customize-> value = " + value);
             log.debug("EventRepository -> customize-> path = " + path);
             List<? extends String> GuestUserNames= new ArrayList<>(value);

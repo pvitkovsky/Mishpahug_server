@@ -21,7 +21,6 @@ import java.util.List;
 public interface IUserController {
 	UserDTO get(HttpHeaders httpHeaders, HttpServletRequest request, Integer id);
 	UserDTO getByToken(HttpHeaders httpHeaders, HttpServletRequest request);
-	List<EventDTO> getEventsByToken(HttpHeaders httpHeaders, HttpServletRequest request);
 	List<EventDTO> getEventsById(HttpHeaders httpHeaders, HttpServletRequest request, Integer id);
 
     List<EventDTO> getEventsByOwnerId(@RequestHeader HttpHeaders httpHeaders,

@@ -1,4 +1,4 @@
-package application.models.feedback;
+package application.models.relation;
 
 import application.entities.FeedBackValue;
 import application.entities.SubscriptionEntity;
@@ -18,10 +18,10 @@ import java.util.Map;
 @Service
 @Transactional
 @Slf4j
-public class FeedBackModel implements IFeedBackModel {
+public class RelationModel implements IRelationModel {
 
     @Autowired
-    SubscriptionRepository feedBackRepository;
+    SubscriptionRepository subscriptionRepository;
 
     @Autowired
     EventRepository eventRepository;
@@ -30,10 +30,16 @@ public class FeedBackModel implements IFeedBackModel {
     UserRepository userRepository;
 
     @Override
+    public List<SubscriptionEntity> getEventsForGuest(UserEntity userEntity){
+        return subscriptionRepository.findByGuest_Id(userEntity.getId());
+    }
+    
+    
+    
+    @Override
     public Map<Integer, FeedBackValue> getAllByEvent(Integer eventId) {
         Map<Integer, FeedBackValue> res = new HashMap<>();
-        List<SubscriptionEntity> subscriptionEntityList = feedBackRepository.findByEvent_Id(eventId);
-        //if (subscriptionEntityList != null) subscriptionEntityList.forEach(item -> res.put(item.getFeedback().hashCode(),item.getFeedback()));
+        List<SubscriptionEntity> subscriptionEntityList = subscriptionRepository.findByEvent_Id(eventId);
         log.info("" + subscriptionEntityList);
         Integer z = 0;
         for (SubscriptionEntity x:subscriptionEntityList){
@@ -45,16 +51,12 @@ public class FeedBackModel implements IFeedBackModel {
         return res; //TODO: proper feedback please;
     }
 
-    @Override
-    public List<SubscriptionEntity> getEventsForGuest(UserEntity userEntity){
-        return feedBackRepository.findByGuest_Id(userEntity.getId());
-    }
+  
 
     @Override
     public Map<Integer, FeedBackValue> getAllByUser(Integer userId) {
         Map<Integer, FeedBackValue> res = new HashMap<>();
-        List<SubscriptionEntity> subscriptionEntityList = feedBackRepository.findByGuest_Id(userId);
-        //if (subscriptionEntityList != null) subscriptionEntityList.forEach(item -> res.put(item.getFeedback().hashCode(),item.getFeedback()));
+        List<SubscriptionEntity> subscriptionEntityList = subscriptionRepository.findByGuest_Id(userId);
         log.info("" + subscriptionEntityList);
         Integer z = 0;
         for (SubscriptionEntity x:subscriptionEntityList){
@@ -62,18 +64,17 @@ public class FeedBackModel implements IFeedBackModel {
             res.put(z,value);
             z++;
         }
-        return res; //TODO: proper feedback please;
+        return res;
     }
 
     @Override
     public void removeAllByUser(Integer userId) {
-        feedBackRepository.removeById_UserGuestId(userId);
-        //TODO: proper feedback please;
+        subscriptionRepository.removeById_UserGuestId(userId);
     }
 
     @Override
     public void removeAllByEvent(Integer eventId) {
-        feedBackRepository.removeById_EventId(eventId);
+        subscriptionRepository.removeById_EventId(eventId);
         //TODO
     }
 

@@ -30,25 +30,28 @@ public class EventModel implements IEventModel {
 	@Autowired
 	IUpdates updates;
 
-	// TODO: owned events by user; owner by event;
 
 	@Override
-	public Set<EventEntity> getAllByUser(Integer userId) {// TODO: rename to getSubscriptionsByUser
+	public List<EventEntity> getSubscribedEvents(Integer userId) {
 		UserEntity userEntity = userRepository.getOne(userId);
-		Set<SubscriptionEntity> subscriptions = userEntity.getSubscriptions();
-		return subscriptions.stream().map(s -> s.getEvent()).collect(Collectors.toSet());
+		return subscriptionsRepository.getEventsForGuest(userEntity);
 	}
 
 	@Override
-	public Set<UserEntity> getAllSubscribed(Integer eventId) {// TODO: rename to get GuestsByEvent
+	public List<UserEntity> getSubscribedGuests(Integer eventId) {
 		EventEntity eventEntity = eventRepository.getOne(eventId);
-		Set<SubscriptionEntity> subscriptions = eventEntity.getSubscriptions();
-		return subscriptions.stream().map(s -> s.getGuest()).collect(Collectors.toSet());
+		return subscriptionsRepository.getGuestsForEvent(eventEntity);
 	}
 
 	@Override
 	public List<EventEntity> getByOwner(String ownerUserName) {
 		return eventRepository.getByUserEntityOwner_UserName(ownerUserName);
+	}
+	
+
+	@Override
+	public List<EventEntity> getByOwner(Integer ownerUserId) {
+		return eventRepository.getByUserEntityOwner_Id(ownerUserId);
 	}
 
 	@Override
@@ -167,4 +170,5 @@ public class EventModel implements IEventModel {
 			return eventEntity;
 		}
 	}
+
 }

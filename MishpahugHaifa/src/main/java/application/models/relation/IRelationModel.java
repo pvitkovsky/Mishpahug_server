@@ -1,4 +1,4 @@
-package application.models.feedback;
+package application.models.relation;
 
 
 import application.entities.FeedBackValue;
@@ -8,7 +8,7 @@ import application.entities.UserEntity;
 import java.util.List;
 import java.util.Map;
 
-public interface IFeedBackModel {
+public interface IRelationModel {
     public Map<Integer, FeedBackValue> getAllByEvent(Integer eventId);
 
     List<SubscriptionEntity> getEventsForGuest(UserEntity userEntity);

@@ -51,12 +51,10 @@ public class EventController implements IEventController {
 	@Autowired
 	IConverter<UserEntity, UserDTO> converterUser;
 
-	// TODO: events by owner; events by subcscriber; check that no wrapping is done;
-
 	@Override
 	@RequestMapping(method = RequestMethod.GET, value = "/")
 	@ResponseBody
-	public List<EventDTO> findAllByWebQuerydsl(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
+	public List<EventDTO> findAllByWebQuerydsl(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request, //TWO jumps in JPA by QDsl 
 			@QuerydslPredicate(root = EventEntity.class) Predicate predicate) {
 		return converter.DTOListFromEntities(eventModel.getAll(predicate));
 	}
@@ -73,11 +71,7 @@ public class EventController implements IEventController {
 	@ResponseBody
 	@Override
 	public List<UserDTO> findGuestByEventId(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request, @PathVariable(name = "id") Integer id) {
-		Set<SubscriptionEntity> subscriptionEntityList = eventModel.getById(id).getSubscriptions();
-		List<UserEntity> userEntityList = new ArrayList<>();
-		for (SubscriptionEntity x : subscriptionEntityList) {
-			userEntityList.add(x.getGuest());
-		}
+		List<UserEntity> userEntityList = eventModel.getSubscribedGuests(id);
 		return converterUser.DTOListFromEntities(userEntityList);
 	}
 

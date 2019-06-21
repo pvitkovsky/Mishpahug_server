@@ -1,7 +1,8 @@
 package application.controllers;
 
 import application.entities.FeedBackValue;
-import application.models.feedback.FeedBackModel;
+import application.models.relation.RelationModel;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,7 @@ import java.util.Map;
 @RequestMapping(value = "/subscription")
 public class SubscriptionController {
     @Autowired
-    FeedBackModel feedBackModel;
+    RelationModel feedBackModel;
 
     @DeleteMapping(value = "/")
     public void delete(@RequestHeader HttpHeaders httpHeaders,

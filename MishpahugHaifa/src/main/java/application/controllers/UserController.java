@@ -41,7 +41,7 @@ import application.entities.SubscriptionEntity;
 import application.entities.UserEntity;
 import application.entities.UserSession;
 import application.models.event.IEventModel;
-import application.models.feedback.IFeedBackModel;
+import application.models.relation.IRelationModel;
 import application.models.user.IUserModel;
 import application.repositories.UserSessionRepository;
 import application.utils.converter.IConverter;
@@ -60,7 +60,7 @@ public class UserController implements IUserController {
     UserSessionRepository userSessionRepository;
 
     @Autowired
-    IFeedBackModel feedBackModel;
+    IRelationModel relationModel;
 
     @Autowired
     IEventModel eventModel;
@@ -88,28 +88,11 @@ public class UserController implements IUserController {
     	return new UserDTO(userModel.getByUserName(session.getUserName())); //TODO: converter here?
     }
 
-    @Override
-    @GetMapping(value = "/currentsubscribes")
-    // TODO спрятать строки кода в одну из моделей?
-    public List<EventDTO> getEventsByToken( @RequestHeader HttpHeaders httpHeaders, HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
-        UserSession session = userSessionRepository.findByTokenAndIsValidTrue(token);
-        List<SubscriptionEntity> subscriptionEntityList = feedBackModel.getEventsForGuest(userModel.getByUserName(session.getUserName())); 
-        // what feedBackModel has to do with this request? Expected class EventModel or SubscriptionModel 
-        List<EventEntity> eventEntities = new ArrayList<>();
-        for (SubscriptionEntity x:subscriptionEntityList) {
-            eventEntities.add(x.getEvent());
-        }
-        return converterEvent.DTOListFromEntities(eventEntities);
-    }
-
-    @Override
-    @GetMapping(value = "/{id}/subscribes")
-    // TODO спрятать строки кода в одну из моделей?
+    @Override // SUBSCRIPTIONS
+    @GetMapping(value = "/{id}/subscribes") // re-wrapping from Relation;
     public List<EventDTO> getEventsById(@RequestHeader HttpHeaders httpHeaders,
 			HttpServletRequest request, @PathVariable(value = "id") Integer id) {
-        List<SubscriptionEntity> subscriptionEntityList = feedBackModel.getEventsForGuest(userModel.getById(id));
-        // what feedBackModel has to do with this request? Expected class EventModel or SubscriptionModel
+        List<SubscriptionEntity> subscriptionEntityList = relationModel.getEventsForGuest(userModel.getById(id));
         List<EventEntity> eventEntities = new ArrayList<>();
         for (SubscriptionEntity x:subscriptionEntityList) {
             eventEntities.add(x.getEvent());
@@ -117,18 +100,14 @@ public class UserController implements IUserController {
         return converterEvent.DTOListFromEntities(eventEntities);
     }
 
-    @Override
-    @GetMapping(value = "/{id}/events")
-    // TODO спрятать строки кода в одну из моделей?
+    @Override // OWNER
+    @GetMapping(value = "/{id}/events") // direct o2m conneciton; 
     public List<EventDTO> getEventsByOwnerId(@RequestHeader HttpHeaders httpHeaders,
                                              HttpServletRequest request, @PathVariable(value = "id") Integer id) {
         List<EventEntity> eventEntities = eventModel.getByOwner(userModel.getById(id).getUserName());
         return converterEvent.DTOListFromEntities(eventEntities);
     }
 
-    /*
-     * Logging and exceptions here remain manual for 
-     */
     @Override
     @PostMapping(value = "/login")
     public LoginResponse login(@RequestHeader HttpHeaders httpHeaders,

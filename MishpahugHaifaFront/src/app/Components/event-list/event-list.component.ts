@@ -12,8 +12,8 @@ export enum RenderEvents {
 
 @Component({
 	selector: 'app-eventlist',
-	templateUrl: './eventlist.component.html',
-	styleUrls: ['./eventlist.component.scss']
+	templateUrl: './event-list.component.html',
+	styleUrls: ['./event-list.component.scss']
 })
 export class EventListComponent implements OnInit{
 

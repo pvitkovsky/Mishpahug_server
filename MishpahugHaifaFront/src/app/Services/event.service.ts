@@ -14,9 +14,11 @@ export class EventService {
   }
 
   getEvents (filter? : EventFilter ) : Observable<EventDetail[]> {
-    var connectionString : string = EVENTROOT;
+    let connectionString : string;
     if(filter){
-      connectionString += filter.combineConnectionString();
+      connectionString = filter.getConnectionString();
+    } else {
+      connectionString = EVENTROOT;
     }
     var res : Observable<EventDetail[]> = this.http.get<EventDetail[]>(connectionString);
     return res;

@@ -1,19 +1,18 @@
 import {Component, OnInit} from '@angular/core';
-import {ChoicesConnection, EventDetail} from '../../Models';
-import {ChoicesService} from '../../Services/choices.service';
+import {ChoicesConnection, EventDetail} from '../../../Models';
+import {ChoicesService} from '../../../Services/choices.service';
 import {ActivatedRoute} from '@angular/router';
-import {EventService, UserService} from '../../Services';
+import {EventService, UserService} from '../../../Services';
 
 @Component({
-  selector: 'app-event-details',
-  templateUrl: './event-details.component.html',
-  styleUrls: ['./event-details.component.scss']
+  selector: 'app-event-edit',
+  templateUrl: './event-edit.component.html',
+  styleUrls: ['./event-edit.component.scss']
 })
-export class EventDetailsComponent implements OnInit {
+export class EventEditComponent implements OnInit {
 
   choices : Map<string, string[]>;
   renderedEventDetail : EventDetail; //TODO: input via router or as the child component
-  eventId : number;
   canEdit : boolean = false;
 
   constructor(private eventService: EventService, private choicesService: ChoicesService, private _route: ActivatedRoute, private userService: UserService) {
@@ -31,7 +30,7 @@ export class EventDetailsComponent implements OnInit {
 
     this.userService.current().subscribe(
       userDetail => {
-        console.log(' arrived userDetail ' + userDetail.id + ' and the event owner id is ' + this.renderedEventDetail.ownerId);
+        // console.log(' arrived userDetail ' + userDetail.id + ' and the event owner id is ' + this.renderedEventDetail.ownerId);
         this.canEdit = (userDetail.id === this.renderedEventDetail.ownerId) ;} //TODO: mergeMap or something with renderedEventDetail to ensure sync;
     );
 

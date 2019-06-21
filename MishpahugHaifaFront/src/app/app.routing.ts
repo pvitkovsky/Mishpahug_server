@@ -1,9 +1,7 @@
 import { Routes, RouterModule } from '@angular/router';
 
-import { EventListComponent } from './Components/eventlist/eventlist.component';
-import { EventsGeneralComponent } from './Components/eventlist/eventsgeneral/eventsgeneral.component';
-import { EventsByOwnerComponent } from './Components/eventlist/eventsbyowner/eventsbyowner.component';
-import { EventDetailsComponent } from './Components/event-details/event-details.component';
+import { EventListComponent } from './Components/event-list/event-list.component';
+import { EventEditComponent } from './Components/event-details/event-edit/event-edit.component';
 
 import { LoginComponent } from './Components/login/login.component';
 import { RegisterComponent } from './Components/register/register.component';
@@ -41,8 +39,8 @@ const appRoutes: Routes = [{
     component: EventListComponent //TODO: guarded and unguarded component based on eventparams
 },
 {
-    path: 'detail/:id',
-    component: EventDetailsComponent,
+    path: 'edit/:id',
+    component: EventEditComponent,
     canActivate: [AuthGuard]
 },
 {

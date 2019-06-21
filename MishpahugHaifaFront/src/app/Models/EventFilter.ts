@@ -1,5 +1,6 @@
 import { UserDetail } from './UserDetail';
-import { EventConnection } from './Connections/EventConnection';
+import {EventConnection, EVENTROOT} from './Connections/EventConnection';
+import {USERROOT} from './Connections/UserConnection';
 
 export enum EventStatus {
   ALL = 0,
@@ -25,15 +26,19 @@ export class EventFilter {
         //console.log("Arrived userDetail in constructor of Filter " + this.userDetail)
     }
 
-    combineConnectionString() : string {
+    getConnectionString() : string {
         switch (this.eventConnection) {
             case EventConnection.ALL: {
-              return EventConnection.ALL;
+              return EVENTROOT + EventConnection.ALL;
               break;
             }
             case EventConnection.OWNER: {
-              return EventConnection.OWNER + this.userDetail.userName;
+              return USERROOT + this.userDetail.id + EventConnection.OWNER ;
               break;
+            }
+            case EventConnection.GUEST: {
+              return USERROOT + this.userDetail.id + EventConnection.GUEST ;
+            break;
             }
             default: {
               return '';

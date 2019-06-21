@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { EventsRendererComponent } from '../eventsrenderer/eventsrenderer.component'
-import { EventDetail } from '../../../Models/index';
-import { EventListService } from '../eventlist.service'
+import { EventRenderComponent } from '../../event-render/event-render.component'
+import { EventDetail } from '../../../../Models';
+import { EventListService } from '../../event-list.service'
 
 @Component({
 	selector: 'app-eventsbyowner',

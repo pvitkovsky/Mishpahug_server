@@ -1,7 +1,7 @@
 export enum EventConnection {
   ALL = '',
-  OWNER = '?userEntityOwner.userName=',
-  GUEST = '', //TODO: string;
+  OWNER = '/events',
+  GUEST = '/subscribes',
 }
 
 export const EVENTROOT : string = 'api/event/';

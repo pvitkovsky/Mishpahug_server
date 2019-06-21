@@ -1,14 +1,14 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { filter } from 'rxjs/operators'
 import { EventDetail } from '../../../Models/index';
-import { EventListService } from '../eventlist.service'
+import { EventListService } from '../event-list.service'
 
 @Component({
 	selector: 'app-eventsrenderer',
-	templateUrl: './eventsrenderer.component.html',
-	styleUrls: ['./eventsrenderer.component.scss']
+	templateUrl: './event-render.component.html',
+	styleUrls: ['./event-render.component.scss']
 })
-export class EventsRendererComponent implements OnInit, OnChanges {
+export class EventRenderComponent implements OnInit, OnChanges {
 
 	@Input() childEventList : EventDetail[];
 	events = [];

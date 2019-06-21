@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { EventsRendererComponent } from '../eventsrenderer/eventsrenderer.component'
-import { EventDetail } from '../../../Models/index';
-import { EventListService } from '../eventlist.service'
+import { EventDetail } from '../../../../Models/index';
+import { EventListService } from '../../event-list.service'
 
 @Component({
   selector: 'app-eventsbyguest',

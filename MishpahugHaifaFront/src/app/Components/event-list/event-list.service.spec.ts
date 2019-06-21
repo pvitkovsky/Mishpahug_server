@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { EventListService } from './eventlist.service';
+import { EventListService } from './event-list.service';
 
 describe('EventlistserviceService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

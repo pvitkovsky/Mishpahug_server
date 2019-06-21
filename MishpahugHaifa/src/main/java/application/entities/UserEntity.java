@@ -115,23 +115,6 @@ public class UserEntity {
 	private interface StatusChanger {
 		void change(UserEntity user);
 	}
-	
-	@OneToMany(mappedBy = "userEntityOwner", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-	@JsonManagedReference("userEventOwner") // Bidirectional, managed from here;
-	@Getter(AccessLevel.NONE)
-	@Setter(AccessLevel.NONE)
-	@Builder.Default
-	@JsonProperty("owned_events")
-	//TODO: rename to ownedEvents please; 
-	private Set<EventEntity> eventItemsOwner = new HashSet<>();
-
-	@OneToMany(mappedBy = "guest", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-	@JsonManagedReference("guestOfSubscription")
-	@Getter(AccessLevel.NONE)
-	@Setter(AccessLevel.NONE)
-	@Builder.Default
-	@JsonProperty("subscriptions")
-	private Set<SubscriptionEntity> subscriptions = new HashSet<>();
 
 	@ElementCollection
 	@CollectionTable
@@ -179,22 +162,6 @@ public class UserEntity {
 	}	
 	
 	/**
-	 * Checks the correct state of all bidirectional relations in this entity
-	 */
-	public void checkForIntegrity() {
-		for (EventEntity event : this.getEventEntityOwner()) {
-			if(!event.getUserEntityOwner().equals(this)) {
-				throw new IllegalStateException("User owns an event that has other user as an owner: " + event);
-			}
-		}
-		for (SubscriptionEntity subscription : this.getSubscriptions()) {
-			if(!subscription.getGuest().equals(this)) {
-				throw new IllegalStateException("User has a subscription that has other user as a guest: " + subscription);
-			}
-		}
-	}
-	
-	/**
 	 * Checks that the user is OK to delete and then unsubscribes him/her from
 	 * everywhere, and his subscribers too;
 	 */
@@ -203,106 +170,8 @@ public class UserEntity {
 		if (!isPendingForDeletion()) {
 			throw new IllegalArgumentException("User must be first putIntoDeletionQueue");
 		}
-		unsubscribeEventsAndSubscriptions();
 	}
 
-	/**
-	 * Immutable wrapper over events owned by this user;
-	 */
-	@JsonIgnore
-	public Set<EventEntity> getEventEntityOwner() {
-		return Collections.unmodifiableSet(eventItemsOwner);
-	}
-
-	/**
-	 * Immutable wrapper over Subscriptions;
-	 * 
-	 * @return
-	 */
-	@JsonIgnore
-	public Set<SubscriptionEntity> getSubscriptions() {
-		return Collections.unmodifiableSet(subscriptions);
-	}
-
-	/**
-	 * Protected way to add OwnedEvent;
-	 * 
-	 * @param_city
-	 * @return
-	 */
-	protected boolean addOwnedEvent(EventEntity event) {
-		return eventItemsOwner.add(event);
-	}
-
-	/**
-	 * Protected way to remove OwneddEvent;
-	 * 
-	 * @param_city
-	 * @return
-	 */
-	protected boolean removeOwnedEvent(EventEntity event) {
-		return eventItemsOwner.remove(event);
-	}
-
-	/**
-	 * Protected way to add SubscribedEvent;
-	 * 
-	 * @param_city
-	 * @return
-	 */
-	protected boolean addSubscription(SubscriptionEntity subscription) {
-		return subscriptions.add(subscription);
-	}
-
-	/**
-	 * SubscribedEvent is not deleted once the user is merged;
-	 * 
-	 * @param_city
-	 * @return
-	 */
-	protected boolean removeSubsription(SubscriptionEntity subscription) {
-		return subscriptions.remove(subscription);
-	}
-	
-	/**
-	 * Unsubscribes user from all subscribed events; unsubscribes others from this
-	 * user's owned event; this must be done only before final deletion;
-	 */
-	/*
-	 * Unable to remove while iterated. Had to include collection copy to fix this. 
-	 */
-	private void unsubscribeEventsAndSubscriptions() {
-		
-		Set<SubscriptionEntity> removeSubs = new CopyOnWriteArraySet<>(subscriptions);
-		Set<EventEntity> removeEvents = new CopyOnWriteArraySet<>(eventItemsOwner);
-		removeSubs.forEach(SubscriptionEntity::nullifyForRemoval); 
-		removeEvents.forEach(EventEntity::nullifyForRemoval);
-		
-	}
-
-	/**
-	 * Activates all "Deactivated" events and subscription of this user;
-	 */
-	private void activateEventsAndSubscriptions() {
-		subscriptions.forEach(SubscriptionEntity::activate);
-		eventItemsOwner.forEach(EventEntity::activate);
-	}
-
-	/**
-	 * Deactivates all events and subscription of this user;
-	 */
-	private void deactivateEventsAndSubscriptions() {
-		subscriptions.forEach(SubscriptionEntity::deactivate);
-		eventItemsOwner.forEach(EventEntity::deactivate);
-	}
-
-	/**
-	 * Puts all events and subsriptions of this user for deletion;
-	 */
-	private void putEventsAndSubscriptionsForDeletion() {
-		subscriptions.forEach(SubscriptionEntity::putIntoDeletionQueue);
-		eventItemsOwner.forEach(EventEntity::putIntoDeletionQueue);
-	}
 
 	/**
 	 * @return true if this user is activated
@@ -322,7 +191,6 @@ public class UserEntity {
 	 * Activate this user
 	 */
 	public void activate() {
-		activateEventsAndSubscriptions();
 		status = UserStatus.ACTIVE;
 	}
 
@@ -330,7 +198,6 @@ public class UserEntity {
 	 * Deactivate this user
 	 */
 	public void deactivate() {
-		deactivateEventsAndSubscriptions();
 		status = UserStatus.DEACTIVATED;
 	}
 
@@ -338,7 +205,6 @@ public class UserEntity {
 	 * Puts this user in the deletion queue
 	 */
 	public void putIntoDeletionQueue() {
-		putEventsAndSubscriptionsForDeletion();
 		status = UserStatus.PENDINGFORDELETION;
 	}
 }

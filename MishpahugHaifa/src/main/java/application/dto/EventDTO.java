@@ -40,7 +40,6 @@ public class EventDTO {
         this.time = eventEntity.getTime();
         this.nameOfEvent = eventEntity.getNameOfEvent();
         this.ownerId = eventEntity.getUserEntityOwner().getId();
-        this.guestIds = eventEntity.getSubscriptions().stream().map(s -> s.getGuest().getId()).collect(Collectors.toList());
         
     }
 }

@@ -77,12 +77,6 @@ public class EventEntity {
 	@Setter(AccessLevel.NONE)
 	private UserEntity userEntityOwner;
 
-	@OneToMany(mappedBy = "event", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-	@JsonManagedReference("eventOfSubscription") // TODO: feedback
-	@Getter(AccessLevel.NONE)
-	@Setter(AccessLevel.NONE)
-	private Set<SubscriptionEntity> subscriptions = new HashSet<>();
-
 	@Column(name = "status")
 	@Enumerated(EnumType.STRING)
 	private EventStatus status = EventStatus.ACTIVE;
@@ -133,30 +127,8 @@ public class EventEntity {
 			if (this.userEntityOwner.equals(owner)) {
 				return;
 			}
-			userEntityOwner.removeOwnedEvent(this);
 		}
 		this.userEntityOwner = owner;
-		userEntityOwner.addOwnedEvent(this);
-	}
-
-	/**
-	 * Checks the correct state of all bidirectional relations in this entity
-	 */
-	public Boolean checkEventIntegrity() {
-		Boolean rez = true;
-		if (!userEntityOwner.getEventEntityOwner().contains(this)) {
-			rez = false;
-			throw new IllegalStateException(
-					"Event has user set as owner, but not present in the user's collection of owned events");
-		}
-		for (SubscriptionEntity subscription : this.getSubscriptions()) {
-			if (!subscription.getEvent().equals(this)) {
-				rez = false;
-				throw new IllegalStateException(
-						"Event has a subscription that points to another event : " + subscription);
-			}
-		}
-		return rez;
 	}
 
 	/**
@@ -168,8 +140,6 @@ public class EventEntity {
 		if (!isPendingForDeletion()) {
 			throw new IllegalArgumentException("Event must be first putIntoDeletionQueue");
 		}
-		unsubscribeAll();
-		userEntityOwner.removeOwnedEvent(this);
 	}
 
 	/**
@@ -190,74 +160,6 @@ public class EventEntity {
 		return this.nameOfEvent + " " + this.date.toString() + " " + this.time.toString();
 	}
 
-	/**
-	 * Protected way to add SubscribedEvent;
-	 * 
-	 * @param_city
-	 * @return
-	 */
-	protected boolean addSubscription(SubscriptionEntity subscription) {
-		return subscriptions.add(subscription);
-	}
-
-	/**
-	 * SubscribedEvent is not deleted once the user is merged;
-	 * 
-	 * @param_city
-	 * @return
-	 */
-	protected boolean removeSubsription(SubscriptionEntity subscription) {
-		return subscriptions.remove(subscription);
-	}
-
-	/**
-	 * Immutable wrapper over Subscriptions;
-	 * 
-	 * @return
-	 */
-	public Set<SubscriptionEntity> getSubscriptions() {
-		return Collections.unmodifiableSet(subscriptions);
-	}
-
-	/**
-	 * Activates all subscriptions;
-	 */
-	private void activateAllSubscriptions() {
-		subscriptions.forEach(SubscriptionEntity::activate);
-	}
-
-	/**
-	 * Deactivates all subscriptions;
-	 */
-	private void deactivateAllSubscriptions() {
-		subscriptions.forEach(SubscriptionEntity::deactivate);
-	}
-
-	/**
-	 * Cancels all subscriptions;
-	 */
-	private void cancellAllSubscriptions() {
-		subscriptions.forEach(SubscriptionEntity::deactivate);
-	}
-
-	/**
-	 * Puts all subscriptions into deletion queue;
-	 */
-	private void putSubscriptionsIntoDeletionQueue() {
-		subscriptions.forEach(SubscriptionEntity::putIntoDeletionQueue);
-	}
-
-	/**
-	 * Removes all subscriptions when deleting event; not needed - if an event is
-	 * deleted, @PreRemove on EventGuestRelation does this;
-	 */
-	/*
-	 * Unable to remove while iterated. Had to include collection copy to fix this. 
-	 */
-	private void unsubscribeAll() {
-		Set<SubscriptionEntity> removeSubs = new CopyOnWriteArraySet<>(subscriptions);
-		removeSubs.forEach(SubscriptionEntity::nullifyForRemoval); 
-	}
 
 	public void convertEventDTO(EventDTO data) {
 		this.date = data.getDate();
@@ -307,7 +209,6 @@ public class EventEntity {
 		if (!isDeactivated()) {
 			throw new IllegalArgumentException("trying to activate event, but its status is " + this.status);
 		}
-		activateAllSubscriptions();
 		this.status = EventStatus.ACTIVE;
 	}
 
@@ -316,7 +217,6 @@ public class EventEntity {
 	 */
 	public void deactivate() {
 		if (isDue() || isComplete()) {
-			deactivateAllSubscriptions();
 			this.status = EventStatus.DEACTIVATED;
 		} else {
 			throw new IllegalArgumentException("trying to deactivate event, but its status is " + this.status);
@@ -330,7 +230,6 @@ public class EventEntity {
 		if (!isDue()) {
 			throw new IllegalArgumentException("trying to cancel event, but its status is " + this.status);
 		}
-		cancellAllSubscriptions();
 		this.status = EventStatus.CANCELED;
 	}
 
@@ -338,7 +237,6 @@ public class EventEntity {
 	 * Puts the event into delete queue;
 	 */
 	public void putIntoDeletionQueue() {
-		putSubscriptionsIntoDeletionQueue();
 		this.status = EventStatus.PENDINGFORDELETION;
 	}
 

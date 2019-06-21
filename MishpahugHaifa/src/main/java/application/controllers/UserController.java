@@ -81,7 +81,7 @@ public class UserController implements IUserController {
 
     
     @Override
-    @GetMapping(value = "/current")
+    @GetMapping(value = "/current")		
     public UserDTO getByToken(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request) {
     	String token = request.getHeader("Authorization");
         UserSession session = userSessionRepository.findByTokenAndIsValidTrue(token);
@@ -89,7 +89,7 @@ public class UserController implements IUserController {
     }
 
     @Override // SUBSCRIPTIONS
-    @GetMapping(value = "/{id}/subscribes") // re-wrapping from Relation;
+    @GetMapping(value = "/{id}/subscribes") // re-wrapping from Relation;		/*inter-aggregate query*/
     public List<EventDTO> getEventsById(@RequestHeader HttpHeaders httpHeaders,
 			HttpServletRequest request, @PathVariable(value = "id") Integer id) {
         List<SubscriptionEntity> subscriptionEntityList = relationModel.getEventsForGuest(userModel.getById(id));
@@ -101,7 +101,7 @@ public class UserController implements IUserController {
     }
 
     @Override // OWNER
-    @GetMapping(value = "/{id}/events") // direct o2m conneciton; 
+    @GetMapping(value = "/{id}/events") // direct o2m connection; 		/*inter-aggregate query*/
     public List<EventDTO> getEventsByOwnerId(@RequestHeader HttpHeaders httpHeaders,
                                              HttpServletRequest request, @PathVariable(value = "id") Integer id) {
         List<EventEntity> eventEntities = eventModel.getByOwner(userModel.getById(id).getUserName());

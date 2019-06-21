@@ -131,8 +131,6 @@ public class EventModelTest {
 		Mockito.when(userRepo.existsById(ALYSSA.getId())).thenReturn(true);
 
 		assertEquals(eventModel.subscribe(GUESTING.getId(), ALYSSA.getId()), GUESTING);
-		assertTrue(ALYSSA.getSubscriptions().contains(subAtoG));
-		assertTrue(GUESTING.getSubscriptions().contains(subAtoG));
 	}
 	
 	
@@ -162,8 +160,6 @@ public class EventModelTest {
 		assertEquals(eventModel.unsubscribe(GUESTING.getId(), ALYSSA.getId()), GUESTING);
 		Mockito.when(subscriptionsRepo.getOne(idAG)).thenReturn(AGUESTING);
 		subAtoG = subscriptionsRepo.getOne(idAG); 
-		assertFalse(ALYSSA.getSubscriptions().contains(subAtoG));
-		assertFalse(GUESTING.getSubscriptions().contains(subAtoG));
 	}
 	
 	//TODO: tests on deactivate and cancel pls

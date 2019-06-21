@@ -70,7 +70,7 @@ public class EventController implements IEventController {
 	@RequestMapping(method = RequestMethod.GET, value = "/{id}/guests")
 	@ResponseBody
 	@Override
-	public List<UserDTO> findGuestByEventId(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request, @PathVariable(name = "id") Integer id) {
+	public List<UserDTO> findGuestByEventId(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request, @PathVariable(name = "id") Integer id) {	/*inter-aggregate query*/
 		List<UserEntity> userEntityList = eventModel.getSubscribedGuests(id);
 		return converterUser.DTOListFromEntities(userEntityList);
 	}

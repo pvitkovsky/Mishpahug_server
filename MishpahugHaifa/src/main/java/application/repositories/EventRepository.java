@@ -56,15 +56,7 @@ public interface EventRepository extends JpaRepository<EventEntity, Integer>,
             List<? extends String> OwnerUserNames= new ArrayList<>(value);
             return Optional.of(path.contains(OwnerUserNames.get(0))); //Why get(0)?
         });
-        
-        bindings.bind(root.subscriptions.any().guest.userName).all((path, value) -> { //COUPLING
-            log.debug("EventRepository -> customize-> value = " + value);
-            log.debug("EventRepository -> customize-> path = " + path);
-            List<? extends String> GuestUserNames= new ArrayList<>(value);
-            return Optional.of(path.contains(GuestUserNames.get(0))); //Why get(0)?
-        });
-
-
+       
         bindings.bind(root.date).all((path, value) -> {
             log.debug("EventRepository -> customize-> value = " + value);
             log.debug("EventRepository -> customize-> path = " + path);

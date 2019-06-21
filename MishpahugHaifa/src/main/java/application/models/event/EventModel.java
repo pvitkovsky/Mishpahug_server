@@ -32,25 +32,24 @@ public class EventModel implements IEventModel {
 
 
 	@Override
-	public List<EventEntity> getSubscribedEvents(Integer userId) {
+	public List<EventEntity> getSubscribedEvents(Integer userId) { /*inter-aggregate query*/
 		UserEntity userEntity = userRepository.getOne(userId);
 		return subscriptionsRepository.getEventsForGuest(userEntity);
 	}
 
 	@Override
-	public List<UserEntity> getSubscribedGuests(Integer eventId) {
+	public List<UserEntity> getSubscribedGuests(Integer eventId) {  /*inter-aggregate query*/
 		EventEntity eventEntity = eventRepository.getOne(eventId);
 		return subscriptionsRepository.getGuestsForEvent(eventEntity);
 	}
 
 	@Override
-	public List<EventEntity> getByOwner(String ownerUserName) {
+	public List<EventEntity> getByOwner(String ownerUserName) { /*inter-aggregate query*/
 		return eventRepository.getByUserEntityOwner_UserName(ownerUserName);
 	}
 	
-
 	@Override
-	public List<EventEntity> getByOwner(Integer ownerUserId) {
+	public List<EventEntity> getByOwner(Integer ownerUserId) { /*inter-aggregate query*/
 		return eventRepository.getByUserEntityOwner_Id(ownerUserId);
 	}
 
@@ -142,11 +141,6 @@ public class EventModel implements IEventModel {
 				subscription = new SubscriptionEntity();
 			} else {
 				subscription = subscriptionsRepository.getOne(subscriptionKey);
-				if (!userEntity.getSubscriptions().contains(subscription)
-						|| !eventEntity.getSubscriptions().contains(subscription)) {
-					throw new IllegalStateException(
-							"Subscription relation exists, but is not in subscription sets of Event or Guest");
-				}
 			}
 		}
 

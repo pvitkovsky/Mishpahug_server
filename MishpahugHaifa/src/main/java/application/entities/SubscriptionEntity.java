@@ -37,7 +37,6 @@ import lombok.extern.slf4j.Slf4j;
 @Entity
 @Table(name = "user_event_guest", uniqueConstraints = {@UniqueConstraint(columnNames = {"GUEST_ID", "EVENT_ID"})})
 @ToString
-@Slf4j
 /**
  * Represents a subscription. You shouldn't explicitly save this class, it is managed by cascade from User and Event; 
  *
@@ -141,10 +140,6 @@ public class SubscriptionEntity {
 		this.id.eventId = event.getId();
 		this.guest = guest;
 		this.event = event;
-		boolean wasAdded = true;
-		wasAdded = this.guest.addSubscription(this) && wasAdded;
-		wasAdded = this.event.addSubscription(this) && wasAdded;
-		//TODO: consider using wasAdded to track inconsistency in related sets;  
 	}
 	
 	private void checkEventAndID(UserEntity guest, EventEntity event) {
@@ -176,41 +171,6 @@ public class SubscriptionEntity {
 		}
 		newStatus.change(this);
 	}
-	/**
-	 * Checks the correct state of all bidirectional relations in this entity
-	 */
-	public void checkEventIntegrity() {
-		if (!guest.getSubscriptions().contains(this)) {
-			throw new IllegalStateException(
-					"Subscription has guest, but not present in the guest's collection of subscriptions: " + guest);
-		}
-		if (!event.getSubscriptions().contains(this)) {
-			throw new IllegalStateException(
-					"Subscription points to event, but not present in the events's collection of subscriptions: " + event);
-		}
-	}
-	
-	/**
-	 * Removes a Guest from the Event, two directions.
-	 * 
-	 * @param guest
-	 */
-	private boolean unsubscribe(UserEntity guest, EventEntity event) {
-		if (event.getUserEntityOwner().equals(guest)) {
-			throw new IllegalArgumentException("Trying to unsubscribe to the owned event");
-		}
-		if (!guest.getSubscriptions().contains(this) && !event.getSubscriptions().contains(this)) {
-			throw new IllegalArgumentException("Trying to unsubsribe from non-existing subscription");
-		}
-		if (guest.getSubscriptions().contains(this) != event.getSubscriptions().contains(this)) {
-			throw new IllegalStateException("Subscription is not consistent across User and Event");
-		}	
-		boolean res = true;
-		res = guest.removeSubsription(this) && res; // what if this command succeeds and the other does not?
-													// inconsistent state;
-		res = event.removeSubsription(this) && res;
-		return res;
-	}
 	
 	/**
 	 * Launched on remove() from this entity's repository. Checks if the guest-event relation is OK to delete and then nullifies it. 
@@ -219,9 +179,6 @@ public class SubscriptionEntity {
 	public void nullifyForRemoval() {
 		if (!isPendingForDeletion()) {
 			throw new IllegalArgumentException("EventGuestRelation must be first putIntoDeletionQueue");	
-		}
-		if(this.guest.getSubscriptions().contains(this) || this.event.getSubscriptions().contains(this)) {
-			unsubscribe(this.guest, this.event); // if at least one of the many-to-many entities contains the intermediate entity, we fire the full consistency check. 
 		}
 	}
 

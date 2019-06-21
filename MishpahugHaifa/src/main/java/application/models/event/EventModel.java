@@ -2,8 +2,8 @@ package application.models.event;
 
 import application.entities.EventEntity;
 import application.entities.SubscriptionEntity;
-import application.entities.SubscriptionEntity.EventGuestId;
 import application.entities.UserEntity;
+import application.entities.SubscriptionEntity.EventGuestId;
 import application.repositories.*;
 import application.utils.converter.IUpdates;
 import com.querydsl.core.types.Predicate;
@@ -26,13 +26,7 @@ public class EventModel implements IEventModel {
 	UserRepository userRepository;
 	@Autowired
 	SubscriptionRepository subscriptionsRepository;
-	@Autowired
-	ReligionRepository religionRepository;
-	@Autowired
-	KichenTypeRepository kichenTypeRepository;
-	@Autowired
-	HolyDayRepository holyDayRepository;
-
+	
 	@Autowired
 	IUpdates updates;
 

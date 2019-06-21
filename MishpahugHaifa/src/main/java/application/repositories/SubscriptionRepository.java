@@ -2,8 +2,9 @@ package application.repositories;
 
 import application.entities.EventEntity;
 import application.entities.SubscriptionEntity;
-import application.entities.SubscriptionEntity.EventGuestId;
 import application.entities.UserEntity;
+import application.entities.SubscriptionEntity.EventGuestId;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

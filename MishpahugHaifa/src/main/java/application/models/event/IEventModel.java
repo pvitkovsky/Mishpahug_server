@@ -2,6 +2,7 @@ package application.models.event;
 
 import application.entities.EventEntity;
 import application.entities.UserEntity;
+
 import com.querydsl.core.types.Predicate;
 
 import java.util.HashMap;

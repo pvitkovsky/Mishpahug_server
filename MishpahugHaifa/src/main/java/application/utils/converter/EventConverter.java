@@ -2,7 +2,6 @@ package application.utils.converter;
 
 import application.dto.EventDTO;
 import application.entities.EventEntity;
-import application.entities.properties.AddressEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -33,15 +32,7 @@ public List<EventDTO> DTOListFromEntities(Iterable<EventEntity> data) {
 
 	public EventEntity entityFromDTO(EventDTO data) {
 			EventEntity res = new EventEntity();
-			res.setHoliDay(holyDayRepository.getByName(data.getHoliday()));
 			res.setNameOfEvent(data.getNameOfEvent());
-			res.setKitchenType(kichenTypeRepository.getByName(data.getKichenType()));
-			AddressEntity addressEntity = new AddressEntity();
-			addressEntity.setStreet(data.getAddressStreet());
-			addressEntity.setBuilding(data.getAddressBuild());
-			addressEntity.setApartment(data.getAddressApartment());
-			res.setAddressEntity(addressEntity);
-			//TODO
 			return res;
 
 	}

@@ -1,12 +1,13 @@
 package application.utils.converter;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import application.dto.UserDTO;
 import application.entities.UserEntity;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 @Slf4j
 @Service
 public class UserConverter extends ConverterBase implements IConverter<UserEntity, UserDTO> {
@@ -34,10 +35,6 @@ public class UserConverter extends ConverterBase implements IConverter<UserEntit
 		res.setEncrytedPassword(data.getEncryptedPassword());
 		res.setPhoneNumber(data.getPhoneNumber());
 		res.setDateOfBirth(data.getDayOfBirth());
-		res.setGender(genderRepository.getByName(data.getGender()));
-		res.setKitchenType(kichenTypeRepository.getByName(data.getKichenType()));
-		res.setReligion(religionRepository.getByName(data.getReligion()));
-		res.setMaritalStatus(maritalStatusRepository.getByName(data.getMaritalStatus()));
 		return res;
 	}
 }

@@ -1,6 +1,36 @@
 
 package application.controllers;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
+
+import javax.security.auth.login.FailedLoginException;
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.codec.digest.DigestUtils;
+import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.querydsl.binding.QuerydslPredicate;
+import org.springframework.http.HttpHeaders;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.querydsl.core.types.Predicate;
+
 import application.controllers.interfaces.IUserController;
 import application.dto.EventDTO;
 import application.dto.LoginDTO;
@@ -9,33 +39,13 @@ import application.dto.UserDTO;
 import application.entities.EventEntity;
 import application.entities.SubscriptionEntity;
 import application.entities.UserEntity;
-import application.entities.security.UserSession;
+import application.entities.UserSession;
 import application.models.event.IEventModel;
 import application.models.feedback.IFeedBackModel;
-import application.models.properties.gender.IGenderModel;
-import application.models.properties.holyday.IHolyDayModel;
-import application.models.properties.kichentype.IKichenTypeModel;
-import application.models.properties.marriagestatus.IMaritalStatusModel;
-import application.models.properties.religion.IReligionModel;
 import application.models.user.IUserModel;
 import application.repositories.UserSessionRepository;
 import application.utils.converter.IConverter;
-import com.querydsl.core.types.Predicate;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.joda.time.DateTime;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.querydsl.binding.QuerydslPredicate;
-import org.springframework.http.HttpHeaders;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.*;
-
-import javax.security.auth.login.FailedLoginException;
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -60,21 +70,6 @@ public class UserController implements IUserController {
 
     @Autowired
     IConverter<EventEntity, EventDTO> converterEvent;
-    
-    @Autowired
-    IReligionModel religionModel;
-
-    @Autowired
-    IKichenTypeModel kichenTypeModel;
-
-    @Autowired
-    IGenderModel genderModel;
-
-    @Autowired
-    IMaritalStatusModel maritalStatusModel;
-
-    @Autowired
-    IHolyDayModel holyDayModel;
 
     
     @Override
@@ -228,10 +223,6 @@ public class UserController implements IUserController {
     public void setDataFromFormDetail(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
 			@RequestBody UserDTO data, @RequestParam(name = "username") String userName) {
         UserEntity userEntity = userModel.getByUserName(userName);
-        userEntity.setGender(genderModel.getByName(data.getGender()));
-        userEntity.setMaritalStatus(maritalStatusModel.getByName(data.getMaritalStatus()));
-        userEntity.setReligion(religionModel.getByName(data.getReligion()));
-        userEntity.setKitchenType(kichenTypeModel.getByName(data.getKichenType()));
         userModel.add(userEntity);
     }
 

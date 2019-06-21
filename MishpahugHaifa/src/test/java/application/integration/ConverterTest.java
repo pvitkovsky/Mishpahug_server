@@ -1,8 +1,5 @@
 package application.integration;
 
-import application.dto.UserDTO;
-import application.entities.UserEntity;
-import application.repositories.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +9,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+
+import application.dto.UserDTO;
+import application.entities.UserEntity;
+import application.repositories.UserRepository;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest

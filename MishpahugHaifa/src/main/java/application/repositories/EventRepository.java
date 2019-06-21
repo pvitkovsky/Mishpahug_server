@@ -3,6 +3,7 @@ package application.repositories;
 import application.entities.EventEntity;
 import application.entities.QEventEntity;
 import application.entities.UserEntity;
+
 import com.querydsl.core.types.dsl.StringPath;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,20 +44,6 @@ public interface EventRepository extends JpaRepository<EventEntity, Integer>,
             log.debug("EventRepository -> customize-> path = " + path);
             List<? extends String> NamesOfEvents = new ArrayList<>(value);
             return Optional.of(path.contains(NamesOfEvents.get(0)));
-        });
-
-        bindings.bind(root.holiDay.name).all((path, value) -> {
-            log.debug("EventRepository -> customize-> value = " + value);
-            log.debug("EventRepository -> customize-> path = " + path);
-            List<? extends String> NamesOfHolidays = new ArrayList<>(value);
-            return Optional.of(path.contains(NamesOfHolidays.get(0)));
-        });
-
-        bindings.bind(root.addressEntity.cityEntity.name).all((path, value) -> {
-            log.debug("EventRepository -> customize-> value = " + value);
-            log.debug("EventRepository -> customize-> path = " + path);
-            List<? extends String> NamesOfCities = new ArrayList<>(value);
-            return Optional.of(path.contains(NamesOfCities.get(0)));
         });
 
         bindings.bind(root.userEntityOwner.userName).all((path, value) -> {

@@ -2,6 +2,7 @@ package application.repositories;
 
 import application.entities.QUserEntity;
 import application.entities.UserEntity;
+
 import com.querydsl.core.types.dsl.StringPath;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
@@ -53,35 +54,11 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer>,
             return Optional.of(path.eq(eMails.get(0)));
         });
 
-        bindings.bind(root.addressEntity.cityEntity.name).all((path, value) -> {
-            List<? extends String> cities = new ArrayList<>(value);
-            return Optional.of(path.contains(cities.get(0)));
-        });
-
-        bindings.bind(root.addressEntity.street).all((path, value) -> {
-            List<? extends String> streets = new ArrayList<>(value);
-            return Optional.of(path.contains(streets.get(0)));
-        });
-
-        bindings.bind(root.addressEntity.building).all((path, value) -> {
-            List<? extends Integer> builds = new ArrayList<>(value);
-            return Optional.of(path.eq(builds.get(0)));
-        });
-
-        bindings.bind(root.addressEntity.apartment).all((path, value) -> {
-            List<? extends Integer> apartments = new ArrayList<>(value);
-            return Optional.of(path.eq(apartments.get(0)));
-        });
-
         bindings.bind(root.phoneNumber).all((path, value) -> {
             List<? extends String> phoneNumbers = new ArrayList<>(value);
             return Optional.of(path.contains(phoneNumbers.get(0)));
         });
 
-        bindings.bind(root.gender.name).all((path, value) -> {
-            List<? extends String> genderNames = new ArrayList<>(value);
-            return Optional.of(path.eq(genderNames.get(0)));
-        });
     }
 
 }

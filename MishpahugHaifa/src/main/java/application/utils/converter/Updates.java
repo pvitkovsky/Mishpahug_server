@@ -1,13 +1,12 @@
 package application.utils.converter;
 
-import application.entities.EventEntity;
-import application.entities.UserEntity;
-import application.entities.properties.GenderEntity;
-import application.entities.properties.KitchenTypeEntity;
-import lombok.extern.slf4j.Slf4j;
+import java.util.HashMap;
+
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
+import application.entities.EventEntity;
+import application.entities.UserEntity;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
@@ -35,16 +34,6 @@ public class Updates extends ConverterBase implements IUpdates { //TODO: naming 
         if (data.containsKey("email")) {
             log.info("UserConverter -> Update -> email -> new email = " + data.get("email"));
             userEntity.setEMail(data.get("email"));
-        }
-        if (data.containsKey("gender")) {
-            log.info("UserConverter -> Update -> gender -> new gender = " + data.get("gender"));
-            GenderEntity genderEntity = genderRepository.getByName(data.get("gender"));
-            userEntity.setGender(genderEntity);
-        }
-        if (data.containsKey("kitchentype")) {
-            log.info("UserConverter -> Update -> kitchentype -> new kitchentype = " + data.get("kitchentype"));
-            KitchenTypeEntity kitchenTypeEntity = kichenTypeRepository.getByName(data.get("kitchentype"));
-            userEntity.setKitchenType(kitchenTypeEntity);
         }
 
         //TODO остальные поля

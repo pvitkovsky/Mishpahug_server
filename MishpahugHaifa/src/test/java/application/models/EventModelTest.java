@@ -2,8 +2,8 @@ package application.models;
 
 import application.entities.EventEntity;
 import application.entities.SubscriptionEntity;
-import application.entities.SubscriptionEntity.EventGuestId;
 import application.entities.UserEntity;
+import application.entities.SubscriptionEntity.EventGuestId;
 import application.models.event.EventModel;
 import application.models.event.IEventModel;
 import application.repositories.*;
@@ -45,12 +45,6 @@ public class EventModelTest {
 	UserRepository userRepo;
 	@MockBean
 	SubscriptionRepository subscriptionsRepo;
-	@MockBean
-	ReligionRepository religionRepo;
-	@MockBean
-	KichenTypeRepository kichenTypeRepo;
-	@MockBean
-	HolyDayRepository holyDayRepo;
 	@MockBean
 	IUpdates updates;
 	

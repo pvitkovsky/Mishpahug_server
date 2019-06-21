@@ -1,6 +1,5 @@
 package application.dto;
 
-import application.entities.UserEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,6 +7,8 @@ import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.List;
+
+import application.entities.UserEntity;
 
 @Getter
 @Setter
@@ -52,10 +53,6 @@ public class UserDTO {
     	this.eMail = user.getEMail();
     	this.userName = user.getUserName();
     	this.dayOfBirth = user.getDateOfBirth();
-    	this.gender = user.getGender() == null ? "" : user.getGender().getName();
-    	this.kichenType = user.getKitchenType()== null ? "" : user.getKitchenType().getName();
-    	this.religion = user.getReligion()== null ? "" : user.getReligion().getName();
-    	this.maritalStatus = user.getMaritalStatus()== null ? "" : user.getMaritalStatus().getName();
     	this.confirmedPassword = user.getEncrytedPassword();
 
     }

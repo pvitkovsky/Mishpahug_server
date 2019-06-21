@@ -1,6 +1,6 @@
 package application.controllers;
 
-import application.entities.values.FeedBackValue;
+import application.entities.FeedBackValue;
 import application.models.feedback.FeedBackModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

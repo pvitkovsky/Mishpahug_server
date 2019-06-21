@@ -1,9 +1,9 @@
 package application.relations.user_event;
 
 import application.entities.EventEntity;
+import application.entities.FeedBackValue;
 import application.entities.SubscriptionEntity;
 import application.entities.UserEntity;
-import application.entities.values.FeedBackValue;
 import application.repositories.EventRepository;
 import application.repositories.SubscriptionRepository;
 import application.repositories.UserRepository;

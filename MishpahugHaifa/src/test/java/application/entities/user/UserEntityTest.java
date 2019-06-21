@@ -1,9 +1,15 @@
 package application.entities.user;
 
-import application.entities.UserEntity;
-import application.entities.properties.AddressEntity;
-import application.repositories.AddressRepository;
-import application.repositories.UserRepository;
+import static org.junit.Assert.assertEquals;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import javax.persistence.EntityNotFoundException;
+import javax.validation.ConstraintViolationException;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,14 +21,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
-import javax.validation.ConstraintViolationException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import static org.junit.Assert.assertEquals;
+import application.entities.UserEntity;
+import application.repositories.UserRepository;
 
 
 @RunWith(SpringRunner.class)
@@ -33,21 +33,14 @@ public class UserEntityTest {
 
 	private UserEntity ALYSSA = new UserEntity("Alyssa", "p_hacker@sicp.edu");
 	private final UserEntity ALYSSADUPLICATE = new UserEntity("Alyssa", "p_hacker@sicp.edu");
-	private final AddressEntity AADDRESS = new AddressEntity();
 	private final Map<String, String> AUPDATE = new HashMap<>();
 	
 
 	@Autowired
 	UserRepository userRepo;
-	@Autowired
-	AddressRepository addressRepository;
 
 	@Before
 	public void buildEntities() {
-		AADDRESS.setStreet("Chuguev");
-		AADDRESS.setApartment(33);
-		AADDRESS.setBuilding(3);
-		
 		userRepo.save(ALYSSA);
 	}
 

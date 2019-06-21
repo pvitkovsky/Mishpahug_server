@@ -1,23 +1,45 @@
 package application.entities;
 
-import application.entities.properties.*;
-import application.entities.values.PictureValue;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
+
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.PreRemove;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
 @Entity
 @Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = { "email"}), @UniqueConstraint(columnNames = { "username"}) })
@@ -93,25 +115,7 @@ public class UserEntity {
 	private interface StatusChanger {
 		void change(UserEntity user);
 	}
-
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, optional = true) // Unidirectional
-	private MaritalStatusEntity maritalStatus;
-
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, optional = true) // Unidirectional
-	private GenderEntity gender;
-
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, optional = true) // Unidirectional;
-	private KitchenTypeEntity kitchenType;
-
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, optional = true) // Unidirectional;
-	private ReligionEntity religion;
-
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, optional = true) // Unidirectional; //TODO:
-																						// serializes only address not
-																						// city or country; cause -
-																						// innecessary bidirections;
-	private AddressEntity addressEntity;
-
+	
 	@OneToMany(mappedBy = "userEntityOwner", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	@JsonManagedReference("userEventOwner") // Bidirectional, managed from here;
 	@Getter(AccessLevel.NONE)
@@ -157,38 +161,6 @@ public class UserEntity {
 		}
 		return res;
 	}
-	
-//	/**
-//	 * Updating user based on DTO. 
-//	 * @param userDTO
-//	 * @return false if userDTO doesn't match this user's Id or Username, or if nothing was updated. 
-//	 */
-//	public boolean updateFromDTO(UserDTO userDTO) {
-//		System.out.println(userDTO);
-//		boolean res = false; 		
-//		if(userDTO.getId() != this.id){
-//			return res;
-//		}
-//		if(userDTO.getFirstName() != null  ) {
-//			this.setFirstName(userDTO.getFirstName()); 
-//			res = true;
-//		}
-//		
-//		if(userDTO.getLastName() != null) {
-//			this.setLastName(userDTO.getLastName()); 
-//			res = true;
-//		}
-//		if(userDTO.getPhoneNumber() != null) {
-//			this.setPhoneNumber(userDTO.getPhoneNumber()); 
-//			res = true;
-//		}
-//		if(userDTO.getEMail() != null) {
-//			this.setEMail(userDTO.getEMail()); 
-//			res = true;
-//		}
-//		//TODO: other fields 
-//		return res;
-//	}
 	
 	/**
 	 * Changes this user's status, validating the parameter

@@ -7,6 +7,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -14,6 +15,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import application.models.user.IUserModel;
 import application.models.user.UserEntity;
 import application.models.user.UserModel;
+import application.repositories.EventRepository;
+import application.repositories.SubscriptionRepository;
 import application.repositories.UserRepository;
 import application.utils.converter.IUpdates;
 
@@ -23,10 +26,18 @@ public class UserModelTest {
 
     private final UserEntity ALYSSA = new UserEntity();
     private final UserEntity ALYSSADUPLICATE = new UserEntity();
+
+    @MockBean
+    ApplicationEventPublisher eventPublisher;  
     @MockBean
     UserRepository userRepo;
+    @MockBean
+    EventRepository eventRepo;
+    @MockBean
+    SubscriptionRepository subRepo;
 	@MockBean
 	IUpdates updates;
+	
     @Autowired
     private IUserModel userModel;
 

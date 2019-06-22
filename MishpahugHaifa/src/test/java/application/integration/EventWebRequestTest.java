@@ -46,7 +46,6 @@ public class EventWebRequestTest {
 	@Before
 	public void buildEntities() { // TODO: save token manually instead of doing login;
 
-		System.out.println("Alyssa " + ALYSSA);
 		ALYSSA.setEncrytedPassword(DigestUtils.md5Hex(ALYSSA.getUserName()));
 		userRepo.save(ALYSSA);
 		userRepo.flush();

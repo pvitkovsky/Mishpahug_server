@@ -1,4 +1,4 @@
-package application.controllers.interfaces;
+package application.controllers;
 
 import application.dto.EventDTO;
 import application.dto.UserDTO;
@@ -14,11 +14,18 @@ import java.util.List;
  * HttpHeaders is the first argument, HttpServletRequest is the second
  */
 public interface IEventController {
-	List<EventDTO> findAllByWebQuerydsl(HttpHeaders httpHeaders, HttpServletRequest request, Predicate predicate);
+	
+	List<EventDTO> findAllByWebQuerydsl(HttpHeaders httpHeaders, HttpServletRequest request, Predicate predicate); // will not support filters by other aggregates; 
+	
 	EventDTO findById(HttpHeaders httpHeaders, HttpServletRequest request, Integer id);
+	
     List<UserDTO> findGuestByEventId(HttpHeaders httpHeaders, HttpServletRequest request, Integer id);
+    
 	EventDTO setDataFromForm(HttpHeaders httpHeaders, HttpServletRequest request, EventDTO data);
+	
 	EventDTO updateDataFromForm(HttpHeaders httpHeaders, HttpServletRequest request, HashMap<String, String> data, Integer id);
+	
 	void delete(HttpHeaders httpHeaders, HttpServletRequest request, Integer id);
+	
 	void delete(HttpHeaders httpHeaders, HttpServletRequest request);
 }

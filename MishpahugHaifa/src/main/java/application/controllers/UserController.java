@@ -31,7 +31,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.querydsl.core.types.Predicate;
 
-import application.controllers.interfaces.IUserController;
 import application.dto.EventDTO;
 import application.dto.LoginDTO;
 import application.dto.LoginResponse;
@@ -71,41 +70,21 @@ public class UserController implements IUserController {
     @Autowired
     IConverter<EventEntity, EventDTO> converterEvent;
 
-    
-    @Override
-    @GetMapping(value = "/{id}")
-    public UserDTO get(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
-			@PathVariable(value = "id") Integer id) {
-        return new UserDTO(userModel.getById(id));
-    }
-
-    
-    @Override
-    @GetMapping(value = "/current")		
-    public UserDTO getByToken(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request) {
-    	String token = request.getHeader("Authorization");
-        UserSession session = userSessionRepository.findByTokenAndIsValidTrue(token);
-    	return new UserDTO(userModel.getByUserName(session.getUserName())); //TODO: converter here?
-    }
 
     @Override // SUBSCRIPTIONS
     @GetMapping(value = "/{id}/subscribes") // re-wrapping from Relation;		/*inter-aggregate query*/
     public List<EventDTO> getEventsById(@RequestHeader HttpHeaders httpHeaders,
 			HttpServletRequest request, @PathVariable(value = "id") Integer id) {
-        List<SubscriptionEntity> subscriptionEntityList = relationModel.getEventsForGuest(userModel.getById(id));
-        List<EventEntity> eventEntities = new ArrayList<>();
-        for (SubscriptionEntity x:subscriptionEntityList) {
-            eventEntities.add(x.getEvent());
-        }
-        return converterEvent.DTOListFromEntities(eventEntities);
+    	List<EventEntity> subscribedEvents = eventModel.getSubscribedEvents(id);
+        return converterEvent.DTOListFromEntities(subscribedEvents);
     }
 
     @Override // OWNER
     @GetMapping(value = "/{id}/events") // direct o2m connection; 		/*inter-aggregate query*/
     public List<EventDTO> getEventsByOwnerId(@RequestHeader HttpHeaders httpHeaders,
                                              HttpServletRequest request, @PathVariable(value = "id") Integer id) {
-        List<EventEntity> eventEntities = eventModel.getByOwner(userModel.getById(id).getUserName());
-        return converterEvent.DTOListFromEntities(eventEntities);
+        List<EventEntity> ownedEvents = eventModel.getByOwner(userModel.getById(id).getUserName());
+        return converterEvent.DTOListFromEntities(ownedEvents);
     }
 
     @Override
@@ -165,6 +144,29 @@ public class UserController implements IUserController {
 
     
     @Override
+    @GetMapping(value = "/{id}")
+    public UserDTO get(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
+			@PathVariable(value = "id") Integer id) {
+        return new UserDTO(userModel.getById(id));
+    }
+    
+    @Override
+    @GetMapping(value = "/current")		
+    public UserDTO getByToken(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request) {
+    	String token = request.getHeader("Authorization");
+        UserSession session = userSessionRepository.findByTokenAndIsValidTrue(token);
+    	return new UserDTO(userModel.getByUserName(session.getUserName())); //TODO: converter here?
+    }
+    
+    @Override
+	@RequestMapping(method = RequestMethod.GET, value = "/")
+	@ResponseBody
+	public List<UserDTO> findAllByWebQuerydsl(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
+			@QuerydslPredicate(root = UserEntity.class) Predicate predicate) {
+        return converter.DTOListFromEntities(userModel.getAll(predicate));
+    }
+    
+    @Override
     @PutMapping(value = "/{id}")
     public UserDTO update(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
 			@RequestBody HashMap<String, String> data, @PathVariable(value = "id") Integer id) {      
@@ -206,12 +208,6 @@ public class UserController implements IUserController {
     }
 
     
-    @Override
-	@RequestMapping(method = RequestMethod.GET, value = "/")
-	@ResponseBody
-	public List<UserDTO> findAllByWebQuerydsl(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
-			@QuerydslPredicate(root = UserEntity.class) Predicate predicate) {
-        return converter.DTOListFromEntities(userModel.getAll(predicate));
-    }
+
 
 }

@@ -1,37 +1,52 @@
 package application.controllers;
 
-import application.models.relation.RelationModel;
-import application.models.user.values.FeedBackValue;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
+import application.models.relation.RelationModel;
+import application.models.user.values.FeedBackValue;
 
 @RestController
 @RequestMapping(value = "/subscription")
-public class SubscriptionController {
-    @Autowired
-    RelationModel feedBackModel;
+public class SubscriptionController implements ISubscriptionController {
 
-    @DeleteMapping(value = "/")
-    public void delete(@RequestHeader HttpHeaders httpHeaders,
-                       HttpServletRequest request,
-                       @RequestParam(name = "userid") Integer userId,
-                       @RequestParam(name = "eventid") Integer eventId){
-        if (userId != null) feedBackModel.removeAllByUser(userId);
-        if (eventId != null) feedBackModel.removeAllByEvent(eventId);
-    }
+	@Autowired
+	RelationModel relationModel;
 
-    @GetMapping(value = "/")
-    public Map<Integer, FeedBackValue> get(@RequestHeader HttpHeaders httpHeaders,
-                                           HttpServletRequest request,
-                                           @RequestParam(name = "userid", required = false) Integer userId,
-                                           @RequestParam(name = "eventid", required = false) Integer eventId){
-        if (userId != null) return feedBackModel.getAllByUser(userId);
-        if (eventId != null) return feedBackModel.getAllByEvent(eventId);
-        return null;
-    }
+	@Override
+	@PutMapping(value = "/")
+	public void subscribe(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
+			@RequestParam(name = "userid") Integer userId, @RequestParam(name = "eventid") Integer eventId) {
+		relationModel.subscribe(eventId, userId);
+	}
+
+	@Override
+	@DeleteMapping(value = "/")
+	public void deactivateSubscription(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
+			@RequestParam(name = "userid") Integer userId, @RequestParam(name = "eventid") Integer eventId) {
+		relationModel.deactivateSubscription(eventId, userId);
+	}
+
+	@GetMapping(value = "/")
+	public Map<Integer, FeedBackValue> getFeedback(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
+			@RequestParam(name = "userid", required = false) Integer userId,
+			@RequestParam(name = "eventid", required = false) Integer eventId) {
+		if (userId != null)
+			return relationModel.getAllByUser(userId);
+		if (eventId != null)
+			return relationModel.getAllByEvent(eventId);
+		return null;
+	}
+
 }

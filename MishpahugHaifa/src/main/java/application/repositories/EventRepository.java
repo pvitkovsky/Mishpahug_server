@@ -19,7 +19,6 @@ import application.models.event.EventEntity;
 import application.models.event.QEventEntity;
 import application.models.user.UserEntity;
 
-//TODO: disallow/hide DELETE;
 public interface EventRepository extends JpaRepository<EventEntity, Integer>,
         QuerydslPredicateExecutor<EventEntity>, QuerydslBinderCustomizer<QEventEntity>
         {

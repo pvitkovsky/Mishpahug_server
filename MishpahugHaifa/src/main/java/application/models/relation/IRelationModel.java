@@ -1,6 +1,7 @@
 package application.models.relation;
 
 
+import application.models.event.EventEntity;
 import application.models.user.UserEntity;
 import application.models.user.values.FeedBackValue;
 
@@ -8,9 +9,12 @@ import java.util.List;
 import java.util.Map;
 
 public interface IRelationModel {
+	
+    public EventEntity subscribe(Integer eventId, Integer userId); 
+    
+    public EventEntity deactivateSubscription(Integer eventId, Integer userId); 
+   
     public Map<Integer, FeedBackValue> getAllByEvent(Integer eventId);
-
-    List<SubscriptionEntity> getEventsForGuest(UserEntity userEntity);
 
     public Map<Integer, FeedBackValue> getAllByUser(Integer userId);
 

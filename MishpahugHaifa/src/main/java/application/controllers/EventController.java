@@ -1,9 +1,7 @@
 package application.controllers;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
@@ -26,12 +24,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Visitor;
 
-import application.controllers.interfaces.IEventController;
 import application.dto.EventDTO;
 import application.dto.UserDTO;
 import application.models.event.EventEntity;
 import application.models.event.IEventModel;
-import application.models.relation.SubscriptionEntity;
 import application.models.user.UserEntity;
 import application.utils.converter.IConverter;
 import lombok.extern.slf4j.Slf4j;

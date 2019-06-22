@@ -1,13 +1,10 @@
 package application.models;
 
-import application.models.event.EventEntity;
-import application.models.event.EventModel;
-import application.models.event.IEventModel;
-import application.models.relation.SubscriptionEntity;
-import application.models.relation.SubscriptionEntity.EventGuestId;
-import application.models.user.UserEntity;
-import application.repositories.*;
-import application.utils.converter.IUpdates;
+import static org.junit.Assert.assertEquals;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,22 +16,26 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.HashSet;
-import java.util.Set;
-
-import static org.junit.Assert.*;
+import application.models.event.EventEntity;
+import application.models.relation.IRelationModel;
+import application.models.relation.RelationModel;
+import application.models.relation.SubscriptionEntity;
+import application.models.relation.SubscriptionEntity.EventGuestId;
+import application.models.user.UserEntity;
+import application.repositories.EventRepository;
+import application.repositories.SubscriptionRepository;
+import application.repositories.UserRepository;
+import application.utils.converter.IUpdates;
 
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
-public class EventModelTest {
+public class RelationModelTest {
 	
 	@TestConfiguration
 	static class MPHServiceConfig{
 		@Bean
-		public IEventModel eventModel() {
-			return new EventModel();
+		public IRelationModel eventModel() {
+			return new RelationModel();
 		}
 	}
 
@@ -49,7 +50,7 @@ public class EventModelTest {
 	IUpdates updates;
 	
 	@Autowired
-	private IEventModel eventModel;
+	private IRelationModel relationModel;
 	
 
 	private final UserEntity ALYSSA = new UserEntity("Alyssa", "p_hacker@sicp.edu" );
@@ -130,7 +131,7 @@ public class EventModelTest {
 		Mockito.when(userRepo.getOne(BEN.getId())).thenReturn(BEN);
 		Mockito.when(userRepo.existsById(ALYSSA.getId())).thenReturn(true);
 
-		assertEquals(eventModel.subscribe(GUESTING.getId(), ALYSSA.getId()), GUESTING);
+		assertEquals(relationModel.subscribe(GUESTING.getId(), ALYSSA.getId()), GUESTING);
 	}
 	
 	
@@ -157,7 +158,7 @@ public class EventModelTest {
 		Mockito.when(userRepo.getOne(BEN.getId())).thenReturn(BEN);
 		Mockito.when(subscriptionsRepo.existsById(idAG)).thenReturn(true);
 		
-		assertEquals(eventModel.unsubscribe(GUESTING.getId(), ALYSSA.getId()), GUESTING);
+		assertEquals(relationModel.deactivateSubscription(GUESTING.getId(), ALYSSA.getId()), GUESTING);
 		Mockito.when(subscriptionsRepo.getOne(idAG)).thenReturn(AGUESTING);
 		subAtoG = subscriptionsRepo.getOne(idAG); 
 	}

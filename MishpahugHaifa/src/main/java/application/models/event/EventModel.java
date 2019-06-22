@@ -1,24 +1,34 @@
 package application.models.event;
 
-import application.models.relation.SubscriptionEntity;
-import application.models.relation.SubscriptionEntity.EventGuestId;
-import application.models.user.UserEntity;
-import application.repositories.*;
-import application.utils.converter.IUpdates;
-import com.querydsl.core.types.Predicate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Service;
+
+import com.querydsl.core.types.Predicate;
+
+import application.models.user.UserDeleted;
+import application.models.user.UserEntity;
+import application.repositories.EventRepository;
+import application.repositories.SubscriptionRepository;
+import application.repositories.UserRepository;
+import application.utils.converter.IUpdates;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional
+@Slf4j
 public class EventModel implements IEventModel {
 
+
+	@Autowired
+	private ApplicationEventPublisher applicationEventPublisher;
+	
 	@Autowired
 	EventRepository eventRepository;
 	@Autowired
@@ -28,6 +38,21 @@ public class EventModel implements IEventModel {
 	
 	@Autowired
 	IUpdates updates;
+	
+    @EventListener
+    public void updateEventsOnUserDelete(UserDeleted userDeleted) {
+        	log.warn("EventModel -> userChanged event deleted detected");
+        	List<EventEntity> eventsToDelete = eventRepository.getByUserEntityOwner_Id(userDeleted.getUserId());
+        	log.warn("Events To Delete: " + eventsToDelete );
+        	eventsToDelete.forEach(event -> { 
+        		log.warn("  event deletion: " + event );
+        		event.putIntoDeletionQueue();
+    			EventDeleted eventDeleted = new EventDeleted(event.getId());
+    			applicationEventPublisher.publishEvent(eventDeleted);
+    		});
+        	eventRepository.deleteAll(eventsToDelete);
+        	log.warn("Check eventModelUserDelete " + eventRepository.findAll());
+    }
 
 
 	@Override
@@ -58,12 +83,12 @@ public class EventModel implements IEventModel {
 	}
 
 	@Override
-	public EventEntity add(EventEntity data) { // would throw if no user is in data's owner field;
+	public EventEntity add(EventEntity data) { // would throw if no user is in data's owner field; //TODO: event emitter
 		return eventRepository.save(data);
 	}
 
 	@Override
-	public EventEntity update(Integer eventId, HashMap<String, String> data){
+	public EventEntity update(Integer eventId, HashMap<String, String> data){ //TODO: event emitter
 		EventEntity eventEntity = eventRepository.getOne(eventId);
 		updates.updateEvent(eventEntity, data);
 		return eventEntity;
@@ -96,72 +121,7 @@ public class EventModel implements IEventModel {
 		return eventRepository.findAll(predicate);
 	}
 
-	@Override
-	public EventEntity subscribe(Integer eventId, Integer userId){
-		SubscriptionHandler handler = new SubscriptionHandler(eventId, userId);
-		return handler.subscribe();
-	}
 
-	@Override
-	public EventEntity unsubscribe(Integer eventId, Integer userId){
-		SubscriptionHandler handler = new SubscriptionHandler(eventId, userId);
-		return handler.unsubscribe();
-	}
-
-	@Override
-	public EventEntity deactivateSubscription(Integer eventId, Integer userId){
-		SubscriptionHandler handler = new SubscriptionHandler(eventId, userId);
-		return handler.deactivate();
-	}
-
-	/**
-	 * Handles subscription logic;
-	 */
-	// TODO: refactor into Subscription model pls
-	// TODO: integer arguments design issue; test;
-	private class SubscriptionHandler {
-		final private Integer eventId;
-		final private Integer userId;
-		private EventEntity eventEntity;
-		private UserEntity userEntity;
-		private SubscriptionEntity subscription;
-
-		private SubscriptionHandler(Integer eventId, Integer userId){
-			this.eventId = eventId;
-			this.userId = userId;
-			load();
-		}
-
-		private void load(){
-			eventEntity = eventRepository.getOne(eventId);
-			userEntity = userRepository.getOne(userId);
-			EventGuestId subscriptionKey = new EventGuestId(userEntity.getId(), eventEntity.getId());
-			if (!subscriptionsRepository.existsById(subscriptionKey)) {
-				subscription = new SubscriptionEntity();
-			} else {
-				subscription = subscriptionsRepository.getOne(subscriptionKey);
-			}
-		}
-
-		EventEntity subscribe() {
-			return eventEntity;
-		}
-
-		EventEntity cancel() {
-			subscription.cancel();
-			return eventEntity;
-		}
-
-		EventEntity deactivate() {
-			subscription.deactivate();
-			return eventEntity;
-		}
-
-		EventEntity unsubscribe() {
-			subscription.putIntoDeletionQueue();
-			subscription.nullifyForRemoval(); // cascaded, no need to explicitly delete;
-			return eventEntity;
-		}
-	}
+	
 
 }

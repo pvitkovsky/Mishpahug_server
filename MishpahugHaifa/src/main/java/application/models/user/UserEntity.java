@@ -92,7 +92,6 @@ public class UserEntity {
 
 	@Column(name = "status")
 	@Enumerated(EnumType.STRING)
-	@Getter(AccessLevel.NONE)
 	@Setter(AccessLevel.NONE)
 	@Builder.Default
 	private UserStatus status = UserStatus.ACTIVE;

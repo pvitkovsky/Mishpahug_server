@@ -73,14 +73,14 @@ public class SubscriptionEntity {
 	@Setter(AccessLevel.NONE)
 	private EventGuestId id = new EventGuestId();
 
-	@ManyToOne // TODO: cascading
+	@ManyToOne
 	@JoinColumn(name = "GUEST_ID", insertable = false, updatable = false) // relation column names should match with
 																			// embedded id column names;
 	@Setter(AccessLevel.NONE)
 	@JsonBackReference("guestOfSubscription")
 	private UserEntity guest;
 
-	@ManyToOne // TODO: cascading
+	@ManyToOne
 	@JoinColumn(name = "EVENT_ID", insertable = false, updatable = false)
 	@Setter(AccessLevel.NONE)
 	@JsonBackReference("eventOfSubscription")
@@ -129,7 +129,7 @@ public class SubscriptionEntity {
 
 	/**
 	 * Helper method for setting the embedded Id fields together with the relation
-	 * fields, and setting bidirectional links
+	 * fields;
 	 * 
 	 * @param guest
 	 * @param event

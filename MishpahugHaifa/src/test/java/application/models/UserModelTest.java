@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import application.entities.UserEntity;
 import application.models.user.IUserModel;
+import application.models.user.UserEntity;
 import application.models.user.UserModel;
 import application.repositories.UserRepository;
 import application.utils.converter.IUpdates;

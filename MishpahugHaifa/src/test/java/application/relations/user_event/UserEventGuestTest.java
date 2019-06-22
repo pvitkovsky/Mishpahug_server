@@ -1,8 +1,8 @@
 package application.relations.user_event;
 
-import application.entities.EventEntity;
-import application.entities.SubscriptionEntity;
-import application.entities.UserEntity;
+import application.models.event.EventEntity;
+import application.models.relation.SubscriptionEntity;
+import application.models.user.UserEntity;
 import application.repositories.EventRepository;
 import application.repositories.SubscriptionRepository;
 import application.repositories.UserRepository;

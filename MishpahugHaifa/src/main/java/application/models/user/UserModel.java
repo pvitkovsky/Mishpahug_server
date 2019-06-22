@@ -1,6 +1,5 @@
 package application.models.user;
 
-import application.entities.UserEntity;
 import application.repositories.UserRepository;
 import application.utils.converter.IUpdates;
 import com.querydsl.core.types.Predicate;

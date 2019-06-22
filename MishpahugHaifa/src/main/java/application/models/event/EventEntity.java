@@ -1,4 +1,4 @@
-package application.entities;
+package application.models.event;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -33,6 +33,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import application.dto.EventDTO;
+import application.models.user.UserEntity;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

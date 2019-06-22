@@ -6,9 +6,9 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import application.configurations.dbloader.LoaderDependencies;
-import application.entities.EventEntity;
-import application.entities.SubscriptionEntity;
-import application.entities.UserEntity;
+import application.models.event.EventEntity;
+import application.models.relation.SubscriptionEntity;
+import application.models.user.UserEntity;
 import lombok.extern.slf4j.Slf4j;
 
 /**

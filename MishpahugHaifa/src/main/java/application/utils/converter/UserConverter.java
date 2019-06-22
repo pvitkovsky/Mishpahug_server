@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import application.dto.UserDTO;
-import application.entities.UserEntity;
+import application.models.user.UserEntity;
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service

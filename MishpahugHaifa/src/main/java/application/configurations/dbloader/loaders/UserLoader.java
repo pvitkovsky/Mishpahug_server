@@ -11,7 +11,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import application.configurations.dbloader.LoaderDependencies;
-import application.entities.UserEntity;
+import application.models.user.UserEntity;
 import lombok.extern.slf4j.Slf4j;
 
 /**

@@ -1,9 +1,8 @@
 package application.models.relation;
 
 
-import application.entities.FeedBackValue;
-import application.entities.SubscriptionEntity;
-import application.entities.UserEntity;
+import application.models.user.UserEntity;
+import application.models.user.values.FeedBackValue;
 
 import java.util.List;
 import java.util.Map;

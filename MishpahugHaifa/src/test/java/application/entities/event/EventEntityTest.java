@@ -1,7 +1,7 @@
 package application.entities.event;
 
-import application.entities.EventEntity;
-import application.entities.UserEntity;
+import application.models.event.EventEntity;
+import application.models.user.UserEntity;
 import application.repositories.EventRepository;
 import application.repositories.UserRepository;
 import org.junit.Before;

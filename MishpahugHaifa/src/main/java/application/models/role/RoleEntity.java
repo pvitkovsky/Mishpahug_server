@@ -1,4 +1,4 @@
-package application.entities;
+package application.models.role;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

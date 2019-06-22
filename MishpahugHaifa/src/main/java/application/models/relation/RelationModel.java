@@ -1,8 +1,7 @@
 package application.models.relation;
 
-import application.entities.FeedBackValue;
-import application.entities.SubscriptionEntity;
-import application.entities.UserEntity;
+import application.models.user.UserEntity;
+import application.models.user.values.FeedBackValue;
 import application.repositories.EventRepository;
 import application.repositories.SubscriptionRepository;
 import application.repositories.UserRepository;

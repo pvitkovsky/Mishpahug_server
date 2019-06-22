@@ -1,11 +1,11 @@
 package application.models;
 
-import application.entities.EventEntity;
-import application.entities.SubscriptionEntity;
-import application.entities.UserEntity;
-import application.entities.SubscriptionEntity.EventGuestId;
+import application.models.event.EventEntity;
 import application.models.event.EventModel;
 import application.models.event.IEventModel;
+import application.models.relation.SubscriptionEntity;
+import application.models.relation.SubscriptionEntity.EventGuestId;
+import application.models.user.UserEntity;
 import application.repositories.*;
 import application.utils.converter.IUpdates;
 import org.junit.Before;

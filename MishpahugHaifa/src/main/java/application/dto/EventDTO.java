@@ -10,7 +10,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import application.entities.EventEntity;
+import application.models.event.EventEntity;
 
 @ToString
 @Getter

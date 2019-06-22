@@ -1,7 +1,7 @@
 package application.utils.converter;
 
 import application.dto.EventDTO;
-import application.entities.EventEntity;
+import application.models.event.EventEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

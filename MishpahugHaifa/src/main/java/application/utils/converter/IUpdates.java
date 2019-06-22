@@ -1,7 +1,7 @@
 package application.utils.converter;
 
-import application.entities.EventEntity;
-import application.entities.UserEntity;
+import application.models.event.EventEntity;
+import application.models.user.UserEntity;
 
 import java.util.HashMap;
 

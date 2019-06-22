@@ -4,8 +4,8 @@ import java.util.HashMap;
 
 import org.springframework.stereotype.Service;
 
-import application.entities.EventEntity;
-import application.entities.UserEntity;
+import application.models.event.EventEntity;
+import application.models.user.UserEntity;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

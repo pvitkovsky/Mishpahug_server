@@ -1,4 +1,4 @@
-package application.entities;
+package application.models.user;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -31,6 +31,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import application.models.user.values.PictureValue;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

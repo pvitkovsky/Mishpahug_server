@@ -1,4 +1,4 @@
-package application.entities;
+package application.models.relation;
 
 import java.io.Serializable;
 
@@ -17,6 +17,9 @@ import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import application.models.event.EventEntity;
+import application.models.user.UserEntity;
+import application.models.user.values.FeedBackValue;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

@@ -10,7 +10,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import application.entities.EventEntity;
+import application.models.event.EventEntity;
 
 @ToString
 @Getter
@@ -21,6 +21,7 @@ public class EventDTO {
     private LocalDate date;
     private LocalTime time;
     private String nameOfEvent;
+    private Boolean isEnabled;
     private String addressCountry;
     private String addressCity;
     private String addressStreet;
@@ -40,7 +41,6 @@ public class EventDTO {
         this.time = eventEntity.getTime();
         this.nameOfEvent = eventEntity.getNameOfEvent();
         this.ownerId = eventEntity.getUserEntityOwner().getId();
-        this.guestIds = eventEntity.getSubscriptions().stream().map(s -> s.getGuest().getId()).collect(Collectors.toList());
-        
+        this.isEnabled = eventEntity.isEnabled();
     }
 }

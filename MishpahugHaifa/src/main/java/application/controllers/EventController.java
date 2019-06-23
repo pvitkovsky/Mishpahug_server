@@ -1,9 +1,7 @@
 package application.controllers;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
@@ -26,13 +24,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Visitor;
 
-import application.controllers.interfaces.IEventController;
 import application.dto.EventDTO;
 import application.dto.UserDTO;
-import application.entities.EventEntity;
-import application.entities.SubscriptionEntity;
-import application.entities.UserEntity;
+import application.models.event.EventEntity;
 import application.models.event.IEventModel;
+import application.models.user.UserEntity;
 import application.utils.converter.IConverter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -70,7 +66,7 @@ public class EventController implements IEventController {
 	@RequestMapping(method = RequestMethod.GET, value = "/{id}/guests")
 	@ResponseBody
 	@Override
-	public List<UserDTO> findGuestByEventId(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request, @PathVariable(name = "id") Integer id) {
+	public List<UserDTO> findGuestByEventId(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request, @PathVariable(name = "id") Integer id) {	/*inter-aggregate query*/
 		List<UserEntity> userEntityList = eventModel.getSubscribedGuests(id);
 		return converterUser.DTOListFromEntities(userEntityList);
 	}
@@ -98,7 +94,6 @@ public class EventController implements IEventController {
 	@DeleteMapping(value = "/{id}")
 	public void delete(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
 			@PathVariable(value = "id") Integer id) {
-		eventModel.getById(id).putIntoDeletionQueue();
 		eventModel.delete(id);
 	}
 

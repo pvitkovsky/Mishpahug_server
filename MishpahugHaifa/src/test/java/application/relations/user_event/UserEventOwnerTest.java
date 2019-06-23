@@ -1,11 +1,16 @@
 package application.relations.user_event;
 
-import application.entities.EventEntity;
-import application.entities.SubscriptionEntity;
-import application.entities.UserEntity;
-import application.repositories.EventRepository;
-import application.repositories.SubscriptionRepository;
-import application.repositories.UserRepository;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,12 +20,12 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.time.LocalDate;
-import java.time.LocalTime;
-
-import static org.junit.Assert.*;
+import application.models.event.EventEntity;
+import application.models.relation.SubscriptionEntity;
+import application.models.user.UserEntity;
+import application.repositories.EventRepository;
+import application.repositories.SubscriptionRepository;
+import application.repositories.UserRepository;
 
 /**
  * Relation:
@@ -53,7 +58,7 @@ public class UserEventOwnerTest {
 	EventRepository eventRepo;
 	
 	@Autowired
-	SubscriptionRepository eventGuestRepo;
+	SubscriptionRepository subscriptionRepo;
 
 
 	@Before
@@ -66,6 +71,8 @@ public class UserEventOwnerTest {
 		eventRepo.save(BATEST);
 		ABSUB = new SubscriptionEntity(ALYSSA, ABTEST);
 		BASUB = new SubscriptionEntity(BEN, BATEST);
+		subscriptionRepo.save(ABSUB);
+		subscriptionRepo.save(BASUB);
 	}
 
 	/**
@@ -81,7 +88,6 @@ public class UserEventOwnerTest {
 		
 		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
 		EventEntity savedE = eventRepo.findById(BATEST.getId()).get();
-		EventEntity savedEfromUser = savedA.getEventEntityOwner().iterator().next();
 		UserEntity savedAfromEvent = savedE.getUserEntityOwner();
 		
 		assertTrue(savedA.equals(ALYSSA));
@@ -89,9 +95,6 @@ public class UserEventOwnerTest {
 		assertTrue(savedA.equals(savedAfromEvent));
 
 		assertTrue(savedE.equals(BATEST));
-		assertTrue(savedEfromUser.equals(BATEST));
-		assertTrue(savedE.equals(savedEfromUser));
-
 	}
 
 	/**
@@ -149,25 +152,38 @@ public class UserEventOwnerTest {
 	@Test
 	public void onUserDeleteEventNotRemains() {
 
-		assertTrue(eventGuestRepo.existsById(ABSUB.getId()));
-		assertTrue(eventGuestRepo.existsById(BASUB.getId()));
-		assertTrue(ALYSSA.getSubscriptions().contains(ABSUB));
-		assertTrue(BEN.getSubscriptions().contains(BASUB));
+		assertTrue(subscriptionRepo.existsById(ABSUB.getId()));
+		assertTrue(subscriptionRepo.existsById(BASUB.getId()));
+
+		
+		List<EventEntity> aEvents = eventRepo.getByUserEntityOwner_Id(ALYSSA.getId()); //TODO: not automatic removal of owned evemts, and of two sides of subscriptions 
+		aEvents.forEach(event ->  { 													 //can't use removebyEventId
+			List<SubscriptionEntity> subs = subscriptionRepo.findByEvent_Id(event.getId());
+			subs.forEach(SubscriptionEntity::putIntoDeletionQueue);
+			subscriptionRepo.deleteAll(subs);
+		});
+		aEvents.forEach(EventEntity::putIntoDeletionQueue);
+		eventRepo.deleteAll(aEvents);
+		
+		List<SubscriptionEntity> visits = subscriptionRepo.findByGuest_Id(ALYSSA.getId()); //can't use removebyGuestId
+		visits.forEach(SubscriptionEntity::putIntoDeletionQueue);
+		subscriptionRepo.deleteAll(visits);
 
 		ALYSSA.putIntoDeletionQueue();
 		userRepo.delete(ALYSSA);
 		
+				
+				
 		assertEquals(userRepo.count(), 1);
 		assertEquals(eventRepo.count(), 1);
 		
 		assertFalse(userRepo.existsById(ALYSSA.getId()));
 		assertFalse(eventRepo.existsById(BATEST.getId()));
-		assertFalse(eventGuestRepo.existsById(BASUB.getId()));
-		assertFalse(BEN.getSubscriptions().contains(BASUB));
+		assertFalse(subscriptionRepo.existsById(BASUB.getId()));
 	
 		assertTrue(userRepo.existsById(BEN.getId()));
 		assertTrue(eventRepo.existsById(ABTEST.getId()));
-		assertFalse(eventGuestRepo.existsById(ABSUB.getId()));
+		assertFalse(subscriptionRepo.existsById(ABSUB.getId()));
 		//No Alyssa in the system...
 		
 

@@ -1,4 +1,4 @@
-package application.entities;
+package application.models.relation;
 
 import java.io.Serializable;
 
@@ -17,6 +17,9 @@ import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import application.models.event.EventEntity;
+import application.models.user.UserEntity;
+import application.models.user.values.FeedBackValue;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -33,11 +36,10 @@ import lombok.extern.slf4j.Slf4j;
  * must be set manually;
  */
 @NoArgsConstructor
-//@EqualsAndHashCode(of = {"userGuest", "event"})
+@EqualsAndHashCode(of = {"guest", "event"})
 @Entity
 @Table(name = "user_event_guest", uniqueConstraints = {@UniqueConstraint(columnNames = {"GUEST_ID", "EVENT_ID"})})
 @ToString
-@Slf4j
 /**
  * Represents a subscription. You shouldn't explicitly save this class, it is managed by cascade from User and Event; 
  *
@@ -47,7 +49,7 @@ public class SubscriptionEntity {
 	@Embeddable
 	@NoArgsConstructor
 	@AllArgsConstructor
-	@EqualsAndHashCode
+	@EqualsAndHashCode(of= {"userGuestId", "eventId"})
 	@ToString
 	@Getter
 	public static class EventGuestId implements Serializable {
@@ -74,14 +76,14 @@ public class SubscriptionEntity {
 	@Setter(AccessLevel.NONE)
 	private EventGuestId id = new EventGuestId();
 
-	@ManyToOne // TODO: cascading
+	@ManyToOne
 	@JoinColumn(name = "GUEST_ID", insertable = false, updatable = false) // relation column names should match with
 																			// embedded id column names;
 	@Setter(AccessLevel.NONE)
 	@JsonBackReference("guestOfSubscription")
 	private UserEntity guest;
 
-	@ManyToOne // TODO: cascading
+	@ManyToOne
 	@JoinColumn(name = "EVENT_ID", insertable = false, updatable = false)
 	@Setter(AccessLevel.NONE)
 	@JsonBackReference("eventOfSubscription")
@@ -130,7 +132,7 @@ public class SubscriptionEntity {
 
 	/**
 	 * Helper method for setting the embedded Id fields together with the relation
-	 * fields, and setting bidirectional links
+	 * fields;
 	 * 
 	 * @param guest
 	 * @param event
@@ -141,10 +143,6 @@ public class SubscriptionEntity {
 		this.id.eventId = event.getId();
 		this.guest = guest;
 		this.event = event;
-		boolean wasAdded = true;
-		wasAdded = this.guest.addSubscription(this) && wasAdded;
-		wasAdded = this.event.addSubscription(this) && wasAdded;
-		//TODO: consider using wasAdded to track inconsistency in related sets;  
 	}
 	
 	private void checkEventAndID(UserEntity guest, EventEntity event) {
@@ -176,41 +174,6 @@ public class SubscriptionEntity {
 		}
 		newStatus.change(this);
 	}
-	/**
-	 * Checks the correct state of all bidirectional relations in this entity
-	 */
-	public void checkEventIntegrity() {
-		if (!guest.getSubscriptions().contains(this)) {
-			throw new IllegalStateException(
-					"Subscription has guest, but not present in the guest's collection of subscriptions: " + guest);
-		}
-		if (!event.getSubscriptions().contains(this)) {
-			throw new IllegalStateException(
-					"Subscription points to event, but not present in the events's collection of subscriptions: " + event);
-		}
-	}
-	
-	/**
-	 * Removes a Guest from the Event, two directions.
-	 * 
-	 * @param guest
-	 */
-	private boolean unsubscribe(UserEntity guest, EventEntity event) {
-		if (event.getUserEntityOwner().equals(guest)) {
-			throw new IllegalArgumentException("Trying to unsubscribe to the owned event");
-		}
-		if (!guest.getSubscriptions().contains(this) && !event.getSubscriptions().contains(this)) {
-			throw new IllegalArgumentException("Trying to unsubsribe from non-existing subscription");
-		}
-		if (guest.getSubscriptions().contains(this) != event.getSubscriptions().contains(this)) {
-			throw new IllegalStateException("Subscription is not consistent across User and Event");
-		}	
-		boolean res = true;
-		res = guest.removeSubsription(this) && res; // what if this command succeeds and the other does not?
-													// inconsistent state;
-		res = event.removeSubsription(this) && res;
-		return res;
-	}
 	
 	/**
 	 * Launched on remove() from this entity's repository. Checks if the guest-event relation is OK to delete and then nullifies it. 
@@ -220,11 +183,13 @@ public class SubscriptionEntity {
 		if (!isPendingForDeletion()) {
 			throw new IllegalArgumentException("EventGuestRelation must be first putIntoDeletionQueue");	
 		}
-		if(this.guest.getSubscriptions().contains(this) || this.event.getSubscriptions().contains(this)) {
-			unsubscribe(this.guest, this.event); // if at least one of the many-to-many entities contains the intermediate entity, we fire the full consistency check. 
-		}
 	}
-
+	/**
+	 * @return true if this subscription is enabled to be visible to the user ;
+	 */
+	public boolean isEnabled() {
+		return isActive();
+	}
 
 	/**
 	 * @return true if this subscription is active;
@@ -260,7 +225,7 @@ public class SubscriptionEntity {
 	 */
 	//TODO: can't re-cancel?
 	public void cancel() {
-		if (!isActive()) {
+		if (!isEnabled()) {
 			throw new IllegalArgumentException("Trying to cancel, but subscription has status " + this.status);
 		}
 		this.status = SubscriptionStatus.CANCELED;
@@ -270,9 +235,6 @@ public class SubscriptionEntity {
 	 * Activates the subscription
 	 */
 	public void activate() {
-		if (!isDeactivated()) {
-			throw new IllegalArgumentException("Trying to activate, but subscription has status " + this.status);
-		}
 		this.status = SubscriptionStatus.ACTIVE;
 	}
 	
@@ -280,9 +242,6 @@ public class SubscriptionEntity {
 	 * Deactivates the subscription
 	 */
 	public void deactivate() {
-		if (!isActive()) {
-			throw new IllegalArgumentException("Trying to deactivate, but subscription has status" + this.status);
-		}	
 		this.status = SubscriptionStatus.DEACTIVATED;
 	}
 
@@ -290,7 +249,6 @@ public class SubscriptionEntity {
 	/**
 	 * Puts the subscription into the deletion queue;
 	 */
-	//TODO: can't cancel deletion queue?
 	public void putIntoDeletionQueue() {
 		this.status = SubscriptionStatus.PENDINGFORDELETION;
 	}

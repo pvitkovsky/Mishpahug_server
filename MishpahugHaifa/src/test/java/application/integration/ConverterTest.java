@@ -11,7 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import application.dto.UserDTO;
-import application.entities.UserEntity;
+import application.models.user.UserEntity;
 import application.repositories.UserRepository;
 
 @RunWith(SpringRunner.class)

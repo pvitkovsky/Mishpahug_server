@@ -2,8 +2,6 @@ package application.models.user;
 
 import com.querydsl.core.types.Predicate;
 
-import application.entities.UserEntity;
-
 import java.util.HashMap;
 import java.util.List;
 

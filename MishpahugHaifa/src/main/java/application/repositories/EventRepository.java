@@ -1,10 +1,11 @@
 package application.repositories;
 
-import application.entities.EventEntity;
-import application.entities.QEventEntity;
-import application.entities.UserEntity;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
-import com.querydsl.core.types.dsl.StringPath;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,13 +13,12 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import com.querydsl.core.types.dsl.StringPath;
 
-//TODO: disallow/hide DELETE;
+import application.models.event.EventEntity;
+import application.models.event.QEventEntity;
+import application.models.user.UserEntity;
+
 public interface EventRepository extends JpaRepository<EventEntity, Integer>,
         QuerydslPredicateExecutor<EventEntity>, QuerydslBinderCustomizer<QEventEntity>
         {
@@ -56,15 +56,7 @@ public interface EventRepository extends JpaRepository<EventEntity, Integer>,
             List<? extends String> OwnerUserNames= new ArrayList<>(value);
             return Optional.of(path.contains(OwnerUserNames.get(0))); //Why get(0)?
         });
-        
-        bindings.bind(root.subscriptions.any().guest.userName).all((path, value) -> { //COUPLING
-            log.debug("EventRepository -> customize-> value = " + value);
-            log.debug("EventRepository -> customize-> path = " + path);
-            List<? extends String> GuestUserNames= new ArrayList<>(value);
-            return Optional.of(path.contains(GuestUserNames.get(0))); //Why get(0)?
-        });
-
-
+       
         bindings.bind(root.date).all((path, value) -> {
             log.debug("EventRepository -> customize-> value = " + value);
             log.debug("EventRepository -> customize-> path = " + path);

@@ -4,7 +4,7 @@ import application.dto.EventDTO;
 import application.dto.LoginDTO;
 import application.dto.LoginResponse;
 import application.dto.UserDTO;
-import application.entities.UserEntity;
+import application.models.user.UserEntity;
 import application.repositories.UserRepository;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.After;

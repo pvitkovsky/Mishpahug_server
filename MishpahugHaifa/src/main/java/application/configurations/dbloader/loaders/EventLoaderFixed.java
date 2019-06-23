@@ -13,8 +13,9 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import application.configurations.dbloader.LoaderDependencies;
-import application.entities.EventEntity;
-import application.entities.UserEntity;
+import application.models.event.EventEntity;
+import application.models.user.UserEntity;
+import application.repositories.EventRepository;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -41,7 +42,6 @@ public class EventLoaderFixed implements ILoader {
 			this.data.eventRepository.flush();
 			String detail;
 			List<UserEntity> userEntityList = this.data.userRepository.findAll();
-			Random ran = new Random();
 			while ((detail = br.readLine()) != null) {
 				String[] eventAttributes = detail.split(",");		
 				Integer index = Integer.parseInt(eventAttributes[3]);	
@@ -50,10 +50,11 @@ public class EventLoaderFixed implements ILoader {
 						LocalDate.parse(eventAttributes[0].replaceAll("/", "-"), DateTimeFormatter.ISO_DATE),
 						LocalTime.parse(eventAttributes[1], DateTimeFormatter.ISO_LOCAL_TIME));
 				event.setNameOfEvent(eventAttributes[2]);
-				log.debug("DBLoadTest -> EventLoaderFixed -> " + event);
+				this.data.eventRepository.save(event);
+				log.warn("DBLoadTest -> EventLoaderFixed -> " + event);
 			}
 			br.close();
-			log.debug("DBLoadTest -> EventLoaderFixed -> In repository " + this.data.eventRepository.findAll().size()
+			log.warn("DBLoadTest -> EventLoaderFixed -> In repository " + this.data.eventRepository.findAll().size()
 					+ " records");
 		} catch (IOException e) {
 			System.out.println(e.getMessage());

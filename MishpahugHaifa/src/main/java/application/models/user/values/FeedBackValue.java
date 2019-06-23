@@ -1,4 +1,4 @@
-package application.entities;
+package application.models.user.values;
 
 import lombok.*;
 import org.hibernate.validator.constraints.Range;

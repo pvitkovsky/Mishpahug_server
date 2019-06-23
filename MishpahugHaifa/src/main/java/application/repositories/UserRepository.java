@@ -1,18 +1,19 @@
 package application.repositories;
 
-import application.entities.QUserEntity;
-import application.entities.UserEntity;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
-import com.querydsl.core.types.dsl.StringPath;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import com.querydsl.core.types.dsl.StringPath;
+
+import application.models.user.QUserEntity;
+import application.models.user.UserEntity;
 
 public interface UserRepository extends JpaRepository<UserEntity, Integer>,
         QuerydslPredicateExecutor<UserEntity>, QuerydslBinderCustomizer<QUserEntity>{

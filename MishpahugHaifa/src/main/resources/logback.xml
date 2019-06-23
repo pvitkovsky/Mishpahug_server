@@ -35,7 +35,7 @@
 			<pattern>%d#%p#%c{1.}#[%t]#%m%n</pattern>
 		</encoder>
 	</appender>
-	<root level="DEBUG">
+	<root level="INFO">
 		<appender-ref ref="FILE-ROLLING" />
 		<appender-ref ref="consoleAppender" />
 	</root>

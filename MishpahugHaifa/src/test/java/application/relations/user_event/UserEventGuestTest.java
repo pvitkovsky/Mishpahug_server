@@ -1,8 +1,8 @@
 package application.relations.user_event;
 
-import application.entities.EventEntity;
-import application.entities.SubscriptionEntity;
-import application.entities.UserEntity;
+import application.models.event.EventEntity;
+import application.models.relation.SubscriptionEntity;
+import application.models.user.UserEntity;
 import application.repositories.EventRepository;
 import application.repositories.SubscriptionRepository;
 import application.repositories.UserRepository;
@@ -41,15 +41,16 @@ public class UserEventGuestTest {
 	EventRepository eventRepo;
 
 	@Autowired
-	SubscriptionRepository eventGuestRepo;
+	SubscriptionRepository subscriptionRepo;
 
 	@Before
 	public void buildEntities() {
 		userRepo.save(BEN);
 		userRepo.save(ALYSSA);
 		GUESTING = new EventEntity(BEN, TDATE, TTIME);
-		eventRepo.save(GUESTING); //TODO: why cascade stopped working?
-		AGUESTING = new SubscriptionEntity(ALYSSA, GUESTING); //TODO: why no need to save here?
+		eventRepo.save(GUESTING); 
+		AGUESTING = new SubscriptionEntity(ALYSSA, GUESTING); 
+		subscriptionRepo.save(AGUESTING);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -62,16 +63,10 @@ public class UserEventGuestTest {
 	@Test
 	public void onSubscriptionSaveReadUserAndEvent() {
 		
-		assertTrue(eventGuestRepo.existsById(AGUESTING.getId()));
-		assertTrue(GUESTING.getSubscriptions().contains(AGUESTING));
+		assertTrue(subscriptionRepo.existsById(AGUESTING.getId()));
 
 		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
 		EventEntity savedE = eventRepo.findById(GUESTING.getId()).get();
-		SubscriptionEntity savedSubcsrUser = savedA.getSubscriptions().iterator().next();
-		SubscriptionEntity savedSubcsrEvent = savedE.getSubscriptions().iterator().next();
-		assertEquals(AGUESTING, savedSubcsrUser);
-		assertEquals(AGUESTING, savedSubcsrEvent);
-		assertEquals(savedSubcsrUser, savedSubcsrEvent);
 
 		UserEntity savedAfromRelation = AGUESTING.getGuest();
 		EventEntity savedEfromRelation = AGUESTING.getEvent();
@@ -87,8 +82,7 @@ public class UserEventGuestTest {
 	@Test
 	public void findEventBySubs() {
 
-		List<EventEntity> events = eventGuestRepo.getEventsForGuest(ALYSSA);
-		//List<EventEntity> events = eventGuestRepo.findByUserGuest(ALYSSA); //TODO: converter
+		List<EventEntity> events = subscriptionRepo.getEventsForGuest(ALYSSA);
 		assertEquals(events.size(), 1);
 		assertTrue(events.contains(GUESTING));
 
@@ -97,43 +91,45 @@ public class UserEventGuestTest {
 	@Test
 	public void findUserBySubs() {
 
-		List<UserEntity> guests = eventGuestRepo.getGuestsForEvent(GUESTING);
-		//List<UserEntity> guests = eventGuestRepo.findByEvent(GUESTING); //TODO: converter
+		List<UserEntity> guests = subscriptionRepo.getGuestsForEvent(GUESTING);
 		assertEquals(guests.size(), 1);
 		assertTrue(guests.contains(ALYSSA));
 	}
 	
 	
+	/**
+	 * Deleting user and testing that its subscriptions are unsubscribed automatically;
+	 */
 	@Test
 	public void onGuestDeleteEventRemains() {
 
 		ALYSSA.putIntoDeletionQueue();
+		AGUESTING.putIntoDeletionQueue();
+		subscriptionRepo.delete(AGUESTING); //TODO: not automatic
 		userRepo.delete(ALYSSA);
 
 		assertTrue(eventRepo.existsById(GUESTING.getId()));
 		assertFalse(userRepo.existsById(ALYSSA.getId()));
-		assertFalse(eventGuestRepo.existsById(AGUESTING.getId()));
-		assertFalse(GUESTING.getSubscriptions().contains(AGUESTING));
-		assertEquals(GUESTING.getSubscriptions().size(), 0);
+		assertFalse(subscriptionRepo.existsById(AGUESTING.getId()));
 		
 	}
 	
 	/**
-	 * Deleting event and testing that its subscribers are unsubscribed automatically;
+	 * Deleting event and testing that its subscriptions are unsubscribed automatically;
 	 * 
 	 */
 	@Test
 	public void onEventDeleteGuestRemains() {
 	
 		GUESTING.putIntoDeletionQueue();
+		AGUESTING.putIntoDeletionQueue();
+		subscriptionRepo.delete(AGUESTING); //TODO: not automatic
 		eventRepo.delete(GUESTING);
-
+		
 		assertTrue(userRepo.existsById(ALYSSA.getId()));
 		assertTrue(userRepo.existsById(BEN.getId()));
 
 		assertEquals(eventRepo.count(), 0);
-		assertEquals(eventGuestRepo.count(), 0);
-		assertEquals(BEN.getEventEntityOwner().size(), 0);
-		assertEquals(ALYSSA.getSubscriptions().size(), 0);
+		assertEquals(subscriptionRepo.count(), 0);
 	}
 }

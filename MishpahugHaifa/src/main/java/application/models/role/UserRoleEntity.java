@@ -1,4 +1,4 @@
-package application.entities;
+package application.models.role;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+
+import application.models.user.UserEntity;
 
 @Entity
 @Getter

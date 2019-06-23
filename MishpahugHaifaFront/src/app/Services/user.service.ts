@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {EventDetail, UserDetail} from '../Models/index';
+import { UserDetail} from '../Models/index';
 import { Observable } from 'rxjs';
 import { AuthenticationService} from "./authentication.service"
 

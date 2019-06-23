@@ -1,12 +1,13 @@
 package application.utils.converter;
 
 import application.dto.EventDTO;
-import application.entities.EventEntity;
+import application.models.event.EventEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Slf4j
 @Service
 public class EventConverter extends ConverterBase implements IConverter<EventEntity, EventDTO> {
@@ -20,7 +21,8 @@ public class EventConverter extends ConverterBase implements IConverter<EventEnt
 		return res;
 
 	}
-public List<EventDTO> DTOListFromEntities(Iterable<EventEntity> data) {
+
+	public List<EventDTO> DTOListFromEntities(Iterable<EventEntity> data) {
 
 		List<EventDTO> res = new ArrayList<>();
 		for (EventEntity x : data) {
@@ -31,9 +33,9 @@ public List<EventDTO> DTOListFromEntities(Iterable<EventEntity> data) {
 	}
 
 	public EventEntity entityFromDTO(EventDTO data) {
-			EventEntity res = new EventEntity();
-			res.setNameOfEvent(data.getNameOfEvent());
-			return res;
+		EventEntity res = new EventEntity();
+		res.setNameOfEvent(data.getNameOfEvent());
+		return res;
 
 	}
 

@@ -2,8 +2,8 @@ package application.utils.converter;
 
 import application.dto.EventDTO;
 import application.dto.UserDTO;
-import application.entities.EventEntity;
-import application.entities.UserEntity;
+import application.models.event.EventEntity;
+import application.models.user.UserEntity;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

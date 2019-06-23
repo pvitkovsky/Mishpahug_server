@@ -1,7 +1,7 @@
 package application.entities.event;
 
-import application.entities.EventEntity;
-import application.entities.UserEntity;
+import application.models.event.EventEntity;
+import application.models.user.UserEntity;
 import application.repositories.EventRepository;
 import application.repositories.UserRepository;
 import org.junit.Before;
@@ -64,8 +64,6 @@ public class EventEntityTest {
 		
 		assertEquals(eventRepo.getOne(TESTING.getId()), TESTING);	
 		assertEquals(eventRepo.count(), 1);	
-		assertTrue(ALYSSA.getEventEntityOwner().contains(TESTING));
-		assertEquals(ALYSSA.getEventEntityOwner().size(), 1);
 	
 	}
 
@@ -86,8 +84,6 @@ public class EventEntityTest {
 		TESTING.setNameOfEvent(newName);
 		
 		assertEquals(TESTING.getNameOfEvent(), newName);
-		assertEquals(ALYSSA.getEventEntityOwner().size(), 1);
-		assertTrue(ALYSSA.getEventEntityOwner().contains(TESTING));
 	}
 	
 	@Test
@@ -109,7 +105,6 @@ public class EventEntityTest {
 		
 		eventRepo.delete(TESTING); 
 		assertEquals(eventRepo.count(), 0);
-		assertEquals(ALYSSA.getEventEntityOwner().size(), 0);
 	}	
 	
 	@Test(expected = InvalidDataAccessApiUsageException.class)

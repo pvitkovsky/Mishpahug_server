@@ -20,7 +20,7 @@ import { MainRouter }        from './app.routing';
 import { AlertComponent } from './Directives/index';
 import { AuthGuard } from './Guards/index';
 import { JwtInterceptor } from './Helpers/index';
-import { AlertService, AuthenticationService, GuiService, UserService, EventService  } from './Services/index';
+import { AlertService, AuthenticationService, GuiService, UserService, EventService, SubscriptionService  } from './Services/index';
 
 
 
@@ -55,6 +55,7 @@ import { AlertService, AuthenticationService, GuiService, UserService, EventServ
         AlertService,
         AuthenticationService,
         UserService,
+        SubscriptionService,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: JwtInterceptor,

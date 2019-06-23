@@ -8,7 +8,7 @@ import lombok.ToString;
 import java.time.LocalDate;
 import java.util.List;
 
-import application.entities.UserEntity;
+import application.models.user.UserEntity;
 
 @Getter
 @Setter

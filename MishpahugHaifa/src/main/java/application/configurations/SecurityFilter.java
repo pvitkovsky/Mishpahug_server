@@ -1,6 +1,6 @@
 package application.configurations;
 
-import application.entities.UserSession;
+import application.models.user.UserSession;
 import application.repositories.UserSessionRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

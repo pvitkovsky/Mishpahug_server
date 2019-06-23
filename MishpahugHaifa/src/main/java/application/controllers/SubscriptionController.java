@@ -1,8 +1,11 @@
 package application.controllers;
 
+import application.entities.security.UserSession;
 import application.entities.values.FeedBackValue;
 import application.models.event.IEventModel;
 import application.models.feedback.FeedBackModel;
+import application.models.user.IUserModel;
+import application.repositories.UserSessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +22,12 @@ public class SubscriptionController {
     @Autowired
     IEventModel eventModel;
 
+    @Autowired
+    IUserModel userModel;
+
+    @Autowired
+    UserSessionRepository userSessionRepository;
+
     @DeleteMapping(value = "/")
     public void delete(@RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request,
@@ -28,20 +37,22 @@ public class SubscriptionController {
         if (eventId != null) feedBackModel.removeAllByEvent(eventId);
     }
 
-    @DeleteMapping(value = "/{eventid}/{userid}")
+    @DeleteMapping(value = "/{eventid}")
     public void unsubscription(@RequestHeader HttpHeaders httpHeaders,
                                HttpServletRequest request,
-                               @PathVariable(name = "userid") Integer userId,
                                @PathVariable(name = "eventid") Integer eventId){
-        eventModel.unsubscribe(eventId, userId);
+        String token = request.getHeader("Authorization");
+        UserSession session = userSessionRepository.findByTokenAndIsValidTrue(token);
+        eventModel.unsubscribe(eventId, userModel.getByUserName(session.getUserName()).getId());
     }
 
-    @PutMapping(value = "/{eventid}/{userid}")
+    @PutMapping(value = "/{eventid}")
     public void subscription(@RequestHeader HttpHeaders httpHeaders,
                              HttpServletRequest request,
-                             @PathVariable(name = "userid") Integer userId,
                              @PathVariable(name = "eventid") Integer eventId){
-        eventModel.subscribe(eventId, userId);
+        String token = request.getHeader("Authorization");
+        UserSession session = userSessionRepository.findByTokenAndIsValidTrue(token);
+        eventModel.subscribe(eventId, userModel.getByUserName(session.getUserName()).getId());
     }
 
     @GetMapping(value = "/")

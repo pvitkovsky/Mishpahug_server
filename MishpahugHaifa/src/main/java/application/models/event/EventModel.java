@@ -2,6 +2,7 @@ package application.models.event;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -95,8 +96,14 @@ public class EventModel implements IEventModel {
 	}
 
 	@Override
-	public EventEntity delete(Integer eventId){ // throws if not in deletion queue
+	public EventEntity delete(Integer eventId){ // throws if not in deletion queue //TODO: deactivate and emit status deactivation
+		
+		EventDeleted eventDeleted = new EventDeleted(eventId); 
+		applicationEventPublisher.publishEvent(eventDeleted);
+			
 		EventEntity eventEntity = eventRepository.getOne(eventId);
+		eventEntity.putIntoDeletionQueue();
+		
 		eventRepository.delete(eventEntity);
 		return eventEntity;
 	}

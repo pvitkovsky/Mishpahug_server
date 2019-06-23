@@ -20,9 +20,9 @@ import java.util.List;
  */	
 public interface IUserController {
 	
-	List<EventDTO> getEventsById(HttpHeaders httpHeaders, HttpServletRequest request, Integer id);
+	List<EventDTO> getEventsById(HttpHeaders httpHeaders, HttpServletRequest request, Integer id);	//trim DEACTIVATED
     List<EventDTO> getEventsByOwnerId(@RequestHeader HttpHeaders httpHeaders,
-                                      HttpServletRequest request, @PathVariable(value = "id") Integer id);
+                                      HttpServletRequest request, @PathVariable(value = "id") Integer id); 	//trim DEACTIVATED
 
     List<UserDTO> findAllByWebQuerydsl(HttpHeaders httpHeaders, HttpServletRequest request, Predicate predicate);
 	UserDTO get(HttpHeaders httpHeaders, HttpServletRequest request, Integer id);

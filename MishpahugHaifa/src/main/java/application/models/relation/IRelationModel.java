@@ -10,9 +10,9 @@ import java.util.Map;
 
 public interface IRelationModel {
 	
-    public EventEntity subscribe(Integer eventId, Integer userId); 
+    public void subscribe(Integer eventId, Integer userId); 
     
-    public EventEntity deactivateSubscription(Integer eventId, Integer userId); 
+    public void deactivateSubscription(Integer eventId, Integer userId); 
    
     public Map<Integer, FeedBackValue> getAllByEvent(Integer eventId);
 

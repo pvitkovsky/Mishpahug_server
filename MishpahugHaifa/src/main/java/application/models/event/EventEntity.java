@@ -163,11 +163,20 @@ public class EventEntity {
 
 
 	public void convertEventDTO(EventDTO data) {
+		//TODO: user into integer
 		this.date = data.getDate();
 		this.nameOfEvent = data.getNameOfEvent();
 		this.time = data.getTime();
 	}
 
+	/**
+	 * @return true if and only if the event can be visible to the user;
+	 */
+	public boolean isEnabled() {
+		return isDue() || isComplete();
+	}
+
+	
 	/**
 	 * @return true if and only if the event is active and not yet happened;
 	 */

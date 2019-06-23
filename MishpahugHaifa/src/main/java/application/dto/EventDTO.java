@@ -21,6 +21,7 @@ public class EventDTO {
     private LocalDate date;
     private LocalTime time;
     private String nameOfEvent;
+    private Boolean isEnabled;
     private String addressCountry;
     private String addressCity;
     private String addressStreet;
@@ -40,6 +41,6 @@ public class EventDTO {
         this.time = eventEntity.getTime();
         this.nameOfEvent = eventEntity.getNameOfEvent();
         this.ownerId = eventEntity.getUserEntityOwner().getId();
-        
+        this.isEnabled = eventEntity.isEnabled();
     }
 }

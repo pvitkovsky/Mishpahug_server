@@ -94,7 +94,6 @@ public class EventController implements IEventController {
 	@DeleteMapping(value = "/{id}")
 	public void delete(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
 			@PathVariable(value = "id") Integer id) {
-		eventModel.getById(id).putIntoDeletionQueue();
 		eventModel.delete(id);
 	}
 

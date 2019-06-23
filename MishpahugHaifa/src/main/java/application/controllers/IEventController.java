@@ -19,7 +19,7 @@ public interface IEventController {
 	
 	EventDTO findById(HttpHeaders httpHeaders, HttpServletRequest request, Integer id);
 	
-    List<UserDTO> findGuestByEventId(HttpHeaders httpHeaders, HttpServletRequest request, Integer id);
+    List<UserDTO> findGuestByEventId(HttpHeaders httpHeaders, HttpServletRequest request, Integer id); //trim DEACTIVATED
     
 	EventDTO setDataFromForm(HttpHeaders httpHeaders, HttpServletRequest request, EventDTO data);
 	

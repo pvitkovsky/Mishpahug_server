@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import application.models.relation.RelationModel;
+import application.models.relation.IRelationModel;
 import application.models.user.values.FeedBackValue;
 
 @RestController
@@ -22,10 +22,10 @@ import application.models.user.values.FeedBackValue;
 public class SubscriptionController implements ISubscriptionController {
 
 	@Autowired
-	RelationModel relationModel;
+	IRelationModel relationModel;
 
 	@Override
-	@PutMapping(value = "/")
+	@PutMapping(value = "/") //TODO: this is post bc no URL;
 	public void subscribe(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
 			@RequestParam(name = "userid") Integer userId, @RequestParam(name = "eventid") Integer eventId) {
 		relationModel.subscribe(eventId, userId);

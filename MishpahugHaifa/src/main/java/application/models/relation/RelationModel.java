@@ -83,43 +83,40 @@ public class RelationModel implements IRelationModel {
 			userEntity = userRepository.getOne(userId);
 			EventGuestId subscriptionKey = new EventGuestId(userEntity.getId(), eventEntity.getId());
 			if (!subscriptionRepository.existsById(subscriptionKey)) {
-				subscription = new SubscriptionEntity();
+				subscription = new SubscriptionEntity(userEntity, eventEntity); //TODO: decoupling;
 			} else {
 				subscription = subscriptionRepository.getOne(subscriptionKey);
 			}
 		}
 
-		EventEntity subscribe() {
-			return eventEntity;
+		void subscribe() {
+			subscriptionRepository.save(subscription);
 		}
 
-		EventEntity cancel() {
+		void cancel() {
 			subscription.cancel();
-			return eventEntity;
 		}
 
-		EventEntity deactivate() {
+		void deactivate() {
 			subscription.deactivate();
-			return eventEntity;
 		}
 
-		EventEntity unsubscribe() {
+		void unsubscribe() {
 			subscription.putIntoDeletionQueue();
 			subscription.nullifyForRemoval(); // cascaded, no need to explicitly delete;
-			return eventEntity;
 		}
 	}
 	
 	@Override
-	public EventEntity subscribe(Integer eventId, Integer userId){
+	public void subscribe(Integer eventId, Integer userId){
 		SubscriptionHandler handler = new SubscriptionHandler(eventId, userId);
-		return handler.subscribe();
+		handler.subscribe();
 	}
 
 	@Override
-	public EventEntity deactivateSubscription(Integer eventId, Integer userId){
+	public void deactivateSubscription(Integer eventId, Integer userId){
 		SubscriptionHandler handler = new SubscriptionHandler(eventId, userId);
-		return handler.deactivate();
+		handler.deactivate();
 	}
     
     @Override

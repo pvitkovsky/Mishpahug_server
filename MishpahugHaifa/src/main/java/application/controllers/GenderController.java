@@ -1,6 +1,7 @@
 package application.controllers;
 
 import application.controllers.interfaces.IGenderController;
+import application.dto.PropertyDTO;
 import application.entities.properties.GenderEntity;
 import application.models.properties.gender.IGenderModel;
 import application.utils.converter.IConverter;
@@ -35,7 +36,13 @@ public class GenderController implements IGenderController {
 	@DeleteMapping(value = "/{name}")
 	public void delete(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
 			@PathVariable(name = "name") String name) {
-		genderModel.deleteByName(name);
+		genderModel.delete(name);
+	}
+
+	@Override
+	@DeleteMapping(value = "/{id}")
+	public void delete(HttpHeaders httpHeaders, HttpServletRequest request,@PathVariable(name = "id") Integer id) {
+		genderModel.delete(id);
 	}
 
 	@Override
@@ -46,8 +53,8 @@ public class GenderController implements IGenderController {
 
 	@Override
 	@GetMapping(value = "/")
-	public List<String> get(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request) {
-		return IConverter.PropertyToStringList(genderModel.getAll());
+	public List<PropertyDTO> get(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request) {
+		return IConverter.PropertyToDTOList(genderModel.getAll());
 	}
 
 	@Override
@@ -59,9 +66,9 @@ public class GenderController implements IGenderController {
 
 	@Override
 	@GetMapping(value = "/{id}")
-	public String get(@RequestHeader HttpHeaders httpHeaders,
+	public PropertyDTO get(@RequestHeader HttpHeaders httpHeaders,
 			HttpServletRequest request, @PathVariable(name = "id") Integer id) {
 		GenderEntity genderEntity = genderModel.getById(id);
-		return genderEntity.getName();
+		return new PropertyDTO(genderEntity.getId(),genderEntity.getName());
 	}
 }

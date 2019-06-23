@@ -1,6 +1,7 @@
 package application.controllers;
 
 import application.controllers.interfaces.IMaritalStatusController;
+import application.dto.PropertyDTO;
 import application.entities.properties.MaritalStatusEntity;
 import application.models.properties.marriagestatus.IMaritalStatusModel;
 import application.utils.converter.IConverter;
@@ -20,17 +21,17 @@ public class MaritalStatusController implements IMaritalStatusController {
     
     @Override
     @GetMapping(value = "/")
-    public List<String> get(@RequestHeader HttpHeaders httpHeaders,
-                            HttpServletRequest request){
-        return IConverter.PropertyToStringList(maritalStatusModel.getAll());
+    public List<PropertyDTO> get(@RequestHeader HttpHeaders httpHeaders,
+                                 HttpServletRequest request){
+        return IConverter.PropertyToDTOList(maritalStatusModel.getAll());
     }
 
     @Override
     @GetMapping(value = "/{id}")
-    public MaritalStatusEntity get(
+    public PropertyDTO get(
                                    @RequestHeader HttpHeaders httpHeaders,
                                    HttpServletRequest request, @PathVariable(name = "id") Integer id){
-        return maritalStatusModel.getById(id);
+        return new PropertyDTO(id,maritalStatusModel.getById(id).getName());
     }
 
     @Override
@@ -62,6 +63,12 @@ public class MaritalStatusController implements IMaritalStatusController {
     public void delete(
                        @RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request, @PathVariable(name = "name") String name){
-        maritalStatusModel.deleteByName(name);
+        maritalStatusModel.delete(name);
+    }
+
+    @Override
+    @DeleteMapping(value = "/{id}")
+    public void delete(HttpHeaders httpHeaders, HttpServletRequest request,@PathVariable(name = "id") Integer id) {
+        maritalStatusModel.delete(id);
     }
 }

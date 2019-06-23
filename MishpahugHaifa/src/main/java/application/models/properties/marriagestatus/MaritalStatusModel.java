@@ -32,8 +32,13 @@ public class MaritalStatusModel implements IMaritalStatusModel {
     }
 
     @Override
-    public void deleteByName(String name){
+    public void delete(String name){
         maritalStatusRepository.deleteByName(name);
+    }
+
+    @Override
+    public void delete(Integer id){
+        maritalStatusRepository.deleteById(id);
     }
 
     @Override

@@ -26,8 +26,13 @@ public class GenderModel implements IGenderModel {
     }
 
     @Override
-    public void deleteByName(String name) {
+    public void delete(String name) {
         genderRepository.deleteByName(name);
+    }
+
+    @Override
+    public void delete(Integer id) {
+        genderRepository.deleteById(id);
     }
 
     @Override

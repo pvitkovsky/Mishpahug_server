@@ -19,6 +19,11 @@ public class Updates extends ConverterBase implements IUpdates { //TODO: naming 
 			System.out.println("Updates -> eventUpdate -> nameOfEvent -> new name = " + data.get("nameOfEvent"));
 			eventEntity.setNameOfEvent(data.get("nameOfEvent"));
 		}
+        if (data.containsKey("kitchentype")) {
+            log.info("UserConverter -> Update -> kitchentype -> new kitchentype = " + data.get("kitchentype"));
+            KitchenTypeEntity kitchenTypeEntity = kichenTypeRepository.getByName(data.get("kitchentype"));
+            if (kitchenTypeEntity != null) eventEntity.setKitchenType(kitchenTypeEntity);
+        }
 	}
 
 	@Override
@@ -39,12 +44,12 @@ public class Updates extends ConverterBase implements IUpdates { //TODO: naming 
         if (data.containsKey("gender")) {
             log.info("UserConverter -> Update -> gender -> new gender = " + data.get("gender"));
             GenderEntity genderEntity = genderRepository.getByName(data.get("gender"));
-            userEntity.setGender(genderEntity);
+            if (genderEntity != null) userEntity.setGender(genderEntity);
         }
         if (data.containsKey("kitchentype")) {
             log.info("UserConverter -> Update -> kitchentype -> new kitchentype = " + data.get("kitchentype"));
             KitchenTypeEntity kitchenTypeEntity = kichenTypeRepository.getByName(data.get("kitchentype"));
-            userEntity.setKitchenType(kitchenTypeEntity);
+            if (kitchenTypeEntity != null) userEntity.setKitchenType(kitchenTypeEntity);
         }
 
         //TODO остальные поля

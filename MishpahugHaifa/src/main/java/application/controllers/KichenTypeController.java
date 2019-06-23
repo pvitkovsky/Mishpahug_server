@@ -1,6 +1,7 @@
 package application.controllers;
 
 import application.controllers.interfaces.IKichenTypeController;
+import application.dto.PropertyDTO;
 import application.entities.properties.KitchenTypeEntity;
 import application.models.properties.kichentype.IKichenTypeModel;
 import application.utils.converter.IConverter;
@@ -41,20 +42,26 @@ public class KichenTypeController implements IKichenTypeController {
 	@DeleteMapping(value = "/{name}")
 	public void delete(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
 			@PathVariable(name = "name") String name) {
-		kichenTypeModel.deleteByName(name);
+		kichenTypeModel.delete(name);
+	}
+	@Override
+	@DeleteMapping(value = "/{id}")
+	public void delete(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
+						   @PathVariable(name = "id") Integer id) {
+		kichenTypeModel.delete(id);
 	}
 
 	@Override
 	@GetMapping(value = "/")
-	public List<String> get(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request) {
-		return IConverter.PropertyToStringList(kichenTypeModel.getAll());
+	public List<PropertyDTO> get(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request) {
+		return IConverter.PropertyToDTOList(kichenTypeModel.getAll());
 	}
 
 	@Override
 	@GetMapping(value = "/{id}")
-	public String get(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
+	public PropertyDTO get(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
 			@PathVariable(name = "id", required = false) Integer id) {
-		return kichenTypeModel.getById(id).getName();
+		return new PropertyDTO(id, kichenTypeModel.getById(id).getName());
 	}
 
 }

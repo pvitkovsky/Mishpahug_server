@@ -1,6 +1,7 @@
 package application.controllers;
 
 import application.controllers.interfaces.IReligionController;
+import application.dto.PropertyDTO;
 import application.entities.properties.ReligionEntity;
 import application.models.properties.religion.IReligionModel;
 import application.utils.converter.IConverter;
@@ -20,16 +21,16 @@ public class ReligionController implements IReligionController {
     
     @Override
     @GetMapping(value = "/")
-    public List<String> get(@RequestHeader HttpHeaders httpHeaders,
-                            HttpServletRequest request){
-        return IConverter.PropertyToStringList(religionModel.getAll());
+    public List<PropertyDTO> get(@RequestHeader HttpHeaders httpHeaders,
+                                 HttpServletRequest request){
+        return IConverter.PropertyToDTOList(religionModel.getAll());
     }
 
     @Override
     @GetMapping(value = "/{id}")
-    public ReligionEntity get(@RequestHeader HttpHeaders httpHeaders,
+    public PropertyDTO get(@RequestHeader HttpHeaders httpHeaders,
                               HttpServletRequest request, @PathVariable(name = "id") Integer id){
-        return religionModel.getById(id);
+        return new PropertyDTO(id, religionModel.getById(id).getName());
     }
 
     @Override
@@ -59,6 +60,12 @@ public class ReligionController implements IReligionController {
     public void delete(@RequestHeader HttpHeaders httpHeaders,
                        HttpServletRequest request, @PathVariable(name = "name") String name){
         religionModel.deleteByName(name);
+    }
+
+    @Override
+    @DeleteMapping(value = "/{id}")
+    public void delete(HttpHeaders httpHeaders, HttpServletRequest request, @PathVariable(name = "id") Integer id) {
+        religionModel.deleteByID(id);
     }
 
 }

@@ -12,7 +12,9 @@ public interface IMaritalStatusModel {
 
     MaritalStatusEntity getById(Integer id);
 
-    void deleteByName(String name);
+    void delete(String name);
+
+    void delete(Integer id);
 
     void deleteAll();
 

@@ -9,7 +9,9 @@ public interface IGenderModel {
 
     GenderEntity getById(Integer id);
 
-    void deleteByName(String name);
+    void delete(String name);
+
+    void delete(Integer id);
 
     void deleteAll();
 

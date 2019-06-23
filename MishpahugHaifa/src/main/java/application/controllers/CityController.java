@@ -1,6 +1,7 @@
 package application.controllers;
 
 import application.controllers.interfaces.ICityController;
+import application.dto.PropertyDTO;
 import application.entities.properties.CityEntity;
 import application.models.properties.city.ICityModel;
 import com.querydsl.core.types.Predicate;
@@ -53,19 +54,19 @@ public class CityController implements ICityController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/")
     @ResponseBody
-    public List<String> get(@RequestHeader HttpHeaders httpHeaders,
-                            HttpServletRequest request, @QuerydslPredicate(root = CityEntity.class) Predicate predicate){
+    public List<PropertyDTO> get(@RequestHeader HttpHeaders httpHeaders,
+                                 HttpServletRequest request, @QuerydslPredicate(root = CityEntity.class) Predicate predicate){
         Iterable<CityEntity> cityEntityList = cityModel.getAll(predicate);
-        List<String> res = new ArrayList<>();
-        cityEntityList.forEach(item -> res.add(item.getName()));
+        List<PropertyDTO> res = new ArrayList<>();
+        cityEntityList.forEach(item -> res.add(new PropertyDTO(item.getId(),item.getName())));
         return res;
     }
 
     @Override
     @GetMapping(value = "/{id}")
-    public String get(
+    public PropertyDTO get(
                       @RequestHeader HttpHeaders httpHeaders,
                       HttpServletRequest request, @PathVariable(name = "id") Integer id){
-        return cityModel.getById(id).getName();
+        return new PropertyDTO(id,cityModel.getById(id).getName());
     }
 }

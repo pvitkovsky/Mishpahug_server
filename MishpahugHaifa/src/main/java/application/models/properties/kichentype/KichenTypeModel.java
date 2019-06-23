@@ -28,7 +28,7 @@ public class KichenTypeModel implements IKichenTypeModel {
     }
 
     @Override
-    public void deleteByName(String name) {
+    public void delete(String name) {
         kichenTypeRepository.deleteByName(name);
     }
 
@@ -57,5 +57,9 @@ public class KichenTypeModel implements IKichenTypeModel {
     @Override
     public KitchenTypeEntity getByName(String kichenType) {
         return kichenTypeRepository.getByName(kichenType);
+    }
+    @Override
+    public void delete(Integer id) {
+        kichenTypeRepository.deleteById(id);
     }
 }

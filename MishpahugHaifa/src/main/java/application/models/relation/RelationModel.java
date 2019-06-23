@@ -64,7 +64,7 @@ public class RelationModel implements IRelationModel {
     /**
 	 * Handles subscription logic;
 	 */
-	// TODO: integer arguments design issue; test;
+	// TODO: integer arguments design issue; 
 	private class SubscriptionHandler {
 		final private Integer eventId;
 		final private Integer userId;
@@ -87,9 +87,13 @@ public class RelationModel implements IRelationModel {
 			} else {
 				subscription = subscriptionRepository.getOne(subscriptionKey);
 			}
+			log.warn("Subsription " + subscription);
 		}
 
 		void subscribe() {
+			if(subscription.isDeactivated()) {
+				subscription.activate(); // may be deactivated earlier; therefore re-activation;
+			}
 			subscriptionRepository.save(subscription);
 		}
 
@@ -98,6 +102,7 @@ public class RelationModel implements IRelationModel {
 		}
 
 		void deactivate() {
+			if(!subscription.isDeactivated())
 			subscription.deactivate();
 		}
 
@@ -111,12 +116,14 @@ public class RelationModel implements IRelationModel {
 	public void subscribe(Integer eventId, Integer userId){
 		SubscriptionHandler handler = new SubscriptionHandler(eventId, userId);
 		handler.subscribe();
+		log.warn("Subsription activated " + handler.subscription);
 	}
 
 	@Override
 	public void deactivateSubscription(Integer eventId, Integer userId){
 		SubscriptionHandler handler = new SubscriptionHandler(eventId, userId);
 		handler.deactivate();
+		log.warn("Subsription deactivated " + handler.subscription);
 	}
     
     @Override

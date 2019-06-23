@@ -184,7 +184,12 @@ public class SubscriptionEntity {
 			throw new IllegalArgumentException("EventGuestRelation must be first putIntoDeletionQueue");	
 		}
 	}
-
+	/**
+	 * @return true if this subscription is enabled to be visible to the user ;
+	 */
+	public boolean isEnabled() {
+		return isActive();
+	}
 
 	/**
 	 * @return true if this subscription is active;
@@ -220,7 +225,7 @@ public class SubscriptionEntity {
 	 */
 	//TODO: can't re-cancel?
 	public void cancel() {
-		if (!isActive()) {
+		if (!isEnabled()) {
 			throw new IllegalArgumentException("Trying to cancel, but subscription has status " + this.status);
 		}
 		this.status = SubscriptionStatus.CANCELED;
@@ -230,9 +235,6 @@ public class SubscriptionEntity {
 	 * Activates the subscription
 	 */
 	public void activate() {
-		if (!isDeactivated()) {
-			throw new IllegalArgumentException("Trying to activate, but subscription has status " + this.status);
-		}
 		this.status = SubscriptionStatus.ACTIVE;
 	}
 	
@@ -240,9 +242,6 @@ public class SubscriptionEntity {
 	 * Deactivates the subscription
 	 */
 	public void deactivate() {
-		if (!isActive()) {
-			throw new IllegalArgumentException("Trying to deactivate, but subscription has status" + this.status);
-		}	
 		this.status = SubscriptionStatus.DEACTIVATED;
 	}
 
@@ -250,7 +249,6 @@ public class SubscriptionEntity {
 	/**
 	 * Puts the subscription into the deletion queue;
 	 */
-	//TODO: can't cancel deletion queue?
 	public void putIntoDeletionQueue() {
 		this.status = SubscriptionStatus.PENDINGFORDELETION;
 	}

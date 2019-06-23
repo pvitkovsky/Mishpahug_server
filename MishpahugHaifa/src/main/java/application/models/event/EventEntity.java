@@ -216,9 +216,6 @@ public class EventEntity {
 	 * Activates the event;
 	 */
 	public void activate() {
-		if (!isDeactivated()) {
-			throw new IllegalArgumentException("trying to activate event, but its status is " + this.status);
-		}
 		this.status = EventStatus.ACTIVE;
 	}
 
@@ -226,11 +223,7 @@ public class EventEntity {
 	 * Deactivates the event;
 	 */
 	public void deactivate() {
-		if (isDue() || isComplete()) {
-			this.status = EventStatus.DEACTIVATED;
-		} else {
-			throw new IllegalArgumentException("trying to deactivate event, but its status is " + this.status);
-		}
+		this.status = EventStatus.DEACTIVATED;
 	}
 
 	/**

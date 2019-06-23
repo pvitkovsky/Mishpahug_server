@@ -71,7 +71,7 @@ public class UserModel implements IUserModel {
 	}
 
 	/**
-	 * Deletes the user skipping checks
+	 * Deletes the user skipping checks; 
 	 */
 	@Override
 	public UserEntity deleteByID(Integer userId) {

@@ -25,7 +25,7 @@ public class RestResponseEntityExceptionHandler {
 			HttpStatus status = HttpStatus.FORBIDDEN;
 			return handleExceptionInternal(ex, "Incorrect password or username", headers, status, request);
 		}
-		return handleExceptionInternal(ex, "Unspecified error", headers, HttpStatus.INTERNAL_SERVER_ERROR, request);
+		return handleExceptionInternal(ex, ex.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR, request);
 	}
 
 	protected ResponseEntity<String> handleExceptionInternal(Exception ex, String body, HttpHeaders headers,

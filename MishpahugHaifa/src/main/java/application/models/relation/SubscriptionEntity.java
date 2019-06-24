@@ -77,7 +77,8 @@ public class SubscriptionEntity {
 	private EventGuestId id = new EventGuestId();
 
 	@ManyToOne
-	@JoinColumn(name = "GUEST_ID", insertable = false, updatable = false) 
+	@JoinColumn(name = "GUEST_ID", insertable = false, updatable = false) // relation column names should match with
+																			// embedded id column names;
 	@Setter(AccessLevel.NONE)
 	@JsonBackReference("guestOfSubscription")
 	private UserEntity guest;

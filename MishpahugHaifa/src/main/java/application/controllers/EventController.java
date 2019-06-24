@@ -28,7 +28,6 @@ import application.dto.EventDTO;
 import application.dto.UserDTO;
 import application.models.event.EventEntity;
 import application.models.event.IEventModel;
-import application.models.relation.IRelationModel;
 import application.models.user.UserEntity;
 import application.utils.converter.IConverter;
 import lombok.extern.slf4j.Slf4j;
@@ -41,9 +40,6 @@ public class EventController implements IEventController {
 
 	@Autowired
 	IEventModel eventModel;
-
-	@Autowired
-	IRelationModel relationModel;
 
 	@Autowired
 	IConverter<EventEntity, EventDTO> converter;
@@ -71,7 +67,7 @@ public class EventController implements IEventController {
 	@ResponseBody
 	@Override
 	public List<UserDTO> findGuestByEventId(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request, @PathVariable(name = "id") Integer id) {	/*inter-aggregate query*/
-		List<UserEntity> userEntityList = relationModel.getSubscribedGuests(id);
+		List<UserEntity> userEntityList = eventModel.getSubscribedGuests(id);
 		return converterUser.DTOListFromEntities(userEntityList);
 	}
 

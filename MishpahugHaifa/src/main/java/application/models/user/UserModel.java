@@ -13,9 +13,10 @@ import com.querydsl.core.types.Predicate;
 
 import application.models.event.EventDeleted;
 import application.models.event.EventEntity;
-import application.models.event.EventRepository;
 import application.models.relation.SubscriptionEntity;
-import application.models.relation.SubscriptionRepository;
+import application.repositories.EventRepository;
+import application.repositories.SubscriptionRepository;
+import application.repositories.UserRepository;
 import application.utils.converter.IUpdates;
 
 @Service
@@ -27,6 +28,12 @@ public class UserModel implements IUserModel {
 
 	@Autowired
 	UserRepository userRepository;
+
+	@Autowired
+	EventRepository eventRepository;
+
+	@Autowired
+	SubscriptionRepository subscriptionRepository;
 
 	@Autowired
 	IUpdates updates;

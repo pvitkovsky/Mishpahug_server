@@ -14,8 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import application.configurations.dbloader.LoaderDependencies;
 import application.models.event.EventEntity;
-import application.models.event.EventRepository;
 import application.models.user.UserEntity;
+import application.repositories.EventRepository;
 import lombok.extern.slf4j.Slf4j;
 
 /**

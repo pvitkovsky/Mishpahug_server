@@ -13,10 +13,11 @@ import org.springframework.stereotype.Service;
 
 import com.querydsl.core.types.Predicate;
 
-import application.models.relation.SubscriptionRepository;
 import application.models.user.UserDeleted;
 import application.models.user.UserEntity;
-import application.models.user.UserRepository;
+import application.repositories.EventRepository;
+import application.repositories.SubscriptionRepository;
+import application.repositories.UserRepository;
 import application.utils.converter.IUpdates;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,12 +26,17 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class EventModel implements IEventModel {
 
+
 	@Autowired
 	private ApplicationEventPublisher applicationEventPublisher;
 	
 	@Autowired
 	EventRepository eventRepository;
-
+	@Autowired
+	UserRepository userRepository;
+	@Autowired
+	SubscriptionRepository subscriptionsRepository;
+	
 	@Autowired
 	IUpdates updates;
 	
@@ -48,6 +54,19 @@ public class EventModel implements IEventModel {
         	eventRepository.deleteAll(eventsToDelete);
         	log.warn("Check eventModelUserDelete " + eventRepository.findAll());
     }
+
+
+	@Override
+	public List<EventEntity> getSubscribedEvents(Integer userId) { /*inter-aggregate query*/
+		UserEntity userEntity = userRepository.getOne(userId);
+		return subscriptionsRepository.getEventsForGuest(userEntity);
+	}
+
+	@Override
+	public List<UserEntity> getSubscribedGuests(Integer eventId) {  /*inter-aggregate query*/
+		EventEntity eventEntity = eventRepository.getOne(eventId);
+		return subscriptionsRepository.getGuestsForEvent(eventEntity);
+	}
 
 	@Override
 	public List<EventEntity> getByOwner(String ownerUserName) { /*inter-aggregate query*/

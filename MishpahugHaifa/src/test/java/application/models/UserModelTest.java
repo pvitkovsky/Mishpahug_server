@@ -12,12 +12,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import application.models.event.EventRepository;
-import application.models.relation.SubscriptionRepository;
 import application.models.user.IUserModel;
 import application.models.user.UserEntity;
 import application.models.user.UserModel;
-import application.models.user.UserRepository;
+import application.repositories.EventRepository;
+import application.repositories.SubscriptionRepository;
+import application.repositories.UserRepository;
 import application.utils.converter.IUpdates;
 
 @RunWith(SpringRunner.class)

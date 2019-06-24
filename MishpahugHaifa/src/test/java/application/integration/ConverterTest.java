@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import application.dto.UserDTO;
 import application.models.user.UserEntity;
-import application.models.user.UserRepository;
+import application.repositories.UserRepository;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest

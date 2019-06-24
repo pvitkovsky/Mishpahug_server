@@ -1,4 +1,4 @@
-package application.models.event;
+package application.repositories;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -15,6 +15,7 @@ import org.springframework.data.querydsl.binding.QuerydslBindings;
 
 import com.querydsl.core.types.dsl.StringPath;
 
+import application.models.event.EventEntity;
 import application.models.event.QEventEntity;
 import application.models.user.UserEntity;
 

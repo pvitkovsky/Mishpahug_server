@@ -1,12 +1,11 @@
 package application.relations.user_event;
 
 import application.models.event.EventEntity;
-import application.models.event.EventRepository;
 import application.models.relation.SubscriptionEntity;
-import application.models.relation.SubscriptionRepository;
 import application.models.user.UserEntity;
-import application.models.user.UserRepository;
-
+import application.repositories.EventRepository;
+import application.repositories.SubscriptionRepository;
+import application.repositories.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,9 +32,7 @@ public class UserEventGuestTest {
 	private final LocalDate TDATE = LocalDate.of(2190, 1, 1);
 	private final LocalTime TTIME = LocalTime.of(23, 59);
 	private EventEntity GUESTING;
-	private EventEntity TESTING;
 	private SubscriptionEntity AGUESTING;
-	private SubscriptionEntity BTESTING;
 
 	@Autowired
 	UserRepository userRepo;
@@ -50,17 +47,10 @@ public class UserEventGuestTest {
 	public void buildEntities() {
 		userRepo.save(BEN);
 		userRepo.save(ALYSSA);
-		
 		GUESTING = new EventEntity(BEN, TDATE, TTIME);
 		eventRepo.save(GUESTING); 
 		AGUESTING = new SubscriptionEntity(ALYSSA, GUESTING); 
 		subscriptionRepo.save(AGUESTING);
-		
-		TESTING= new EventEntity(ALYSSA, TDATE, TTIME);
-		eventRepo.save(TESTING); 
-		BTESTING = new SubscriptionEntity(BEN, TESTING); 
-		subscriptionRepo.save(BTESTING);
-		
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -92,7 +82,7 @@ public class UserEventGuestTest {
 	@Test
 	public void findEventBySubs() {
 
-		List<EventEntity> events = subscriptionRepo.getEventsForGuestId(ALYSSA.getId());
+		List<EventEntity> events = subscriptionRepo.getEventsForGuest(ALYSSA);
 		assertEquals(events.size(), 1);
 		assertTrue(events.contains(GUESTING));
 
@@ -101,7 +91,7 @@ public class UserEventGuestTest {
 	@Test
 	public void findUserBySubs() {
 
-		List<UserEntity> guests = subscriptionRepo.getGuestsForEventId(GUESTING.getId());
+		List<UserEntity> guests = subscriptionRepo.getGuestsForEvent(GUESTING);
 		assertEquals(guests.size(), 1);
 		assertTrue(guests.contains(ALYSSA));
 	}
@@ -115,11 +105,7 @@ public class UserEventGuestTest {
 
 		ALYSSA.putIntoDeletionQueue();
 		AGUESTING.putIntoDeletionQueue();
-		TESTING.putIntoDeletionQueue();
-		BTESTING.putIntoDeletionQueue();
-		subscriptionRepo.delete(AGUESTING); 
-		subscriptionRepo.delete(BTESTING); 
-		eventRepo.delete(TESTING);
+		subscriptionRepo.delete(AGUESTING); //TODO: not automatic
 		userRepo.delete(ALYSSA);
 
 		assertTrue(eventRepo.existsById(GUESTING.getId()));
@@ -137,13 +123,13 @@ public class UserEventGuestTest {
 	
 		GUESTING.putIntoDeletionQueue();
 		AGUESTING.putIntoDeletionQueue();
-		subscriptionRepo.delete(AGUESTING); 
+		subscriptionRepo.delete(AGUESTING); //TODO: not automatic
 		eventRepo.delete(GUESTING);
 		
 		assertTrue(userRepo.existsById(ALYSSA.getId()));
 		assertTrue(userRepo.existsById(BEN.getId()));
 
-		assertEquals(eventRepo.count(), 1);
-		assertEquals(subscriptionRepo.count(), 1);
+		assertEquals(eventRepo.count(), 0);
+		assertEquals(subscriptionRepo.count(), 0);
 	}
 }

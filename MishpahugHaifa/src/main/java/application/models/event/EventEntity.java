@@ -3,23 +3,14 @@ package application.models.event;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.CopyOnWriteArraySet;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.PreRemove;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -28,9 +19,7 @@ import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import application.dto.EventDTO;
 import application.models.user.UserEntity;
@@ -43,13 +32,13 @@ import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 @Entity
-@Table(name = "eventlist", uniqueConstraints = { @UniqueConstraint(columnNames = { "user_owner", "date", "time" }) })
+@Table(name = "eventlist", uniqueConstraints = { @UniqueConstraint(columnNames = { "owner_id", "date", "time" }) })
 @Getter
 @Setter
 @Slf4j
 @NoArgsConstructor
-@EqualsAndHashCode(of = {"user_owner", "date", "time"}) // business key;
-@ToString(exclude = { "userEntityOwner", "addressEntity", "subscriptions" })
+@EqualsAndHashCode(of = {"eventOwner", "date", "time"}) // business key;
+@ToString
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class EventEntity {
 
@@ -72,11 +61,10 @@ public class EventEntity {
 	@Column(name = "name_of_event")
 	private String nameOfEvent;
 
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "user_owner")
-	@JsonBackReference("userEventOwner") // Bidirectional, managed from User;
+	@Column(name = "event_owner")
 	@Setter(AccessLevel.NONE)
-	private UserEntity userEntityOwner;
+	@Getter(AccessLevel.NONE)
+	private EventOwner eventOwner;
 
 	@Column(name = "status")
 	@Enumerated(EnumType.STRING)
@@ -110,26 +98,25 @@ public class EventEntity {
 	 * @param date
 	 * @param time
 	 */
-	public EventEntity(UserEntity owner, @NotNull LocalDate date, @NotNull LocalTime time) {
+	public EventEntity(Integer ownerId, @NotNull LocalDate date, @NotNull LocalTime time) {
 		this.date = date;
 		this.time = time;
 		// Is very dependent on the order of statements here; or hashcode will be messed
 		// up
-		setUserEntityOwner(owner);
+		setUserEntityOwner(ownerId);
 	}
 
-	/**
-	 * Setting this event's owner
-	 * 
-	 * @param owner
-	 */
-	private void setUserEntityOwner(UserEntity owner) { // TODO: checks;
-		if (this.userEntityOwner != null) {
-			if (this.userEntityOwner.equals(owner)) {
+	public EventOwner getUserEntityOwner() {
+		return eventOwner;
+	}
+	
+	private void setUserEntityOwner(Integer ownerId) { // TODO: checks;
+		if (this.eventOwner != null) {
+			if (this.eventOwner.getId().equals(ownerId)) {
 				return;
 			}
 		}
-		this.userEntityOwner = owner;
+		this.eventOwner = new EventOwner(ownerId);
 	}
 
 	/**
@@ -161,13 +148,6 @@ public class EventEntity {
 		return this.nameOfEvent + " " + this.date.toString() + " " + this.time.toString();
 	}
 
-
-	public void convertEventDTO(EventDTO data) {
-		//TODO: user into integer
-		this.date = data.getDate();
-		this.nameOfEvent = data.getNameOfEvent();
-		this.time = data.getTime();
-	}
 
 	/**
 	 * @return true if and only if the event can be visible to the user;

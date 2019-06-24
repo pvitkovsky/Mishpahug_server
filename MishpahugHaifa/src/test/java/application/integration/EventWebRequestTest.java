@@ -75,7 +75,7 @@ public class EventWebRequestTest {
 //				}).getBody();
 //		events_general.forEach((data) -> System.out.println("event : " + data));
 
-		Collection<EventDTO> events_by_owner = this.restTemplate.exchange("http://localhost:" + port + "/event/?userEntityOwner.userName=a",
+		Collection<EventDTO> events_by_owner = this.restTemplate.exchange("http://localhost:" + port + "/event/?eventOwner.id=1",
 				HttpMethod.GET,
 				new HttpEntity<String>(headers),
 				new ParameterizedTypeReference<Collection<EventDTO>>() {

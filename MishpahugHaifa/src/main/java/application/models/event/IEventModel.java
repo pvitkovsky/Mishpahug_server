@@ -10,8 +10,6 @@ import java.util.Set;
 
 public interface IEventModel {
     
-    List<EventEntity> getByOwner(String ownerUserName);
-    
     List<EventEntity> getByOwner(Integer ownerUserId);
 
     Integer size();

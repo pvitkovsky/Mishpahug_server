@@ -14,28 +14,44 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import application.models.event.EventEntity;
+import application.models.event.IEventModel;
 import application.models.relation.IRelationModel;
+import application.models.user.IUserModel;
+import application.models.user.UserEntity;
 import application.models.user.values.FeedBackValue;
 
 @RestController
 @RequestMapping(value = "/subscription")
+/**
+ * Convention on handling subscriptions around the app: 
+ *   All signatures where there is (Event, Guest) should have Event first. 
+ */
 public class SubscriptionController implements ISubscriptionController {
 
 	@Autowired
 	IRelationModel relationModel;
+	
+	@Autowired
+	IUserModel userModel;
+	
+	@Autowired
+	IEventModel eventModel;
 
 	@Override
 	@PutMapping(value = "/") //TODO: this is post bc no URL;
 	public void subscribe(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
-			@RequestParam(name = "userid") Integer userId, @RequestParam(name = "eventid") Integer eventId) {
-		relationModel.subscribe(eventId, userId);
+			 @RequestParam(name = "eventid") Integer eventId, @RequestParam(name = "userid") Integer guestId) {
+		EventEntity event = eventModel.getById(eventId);
+		UserEntity guest = userModel.getById(guestId);
+		relationModel.subscribe(guest, event);
 	}
 
 	@Override
 	@DeleteMapping(value = "/")
 	public void deactivateSubscription(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
-			@RequestParam(name = "userid") Integer userId, @RequestParam(name = "eventid") Integer eventId) {
-		relationModel.deactivateSubscription(eventId, userId);
+			 @RequestParam(name = "eventid") Integer eventId, @RequestParam(name = "userid") Integer guestId) {
+		relationModel.deactivateSubscription(eventId, guestId);
 	}
 
 	@GetMapping(value = "/")

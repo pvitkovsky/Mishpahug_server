@@ -48,14 +48,14 @@ public class EventEntityTest {
 	@Before
 	public void buildEntities() {
 		userRepo.save(ALYSSA);
-		TESTING = new EventEntity(ALYSSA, TDATE, TTIME);
+		TESTING = new EventEntity(ALYSSA.getId(), TDATE, TTIME);
 		eventRepo.save(TESTING); // TODO: where is cascade?!
 	}
 
 	@Test(expected = DataIntegrityViolationException.class)
 	public void givenDuplicateEventsSaveAndGetException() {
 		
-		EventEntity TESTINGDUPLICATE = new EventEntity(ALYSSA, TDATE, TTIME);
+		EventEntity TESTINGDUPLICATE = new EventEntity(ALYSSA.getId(), TDATE, TTIME);
 		eventRepo.save(TESTINGDUPLICATE);
 
 	}

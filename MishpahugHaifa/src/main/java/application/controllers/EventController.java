@@ -2,6 +2,7 @@ package application.controllers;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +30,7 @@ import application.dto.UserDTO;
 import application.models.event.EventEntity;
 import application.models.event.IEventModel;
 import application.models.relation.IRelationModel;
+import application.models.user.IUserModel;
 import application.models.user.UserEntity;
 import application.utils.converter.IConverter;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +41,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping(value = "/event")
 public class EventController implements IEventController {
 
+	@Autowired
+	IUserModel userModel;
+	
 	@Autowired
 	IEventModel eventModel;
 
@@ -54,7 +59,7 @@ public class EventController implements IEventController {
 	@Override
 	@RequestMapping(method = RequestMethod.GET, value = "/")
 	@ResponseBody
-	public List<EventDTO> findAllByWebQuerydsl(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request, //TWO jumps in JPA by QDsl 
+	public List<EventDTO> findAllByWebQuerydsl(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
 			@QuerydslPredicate(root = EventEntity.class) Predicate predicate) {
 		return converter.DTOListFromEntities(eventModel.getAll(predicate));
 	}
@@ -70,18 +75,22 @@ public class EventController implements IEventController {
 	@RequestMapping(method = RequestMethod.GET, value = "/{id}/guests")
 	@ResponseBody
 	@Override
-	public List<UserDTO> findGuestByEventId(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request, @PathVariable(name = "id") Integer id) {	/*inter-aggregate query*/
-		List<UserEntity> userEntityList = relationModel.getSubscribedGuests(id);
-		return converterUser.DTOListFromEntities(userEntityList);
+	/** re-wrapping from Relation **/
+	public List<UserDTO> findGuestByEventId(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request, @PathVariable(name = "id") Integer id) {	
+    	List<Integer> subscribedUserIds = relationModel.getSubscribedGuests_Ids(id);
+    	List<UserEntity> subscribedUsers= subscribedUserIds.stream().map(userId -> userModel.getById(userId)).collect(Collectors.toList()); // TODO : faster in-memory join; 
+        return converterUser.DTOListFromEntities(subscribedUsers);
 	}
 
 	@Override
 	@PostMapping(value = "/")
 	public EventDTO setDataFromForm(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
 			@RequestBody EventDTO data) {
-		EventEntity eventEntity = new EventEntity();
-		eventEntity.convertEventDTO(data);
+	
+		UserEntity owner = userModel.getById(data.getOwnerId());
+		EventEntity eventEntity = new EventEntity(owner.getId(), data.getDate(), data.getTime());
 		return new EventDTO(eventModel.add(eventEntity));
+		
 	}
 
 	@Override

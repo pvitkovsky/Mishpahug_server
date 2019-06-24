@@ -10,11 +10,11 @@ import java.util.Map;
 
 public interface IRelationModel {
 	
-	public List<UserEntity> getSubscribedGuests(Integer eventId);
+	public List<Integer> getSubscribedGuests_Ids(Integer eventId);
 	
-    public List<EventEntity> getSubscribedEvents(Integer userId); 
+    public List<Integer> getSubscribedEvents_Ids(Integer guestId); 
 
-    public void subscribe(Integer eventId, Integer userId); 
+    public void subscribe(UserEntity guest, EventEntity event); 
     
     public void deactivateSubscription(Integer eventId, Integer userId); 
    

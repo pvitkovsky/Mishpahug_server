@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import application.models.event.EventDeleted;
 import application.models.event.EventEntity;
-import application.models.relation.SubscriptionEntity.EventGuestId;
 import application.models.user.UserDeleted;
 import application.models.user.UserEntity;
 import application.models.user.values.FeedBackValue;
@@ -29,7 +28,7 @@ public class RelationModel implements IRelationModel {
     @EventListener
     public void updateSubscriptionsOnEventDelete(UserDeleted userDeleted) {
     		log.warn("RelationModel -> userDeleted event deleted detected");
-    		List<SubscriptionEntity> visits = subscriptionRepository.findByGuest_Id(userDeleted.getUserId()); 
+    		List<SubscriptionEntity> visits = subscriptionRepository.findById_guestId(userDeleted.getUserId()); 
     		log.warn("Subscriptions To Delete by User : " + visits );
     		visits.forEach(SubscriptionEntity::putIntoDeletionQueue);
     		subscriptionRepository.deleteAll(visits);
@@ -39,7 +38,7 @@ public class RelationModel implements IRelationModel {
     @EventListener
     public void updateSubscriptionsOnEventDelete(EventDeleted eventDeleted) {
     		log.warn("RelationModel -> eventDeleted  event deleted detected");
-			List<SubscriptionEntity> subs = subscriptionRepository.findByEvent_Id(eventDeleted.getEventId());
+			List<SubscriptionEntity> subs = subscriptionRepository.findById_eventId(eventDeleted.getEventId());
 			log.warn("Subscriptions To Delete by Event : " + subs );
 			subs.forEach(SubscriptionEntity::putIntoDeletionQueue);
 			subscriptionRepository.deleteAll(subs);
@@ -48,13 +47,13 @@ public class RelationModel implements IRelationModel {
   
     
 	@Override
-	public List<EventEntity> getSubscribedEvents(Integer userId) { 
-		return subscriptionRepository.getEventsForGuestId(userId);
+	public List<Integer> getSubscribedEvents_Ids(Integer guestId) { 
+		return subscriptionRepository.getEventIdsForGuestId(guestId);
 	}
 
 	@Override
-	public List<UserEntity> getSubscribedGuests(Integer eventId) {  
-		return subscriptionRepository.getGuestsForEventId(eventId);
+	public List<Integer> getSubscribedGuests_Ids(Integer eventId) {  
+		return subscriptionRepository.getGuestIdsForEventId(eventId);
 	}
 	
     /**
@@ -64,8 +63,6 @@ public class RelationModel implements IRelationModel {
 	private class SubscriptionHandler {
 		final private Integer eventId;
 		final private Integer userId;
-		private EventEntity eventEntity;
-		private UserEntity userEntity;
 		private SubscriptionEntity subscription;
 
 		private SubscriptionHandler(Integer eventId, Integer userId){
@@ -75,9 +72,10 @@ public class RelationModel implements IRelationModel {
 		}
 
 		private void load(){
-			EventGuestId subscriptionKey = new EventGuestId(userEntity.getId(), eventEntity.getId());
+
+			SubscriptionRelation subscriptionKey = new SubscriptionRelation(eventId, userId);
 			if (!subscriptionRepository.existsById(subscriptionKey)) {
-				subscription = new SubscriptionEntity(userEntity, eventEntity); //TODO: decoupling;
+				subscription = new SubscriptionEntity(eventId, userId); //TODO: decoupling;
 			} else {
 				subscription = subscriptionRepository.getOne(subscriptionKey);
 			}
@@ -107,8 +105,10 @@ public class RelationModel implements IRelationModel {
 	}
 	
 	@Override
-	public void subscribe(Integer eventId, Integer userId){
-		SubscriptionHandler handler = new SubscriptionHandler(eventId, userId);
+	public void subscribe(UserEntity guest, EventEntity event){
+		SubscriptionEventGuest subEventGuest = new SubscriptionEventGuest(event, guest); //TODO: free GC of new objects pls;
+		subEventGuest.checkEventAndID();
+		SubscriptionHandler handler = new SubscriptionHandler(event.getId(), guest.getId());
 		handler.subscribe();
 		log.warn("Subsription activated " + handler.subscription);
 	}
@@ -123,7 +123,7 @@ public class RelationModel implements IRelationModel {
     @Override
     public Map<Integer, FeedBackValue> getAllByEvent(Integer eventId) {
         Map<Integer, FeedBackValue> res = new HashMap<>();
-        List<SubscriptionEntity> subscriptionEntityList = subscriptionRepository.findByEvent_Id(eventId);
+        List<SubscriptionEntity> subscriptionEntityList = subscriptionRepository.findById_eventId(eventId);
         log.info("" + subscriptionEntityList);
         Integer z = 0;
         for (SubscriptionEntity x:subscriptionEntityList){
@@ -138,7 +138,7 @@ public class RelationModel implements IRelationModel {
     @Override
     public Map<Integer, FeedBackValue> getAllByUser(Integer userId) {
         Map<Integer, FeedBackValue> res = new HashMap<>();
-        List<SubscriptionEntity> subscriptionEntityList = subscriptionRepository.findByGuest_Id(userId);
+        List<SubscriptionEntity> subscriptionEntityList = subscriptionRepository.findById_guestId(userId);
         log.info("" + subscriptionEntityList);
         Integer z = 0;
         for (SubscriptionEntity x:subscriptionEntityList){
@@ -151,12 +151,12 @@ public class RelationModel implements IRelationModel {
 
     @Override
     public void removeAllByUser(Integer userId) {
-        subscriptionRepository.removeById_UserGuestId(userId);
+        subscriptionRepository.removeById_guestId(userId);
     }
 
     @Override
     public void removeAllByEvent(Integer eventId) {
-        subscriptionRepository.removeById_EventId(eventId);
+        subscriptionRepository.removeById_eventId(eventId);
     }
 
     @Override

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.security.auth.login.FailedLoginException;
 import javax.servlet.http.HttpServletRequest;
@@ -72,18 +73,21 @@ public class UserController implements IUserController {
 
 
     @Override // SUBSCRIPTIONS
-    @GetMapping(value = "/{id}/subscribes") // re-wrapping from Relation;		/*inter-aggregate query*/
+    @GetMapping(value = "/{id}/subscribes") 
+    /** inter-aggregate query: re-wrapping from Relation **/
     public List<EventDTO> getEventsById(@RequestHeader HttpHeaders httpHeaders,
 			HttpServletRequest request, @PathVariable(value = "id") Integer id) {
-    	List<EventEntity> subscribedEvents = relationModel.getSubscribedEvents(id);
+    	List<Integer> subscribedEventIds = relationModel.getSubscribedEvents_Ids(id);
+    	List<EventEntity> subscribedEvents= subscribedEventIds.stream().map(eventId -> eventModel.getById(eventId)).collect(Collectors.toList()); // TODO : faster in-memory join; 
         return converterEvent.DTOListFromEntities(subscribedEvents);
     }
 
     @Override // OWNER
-    @GetMapping(value = "/{id}/events") // direct o2m connection; 		/*inter-aggregate query*/
+    @GetMapping(value = "/{id}/events") 
+    /** inter-aggregate query; proper bounded context: getting by user id **/ 
     public List<EventDTO> getEventsByOwnerId(@RequestHeader HttpHeaders httpHeaders,
                                              HttpServletRequest request, @PathVariable(value = "id") Integer id) {
-        List<EventEntity> ownedEvents = eventModel.getByOwner(userModel.getById(id).getUserName());
+        List<EventEntity> ownedEvents = eventModel.getByOwner(id);
         return converterEvent.DTOListFromEntities(ownedEvents);
     }
 

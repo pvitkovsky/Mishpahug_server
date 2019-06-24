@@ -51,14 +51,14 @@ public class UserEventGuestTest {
 		userRepo.save(BEN);
 		userRepo.save(ALYSSA);
 		
-		GUESTING = new EventEntity(BEN, TDATE, TTIME);
+		GUESTING = new EventEntity(BEN.getId(), TDATE, TTIME);
 		eventRepo.save(GUESTING); 
-		AGUESTING = new SubscriptionEntity(ALYSSA, GUESTING); 
+		AGUESTING = new SubscriptionEntity(GUESTING.getId(), ALYSSA.getId()); 
 		subscriptionRepo.save(AGUESTING);
 		
-		TESTING= new EventEntity(ALYSSA, TDATE, TTIME);
+		TESTING= new EventEntity(ALYSSA.getId(), TDATE, TTIME);
 		eventRepo.save(TESTING); 
-		BTESTING = new SubscriptionEntity(BEN, TESTING); 
+		BTESTING = new SubscriptionEntity(TESTING.getId(), BEN.getId()); 
 		subscriptionRepo.save(BTESTING);
 		
 	}
@@ -78,32 +78,32 @@ public class UserEventGuestTest {
 		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
 		EventEntity savedE = eventRepo.findById(GUESTING.getId()).get();
 
-		UserEntity savedAfromRelation = AGUESTING.getGuest();
-		EventEntity savedEfromRelation = AGUESTING.getEvent();
+		Integer savedAIdfromRelation = AGUESTING.getId().getGuestId();
+		Integer savedEIdfromRelation = AGUESTING.getId().getEventId();
 		assertTrue(savedA.equals(ALYSSA));
-		assertTrue(savedAfromRelation.equals(ALYSSA));
-		assertTrue(savedA.equals(savedAfromRelation));
+		assertTrue(savedAIdfromRelation.equals(ALYSSA.getId()));
+		assertTrue(savedA.getId().equals(savedAIdfromRelation));
 		assertTrue(savedE.equals(GUESTING));
-		assertTrue(savedEfromRelation.equals(GUESTING));
-		assertTrue(savedE.equals(savedEfromRelation));
+		assertTrue(savedEIdfromRelation.equals(GUESTING.getId()));
+		assertTrue(savedE.getId().equals(savedEIdfromRelation));
 
 	}
 	
 	@Test
 	public void findEventBySubs() {
 
-		List<EventEntity> events = subscriptionRepo.getEventsForGuestId(ALYSSA.getId());
-		assertEquals(events.size(), 1);
-		assertTrue(events.contains(GUESTING));
+		List<Integer> eventIds = subscriptionRepo.getEventIdsForGuestId(ALYSSA.getId());
+		assertEquals(eventIds.size(), 1);
+		assertTrue(eventIds.contains(GUESTING.getId()));
 
 	}
 
 	@Test
 	public void findUserBySubs() {
 
-		List<UserEntity> guests = subscriptionRepo.getGuestsForEventId(GUESTING.getId());
-		assertEquals(guests.size(), 1);
-		assertTrue(guests.contains(ALYSSA));
+		List<Integer> guestIds = subscriptionRepo.getEventIdsForGuestId(GUESTING.getId());
+		assertEquals(guestIds.size(), 1);
+		assertTrue(guestIds.contains(ALYSSA.getId()));
 	}
 	
 	

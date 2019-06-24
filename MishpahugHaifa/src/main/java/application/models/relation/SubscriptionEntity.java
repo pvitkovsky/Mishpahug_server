@@ -36,7 +36,7 @@ import lombok.extern.slf4j.Slf4j;
  * must be set manually;
  */
 @NoArgsConstructor
-@EqualsAndHashCode(of = {"guest", "event"})
+@EqualsAndHashCode(of = {"id"})
 @Entity
 @Table(name = "user_event_guest", uniqueConstraints = {@UniqueConstraint(columnNames = {"GUEST_ID", "EVENT_ID"})})
 @ToString
@@ -46,47 +46,14 @@ import lombok.extern.slf4j.Slf4j;
  */
 public class SubscriptionEntity {
 
-	@Embeddable
-	@NoArgsConstructor
-	@AllArgsConstructor
-	@EqualsAndHashCode(of= {"userGuestId", "eventId"})
-	@ToString
-	@Getter
-	public static class EventGuestId implements Serializable {
-
-		private static final long serialVersionUID = 1L;
-
-		@Column(name = "GUEST_ID")
-		private Integer userGuestId;
-
-		@Column(name = "EVENT_ID")
-		private Integer eventId;
-
-		/**
-		 * Extra constructor for type safety;
-		 */
-		public EventGuestId(UserEntity userGuest, EventEntity event) {
-			super();
-			this.userGuestId = userGuest.getId();
-			this.eventId = event.getId();
-		}
-	}
-
 	@EmbeddedId
 	@Setter(AccessLevel.NONE)
-	private EventGuestId id = new EventGuestId();
+	@Getter(AccessLevel.NONE)
+	private SubscriptionRelation id;
 
-	@ManyToOne
-	@JoinColumn(name = "GUEST_ID", insertable = false, updatable = false) 
-	@Setter(AccessLevel.NONE)
-	@JsonBackReference("guestOfSubscription")
-	private UserEntity guest;
-
-	@ManyToOne
-	@JoinColumn(name = "EVENT_ID", insertable = false, updatable = false)
-	@Setter(AccessLevel.NONE)
-	@JsonBackReference("eventOfSubscription")
-	private EventEntity event;
+	public SubscriptionRelation getId() {
+		return id;
+	}
 
 	@Embedded
 	private FeedBackValue feedback;
@@ -94,7 +61,7 @@ public class SubscriptionEntity {
 	@Column(name = "status")
 	@Enumerated(EnumType.STRING)
 	@Setter(AccessLevel.NONE)
-	private SubscriptionStatus status = SubscriptionStatus.ACTIVE;
+	private SubscriptionStatus status = SubscriptionStatus.ACTIVE; //TODO: can refactor all statuses into one place; 
 
 	public enum SubscriptionStatus implements StatusChanger {
 		ACTIVE(e -> e.activate()), CANCELED(e -> e.cancel()), DEACTIVATED(e -> e.deactivate()), PENDINGFORDELETION(
@@ -117,45 +84,8 @@ public class SubscriptionEntity {
 		void change(SubscriptionEntity subscription);
 	}
 	
-	public SubscriptionEntity(UserEntity userGuest, EventEntity event) {
-		super();
-		setRelationAndID(userGuest, event);
-	}
-
-	public SubscriptionEntity(EventGuestId id, UserEntity userGuest, EventEntity event, FeedBackValue feedback) {
-		super();
-		this.id = id;
-		setRelationAndID(userGuest, event);
-		this.feedback = feedback;
-	}
-
-	/**
-	 * Helper method for setting the embedded Id fields together with the relation
-	 * fields;
-	 * 
-	 * @param guest
-	 * @param event
-	 */
-	private void setRelationAndID(UserEntity guest, EventEntity event) {
-		checkEventAndID(guest, event);
-		this.id.userGuestId = guest.getId();
-		this.id.eventId = event.getId();
-		this.guest = guest;
-		this.event = event;
-	}
-	
-	private void checkEventAndID(UserEntity guest, EventEntity event) {
-		if( event.getUserEntityOwner() == null ) { //TODO: events should always be consistent!
-			throw new IllegalStateException("Trying to create a subscription for event that is in the inconsistent state");
-		}
-		if (event.getUserEntityOwner().equals(guest)) {
-			throw new IllegalArgumentException("Trying to subscribe to the owned event");
-		}
-		if (this.guest == null && this.event == null) {
-			return;
-		} else {
-			throw new IllegalArgumentException("Trying to subscribe, but subscription has user and event already");
-		}
+	public SubscriptionEntity(Integer eventId, Integer guestId) {
+		this.id = new SubscriptionRelation(eventId, guestId);
 	}
 	
 	/**
@@ -251,4 +181,6 @@ public class SubscriptionEntity {
 	public void putIntoDeletionQueue() {
 		this.status = SubscriptionStatus.PENDINGFORDELETION;
 	}
+
+
 }

@@ -46,7 +46,7 @@ public class EventLoaderFixed implements ILoader {
 				String[] eventAttributes = detail.split(",");		
 				Integer index = Integer.parseInt(eventAttributes[3]);	
 				UserEntity owner = userEntityList.get(index);
-				EventEntity event = new EventEntity(owner,
+				EventEntity event = new EventEntity(owner.getId(),
 						LocalDate.parse(eventAttributes[0].replaceAll("/", "-"), DateTimeFormatter.ISO_DATE),
 						LocalTime.parse(eventAttributes[1], DateTimeFormatter.ISO_LOCAL_TIME));
 				event.setNameOfEvent(eventAttributes[2]);

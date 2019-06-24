@@ -7,29 +7,20 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import application.models.event.EventEntity;
-import application.models.relation.SubscriptionEntity.EventGuestId;
 import application.models.user.UserEntity;
 
-public interface SubscriptionRepository extends JpaRepository<SubscriptionEntity, EventGuestId> {
+public interface SubscriptionRepository extends JpaRepository<SubscriptionEntity, SubscriptionRelation> {
+
+	@Query("SELECT s.id.eventId FROM SubscriptionEntity s WHERE s.id.guestId = :guest")    
+	public List<Integer> getEventIdsForGuestId(@Param(value = "guest") Integer guestId); 
+	@Query("SELECT s.id.guestId FROM SubscriptionEntity s WHERE s.id.eventId = :event")    
+	public List<Integer> getGuestIdsForEventId (@Param(value = "event") Integer eventId); 
 
 	
-	//Violates inter-aggregate boundaries; 
-//	@Query("SELECT s.guest FROM SubscriptionEntity s WHERE s.event = :event")    
-//	public List<UserEntity> getGuestsForEvent (@Param(value = "event") EventEntity event); 
-//	@Query("SELECT s.event FROM SubscriptionEntity s WHERE s.guest = :guest")    
-//	public List<EventEntity> getEventsForGuest(@Param(value = "guest") UserEntity guest); 
+	public List<SubscriptionEntity> findById_eventId(Integer eventId); 
+	public List<SubscriptionEntity> findById_guestId(Integer guestId); 
 	
-	//TODO: test these;
-	@Query("SELECT s.guest FROM SubscriptionEntity s WHERE s.event.id = :event")    
-	public List<UserEntity> getGuestsForEventId (@Param(value = "event") Integer eventId); 
-	@Query("SELECT s.event FROM SubscriptionEntity s WHERE s.guest.id = :guest")    
-	public List<EventEntity> getEventsForGuestId(@Param(value = "guest") Integer guestId); 
-	
-	
-	public List<SubscriptionEntity> findByEvent_Id(Integer eventId); 
-	public List<SubscriptionEntity> findByGuest_Id(Integer guestId); 
-	
-	public void removeById_EventId(Integer eventId);
-	public void removeById_UserGuestId(Integer guestId);
+	public void removeById_eventId(Integer eventId);
+	public void removeById_guestId(Integer guestId);
 
 }

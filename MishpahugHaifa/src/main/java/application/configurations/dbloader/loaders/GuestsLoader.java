@@ -42,7 +42,7 @@ public class GuestsLoader implements ILoader {
 			
 			UserEntity guest = this.data.userRepository.findAll().get(0); // TODO: rewrite with better reusiability
 			EventEntity event = this.data.eventRepository.findAll().get(1);
-			SubscriptionEntity subscription = new SubscriptionEntity(guest, event);
+			SubscriptionEntity subscription = new SubscriptionEntity(event.getId(), guest.getId());
 			this.data.eventGuestRepository.save(subscription);
 
 			log.warn("DBLoadTest -> GuestsLoader -> In repository " + this.data.eventGuestRepository.findAll().size()

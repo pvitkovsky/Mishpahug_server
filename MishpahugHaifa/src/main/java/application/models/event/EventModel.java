@@ -37,7 +37,7 @@ public class EventModel implements IEventModel {
     @EventListener
     public void updateEventsOnUserDelete(UserDeleted userDeleted) {
         	log.warn("EventModel -> userChanged event deleted detected");
-        	List<EventEntity> eventsToDelete = eventRepository.getByUserEntityOwner_Id(userDeleted.getUserId());
+        	List<EventEntity> eventsToDelete = eventRepository.getByEventOwner_Id(userDeleted.getUserId());
         	log.warn("Events To Delete: " + eventsToDelete );
         	eventsToDelete.forEach(event -> { 
         		log.warn("  event deletion: " + event );
@@ -49,14 +49,10 @@ public class EventModel implements IEventModel {
         	log.warn("Check eventModelUserDelete " + eventRepository.findAll());
     }
 
-	@Override
-	public List<EventEntity> getByOwner(String ownerUserName) { /*inter-aggregate query*/
-		return eventRepository.getByUserEntityOwner_UserName(ownerUserName);
-	}
 	
 	@Override
 	public List<EventEntity> getByOwner(Integer ownerUserId) { /*inter-aggregate query*/
-		return eventRepository.getByUserEntityOwner_Id(ownerUserId);
+		return eventRepository.getByEventOwner_Id(ownerUserId);
 	}
 
 	@Override

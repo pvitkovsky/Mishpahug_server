@@ -39,7 +39,7 @@ public class CreateDeactivateTest {
 
 	private final UserEntity ALYSSA = new UserEntity("Alyssa", "p_hacker-test@sicp.edu");
 	private final UserEntity BEN = new UserEntity("Ben", "bitdiddle-test@sicp.edu");
-	private final EventEntity GUESTING = new EventEntity(ALYSSA, LocalDate.now(), LocalTime.now().truncatedTo(ChronoUnit.SECONDS));
+	private EventEntity GUESTING;
 	private SubscriptionEntity AGUESTING;
 	private final HttpHeaders headers = new HttpHeaders();
 	private String token;
@@ -61,8 +61,9 @@ public class CreateDeactivateTest {
 		ALYSSA.setEncrytedPassword(DigestUtils.md5Hex(ALYSSA.getUserName()));
 		userRepo.save(ALYSSA);
 		userRepo.save(BEN);
+		GUESTING = new EventEntity(ALYSSA.getId(), LocalDate.now(), LocalTime.now().truncatedTo(ChronoUnit.SECONDS));
 		eventRepo.save(GUESTING);
-		AGUESTING = new SubscriptionEntity(BEN, GUESTING);
+		AGUESTING = new SubscriptionEntity(GUESTING.getId(), BEN.getId());
 		subscriptionRepo.save(AGUESTING);
 		
 		restTemplate.setRequestFactory(new HttpComponentsAsyncClientHttpRequestFactory());

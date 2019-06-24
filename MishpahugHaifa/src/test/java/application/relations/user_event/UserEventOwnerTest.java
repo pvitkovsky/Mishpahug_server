@@ -21,6 +21,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import application.models.event.EventEntity;
+import application.models.event.EventOwner;
 import application.models.event.EventRepository;
 import application.models.relation.SubscriptionEntity;
 import application.models.relation.SubscriptionRepository;
@@ -65,12 +66,12 @@ public class UserEventOwnerTest {
 	public void buildEntities() {
 		userRepo.save(ALYSSA);
 		userRepo.save(BEN);
-		ABTEST = new EventEntity(BEN, TDATE, TTIME);
-		BATEST = new EventEntity(ALYSSA, TDATE, TTIME);
+		ABTEST = new EventEntity(BEN.getId(), TDATE, TTIME);
+		BATEST = new EventEntity(ALYSSA.getId(), TDATE, TTIME);
 		eventRepo.save(ABTEST);  //TODO: where is cascade?!
 		eventRepo.save(BATEST);
-		ABSUB = new SubscriptionEntity(ALYSSA, ABTEST);
-		BASUB = new SubscriptionEntity(BEN, BATEST);
+		ABSUB = new SubscriptionEntity(ABTEST.getId(), ALYSSA.getId());
+		BASUB = new SubscriptionEntity(BATEST.getId(), BEN.getId());
 		subscriptionRepo.save(ABSUB);
 		subscriptionRepo.save(BASUB);
 	}
@@ -88,11 +89,11 @@ public class UserEventOwnerTest {
 		
 		UserEntity savedA = userRepo.findById(ALYSSA.getId()).get();
 		EventEntity savedE = eventRepo.findById(BATEST.getId()).get();
-		UserEntity savedAfromEvent = savedE.getUserEntityOwner();
+		Integer savedAiDfromEvent = savedE.getUserEntityOwner().getId();
 		
 		assertTrue(savedA.equals(ALYSSA));
-		assertTrue(savedAfromEvent.equals(ALYSSA));
-		assertTrue(savedA.equals(savedAfromEvent));
+		assertTrue(savedAiDfromEvent.equals(ALYSSA.getId()));
+		assertTrue(savedA.getId().equals(savedAiDfromEvent));
 
 		assertTrue(savedE.equals(BATEST));
 	}
@@ -156,16 +157,16 @@ public class UserEventOwnerTest {
 		assertTrue(subscriptionRepo.existsById(BASUB.getId()));
 
 		
-		List<EventEntity> aEvents = eventRepo.getByUserEntityOwner_Id(ALYSSA.getId()); //TODO: not automatic removal of owned evemts, and of two sides of subscriptions 
+		List<EventEntity> aEvents = eventRepo.getByEventOwner_Id(ALYSSA.getId()); //TODO: not automatic removal of owned evemts, and of two sides of subscriptions 
 		aEvents.forEach(event ->  { 													 //can't use removebyEventId
-			List<SubscriptionEntity> subs = subscriptionRepo.findByEvent_Id(event.getId());
+			List<SubscriptionEntity> subs = subscriptionRepo.findById_eventId(event.getId());
 			subs.forEach(SubscriptionEntity::putIntoDeletionQueue);
 			subscriptionRepo.deleteAll(subs);
 		});
 		aEvents.forEach(EventEntity::putIntoDeletionQueue);
 		eventRepo.deleteAll(aEvents);
 		
-		List<SubscriptionEntity> visits = subscriptionRepo.findByGuest_Id(ALYSSA.getId()); //can't use removebyGuestId
+		List<SubscriptionEntity> visits = subscriptionRepo.findById_guestId(ALYSSA.getId()); //can't use removebyGuestId
 		visits.forEach(SubscriptionEntity::putIntoDeletionQueue);
 		subscriptionRepo.deleteAll(visits);
 

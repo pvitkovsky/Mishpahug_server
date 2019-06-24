@@ -29,7 +29,6 @@ public class EventDTO {
     private String holidayDescription; // why do we need 2 fields for this?
     private String kichenType;
     private Integer ownerId;
-    private List<Integer> guestIds; 
 
 
     public EventDTO(EventEntity eventEntity) {
@@ -47,7 +46,5 @@ public class EventDTO {
         this.holidayDescription = eventEntity.getHoliDay() ==null ? "" : eventEntity.getHoliDay().getDescription();
         this.kichenType = eventEntity.getKitchenType() ==null ? "" : eventEntity.getKitchenType().getName();
         this.ownerId = eventEntity.getUserEntityOwner().getId();
-        this.guestIds = eventEntity.getSubscriptions().stream().map(s -> s.getGuest().getId()).collect(Collectors.toList());
-        
     }
 }

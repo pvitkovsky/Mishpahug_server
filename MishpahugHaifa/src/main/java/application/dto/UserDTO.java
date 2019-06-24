@@ -23,7 +23,7 @@ public class UserDTO {
 
     private String phoneNumber;
 
-    private String eMail;
+    private String eMail = "na@tut.by";
 
     private String userName;
 

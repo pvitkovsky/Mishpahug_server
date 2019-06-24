@@ -143,6 +143,7 @@ public class UserEntity {
 		if(userName.length() > 36) {
 			throw new IllegalArgumentException("userName too long");
 		}
+		System.out.println("email -> " + email);
 		this.userName = userName;
 		this.eMail = email;
 	}

@@ -114,6 +114,10 @@ public class EventEntity {
 		setUserEntityOwner(owner);
 	}
 
+	public EventEntity(UserEntity owner) {
+		setUserEntityOwner(owner);
+	}
+
 	/**
 	 * Setting this event's owner
 	 * 

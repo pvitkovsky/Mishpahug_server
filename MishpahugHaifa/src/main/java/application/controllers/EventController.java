@@ -9,6 +9,7 @@ import application.entities.UserEntity;
 import application.models.event.IEventModel;
 import application.models.properties.holyday.IHolyDayModel;
 import application.models.properties.kichentype.IKichenTypeModel;
+import application.models.user.IUserModel;
 import application.utils.converter.IConverter;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Visitor;
@@ -46,6 +47,9 @@ public class EventController implements IEventController {
 	@Autowired
 	IKichenTypeModel kichenTypeModel;
 
+	@Autowired
+	IUserModel userModel;
+
 	// TODO: events by owner; events by subcscriber; check that no wrapping is done;
 
 	@Override
@@ -80,7 +84,7 @@ public class EventController implements IEventController {
 	@PostMapping(value = "/")
 	public EventDTO setDataFromForm(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
 			@RequestBody EventDTO data) {
-		EventEntity eventEntity = new EventEntity();
+		EventEntity eventEntity = new EventEntity(userModel.getById(data.getOwnerId()));
 		eventEntity.convertEventDTO(data);
 		eventEntity.setKitchenType(kichenTypeModel.getByName(data.getKichenType()));
 		eventEntity.setHoliDay(holyDayModel.getByName(data.getHoliday()));

@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
-import application.repositories.EventRepository;
-import application.repositories.SubscriptionRepository;
-import application.repositories.UserRepository;
+import application.models.event.EventRepository;
+import application.models.relation.SubscriptionRepository;
+import application.models.user.UserRepository;
 
 @Service
 public class LoaderDependencies { //TODO: stability risk with public access modifier on all repositories;

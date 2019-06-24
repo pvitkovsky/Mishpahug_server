@@ -5,7 +5,8 @@ import application.dto.LoginDTO;
 import application.dto.LoginResponse;
 import application.dto.UserDTO;
 import application.models.user.UserEntity;
-import application.repositories.UserRepository;
+import application.models.user.UserRepository;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.After;
 import org.junit.Before;

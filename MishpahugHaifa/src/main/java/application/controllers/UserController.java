@@ -42,7 +42,7 @@ import application.models.relation.SubscriptionEntity;
 import application.models.user.IUserModel;
 import application.models.user.UserEntity;
 import application.models.user.UserSession;
-import application.repositories.UserSessionRepository;
+import application.models.user.UserSessionRepository;
 import application.utils.converter.IConverter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -75,7 +75,7 @@ public class UserController implements IUserController {
     @GetMapping(value = "/{id}/subscribes") // re-wrapping from Relation;		/*inter-aggregate query*/
     public List<EventDTO> getEventsById(@RequestHeader HttpHeaders httpHeaders,
 			HttpServletRequest request, @PathVariable(value = "id") Integer id) {
-    	List<EventEntity> subscribedEvents = eventModel.getSubscribedEvents(id);
+    	List<EventEntity> subscribedEvents = relationModel.getSubscribedEvents(id);
         return converterEvent.DTOListFromEntities(subscribedEvents);
     }
 

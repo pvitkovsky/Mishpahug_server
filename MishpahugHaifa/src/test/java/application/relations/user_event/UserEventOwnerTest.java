@@ -21,11 +21,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import application.models.event.EventEntity;
+import application.models.event.EventRepository;
 import application.models.relation.SubscriptionEntity;
+import application.models.relation.SubscriptionRepository;
 import application.models.user.UserEntity;
-import application.repositories.EventRepository;
-import application.repositories.SubscriptionRepository;
-import application.repositories.UserRepository;
+import application.models.user.UserRepository;
 
 /**
  * Relation:

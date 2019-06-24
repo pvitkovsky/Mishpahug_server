@@ -1,9 +1,10 @@
 package application.entities.event;
 
 import application.models.event.EventEntity;
+import application.models.event.EventRepository;
 import application.models.user.UserEntity;
-import application.repositories.EventRepository;
-import application.repositories.UserRepository;
+import application.models.user.UserRepository;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

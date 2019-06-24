@@ -10,19 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
-import application.models.event.EventChanged;
 import application.models.event.EventDeleted;
 import application.models.event.EventEntity;
-import application.models.event.EventEntity.EventStatus;
 import application.models.relation.SubscriptionEntity.EventGuestId;
-import application.models.user.UserChanged;
 import application.models.user.UserDeleted;
 import application.models.user.UserEntity;
-import application.models.user.UserEntity.UserStatus;
 import application.models.user.values.FeedBackValue;
-import application.repositories.EventRepository;
-import application.repositories.SubscriptionRepository;
-import application.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -32,13 +25,6 @@ public class RelationModel implements IRelationModel {
 
     @Autowired
     SubscriptionRepository subscriptionRepository;
-
-    @Autowired
-    EventRepository eventRepository;
-
-    @Autowired
-    UserRepository userRepository;
-    
     
     @EventListener
     public void updateSubscriptionsOnEventDelete(UserDeleted userDeleted) {
@@ -61,6 +47,16 @@ public class RelationModel implements IRelationModel {
     }
   
     
+	@Override
+	public List<EventEntity> getSubscribedEvents(Integer userId) { 
+		return subscriptionRepository.getEventsForGuestId(userId);
+	}
+
+	@Override
+	public List<UserEntity> getSubscribedGuests(Integer eventId) {  
+		return subscriptionRepository.getGuestsForEventId(eventId);
+	}
+	
     /**
 	 * Handles subscription logic;
 	 */
@@ -79,8 +75,6 @@ public class RelationModel implements IRelationModel {
 		}
 
 		private void load(){
-			eventEntity = eventRepository.getOne(eventId);
-			userEntity = userRepository.getOne(userId);
 			EventGuestId subscriptionKey = new EventGuestId(userEntity.getId(), eventEntity.getId());
 			if (!subscriptionRepository.existsById(subscriptionKey)) {
 				subscription = new SubscriptionEntity(userEntity, eventEntity); //TODO: decoupling;

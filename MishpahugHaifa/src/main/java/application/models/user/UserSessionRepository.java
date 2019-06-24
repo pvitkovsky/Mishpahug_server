@@ -1,8 +1,6 @@
-package application.repositories;
+package application.models.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import application.models.user.UserSession;
 
 public interface UserSessionRepository extends JpaRepository<UserSession, Integer> {
     public UserSession findByTokenAndIsValidTrue(String token);

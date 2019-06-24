@@ -1,7 +1,7 @@
 package application.configurations;
 
 import application.models.user.UserSession;
-import application.repositories.UserSessionRepository;
+import application.models.user.UserSessionRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

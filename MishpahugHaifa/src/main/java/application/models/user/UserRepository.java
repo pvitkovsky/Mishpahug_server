@@ -1,4 +1,4 @@
-package application.repositories;
+package application.models.user;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,7 +13,6 @@ import org.springframework.data.querydsl.binding.QuerydslBindings;
 import com.querydsl.core.types.dsl.StringPath;
 
 import application.models.user.QUserEntity;
-import application.models.user.UserEntity;
 
 public interface UserRepository extends JpaRepository<UserEntity, Integer>,
         QuerydslPredicateExecutor<UserEntity>, QuerydslBinderCustomizer<QUserEntity>{

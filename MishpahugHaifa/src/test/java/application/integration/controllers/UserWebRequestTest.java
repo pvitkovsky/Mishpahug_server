@@ -35,7 +35,7 @@ import static org.junit.Assert.assertTrue;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class UserWebRequestTest {
 
-    private final UserEntity ALYSSA = new UserEntity("Alyssa", "p_hacker@sicp.edu");
+  private final UserEntity ALYSSA = new UserEntity("Alyssa", "p_hacker@sicp.edu");
     private final HttpHeaders headers = new HttpHeaders();
     private String token;
     
@@ -114,6 +114,31 @@ public class UserWebRequestTest {
 //        System.out.println("" + events);
 //        assertTrue(events.size() >= 1);
 //    }
+    
+    @Test
+    public void addAllShouldReturnNewUser() throws Exception { //TODO: fix me pls
+       
+        final String BENUSERNAME = "ben";
+    	final String BENEMAIL = "bitdiddlesecond@sicp.edu";
+    	final String BENPASS = "encryptedpassword";
+    	
+    	
+    	UserDTO dto = new UserDTO();
+    	dto.setEMail(BENEMAIL);
+    	dto.setUserName(BENUSERNAME);
+    	dto.setEncryptedPassword(BENPASS);
+    	dto.setConfirmedPassword(BENPASS);
+    	
+        HttpEntity<UserDTO> updateRequest = new HttpEntity<>(dto , headers);
+        this.restTemplate.exchange("http://localhost:" + port + "/user/register/", HttpMethod.POST,
+        		updateRequest,
+                new ParameterizedTypeReference<UserDTO>() {
+                });
+        
+        UserEntity newUser = userRepo.findByUserName(BENUSERNAME);
+        assertEquals(newUser.getUserName(), BENUSERNAME);
+        assertEquals(newUser.getEMail(), BENEMAIL);   
+    }
 
 
     @Test

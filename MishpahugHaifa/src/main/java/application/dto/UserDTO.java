@@ -6,15 +6,20 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import application.models.user.UserEntity;
+import application.models.user.UserEntity.UserChoiceCategories;
+import application.utils.choices.ChoiceStore;
+import application.utils.choices.IChoiceCategories;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString
-public class UserDTO {
+public class UserDTO { //TODO: optional dto;
      
     private Integer id; 
     
@@ -43,6 +48,8 @@ public class UserDTO {
     private String confirmedPassword;
 
     private List<String> subscriptions;
+    
+    Map<UserChoiceCategories, ChoiceStore> choices; 
 
     public UserDTO(UserEntity user) {
     	super();
@@ -54,6 +61,6 @@ public class UserDTO {
     	this.userName = user.getUserName();
     	this.dayOfBirth = user.getDateOfBirth();
     	this.confirmedPassword = user.getEncrytedPassword();
-
+    	this.choices = user.getChoices().getAll();
     }
 }

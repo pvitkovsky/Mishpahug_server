@@ -44,7 +44,7 @@ import lombok.extern.slf4j.Slf4j;
  * Represents a subscription. You shouldn't explicitly save this class, it is managed by cascade from User and Event; 
  *
  */
-public class SubscriptionEntity {
+public class SubscriptionEntity {  //TODO: implements ChangeableStatus<SubscriptionEntity>{
 
 	@Embeddable
 	@NoArgsConstructor

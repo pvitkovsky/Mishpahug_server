@@ -32,7 +32,7 @@ public class EventConverter extends ConverterBase implements IConverter<EventEnt
 
 	}
 
-	public EventEntity entityFromDTO(EventDTO data) {
+	public EventEntity entityFromDTO(EventDTO data) { //TODO: optional DTO
 		EventEntity res = new EventEntity();
 		res.setNameOfEvent(data.getNameOfEvent());
 		return res;

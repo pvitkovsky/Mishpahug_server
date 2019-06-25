@@ -27,6 +27,10 @@ public class DB_test_loader implements CommandLineRunner {
 	@Autowired
 	@Qualifier("userLoader")
 	private ILoader userLoader;
+	
+	@Autowired
+	@Qualifier("choicesLoader")
+	private ILoader choicesLoader;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -34,6 +38,7 @@ public class DB_test_loader implements CommandLineRunner {
 		loadTest(MPHEntity.USER);
 		loadTest(MPHEntity.EVENT);
 		loadTest(MPHEntity.GUESTS);
+		loadTest(MPHEntity.CHOICES);
 
 	}
 
@@ -52,6 +57,11 @@ public class DB_test_loader implements CommandLineRunner {
 		
 		case GUESTS: {
 			guestsLoader.load();
+			break;
+		}
+		
+		case CHOICES: {
+			choicesLoader.load();
 			break;
 		}
 		

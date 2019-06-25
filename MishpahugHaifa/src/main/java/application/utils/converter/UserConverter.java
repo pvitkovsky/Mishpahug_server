@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import application.dto.UserDTO;
 import application.models.user.UserEntity;
+import application.utils.choices.UserChoices;
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
@@ -28,13 +29,14 @@ public class UserConverter extends ConverterBase implements IConverter<UserEntit
 		return res;
 	}
 
-	public UserEntity entityFromDTO(UserDTO data) {
+	public UserEntity entityFromDTO(UserDTO data) { //TODO: optional DTO
 		UserEntity res = new UserEntity(data.getUserName(), data.getEMail());
 		res.setFirstName(data.getFirstName());
 		res.setLastName(data.getLastName());
 		res.setEncrytedPassword(data.getEncryptedPassword());
 		res.setPhoneNumber(data.getPhoneNumber());
 		res.setDateOfBirth(data.getDayOfBirth());
+		res.setChoices(new UserChoices(data.getChoices()));		
 		return res;
 	}
 }

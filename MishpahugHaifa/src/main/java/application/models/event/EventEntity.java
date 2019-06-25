@@ -51,8 +51,8 @@ import lombok.extern.slf4j.Slf4j;
 @EqualsAndHashCode(of = {"user_owner", "date", "time"}) // business key;
 @ToString(exclude = { "userEntityOwner", "addressEntity", "subscriptions" })
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-public class EventEntity {
-
+public class EventEntity {  //TODO: implements ChangeableStatus<EventEntity>{; add choices<EventEntity>; add address
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;

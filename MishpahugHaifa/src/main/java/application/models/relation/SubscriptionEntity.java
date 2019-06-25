@@ -95,8 +95,8 @@ public class SubscriptionEntity {
 	@Column(name = "status")
 	@Enumerated(EnumType.STRING)
 	@Setter(AccessLevel.NONE)
-	private SubscriptionStatus status = SubscriptionStatus.ACTIVE;
-
+	private SubscriptionStatus status = SubscriptionStatus.ACTIVE; //TODO: refactor all these away
+ 
 	public enum SubscriptionStatus implements StatusChanger {
 		ACTIVE(e -> e.activate()), CANCELED(e -> e.cancel()), DEACTIVATED(e -> e.deactivate()), PENDINGFORDELETION(
 				e -> e.putIntoDeletionQueue());
@@ -119,16 +119,13 @@ public class SubscriptionEntity {
 	}
 	
 	public SubscriptionEntity(UserEntity userGuest, EventEntity event) {
-		super();
+		if (this.guest != null || this.event != null) {
+			throw new IllegalArgumentException("Trying to subscribe, but subscription has user and event already");
+		} 
 		setRelationAndID(userGuest, event);
 	}
 
-	public SubscriptionEntity(EventGuestId id, UserEntity userGuest, EventEntity event, FeedBackValue feedback) {
-		super();
-		this.id = id;
-		setRelationAndID(userGuest, event);
-		this.feedback = feedback;
-	}
+
 
 	/**
 	 * Helper method for setting the embedded Id fields together with the relation
@@ -145,18 +142,14 @@ public class SubscriptionEntity {
 		this.event = event;
 	}
 	
-	private void checkEventAndID(UserEntity guest, EventEntity event) {
-		if( event.getUserEntityOwner() == null ) { //TODO: events should always be consistent!
+	private void checkEventAndID(UserEntity guest, EventEntity event) { // bounded context violation
+		if( event.getUserEntityOwner() == null ) { 
 			throw new IllegalStateException("Trying to create a subscription for event that is in the inconsistent state");
 		}
 		if (event.getUserEntityOwner().equals(guest)) {
 			throw new IllegalArgumentException("Trying to subscribe to the owned event");
 		}
-		if (this.guest == null && this.event == null) {
-			return;
-		} else {
-			throw new IllegalArgumentException("Trying to subscribe, but subscription has user and event already");
-		}
+	
 	}
 	
 	/**

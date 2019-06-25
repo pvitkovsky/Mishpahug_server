@@ -74,13 +74,13 @@ public class EventEntity {
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "user_owner")
-	@JsonBackReference("userEventOwner") // Bidirectional, managed from User;
+	@JsonBackReference("userEventOwner") 
 	@Setter(AccessLevel.NONE)
 	private UserEntity userEntityOwner;
 
 	@Column(name = "status")
 	@Enumerated(EnumType.STRING)
-	private EventStatus status = EventStatus.ACTIVE;
+	private EventStatus status = EventStatus.ACTIVE; //TODO: refactor all these away
 
 	public enum EventStatus implements StatusChanger {
 		ACTIVE(e -> e.activate()), CANCELED(e -> e.cancel()), DEACTIVATED(e -> e.deactivate()), PENDINGFORDELETION(

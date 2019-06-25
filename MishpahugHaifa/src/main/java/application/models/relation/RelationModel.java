@@ -108,7 +108,7 @@ public class RelationModel implements IRelationModel {
 
 		void unsubscribe() {
 			subscription.putIntoDeletionQueue();
-			subscription.nullifyForRemoval(); // cascaded, no need to explicitly delete;
+			subscriptionRepository.delete(subscription);
 		}
 	}
 	
@@ -122,7 +122,7 @@ public class RelationModel implements IRelationModel {
 	@Override
 	public void deactivateSubscription(Integer eventId, Integer userId){
 		SubscriptionHandler handler = new SubscriptionHandler(eventId, userId);
-		handler.deactivate();
+		handler.unsubscribe(); //TODO: disable deactivated subscriptions from showing in the query results
 		log.warn("Subsription deactivated " + handler.subscription);
 	}
     

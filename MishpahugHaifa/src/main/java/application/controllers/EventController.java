@@ -28,6 +28,8 @@ import application.dto.EventDTO;
 import application.dto.UserDTO;
 import application.models.event.EventEntity;
 import application.models.event.IEventModel;
+import application.models.relation.IRelationModel;
+import application.models.user.IUserModel;
 import application.models.user.UserEntity;
 import application.utils.converter.IConverter;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +40,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping(value = "/event")
 public class EventController implements IEventController {
 
+	@Autowired
+	IUserModel userModel;
+	
 	@Autowired
 	IEventModel eventModel;
 
@@ -50,7 +55,7 @@ public class EventController implements IEventController {
 	@Override
 	@RequestMapping(method = RequestMethod.GET, value = "/")
 	@ResponseBody
-	public List<EventDTO> findAllByWebQuerydsl(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request, //TWO jumps in JPA by QDsl 
+	public List<EventDTO> findAllByWebQuerydsl(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request, 
 			@QuerydslPredicate(root = EventEntity.class) Predicate predicate) {
 		return converter.DTOListFromEntities(eventModel.getAll(predicate));
 	}
@@ -66,6 +71,7 @@ public class EventController implements IEventController {
 	@RequestMapping(method = RequestMethod.GET, value = "/{id}/guests")
 	@ResponseBody
 	@Override
+	/** inter-aggregate query**/
 	public List<UserDTO> findGuestByEventId(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request, @PathVariable(name = "id") Integer id) {	/*inter-aggregate query*/
 		List<UserEntity> userEntityList = eventModel.getSubscribedGuests(id);
 		return converterUser.DTOListFromEntities(userEntityList);
@@ -75,8 +81,8 @@ public class EventController implements IEventController {
 	@PostMapping(value = "/")
 	public EventDTO setDataFromForm(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
 			@RequestBody EventDTO data) {
-		EventEntity eventEntity = new EventEntity();
-		eventEntity.convertEventDTO(data);
+		UserEntity owner = userModel.getById(data.getOwnerId());
+		EventEntity eventEntity = new EventEntity(owner, data.getDate(), data.getTime());
 		return new EventDTO(eventModel.add(eventEntity));
 	}
 

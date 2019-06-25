@@ -94,7 +94,7 @@ public class UserEntity {
 	@Enumerated(EnumType.STRING)
 	@Setter(AccessLevel.NONE)
 	@Builder.Default
-	private UserStatus status = UserStatus.ACTIVE;
+	private UserStatus status = UserStatus.ACTIVE; //TODO: refactor all these away
 
 	public enum UserStatus implements StatusChanger {
 		ACTIVE(u -> u.activate()), DEACTIVATED(u -> u.deactivate()), PENDINGFORDELETION(u -> u.putIntoDeletionQueue());

@@ -55,19 +55,6 @@ public class EventModel implements IEventModel {
         	log.warn("Check eventModelUserDelete " + eventRepository.findAll());
     }
 
-
-	@Override
-	public List<EventEntity> getSubscribedEvents(Integer userId) { /*inter-aggregate query*/
-		UserEntity userEntity = userRepository.getOne(userId);
-		return subscriptionsRepository.getEventsForGuest(userEntity);
-	}
-
-	@Override
-	public List<UserEntity> getSubscribedGuests(Integer eventId) {  /*inter-aggregate query*/
-		EventEntity eventEntity = eventRepository.getOne(eventId);
-		return subscriptionsRepository.getGuestsForEvent(eventEntity);
-	}
-
 	@Override
 	public List<EventEntity> getByOwner(String ownerUserName) { /*inter-aggregate query*/
 		return eventRepository.getByUserEntityOwner_UserName(ownerUserName);

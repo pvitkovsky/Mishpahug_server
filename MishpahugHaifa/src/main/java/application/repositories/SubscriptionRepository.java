@@ -18,6 +18,10 @@ public interface SubscriptionRepository extends JpaRepository<SubscriptionEntity
 	@Query("SELECT s.event FROM SubscriptionEntity s WHERE s.guest = :guest")    
 	public List<EventEntity> getEventsForGuest(@Param(value = "guest") UserEntity guest); 
 	
+	@Query("SELECT s.id.userGuestId FROM SubscriptionEntity s WHERE s.event = :event")    
+	public List<Integer> getGuestIdsForEvent (@Param(value = "event") EventEntity event); 
+	@Query("SELECT s.id.eventId FROM SubscriptionEntity s WHERE s.guest = :guest")    
+	public List<Integer> getEventIdsForGuest(@Param(value = "guest") UserEntity guest); 
 	
 	public List<SubscriptionEntity> findByEvent_Id(Integer eventId); 
 	public List<SubscriptionEntity> findByGuest_Id(Integer guestId); 

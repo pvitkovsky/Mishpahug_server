@@ -10,12 +10,12 @@ export class AuthenticationService {
     login(username: string, password: string) {
         return this.http.post<any>('api/user/login', { username: username, password: password })
             .map(loginResponse => {
-            	console.log(loginResponse + ' and token ' + loginResponse.token);
+            	  // console.log(loginResponse + ' and token ' + loginResponse.token);
                 if (loginResponse && loginResponse.token) {
-                    console.log("login successful");
+                    // console.log("login successful");
                     localStorage.setItem('currentUserToken', JSON.stringify(loginResponse));
                 } else {
-                    console.log("login failed");
+                    // console.log("login failed");
                 }
                 return loginResponse;
             });

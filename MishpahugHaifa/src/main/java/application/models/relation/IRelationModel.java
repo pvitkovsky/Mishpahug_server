@@ -10,6 +10,14 @@ import java.util.Map;
 
 public interface IRelationModel {
 	
+	List<Integer> getEventIdsByGuest(UserEntity guest);
+
+	List<Integer> getGuestIdsByEvent(EventEntity event);
+
+	List<EventEntity> getSubscribedEvents(Integer userId);
+
+	List<UserEntity> getSubscribedGuests(Integer eventId);
+	
     public void subscribe(Integer eventId, Integer userId); 
     
     public void unsubscribe(Integer eventId, Integer userId); 
@@ -23,4 +31,6 @@ public interface IRelationModel {
     public void removeAllByEvent(Integer eventId);
 
     public FeedBackValue removeById(Integer feedBackId);
+
+
 }

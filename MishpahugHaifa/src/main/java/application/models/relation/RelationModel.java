@@ -59,8 +59,29 @@ public class RelationModel implements IRelationModel {
 			subscriptionRepository.deleteAll(subs);
 			log.warn("Check subModelEventDelete " + subscriptionRepository.findAll());
     }
-  
     
+    @Override
+    public List<Integer> getGuestIdsByEvent(EventEntity event){
+    	return subscriptionRepository.getGuestIdsForEvent(event);
+    }
+    
+    @Override
+    public List<Integer> getEventIdsByGuest(UserEntity guest){
+    	return subscriptionRepository.getEventIdsForGuest(guest);
+    }
+    
+	@Override
+	public List<EventEntity> getSubscribedEvents(Integer userId) { /*inter-aggregate query*/
+		UserEntity userEntity = userRepository.getOne(userId);
+		return subscriptionRepository.getEventsForGuest(userEntity);
+	}
+
+	@Override
+	public List<UserEntity> getSubscribedGuests(Integer eventId) {  /*inter-aggregate query*/
+		EventEntity eventEntity = eventRepository.getOne(eventId);
+		return subscriptionRepository.getGuestsForEvent(eventEntity);
+	}
+	
     /**
 	 * Handles subscription logic;
 	 */

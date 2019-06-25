@@ -9,10 +9,6 @@ import java.util.List;
 import java.util.Set;
 
 public interface IEventModel {
-
-	public List<UserEntity> getSubscribedGuests(Integer eventId);
-	
-    public List<EventEntity> getSubscribedEvents(Integer userId); 
     
     List<EventEntity> getByOwner(String ownerUserName);
     

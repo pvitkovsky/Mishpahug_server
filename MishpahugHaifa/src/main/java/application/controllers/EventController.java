@@ -47,6 +47,9 @@ public class EventController implements IEventController {
 	IEventModel eventModel;
 
 	@Autowired
+	IRelationModel relationModel;
+
+	@Autowired
 	IConverter<EventEntity, EventDTO> converter;
 
 	@Autowired
@@ -65,7 +68,10 @@ public class EventController implements IEventController {
 	@ResponseBody
 	public EventDTO findById(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
 			@PathVariable(name = "id") Integer id) {
-		return new EventDTO(eventModel.getById(id));
+		EventEntity event = eventModel.getById(id);
+		EventDTO eventDTO  = new EventDTO(event);
+		eventDTO.setGuestIds(relationModel.getGuestIdsByEvent(event));
+		return eventDTO;
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/{id}/guests")
@@ -73,7 +79,7 @@ public class EventController implements IEventController {
 	@Override
 	/** inter-aggregate query**/
 	public List<UserDTO> findGuestByEventId(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request, @PathVariable(name = "id") Integer id) {	/*inter-aggregate query*/
-		List<UserEntity> userEntityList = eventModel.getSubscribedGuests(id);
+		List<UserEntity> userEntityList = relationModel.getSubscribedGuests(id);
 		return converterUser.DTOListFromEntities(userEntityList);
 	}
 

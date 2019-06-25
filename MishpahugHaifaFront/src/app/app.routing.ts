@@ -36,7 +36,7 @@ const appRoutes: Routes = [{
 },
 {
     path: 'events',
-    component: EventListComponent //TODO: guarded and unguarded component based on eventparams
+    component: EventListComponent
 },
 {
     path: 'edit/:id',

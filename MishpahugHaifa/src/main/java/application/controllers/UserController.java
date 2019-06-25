@@ -76,7 +76,7 @@ public class UserController implements IUserController {
 	@GetMapping(value = "/{id}/subscribes") // re-wrapping from Relation; /*inter-aggregate query*/
 	public List<EventDTO> getEventsById(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
 			@PathVariable(value = "id") Integer id) {
-		List<EventEntity> subscribedEvents = eventModel.getSubscribedEvents(id);
+		List<EventEntity> subscribedEvents = relationModel.getSubscribedEvents(id);
 		return converterEvent.DTOListFromEntities(subscribedEvents);
 	}
 
@@ -160,7 +160,12 @@ public class UserController implements IUserController {
 	@GetMapping(value = "/current")
 	public UserDTO getByToken(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request) {
 		String token = request.getHeader("Authorization");
-		UserSession session = userSessionRepository.findByTokenAndIsValidTrue(token);
+		UserSession session;
+		if (randomUUID) {
+			session = userSessionRepository.findByTokenAndIsValidTrue(token);
+		} else {
+			session = userSessionRepository.findFirstByTokenAndIsValidTrue(token);
+		}
 		return new UserDTO(userModel.getByUserName(session.getUserName())); // TODO: converter here?
 	}
 

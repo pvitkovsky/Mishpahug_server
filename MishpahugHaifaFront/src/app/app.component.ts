@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
   userDetail: UserDetail;
   opened: boolean;
 
-  constructor(private guiService: GuiService, private userService: UserService, private subscriptionService : SubscriptionService) { }
+  constructor(private guiService: GuiService, private userService: UserService) { }
 
   ngOnInit() {
   	this.guiService.sideNavObservable.subscribe(() => {
@@ -32,15 +32,6 @@ export class AppComponent implements OnInit {
 
   get loggedIn(){
     return this.userService.loggedIn();
-  }
-
-  subscribe(){
-    this.subscriptionService.subscribe(1, 2);
-  }
-
-  unsubscribe(){
-    this.subscriptionService.unsubscribe(1, 2);
-
   }
 
 }

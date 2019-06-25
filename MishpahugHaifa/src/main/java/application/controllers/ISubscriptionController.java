@@ -12,7 +12,7 @@ public interface ISubscriptionController {
 
 	public void subscribe(HttpHeaders httpHeaders, HttpServletRequest request, Integer eventId, Integer userId);
 
-	public void deactivateSubscription(HttpHeaders httpHeaders, HttpServletRequest request, Integer eventId,
+	public void unsubscribe(HttpHeaders httpHeaders, HttpServletRequest request, Integer eventId,
 			Integer userId);
 
 	public Map<Integer, FeedBackValue> getFeedback(HttpHeaders httpHeaders, HttpServletRequest request, Integer userId,

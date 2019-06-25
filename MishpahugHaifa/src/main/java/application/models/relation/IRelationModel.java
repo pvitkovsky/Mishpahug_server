@@ -12,7 +12,7 @@ public interface IRelationModel {
 	
     public void subscribe(Integer eventId, Integer userId); 
     
-    public void deactivateSubscription(Integer eventId, Integer userId); 
+    public void unsubscribe(Integer eventId, Integer userId); 
    
     public Map<Integer, FeedBackValue> getAllByEvent(Integer eventId);
 

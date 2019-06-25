@@ -97,28 +97,31 @@ public class UserController implements IUserController {
 		if (userEntity == null) {
 			throw new FailedLoginException();
 		}
-		UserSession userSessionOld = userSessionRepository.findByUserNameAndIpAndUserAgentAndIsValidTrue(
-				loginDTO.getUsername(), request.getRemoteAddr(), httpHeaders.get("user-agent").get(0));
+		UserSession userSessionOld;
 		String token;
 		if (randomUUID) {
 			token = UUID.randomUUID().toString();
+			userSessionOld = userSessionRepository.findByUserNameAndIpAndUserAgentAndIsValidTrue(
+					loginDTO.getUsername(), request.getRemoteAddr(), httpHeaders.get("user-agent").get(0));
 		} else {
 			token = "token-dev";
+			userSessionOld = userSessionRepository.findFirstByUserNameAndIpAndUserAgentAndIsValidTrue(
+					loginDTO.getUsername(), request.getRemoteAddr(), httpHeaders.get("user-agent").get(0));
 		}
 		if (userSessionOld != null) {
 			userSessionOld.setToken(token);
-
 			userSessionOld.setLocalDate(DateTime.now().toLocalDate());
 			userSessionOld.setLocalTime(DateTime.now().toLocalTime());
 			log.info("User Controller -> Update token");
 			userSessionRepository.save(userSessionOld);
 			return new LoginResponse(userSessionOld.getToken());
+		} else {
+			UserSession userSessionNew = UserSession.builder().userName(userEntity.getUserName()).token(token)
+					.ip(request.getRemoteAddr()).userAgent(httpHeaders.get("user-agent").get(0))
+					.localDate(DateTime.now().toLocalDate()).localTime(DateTime.now().toLocalTime()).isValid(true).build();
+			userSessionRepository.save(userSessionNew);
+			return new LoginResponse(userSessionNew.getToken());	
 		}
-		UserSession userSessionNew = UserSession.builder().userName(userEntity.getUserName()).token(token)
-				.ip(request.getRemoteAddr()).userAgent(httpHeaders.get("user-agent").get(0))
-				.localDate(DateTime.now().toLocalDate()).localTime(DateTime.now().toLocalTime()).isValid(true).build();
-		userSessionRepository.save(userSessionNew);
-		return new LoginResponse(userSessionNew.getToken());
 	}
 
 	@Override

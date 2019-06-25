@@ -33,9 +33,9 @@ public class SubscriptionController implements ISubscriptionController {
 
 	@Override
 	@DeleteMapping(value = "/")
-	public void deactivateSubscription(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
+	public void unsubscribe(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
 			@RequestParam(name = "userid") Integer userId, @RequestParam(name = "eventid") Integer eventId) {
-		relationModel.deactivateSubscription(eventId, userId);
+		relationModel.unsubscribe(eventId, userId);
 	}
 
 	@GetMapping(value = "/")

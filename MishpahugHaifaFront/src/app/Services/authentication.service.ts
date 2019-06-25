@@ -11,15 +11,12 @@ export class AuthenticationService {
         return this.http.post<any>('api/user/login', { username: username, password: password })
             .map(loginResponse => {
             	console.log(loginResponse + ' and token ' + loginResponse.token);
-            	//TODO: JSONServer fake backend ii to skip login
                 if (loginResponse && loginResponse.token) {
                     console.log("login successful");
                     localStorage.setItem('currentUserToken', JSON.stringify(loginResponse));
                 } else {
                     console.log("login failed");
-
                 }
-
                 return loginResponse;
             });
     }

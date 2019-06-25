@@ -4,6 +4,7 @@ import application.models.user.UserSession;
 import application.repositories.UserSessionRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,6 +20,8 @@ import java.util.ArrayList;
 @Slf4j
 public class SecurityFilter extends OncePerRequestFilter {
 
+	@Value("${random-uuid}")
+	private boolean randomUUID;
 
     @Autowired
     public UserSessionRepository userSessionRepository;
@@ -30,8 +33,13 @@ public class SecurityFilter extends OncePerRequestFilter {
         log.info("Security Filter -> Remote port -> " + request.getRemotePort());
         String token = request.getHeader("Authorization");
         if (token != null) {
-            log.info("Security Filter -> token -> {}", token);
-            UserSession userSession = userSessionRepository.findByTokenAndIsValidTrue(token);
+            log.info("Security Filter -> token -> {}", token);          
+            UserSession userSession;
+            if(randomUUID) {
+            	userSession = userSessionRepository.findByTokenAndIsValidTrue(token);
+            } else {
+            	userSession = userSessionRepository.findFirstByTokenAndIsValidTrue(token);
+            }
             if (userSession != null) {
                 log.info("Security Filter -> token is valid");
 

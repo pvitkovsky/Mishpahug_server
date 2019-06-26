@@ -2,7 +2,6 @@ package application.models.event;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 import com.querydsl.core.types.Predicate;
 
 import application.models.event.commands.EventDeleted;
-import application.models.user.UserEntity;
 import application.models.user.commands.UserDeleted;
 import application.repositories.EventRepository;
 import application.repositories.SubscriptionRepository;
@@ -41,6 +39,7 @@ public class EventModel implements IEventModel {
 	@Autowired
 	IUpdates updates;
 	
+	
     @EventListener
     public void updateEventsOnUserDelete(UserDeleted userDeleted) {
         	log.warn("EventModel -> userChanged event deleted detected");
@@ -55,50 +54,15 @@ public class EventModel implements IEventModel {
         	eventRepository.deleteAll(eventsToDelete);
         	log.warn("Check eventModelUserDelete " + eventRepository.findAll());
     }
-
+    
 	@Override
-	public List<EventEntity> getByOwner(String ownerUserName) { /*inter-aggregate query*/
+	public List<EventEntity> getByOwner(String ownerUserName) { 
 		return eventRepository.getByUserEntityOwner_UserName(ownerUserName);
 	}
 	
 	@Override
-	public List<EventEntity> getByOwner(Integer ownerUserId) { /*inter-aggregate query*/
+	public List<EventEntity> getByOwner(Integer ownerUserId) {
 		return eventRepository.getByUserEntityOwner_Id(ownerUserId);
-	}
-
-	@Override
-	public Integer size() { // would throw if no user is in data's owner field;
-		return eventRepository.findAll().size();
-	}
-
-	@Override
-	public EventEntity add(EventEntity data) { // would throw if no user is in data's owner field; //TODO: event emitter
-		return eventRepository.save(data);
-	}
-
-	@Override
-	public EventEntity update(Integer eventId, HashMap<String, String> data){ //TODO: event emitter
-		EventEntity eventEntity = eventRepository.getOne(eventId);
-		updates.updateEvent(eventEntity, data);
-		return eventEntity;
-	}
-
-	@Override
-	public EventEntity delete(Integer eventId){ // throws if not in deletion queue //TODO: deactivate and emit status deactivation
-		
-		EventDeleted eventDeleted = new EventDeleted(eventId); 
-		applicationEventPublisher.publishEvent(eventDeleted);
-			
-		EventEntity eventEntity = eventRepository.getOne(eventId);
-		eventEntity.putIntoDeletionQueue();
-		
-		eventRepository.delete(eventEntity);
-		return eventEntity;
-	}
-
-	@Override
-	public void deleteAll(){
-		eventRepository.deleteAll(); // throws if not in deletion queue
 	}
 
 	@Override
@@ -115,6 +79,33 @@ public class EventModel implements IEventModel {
 	public Iterable<EventEntity> getAll(Predicate predicate) {
 		return eventRepository.findAll(predicate);
 	}
+
+	@Override
+	public EventEntity add(EventEntity data) { 
+		return eventRepository.save(data);
+	}
+
+	@Override
+	public EventEntity update(Integer eventId, HashMap<String, String> data){ 
+		EventEntity eventEntity = eventRepository.getOne(eventId);
+		updates.updateEvent(eventEntity, data);
+		return eventEntity;
+	}
+
+	@Override
+	public EventEntity delete(Integer eventId){ 
+		
+		EventDeleted eventDeleted = new EventDeleted(eventId); 
+		applicationEventPublisher.publishEvent(eventDeleted);
+			
+		EventEntity eventEntity = eventRepository.getOne(eventId);
+		eventEntity.putIntoDeletionQueue();
+		
+		eventRepository.delete(eventEntity);
+		return eventEntity;
+	}
+
+
 
 
 	

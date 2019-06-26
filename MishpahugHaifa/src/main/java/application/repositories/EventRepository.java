@@ -23,7 +23,6 @@ public interface EventRepository extends JpaRepository<EventEntity, Integer>,
         QuerydslPredicateExecutor<EventEntity>, QuerydslBinderCustomizer<QEventEntity>
         {
 
-
     Logger log = LoggerFactory.getLogger(EventRepository.class);
 
     public EventEntity getByNameOfEvent(String name);

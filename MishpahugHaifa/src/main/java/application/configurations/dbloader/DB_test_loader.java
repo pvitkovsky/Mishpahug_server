@@ -64,7 +64,9 @@ public class DB_test_loader implements CommandLineRunner {
 			choicesLoader.load();
 			break;
 		}
-		
+		default:{
+			break;
+		}
 		}
 
 	}

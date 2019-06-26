@@ -2,7 +2,6 @@ package application.models.user.commands;
 
 import java.time.Instant;
 
-import application.models.user.UserEntity;
 import application.models.user.UserEntity.UserStatus;
 
 public class UserChanged {

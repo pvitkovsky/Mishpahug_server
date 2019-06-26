@@ -11,13 +11,9 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import application.models.event.EventEntity;
-import application.models.event.EventEntity.EventStatus;
-import application.models.event.commands.EventChanged;
 import application.models.event.commands.EventDeleted;
 import application.models.relation.SubscriptionEntity.EventGuestId;
 import application.models.user.UserEntity;
-import application.models.user.UserEntity.UserStatus;
-import application.models.user.commands.UserChanged;
 import application.models.user.commands.UserDeleted;
 import application.models.user.values.FeedBackValue;
 import application.repositories.EventRepository;
@@ -116,15 +112,6 @@ public class RelationModel implements IRelationModel {
 				subscription.activate(); // may be deactivated earlier; therefore re-activation;
 			}
 			subscriptionRepository.save(subscription);
-		}
-
-		void cancel() {
-			subscription.cancel();
-		}
-
-		void deactivate() {
-			if(!subscription.isDeactivated())
-			subscription.deactivate();
 		}
 
 		void unsubscribe() {

@@ -1,15 +1,14 @@
 package application.models.event;
 
-import application.dto.EventDTO;
-import application.utils.converter.ConverterBase;
-import application.utils.converter.IConverter;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
-@Slf4j
+import org.springframework.stereotype.Service;
+
+import application.dto.EventDTO;
+import application.utils.converter.ConverterBase;
+import application.utils.converter.IConverter;
+
 @Service
 public class EventConverter extends ConverterBase implements IConverter<EventEntity, EventDTO> {
 

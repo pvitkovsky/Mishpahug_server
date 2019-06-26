@@ -1,12 +1,9 @@
 package application.models.event;
 
-import application.models.user.UserEntity;
-
-import com.querydsl.core.types.Predicate;
-
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+
+import com.querydsl.core.types.Predicate;
 
 public interface IEventModel {
     
@@ -14,23 +11,16 @@ public interface IEventModel {
     
     List<EventEntity> getByOwner(Integer ownerUserId);
 
-    Integer size();
+    public EventEntity getById(Integer id);
 
-    public EventEntity add(EventEntity data); // Should not allow duplicated events;
+    public EventEntity getByFullName(String name); //TODO: naming. full name of what?
+
+    public Iterable<EventEntity> getAll(Predicate predicate);
+    
+    public EventEntity add(EventEntity data); 
 
     public EventEntity update(Integer eventId, HashMap<String, String> data);
 
-
     public EventEntity delete(Integer eventId);
-
-    public void deleteAll();
-
-    public EventEntity getById(Integer id);
-
-    public EventEntity getByFullName(String name);
-
-    public Iterable<EventEntity> getAll(Predicate predicate);
-
-
 
 }

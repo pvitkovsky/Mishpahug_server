@@ -186,9 +186,9 @@ public class UserController implements IUserController {
 
 	@Override
 	@DeleteMapping(value = "/{id}")
-	public UserDTO delete(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
+	public void delete(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
 			@PathVariable(value = "id") Integer id) {
-		return new UserDTO(userModel.deleteByID(id));
+		userModel.deleteByID(id); //TODO can't return DTO because of Choices not lazy initialized;
 	}
 
 	@Override

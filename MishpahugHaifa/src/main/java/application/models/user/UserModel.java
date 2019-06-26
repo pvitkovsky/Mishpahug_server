@@ -75,7 +75,7 @@ public class UserModel implements IUserModel {
 	 * Deletes the user skipping checks; 
 	 */
 	@Override
-	public UserEntity deleteByID(Integer userId) {
+	public void deleteByID(Integer userId) {
 		
 	    UserDeleted userDeleted = new UserDeleted(userId);
 		applicationEventPublisher.publishEvent(userDeleted);
@@ -83,8 +83,7 @@ public class UserModel implements IUserModel {
 		UserEntity usr = userRepository.getOne(userId);
 		usr.putIntoDeletionQueue();
 		userRepository.delete(usr);
-		
-		return usr;
+
 	}
 
 	/**

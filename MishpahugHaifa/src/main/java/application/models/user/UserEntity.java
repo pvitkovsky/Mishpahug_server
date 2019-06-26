@@ -39,14 +39,12 @@ import lombok.extern.slf4j.Slf4j;
 @Entity
 @Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = { "email" }),
 		@UniqueConstraint(columnNames = { "username" }) })
-@ToString(exclude = { "eventItemsOwner", "subscriptions", "pictureItems" })
+@ToString(exclude = { "pictureItems" })
 @EqualsAndHashCode(of = { "userName" })
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Slf4j
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class UserEntity { // TODO: implements ChangeableStatus<UserEntity>{ add
 													// properties<UserEntity>
@@ -89,7 +87,6 @@ public class UserEntity { // TODO: implements ChangeableStatus<UserEntity>{ add
 	@Column(name = "status")
 	@Enumerated(EnumType.STRING)
 	@Setter(AccessLevel.NONE)
-	@Builder.Default
 	private UserStatus status = UserStatus.ACTIVE; // TODO: refactor all these away
 
 	public enum UserStatus implements StatusChanger {
@@ -115,12 +112,10 @@ public class UserEntity { // TODO: implements ChangeableStatus<UserEntity>{ add
 	@ElementCollection
 	@CollectionTable
 	@Column(name = "pictures")
-	@Builder.Default
 	private Set<PictureValue> pictureItems = new HashSet<>();
 	
 	@Embedded
 	@Column(name = "choices")
-	@Builder.Default
 	@Setter(AccessLevel.NONE)
 	private UserChoices choices = new UserChoices(); //TODO: fix lazy init exception on user delete;
 

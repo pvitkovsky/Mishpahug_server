@@ -37,7 +37,7 @@ public interface IUserController {
 	
 	UserDTO update(HttpHeaders httpHeaders, HttpServletRequest request, HashMap<String, String> data, Integer id);
 	
-	UserDTO delete(HttpHeaders httpHeaders, HttpServletRequest request, Integer id);
+	void delete(HttpHeaders httpHeaders, HttpServletRequest request, Integer id);
 	void deleteAll(HttpHeaders httpHeaders, HttpServletRequest request);
 	
 	

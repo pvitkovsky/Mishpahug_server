@@ -19,7 +19,7 @@ public interface IUserModel {
     public UserEntity update(Integer userId,
                              HashMap<String, String> data);
 
-    public UserEntity deleteByID(Integer userId);
+    public void deleteByID(Integer userId);
 
     public List<UserEntity> deleteAll();
 

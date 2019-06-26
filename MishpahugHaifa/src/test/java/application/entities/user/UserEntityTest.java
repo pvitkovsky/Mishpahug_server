@@ -2,9 +2,7 @@ package application.entities.user;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
@@ -33,8 +31,6 @@ public class UserEntityTest {
 
 	private UserEntity ALYSSA = new UserEntity("Alyssa", "p_hacker@sicp.edu");
 	private final UserEntity ALYSSADUPLICATE = new UserEntity("Alyssa", "p_hacker@sicp.edu");
-	private final Map<String, String> AUPDATE = new HashMap<>();
-	
 
 	@Autowired
 	UserRepository userRepo;
@@ -64,14 +60,14 @@ public class UserEntityTest {
 	
 	@Test(expected = DataIntegrityViolationException.class)
 	public void givenDuplicateUsersByNameSaveAndGetException() {
-		userRepo.save(UserEntity.builder().userName("A").eMail("a@dot.com").build());
-		userRepo.save(UserEntity.builder().userName("A").eMail("b@dot.com").build());
+		userRepo.save(new UserEntity("A", "a@dot.com"));
+		userRepo.save(new UserEntity("A", "b@dot.com"));
 	}
 
 	@Test(expected = DataIntegrityViolationException.class)
 	public void givenDuplicateUsersByEmailSaveAndGetException() {
-		userRepo.save(UserEntity.builder().userName("A").eMail("a@dot.com").build());
-		userRepo.save(UserEntity.builder().userName("B").eMail("a@dot.com").build());
+		userRepo.save(new UserEntity("A", "a@dot.com"));
+		userRepo.save(new UserEntity("B", "a@dot.com"));
 	}
 	
 	@Test
@@ -80,13 +76,9 @@ public class UserEntityTest {
 		ALYSSA.setLastName("lhlkhl");
 		ALYSSA.setFirstName("Alise");
 		ALYSSA.setEncrytedPassword("ghluikgluglujgog");
-		
 		assertEquals(userRepo.findByUserName("Alyssa"), ALYSSA);
 	}
 	
-
-
-
 	@Test(expected = InvalidDataAccessApiUsageException.class)
 	public void onUserDeleteWithoutQueueThrows() {
 

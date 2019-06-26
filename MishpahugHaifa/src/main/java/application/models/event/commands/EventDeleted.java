@@ -1,4 +1,4 @@
-package application.models.event;
+package application.models.event.commands;
 
 import java.time.Instant;
 

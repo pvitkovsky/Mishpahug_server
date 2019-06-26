@@ -11,9 +11,10 @@ import org.springframework.stereotype.Service;
 
 import com.querydsl.core.types.Predicate;
 
-import application.models.event.EventDeleted;
 import application.models.event.EventEntity;
+import application.models.event.commands.EventDeleted;
 import application.models.relation.SubscriptionEntity;
+import application.models.user.commands.UserDeleted;
 import application.repositories.EventRepository;
 import application.repositories.SubscriptionRepository;
 import application.repositories.UserRepository;

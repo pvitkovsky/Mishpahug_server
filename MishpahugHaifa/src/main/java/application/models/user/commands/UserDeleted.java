@@ -1,4 +1,4 @@
-package application.models.user;
+package application.models.user.commands;
 
 import java.time.Instant;
 

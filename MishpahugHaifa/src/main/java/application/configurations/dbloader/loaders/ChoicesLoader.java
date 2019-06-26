@@ -8,10 +8,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import application.configurations.dbloader.LoaderDependencies;
+import application.models.user.UserChoices;
 import application.models.user.UserEntity;
-import application.models.user.UserEntity.UserChoiceCategories;
-import application.utils.choices.IChoices;
-import application.utils.choices.UserChoices;
+import application.utils.choices.ChoiceCategories;
 
 public class ChoicesLoader implements ILoader {
 
@@ -26,10 +25,10 @@ public class ChoicesLoader implements ILoader {
 
 	UserChoices userChoices = new UserChoices();
 	{
-		userChoices.setChoices(UserChoiceCategories.RELIGION, new HashSet<>(Arrays.asList("Secular")));
-		userChoices.setChoices(UserChoiceCategories.KITCHEN, new HashSet<>(Arrays.asList("Vegan", "Alcoholic", "Non-alcoholic")));
-		userChoices.setChoices(UserChoiceCategories.MARITALSTATUS, new HashSet<>(Arrays.asList("It's Complicated")));
-		userChoices.setChoices(UserChoiceCategories.GENDER, new HashSet<>(Arrays.asList("Not Specified")));
+		userChoices.setChoices(ChoiceCategories.RELIGION, new HashSet<>(Arrays.asList("Secular")));
+		userChoices.setChoices(ChoiceCategories.KITCHEN, new HashSet<>(Arrays.asList("Vegan", "Alcoholic", "Non-alcoholic")));
+		userChoices.setChoices(ChoiceCategories.MARITALSTATUS, new HashSet<>(Arrays.asList("It's Complicated")));
+		userChoices.setChoices(ChoiceCategories.GENDER, new HashSet<>(Arrays.asList("Not Specified")));
 	}
 
 	@Override

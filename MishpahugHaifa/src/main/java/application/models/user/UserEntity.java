@@ -26,7 +26,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import application.models.user.values.PictureValue;
 import application.utils.choices.IChoiceCategories;
-import application.utils.choices.UserChoices;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -118,16 +117,12 @@ public class UserEntity { // TODO: implements ChangeableStatus<UserEntity>{ add
 	@Column(name = "pictures")
 	@Builder.Default
 	private Set<PictureValue> pictureItems = new HashSet<>();
-
-	public enum UserChoiceCategories implements IChoiceCategories {
-		RELIGION, MARITALSTATUS, KITCHEN, GENDER
-	}
 	
 	@Embedded
 	@Column(name = "choices")
 	@Builder.Default
 	@Setter(AccessLevel.NONE)
-	private UserChoices choices = new UserChoices();
+	private UserChoices choices = new UserChoices(); //TODO: fix lazy init exception on user delete;
 
 	/**
 	 * UserEntity: required fields, userName is immutable;

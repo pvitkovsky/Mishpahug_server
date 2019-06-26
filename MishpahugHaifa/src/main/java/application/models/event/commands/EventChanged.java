@@ -1,7 +1,8 @@
-package application.models.event;
+package application.models.event.commands;
 
 import java.time.Instant;
 
+import application.models.event.EventEntity;
 import application.models.event.EventEntity.EventStatus;
 
 public class EventChanged {

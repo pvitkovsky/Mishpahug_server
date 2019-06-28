@@ -4,40 +4,40 @@
     <div class="loginform">
         <h2>Register</h2>
         <form name="form" (ngSubmit)="f.form.valid && register()" #f="ngForm" novalidate>
-            <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !firstName.valid }">
+            <div class="form-group" [ngClass]="{ 'has-error': f.submitted }">
                 <label for="firstName">First Name</label>
-                <input type="text" class="form-control" name="firstName" [(ngModel)]="model.firstName" #firstName="ngModel" required />
-                <div *ngIf="f.submitted && !firstName.valid" class="help-block">First Name is required</div>
+                <input type="text" class="form-control" name="firstName" [(ngModel)]="userDetail.firstName" #firstName="ngModel" required />
+                <div *ngIf="f.submitted" class="help-block">First Name is required</div>
             </div>
-            <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !lastName.valid }">
+            <div class="form-group" [ngClass]="{ 'has-error': f.submitted }">
                 <label for="lastName">Last Name</label>
-                <input type="text" class="form-control" name="lastName" [(ngModel)]="model.lastName" #lastName="ngModel" required />
-                <div *ngIf="f.submitted && !lastName.valid" class="help-block">Last Name is required</div>
+                <input type="text" class="form-control" name="lastName" [(ngModel)]="userDetail.lastName" #lastName="ngModel" required />
+                <div *ngIf="f.submitted" class="help-block">Last Name is required</div>
             </div>
-            <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+            <div class="form-group" [ngClass]="{ 'has-error': f.submitted }">
                 <label for="username">Username</label>
-                <input type="text" class="form-control" name="username" [(ngModel)]="model.userName" #username="ngModel" required />
-                <div *ngIf="f.submitted && !username.valid" class="help-block">Username is required</div>
+                <input type="text" class="form-control" name="username" [(ngModel)]="userDetail.userName" #username="ngModel" required />
+                <div *ngIf="f.submitted" class="help-block">Username is required</div>
             </div>
-                <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !email.valid }">
+                <div class="form-group" [ngClass]="{ 'has-error': f.submitted }">
                 <label for="email">E-Mail</label>
-                <input type="text" class="form-control" name="email" [(ngModel)]="model.eMail" #email="ngModel" required />
-                <div *ngIf="f.submitted && !email.valid" class="help-block">Username is required</div>
+                <input type="text" class="form-control" name="email" [(ngModel)]="userDetail.email" #email="ngModel" required />
+                <div *ngIf="f.submitted" class="help-block">Username is required</div>
             </div>
 
-            <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !encrytedPassword.valid }">
-                <label for="encrytedPassword">Password</label>
-                <input type="password" class="form-control" name="encrytedPassword" [(ngModel)]="model.encrytedPassword" #encrytedPassword="ngModel" required />
-                <div *ngIf="f.submitted && !encrytedPassword.valid" class="help-block">Password is required</div>
+            <div class="form-group" [ngClass]="{ 'has-error': f.submitted }">
+                <label for="encryptedPassword">Password</label>
+                <input type="password" class="form-control" name="encryptedPassword" [(ngModel)]="userDetail.encryptedPassword" #encrytedPassword="ngModel" required />
+                <div *ngIf="f.submitted" class="help-block">Password is required</div>
             </div>
-          <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !confirmedPassword.valid }">
+          <div class="form-group" [ngClass]="{ 'has-error': f.submitted }">
             <label for="confirmedPassword">Password</label>
-            <input type="password" class="form-control" name="confirmedPassword" [(ngModel)]="model.confirmedPassword" #confirmedPassword="ngModel" required />
-            <div *ngIf="f.submitted && !confirmedPassword.valid" class="help-block">Password is required</div>
+            <input type="password" class="form-control" name="confirmedPassword" [(ngModel)]="userDetail.confirmedPassword" #confirmedPassword="ngModel" required />
+            <div *ngIf="f.submitted" class="help-block">Password is required</div>
           </div>
             <div class="form-group">
                 <button [disabled]="loading" class="btn btn-primary">Register</button>
-                <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                <img *ngIf="loading"/>
                 <a [routerLink]="['/login']" class="btn btn-link">Cancel</a>
             </div>
         </form>

@@ -30,6 +30,8 @@ import application.models.relation.IRelationModel;
 import application.models.user.IUserModel;
 import application.models.user.UserEntity;
 import application.utils.converter.IConverter;
+import application.utils.converter.IStrongEntityConverter;
+import application.utils.converter.IWeakEntityConverter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -48,17 +50,17 @@ public class EventController implements IEventController {
 	IRelationModel relationModel;
 
 	@Autowired
-	IConverter<EventEntity, EventDTO> converter;
+	IWeakEntityConverter<EventEntity, UserEntity, EventDTO> converterEvent;
 
 	@Autowired
-	IConverter<UserEntity, UserDTO> converterUser;
+	IStrongEntityConverter<UserEntity, UserDTO> converterUser;
 
 	@Override
 	@RequestMapping(method = RequestMethod.GET, value = "/")
 	@ResponseBody
 	public List<EventDTO> findAllByWebQuerydsl(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request, 
 			@QuerydslPredicate(root = EventEntity.class) Predicate predicate) {
-		return converter.DTOListFromEntities(eventModel.getAll(predicate));
+		return converterEvent.DTOListFromEntities(eventModel.getAll(predicate));
 	}
 
 	@Override
@@ -84,9 +86,9 @@ public class EventController implements IEventController {
 	@Override
 	@PostMapping(value = "/")
 	public EventDTO setDataFromForm(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
-			@RequestBody EventDTO data) {
-		UserEntity owner = userModel.getById(data.getOwnerId());
-		EventEntity eventEntity = new EventEntity(owner, data.getDate(), data.getTime());
+			@RequestBody EventDTO eventDTO) {
+		UserEntity owner = userModel.getById(eventDTO.getOwnerId());
+		EventEntity eventEntity = converterEvent.entityFromDTO(eventDTO, owner);
 		return new EventDTO(eventModel.add(eventEntity));
 	}
 

@@ -4,6 +4,7 @@ import { UserDetail} from '../Models/index';
 import { Observable } from 'rxjs';
 import { AuthenticationService} from "./authentication.service"
 
+
 @Injectable()
 export class UserService {
     constructor(private http: HttpClient, private authService: AuthenticationService) { }
@@ -19,6 +20,7 @@ export class UserService {
     }
 
     create(userDetail: UserDetail) {
+        console.log('userDetail ' + JSON.stringify(userDetail)); //TODO: password encryption on this side please; 
         return this.http.post('/api/user/register', userDetail);
     }
 

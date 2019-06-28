@@ -19,7 +19,7 @@ public class RestResponseEntityExceptionHandler {
 		HttpHeaders headers = new HttpHeaders();
 		if (ex instanceof EntityNotFoundException) {
 			HttpStatus status = HttpStatus.NOT_FOUND;
-			return handleExceptionInternal(ex, "User Not Found", headers, status, request);
+			return handleExceptionInternal(ex, "Entity Not Found", headers, status, request);
 		}
 		if (ex instanceof FailedLoginException) {
 			HttpStatus status = HttpStatus.FORBIDDEN;

@@ -56,19 +56,19 @@ export class EventEditComponent implements OnInit {
     );
 
     combineLatest(this.loggedInUserEmitter, this.renderedEventEmitter).subscribe(userIdAndEventDetail  => { //TODO: get rid of ts-ignore
-      console.log(' arrived merge of u an e  ' + JSON.stringify(userIdAndEventDetail));
-      // @ts-ignore
-      var isOwner = userIdAndEventDetail[0] === userIdAndEventDetail[1].id;
+      // console.log(' arrived merge of u an e  ' + JSON.stringify(userIdAndEventDetail));
+      let currentUserId : any = userIdAndEventDetail[0];
+      let eventOwnerId : any = userIdAndEventDetail[1].ownerId; //TODO: very unstable
+      let guests : number[] = userIdAndEventDetail[1].guestIds;
+      let isOwner = currentUserId === eventOwnerId;
       this.canEdit = isOwner;
-      // @ts-ignore
       this.canSubscribe = (
         !isOwner &&
-        !userIdAndEventDetail[1].guestIds.includes(userIdAndEventDetail[0])
+        !guests.includes(currentUserId)
       );
-      // @ts-ignore
       this.canUnSubscribe = (
         !isOwner &&
-        userIdAndEventDetail[1].guestIds.includes(userIdAndEventDetail[0])
+        guests.includes(currentUserId)
       )
     });
 
@@ -85,10 +85,29 @@ export class EventEditComponent implements OnInit {
 
   showEventDetail(){
     console.log(this.renderedEventDetail);
+    console.log(this.loggedInUserId);
+    console.log(this.canSubscribe);
+    console.log(this.canUnSubscribe);
+  }
+
+  create(){
+    let newEventDetail = this.renderedEventDetail;
+    newEventDetail.ownerId = this.loggedInUserId;
+    this.eventService.createEvent(newEventDetail).subscribe(
+      data => {
+        this.renderedEventDetail = data;
+      });
   }
 
   save(){
     this.eventService.updateEvent(this.renderedEventDetail).subscribe(
+      data => {
+        this.renderedEventDetail = data;
+      });
+  }
+
+  delete(){
+    this.eventService.deleteEvent(this.renderedEventDetail).subscribe(
       data => {
         this.renderedEventDetail = data;
       });
@@ -109,6 +128,7 @@ export class EventEditComponent implements OnInit {
   unsubscribe(){
     this.subscriptionService.unsubscribe(this.renderedEventDetail.id, this.loggedInUserId);
   }
-  //TODO: update, etc
+
+
 
 }

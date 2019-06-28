@@ -30,6 +30,7 @@ export class LoginComponent implements OnInit {
 
     login() {
         this.loading = true;
+        console.log('this username' + this.model.username);
         this.authenticationService.login(this.model.username, this.model.password)
             .subscribe(
                 data => {
@@ -39,5 +40,11 @@ export class LoginComponent implements OnInit {
                     this.alertService.error(error);
                     this.loading = false;
                 });
+    }
+
+    test(){
+      this.authenticationService.currentUser().subscribe(u =>
+        console.log(JSON.stringify(u))
+      );
     }
 }

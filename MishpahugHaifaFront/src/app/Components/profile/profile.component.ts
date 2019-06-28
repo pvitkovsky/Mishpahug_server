@@ -71,6 +71,11 @@ export class ProfileComponent implements OnInit, OnDestroy { //  TODO: onDestroy
 			});
 	}
 
+	test(){
+	  this.userService.current().subscribe(u => console.log(JSON.stringify(u)));
+  }
+
+
 
 
 }

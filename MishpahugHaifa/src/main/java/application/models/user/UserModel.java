@@ -10,11 +10,12 @@ import org.springframework.stereotype.Service;
 
 import com.querydsl.core.types.Predicate;
 
+import application.dto.UserDTO;
 import application.models.user.commands.UserDeleted;
 import application.repositories.EventRepository;
 import application.repositories.SubscriptionRepository;
 import application.repositories.UserRepository;
-import application.utils.converter.IUpdates;
+import application.utils.converter.IConverter;
 
 @Service
 @Transactional
@@ -25,15 +26,12 @@ public class UserModel implements IUserModel {
 
 	@Autowired
 	UserRepository userRepository;
-
 	@Autowired
 	EventRepository eventRepository;
-
 	@Autowired
 	SubscriptionRepository subscriptionRepository;
-
 	@Autowired
-	IUpdates updates;
+	IConverter<UserEntity, UserDTO> converterUser;
 
 	@Override
 	public UserEntity getByUsernameAndPassword(String username, String password) {
@@ -63,7 +61,7 @@ public class UserModel implements IUserModel {
 	@Override
 	public UserEntity update(Integer userId, HashMap<String, String> data) {
 		UserEntity user = userRepository.getOne(userId);
-		updates.updateUser(user, data);
+		converterUser.updateEntity(user, data);
 		return user;
 	}
 

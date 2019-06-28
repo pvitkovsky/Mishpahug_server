@@ -42,6 +42,8 @@ import application.models.user.UserEntity;
 import application.models.user.UserSession;
 import application.repositories.UserSessionRepository;
 import application.utils.converter.IConverter;
+import application.utils.converter.IStrongEntityConverter;
+import application.utils.converter.IWeakEntityConverter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -63,10 +65,10 @@ public class UserController implements IUserController {
 	IEventModel eventModel;
 
 	@Autowired
-	IConverter<UserEntity, UserDTO> converter;
+	IStrongEntityConverter<UserEntity, UserDTO> converterUser;
 
 	@Autowired
-	IConverter<EventEntity, EventDTO> converterEvent;
+	IWeakEntityConverter<EventEntity, UserEntity, EventDTO> converterEvent;
 
 	@Value("${random-uuid}")
 	private boolean randomUUID;
@@ -104,7 +106,7 @@ public class UserController implements IUserController {
 		if (randomUUID) {
 			session = userSessionRepository.findByTokenAndIsValidTrue(token);
 		} else {
-			session = userSessionRepository.findFirstByTokenAndIsValidTrue(token);
+			session = userSessionRepository.findFirstByTokenAndIsValidTrue(token); //TODO: won't work with multiple users on fixed token;
 		}
 		return new UserDTO(userModel.getByUserName(session.getUserName())); // TODO: converter here?
 	}
@@ -114,7 +116,7 @@ public class UserController implements IUserController {
 	@ResponseBody
 	public List<UserDTO> findAllByWebQuerydsl(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
 			@QuerydslPredicate(root = UserEntity.class) Predicate predicate) {
-		return converter.DTOListFromEntities(userModel.getAll(predicate));
+		return converterUser.DTOListFromEntities(userModel.getAll(predicate));
 	}
 
 	@Override
@@ -148,7 +150,8 @@ public class UserController implements IUserController {
 			UserSession userSessionNew = UserSession.builder().userName(userEntity.getUserName()).token(token)
 					.ip(request.getRemoteAddr()).userAgent(httpHeaders.get("user-agent").get(0))
 					.localDate(DateTime.now().toLocalDate()).localTime(DateTime.now().toLocalTime()).isValid(true).build();
-			userSessionRepository.save(userSessionNew);
+					userSessionRepository.save(userSessionNew);
+			log.warn("User Controller -> New Session" + userSessionNew);
 			return new LoginResponse(userSessionNew.getToken());	
 		}
 	}
@@ -174,7 +177,7 @@ public class UserController implements IUserController {
 		if (!userDTO.getEncryptedPassword().equals(userDTO.getConfirmedPassword())) {
 			throw new RuntimeException("Passwords do not match");
 		}
-		UserEntity userEntity = converter.entityFromDTO(userDTO);
+		UserEntity userEntity = converterUser.entityFromDTO(userDTO);
 		userModel.add(userEntity);
 	}
 

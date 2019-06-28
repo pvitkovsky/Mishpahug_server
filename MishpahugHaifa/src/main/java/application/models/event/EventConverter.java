@@ -2,16 +2,19 @@ package application.models.event;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import application.dto.EventDTO;
-import application.utils.converter.ConverterBase;
-import application.utils.converter.IConverter;
+import application.models.user.UserEntity;
+import application.utils.converter.IWeakEntityConverter;
 
 @Service
-public class EventConverter extends ConverterBase implements IConverter<EventEntity, EventDTO> {
+public class EventConverter implements IWeakEntityConverter<EventEntity, UserEntity, EventDTO> {
 
+	@Override
 	public List<EventDTO> DTOListFromEntities(List<EventEntity> data) {
 
 		List<EventDTO> res = new ArrayList<>();
@@ -22,6 +25,7 @@ public class EventConverter extends ConverterBase implements IConverter<EventEnt
 
 	}
 
+	@Override
 	public List<EventDTO> DTOListFromEntities(Iterable<EventEntity> data) {
 
 		List<EventDTO> res = new ArrayList<>();
@@ -31,12 +35,24 @@ public class EventConverter extends ConverterBase implements IConverter<EventEnt
 		return res;
 
 	}
+	
 
-	public EventEntity entityFromDTO(EventDTO data) { //TODO: optional DTO
-		EventEntity res = new EventEntity();
-		res.setNameOfEvent(data.getNameOfEvent());
-		return res;
-
+	@Override
+	public EventEntity entityFromDTO(EventDTO eventDTO, UserEntity owner) {
+		EventEntity event = new EventEntity(owner, eventDTO.getDate(), eventDTO.getTime());
+		event.setNameOfEvent(Optional.ofNullable(eventDTO.getNameOfEvent()).orElse(""));		
+		return event;
 	}
+	
+
+	@Override
+	public EventEntity updateEntity(EventEntity entity, Map<String, String> untypedDto) {
+		if (untypedDto.containsKey("nameOfEvent")) { 
+			entity.setNameOfEvent(untypedDto.get("nameOfEvent"));
+		}
+		return entity;
+	}
+
+	
 
 }

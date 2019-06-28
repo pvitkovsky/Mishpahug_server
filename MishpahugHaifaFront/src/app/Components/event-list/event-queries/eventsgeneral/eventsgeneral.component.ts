@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EventRenderComponent } from '../../event-render/event-render.component'
+import { EventRenderComponent } from '../../eventlist-render/event-render.component'
 import { EventDetail } from '../../../../Models';
 import { EventListService } from '../../event-list.service'
 

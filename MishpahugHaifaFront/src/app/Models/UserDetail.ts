@@ -8,7 +8,7 @@ export class UserDetail {
 
      phoneNumber: string;
 
-     eMail: string;
+     email: string;
 
      userName: string;
 

@@ -2,6 +2,7 @@ package application.models.event;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -12,12 +13,13 @@ import org.springframework.stereotype.Service;
 
 import com.querydsl.core.types.Predicate;
 
+import application.dto.EventDTO;
 import application.models.event.commands.EventDeleted;
 import application.models.user.commands.UserDeleted;
 import application.repositories.EventRepository;
 import application.repositories.SubscriptionRepository;
 import application.repositories.UserRepository;
-import application.utils.converter.IUpdates;
+import application.utils.converter.IConverter;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -35,10 +37,8 @@ public class EventModel implements IEventModel {
 	UserRepository userRepository;
 	@Autowired
 	SubscriptionRepository subscriptionsRepository;
-	
 	@Autowired
-	IUpdates updates;
-	
+	IConverter<EventEntity, EventDTO> converterEvent;
 	
     @EventListener
     public void updateEventsOnUserDelete(UserDeleted userDeleted) {
@@ -82,13 +82,14 @@ public class EventModel implements IEventModel {
 
 	@Override
 	public EventEntity add(EventEntity data) { 
-		return eventRepository.save(data);
+		Optional<EventEntity> savedEvent = eventRepository.findByDateAndTimeAndUserEntityOwner(data.getDate(), data.getTime(), data.getUserEntityOwner());
+		return savedEvent.orElseGet(() -> eventRepository.save(data));
 	}
 
 	@Override
 	public EventEntity update(Integer eventId, HashMap<String, String> data){ 
 		EventEntity eventEntity = eventRepository.getOne(eventId);
-		updates.updateEvent(eventEntity, data);
+		converterEvent.updateEntity(eventEntity, data);
 		return eventEntity;
 	}
 

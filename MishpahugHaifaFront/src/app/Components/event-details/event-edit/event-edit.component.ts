@@ -1,11 +1,12 @@
-import {Component, EventEmitter, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {ChoicesConnection, EventDetail} from '../../../Models';
 import {ChoicesService} from '../../../Services/choices.service';
 import {ActivatedRoute} from '@angular/router';
 import {EventService, SubscriptionService, UserService} from '../../../Services';
-import {combineLatest} from 'rxjs';
+import {combineLatest} from 'rxjs/internal/operators/combineLatest';
 import {mergeMap} from 'rxjs-compat/operator/mergeMap';
 import {zip} from 'rxjs/internal/observable/zip';
+import {withLatestFrom} from 'rxjs/internal/operators/withLatestFrom';
 
 @Component({
   selector: 'app-event-edit',
@@ -14,6 +15,7 @@ import {zip} from 'rxjs/internal/observable/zip';
 })
 export class EventEditComponent implements OnInit {
 
+  //TODO: maybe refactor this component into logic and two displays (edit and view?);
 
   loggedInUserId : number;
   renderedEventDetail : EventDetail; //TODO: input via router or as the child component
@@ -55,11 +57,11 @@ export class EventEditComponent implements OnInit {
       }
     );
 
-    combineLatest(this.loggedInUserEmitter, this.renderedEventEmitter).subscribe(userIdAndEventDetail  => { //TODO: get rid of ts-ignore
+    this.renderedEventEmitter.pipe(combineLatest(this.loggedInUserEmitter)).subscribe(userIdAndEventDetail  => { //TODO: get rid of ts-ignore
       // console.log(' arrived merge of u an e  ' + JSON.stringify(userIdAndEventDetail));
-      let currentUserId : any = userIdAndEventDetail[0];
-      let eventOwnerId : any = userIdAndEventDetail[1].ownerId; //TODO: very unstable
-      let guests : number[] = userIdAndEventDetail[1].guestIds;
+      let currentUserId : any = userIdAndEventDetail[1];
+      let eventOwnerId : any = userIdAndEventDetail[0].ownerId;
+      let guests : number[] = userIdAndEventDetail[0].guestIds;
       let isOwner = currentUserId === eventOwnerId;
       this.canEdit = isOwner;
       this.canSubscribe = (
@@ -72,6 +74,8 @@ export class EventEditComponent implements OnInit {
       )
     });
 
+
+
     //TODO: get choices back;
     // for (let choiceName in ChoicesConnection){
     //   let typedChoice : keyof typeof ChoicesConnection = choiceName as keyof typeof ChoicesConnection; // getting enum out of string;
@@ -82,6 +86,13 @@ export class EventEditComponent implements OnInit {
     //   });
     // }
   }
+
+  //TODO: working changes detection please;
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   console.log(JSON.stringify(changes));
+  //   this.showEventDetail();
+  // }
+
 
   showEventDetail(){
     console.log(this.renderedEventDetail);
@@ -131,4 +142,6 @@ export class EventEditComponent implements OnInit {
 
 
 
+
 }
+

@@ -20,9 +20,6 @@ import java.util.ArrayList;
 @Slf4j
 public class SecurityFilter extends OncePerRequestFilter {
 
-	@Value("${random-uuid}")
-	private boolean randomUUID;
-
     @Autowired
     public UserSessionRepository userSessionRepository;
 
@@ -35,11 +32,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         if (token != null) {
             log.info("Security Filter -> token -> {}", token);          
             UserSession userSession;
-            if(randomUUID) {
-            	userSession = userSessionRepository.findByTokenAndIsValidTrue(token);
-            } else {
-            	userSession = userSessionRepository.findFirstByTokenAndIsValidTrue(token);
-            }
+            userSession = userSessionRepository.findByTokenAndIsValidTrue(token);
             if (userSession != null) {
                 log.info("Security Filter -> token is valid");
 

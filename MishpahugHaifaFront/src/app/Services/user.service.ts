@@ -9,7 +9,9 @@ import { AuthenticationService} from "./authentication.service"
 export class UserService {
     constructor(private http: HttpClient, private authService: AuthenticationService) { }
 
+    //TODO: current user please;
     //TODO: refactor with UserConnection to allow maintainable filtering;
+
     getAll() {
         return this.http.get<UserDetail[]>('/api/user/');//TODO: error handling
     }
@@ -37,10 +39,11 @@ export class UserService {
 
     current() : Observable<UserDetail> { //TODO: make UserDetail type work; make service memorise on auth;
         //console.log("call to UserService.current()" + this.authService.currentUser());
-        return this.authService.currentUser();
+        return this.authService.currentUser().delay(500); // for stream checking;
+
     }
 
-    loggedIn() :  boolean {
+    loggedIn() : boolean {
         return this.authService.loggedIn();
     }
 }

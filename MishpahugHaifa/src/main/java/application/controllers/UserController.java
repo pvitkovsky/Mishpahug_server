@@ -3,6 +3,8 @@ package application.controllers;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.security.auth.login.FailedLoginException;
@@ -41,7 +43,6 @@ import application.models.user.IUserModel;
 import application.models.user.UserEntity;
 import application.models.user.UserSession;
 import application.repositories.UserSessionRepository;
-import application.utils.converter.IConverter;
 import application.utils.converter.IStrongEntityConverter;
 import application.utils.converter.IWeakEntityConverter;
 import lombok.extern.slf4j.Slf4j;
@@ -51,6 +52,13 @@ import lombok.extern.slf4j.Slf4j;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(value = "/user")
 public class UserController implements IUserController {
+
+	private static final Map<String, String> TESTUSERTOKENS = new HashMap<>();
+	{
+		TESTUSERTOKENS.put("alyssaph", "alyssatoken");
+		TESTUSERTOKENS.put("bitdiddle", "bentoken");
+	}
+
 
 	@Autowired
 	IUserModel userModel;
@@ -70,8 +78,8 @@ public class UserController implements IUserController {
 	@Autowired
 	IWeakEntityConverter<EventEntity, UserEntity, EventDTO> converterEvent;
 
-	@Value("${random-uuid}")
-	private boolean randomUUID;
+	@Value("${test-uuid}")
+	private boolean testUUID;
 
 	@Override // SUBSCRIPTIONS
 	@GetMapping(value = "/{id}/subscribes")
@@ -102,12 +110,7 @@ public class UserController implements IUserController {
 	@GetMapping(value = "/current")
 	public UserDTO getByToken(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request) {
 		String token = request.getHeader("Authorization");
-		UserSession session;
-		if (randomUUID) {
-			session = userSessionRepository.findByTokenAndIsValidTrue(token);
-		} else {
-			session = userSessionRepository.findFirstByTokenAndIsValidTrue(token); //TODO: won't work with multiple users on fixed token;
-		}
+		UserSession session = userSessionRepository.findByTokenAndIsValidTrue(token);
 		return new UserDTO(userModel.getByUserName(session.getUserName())); // TODO: converter here?
 	}
 
@@ -128,17 +131,21 @@ public class UserController implements IUserController {
 		if (userEntity == null) {
 			throw new FailedLoginException();
 		}
+		return createUserSession(httpHeaders.get("user-agent").get(0), request.getRemoteAddr(), loginDTO, userEntity);
+	}
+
+	private LoginResponse createUserSession(String agent, String address, LoginDTO loginDTO,
+			UserEntity userEntity) {
 		UserSession userSessionOld;
-		String token;
-		if (randomUUID) { 
-			token = UUID.randomUUID().toString();
-			userSessionOld = userSessionRepository.findByUserNameAndIpAndUserAgentAndIsValidTrue(
-					loginDTO.getUsername(), request.getRemoteAddr(), httpHeaders.get("user-agent").get(0));
-		} else {
-			token = "token-dev";
-			userSessionOld = userSessionRepository.findFirstByUserNameAndIpAndUserAgentAndIsValidTrue(
-					loginDTO.getUsername(), request.getRemoteAddr(), httpHeaders.get("user-agent").get(0));
-		}
+		String token = UUID.randomUUID().toString();
+		if (testUUID) { 
+			boolean tokenIsInTestList = TESTUSERTOKENS.containsKey(userEntity.getUserName());
+			if(tokenIsInTestList) {
+				token = TESTUSERTOKENS.get(userEntity.getUserName()); //TODO: nice refactor task with Optional;
+			}
+		} 
+		userSessionOld = userSessionRepository.findByUserNameAndIpAndUserAgentAndIsValidTrue(
+				loginDTO.getUsername(), address, agent);
 		if (userSessionOld != null) {
 			userSessionOld.setToken(token);
 			userSessionOld.setLocalDate(DateTime.now().toLocalDate());
@@ -148,7 +155,7 @@ public class UserController implements IUserController {
 			return new LoginResponse(userSessionOld.getToken());
 		} else {
 			UserSession userSessionNew = UserSession.builder().userName(userEntity.getUserName()).token(token)
-					.ip(request.getRemoteAddr()).userAgent(httpHeaders.get("user-agent").get(0))
+					.ip(address).userAgent(agent)
 					.localDate(DateTime.now().toLocalDate()).localTime(DateTime.now().toLocalTime()).isValid(true).build();
 					userSessionRepository.save(userSessionNew);
 			log.warn("User Controller -> New Session" + userSessionNew);

@@ -7,6 +7,7 @@ import {combineLatest} from 'rxjs/internal/operators/combineLatest';
 import {mergeMap} from 'rxjs-compat/operator/mergeMap';
 import {zip} from 'rxjs/internal/observable/zip';
 import {withLatestFrom} from 'rxjs/internal/operators/withLatestFrom';
+import {first} from 'rxjs/operators';
 
 @Component({
   selector: 'app-event-edit',
@@ -49,7 +50,7 @@ export class EventEditComponent implements OnInit {
       )
     });
 
-    this.userService.current().subscribe(
+    this.userService.current().pipe(first()).subscribe(
       userDetail => {
         console.log(' arrived userDetail ' + JSON.stringify(userDetail));
         this.loggedInUserEmitter.emit(userDetail.id);
@@ -58,7 +59,7 @@ export class EventEditComponent implements OnInit {
     );
 
     this.renderedEventEmitter.pipe(combineLatest(this.loggedInUserEmitter)).subscribe(userIdAndEventDetail  => { //TODO: get rid of ts-ignore
-      // console.log(' arrived merge of u an e  ' + JSON.stringify(userIdAndEventDetail));
+      console.log(' arrived merge of u an e  ' + JSON.stringify(userIdAndEventDetail));
       let currentUserId : any = userIdAndEventDetail[1];
       let eventOwnerId : any = userIdAndEventDetail[0].ownerId;
       let guests : number[] = userIdAndEventDetail[0].guestIds;

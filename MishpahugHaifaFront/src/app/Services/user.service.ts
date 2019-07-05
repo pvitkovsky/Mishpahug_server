@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UserDetail} from '../Models/index';
 import { Observable } from 'rxjs';
@@ -6,30 +6,25 @@ import { AuthenticationService} from "./authentication.service"
 
 
 @Injectable()
-export class UserService {
-    constructor(private http: HttpClient, private authService: AuthenticationService) { }
+export class UserService {  //TODO: refactor with UserConnection to allow maintainable filtering;
 
-    //TODO: current user please;
-    //TODO: refactor with UserConnection to allow maintainable filtering;
+    constructor(private http: HttpClient, private authService: AuthenticationService) {
+    }
 
     getAll() {
         return this.http.get<UserDetail[]>('/api/user/');//TODO: error handling
     }
 
     getById(id: number) : Observable<UserDetail> {
-        //console.log('incoming to servie user id' + id);
         return this.http.get<UserDetail>('/api/user/' + id);
     }
 
-    create(userDetail: UserDetail) {
-        console.log('userDetail ' + JSON.stringify(userDetail)); //TODO: password encryption on this side please; 
+    create(userDetail: UserDetail) {  //TODO: password encryption on this side please;
         return this.http.post('/api/user/register', userDetail);
     }
 
     update(userDetail: UserDetail) : Observable<UserDetail>{
-      // console.log('userDetail ' + JSON.stringify(userDetail));
       var res : Observable<UserDetail> = this.http.put<UserDetail>('/api/user/' + userDetail.id, userDetail);
-      // console.log('  returned' +  JSON.stringify(res));
       return res;
     }
 
@@ -37,13 +32,12 @@ export class UserService {
         return this.http.delete('/api/user/' + id);
     }
 
-    current() : Observable<UserDetail> { //TODO: make UserDetail type work; make service memorise on auth;
-        //console.log("call to UserService.current()" + this.authService.currentUser());
-        return this.authService.currentUser().delay(500); // for stream checking;
-
+    current() : Observable<UserDetail> {
+        return  this.authService.currentUser();
     }
 
-    loggedIn() : boolean {
+    loggedIn() : Observable<boolean> {
         return this.authService.loggedIn();
     }
+
 }

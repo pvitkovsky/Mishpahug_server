@@ -8,11 +8,12 @@ import {mergeMap} from 'rxjs-compat/operator/mergeMap';
 import {zip} from 'rxjs/internal/observable/zip';
 import {withLatestFrom} from 'rxjs/internal/operators/withLatestFrom';
 import {first} from 'rxjs/operators';
+import {ReplaySubject, Subject} from 'rxjs';
 
 @Component({
   selector: 'app-event-edit',
   templateUrl: './event-edit.component.html',
-  styleUrls: ['./event-edit.component.scss']
+  styleUrls: ['./event-edit.component.scss'],
 })
 export class EventEditComponent implements OnInit {
 
@@ -26,8 +27,8 @@ export class EventEditComponent implements OnInit {
   canSubscribe : boolean = false;
   canUnSubscribe : boolean = false;
 
-  loggedInUserEmitter: EventEmitter<number> = new EventEmitter();
-  renderedEventEmitter: EventEmitter<EventDetail> = new EventEmitter();
+  loggedInUserEmitter: ReplaySubject<number> = new ReplaySubject(1);
+  renderedEventEmitter: ReplaySubject<EventDetail> = new ReplaySubject(1);
 
   constructor(private eventService: EventService,
               private choicesService: ChoicesService,
@@ -36,34 +37,33 @@ export class EventEditComponent implements OnInit {
               private subscriptionService : SubscriptionService) {
     this.choices = new Map<string, string[]>();
     this.renderedEventDetail = new EventDetail();
-
   }
 
   ngOnInit() {
     this._route.params.subscribe(params => {
       this.eventService.getEvent(params['id']).subscribe(
         eventDetail => {
-          console.log(' arrived eventDetail ' + JSON.stringify(eventDetail));
-          this.renderedEventEmitter.emit(eventDetail);
+          this.renderedEventEmitter.next(eventDetail);
           this.renderedEventDetail = eventDetail
         }
       )
     });
 
-    this.userService.current().pipe(first()).subscribe(
+    this.userService.current().subscribe(
       userDetail => {
-        console.log(' arrived userDetail ' + JSON.stringify(userDetail));
-        this.loggedInUserEmitter.emit(userDetail.id);
+        this.loggedInUserEmitter.next(userDetail.id);
         this.loggedInUserId = userDetail.id;
       }
     );
 
-    this.renderedEventEmitter.pipe(combineLatest(this.loggedInUserEmitter)).subscribe(userIdAndEventDetail  => { //TODO: get rid of ts-ignore
-      console.log(' arrived merge of u an e  ' + JSON.stringify(userIdAndEventDetail));
-      let currentUserId : any = userIdAndEventDetail[1];
-      let eventOwnerId : any = userIdAndEventDetail[0].ownerId;
+    this.renderedEventEmitter
+      .pipe(combineLatest(this.loggedInUserEmitter))
+      .subscribe((userIdAndEventDetail : [EventDetail, number] )=> {
+      let currentUserId : number = userIdAndEventDetail[1];
+      let eventOwnerId : number = userIdAndEventDetail[0].ownerId;
       let guests : number[] = userIdAndEventDetail[0].guestIds;
       let isOwner = currentUserId === eventOwnerId;
+      console.log("is owner? " + isOwner);
       this.canEdit = isOwner;
       this.canSubscribe = (
         !isOwner &&
@@ -75,7 +75,8 @@ export class EventEditComponent implements OnInit {
       )
     });
 
-
+    // this.renderedEventEmitter.subscribe(val => console.log(" event receieved"));
+    // this.loggedInUserEmitter.subscribe(val => console.log(" user receieved"));
 
     //TODO: get choices back;
     // for (let choiceName in ChoicesConnection){
@@ -87,13 +88,6 @@ export class EventEditComponent implements OnInit {
     //   });
     // }
   }
-
-  //TODO: working changes detection please;
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   console.log(JSON.stringify(changes));
-  //   this.showEventDetail();
-  // }
-
 
   showEventDetail(){
     console.log(this.renderedEventDetail);
@@ -111,8 +105,8 @@ export class EventEditComponent implements OnInit {
       });
   }
 
-  save(){
-    this.eventService.updateEvent(this.renderedEventDetail).subscribe(
+  save(updatedEvent: EventDetail ){
+    this.eventService.updateEvent(updatedEvent).subscribe(
       data => {
         this.renderedEventDetail = data;
       });
@@ -125,7 +119,7 @@ export class EventEditComponent implements OnInit {
       });
   }
 
-  cancel(){
+  cancel(){ //TODO: into child component;
     this._route.params.subscribe(params => {
       this.eventService.getEvent(params['id']).subscribe(
         eventDetail => this.renderedEventDetail = eventDetail
@@ -142,7 +136,10 @@ export class EventEditComponent implements OnInit {
   }
 
 
-
+  updateEvent(updatedEventDetail){ //first function called from the child; make it save too;
+    console.log("updateEvent called " + JSON.stringify(updatedEventDetail));
+    this.save(updatedEventDetail);
+  }
 
 }
 

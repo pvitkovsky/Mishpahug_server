@@ -33,7 +33,6 @@ export class AuthenticationService {
     }
 
     logout() {
-      console.log("someone pressed logout");
       localStorage.removeItem('currentUserToken');
       localStorage.removeItem('currentUserDetail');
       this.currentUserEmitter.next(null); //TODO: correct logout: null user? Observable.complete? Sentinel pattern?

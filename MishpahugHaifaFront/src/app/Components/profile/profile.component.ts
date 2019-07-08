@@ -1,6 +1,6 @@
 import {Component, EventEmitter, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, UrlSegment} from '@angular/router';
-import { UserService } from '../../Services/index';
+import {AuthenticationService, UserService} from '../../Services/index';
 import { UserDetail } from '../../Models/index';
 import {combineLatest, Observable} from 'rxjs';
 import {tap} from 'rxjs/internal/operators/tap';
@@ -20,7 +20,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
 	constructor(
 		private router: Router,
 		private route: ActivatedRoute,
-		private userService: UserService) { }
+		private userService: UserService,
+  private authService: AuthenticationService
+  ) { }
 
 
 	ngOnInit() {
@@ -67,7 +69,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
 	}
 
 	test(){
-  	 console.log(JSON.stringify(this.userService.current()));
+  	// console.log(JSON.stringify(this.userService.current()));
+     this.authService.test();
   }
 
 

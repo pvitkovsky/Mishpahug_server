@@ -36,7 +36,7 @@ export class UserService {  //TODO: refactor with UserConnection to allow mainta
         return  this.authService.currentUser();
     }
 
-    loggedIn() : Observable<boolean> {
+    loggedIn() : boolean {
         return this.authService.loggedIn();
     }
 

@@ -31,17 +31,14 @@ export class LoginComponent implements OnInit {
     login() {
         this.loading = true;
         this.authenticationService.login(this.model.username, this.model.password)
-        this.authenticationService.loggedIn().subscribe(
-          loggedIn => {
-            if (loggedIn) {
+            if (this.authenticationService.loggedIn()) {
               this.router.navigate([this.returnUrl]);
             } else {
               this.loading = false;
             }
-          });
     }
 
     test(){
-        console.log(JSON.stringify(this.authenticationService.currentUser()));
+        this.authenticationService.test();
     }
 }

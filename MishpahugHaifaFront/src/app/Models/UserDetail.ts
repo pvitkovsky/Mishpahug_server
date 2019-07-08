@@ -11,17 +11,7 @@ export class UserDetail {
      email: string;
 
      userName: string;
-
-     dayOfBirth : any;
-
-     gender: any;
-    
-     kichenType: any;
-    
-     religion: any;
-    
-     maritalStatus: any;
-    
+     
      encryptedPassword: string;
 
      confirmedPassword: string;

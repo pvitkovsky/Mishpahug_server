@@ -10,7 +10,7 @@ import { AlertService, UserService } from '../../Services/index';
 })
 
 export class RegisterComponent {
-    userDetail: UserDetail = new UserDetail();
+    userDetail: UserDetail;
     loading = false;
 
     constructor(

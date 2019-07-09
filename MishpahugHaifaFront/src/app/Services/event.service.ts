@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {EventDetail, EventFilter, EVENTROOT, SUBSCRIPTIONROOT} from '../Models/index';
+import {EventDetail, EventFilter, EventRenderDetail, EVENTROOT, SUBSCRIPTIONROOT, UserDetail} from '../Models/index';
 import { Observable } from 'rxjs';
+import {AuthenticationService} from './authentication.service';
 
 @Injectable()
 export class EventService {
 
-  constructor(private http: HttpClient){
+  private currentUserId : number;
+
+  constructor(private http: HttpClient, private authService: AuthenticationService){
+    this.authService.currentUser().subscribe(userDetail => this.currentUserId = userDetail.id);
   }
 
   getEvents (filter? : EventFilter ) : Observable<EventDetail[]> {
@@ -20,53 +24,41 @@ export class EventService {
     return res;
   }
 
-  getEvent(id : number) : Observable<EventDetail>{
+  private getEvent(id : number) : Observable<EventDetail>{
     var connectionString : string = EVENTROOT;
-    //console.log("connecting with connection string " + connectionString)
     var res : Observable<EventDetail> = this.http.get<EventDetail>(connectionString + id);
-    //console.log("Request " + res);
     return res;
   }
 
-  createEvent(eventDetail : EventDetail) : Observable<EventDetail> {
-    var connectionString : string = EVENTROOT;
-    console.log('eventDetail ' + JSON.stringify(eventDetail));
-    var body = {}; //TODO: disable stringifying of field guestID;
-    for (let x in eventDetail) {
-      console.log('  property of E.D. ' + x.toString());
-      console.log('  equals? ' + x.toString() !== 'guestIds');
-      if (x.toString() !== "guestIds") {
-        body[x] = eventDetail[x];
-      }
-    }
-     console.log('post request with body ' + JSON.stringify(body));
-    var res : Observable<EventDetail> = this.http.post<EventDetail>(connectionString, body);
-      console.log('  returned' +  JSON.stringify(res));
-    return res;
+  getRenderEvent(id: number) : Observable<EventRenderDetail>{
+    return this.getEvent(id)
+      .map(eventDetail => this.renderEvent(eventDetail));
   }
 
-  updateEvent(eventDetail : EventDetail) : Observable<EventDetail> {
+  createEvent(eventRender: EventRenderDetail) : Observable<EventRenderDetail> {
     var connectionString : string = EVENTROOT;
-    var body = {}; //TODO: disable stringifying of field guestID;
-    for (let x in eventDetail) {
-      if (x.toString() !== "guestIds") {
-          body[x] = eventDetail[x];
-      }
-    }
-    var res : Observable<EventDetail> = this.http.put<EventDetail>(connectionString + eventDetail.id, body);
-    return res;
+    return this.http.post<EventDetail>(connectionString, new EventDetail(eventRender))
+      .map(eventDetail => this.renderEvent(eventDetail));
   }
 
-  deleteEvent(eventDetail : EventDetail) : Observable<EventDetail> {
+  updateEvent(eventRender : EventRenderDetail) : Observable<EventRenderDetail> {
     var connectionString : string = EVENTROOT;
-    var body = {}; //TODO: disable stringifying of field guestID;
-    for (let x in eventDetail) {
-      if (x.toString() !== "guestIds") {
-        body[x] = eventDetail[x];
-      }
-    }
-    var res : Observable<EventDetail> = this.http.delete<EventDetail>(connectionString + eventDetail.id, body);
-    return res;
+    return  this.http.put<EventDetail>(connectionString + eventRender.id, new EventDetail(eventRender))
+      .map(eventDetail => this.renderEvent(eventDetail))
+  }
+
+  deleteEvent(eventRender : EventRenderDetail) : Observable<EventRenderDetail> {
+    var connectionString : string = EVENTROOT;
+    return this.http.delete<EventDetail>(connectionString + eventRender.id)
+      .map((eventDetail : EventDetail) => this.renderEvent(eventDetail));
+  }
+
+  private renderEvent(eventDetail : EventDetail) : EventRenderDetail{
+    console.log('rendering event ' + JSON.stringify(eventDetail));
+    let canEdit : boolean = eventDetail.ownerId === this.currentUserId;
+    let isSubscribed : boolean = eventDetail.guestIds.includes(this.currentUserId);
+    console.log("can edit " + canEdit + " can subscribe " + isSubscribed);
+    return new EventRenderDetail(eventDetail, canEdit, isSubscribed);
   }
 
 

@@ -1,14 +1,8 @@
-import {Component, EventEmitter, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {ChoicesConnection, EventDetail} from '../../../Models';
+import {Component, OnInit } from '@angular/core';
+import {EventRenderDetail} from '../../../Models';
 import {ChoicesService} from '../../../Services/choices.service';
 import {ActivatedRoute} from '@angular/router';
-import {EventService, SubscriptionService, UserService} from '../../../Services';
-import {combineLatest} from 'rxjs/internal/operators/combineLatest';
-import {mergeMap} from 'rxjs-compat/operator/mergeMap';
-import {zip} from 'rxjs/internal/observable/zip';
-import {withLatestFrom} from 'rxjs/internal/operators/withLatestFrom';
-import {first} from 'rxjs/operators';
-import {ReplaySubject, Subject} from 'rxjs';
+import {EventService, SubscriptionService } from '../../../Services';
 
 @Component({
   selector: 'app-event-edit',
@@ -17,66 +11,24 @@ import {ReplaySubject, Subject} from 'rxjs';
 })
 export class EventEditComponent implements OnInit {
 
-  //TODO: maybe refactor this component into logic and two displays (edit and view?);
-
-  loggedInUserId : number;
-  renderedEventDetail : EventDetail; //TODO: input via router or as the child component
+  renderedEventDetail : EventRenderDetail; //TODO: input via router or as the child component
   choices : Map<string, string[]>;
-
-  canEdit : boolean = false;
-  canSubscribe : boolean = false;
-  canUnSubscribe : boolean = false;
-
-  loggedInUserEmitter: ReplaySubject<number> = new ReplaySubject(1);
-  renderedEventEmitter: ReplaySubject<EventDetail> = new ReplaySubject(1);
 
   constructor(private eventService: EventService,
               private choicesService: ChoicesService,
               private _route: ActivatedRoute,
-              private userService: UserService,
               private subscriptionService : SubscriptionService) {
     this.choices = new Map<string, string[]>();
-    this.renderedEventDetail = new EventDetail();
   }
 
   ngOnInit() {
     this._route.params.subscribe(params => {
-      this.eventService.getEvent(params['id']).subscribe(
+      this.eventService.getRenderEvent(params['id']).subscribe(
         eventDetail => {
-          this.renderedEventEmitter.next(eventDetail);
           this.renderedEventDetail = eventDetail
         }
       )
     });
-
-    this.userService.current().subscribe(
-      userDetail => {
-        this.loggedInUserEmitter.next(userDetail.id);
-        this.loggedInUserId = userDetail.id;
-      }
-    );
-
-    this.renderedEventEmitter
-      .pipe(combineLatest(this.loggedInUserEmitter))
-      .subscribe((userIdAndEventDetail : [EventDetail, number] )=> {
-      let currentUserId : number = userIdAndEventDetail[1];
-      let eventOwnerId : number = userIdAndEventDetail[0].ownerId;
-      let guests : number[] = userIdAndEventDetail[0].guestIds;
-      let isOwner = currentUserId === eventOwnerId;
-      console.log("is owner? " + isOwner);
-      this.canEdit = isOwner;
-      this.canSubscribe = (
-        !isOwner &&
-        !guests.includes(currentUserId)
-      );
-      this.canUnSubscribe = (
-        !isOwner &&
-        guests.includes(currentUserId)
-      )
-    });
-
-    // this.renderedEventEmitter.subscribe(val => console.log(" event receieved"));
-    // this.loggedInUserEmitter.subscribe(val => console.log(" user receieved"));
 
     //TODO: get choices back;
     // for (let choiceName in ChoicesConnection){
@@ -89,56 +41,62 @@ export class EventEditComponent implements OnInit {
     // }
   }
 
-  showEventDetail(){
-    console.log(this.renderedEventDetail);
-    console.log(this.loggedInUserId);
-    console.log(this.canSubscribe);
-    console.log(this.canUnSubscribe);
-  }
-
-  create(){
-    let newEventDetail = this.renderedEventDetail;
-    newEventDetail.ownerId = this.loggedInUserId;
-    this.eventService.createEvent(newEventDetail).subscribe(
+  private create(){
+    this.eventService.createEvent(this.renderedEventDetail).subscribe(
       data => {
         this.renderedEventDetail = data;
       });
   }
 
-  save(updatedEvent: EventDetail ){
-    this.eventService.updateEvent(updatedEvent).subscribe(
+  private save(updatedEvent: EventRenderDetail){
+    this.eventService.updateEvent(this.renderedEventDetail).subscribe(
       data => {
         this.renderedEventDetail = data;
       });
   }
 
-  delete(){
+  private delete(){
     this.eventService.deleteEvent(this.renderedEventDetail).subscribe(
       data => {
         this.renderedEventDetail = data;
       });
   }
 
-  cancel(){ //TODO: into child component;
+  private cancel(){ //TODO: into child component;
     this._route.params.subscribe(params => {
-      this.eventService.getEvent(params['id']).subscribe(
+      this.eventService.getRenderEvent(params['id']).subscribe(
         eventDetail => this.renderedEventDetail = eventDetail
       )
     });
   }
 
-  subscribe(){
-    this.subscriptionService.subscribe(this.renderedEventDetail.id, this.loggedInUserId);
+  private subscribe(){
+    this.subscriptionService.subscribe(this.renderedEventDetail.id);
   }
 
-  unsubscribe(){
-    this.subscriptionService.unsubscribe(this.renderedEventDetail.id, this.loggedInUserId);
+  private unsubscribe(){
+    this.subscriptionService.unsubscribe(this.renderedEventDetail.id);
   }
 
 
-  updateEvent(updatedEventDetail){ //first function called from the child; make it save too;
-    console.log("updateEvent called " + JSON.stringify(updatedEventDetail));
-    this.save(updatedEventDetail);
+  updateEvent($event : EventRenderDetail){
+    this.save($event);
+  }
+
+  updateSubscription(){
+    this.subscribe();
+  }
+
+  updateUnSubscription(){
+    this.unsubscribe();
+  }
+
+  showEventDetail(){
+    console.log(this.renderedEventDetail);
+  }
+
+  test(){
+    console.log((this.renderedEventDetail));
   }
 
 }

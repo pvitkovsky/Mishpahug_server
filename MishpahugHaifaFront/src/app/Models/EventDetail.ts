@@ -1,3 +1,5 @@
+import {EventRenderDetail} from './EventRenderDetail';
+
 export class EventDetail {
 
      id: number;
@@ -15,7 +17,13 @@ export class EventDetail {
      kitchen : string;
      ownerId: number;
      guestIds: number[];
-     // Problem: hashmap string-string can't let the array of guestId's in;
-     // because the backend wants map <string, string>, and guestIds are number ;
-     //TODO: disable guestIds stringifying;
+
+  constructor(render: EventRenderDetail){
+    this.id = render.id;
+    this.ownerId = render.ownerId;
+    this.date = render.date;
+    this.time = render.time;
+    this.nameOfEvent = render.nameOfEvent;
+  }
+
 }

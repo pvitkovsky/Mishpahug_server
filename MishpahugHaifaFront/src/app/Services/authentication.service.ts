@@ -42,7 +42,7 @@ export class AuthenticationService {
        return !this.currentUserEmitter.isEmpty;
     }
 
-    currentUser() : Observable<UserDetail> {
+    currentUser() : Observable<UserDetail> { //TODO: after the update the authorised user is out of date;
       return this.currentUserEmitter;
     }
 

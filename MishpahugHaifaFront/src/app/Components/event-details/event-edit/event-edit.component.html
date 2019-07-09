@@ -1,8 +1,10 @@
-<app-event-render
+<app-event-render *ngIf="renderedEventDetail"
   [renderedEventDetail]="renderedEventDetail"
-  [canEdit]="canEdit"
   [choices]="choices"
-  [isSubscribed]="canUnSubscribe"
-  (eventDetailUpdates)="updateEvent($event)">
+  (subscribedUpdates)="updateSubscription()" (unSubscribedUpdates)="updateUnSubscription()"
+  (eventDetailUpdates)="updateEvent($event)"
+  >
 </app-event-render>
+
+<button type='button' mat-button (click)="test()">Test</button>
 

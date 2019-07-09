@@ -1,21 +1,18 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {EventDetail} from '../../../../Models';
+import {EventRenderDetail} from '../../../../Models';
 
 @Component({
   selector: 'app-event-render',
   templateUrl: './event-render.component.html',
   styleUrls: ['./event-render.component.scss']
 })
-export class EventRenderComponent implements OnInit, OnChanges {
+export class EventRenderComponent implements OnInit {
 
-  @Input() renderedEventDetail : EventDetail;
+  @Input() renderedEventDetail : EventRenderDetail;
   @Input() choices : Map<string, string[]>;
-  @Input() canEdit: boolean;
-  @Input() isSubscribed : boolean;
-
-  @Output()
-  eventDetailUpdates = new EventEmitter<EventDetail>();
-
+  @Output() eventDetailUpdates = new EventEmitter<EventRenderDetail>();
+  @Output() subscribedUpdates : EventEmitter<boolean> = new EventEmitter<boolean>(); //TODO: doesn't bind with single boolean emitter;
+  @Output() unSubscribedUpdates : EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor() {
   }
@@ -24,17 +21,20 @@ export class EventRenderComponent implements OnInit, OnChanges {
     this.eventDetailUpdates.emit(this.renderedEventDetail);
   }
 
-
-  ngOnInit() {
+  cancel(){
+    return null;
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    //  if (changes['renderedEventDetail']) { //TODO: something passes undefined. find out what
-    //   console.log(JSON.stringify(changes['renderedEventDetail']));
-    // }
-    // if (changes['canEdit']) { //TODO: something passes undefined. find out what
-    //   console.log(JSON.stringify(changes['canEdit']));
-    // }
+  subscribe(){
+    this.subscribedUpdates.emit(true);
+  }
+
+  unsubscribe(){
+    this.unSubscribedUpdates.emit(true);
+  }
+
+
+  ngOnInit() {
   }
 
 }

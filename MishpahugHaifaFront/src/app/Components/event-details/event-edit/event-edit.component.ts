@@ -45,18 +45,26 @@ export class EventEditComponent implements OnInit {
     });
   }
 
-  private create(){
-    this.eventService.createEvent(this.renderedEventDetail).subscribe(
-      data => {
-        this.renderedEventDetail = data;
-      });
-  }
+  // private create(updatedEvent: EventRenderDetail){
+
+  // }
 
   private save(updatedEvent: EventRenderDetail){
-    this.eventService.updateEvent(this.renderedEventDetail).subscribe(
-      data => {
-        this.renderedEventDetail = data;
-      });
+    console.log("Arrived updated event " + JSON.stringify(updatedEvent));
+    if(updatedEvent.id !== undefined){ //TODO: from if-else to FP style;
+      console.log("updating event")
+      this.eventService.updateEvent(updatedEvent).subscribe(
+        data => {
+          this.renderedEventDetail = data;
+        });
+    } else {
+      console.log("saving event")
+      this.eventService.createEvent(updatedEvent).subscribe(
+        data => {
+          this.renderedEventDetail = data;
+        });
+    }
+
   }
 
   private delete(){

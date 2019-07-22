@@ -38,7 +38,7 @@ public interface IUserController {
     void logout(String token);
     
     //UPDATE
-	void add(HttpHeaders httpHeaders, HttpServletRequest request, UserDTO userDTO);
+	boolean add(HttpHeaders httpHeaders, HttpServletRequest request, UserDTO userDTO);
 	
 	UserDTO update(HttpHeaders httpHeaders, HttpServletRequest request, HashMap<String, String> data, Integer id);
 	

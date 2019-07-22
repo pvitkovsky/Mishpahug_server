@@ -7,40 +7,44 @@ import {tap} from 'rxjs/internal/operators/tap';
 import {first, flatMap, map, takeLast} from 'rxjs/internal/operators';
 import {BehaviorSubject, ReplaySubject} from 'rxjs';
 import {getMatIconFailedToSanitizeLiteralError} from '@angular/material';
+import {of} from 'rxjs/internal/observable/of';
 
 @Injectable()
 export class AuthenticationService {
 
     private currentUserDetail = JSON.parse(localStorage.getItem('currentUserDetail')) ;
-    private currentUserEmitter: BehaviorSubject<UserDetail> = //TODO: move into UserService please
-        new BehaviorSubject(this.currentUserDetail);     //Can I send an error if the user is not initialised?
-
+    private currentUserEmitter: BehaviorSubject<UserDetail> =
+        new BehaviorSubject(this.currentUserDetail);
+    private loginReadyEmitter: BehaviorSubject<boolean> =  new BehaviorSubject(false);
 
     constructor(private http: HttpClient) {
       this.currentUserEmitter.subscribe(user => localStorage.setItem('currentUserDetail', JSON.stringify(user)));
     }
 
-    login(username: string, password: string) : void {
+    login(username: string, password: string) : Observable<boolean> {
       this.http.post<any>('api/user/login', {username: username, password: password}).pipe(
         tap(loginResponse => {
-          if (loginResponse && loginResponse.token) {
+          if (loginResponse && loginResponse.token) { //TODO: from if-else to FP style;
             localStorage.setItem('currentUserToken', JSON.stringify(loginResponse));
+            this.loginReadyEmitter.next(true);
+          } else {
+            this.loginReadyEmitter.next(false);
           }
         }),
         flatMap(() => this.http.get<any>('api/user/current'))).pipe(first())
         .subscribe((user : UserDetail) => {
           this.currentUserEmitter.next(user);
-        });
+        })
+      return this.loginReadyEmitter;
     }
 
     logout() {
       localStorage.removeItem('currentUserToken');
       localStorage.removeItem('currentUserDetail');
-      this.currentUserEmitter.next(null);
     }
 
-    loggedIn() : boolean {
-       return !this.currentUserEmitter.isEmpty;
+    loggedIn() : boolean { //TODO: refactor into better solution with currentUserEmitter;
+       return localStorage.getItem('currentUserToken') !== null;
     }
 
     currentUser() : Observable<UserDetail> {

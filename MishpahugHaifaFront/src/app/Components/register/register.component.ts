@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserDetail } from '../../Models/index';
+import {User, UserDetail, UserRenderDetail} from '../../Models/index';
 
 import { AlertService, UserService } from '../../Services/index';
 
@@ -10,24 +10,27 @@ import { AlertService, UserService } from '../../Services/index';
 })
 
 export class RegisterComponent {
-    userDetail: UserDetail;
+    userDetail: UserDetail = new UserDetail();
     loading = false;
 
     constructor(
         private router: Router,
-        private userService: UserService,
-        private alertService: AlertService) { }
+        private userService: UserService) { }
 
     register() {
         this.loading = true;
         this.userService.create(this.userDetail)
             .subscribe(
-                data => {
-                    this.alertService.success('Registration successful', true);
-                    this.router.navigate(['/login']);
+              (regSuccess : boolean) => {
+                    if(regSuccess){ //TODO: from if-else to FP style;
+                      this.router.navigate(['/login']);
+                    } else {
+                      console.log("User "+ JSON.stringify(this.userDetail)+" already exists");
+                      this.loading = false;
+                    }
+
                 },
                 error => {
-                    this.alertService.error(error);
                     this.loading = false;
                 });
     }

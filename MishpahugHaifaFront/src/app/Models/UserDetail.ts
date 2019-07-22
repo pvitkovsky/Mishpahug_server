@@ -11,12 +11,14 @@ export class UserDetail {
      encryptedPassword: string;
      confirmedPassword: string;
 
-  constructor(render: UserRenderDetail){
-    this.id = render.id;
-    this.firstName = render.firstName;
-    this.lastName = render.lastName;
-    this.phoneNumber = render.phoneNumber;
-    this.email = render.email;
-    this.userName = render.userName;
+  constructor(render?: UserRenderDetail){
+    if(render) {
+      this.id = render.id;
+      this.firstName = render.firstName;
+      this.lastName = render.lastName;
+      this.phoneNumber = render.phoneNumber;
+      this.email = render.email;
+      this.userName = render.userName;
+    }
   }
 }

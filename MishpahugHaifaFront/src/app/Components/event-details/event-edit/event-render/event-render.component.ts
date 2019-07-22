@@ -18,11 +18,15 @@ export class EventRenderComponent implements OnInit {
   }
 
   save(){
-    this.eventDetailUpdates.emit(this.renderedEventDetail);
+    this.eventDetailUpdates.emit(this.renderedEventDetail);// save
   }
 
   cancel(){
     return null;
+  }
+
+  create(){
+    this.renderedEventDetail = new EventRenderDetail(null, true, false);
   }
 
   subscribe(){

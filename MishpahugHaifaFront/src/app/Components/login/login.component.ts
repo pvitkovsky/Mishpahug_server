@@ -1,44 +1,44 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-
-import { AlertService, AuthenticationService } from '../../Services/index';
+import {Component, OnInit} from '@angular/core';
+import {Router, ActivatedRoute} from '@angular/router';
+import {AuthenticationService} from '../../Services/index';
 
 @Component({
-    templateUrl: 'login.component.html',
-    styleUrls: ['login.component.scss']
+  templateUrl: 'login.component.html',
+  styleUrls: ['login.component.scss']
 
 })
 
 export class LoginComponent implements OnInit {
-    model: any = {};
-    loading = false;
-    returnUrl: string;
+  model: any = {};
+  loading = false;
+  returnUrl: string;
 
-    constructor(
-        private route: ActivatedRoute,
-        private router: Router,
-        private authenticationService: AuthenticationService,
-        private alertService: AlertService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private authenticationService: AuthenticationService) {
+  }
 
-    ngOnInit() {
-        // reset login status
-        this.authenticationService.logout();
+  ngOnInit() {
+    this.authenticationService.logout();
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+  }
 
-        // get return url from route parameters or default to '/'
-        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-    }
+  login() {
+    this.loading = true;
+    this.authenticationService.login(this.model.username, this.model.password).subscribe(
+      (loggedIn: boolean) => {
+        if (loggedIn) { //TODO: from if-else to FP style;
+          this.router.navigate([this.returnUrl]);
+        } else {
+          this.loading = false;
+        }
+      }
+    );
 
-    login() {
-        this.loading = true;
-        this.authenticationService.login(this.model.username, this.model.password)
-            if (this.authenticationService.loggedIn()) {
-              this.router.navigate([this.returnUrl]);
-            } else {
-              this.loading = false;
-            }
-    }
+  }
 
-    test(){
-        this.authenticationService.test();
-    }
+  test() {
+    this.authenticationService.test();
+  }
 }

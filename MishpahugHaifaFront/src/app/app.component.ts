@@ -18,8 +18,12 @@ export class AppComponent implements OnInit {
   constructor(private guiService: GuiService, private userService: UserService) { }
 
   ngOnInit() {
-  	this.guiService.sideNavObservable.subscribe(() => {
-      this.opened = !this.opened;
+  	this.guiService.sideNavObservable.subscribe((toggle : boolean) => {
+  	  if(toggle) {
+        this.opened = !this.opened;
+      } else {
+  	    this.opened = false;
+      }
     });
   	this.userService.current().subscribe((userDetail : UserDetail) => this.userDetail = userDetail);
   }

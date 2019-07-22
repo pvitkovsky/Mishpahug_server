@@ -10,13 +10,20 @@ export class EventRenderDetail {
   guestIds: number[];
   currentCanEdit : boolean;
   currentIsSubscribed : boolean;
-  constructor(detail: EventDetail, canEdit: boolean, currentIsSubscribed : boolean){
-    this.id = detail.id;
-    this.ownerId = detail.ownerId;
-    this.date = detail.date;
-    this.time = detail.time;
-    this.nameOfEvent = detail.nameOfEvent;
-    this.currentCanEdit = canEdit;
-    this.currentIsSubscribed = currentIsSubscribed;
+  constructor(detail?: EventDetail, canEdit?: boolean, currentIsSubscribed?: boolean){
+    if(detail){
+      this.id = detail.id;
+      this.ownerId = detail.ownerId;
+      this.date = detail.date;
+      this.time = detail.time;
+      this.nameOfEvent = detail.nameOfEvent;
+    }
+    if(canEdit){
+      this.currentCanEdit = canEdit;
+    }
+    if(currentIsSubscribed){
+      this.currentIsSubscribed = currentIsSubscribed;
+    }
+
   }
 }

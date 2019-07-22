@@ -177,15 +177,16 @@ public class UserController implements IUserController {
 
 	@Override
 	@PostMapping(value = "/register")
-	public void add(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request, @RequestBody UserDTO userDTO) {
+	public boolean add(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request, @RequestBody UserDTO userDTO) { //TODO: feedback after registering asap; 
 		if (userModel.getByUserName(userDTO.getUserName()) != null) {
-			throw new UsernameNotFoundException("Error");
+			return false; //throw new UsernameNotFoundException("User already exists"); //TODO: better exception
 		}
 		if (!userDTO.getEncryptedPassword().equals(userDTO.getConfirmedPassword())) {
 			throw new RuntimeException("Passwords do not match");
 		}
 		UserEntity userEntity = converterUser.entityFromDTO(userDTO);
 		userModel.add(userEntity);
+		return true; 
 	}
 
 

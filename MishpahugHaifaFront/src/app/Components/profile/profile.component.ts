@@ -22,7 +22,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
 	ngOnInit() {
 	  this.route.pathFromRoot[2].url.pipe(
       flatMap(val => { // TODO: refactor without magic number (selected user id);
-        console.log(JSON.stringify(val[0]));
         if(val[0]){
           return this.userService.getRenderById(parseInt(val[0].path, 10));
         } else {
@@ -39,17 +38,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
 	}
 
 	save(){
-		this.userService.update(this.renderedUserDetail).subscribe(
-			data => {
-				this.renderedUserDetail = data;
-			});
+		this.userService.updateCurrentUser(this.renderedUserDetail);
 	}
 
 	cancel(){
-		this.userService.getRenderById(this.renderedUserDetail.id).subscribe(
-			data => {
-				this.renderedUserDetail = data;
-			});
+		this.userService.getRenderById(this.renderedUserDetail.id);
 	}
 
 	test(){

@@ -12,8 +12,9 @@ import {getMatIconFailedToSanitizeLiteralError} from '@angular/material';
 export class AuthenticationService {
 
     private currentUserDetail = JSON.parse(localStorage.getItem('currentUserDetail')) ;
-    private currentUserEmitter: BehaviorSubject<UserDetail> =
+    private currentUserEmitter: BehaviorSubject<UserDetail> = //TODO: move into UserService please
         new BehaviorSubject(this.currentUserDetail);     //Can I send an error if the user is not initialised?
+
 
     constructor(private http: HttpClient) {
       this.currentUserEmitter.subscribe(user => localStorage.setItem('currentUserDetail', JSON.stringify(user)));
@@ -35,19 +36,23 @@ export class AuthenticationService {
     logout() {
       localStorage.removeItem('currentUserToken');
       localStorage.removeItem('currentUserDetail');
-      this.currentUserEmitter.next(null); //TODO: correct logout: null user? Observable.complete? Sentinel pattern?
+      this.currentUserEmitter.next(null);
     }
 
     loggedIn() : boolean {
        return !this.currentUserEmitter.isEmpty;
     }
 
-    currentUser() : Observable<UserDetail> { //TODO: after the update the authorised user is out of date;
+    currentUser() : Observable<UserDetail> {
       return this.currentUserEmitter;
     }
 
     test(){
       this.currentUserEmitter.subscribe(user => console.log(JSON.stringify(user)));
+    }
+
+    updateCurrentUser(newCurrentUserDetail : UserDetail) : void {
+      this.currentUserEmitter.next(newCurrentUserDetail);
     }
 
 

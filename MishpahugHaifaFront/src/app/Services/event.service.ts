@@ -54,10 +54,8 @@ export class EventService {
   }
 
   private renderEvent(eventDetail : EventDetail) : EventRenderDetail{
-    console.log('rendering event ' + JSON.stringify(eventDetail));
     let canEdit : boolean = eventDetail.ownerId === this.currentUserId;
     let isSubscribed : boolean = eventDetail.guestIds.includes(this.currentUserId);
-    console.log("can edit " + canEdit + " can subscribe " + isSubscribed);
     return new EventRenderDetail(eventDetail, canEdit, isSubscribed);
   }
 

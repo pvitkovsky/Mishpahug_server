@@ -22,13 +22,7 @@ export class EventEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._route.params.subscribe(params => {
-      this.eventService.getRenderEvent(params['id']).subscribe(
-        eventDetail => {
-          this.renderedEventDetail = eventDetail
-        }
-      )
-    });
+    this.fetchEvent();
 
     //TODO: get choices back;
     // for (let choiceName in ChoicesConnection){
@@ -39,6 +33,16 @@ export class EventEditComponent implements OnInit {
     //     this.choices.set(choiceName, choiceVariants);
     //   });
     // }
+  }
+
+  private fetchEvent() {
+    this._route.params.subscribe(params => {
+      this.eventService.getRenderEvent(params['id']).subscribe(
+        eventDetail => {
+          this.renderedEventDetail = eventDetail;
+        }
+      );
+    });
   }
 
   private create(){
@@ -70,15 +74,17 @@ export class EventEditComponent implements OnInit {
     });
   }
 
-  private subscribe(){
-    this.subscriptionService.subscribe(this.renderedEventDetail.id);
+  private subscribe(){ //Somewhere have to update?
+    this.subscriptionService.sub(this.renderedEventDetail.id).subscribe(res => this.fetchEvent()) // can I do map from this into next?
   }
 
   private unsubscribe(){
-    this.subscriptionService.unsubscribe(this.renderedEventDetail.id);
+    this.subscriptionService.unsub(this.renderedEventDetail.id).subscribe(res => this.fetchEvent());
   }
 
-
+  /**
+   * Series of event-driven methods
+   */
   updateEvent($event : EventRenderDetail){
     this.save($event);
   }

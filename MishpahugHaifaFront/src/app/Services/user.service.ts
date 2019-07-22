@@ -1,8 +1,11 @@
 import {Injectable, OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UserDetail, UserRenderDetail} from '../Models/index';
-import { Observable } from 'rxjs';
 import { AuthenticationService} from "./authentication.service"
+import { of } from 'rxjs/observable/of';
+import { filter } from 'rxjs/operators';
+import { flatMap } from 'rxjs/operators';
+import {Observable} from 'rxjs';
 
 @Injectable()
 export class UserService {  //TODO: refactor with UserConnection to allow maintainable filtering;
@@ -33,9 +36,13 @@ export class UserService {  //TODO: refactor with UserConnection to allow mainta
       .map(userDetail => new UserRenderDetail(userDetail, this.canEdit(userDetail)));
     }
 
-    update(userRender: UserRenderDetail) : Observable<UserRenderDetail>{ //TODO: after the update the authorised user is out of date;
-      return this.http.put<UserDetail>('/api/user/' + userRender.id, new UserDetail(userRender))
-        .map(userDetail => new UserRenderDetail(userDetail, this.canEdit(userDetail)));
+    updateCurrentUser(userRender: UserRenderDetail) : void {
+      of(userRender)
+        .pipe(
+          filter( detail => detail.id === this.currentUserDetail.id),
+          flatMap(userRender => this.http.put<UserDetail>('/api/user/' + userRender.id, new UserDetail(userRender))),
+        )
+        .subscribe(userDetail => this.authService.updateCurrentUser(userDetail));
     }
 
     delete(id: number) {

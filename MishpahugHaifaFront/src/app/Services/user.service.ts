@@ -27,13 +27,12 @@ export class UserService {  //TODO: refactor with UserConnection to allow mainta
     getRenderById(id?: number) : Observable<UserRenderDetail> {
         if(!id || id === this.currentUserDetail.id){
           return this.authService.currentUser().map(userDetail => new UserRenderDetail(userDetail, true));
-        } //   return Observable.of(new UserRenderDetail(this.currentUserDetail, true)); //TODO: make O.of() work;
+        }
         return this.getById(id).map(userDetail => new UserRenderDetail(userDetail, false));
     }
 
-    create(userDetail: UserDetail) : Observable<UserRenderDetail> {
-      return this.http.post<UserDetail>('/api/user/register', userDetail)
-      .map(userDetail => new UserRenderDetail(userDetail, this.canEdit(userDetail)));
+    create(userDetail: UserDetail) : Observable<boolean> {
+      return this.http.post<boolean>('/api/user/register', userDetail);
     }
 
     updateCurrentUser(userRender: UserRenderDetail) : void {

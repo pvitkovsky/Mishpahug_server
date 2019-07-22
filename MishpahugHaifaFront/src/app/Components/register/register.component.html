@@ -1,5 +1,5 @@
 
-<!--The content below is only a placeholder and can be replaced.-->
+<!--TODO: feedback after registering-->
 <div class="container">
     <div class="loginform">
         <h2>Register</h2>
@@ -7,33 +7,26 @@
             <div class="form-group" [ngClass]="{ 'has-error': f.submitted }">
                 <label for="firstName">First Name</label>
                 <input type="text" class="form-control" name="firstName" [(ngModel)]="userDetail.firstName" #firstName="ngModel" required />
-                <div *ngIf="f.submitted" class="help-block">First Name is required</div>
             </div>
             <div class="form-group" [ngClass]="{ 'has-error': f.submitted }">
                 <label for="lastName">Last Name</label>
                 <input type="text" class="form-control" name="lastName" [(ngModel)]="userDetail.lastName" #lastName="ngModel" required />
-                <div *ngIf="f.submitted" class="help-block">Last Name is required</div>
             </div>
             <div class="form-group" [ngClass]="{ 'has-error': f.submitted }">
                 <label for="username">Username</label>
                 <input type="text" class="form-control" name="username" [(ngModel)]="userDetail.userName" #username="ngModel" required />
-                <div *ngIf="f.submitted" class="help-block">Username is required</div>
             </div>
                 <div class="form-group" [ngClass]="{ 'has-error': f.submitted }">
                 <label for="email">E-Mail</label>
                 <input type="text" class="form-control" name="email" [(ngModel)]="userDetail.email" #email="ngModel" required />
-                <div *ngIf="f.submitted" class="help-block">Username is required</div>
             </div>
-
             <div class="form-group" [ngClass]="{ 'has-error': f.submitted }">
                 <label for="encryptedPassword">Password</label>
                 <input type="password" class="form-control" name="encryptedPassword" [(ngModel)]="userDetail.encryptedPassword" #encrytedPassword="ngModel" required />
-                <div *ngIf="f.submitted" class="help-block">Password is required</div>
             </div>
           <div class="form-group" [ngClass]="{ 'has-error': f.submitted }">
             <label for="confirmedPassword">Password</label>
             <input type="password" class="form-control" name="confirmedPassword" [(ngModel)]="userDetail.confirmedPassword" #confirmedPassword="ngModel" required />
-            <div *ngIf="f.submitted" class="help-block">Password is required</div>
           </div>
             <div class="form-group">
                 <button [disabled]="loading" class="btn btn-primary">Register</button>

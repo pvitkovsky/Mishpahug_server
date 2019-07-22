@@ -24,6 +24,7 @@ export class NavbarComponent implements OnInit {
   }
 
   logout(){
+    this.guiService.closeSideNav();
     this.authService.logout();
   }
 

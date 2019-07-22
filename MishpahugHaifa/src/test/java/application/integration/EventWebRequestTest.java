@@ -1,11 +1,7 @@
 package application.integration;
 
-import application.dto.EventDTO;
-import application.dto.LoginDTO;
-import application.dto.LoginResponse;
-import application.dto.UserDTO;
-import application.models.user.UserEntity;
-import application.repositories.UserRepository;
+import java.util.Collection;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -24,9 +20,11 @@ import org.springframework.http.client.HttpComponentsAsyncClientHttpRequestFacto
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Collection;
-
-import static org.junit.Assert.assertTrue;
+import application.dto.EventDTO;
+import application.dto.LoginDTO;
+import application.dto.LoginResponse;
+import application.models.user.UserEntity;
+import application.repositories.UserRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)

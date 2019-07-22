@@ -1,28 +1,22 @@
+import {UserRenderDetail} from './UserRenderDetail';
+
 export class UserDetail {
 
      id: number;
-
      firstName: string;
-
      lastName: string;
-
      phoneNumber: string;
-
-     eMail: string;
-
+     email: string;
      userName: string;
-
-     dayOfBirth : any;
-
-     gender: any;
-    
-     kichenType: any;
-    
-     religion: any;
-    
-     maritalStatus: any;
-    
      encryptedPassword: string;
-
      confirmedPassword: string;
+
+  constructor(render: UserRenderDetail){
+    this.id = render.id;
+    this.firstName = render.firstName;
+    this.lastName = render.lastName;
+    this.phoneNumber = render.phoneNumber;
+    this.email = render.email;
+    this.userName = render.userName;
+  }
 }

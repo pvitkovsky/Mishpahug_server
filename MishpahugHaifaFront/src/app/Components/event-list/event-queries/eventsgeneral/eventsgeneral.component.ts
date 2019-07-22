@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { EventRenderComponent } from '../../event-render/event-render.component'
 import { EventDetail } from '../../../../Models';
 import { EventListService } from '../../event-list.service'
 
@@ -16,9 +15,7 @@ export class EventsGeneralComponent implements OnInit {
 
   ngOnInit() {
   	this.eventListService.getEventsGeneral().subscribe((res) => {
-  		//console.log("General component events " + res)
   		this.eventList = res;
-  		//console.log("General component events " + this.eventList)
   	});
   	
   }

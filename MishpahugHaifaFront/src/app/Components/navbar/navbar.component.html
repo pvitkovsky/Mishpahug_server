@@ -4,7 +4,7 @@
 			<span class="title">Mishpahug</span> <!--TODO: link to Home-->
 		</div>
 		<div class="header-actions">
-			<a *ngIf='loggedIn' class="nav-link nav-icon" [routerLink]="['/login']">
+			<a *ngIf='loggedIn' class="nav-link nav-icon" [routerLink]="['/login']" (click)="logout()">
 				<clr-icon shape="logout"></clr-icon> 
 			</a>
 		</div>

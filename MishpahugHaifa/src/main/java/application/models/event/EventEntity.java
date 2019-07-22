@@ -3,23 +3,16 @@ package application.models.event;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.CopyOnWriteArraySet;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.PreRemove;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -30,9 +23,7 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import application.dto.EventDTO;
 import application.models.user.UserEntity;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -40,33 +31,30 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.extern.slf4j.Slf4j;
 
 @Entity
 @Table(name = "eventlist", uniqueConstraints = { @UniqueConstraint(columnNames = { "user_owner", "date", "time" }) })
 @Getter
 @Setter
-@Slf4j
 @NoArgsConstructor
-@EqualsAndHashCode(of = {"user_owner", "date", "time"}) // business key;
-@ToString(exclude = { "userEntityOwner", "addressEntity", "subscriptions" })
+@EqualsAndHashCode(of = {"userEntityOwner", "date", "time"}) 
+@ToString
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-public class EventEntity {
-
+public class EventEntity {  //TODO: implements ChangeableStatus<EventEntity>{; add choices<EventEntity>; add address
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@NotNull // can omit nullable=false with Hibernate;
-	@Column(name = "date", nullable = false)
+	@NotNull
+	@Column(name = "date")
 	@DateTimeFormat(iso = ISO.DATE)
-	@Setter(AccessLevel.NONE) // TODO: check serialization works;
+	@Setter(AccessLevel.NONE) 
 	private LocalDate date;
 
 	@NotNull
-	@Column(name = "time", nullable = false)
-	@Setter(AccessLevel.NONE) // TODO: check serialization works;
-	// TODO: JSON time format;
+	@Column(name = "time")
+	@Setter(AccessLevel.NONE) 
 	private LocalTime time;
 
 	@Column(name = "name_of_event")
@@ -104,8 +92,7 @@ public class EventEntity {
 	}
 
 	/**
-	 * Constructor for immutability TODO: add User into constructor and ensure
-	 * cascading
+	 * Constructor for immutability
 	 * 
 	 * @param date
 	 * @param time
@@ -123,7 +110,7 @@ public class EventEntity {
 	 * 
 	 * @param owner
 	 */
-	private void setUserEntityOwner(UserEntity owner) { // TODO: checks;
+	private void setUserEntityOwner(UserEntity owner) { 
 		if (this.userEntityOwner != null) {
 			if (this.userEntityOwner.equals(owner)) {
 				return;
@@ -156,18 +143,10 @@ public class EventEntity {
 	 * @return part of business key that allows to uniquely identify event among a
 	 *         list of user's events;
 	 */
-	// TODO: consider embedded business key with its own methods;
 	public String toEventUniqueDescription() {
 		return this.nameOfEvent + " " + this.date.toString() + " " + this.time.toString();
 	}
 
-
-	public void convertEventDTO(EventDTO data) {
-		//TODO: user into integer
-		this.date = data.getDate();
-		this.nameOfEvent = data.getNameOfEvent();
-		this.time = data.getTime();
-	}
 
 	/**
 	 * @return true if and only if the event can be visible to the user;

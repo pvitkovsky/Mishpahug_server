@@ -5,9 +5,6 @@ import static org.junit.Assert.assertEquals;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.After;
@@ -29,7 +26,6 @@ import org.springframework.web.client.RestTemplate;
 
 import application.dto.LoginDTO;
 import application.dto.LoginResponse;
-import application.dto.UserDTO;
 import application.models.event.EventEntity;
 import application.models.relation.SubscriptionEntity;
 import application.models.user.UserEntity;

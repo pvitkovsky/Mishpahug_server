@@ -23,7 +23,6 @@ public interface EventRepository extends JpaRepository<EventEntity, Integer>,
         QuerydslPredicateExecutor<EventEntity>, QuerydslBinderCustomizer<QEventEntity>
         {
 
-
     Logger log = LoggerFactory.getLogger(EventRepository.class);
 
     public EventEntity getByNameOfEvent(String name);
@@ -32,7 +31,9 @@ public interface EventRepository extends JpaRepository<EventEntity, Integer>,
     
     public List<EventEntity> getByUserEntityOwner_Id(Integer userId);
     
-    public Boolean existsByDateAndTimeAndUserEntityOwner(LocalDate date, LocalTime time, UserEntity owner);
+   // public Boolean existsByDateAndTimeAndUserEntityOwner(LocalDate date, LocalTime time, UserEntity owner); //TODO: two into one;
+    
+    public Optional<EventEntity> findByDateAndTimeAndUserEntityOwner(LocalDate date, LocalTime time, UserEntity owner);
     
     @Override
     default public void customize(QuerydslBindings bindings, QEventEntity root) {

@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {EventDetail, EventFilter, EVENTROOT, SUBSCRIPTIONROOT} from '../Models/index';
+import {EventDetail, EventFilter, EventRenderDetail, EVENTROOT, SUBSCRIPTIONROOT, UserDetail} from '../Models/index';
 import { Observable } from 'rxjs';
+import {AuthenticationService} from './authentication.service';
 
 @Injectable()
 export class EventService {
 
-  constructor(private http: HttpClient){
+  private currentUserId : number;
+
+  constructor(private http: HttpClient, private authService: AuthenticationService){
+    this.authService.currentUser().subscribe(userDetail => this.currentUserId = userDetail.id);
   }
 
   getEvents (filter? : EventFilter ) : Observable<EventDetail[]> {
@@ -20,45 +24,40 @@ export class EventService {
     return res;
   }
 
-  getEvent(id : number) : Observable<EventDetail>{
+  private getEvent(id : number) : Observable<EventDetail>{
     var connectionString : string = EVENTROOT;
-    //console.log("connecting with connection string " + connectionString)
     var res : Observable<EventDetail> = this.http.get<EventDetail>(connectionString + id);
-    //console.log("Request " + res);
     return res;
   }
 
-  updateEvent(eventDetail : EventDetail) : Observable<EventDetail> {
+  getRenderEvent(id: number) : Observable<EventRenderDetail>{
+    return this.getEvent(id)
+      .map(eventDetail => this.renderEvent(eventDetail));
+  }
+
+  createEvent(eventRender: EventRenderDetail) : Observable<EventRenderDetail> {
     var connectionString : string = EVENTROOT;
-    // console.log('eventDetail ' + JSON.stringify(eventDetail));
-    var body = {}; //TODO: disable stringifying of field guestID;
-    for (let x in eventDetail) {
-      // console.log('  property of E.D. ' + x.toString());
-      // console.log('  equals? ' + x.toString() !== 'guestIds');
-      if (x.toString() !== "guestIds") {
-          body[x] = eventDetail[x];
-      }
-    }
-    // console.log('put request with body ' + JSON.stringify(body));
-    var res : Observable<EventDetail> = this.http.put<EventDetail>(connectionString + eventDetail.id, body);
-      //  console.log('  returned' +  JSON.stringify(res));
-    return res;
+    return this.http.post<EventDetail>(connectionString, new EventDetail(eventRender))
+      .map(eventDetail => this.renderEvent(eventDetail));
+  }
+
+  updateEvent(eventRender : EventRenderDetail) : Observable<EventRenderDetail> {
+    var connectionString : string = EVENTROOT;
+    return  this.http.put<EventDetail>(connectionString + eventRender.id, new EventDetail(eventRender))
+      .map(eventDetail => this.renderEvent(eventDetail))
+  }
+
+  deleteEvent(eventRender : EventRenderDetail) : Observable<EventRenderDetail> {
+    var connectionString : string = EVENTROOT;
+    return this.http.delete<EventDetail>(connectionString + eventRender.id)
+      .map((eventDetail : EventDetail) => this.renderEvent(eventDetail));
+  }
+
+  private renderEvent(eventDetail : EventDetail) : EventRenderDetail{
+    let canEdit : boolean = eventDetail.ownerId === this.currentUserId;
+    let isSubscribed : boolean = eventDetail.guestIds.includes(this.currentUserId);
+    return new EventRenderDetail(eventDetail, canEdit, isSubscribed);
   }
 
 
-  // subscribe(eventId : number, userId : number) : void {
-  //   var connectionString : string = "api/event/" //?eventid=1&userid=2/"  //SUBSCRIPTIONROOT + '?eventid=' + eventId + '&userid=' + userId;
-  //   console.log("connecting with connection string " + connectionString);
-  //   var res = this.http.get(connectionString);
-  //   console.log(res.subscribe(e=>console.log(JSON.stringify(e))));
-  // }
-  //
-  // unsubscribe(eventId : number, userId : number) : void {
-  //   var connectionString : string = SUBSCRIPTIONROOT + '?eventid=' + eventId + '&userid=' + userId;
-  //   console.log("connecting with connection string " + connectionString);
-  //   this.http.delete(connectionString).map(
-  //     (response) => {
-  //       console.log(JSON.stringify(response));
-  //     });
-  // }
 }

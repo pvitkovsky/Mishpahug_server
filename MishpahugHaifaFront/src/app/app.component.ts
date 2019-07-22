@@ -12,7 +12,7 @@ import {SubscriptionService} from './Services/subscription.service';
 
 export class AppComponent implements OnInit {
 
-  userDetail: UserDetail;
+  userDetail: UserDetail = undefined;
   opened: boolean;
 
   constructor(private guiService: GuiService, private userService: UserService) { }
@@ -21,17 +21,12 @@ export class AppComponent implements OnInit {
   	this.guiService.sideNavObservable.subscribe(() => {
       this.opened = !this.opened;
     });
-    this.userService.current().subscribe(
-                data => {
-                    this.userDetail = data;
-                },
-                error => {
-                });
+  	this.userService.current().subscribe((userDetail : UserDetail) => this.userDetail = userDetail);
   }
 
 
-  get loggedIn(){
-    return this.userService.loggedIn();
+  get loggedIn() : boolean {
+    return this.userDetail ? true : false;
   }
 
 }

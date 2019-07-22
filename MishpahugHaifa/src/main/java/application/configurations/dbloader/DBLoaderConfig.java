@@ -10,7 +10,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import application.configurations.dbloader.loaders.*;
+import application.configurations.dbloader.loaders.ChoicesLoader;
+import application.configurations.dbloader.loaders.EventLoaderFixed;
+import application.configurations.dbloader.loaders.GuestsLoader;
+import application.configurations.dbloader.loaders.ILoader;
+import application.configurations.dbloader.loaders.UserLoader;
 
 @Configuration
 public class DBLoaderConfig {
@@ -61,6 +65,12 @@ public class DBLoaderConfig {
 	public ILoader userLoader() {
 		createBufferedReader(MPHEntity.USER);
 		return new UserLoader(bufferedReader);	
+	}
+	
+	@Bean(name = "choicesLoader")
+	public ILoader choicesLoaderTest() {
+		createBufferedReader(MPHEntity.CHOICES);
+		return new ChoicesLoader(bufferedReader);	
 	}
 
 }

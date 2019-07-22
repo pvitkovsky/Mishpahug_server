@@ -1,20 +1,21 @@
 package application.dto;
 
+import java.time.LocalDate;
+import java.util.Map;
+
+import application.models.user.UserEntity;
+import application.utils.choices.ChoiceCategories;
+import application.utils.choices.ChoiceStore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.time.LocalDate;
-import java.util.List;
-
-import application.models.user.UserEntity;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString
-public class UserDTO {
+public class UserDTO { //TODO: optional dto;
      
     private Integer id; 
     
@@ -29,20 +30,12 @@ public class UserDTO {
     private String userName;
 
     private LocalDate dayOfBirth;
-
-    private String gender;
-    
-    private String kichenType;
-    
-    private String religion;
-    
-    private String maritalStatus;
     
     private String encryptedPassword;
-
+    
     private String confirmedPassword;
-
-    private List<String> subscriptions;
+    
+    Map<ChoiceCategories, ChoiceStore> choices; //TODO maybe all UserChoices object?
 
     public UserDTO(UserEntity user) {
     	super();
@@ -53,7 +46,8 @@ public class UserDTO {
     	this.eMail = user.getEMail();
     	this.userName = user.getUserName();
     	this.dayOfBirth = user.getDateOfBirth();
-    	this.confirmedPassword = user.getEncrytedPassword();
-
+    	this.encryptedPassword = user.getEncrytedPassword();
+    	this.confirmedPassword = this.encryptedPassword;
+    	this.choices = user.getChoices().getAll();
     }
 }

@@ -1,23 +1,19 @@
 package application.models.user;
 
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.CopyOnWriteArraySet;
 
-import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.PreRemove;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -26,34 +22,29 @@ import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import application.models.user.values.PictureValue;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.extern.slf4j.Slf4j;
 
 @Entity
-@Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = { "email"}), @UniqueConstraint(columnNames = { "username"}) })
-@ToString(exclude = { "eventItemsOwner", "subscriptions", "pictureItems" })
+@Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = { "email" }),
+		@UniqueConstraint(columnNames = { "username" }) })
+@ToString(exclude = { "pictureItems" })
 @EqualsAndHashCode(of = { "userName" })
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Slf4j
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class UserEntity {
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+public class UserEntity { // TODO: implements ChangeableStatus<UserEntity>{ add
+													// properties<UserEntity>
 	@Id
 	@Column(name = "User_Id", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -85,7 +76,7 @@ public class UserEntity {
 	 * here to prevent this from being serialized as null
 	 */
 	private String encrytedPassword;
-	
+
 	@Column(name = "dateofbirth")
 	@DateTimeFormat(iso = ISO.DATE)
 	private LocalDate dateOfBirth;
@@ -93,8 +84,7 @@ public class UserEntity {
 	@Column(name = "status")
 	@Enumerated(EnumType.STRING)
 	@Setter(AccessLevel.NONE)
-	@Builder.Default
-	private UserStatus status = UserStatus.ACTIVE; //TODO: refactor all these away
+	private UserStatus status = UserStatus.ACTIVE; // TODO: refactor all these away
 
 	public enum UserStatus implements StatusChanger {
 		ACTIVE(u -> u.activate()), DEACTIVATED(u -> u.deactivate()), PENDINGFORDELETION(u -> u.putIntoDeletionQueue());
@@ -119,37 +109,34 @@ public class UserEntity {
 	@ElementCollection
 	@CollectionTable
 	@Column(name = "pictures")
-	@Builder.Default
 	private Set<PictureValue> pictureItems = new HashSet<>();
+	
+	@Embedded
+	@Column(name = "choices")
+	@Setter(AccessLevel.NONE)
+	private UserChoices choices = new UserChoices(); //TODO: fix lazy init exception on user delete;
 
 	/**
 	 * UserEntity: required fields, userName is immutable;
 	 */
 	public UserEntity(@NotNull String userName, @NotNull String email) {
-		this(); //<- or instance variables won't be initialized;  
-		if(userName.length() > 36) {
+		this(); // <- or instance variables won't be initialized;
+		if (userName.length() > 36) {
 			throw new IllegalArgumentException("userName too long");
 		}
 		this.userName = userName;
 		this.eMail = email;
 	}
-
-	public String fieldByName(String fieldName){
-		String res = "n/a";
-		switch (fieldName){
-			case "userName":
-				res = this.userName;
-				break;
-				//TODO
-		}
-		return res;
-	}
 	
+	
+	public void setChoices(UserChoices choices) {
+		this.choices = choices;
+	}
+
 	/**
 	 * Changes this user's status, validating the parameter
 	 * 
-	 * @param status
-	 *            must be equal to one of UserStatus values;
+	 * @param status must be equal to one of UserStatus values;
 	 */
 	public void changeStatus(String status) {
 		UserStatus newStatus;
@@ -159,8 +146,8 @@ public class UserEntity {
 			throw new IllegalArgumentException("Not found UserStatus with name " + status);
 		}
 		newStatus.change(this);
-	}	
-	
+	}
+
 	/**
 	 * Checks that the user is OK to delete and then unsubscribes him/her from
 	 * everywhere, and his subscribers too;
@@ -171,7 +158,6 @@ public class UserEntity {
 			throw new IllegalArgumentException("User must be first putIntoDeletionQueue");
 		}
 	}
-
 
 	/**
 	 * @return true if this user is activated
@@ -207,4 +193,8 @@ public class UserEntity {
 	public void putIntoDeletionQueue() {
 		status = UserStatus.PENDINGFORDELETION;
 	}
+
+
+
+	
 }

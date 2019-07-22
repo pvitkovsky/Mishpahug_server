@@ -1,16 +1,14 @@
 package application.dto;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+
+import application.models.event.EventEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import application.models.event.EventEntity;
 
 @ToString
 @Getter
@@ -22,14 +20,8 @@ public class EventDTO {
     private LocalTime time;
     private String nameOfEvent;
     private Boolean isEnabled;
-    private String addressCountry;
-    private String addressCity;
-    private String addressStreet;
-    private Integer addressBuild;
-    private Integer addressApartment; 
-    private String holiday; // why do we need 2 fields for this?
-    private String holidayDescription; // why do we need 2 fields for this?
-    private String kichenType;
+    private String address;
+    private String holiday; 
     private Integer ownerId;
     private List<Integer> guestIds; 
 

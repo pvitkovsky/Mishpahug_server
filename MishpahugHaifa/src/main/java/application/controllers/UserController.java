@@ -3,6 +3,8 @@ package application.controllers;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.security.auth.login.FailedLoginException;
@@ -25,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,7 +43,8 @@ import application.models.user.IUserModel;
 import application.models.user.UserEntity;
 import application.models.user.UserSession;
 import application.repositories.UserSessionRepository;
-import application.utils.converter.IConverter;
+import application.utils.converter.IStrongEntityConverter;
+import application.utils.converter.IWeakEntityConverter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -50,6 +52,13 @@ import lombok.extern.slf4j.Slf4j;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(value = "/user")
 public class UserController implements IUserController {
+
+	private static final Map<String, String> TESTUSERTOKENS = new HashMap<>();
+	{
+		TESTUSERTOKENS.put("alyssaph", "alyssatoken");
+		TESTUSERTOKENS.put("bitdiddle", "bentoken");
+	}
+
 
 	@Autowired
 	IUserModel userModel;
@@ -64,16 +73,17 @@ public class UserController implements IUserController {
 	IEventModel eventModel;
 
 	@Autowired
-	IConverter<UserEntity, UserDTO> converter;
+	IStrongEntityConverter<UserEntity, UserDTO> converterUser;
 
 	@Autowired
-	IConverter<EventEntity, EventDTO> converterEvent;
+	IWeakEntityConverter<EventEntity, UserEntity, EventDTO> converterEvent;
 
-	@Value("${random-uuid}")
-	private boolean randomUUID;
+	@Value("${test-uuid}")
+	private boolean testUUID;
 
 	@Override // SUBSCRIPTIONS
-	@GetMapping(value = "/{id}/subscribes") // re-wrapping from Relation; /*inter-aggregate query*/
+	@GetMapping(value = "/{id}/subscribes")
+	/** inter-aggregate query**/  // implementation : jpql join query 
 	public List<EventDTO> getEventsById(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
 			@PathVariable(value = "id") Integer id) {
 		List<EventEntity> subscribedEvents = relationModel.getSubscribedEvents(id);
@@ -81,33 +91,61 @@ public class UserController implements IUserController {
 	}
 
 	@Override // OWNER
-	@GetMapping(value = "/{id}/events") // direct o2m connection; /*inter-aggregate query*/
+	@GetMapping(value = "/{id}/events") 
+	/** inter-aggregate query**/  // implementation : direct o2m connection; 
 	public List<EventDTO> getEventsByOwnerId(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
 			@PathVariable(value = "id") Integer id) {
 		List<EventEntity> ownedEvents = eventModel.getByOwner(userModel.getById(id).getUserName());
 		return converterEvent.DTOListFromEntities(ownedEvents);
+	}
+	
+	@Override
+	@GetMapping(value = "/{id}")
+	public UserDTO get(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
+			@PathVariable(value = "id") Integer id) {
+		return new UserDTO(userModel.getById(id));
+	}
+
+	@Override
+	@GetMapping(value = "/current")
+	public UserDTO getByToken(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request) {
+		String token = request.getHeader("Authorization");
+		UserSession session = userSessionRepository.findByTokenAndIsValidTrue(token);
+		return new UserDTO(userModel.getByUserName(session.getUserName())); // TODO: converter here?
+	}
+
+	@Override
+	@RequestMapping(method = RequestMethod.GET, value = "/")
+	@ResponseBody
+	public List<UserDTO> findAllByWebQuerydsl(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
+			@QuerydslPredicate(root = UserEntity.class) Predicate predicate) {
+		return converterUser.DTOListFromEntities(userModel.getAll(predicate));
 	}
 
 	@Override
 	@PostMapping(value = "/login")
 	public LoginResponse login(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
 			@RequestBody LoginDTO loginDTO) throws FailedLoginException {
-		UserEntity userEntity = userModel.getByUsernameAndPassword(loginDTO.getUsername(),
+		UserEntity userEntity = userModel.getByUsernameAndPassword(loginDTO.getUsername(), 
 				DigestUtils.md5Hex(loginDTO.getPassword()));
 		if (userEntity == null) {
 			throw new FailedLoginException();
 		}
+		return createUserSession(httpHeaders.get("user-agent").get(0), request.getRemoteAddr(), loginDTO, userEntity);
+	}
+
+	private LoginResponse createUserSession(String agent, String address, LoginDTO loginDTO,
+			UserEntity userEntity) {
 		UserSession userSessionOld;
-		String token;
-		if (randomUUID) {
-			token = UUID.randomUUID().toString();
-			userSessionOld = userSessionRepository.findByUserNameAndIpAndUserAgentAndIsValidTrue(
-					loginDTO.getUsername(), request.getRemoteAddr(), httpHeaders.get("user-agent").get(0));
-		} else {
-			token = "token-dev";
-			userSessionOld = userSessionRepository.findFirstByUserNameAndIpAndUserAgentAndIsValidTrue(
-					loginDTO.getUsername(), request.getRemoteAddr(), httpHeaders.get("user-agent").get(0));
-		}
+		String token = UUID.randomUUID().toString();
+		if (testUUID) { 
+			boolean tokenIsInTestList = TESTUSERTOKENS.containsKey(userEntity.getUserName());
+			if(tokenIsInTestList) {
+				token = TESTUSERTOKENS.get(userEntity.getUserName()); //TODO: nice refactor task with Optional;
+			}
+		} 
+		userSessionOld = userSessionRepository.findByUserNameAndIpAndUserAgentAndIsValidTrue(
+				loginDTO.getUsername(), address, agent);
 		if (userSessionOld != null) {
 			userSessionOld.setToken(token);
 			userSessionOld.setLocalDate(DateTime.now().toLocalDate());
@@ -117,9 +155,10 @@ public class UserController implements IUserController {
 			return new LoginResponse(userSessionOld.getToken());
 		} else {
 			UserSession userSessionNew = UserSession.builder().userName(userEntity.getUserName()).token(token)
-					.ip(request.getRemoteAddr()).userAgent(httpHeaders.get("user-agent").get(0))
+					.ip(address).userAgent(agent)
 					.localDate(DateTime.now().toLocalDate()).localTime(DateTime.now().toLocalTime()).isValid(true).build();
-			userSessionRepository.save(userSessionNew);
+					userSessionRepository.save(userSessionNew);
+			log.warn("User Controller -> New Session" + userSessionNew);
 			return new LoginResponse(userSessionNew.getToken());	
 		}
 	}
@@ -145,37 +184,11 @@ public class UserController implements IUserController {
 		if (!userDTO.getEncryptedPassword().equals(userDTO.getConfirmedPassword())) {
 			throw new RuntimeException("Passwords do not match");
 		}
-		UserEntity userEntity = converter.entityFromDTO(userDTO);
+		UserEntity userEntity = converterUser.entityFromDTO(userDTO);
 		userModel.add(userEntity);
 	}
 
-	@Override
-	@GetMapping(value = "/{id}")
-	public UserDTO get(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
-			@PathVariable(value = "id") Integer id) {
-		return new UserDTO(userModel.getById(id));
-	}
 
-	@Override
-	@GetMapping(value = "/current")
-	public UserDTO getByToken(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request) {
-		String token = request.getHeader("Authorization");
-		UserSession session;
-		if (randomUUID) {
-			session = userSessionRepository.findByTokenAndIsValidTrue(token);
-		} else {
-			session = userSessionRepository.findFirstByTokenAndIsValidTrue(token);
-		}
-		return new UserDTO(userModel.getByUserName(session.getUserName())); // TODO: converter here?
-	}
-
-	@Override
-	@RequestMapping(method = RequestMethod.GET, value = "/")
-	@ResponseBody
-	public List<UserDTO> findAllByWebQuerydsl(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
-			@QuerydslPredicate(root = UserEntity.class) Predicate predicate) {
-		return converter.DTOListFromEntities(userModel.getAll(predicate));
-	}
 
 	@Override
 	@PutMapping(value = "/{id}")
@@ -186,31 +199,10 @@ public class UserController implements IUserController {
 
 	@Override
 	@DeleteMapping(value = "/{id}")
-	public UserDTO delete(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
+	public void delete(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
 			@PathVariable(value = "id") Integer id) {
-		return new UserDTO(userModel.deleteByID(id));
+		userModel.deleteByID(id); //TODO can't return DTO because of Choices not lazy initialized;
 	}
 
-	@Override
-	@DeleteMapping(value = "/")
-	public void deleteAll(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request) {
-		userModel.deleteAll();
-	}
-
-	@Override
-	@PostMapping(value = "/addPage") // TODO: probably delete, duplicated with put
-	public void setDataFromForm(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
-			@RequestBody UserDTO data) {
-		UserEntity userEntity = converter.entityFromDTO(data);
-		userModel.add(userEntity);
-	}
-
-	@Override
-	@PutMapping(value = "/addPage") // TODO: probably delete, duplicated with put
-	public void setDataFromFormDetail(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
-			@RequestBody UserDTO data, @RequestParam(name = "username") String userName) {
-		UserEntity userEntity = userModel.getByUserName(userName);
-		userModel.add(userEntity);
-	}
 
 }

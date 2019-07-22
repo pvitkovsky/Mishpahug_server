@@ -1,0 +1,69 @@
+
+<div *ngIf="renderedEventDetail">
+  <form>
+    <mat-card>
+      <mat-card-header>Edit Event</mat-card-header>
+      <p>{{renderedEventDetail.guestIds}}</p>
+      <mat-card-content>
+        <mat-form-field>
+          <input name='event-name' matInput placeholder='Name of Event' [(ngModel)]="renderedEventDetail.nameOfEvent" name="eventName">
+        </mat-form-field>
+        <mat-form-field>
+          <input name='event-date' matInput placeholder='Date of Event' [(ngModel)]="renderedEventDetail.date" name="eventDate">
+        </mat-form-field>
+        <mat-form-field>
+          <input name='event-time' matInput placeholder='Time of Event' [(ngModel)]="renderedEventDetail.time" name="eventTime">
+        </mat-form-field>
+        <tr *ngFor="let guestId of renderedEventDetail.guestIds">
+          <td>
+            {{guestId}}
+          </td>
+        </tr>
+      </mat-card-content>
+      <!--TODO: date selectors -->
+      <mat-card-actions >
+        <!--  <button type='button' mat-button (click)="create()" >Create</button>-->
+        <button *ngIf="renderedEventDetail.currentCanEdit" type='button' mat-button (click)="save()" >Save</button>
+        <button *ngIf="renderedEventDetail.currentCanEdit" type='button' mat-button (click)="cancel()">Cancel</button>
+        <button *ngIf="!renderedEventDetail.currentCanEdit && !renderedEventDetail.currentIsSubscribed" type='button' mat-button (click)="subscribe()">Subscribe</button>
+        <button *ngIf="!renderedEventDetail.currentCanEdit && renderedEventDetail.currentIsSubscribed" type='button' mat-button (click)="unsubscribe()">Unsubscribe</button>
+      </mat-card-actions>
+      <!--TODO: new button with all fields reset-->
+      <!-- TODO: dynamic button-->
+
+    </mat-card>
+  </form>
+
+</div>
+
+<!--	<mat-form-field>
+					<input name='address-city' matInput placeholder='City' [(ngModel)]="renderedEventDetail.addressCity" name="city">
+				</mat-form-field>
+				<mat-form-field>
+					<input name='address-street' matInput placeholder='Street' [(ngModel)]="renderedEventDetail.addressStreet" name="street">
+				</mat-form-field>
+				<mat-form-field>
+					<input name='address-building' matInput placeholder='Building' [(ngModel)]="renderedEventDetail.addressBuild" name="building">
+				</mat-form-field>
+				<mat-form-field>
+					<input name='address-apartament' matInput placeholder='Apartament' [(ngModel)]="renderedEventDetail.addressApartment" name="apartment">
+				</mat-form-field>
+				<mat-form-field>
+					<input name='address-apartament' matInput placeholder='Holiday' [(ngModel)]="renderedEventDetail.holiday" name="holiday">
+				</mat-form-field>
+        <mat-form-field>
+          <mat-label>Religion</mat-label>
+          <mat-select [(value)]="renderedEventDetail.religion" name="religion">
+            <mat-option *ngFor="let religion of choices.get('RELIGIONS')" [value]="religion" >
+              {{religion}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Kitchen</mat-label>
+          <mat-select [(ngModel)]="renderedEventDetail.kitchen" name="kitchen" (selectionChange)="showEventDetail()">
+            <mat-option *ngFor="let kitchen of choices.get('KITCHENS')"  [value]="kitchen">
+              {{kitchen}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field> -->

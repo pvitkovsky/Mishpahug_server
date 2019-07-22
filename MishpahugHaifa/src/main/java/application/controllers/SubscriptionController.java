@@ -25,7 +25,7 @@ public class SubscriptionController implements ISubscriptionController {
 	IRelationModel relationModel;
 
 	@Override
-	@PutMapping(value = "/") //TODO: this is post bc no URL;
+	@PutMapping(value = "/") //TODO: this should be POST, and what URL is this?
 	public void subscribe(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request,
 			@RequestParam(name = "userid") Integer userId, @RequestParam(name = "eventid") Integer eventId) {
 		relationModel.subscribe(eventId, userId);

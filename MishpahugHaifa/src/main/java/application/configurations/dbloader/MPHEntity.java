@@ -7,39 +7,9 @@ public enum MPHEntity {
 			return "data_user.csv";
 		}
 	},
-	CITY {
-		public String dataFile() {
-			return "cities.csv";
-		}
-	},
 	EVENT {
 		public String dataFile() {
 			return "data_event.csv";
-		}
-	},
-	MARRIAGE {
-		public String dataFile() {
-			return "marriage_status.csv";
-		}
-	},
-	GENDER {
-		public String dataFile() {
-			return "gender.csv";
-		}
-	},
-	ADDRESS {
-		public String dataFile() {
-			return "streets.csv";
-		}
-	},
-	KICHENTYPES {
-		public String dataFile() {
-			return "foods.csv";
-		}
-	},
-	RELIGION {
-		public String dataFile() {
-			return "religions.csv";
 		}
 	},
 	GUESTS {
@@ -58,6 +28,11 @@ public enum MPHEntity {
 		}
 	},
 	LOGS {
+		public String dataFile() {
+			return "data_blank.csv";
+		}
+	},
+	CHOICES {
 		public String dataFile() {
 			return "data_blank.csv";
 		}

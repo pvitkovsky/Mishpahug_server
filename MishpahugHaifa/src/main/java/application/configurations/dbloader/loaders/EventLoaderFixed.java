@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -46,7 +47,7 @@ public class EventLoaderFixed implements ILoader {
 				UserEntity owner = userEntityList.get(index);
 				EventEntity event = new EventEntity(owner,
 						LocalDate.parse(eventAttributes[0].replaceAll("/", "-"), DateTimeFormatter.ISO_DATE),
-						LocalTime.parse(eventAttributes[1], DateTimeFormatter.ISO_LOCAL_TIME));
+						LocalTime.parse(eventAttributes[1], DateTimeFormatter.ofPattern("H:mm")));
 				event.setNameOfEvent(eventAttributes[2]);
 				this.data.eventRepository.save(event);
 				log.warn("DBLoadTest -> EventLoaderFixed -> " + event);

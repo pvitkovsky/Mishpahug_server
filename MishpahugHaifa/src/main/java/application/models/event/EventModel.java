@@ -9,6 +9,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.querydsl.core.types.Predicate;
@@ -81,6 +83,11 @@ public class EventModel implements IEventModel {
 	}
 
 	@Override
+	public Page<EventEntity> getAll(Predicate predicate, Pageable pageable) {
+		return eventRepository.findAll(predicate, pageable);
+	}
+	
+	@Override
 	public EventEntity add(EventEntity data) { 
 		Optional<EventEntity> savedEvent = eventRepository.findByDateAndTimeAndUserEntityOwner(data.getDate(), data.getTime(), data.getUserEntityOwner());
 		return savedEvent.orElseGet(() -> eventRepository.save(data));
@@ -105,6 +112,8 @@ public class EventModel implements IEventModel {
 		eventRepository.delete(eventEntity);
 		return eventEntity;
 	}
+
+	
 
 
 

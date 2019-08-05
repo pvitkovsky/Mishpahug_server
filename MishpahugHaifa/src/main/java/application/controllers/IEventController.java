@@ -1,13 +1,18 @@
 package application.controllers;
 
-import application.dto.EventDTO;
-import application.dto.UserDTO;
-import com.querydsl.core.types.Predicate;
-import org.springframework.http.HttpHeaders;
-
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+
+import com.querydsl.core.types.Predicate;
+
+import application.dto.EventDTO;
+import application.dto.UserDTO;
 
 /*
  * Convention for the AOP to work:
@@ -16,7 +21,7 @@ import java.util.List;
 public interface IEventController {
 	
 	//GET
-	List<EventDTO> findAllByWebQuerydsl(HttpHeaders httpHeaders, HttpServletRequest request, Predicate predicate); 
+	Page<EventDTO> findAllByWebQuerydsl(HttpHeaders httpHeaders, HttpServletRequest request, Predicate predicate, Pageable pageable); 
 	
 	EventDTO findById(HttpHeaders httpHeaders, HttpServletRequest request, Integer id);
 	

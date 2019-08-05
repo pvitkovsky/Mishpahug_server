@@ -8,11 +8,14 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
 
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.StringPath;
 
 import application.models.event.EventEntity;
@@ -30,6 +33,8 @@ public interface EventRepository extends JpaRepository<EventEntity, Integer>,
     public List<EventEntity> getByUserEntityOwner_UserName(String userName);
     
     public List<EventEntity> getByUserEntityOwner_Id(Integer userId);
+    
+    public Page<EventEntity> findAll(Predicate predicate, Pageable pageable);
     
    // public Boolean existsByDateAndTimeAndUserEntityOwner(LocalDate date, LocalTime time, UserEntity owner); //TODO: two into one;
     

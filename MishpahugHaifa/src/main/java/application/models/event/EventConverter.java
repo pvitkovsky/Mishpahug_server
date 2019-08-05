@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import application.dto.EventDTO;
@@ -36,6 +37,11 @@ public class EventConverter implements IWeakEntityConverter<EventEntity, UserEnt
 
 	}
 	
+	@Override
+	public Page<EventDTO> DTOPageFromEntities(Page<EventEntity> data) {
+		return data.map(ee -> new EventDTO(ee));
+	}
+	
 
 	@Override
 	public EventEntity entityFromDTO(EventDTO eventDTO, UserEntity owner) {
@@ -52,6 +58,8 @@ public class EventConverter implements IWeakEntityConverter<EventEntity, UserEnt
 		}
 		return entity;
 	}
+
+	
 
 	
 

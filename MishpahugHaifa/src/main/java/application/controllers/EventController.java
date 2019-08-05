@@ -6,6 +6,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,7 +31,6 @@ import application.models.event.IEventModel;
 import application.models.relation.IRelationModel;
 import application.models.user.IUserModel;
 import application.models.user.UserEntity;
-import application.utils.converter.IConverter;
 import application.utils.converter.IStrongEntityConverter;
 import application.utils.converter.IWeakEntityConverter;
 import lombok.extern.slf4j.Slf4j;
@@ -58,9 +59,9 @@ public class EventController implements IEventController {
 	@Override
 	@RequestMapping(method = RequestMethod.GET, value = "/")
 	@ResponseBody
-	public List<EventDTO> findAllByWebQuerydsl(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request, 
-			@QuerydslPredicate(root = EventEntity.class) Predicate predicate) {
-		return converterEvent.DTOListFromEntities(eventModel.getAll(predicate));
+	public Page<EventDTO> findAllByWebQuerydsl(@RequestHeader HttpHeaders httpHeaders, HttpServletRequest request, 
+			@QuerydslPredicate(root = EventEntity.class) Predicate predicate, Pageable pageable) {
+		return converterEvent.DTOPageFromEntities(eventModel.getAll(predicate, pageable));
 	}
 
 	@Override

@@ -3,6 +3,9 @@ package application.models.event;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.querydsl.core.types.Predicate;
 
 public interface IEventModel {
@@ -16,6 +19,8 @@ public interface IEventModel {
     public EventEntity getByFullName(String name); //TODO: naming. full name of what?
 
     public Iterable<EventEntity> getAll(Predicate predicate);
+    
+    public Page<EventEntity> getAll(Predicate predicate, Pageable pageable);
     
     public EventEntity add(EventEntity data); 
 

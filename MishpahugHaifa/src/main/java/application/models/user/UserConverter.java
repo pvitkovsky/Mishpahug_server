@@ -6,8 +6,10 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import application.dto.EventDTO;
 import application.dto.UserDTO;
 import application.utils.converter.IStrongEntityConverter;
 
@@ -32,6 +34,12 @@ public class UserConverter implements IStrongEntityConverter<UserEntity, UserDTO
 		return res;
 	}
 
+	@Override
+	public Page<UserDTO> DTOPageFromEntities(Page<UserEntity> data) {
+		return data.map(ue -> new UserDTO(ue));
+	}
+
+	
 	@Override
 	public UserEntity entityFromDTO(UserDTO data) { 
 		UserEntity res = new UserEntity(data.getUserName(), data.getEMail());
@@ -58,4 +66,5 @@ public class UserConverter implements IStrongEntityConverter<UserEntity, UserDTO
 		return entity;
 	}
 
+	
 }
